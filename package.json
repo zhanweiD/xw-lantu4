@@ -26,7 +26,7 @@
     "vite": "^2.4.3"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx}": [
       "prettier --write",
       "eslint --cache --fix"
     ]
