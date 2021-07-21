@@ -22,9 +22,13 @@
     "eslint-plugin-react": "^7.24.0",
     "husky": ">=6",
     "lint-staged": ">=10",
+    "prettier": "2.3.2",
     "vite": "^2.4.3"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix"
+    "*.js": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
   }
 }
