@@ -6,10 +6,10 @@
  */
 
 const config = {
-  logo: "/public/logo.svg",
-  loginBack: "/public/bk.png",
-  mascot: "/public/mascot.svg",
-  slogan: "/public/slogan.png",
+  logo: "/logo.svg",
+  loginBack: "/bk.png",
+  mascot: "/mascot.svg",
+  slogan: "/slogan.png",
   pathPrefix: "",
   urlPrefix: "/api/v4/waveview/"
 }

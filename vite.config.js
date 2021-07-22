@@ -23,5 +23,15 @@ export default defineConfig({
       "@i18n": resolve("src/i18n"),
       "@utils": resolve("src/utils")
     }
+  },
+  server: {
+    host: "0.0.0.0",
+    prot: 3000,
+    open: true,
+    proxy: {
+      "/api/v4/waveview": {
+        target: "http://192.168.90.160:9088/"
+      }
+    }
   }
 })
