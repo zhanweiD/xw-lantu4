@@ -23,7 +23,9 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "prettier": "2.3.2",
-    "vite": "^2.4.3"
+    "stylus": "^0.54.8",
+    "vite": "^2.4.3",
+    "vite-plugin-svg-icons": "^1.0.1"
   },
   "lint-staged": {
     "*.{js,jsx}": [

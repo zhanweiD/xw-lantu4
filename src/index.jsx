@@ -1,8 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Route, Switch, BrowserRouter as Router} from 'react-router-dom'
-import Main from './pages/main'
-import Login from './pages/login'
+import React from "react"
+import ReactDOM from "react-dom"
+import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
+import Main from "@pages/main"
+import Login from "@pages/login"
+import "virtual:svg-icons-register"
 
 const App = () => {
   return (
@@ -15,4 +16,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"))
