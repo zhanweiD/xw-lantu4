@@ -19,7 +19,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@pages": resolve("src/pages"),
-      "@Icons": resolve("src/icons")
+      "@Icons": resolve("src/icons"),
+      "@i18n": resolve("src/i18n"),
+      "@utils": resolve("src/utils")
     }
   }
 })

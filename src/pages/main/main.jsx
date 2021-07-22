@@ -1,19 +1,9 @@
 import React from "react"
-
-const Icon = ({name, size = 16, fill = "#ffffff", className, opacity = 1}) => (
-  <svg
-    width={size}
-    style={{opacity}}
-    height={size}
-    fill={fill}
-    className={className}
-  >
-    <use xlinkHref={`#${name}`} />
-  </svg>
-)
+import {useTranslation} from "react-i18next"
 
 const Main = () => {
-  return <Icon name="add" fill="#000000" />
+  const {t} = useTranslation()
+  return <div>{t("description.description")}</div>
 }
 
 export default Main
