@@ -1,14 +1,26 @@
 import React from "react"
 import c from "classnames"
-// import {useTranslation} from "react-i18next"
-import Header from "@views/head"
+import {DndProvider} from "react-dnd"
+import {HTML5Backend} from "react-dnd-html5-backend"
+import Header from "@views/header"
+import Sidebar from "@views/sidebar"
+import Editor from "@views/editor"
+import OptionPanel from "@views/option-panel"
+import Footer from "@views/footer"
 import s from "./main.module.styl"
 
 const Main = () => {
-  // const {t} = useTranslation()
   return (
     <div className={c("fbv", s.main)}>
       <Header />
+      <DndProvider backend={HTML5Backend}>
+        <div className="fb1 fbh pr">
+          <Sidebar />
+          <Editor />
+          <OptionPanel />
+        </div>
+      </DndProvider>
+      <Footer />
     </div>
   )
 }

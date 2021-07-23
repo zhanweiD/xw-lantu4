@@ -20,9 +20,15 @@ export default defineConfig({
     alias: {
       "@pages": resolve("src/pages"),
       "@views": resolve("src/views"),
+      "@components": resolve("src/components"),
+      "@models": resolve("src/models"),
       "@Icons": resolve("src/icons"),
       "@i18n": resolve("src/i18n"),
-      "@utils": resolve("src/utils")
+      "@utils": resolve("src/utils"),
+      "@waves4": resolve("src/waves4"),
+      "@waves4-src": resolve("src/waves4-src"),
+      "@exhibit-collection": resolve("./src/exhibit-collection"),
+      "@exhibit-adapter-creater": resolve("src/exhibit-adapter-creater")
     }
   },
   server: {
