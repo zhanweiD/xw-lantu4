@@ -23,7 +23,7 @@ build:
   image: docker.dtwave-inc.com/aibox/nodejs:12.22.1-alpine
   stage: build
   only:
-    - develop
+    - feature/pack
   script:
     - rm -rf out default package-lock.json
     - npm install --registry=http://r.dtwave-inc.com
@@ -37,7 +37,7 @@ deploy_job:
     # 跳过 git 操作，加快流水线执行速度，本 job 不需要获取仓库代码
     # GIT_STRATEGY: none
   only:
-    - develop
+    - feature/pack
   before_script:
     # 更换 alpine apk 源为阿里源
     - sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
