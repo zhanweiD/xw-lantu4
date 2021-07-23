@@ -3,7 +3,7 @@ import random from "./random"
 import createLog from "./create-log"
 import isDef from "./is-def"
 
-const log = createLog(__filename)
+const log = createLog(import.meta.url)
 
 const createEvent = (privateName = "") => {
   const id = `__event-${privateName}-${random()}`

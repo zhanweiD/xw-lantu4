@@ -1,9 +1,9 @@
-import {types, getEnv} from "mobx-state-tree"
+import {types, getEnv, flow} from "mobx-state-tree"
 // import {globalEvent} from '@utils/create-event'
 import {MHead} from "./head"
-// import {MSidebar} from './sidebar'
+import {MSidebar} from "./sidebar/sidebar"
 // import {MEditor} from './editor/editor'
-// import {MUser} from './user'
+import {MUser} from "./user"
 // import {MOptionPanel} from './option-panel'
 // import {MOverlayManager} from './common/overlay'
 // import {MColorPickerBox} from './common/color-picker-box'
@@ -11,9 +11,9 @@ import {MHead} from "./head"
 
 export const MRoot = types
   .model("MRoot", {
-    // user: types.maybe(MUser),
-    head: types.optional(MHead, {})
-    // sidebar: types.optional(MSidebar, {}),
+    user: types.maybe(MUser),
+    head: types.optional(MHead, {}),
+    sidebar: types.optional(MSidebar, {})
     // editor: types.optional(MEditor, {}),
     // optionPanel: types.optional(MOptionPanel, {}),
     // overlayManager: types.optional(MOverlayManager, {}),
@@ -28,7 +28,7 @@ export const MRoot = types
   .actions((self) => {
     const afterCreate = () => {
       const {session} = self.env_
-      // self.getUserInfo()
+      self.getUserInfo()
       const activePanelInSession = session.get("activePanel", "projects")
       self.head = {
         activePanelButton: activePanelInSession
@@ -114,11 +114,11 @@ export const MRoot = types
       //   })
     }
     // // 获取当前登录用户详情
-    // const getUserInfo = flow(function* getUserInfo() {
-    //   const {io} = self.env_
-    //   const content = yield io.auth.loginInfo()
-    //   self.user = content
-    // })
+    const getUserInfo = flow(function* getUserInfo() {
+      const {io} = self.env_
+      const content = yield io.auth.loginInfo()
+      self.user = content
+    })
     // /**
     //  * 判断用户是否有操作权限，注意还要结合数据的权限
     //  * @param {String}} permissionCode
@@ -154,8 +154,8 @@ export const MRoot = types
     // }
 
     return {
-      afterCreate
-      // getUserInfo,
+      afterCreate,
+      getUserInfo
       // hasPermission,
       // confirm,
       // colorPicker,

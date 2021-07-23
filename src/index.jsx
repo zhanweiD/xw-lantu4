@@ -1,4 +1,4 @@
-import React from "react"
+import React, {Suspense} from "react"
 import ReactDOM from "react-dom"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
 import "virtual:svg-icons-register"
@@ -9,12 +9,14 @@ import Login from "@pages/login"
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Main} />
-        <Route exact path="/login" component={Login} />
-      </Switch>
-    </Router>
+    <Suspense fallback={<div className="w100p h100v fbv fbjc fbac"></div>}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Router>
+    </Suspense>
   )
 }
 

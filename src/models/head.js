@@ -33,11 +33,11 @@ export const MHead = types
     }
     const toggleActivePanel = (panel) => {
       const {activePanelButton} = self
-      const {session} = self.env_
+      const {session, event} = self.env_
       if (panel === activePanelButton) {
         panel = NO_ACTIVE_PANEL_BUTTON
       }
-      // event.fire("sidebar.toggleActivePanel", panel)
+      event.fire("sidebar.toggleActivePanel", panel)
       session.set("activePanel", panel)
       self.activePanelButton = panel
     }

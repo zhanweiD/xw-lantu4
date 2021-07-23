@@ -1,5 +1,4 @@
 @import './flexbox.styl'
-@import './theme-vars.styl'
 @import './colors.styl'
 @import './animate.styl'
 
@@ -46,8 +45,7 @@ svg
   overflow auto
 // 在有滚动条的元素上加上该classname，只有鼠标进入元素区域内，滚动条才会有颜色
 .scrollbar:hover::-webkit-scrollbar-thumb
-  // border-left 4px solid themeColor
-  background-color: #cacaca3d
+  background-color: #ddd
 
 ::-webkit-scrollbar-thumb:window-inactive
   // border-left 4px solid #444
@@ -57,7 +55,7 @@ svg
   overflow-x auto
 
 .topScrollBar:hover::-webkit-scrollbar-thumb
-  background-color themeColor
+  background-color #ddd
 
 .topScrollBar::-webkit-scrollbar-thumb
   background-color #3330
