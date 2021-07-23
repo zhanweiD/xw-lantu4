@@ -73,6 +73,7 @@ const AccountLogin = () => {
           placeholder={t("user.password")}
           onChange={(e) => onPasswordChange(e.target.value)}
         />
+        {message && <div className="errorMessage">{message} !</div>}
         <div className="mt20">
           <input
             className="submitButton"
@@ -80,7 +81,6 @@ const AccountLogin = () => {
             value={loading ? t("login.submiting") : t("login.submit")}
           />
         </div>
-        {message && <div className="errorMessage">{message}</div>}
       </form>
     </>
   )

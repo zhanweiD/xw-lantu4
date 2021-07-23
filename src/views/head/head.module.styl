@@ -1,0 +1,39 @@
+@import '../../utils/theme-vars.styl'
+
+.head
+  border-bottom 1px solid #000
+  height 41px
+  overflow hidden
+  position relative
+  z-index 19110
+  box-shadow 0 1px 5px rgba(0,0,0,0.3)
+.panel_button
+  height 100%
+  border-right 1px solid #1a1a1a
+  line-height 40px
+  text-align center
+  color #ddd
+  cursor pointer
+  padding 0 9px
+  position relative
+  &_active
+    background-color themeColor!important
+  &:hover
+    background-color rgba(255,255,255,0.10)
+    color #fff
+  &:active
+    background-color rgba(255,255,255,0.06)
+    color #fff
+  .cornerMark
+    position absolute
+    bottom 2px
+    right 1px
+
+.logo
+  height 40px
+  line-height 40px
+  box-sizing border-box
+  border-right 1px solid #1a1a1a
+  padding 8px
+  img
+    height 100%
