@@ -6,7 +6,7 @@ import isArray from "lodash/isArray"
 import isDef from "@utils/is-def"
 import createLog from "@utils/create-log"
 
-const log = createLog(import.meta.url)
+const log = createLog("@utils/common-action")
 
 export const getModelSchema = (node, option = {}) => {
   const {normalKeys = node.normalKeys || [], deepKeys = node.deepKeys || []} =

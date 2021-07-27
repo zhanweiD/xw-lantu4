@@ -43,5 +43,8 @@ export default defineConfig({
         target: "http://192.168.90.160:9088/"
       }
     }
+  },
+  build: {
+    brotliSize: false
   }
 })
