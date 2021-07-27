@@ -1,0 +1,27 @@
+@import '@utils/theme-vars.styl'
+.root
+  border-left 0px solid transparent
+.root_folded
+  margin-bottom 0
+.name
+  position sticky
+  top 0
+  left 0
+  z-index 10
+  text-shadow 1px 1px 1px #000
+  border-left-width 2px
+  border-left-style solid
+  border-bottom 1px solid rgba(0, 0, 0, 0.2)
+  backdrop-filter saturate(180%) blur(10px)
+  &_background
+    background-color rgba(255, 255, 255, 0.05)
+  &_focus
+    background-color rgba(104, 149, 255, 0.2)
+  &_focus_unVisible
+    background-color rgba(104, 149, 255, 0.1)
+
+.right0
+  right 0
+
+.hideIcon
+  display none
