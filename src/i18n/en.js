@@ -80,7 +80,7 @@ export default {
     logInfo: "Log Info",
     ctime: "Create Time",
     mtime: "Modify Time",
-    creater: "Creater",
+    creator: "Creator",
     basicInfo: "Base Info",
     apiInfo: "API Info",
     filePath: "URL",

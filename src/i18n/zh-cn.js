@@ -20,7 +20,7 @@ export default {
   projectPanel: {
     templates: "模板列表",
     projects: "项目列表",
-    createProject: "创建项目",
+    createProject: "新建项目",
     recent: "最近使用"
   },
   exhibitPanel: {
@@ -29,7 +29,7 @@ export default {
   dataPanel: {
     datas: "数据列表",
     official: "官方数据",
-    dataCreate: "新增数据",
+    dataCreate: "新建数据",
     excel: "Excel",
     json: "JSON",
     mysql: "MySQL",
@@ -80,7 +80,7 @@ export default {
     logInfo: "日志信息",
     ctime: "创建时间",
     mtime: "修改时间",
-    creater: "创建者",
+    creator: "创建者",
     basicInfo: "基础信息",
     apiInfo: "API信息",
     filePath: "路径",
@@ -263,7 +263,7 @@ export default {
     description: "描述",
     creater: "创建人",
     ctime: "创建时间",
-    mtime: "修改时间"
+    mtime: "创改时间"
   },
   style: {
     node: "节点",
@@ -536,7 +536,7 @@ export default {
     logout: "退出登录",
     wrongMobile: "手机号不正确",
     wrongEmail: "邮箱不正确",
-    createOrganization: "创建组织",
+    createOrganization: "新建组织",
     organizationInfo: "组织信息",
     wrongNameLength: "名称由2～32位，中英文、数字、下划线组成",
     wrongUsernameLength: "昵称由2～32位，中英文、数字、下划线组成",
@@ -562,7 +562,7 @@ export default {
     owner: "所有者",
     createTime: "创建时间",
     isDefault: "默认组织",
-    add: "新增组织",
+    add: "新建组织",
     addUser: "添加用户",
     searchResult: "搜索结果",
     waitAddUser: "待添加的用户",
