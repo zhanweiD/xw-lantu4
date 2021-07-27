@@ -1,9 +1,6 @@
 import isFunction from "lodash/isFunction"
 import random from "./random"
-import createLog from "./create-log"
 import isDef from "./is-def"
-
-const log = createLog(import.meta.url)
 
 const createEvent = (privateName = "") => {
   const id = `__event-${privateName}-${random()}`
@@ -72,34 +69,7 @@ const createEvent = (privateName = "") => {
   return event
 }
 
-// const v = createEvent()
-// const vf = () => {
-//   console.log('🏓 vf1')
-// }
-// v.once('ready', vf)
-// const vf2 = () => {
-//   console.log('🏓 vf2')
-// }
-// v.once('ready', vf2)
-
-// v.fire('ready')
-// v.fire('ready')
-// v.fire('ready')
-
-// window.addEventListener('blur', ()=>{
-//   document.title = '放入后台';
-// }, true);
-
-// window.addEventListener('focus', ()=>{
-//   document.title = '进入页面';
-// }, true);
-
 export default createEvent
-
-export const assignEvent = (receiver) => {
-  log.warn("assignEvent方法将会删除，应改为createEvent实现")
-  Object.assign(receiver, createEvent())
-}
 
 export const globalEvent = createEvent()
 
