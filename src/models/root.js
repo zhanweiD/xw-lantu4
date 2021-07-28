@@ -1,5 +1,6 @@
 import {types, getEnv, flow} from "mobx-state-tree"
 import {globalEvent} from "@utils/create-event"
+import {createStorage} from "@utils/storage"
 import {MHead} from "./head"
 import {MSidebar} from "./sidebar"
 import {MEditor} from "./editor/editor"
@@ -27,15 +28,9 @@ export const MRoot = types
   }))
   .actions((self) => {
     const afterCreate = () => {
-      const {session, event} = self.env_
-      self.getUserInfo()
-      const activePanelInSession = session.get("activePanel", "projects")
-      self.head = {
-        activePanelButton: activePanelInSession
-      }
-      self.sidebar = {}
-      event.fire("sidebar.toggleActivePanel", activePanelInSession)
-
+      self.getUserInfo().then(() => {
+        self.initRoot()
+      })
       globalEvent.on("globalClick", () => {
         self.overlayManager.hideAll()
       })
@@ -118,7 +113,26 @@ export const MRoot = types
       const {io} = self.env_
       const content = yield io.auth.loginInfo()
       self.user = content
+      self.env_.local = createStorage({
+        type: "localStorage",
+        key: `${self.user.userId}.${self.user.organizationId}`
+      })
+      self.env_.session = createStorage({
+        type: "sessionStorage",
+        key: `${self.user.userId}.${self.user.organizationId}`
+      })
     })
+
+    const initRoot = () => {
+      const {session} = self.env_
+      const activePanelInSession = session.get("activePanel", "projects")
+      self.head = {
+        activePanelButton: activePanelInSession
+      }
+      self.sidebar = {
+        activePanel: activePanelInSession
+      }
+    }
     /**
      * 判断用户是否有操作权限，注意还要结合数据的权限
      * @param {String}} permissionCode
@@ -156,6 +170,7 @@ export const MRoot = types
     return {
       afterCreate,
       getUserInfo,
+      initRoot,
       hasPermission,
       confirm,
       colorPicker

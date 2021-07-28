@@ -1,5 +1,4 @@
 import createEvent from "@utils/create-event"
-import {session, local} from "@utils/storage"
 import i18n from "@i18n"
 import io from "@utils/io"
 import tip from "@components/tip"
@@ -12,8 +11,6 @@ const root = MRoot.create(
   {},
   {
     event,
-    session,
-    local,
     io,
     i18n,
     tip,

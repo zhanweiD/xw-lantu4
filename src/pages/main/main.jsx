@@ -20,6 +20,7 @@ import s from "./main.module.styl"
 
 const Main = () => {
   const {user} = w
+  console.log(w.overlayManager.get("menu"))
   if (!user)
     return (
       <div className="w100p h100v fbv fbjc fbac">
