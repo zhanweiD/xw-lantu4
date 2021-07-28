@@ -18,7 +18,7 @@ const Head = ({showTabs = true}) => {
   const {panelButtons, activePanelButton} = head
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
-  const {type, art, data, materialThumbnail, save} = activeTab
+  const {type, art, data, materialThumbnail} = activeTab
   const {viewport} = art || {}
   const {selectRange, isGridVisible, isBoxBackgroundVisible, isSnap} =
     viewport || {}
@@ -296,21 +296,6 @@ const Head = ({showTabs = true}) => {
           </Button>
         </>
       )}
-
-      {showTabs && ["materialView", "data", "art"].includes(type) && (
-        <>
-          <Button
-            width={70}
-            lineHeight={22}
-            className="ml8"
-            type="primary"
-            onClick={save}
-          >
-            保存
-          </Button>
-        </>
-      )}
-
       {showTabs && isOptionPanelVisible_ && (
         <IconGroupButton
           icon="menu"

@@ -4,7 +4,8 @@ import art from "@models/art/art-preview"
 import ArtPreview from "@views/public/art-preview"
 import s from "./publish.module.styl"
 
-const Publish = ({publishId}) => {
+const Publish = ({match}) => {
+  const {publishId} = match.params
   useEffect(() => {
     art.getPublishArt(publishId)
   }, [publishId])

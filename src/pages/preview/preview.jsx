@@ -4,7 +4,8 @@ import art from "@models/art/art-preview"
 import ArtPreview from "@views/public/art-preview"
 import s from "./preview.module.styl"
 
-const Preview = ({artId}) => {
+const Preview = ({match}) => {
+  const {artId} = match.params
   useEffect(() => {
     art.getArt(artId)
   }, [artId])
