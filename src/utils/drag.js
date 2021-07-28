@@ -5,7 +5,7 @@ import querySelector from "./query-selector"
 import isDef from "./is-def"
 import createLog from "./create-log"
 
-const log = createLog(import.meta.url)
+const log = createLog("@utils/drag")
 export default class Drag {
   constructor({target, handle, preventHandle, start, move, end, getPosition}) {
     if (!isDef(target)) {

@@ -1,24 +1,43 @@
 import React, {Suspense} from "react"
 import ReactDOM from "react-dom"
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom"
-import "virtual:svg-icons-register"
-import "@i18n"
 import "@utils/common.styl"
+import "@i18n"
+import Loading from "@components/loading"
 import Main from "@pages/main"
+import Publish from "@pages/publish"
+import Preview from "@pages/preview"
 import Login from "@pages/login"
+import Organization from "@pages/organization"
+import OrganizationMember from "@pages/organization-member"
+import User from "@pages/user"
+import "virtual:svg-icons-register"
 
-const App = () => {
-  return (
-    <Suspense fallback={<div className="w100p h100v fbv fbjc fbac"></div>}>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </Router>
-    </Suspense>
-  )
-}
+const App = () => (
+  <Suspense
+    fallback={
+      <div className="w100p h100v fbv fbjc fbac">
+        <Loading data="loading" />
+      </div>
+    }
+  >
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Main} />
+        <Route exact path="/publish/:publishId" component={Publish} />
+        <Route exact path="/preview/:artId" component={Preview} />
+        <Route exact path="/user" component={User} />
+        <Route exact path="/organization" component={Organization} />
+        <Route
+          exact
+          path="/organization/:organizationId/member"
+          component={OrganizationMember}
+        />
+        <Route exact path="/login" component={Login} />
+      </Switch>
+    </Router>
+  </Suspense>
+)
 
 // 禁止浏览器回退
 const popstate = () => {

@@ -33,7 +33,7 @@ import {MSectionConfigField} from "./section-config.model"
 import {MOffsetField} from "./offset.model"
 import {MExhibitDataField} from "./exhibit-data.model"
 
-const log = createLog(__filename)
+const log = createLog("@components/field/create-config-model-class")
 
 const fieldModel = {
   text: MTextField,

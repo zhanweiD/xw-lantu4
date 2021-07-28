@@ -6,7 +6,7 @@ import isDef from "@utils/is-def"
 import commonAction from "@utils/common-action"
 import {commonFieldModelViews} from "./base"
 
-const log = createLog(__filename)
+const log = createLog("@components/field/switch.model")
 
 export const MSwitchField = types
   .model("MSwitchField", {

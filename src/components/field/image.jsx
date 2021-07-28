@@ -9,7 +9,7 @@ import {Field} from "./base"
 import s from "./image.module.styl"
 // import Loading from '../loading'
 
-const log = createLog(__filename)
+const log = createLog("@components/fields/image.jsx")
 
 export const ImageField = observer(
   ({

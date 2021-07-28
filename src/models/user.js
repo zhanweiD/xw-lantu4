@@ -1,8 +1,8 @@
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
 import i18n from "@i18n"
-// import {MOrganizationItem} from './organization/organization-item'
-// import {MCreateOrganizationModal} from './organization/organization-modal-list'
+import {MOrganizationItem} from "./organization/organization-item"
+import {MCreateOrganizationModal} from "./organization/organization-modal-list"
 
 // 后续组织信息
 export const MUser = types
@@ -20,7 +20,7 @@ export const MUser = types
     avatar: types.maybeNull(types.string),
     organizationId: types.maybeNull(types.number),
     levelType: types.optional(types.string, "personal"),
-    // organizationList: types.optional(types.array(MOrganizationItem), []),
+    organizationList: types.optional(types.array(MOrganizationItem), []),
     organizationName: types.maybe(types.string),
     language: types.optional(types.string, i18n.language)
   })
@@ -94,37 +94,43 @@ export const MUser = types
       }
     })
 
-    // const showCreateOrganizationModal = () => {
-    //   const {tip} = self.env_
-    //   const modal = self.root_.overlayManager.get('fieldModal')
+    const showCreateOrganizationModal = () => {
+      const {tip} = self.env_
+      const modal = self.root_.overlayManager.get("fieldModal")
 
-    //   modal.show({
-    //     attachTo: false,
-    //     title: '新建组织',
-    //     content: MCreateOrganizationModal.create(),
-    //     height: 160,
-    //     buttons: [{
-    //       name: '取消',
-    //       action: () => {
-    //         modal.hide()
-    //       },
-    //     }, {
-    //       name: '确定',
-    //       action: value => {
-    //         value.name = value.name.trim()
-    //         if (
-    //           value.name === '个人空间'
-    //           || value.name === 'PersonalSpace'
-    //           || self.organizationList.find(item => item.organizationName === value.name && item.isMaster)
-    //         ) {
-    //           tip.error({content: 'organization.originalExist'})
-    //         } else {
-    //           self.createOrganization(value)
-    //         }
-    //       },
-    //     }],
-    //   })
-    // }
+      modal.show({
+        attachTo: false,
+        title: "新建组织",
+        content: MCreateOrganizationModal.create(),
+        height: 160,
+        buttons: [
+          {
+            name: "取消",
+            action: () => {
+              modal.hide()
+            }
+          },
+          {
+            name: "确定",
+            action: (value) => {
+              value.name = value.name.trim()
+              if (
+                value.name === "个人空间" ||
+                value.name === "PersonalSpace" ||
+                self.organizationList.find(
+                  (item) =>
+                    item.organizationName === value.name && item.isMaster
+                )
+              ) {
+                tip.error({content: "organization.originalExist"})
+              } else {
+                self.createOrganization(value)
+              }
+            }
+          }
+        ]
+      })
+    }
 
     /**
      * 新建组织
@@ -220,7 +226,7 @@ export const MUser = types
       createOrganization,
       removeOrganization,
       quitOrganization,
-      changeUserDetail
-      // showCreateOrganizationModal,
+      changeUserDetail,
+      showCreateOrganizationModal
     }
   })
