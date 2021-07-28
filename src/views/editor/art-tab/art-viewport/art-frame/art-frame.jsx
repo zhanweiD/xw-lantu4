@@ -1,4 +1,4 @@
-import React, {Children, useEffect, useRef} from "react"
+import React, {useEffect, useRef} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
 import {DropTarget} from "@components/drag-and-drop"
@@ -75,11 +75,9 @@ const ArtFrame = ({frame, viewport, option}) => {
           zIndex={0}
         /> */}
 
-          {boxes.map((box) =>
-            Children.toArray(
-              <Box box={box} frame={frame} viewport={viewport} />
-            )
-          )}
+          {boxes.map((box) => (
+            <Box key={box.boxId} box={box} frame={frame} viewport={viewport} />
+          ))}
         </div>
       </div>
     </DropTarget>

@@ -7,9 +7,10 @@
   "author": "tianchan.ztc <tianchan.ztc@dtwave-inc.com>",
   "license": "MIT",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
     "prepare": "husky install"
   },
   "dependencies": {
