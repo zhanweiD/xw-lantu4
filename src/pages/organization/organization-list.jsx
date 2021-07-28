@@ -8,9 +8,8 @@ import IconButton from "@components/icon-button"
 import Table from "@components/table"
 import w from "@models"
 import {createConfigModelClass} from "@components/field"
-import {useHistory} from "react-router-dom"
+import {Link} from "react-router-dom"
 
-const history = useHistory()
 const OrganizationList = ({user}) => {
   const {t} = useTranslation()
 
@@ -161,13 +160,9 @@ const OrganizationList = ({user}) => {
       render: (value, rowData) => {
         return (
           <div className="fbh ">
-            <IconButton
-              iconSize={16}
-              icon="user"
-              onClick={() => {
-                history.push(`/organization/${rowData.organizationId}/member`)
-              }}
-            />
+            <Link to={`/organization/${rowData.organizationId}/member`}>
+              <IconButton iconSize={16} icon="user" />
+            </Link>
             {rowData.hasPermission("organization.update") && (
               <IconButton
                 iconSize={16}
