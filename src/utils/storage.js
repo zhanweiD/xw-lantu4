@@ -11,3 +11,11 @@ export const session = onerStorage({
   type: "sessionStorage", // 缓存方式, 默认为'localStorage'
   key: "waveview-front-session" // !!! 唯一必选的参数, 用于内部存储 !!!
 })
+
+export const createStorage = ({type, key}) => {
+  const storage = onerStorage({
+    type, // 缓存方式, 默认为'localStorage'
+    key // !!! 唯一必选的参数, 用于内部存储 !!!
+  })
+  return storage
+}
