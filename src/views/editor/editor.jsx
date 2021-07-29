@@ -47,11 +47,11 @@ const Editor = () => {
                 ctw: tab.id === activeTabId,
                 ctw40: tab.id !== activeTabId
               })}
+              onClick={() => updateActiveNote(tab.id)}
             >
               <Icon name={getIconName(tab)} className="mr4" />
               <div
                 className="fb1 omit mr8"
-                onClick={() => updateActiveNote(tab.id)}
                 onContextMenu={(e, button) => {
                   e.preventDefault()
                   e.stopPropagation()
