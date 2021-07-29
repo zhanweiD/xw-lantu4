@@ -35,7 +35,7 @@ deploy_job:
   image: alpine:latest
   variables:
     # 跳过 git 操作，加快流水线执行速度，本 job 不需要获取仓库代码
-    # GIT_STRATEGY: none
+    GIT_STRATEGY: none
   only:
     - develop
   before_script:
@@ -44,7 +44,7 @@ deploy_job:
     # 安装 sshpass，sshpass 可以将密码传入 ssh，免去交互式输入密码
     - apk add --update --no-cache openssh sshpass
   script:
-    - sshpass -p $TEST_SERVER_XVR_PASSWORD scp -P 22818 -T -o StrictHostKeyChecking=no -r dist/* deploy@$TEST_SERVER_IP:/data/waveview-server4/static/
+    - sshpass -p $TEST_SERVER_XVR_PASSWORD scp -P 22818 -T -o StrictHostKeyChecking=no -r dist/* deploy@$TEST_SERVER_IP:/data/waveview-server4/static/waveview-front4/
     - sshpass -p $TEST_SERVER_XVR_PASSWORD ssh -p 22818 -T -o StrictHostKeyChecking=no deploy@$TEST_SERVER_IP "node /home/deploy/waveview/webhook/hook.js front $CI_COMMIT_REF_NAME $CI_PROJECT_URL/commit/$CI_COMMIT_SHA"
 
 upload:
