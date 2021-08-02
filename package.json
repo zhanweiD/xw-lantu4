@@ -58,7 +58,7 @@
     "stylus": "^0.54.8",
     "vite": "^2.4.3",
     "vite-plugin-externals": "^0.1.5",
-    "vite-plugin-svg-icons": "^1.0.1"
+    "vite-plugin-svg-icons": "1.0.1"
   },
   "lint-staged": {
     "*.{js,jsx}": [

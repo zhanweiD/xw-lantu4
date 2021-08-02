@@ -9,17 +9,9 @@ import config from "@utils/config"
 import EditorTab from "./editor-tab"
 import s from "./editor.module.styl"
 
-// TODO: 应该有保存状态
 const Editor = () => {
   const {editor, overlayManager} = w
-  const {
-    tabs,
-    activeTabId,
-    updateActiveNote,
-    closeTab,
-    closeAllTabs,
-    closeOtherTabs
-  } = editor
+  const {tabs, activeTabId, updateActiveNote, closeTab, closeAllTabs, closeOtherTabs} = editor
   const {t} = useTranslation()
 
   const getIconName = (tab) => {
@@ -47,11 +39,9 @@ const Editor = () => {
                 ctw: tab.id === activeTabId,
                 ctw40: tab.id !== activeTabId
               })}
-              onClick={() => updateActiveNote(tab.id)}
             >
-              <Icon name={getIconName(tab)} className="mr4" />
               <div
-                className="fb1 omit mr8"
+                className="fb1 omit mr8 fbh fbac"
                 onContextMenu={(e, button) => {
                   e.preventDefault()
                   e.stopPropagation()
@@ -94,7 +84,9 @@ const Editor = () => {
                           ]
                   })
                 }}
+                onClick={() => updateActiveNote(tab.id)}
               >
+                <Icon name={getIconName(tab)} className="mr4" />
                 {tab.name}
               </div>
               <IconButton
@@ -121,24 +113,12 @@ const Editor = () => {
           ))}
           {!tabs.length ? (
             <div className="wh100p fbv fbjc fbac">
-              <img
-                className={s.logo}
-                src={config[t("login.slogan")]}
-                alt="logo"
-              />
+              <img className={s.logo} src={config[t("login.slogan")]} alt="logo" />
               <div className="mt30 pt16">
-                <div className={c(s.step, "ctw10 fs18 bold lh40 mb16 center")}>
-                  三步轻松新建可视化大屏
-                </div>
-                <div className={c(s.step, "ctw10 fs18 bold lh32")}>
-                  STEP1: 新建项目，管理数据和素材(可选)
-                </div>
-                <div className={c(s.step, "ctw10 fs18 bold lh32")}>
-                  STEP2: 新建大屏，拖拽组件，制作图表
-                </div>
-                <div className={c(s.step, "ctw10 fs18 bold lh32")}>
-                  STEP3: 预览确认大屏效果，发布大屏
-                </div>
+                <div className={c(s.step, "ctw10 fs18 bold lh40 mb16 center")}>三步轻松新建可视化大屏</div>
+                <div className={c(s.step, "ctw10 fs18 bold lh32")}>STEP1: 新建项目，管理数据和素材(可选)</div>
+                <div className={c(s.step, "ctw10 fs18 bold lh32")}>STEP2: 新建大屏，拖拽组件，制作图表</div>
+                <div className={c(s.step, "ctw10 fs18 bold lh32")}>STEP3: 预览确认大屏效果，发布大屏</div>
               </div>
             </div>
           ) : (
