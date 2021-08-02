@@ -28,11 +28,7 @@ const App = () => (
         <Route exact path="/preview/:artId" component={Preview} />
         <Route exact path="/user" component={User} />
         <Route exact path="/organization" component={Organization} />
-        <Route
-          exact
-          path="/organization/:organizationId/member"
-          component={OrganizationMember}
-        />
+        <Route exact path="/organization/:organizationId/member" component={OrganizationMember} />
         <Route exact path="/login" component={Login} />
       </Switch>
     </Router>
