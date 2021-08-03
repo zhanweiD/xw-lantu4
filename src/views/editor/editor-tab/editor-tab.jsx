@@ -7,32 +7,22 @@ import DataTab from "../data-tab"
 import ProjectDetailTab from "../project-detail-tab"
 import ArtDetailTab from "../art-detail-tab"
 import ArtInitTab from "../art-init-tab"
-import ArtTab from "../art-tab"
+import ArtTab from "../new-art-tab"
 
 const EditorTab = ({tab}) => {
   return (
     <div className="wh100p">
-      {tab.type === "projectDetail" && tab.projectDetail && (
-        <ProjectDetailTab project={tab.projectDetail} />
-      )}
-      {tab.type === "artDetail" && tab.artDetail && (
-        <ArtDetailTab art={tab.artDetail} />
-      )}
-      {tab.type === "artInit" && tab.initArt && (
-        <ArtInitTab art={tab.initArt} id={tab.id} />
-      )}
+      {tab.type === "projectDetail" && tab.projectDetail && <ProjectDetailTab project={tab.projectDetail} />}
+      {tab.type === "artDetail" && tab.artDetail && <ArtDetailTab art={tab.artDetail} />}
+      {tab.type === "artInit" && tab.initArt && <ArtInitTab art={tab.initArt} id={tab.id} />}
       {tab.type === "art" && tab.art && (
         <Loading data={tab.art.fetchState}>
           <ArtTab art={tab.art} />
         </Loading>
       )}
-      {tab.type === "materialView" && tab.materialThumbnail && (
-        <MaterialTab material={tab.materialThumbnail} />
-      )}
+      {tab.type === "materialView" && tab.materialThumbnail && <MaterialTab material={tab.materialThumbnail} />}
       {tab.type === "data" && tab.data && <DataTab data={tab.data} />}
-      {tab.type === "dataSourceManager" && tab.dataSourceManager && (
-        <DataSourceManagerTab dataSourceManager={tab.dataSourceManager} />
-      )}
+      {tab.type === "dataSourceManager" && tab.dataSourceManager && <DataSourceManagerTab dataSourceManager={tab.dataSourceManager} />}
     </div>
   )
 }

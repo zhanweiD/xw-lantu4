@@ -8,10 +8,7 @@ export const MEditor = types
   .model({
     tabs: types.optional(types.array(MEditorTab), []),
     activeTabId: types.maybe(types.union(types.number, types.string)),
-    activeNote: types.optional(
-      types.array(types.union(types.number, types.string)),
-      []
-    )
+    activeNote: types.optional(types.array(types.union(types.number, types.string)), [])
   })
   .views((self) => ({
     get env_() {
@@ -39,9 +36,7 @@ export const MEditor = types
         keyName: "commandS",
         keyDown: () => {
           if (self.activeTabId) {
-            const tab = self.tabs.filter(
-              (item) => item.id === self.activeTabId
-            )[0]
+            const tab = self.tabs.filter((item) => item.id === self.activeTabId)[0]
             tab.save()
           }
         },
@@ -64,15 +59,7 @@ export const MEditor = types
         self.showTabDetail()
         event.fire("project-panel.getProjects")
       } else if (data.type === "data") {
-        const {
-          type,
-          dataId,
-          dataName,
-          dataType,
-          folderId,
-          isProject,
-          projectId
-        } = data
+        const {type, dataId, dataName, dataType, folderId, isProject, projectId} = data
         tab.type = type
         tab.id = dataId
         tab.name = dataName
@@ -111,9 +98,7 @@ export const MEditor = types
       viewport.init(viewportEl, () => {
         // 是否需要鼠标的拖拽指针
         const hasPanZoom = () => {
-          const activeTab = self.tabs.filter(
-            (tab) => tab.id === self.activeTabId
-          )[0]
+          const activeTab = self.tabs.filter((tab) => tab.id === self.activeTabId)[0]
           return activeTab && ["art", "materialView"].includes(activeTab.type)
         }
 
@@ -164,7 +149,7 @@ export const MEditor = types
       if (!isOpened) {
         if (type === "art") {
           const {event} = self.env_
-          event.fire("head.toggleActivePanel", "NO_ACTIVE_PANEL_BUTTON")
+          event.fire("head.toggleActivePanel", "NO_ACTIVE_PANEL")
         }
         self.tabs.push({
           id,

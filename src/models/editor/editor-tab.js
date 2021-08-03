@@ -1,7 +1,7 @@
 import {getEnv, types} from "mobx-state-tree"
 import isFunction from "lodash/isFunction"
 import commonAction from "@utils/common-action"
-import {MArtTab} from "../art/art"
+import {MArt} from "../new-art/art"
 import {MArtInit} from "./editor-tab-art-init"
 import {MProjectDetail} from "./editor-tab-project-detail"
 import {MArtDetail} from "./editor-tab-art-detail"
@@ -13,23 +13,14 @@ export const MEditorTab = types
   .model({
     id: types.union(types.number, types.string),
     name: types.optional(types.string, ""),
-    type: types.enumeration([
-      "art",
-      "projectInit",
-      "projectDetail",
-      "artInit",
-      "materialView",
-      "data",
-      "artDetail",
-      "dataSourceManager"
-    ]),
+    type: types.enumeration(["art", "projectInit", "projectDetail", "artInit", "materialView", "data", "artDetail", "dataSourceManager"]),
     projectDetail: types.maybe(MProjectDetail),
     artDetail: types.maybe(MArtDetail),
     materialThumbnail: types.maybe(MMaterialTab),
     data: types.maybe(MDataTab),
     initArt: types.maybe(MArtInit),
     tabOptions: types.frozen(),
-    art: types.maybe(MArtTab),
+    art: types.maybe(MArt),
     dataSourceManager: types.maybe(MDataSourceManager)
   })
   .views((self) => ({

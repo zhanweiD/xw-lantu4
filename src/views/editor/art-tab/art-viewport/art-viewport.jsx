@@ -10,17 +10,7 @@ import s from "./art-viewport.module.styl"
 const ArtViewport = ({art}) => {
   const {editor} = w
   const {artToolbar, artId, viewport, artOption} = art
-  const {
-    id,
-    frames,
-    totalWidth,
-    totalHeight,
-    selectRange,
-    scaler,
-    baseOffsetX,
-    baseOffsetY,
-    initZoom
-  } = viewport
+  const {id, frames, totalWidth, totalHeight, selectRange, scaler, baseOffsetX, baseOffsetY, initZoom} = viewport
   const tabViewRef = useRef(null)
   useEffect(() => {
     // 初始化可视区域元素尺寸数据，用于Tab内容缩放
@@ -53,20 +43,9 @@ const ArtViewport = ({art}) => {
             height: `${totalHeight}px`
           }}
         >
-          {frames.map((frame) =>
-            Children.toArray(
-              <ArtFrame frame={frame} viewport={viewport} option={artOption} />
-            )
-          )}
+          {frames.map((frame) => Children.toArray(<ArtFrame frame={frame} viewport={viewport} option={artOption} />))}
         </div>
-        {selectRange && (
-          <SelectRange
-            baseOffsetX={baseOffsetX}
-            baseOffsetY={baseOffsetY}
-            scaler={scaler}
-            range={selectRange}
-          />
-        )}
+        {selectRange && <SelectRange baseOffsetX={baseOffsetX} baseOffsetY={baseOffsetY} scaler={scaler} range={selectRange} />}
         {frames.map((frame) =>
           Children.toArray(
             <ArtFrameName
