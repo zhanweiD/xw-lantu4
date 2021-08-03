@@ -4,12 +4,12 @@ import c from "classnames"
 import {DropTarget} from "@components/drag-and-drop"
 import Grid from "@waves4/grid"
 import {themeConfigs} from "@utils/theme"
-// import Box from "../box"
+import Box from "../box"
 import s from "./art-frame.module.styl"
 
-const ArtFrame = ({frame, art}) => {
-  const {frameId, grid, viewLayout, artId, isCreateFail} = frame
-  const {projectId, isGridVisible} = art
+const ArtFrame = ({frame}) => {
+  const {frameId, grid, viewLayout, isCreateFail, art_, boxes} = frame
+  const {isGridVisible} = art_
   const gridRef = useRef(null)
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const ArtFrame = ({frame, art}) => {
           left: `${grid.extendX_}px`,
           width: `${viewLayout.width}px`,
           height: `${viewLayout.height}px`,
-          background: `${themeConfigs[art.basic.themeId].background}`
+          background: `${themeConfigs[art_.basic.themeId].background}`
         }}
       >
         {isGridVisible && (
@@ -56,9 +56,9 @@ const ArtFrame = ({frame, art}) => {
     zIndex={0}
   /> */}
 
-        {/* {boxes.map((box) => (
-      <Box key={box.boxId} box={box} frame={frame} viewport={viewport} />
-    ))} */}
+        {boxes.map((box) => (
+          <Box key={box.boxId} box={box} />
+        ))}
       </div>
     </div>
   )
@@ -88,11 +88,7 @@ const ArtFrame = ({frame, art}) => {
           acceptKey="CREATE_EXHIBIT_DRAG_KEY"
           data={{
             create: (data) => {
-              frame.createBox({
-                data,
-                artId,
-                projectId
-              })
+              frame.createBox(data)
             }
           }}
         >

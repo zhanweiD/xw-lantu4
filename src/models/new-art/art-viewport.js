@@ -187,7 +187,6 @@ export const MArtViewport = types
 
     // 循环调用初始化画布，并调整布局
     const setSchema = ({frames}) => {
-      console.log(frames)
       frames.forEach((frame) => {
         initFrame(frame)
       })
@@ -215,7 +214,9 @@ export const MArtViewport = types
         })
       })
       // 这里实际上是做了一次清除操作，清除选中状态及其临时绘制所存的草稿记录
-      self.removeSelectRange()
+      if (mouseDownEvent.target.closest(".artframeName") === null && mouseDownEvent.target.closest(".box") === null) {
+        self.removeSelectRange()
+      }
       self.drawRect = undefined
       let fixDiv
       const mouseMove = (mouseMoveEvent) => {
@@ -402,6 +403,15 @@ export const MArtViewport = types
       self.removeSelectRange()
     }
 
+    const removeBoxes = () => {
+      const {range} = self.selectRange
+      range.forEach((v) => {
+        const frame = self.frames.find((f) => f.frameId === v.frameId)
+        frame.removeBoxes(v.boxIds)
+      })
+      self.removeSelectRange()
+    }
+
     const toggleSelectRange = ({target, selectRange}) => {
       self.removeSelectRange()
       if (target === "frame") {
@@ -491,6 +501,8 @@ export const MArtViewport = types
       // 创建画布 & 删除画布
       createFrame,
       removeFrame,
+      // 删除组件容器 之所以放在这个js里是因为牵扯到selectRange以及frames
+      removeBoxes,
       // 缩放全部画布到可视区域 & 缩放选中画布到可视区域
       zoomAllToView,
       zoomSingleToView

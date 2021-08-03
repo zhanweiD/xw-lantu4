@@ -1,10 +1,17 @@
+/*
+ * @Author: your name
+ * @Date: 2021-07-28 13:40:30
+ * @LastEditTime: 2021-08-03 18:18:03
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /waveview-front4/src/exhibit-collection/exhibit-collection.js
+ */
 import onerStorage from "oner-storage"
 import waves from "@waves4"
 import isEdit from "@utils/is-edit"
 import createLog from "@utils/create-log"
 import {themeConfigs} from "@utils/theme"
 import {createExhibitModelClass} from "./create-exhibit-model-class"
-import {createExhibitLayersClass} from "./create-exhibit-layer-class"
 
 const log = createLog("@exhibit-collection")
 
@@ -43,7 +50,7 @@ export const exhibitRegister = (exhibit) => {
       // 该方法共有两个时机调用
       // 1. 加载大屏时，对已有的组件，进行逐一的模型实例化，这个时候会包含Server端的值
       // 2. 新增组件时，及从组件列表拖拽到容器中，对该组件进行模型实例化，这个时候组件的配置都是默认值
-      initModel({art, schema, themeId, event, globalData, projectData}) {
+      initModel({art, schema, themeId, event}) {
         // 创建组件的模型实例
         const model = Model.create(
           {
@@ -54,88 +61,9 @@ export const exhibitRegister = (exhibit) => {
           },
           {
             art,
-            globalData,
-            projectData,
             event
           }
         )
-        let {layers} = config
-        const {data} = config
-        const {dimension, json} = data
-        // TODO 现在判断了是gis的才这样做，等基础组件调整好 这个判断需要去掉
-        if (schema?.layers) {
-          const canAddLayers = config.getLayersConfig()
-          const baseLayers = config.layers
-          model.set({
-            layersConfig: canAddLayers
-          })
-          layers = schema.layers.map((v) => ({
-            id: v.id,
-            name: v.name,
-            ...baseLayers.concat(canAddLayers).filter((x) => x.key === v.key)[0]
-          }))
-        }
-        model.set({
-          layers: createExhibitLayersClass(config.key, layers)
-        })
-        const mappingConfig = {}
-        const defaultJson = {}
-        let sourceIndex = 0
-        let lastSourceId
-        model.layers
-          .filter((layer) => layer.dataConfig)
-          .forEach((layer) => {
-            const groups = {}
-            const gisIds = layer.defaultData?.map((d, groupIndex) => {
-              const id = `${layer.id}_${groupIndex}`
-              defaultJson[id] = d
-              return id
-            })
-
-            layer.dataConfig.forEach((d, groupIndex) => {
-              const fields = d.map((layerConfig) => ({
-                ...layerConfig
-              }))
-              if (dimension) {
-                fields.unshift(
-                  ...dimension.map((di) => {
-                    return {
-                      isDimension: true,
-                      ...di
-                    }
-                  })
-                )
-              }
-              let jsonId = `${layer.id}_${groupIndex}`
-              if (json[sourceIndex]) {
-                defaultJson[jsonId] = json[sourceIndex]
-                lastSourceId = jsonId
-                sourceIndex++
-              } else {
-                jsonId = lastSourceId
-              }
-
-              groups[`${layer.id}_${groupIndex}`] = {
-                sourceId: gisIds ? gisIds[groupIndex] : jsonId,
-                fields
-              }
-            })
-            mappingConfig[layer.id] = {
-              name: layer.name,
-              groups
-            }
-          })
-
-        console.log("图表渲染映射关系：", mappingConfig)
-        console.log("图表渲染默认数据：", defaultJson)
-        model.data.setConfigs({
-          data: {
-            config: {
-              json: defaultJson,
-              mappingConfig
-            }
-          }
-        })
         model.setSchema(schema)
         return model
       },

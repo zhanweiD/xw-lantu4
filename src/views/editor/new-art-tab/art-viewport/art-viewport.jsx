@@ -9,6 +9,8 @@ const ArtViewport = ({art}) => {
   const {editor} = w
   const {artId, viewport} = art
   const {totalWidth, totalHeight, frames, isInit, selectRange, scaler, baseOffsetX, baseOffsetY} = viewport
+  console.log(isInit)
+  console.log(frames)
   const viewRef = useRef(null)
   useEffect(() => {
     // 初始化可视区域元素尺寸数据，用于Tab内容缩放
@@ -37,7 +39,7 @@ const ArtViewport = ({art}) => {
             height: `${totalHeight}px`
           }}
         >
-          {isInit && frames.map((frame) => <ArtFrame key={frame.frameId} frame={frame} art={art} />)}
+          {isInit && frames.map((frame) => <ArtFrame key={frame.frameId} frame={frame} />)}
         </div>
         {selectRange && <SelectRange baseOffsetX={baseOffsetX} baseOffsetY={baseOffsetY} scaler={scaler} range={selectRange} />}
         {isInit &&

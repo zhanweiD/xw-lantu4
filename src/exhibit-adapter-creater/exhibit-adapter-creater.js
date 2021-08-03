@@ -8,18 +8,7 @@ const log = createLog("@exhibit-adapter-creater")
 const createExhibitAdapter = (hooks) =>
   class Adapter {
     // 内置的hook名称
-    static frozenHookNames = [
-      "init",
-      "update",
-      "data",
-      "draw",
-      "destroy",
-      "getStyle",
-      "getData",
-      "preview",
-      "warn",
-      "event"
-    ]
+    static frozenHookNames = ["init", "update", "data", "draw", "destroy", "getStyle", "getData", "preview", "warn", "event"]
 
     static draw({container, height, width, model, box, isEdit}) {
       model.setAdapter(
@@ -60,17 +49,11 @@ const createExhibitAdapter = (hooks) =>
     }
 
     init() {
-      log.info(
-        `组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`
-      )
-      this.data = this.model.getData()
-      this.layers = this.model.getLayers()
-      this.coordinate = this.model.getCoordinate()
+      log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
+      this.coordinate = this.model.coordinate
       const instanceOption = {
         container: this.container,
         coordinate: this.coordinate,
-        layers: this.layers,
-        data: this.data,
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,

@@ -2,7 +2,7 @@ import React from "react"
 import {observer} from "mobx-react-lite"
 
 const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
-  const {x1, y1, x2, y2, target} = range
+  const {x1, y1, x2, y2} = range
   const width = x2 - x1
   const height = y2 - y1
   const commonStyle = {
@@ -13,12 +13,12 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
     border: "2px solid white"
   }
   const direction = {
-    center: {
-      width: `${width * scaler}px`,
-      height: `${height * scaler}px`,
-      pointerEvents: target === "frame" ? "none" : "auto",
-      outline: "1px solid #07f"
-    },
+    // center: {
+    //   width: `${width * scaler}px`,
+    //   height: `${height * scaler}px`,
+    //   pointerEvents: target === "frame" ? "none" : "auto",
+    //   outline: "1px solid #07f"
+    // },
     northwest: {
       ...commonStyle,
       top: -5,
@@ -83,6 +83,20 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         transform: `matrix(1, 0, 0, 1, ${x1 * scaler + baseOffsetX}, ${y1 * scaler + baseOffsetY})`
       }}
     >
+      <div
+        className="pa"
+        style={{
+          width: `${width * scaler}px`,
+          height: `${height * scaler}px`,
+          outline: "1px solid #07f"
+          // pointerEvents: "none"
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          console.log(e)
+        }}
+      />
       {Object.entries(direction).map(([key, value]) => (
         <div
           key={key}
@@ -91,7 +105,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
           onMouseDown={(e) => {
             e.stopPropagation()
             e.preventDefault()
-            range.onMove(e, key)
+            range.onScale(e, key)
           }}
         />
       ))}

@@ -4,7 +4,7 @@ import c from "classnames"
 import w from "@models"
 import MaterialOption from "./material-option"
 import DataOption from "./data-option"
-import ArtOption from "./art-option"
+// import ArtOption from "./art-option"
 import s from "./option-panel.module.styl"
 
 const OptionPanel = () => {
@@ -19,15 +19,11 @@ const OptionPanel = () => {
         hide: !optionPanel.isActive
       })}
     >
-      {activeTab.type === "art" && activeTab.art && (
+      {/* {activeTab.type === "art" && activeTab.art && (
         <ArtOption art={activeTab.art} />
-      )}
-      {activeTab.type === "materialView" && activeTab.materialThumbnail && (
-        <MaterialOption material={activeTab.materialThumbnail} />
-      )}
-      {activeTab.type === "data" && activeTab.data && (
-        <DataOption data={activeTab.data} />
-      )}
+      )} */}
+      {activeTab.type === "materialView" && activeTab.materialThumbnail && <MaterialOption material={activeTab.materialThumbnail} />}
+      {activeTab.type === "data" && activeTab.data && <DataOption data={activeTab.data} />}
     </div>
   ) : (
     ""

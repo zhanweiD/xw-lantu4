@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-03 15:41:56
+ * @LastEditTime: 2021-08-03 19:53:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
@@ -9,6 +9,7 @@
 
 import {types, getParent, getEnv, getRoot, flow} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
+import uuid from "@utils/uuid"
 import createLog from "@utils/create-log"
 import {MBox} from "./box"
 import {MArtFrameGrid} from "./art-frame-grid"
@@ -75,7 +76,18 @@ export const MArtFrame = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
+    const getNearlyOrigin = (origin, target) => {
+      const grid = self.grid.unit_ * self.scaler_
+      const x = Math.floor((target.x - origin.x) / grid) * grid - self.grid.extendX_ * self.scaler_
+      const y = Math.floor((target.y - origin.y) / grid) * grid - self.grid.extendY_ * self.scaler_
+      return {
+        x,
+        y
+      }
+    }
+
     const initBox = ({artId, boxId, name, frameId, exhibit, layout}) => {
+      const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
         boxId,
@@ -85,7 +97,89 @@ export const MArtFrame = types
         layout
       })
       self.boxes.push(box)
+      const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
+      if (model) {
+        const art = self.art_
+        art.exhibitManager.set(
+          exhibit.id,
+          model.initModel({
+            art,
+            themeId: art.basic.themeId,
+            schema: exhibit,
+            event
+          })
+        )
+      }
     }
+
+    const createBox = flow(function* createBox({position, lib, key}) {
+      const {io, exhibitCollection} = self.env_
+      const {artId, projectId} = self.art_
+      const {frameId} = self
+      const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+      const art = self.art_
+
+      const model = findAdapter.value.initModel({
+        art,
+        themeId: art.basic.themeId,
+        schema: {
+          lib,
+          key,
+          exhibitId: uuid()
+        }
+      })
+      const exhibit = model.getSchema()
+      const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
+      const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
+      const deviceXY = {
+        x: frameviewport.x,
+        y: frameviewport.y
+      }
+      const nomal = {
+        x: position.x - deviceXY.x,
+        y: position.y - deviceXY.y
+      }
+      const targetPosition = art.isSnap ? getNearlyOrigin(gridOrigin, position) : nomal
+      const layout = {
+        x: Math.round(targetPosition.x / self.scaler_),
+        y: Math.round(targetPosition.y / self.scaler_),
+        width: Math.round(400),
+        height: Math.round(240)
+      }
+      const boxId = uuid()
+      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout}
+      self.initBox({boxId, ...params})
+      self.viewport_.toggleSelectRange({
+        target: "box",
+        selectRange: [
+          {
+            frameId,
+            boxIds: [boxId]
+          }
+        ]
+      })
+      const realBox = self.boxes.find((o) => o.boxId === boxId)
+      try {
+        const box = yield io.art.createBox({
+          exhibit,
+          layout,
+          layer: {},
+          name: params.name,
+          ":artId": params.artId,
+          ":frameId": params.frameId,
+          ":projectId": projectId
+        })
+        realBox.set({
+          boxId: box.boxId
+        })
+      } catch (error) {
+        realBox.set({
+          isCreateFail: true
+        })
+        log.error("createBox Error: ", error)
+      }
+    })
+
     const recreateFrame = flow(function* recreateFrame() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -107,8 +201,15 @@ export const MArtFrame = types
         log.error("recreateFrame Error:", error)
       }
     })
+
+    const removeBoxes = (boxIds) => {
+      self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
+    }
+
     return {
       initBox,
+      createBox,
+      removeBoxes,
       recreateFrame
     }
   })
