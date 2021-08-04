@@ -1,17 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  rectLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, rectLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "groupColumn",
   name: k("groupColumn"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型

@@ -3,35 +3,6 @@ import {createChildren, createOther} from "./create-config"
 // 子图层的配置结构
 const children = [
   {
-    tabId: "graph",
-    name: "圆点",
-    option: "circle",
-    graph: {
-      strokeWidth: {
-        defaultValue: 0,
-        min: 0,
-        step: 0.1
-      },
-      strokeType: {
-        defaultValue: "solid",
-        disabledKey: []
-      },
-      strokeSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
-      },
-      strokeOpacity: {
-        defaultValue: 1,
-        hasSlider: true,
-        min: 0,
-        max: 1,
-        step: 0.01
-      }
-    }
-  },
-  {
     tabId: "text",
     name: "文本",
     option: "text",
@@ -113,7 +84,7 @@ const other = {
   fields: [
     {
       section: "optionPanel.basic",
-      option: "circleSize",
+      option: "shapeSize",
       field: {
         type: "number",
         label: "legend.size",
@@ -155,7 +126,7 @@ const other = {
       field: {
         type: "multiNumber",
         label: "legend.gap",
-        defaultValue: [0, 5],
+        defaultValue: [5, 10],
         items: [
           {
             key: "legend.padding"

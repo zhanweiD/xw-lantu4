@@ -39,16 +39,34 @@ const children = [
       },
       strokeType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["gradient", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
       },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
-      },
       strokeOpacity: {
         defaultValue: 1,
+        hasSlider: true,
+        min: 0,
+        max: 1,
+        step: 0.01
+      }
+    }
+  },
+  {
+    tabId: "graph",
+    name: "背景",
+    option: "bgRect",
+    graph: {
+      fillType: {
+        defaultValue: "solid",
+        disabledKey: ["gradient", "theme"]
+      },
+      fillSolidColor: {
+        defaultValue: "rgb(255,255,255)"
+      },
+      fillOpacity: {
+        defaultValue: 0,
         hasSlider: true,
         min: 0,
         max: 1,

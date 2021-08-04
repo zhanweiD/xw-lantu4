@@ -19,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "欧洲各国人口流动情况"
+      })
     },
     {
       key: "chord",
@@ -30,13 +32,63 @@ export const config = (k) => ({
       dataConfig: [
         [
           {
-            name: "矩阵层-数值",
-            type: ["number"],
-            range: [1, Infinity],
+            name: "节点ID",
+            type: ["string", "number"],
+            range: [1, 1],
             value: [
               {
-                key: "数值",
-                name: "数值",
+                key: "id",
+                name: "id",
+                type: "string"
+              }
+            ]
+          },
+          {
+            name: "节点名称",
+            type: ["string"],
+            range: [1, 1],
+            value: [
+              {
+                key: "name",
+                name: "name",
+                type: "string"
+              }
+            ]
+          }
+        ],
+        [
+          {
+            name: "边开始",
+            type: ["string", "number"],
+            range: [1, 1],
+            value: [
+              {
+                key: "from",
+                name: "from",
+                type: "string"
+              }
+            ]
+          },
+          {
+            name: "边结束",
+            type: ["string", "number"],
+            range: [1, 1],
+            value: [
+              {
+                key: "to",
+                name: "to",
+                type: "string"
+              }
+            ]
+          },
+          {
+            name: "边数值",
+            type: ["number"],
+            range: [1, 1],
+            value: [
+              {
+                key: "value",
+                name: "value",
                 type: "number"
               }
             ]
@@ -48,26 +100,7 @@ export const config = (k) => ({
   // 数据
   data: {
     type: "json",
-    json: data,
-    dimension: [
-      {
-        name: "矩阵层-维度",
-        type: ["string"],
-        range: [2, 2],
-        value: [
-          {
-            key: "年份",
-            name: "年份",
-            type: "string"
-          },
-          {
-            key: "地区",
-            name: "地区",
-            type: "string"
-          }
-        ]
-      }
-    ]
+    json: data
   },
   // 交互
   interaction: {}

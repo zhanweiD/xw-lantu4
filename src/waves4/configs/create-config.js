@@ -7,11 +7,7 @@ const createChildren = (template, defaultValues) => {
     const {option, tabId} = subLayer
     const target = subLayer[tabId]
     Object.keys(target).forEach((key) => {
-      if (
-        defaultValues &&
-        defaultValues[option] &&
-        defaultValues[option][key]
-      ) {
+      if (defaultValues && defaultValues[option] && defaultValues[option][key]) {
         target[key].defaultValue = defaultValues[option][key]
       }
     })

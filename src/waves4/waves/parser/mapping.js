@@ -55,10 +55,7 @@ const getColor = (fillColor) => {
     const result = []
     fillColor.reduce(([prevColor, prevOffset], [curColor, curOffset]) => {
       const number = Number((curOffset - prevOffset) / 0.01).toFixed(2)
-      const colors = chroma
-        .scale([prevColor, curColor])
-        .mode("lch")
-        .colors(number)
+      const colors = chroma.scale([prevColor, curColor]).mode("lch").colors(number)
       result.push(...colors)
       return [curColor, curOffset]
     })
@@ -81,18 +78,9 @@ const graphMapping = (graph) => {
     strokeOpacity // 描边透明度
   } = graph
   return filterInvalid({
-    fill:
-      fillType === "solid"
-        ? fillSolidColor
-        : fillType === "gradient"
-        ? getColor(fillGradientColor)
-        : null,
+    fill: fillType === "solid" ? fillSolidColor : fillType === "gradient" ? getColor(fillGradientColor) : null,
     stroke:
-      strokeType === "solid"
-        ? strokeSolidColor
-        : strokeType === "gradient"
-        ? getColor(strokeGradientColor)
-        : null,
+      strokeType === "solid" ? strokeSolidColor : strokeType === "gradient" ? getColor(strokeGradientColor) : null,
     fillOpacity,
     strokeWidth,
     strokeOpacity
@@ -120,9 +108,7 @@ const textMapping = (text) => {
     writingMode // 文字书写方向
   } = text
   const [x, y, blur] = shadowConfig
-  const color = shadowColor
-    .replace("rgb", "rgba")
-    .replace(")", `,${shadowOpacity})`)
+  const color = shadowColor.replace("rgb", "rgba").replace(")", `,${shadowOpacity})`)
   const textShadow = useShadow ? `${x}px ${y}px ${blur}px ${color}` : null
   return filterInvalid({
     fontFamily,
@@ -163,7 +149,8 @@ const otherMapping = (layer, other) => {
   }
   // 坐标轴层
   if (layer === "axis") {
-    const {type} = other
+    const {type, extendZero, tickLineNumber, paddingInner} = other
+    merge(scale, {zero: extendZero, count: tickLineNumber, paddingInner})
     merge(options, {type})
   }
   // 雷达层
@@ -173,9 +160,9 @@ const otherMapping = (layer, other) => {
   }
   // 折线层
   if (layer === "line") {
-    const {curve, mode} = other
+    const {curve, mode, fallback} = other
     merge(style, {curve: {curve}, area: {curve}})
-    merge(options, {mode})
+    merge(options, {mode, fallback})
   }
   // 圆弧层
   if (layer === "arc") {
@@ -187,7 +174,10 @@ const otherMapping = (layer, other) => {
     const {type, value, dasharray} = other
     merge(style, {line: {dasharray: `${dasharray[0]} ${dasharray[1]}`}})
     merge(options, {type})
-    data = [value]
+    data = [
+      ["标签", "数值"],
+      ["辅助线", value]
+    ]
   }
   // 矩阵热力层
   if (layer === "matrix") {
@@ -196,7 +186,8 @@ const otherMapping = (layer, other) => {
   }
   // 桑基图层
   if (layer === "sankey") {
-    const {type} = other
+    const {type, nodeWidth} = other
+    merge(scale, {fixedBandWidth: nodeWidth})
     merge(options, {type})
   }
   // 矩形层
@@ -246,14 +237,10 @@ const animationMapping = (animation) => {
   const extraLoopAnimation = {}
   Object.keys(extraConfig)
     .filter((key) => extraConfig[key] && key.includes("enterAnimation"))
-    .forEach(
-      (key) => (extraEnterAnimation[key.split(".")[2]] = extraConfig[key])
-    )
+    .forEach((key) => (extraEnterAnimation[key.split(".")[2]] = extraConfig[key]))
   Object.keys(extraConfig)
     .filter((key) => extraConfig[key] && key.includes("loopAnimation"))
-    .forEach(
-      (key) => (extraLoopAnimation[key.split(".")[2]] = extraConfig[key])
-    )
+    .forEach((key) => (extraLoopAnimation[key.split(".")[2]] = extraConfig[key]))
   return {
     enterAnimation: useEnterAnimation && {
       type: enterAnimationType,
@@ -274,10 +261,4 @@ const animationMapping = (animation) => {
   }
 }
 
-export {
-  layoutMapping,
-  graphMapping,
-  textMapping,
-  otherMapping,
-  animationMapping
-}
+export {layoutMapping, graphMapping, textMapping, otherMapping, animationMapping}

@@ -52,16 +52,6 @@ const children = [
       }
     },
     graph: {
-      fillType: {
-        defaultValue: "theme",
-        disabledKey: []
-      },
-      fillSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      fillGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
-      },
       fillOpacity: {
         defaultValue: 0,
         hasSlider: true,
@@ -78,13 +68,10 @@ const children = [
     graph: {
       fillType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["gradient", "theme"]
       },
       fillSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      fillGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       fillOpacity: {
         defaultValue: 1,
@@ -97,23 +84,6 @@ const children = [
         defaultValue: 2,
         min: 0,
         step: 0.1
-      },
-      strokeType: {
-        defaultValue: "theme",
-        disabledKey: []
-      },
-      strokeSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
-      },
-      strokeOpacity: {
-        defaultValue: 1,
-        hasSlider: true,
-        min: 0,
-        max: 1,
-        step: 0.01
       }
     }
   },
@@ -264,6 +234,29 @@ const other = {
           {
             key: "wave.curveStepBefore",
             value: "curveStepBefore"
+          }
+        ]
+      }
+    },
+    {
+      section: "optionPanel.basic",
+      option: "fallback",
+      field: {
+        type: "select",
+        label: "wave.fallback",
+        defaultValue: "break",
+        options: [
+          {
+            key: "wave.fallbackZero",
+            value: "zero"
+          },
+          {
+            key: "wave.fallbackBreak",
+            value: "break"
+          },
+          {
+            key: "wave.fallbackContinue",
+            value: "continue"
           }
         ]
       }

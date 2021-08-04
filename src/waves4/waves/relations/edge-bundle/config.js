@@ -19,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "部分大学录取情况"
+      })
     },
     {
       key: "edgeBundle",
@@ -31,7 +33,7 @@ export const config = (k) => ({
         [
           {
             name: "节点名称",
-            type: ["string"],
+            type: ["string", "number"],
             range: [1, 1],
             value: [
               {
@@ -55,13 +57,13 @@ export const config = (k) => ({
           },
           {
             name: "节点值",
-            type: ["string"],
+            type: ["number"],
             range: [1, 1],
             value: [
               {
                 key: "value",
                 name: "节点值",
-                type: "string"
+                type: "number"
               }
             ]
           }
@@ -69,7 +71,7 @@ export const config = (k) => ({
         [
           {
             name: "边开始",
-            type: ["string"],
+            type: ["string", "number"],
             range: [1, 1],
             value: [
               {
@@ -81,7 +83,7 @@ export const config = (k) => ({
           },
           {
             name: "边结束",
-            type: ["string"],
+            type: ["string", "number"],
             range: [1, 1],
             value: [
               {
