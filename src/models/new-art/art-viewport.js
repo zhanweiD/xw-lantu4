@@ -442,7 +442,7 @@ export const MArtViewport = types
     }
 
     const zoomSingleToView = () => {
-      self.initXY()
+      initXY()
       const frame = self.selectRange ? self.frames.find((f) => f.frameId === self.selectRange[0].frameId) : self.mainFrame_
       const {x, y, height, width} = frame.viewLayout
       self.zoom.update({
@@ -462,7 +462,7 @@ export const MArtViewport = types
     }
 
     const zoomAllToView = () => {
-      self.initXY()
+      initXY()
       self.zoom.update({
         x: 0,
         y: 0,

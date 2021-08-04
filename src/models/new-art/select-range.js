@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 17:01:56
- * @LastEditTime: 2021-08-03 20:03:55
+ * @LastEditTime: 2021-08-04 16:41:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
@@ -10,6 +10,9 @@ import commonAction from "@utils/common-action"
 import {getEnv, getParent, types, flow} from "mobx-state-tree"
 import createLog from "@utils/create-log"
 import {shortcut} from "@utils/create-event"
+import sortBy from "lodash/sortBy"
+import minBy from "lodash/minBy"
+import maxBy from "lodash/maxBy"
 
 const log = createLog("@models/art/select-range.js")
 const MRange = types.model({
@@ -62,8 +65,80 @@ export const MSelectRange = types
       southeast: ["x2", "y2"]
     }
 
-    let snapXY
     let xy
+
+    const onMove = (e) => {
+      if (shortcut.space) {
+        return
+      }
+      const mouseMove = (mouseMoveEvent) => {
+        const offsetX = (mouseMoveEvent.clientX - e.clientX) / self.viewport_.scaler
+        const offsetY = (mouseMoveEvent.clientY - e.clientY) / self.viewport_.scaler
+        self.set({
+          x1: Math.round(offsetX + origin.x1),
+          x2: Math.round(offsetX + origin.x2),
+          y1: Math.round(offsetY + origin.y1),
+          y2: Math.round(offsetY + origin.y2)
+        })
+      }
+      const mouseUp = () => {
+        const {x1, y1, x2, y2, boxes_, target, viewport_} = self
+        const updated = x1 !== origin.x1 || y1 !== origin.y1 || x2 !== origin.x2 || y2 !== origin.y2
+        try {
+          if (target === "frame" && updated) {
+            const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
+            const {layout, viewLayout} = frame
+            viewLayout.set({
+              x: Math.round(x1),
+              y: Math.round(y1),
+              width: Math.round(x2 - x1),
+              height: Math.round(y2 - y1)
+            })
+            const params = {
+              layout: {
+                x: Math.round(layout.x + x1 - origin.x1),
+                y: Math.round(layout.y + y1 - origin.y1),
+                height: Math.round(y2 - y1),
+                width: Math.round(x2 - x1)
+              }
+            }
+            frame.updateFrame(params)
+          } else if (target === "box" && updated) {
+            const rangeWidth = Math.round(x2 - x1)
+            const rangeHeight = Math.round(y2 - y1)
+            const initWidth = Math.round(origin.x2 - origin.x1)
+            const initHeight = Math.round(origin.y2 - origin.y1)
+            const params = []
+            boxes_.forEach((box) => {
+              const {layout} = box
+              const {x, y, width, height} = layout
+              const item = {
+                x,
+                y,
+                width: Math.round((width / initWidth) * rangeWidth),
+                height: Math.round((height / initHeight) * rangeHeight)
+              }
+              const offsetX = x1 - origin.x1
+              const offsetY = y1 - origin.y1
+              item.x = Math.round(x + offsetX)
+              item.y = Math.round(y + offsetY)
+              item.width = width
+              item.height = height
+              params.push(getBoxTransformation(box, item))
+            })
+            self.updateBoxes(params)
+          }
+        } catch (error) {
+          document.body.removeEventListener("mousemove", mouseMove)
+          document.body.removeEventListener("mouseup", mouseUp)
+        }
+        origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
+        document.body.removeEventListener("mousemove", mouseMove)
+        document.body.removeEventListener("mouseup", mouseUp)
+      }
+      document.body.addEventListener("mousemove", mouseMove)
+      document.body.addEventListener("mouseup", mouseUp)
+    }
 
     const onScale = (e, direct) => {
       if (shortcut.space) {
@@ -72,10 +147,10 @@ export const MSelectRange = types
 
       const setOffset = (x, y) => {
         xy = {
-          x1: x + origin.x1,
-          x2: x + origin.x2,
-          y1: y + origin.y1,
-          y2: y + origin.y2
+          x1: Math.round(x + origin.x1),
+          x2: Math.round(x + origin.x2),
+          y1: Math.round(y + origin.y1),
+          y2: Math.round(y + origin.y2)
         }
         let canSetoffset
         let westX = origin.x2 > xy.x1 + 1
@@ -117,30 +192,35 @@ export const MSelectRange = types
           })
         }
       }
+
       const mouseMove = (mouseMoveEvent) => {
         const offsetX = (mouseMoveEvent.clientX - e.clientX) / self.viewport_.scaler
         const offsetY = (mouseMoveEvent.clientY - e.clientY) / self.viewport_.scaler
         setOffset(offsetX, offsetY)
       }
+
       const mouseUp = () => {
         const {x1, y1, x2, y2, boxes_, target, viewport_} = self
         const updated = x1 !== origin.x1 || y1 !== origin.y1 || x2 !== origin.x2 || y2 !== origin.y2
         try {
           if (target === "frame" && updated) {
-            // const {layout, logicLayout} = viewport_.selected
-            // layout.set({
-            //   x: Math.round(x1),
-            //   y: Math.round(y1),
-            //   width: Math.round(x2 - x1),
-            //   height: Math.round(y2 - y1)
-            // })
-            // const params = {
-            //   x: Math.round(logicLayout.x + x1 - origin.x1),
-            //   y: Math.round(logicLayout.y + y1 - origin.y1),
-            //   height: Math.round(y2 - y1),
-            //   width: Math.round(x2 - x1)
-            // }
-            // viewport_.selected.updateFrame(params)
+            const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
+            const {layout, viewLayout} = frame
+            viewLayout.set({
+              x: Math.round(x1),
+              y: Math.round(y1),
+              width: Math.round(x2 - x1),
+              height: Math.round(y2 - y1)
+            })
+            const params = {
+              layout: {
+                x: Math.round(layout.x + x1 - origin.x1),
+                y: Math.round(layout.y + y1 - origin.y1),
+                height: Math.round(y2 - y1),
+                width: Math.round(x2 - x1)
+              }
+            }
+            frame.updateFrame(params)
           } else if (target === "box" && updated) {
             const rangeWidth = Math.round(x2 - x1)
             const rangeHeight = Math.round(y2 - y1)
@@ -162,15 +242,7 @@ export const MSelectRange = types
               const eastX = Math.round(((box.frame_.x1_ + x - origin.x1) / initWidth) * rangeWidth) + origin.x1 - box.frame_.x1_
               const westX = Math.round(((box.frame_.x1_ + x - origin.x2) / initWidth) * rangeWidth) + origin.x2 - box.frame_.x1_
 
-              const offsetX = viewport_.isSnap ? snapXY.x1 - origin.x1 : xy.x1 - origin.x1
-              const offsetY = viewport_.isSnap ? snapXY.y1 - origin.y1 : xy.y1 - origin.y1
               switch (direct) {
-                case "center":
-                  item.x = Math.round(x + offsetX)
-                  item.y = Math.round(y + offsetY)
-                  item.width = width
-                  item.height = height
-                  break
                 case "northeast":
                   item.x = eastX
                   item.y = northY
@@ -204,18 +276,198 @@ export const MSelectRange = types
               }
               params.push(getBoxTransformation(box, item))
             })
-            // self.updateBoxes(params)
+            self.updateBoxes(params)
           }
           document.body.removeEventListener("mousemove", mouseMove)
           document.body.removeEventListener("mouseup", mouseUp)
-          origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
         } catch (error) {
           document.body.removeEventListener("mousemove", mouseMove)
           document.body.removeEventListener("mouseup", mouseUp)
         }
+        origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
       }
       document.body.addEventListener("mousemove", mouseMove)
       document.body.addEventListener("mouseup", mouseUp)
+    }
+
+    const updateAverage = (direction) => {
+      const {x1, y1, x2, y2} = self
+      const gridCount = self.boxes_.length - 1
+      const params = []
+      const {gridUnit} = self.art_.basic
+      if (direction === "horizontal") {
+        const averageTotalWidth = x2 - x1 - gridCount * gridUnit
+        const averageWidth = averageTotalWidth / self.boxes_.length
+        const boxes = sortBy(self.boxes_, (o) => o.x1_)
+        const startPointX = boxes[0].x1_
+        boxes.forEach((box, index) => {
+          const {y1_, y2_} = box
+          const item = {
+            x: Math.round(startPointX + index * (averageWidth + gridUnit)),
+            y: Math.round(y1_),
+            width: Math.round(averageWidth),
+            height: Math.round(y2_ - y1_)
+          }
+          params.push(getBoxTransformation(box, item))
+        })
+      } else {
+        const averageTotalHeight = y2 - y1 - gridCount * gridUnit
+        const averageHeight = averageTotalHeight / self.boxes_.length
+        const boxes = sortBy(self.boxes_, (o) => o.y1_)
+        const startPointY = boxes[0].y1_
+        boxes.forEach((box, index) => {
+          const {x1_, x2_} = box
+          const item = {
+            x: Math.round(x1_),
+            y: Math.round(startPointY + index * (averageHeight + gridUnit)),
+            width: Math.round(x2_ - x1_),
+            height: Math.round(averageHeight)
+          }
+          params.push(getBoxTransformation(box, item))
+        })
+      }
+      self.updateBoxes(params)
+    }
+
+    const updateSpace = (direction) => {
+      const {x1, y1, x2, y2} = self
+      const gridCount = self.boxes_.length - 1
+      const params = []
+      if (direction === "horizontal") {
+        const boxes = sortBy(self.boxes_, (o) => o.x1_)
+        const startPointX = boxes[0].x1_
+        const totalRangeWidth = x2 - x1
+        const totalBoxesWidth = boxes.reduce((total, current) => total + current.layout.width, 0)
+        const gridWidth = (totalRangeWidth - totalBoxesWidth) / gridCount
+        boxes.forEach((box, index) => {
+          const {y, height, width} = box.layout
+          const offset = boxes.slice(0, index).reduce((total, current) => total + current.layout.width, 0) + gridWidth * index
+          const item = {
+            x: Math.round(startPointX + offset),
+            y: Math.round(y),
+            width: Math.round(width),
+            height: Math.round(height)
+          }
+          params.push(getBoxTransformation(box, item))
+        })
+      } else {
+        const boxes = sortBy(self.boxes_, (o) => o.y1_)
+        const startPointY = boxes[0].y1_
+        const totalRangeHeight = y2 - y1
+        const totalBoxesHeight = boxes.reduce((total, current) => total + current.layout.height, 0)
+        const gridHeight = (totalRangeHeight - totalBoxesHeight) / gridCount
+        boxes.forEach((box, index) => {
+          const {x, height, width} = box.layout
+          const offset = boxes.slice(0, index).reduce((total, current) => total + current.layout.height, 0) + gridHeight * index
+          const item = {
+            x: Math.round(x),
+            y: Math.round(startPointY + offset),
+            width: Math.round(width),
+            height: Math.round(height)
+          }
+          params.push(getBoxTransformation(box, item))
+        })
+      }
+      self.updateBoxes(params)
+    }
+
+    const updateAlign = (direction) => {
+      const minX = minBy(self.boxes_, (o) => o.x1_).x1_
+      const maxX = maxBy(self.boxes_, (o) => o.x2_).x2_
+      const minY = minBy(self.boxes_, (o) => o.y1_).y1_
+      const maxY = maxBy(self.boxes_, (o) => o.y2_).y2_
+      const maxWidth = maxBy(self.boxes_, (o) => o.layout.width).layout.width
+      const maxHeight = maxBy(self.boxes_, (o) => o.layout.height).layout.height
+      const centerX = (self.x2 - self.x1) / 2 + self.x1
+      const centerY = (self.y2 - self.y1) / 2 + self.y1
+      const params = []
+      switch (direction) {
+        case "left":
+          self.boxes_.forEach((box) => {
+            const {y, width, height} = box.layout
+            const item = {
+              x: Math.round(minX),
+              y: Math.round(y),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.x2 = minX + maxWidth
+          break
+        case "right":
+          self.boxes_.forEach((box) => {
+            const {y, width, height} = box.layout
+            const item = {
+              x: Math.round(maxX - width),
+              y: Math.round(y),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.x1 = maxX - maxWidth
+          break
+        case "center":
+          self.boxes_.forEach((box) => {
+            const {y, width, height} = box.layout
+            const item = {
+              x: Math.round((maxX - minX) / 2 + minX - width / 2),
+              y: Math.round(y),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.x1 = centerX - maxWidth / 2
+          self.x2 = centerX + maxWidth / 2
+          break
+        case "top":
+          self.boxes_.forEach((box) => {
+            const {x, width, height} = box.layout
+            const item = {
+              x: Math.round(x),
+              y: Math.round(minY),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.y2 = self.y1 + maxHeight
+          break
+        case "bottom":
+          self.boxes_.forEach((box) => {
+            const {x, width, height} = box.layout
+            const item = {
+              x: Math.round(x),
+              y: Math.round(maxY - height),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.y1 = self.y2 - maxHeight
+          break
+        case "middle":
+          self.boxes_.forEach((box) => {
+            const {x, width, height} = box.layout
+            const item = {
+              x: Math.round(x),
+              y: Math.round((maxY - minY) / 2 + minY - height / 2),
+              width: Math.round(width),
+              height: Math.round(height)
+            }
+            params.push(getBoxTransformation(box, item))
+          })
+          self.y1 = centerY - maxHeight / 2
+          self.y2 = centerY + maxHeight / 2
+          break
+        default:
+          null
+      }
+      self.updateBoxes(params)
+      // 每次改变之后 原点都需要变更
+      origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
     }
 
     const remove = () => {
@@ -238,8 +490,7 @@ export const MSelectRange = types
         })
         self.viewport_.removeFrame()
       } catch (error) {
-        // TODO 统一替换
-        console.log(error)
+        log.error("removeFrame Error: ", error)
       }
     })
 
@@ -261,12 +512,25 @@ export const MSelectRange = types
       }
     })
 
+    const updateBoxes = flow(function* updateBoxes(params) {
+      const {io} = self.env_
+      const {projectId, artId} = self.art_
+      try {
+        yield io.art.updateBoxes({
+          ":projectId": projectId,
+          ":artId": artId,
+          moveInfo: params
+        })
+      } catch (error) {
+        log.error("updateBoxes Error: ", error)
+      }
+    })
+
     const getBoxTransformation = (box, item) => {
-      // box.layout.set({
-      //   ...item
-      // })
-      // box.updateBox()
-      // box.resize()
+      box.layout.set({
+        ...item
+      })
+      box.resize()
       return {
         frameId: box.frameId,
         boxId: box.boxId,
@@ -276,7 +540,12 @@ export const MSelectRange = types
 
     return {
       afterCreate,
+      onMove,
       onScale,
+      updateAverage,
+      updateSpace,
+      updateAlign,
+      updateBoxes,
       remove
     }
   })

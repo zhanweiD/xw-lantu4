@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-03 19:53:24
+ * @LastEditTime: 2021-08-04 14:44:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
@@ -125,7 +125,7 @@ export const MArtFrame = types
         schema: {
           lib,
           key,
-          exhibitId: uuid()
+          id: uuid()
         }
       })
       const exhibit = model.getSchema()
@@ -143,8 +143,8 @@ export const MArtFrame = types
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round(400),
-        height: Math.round(240)
+        width: Math.round(exhibit.initSize[0]),
+        height: Math.round(exhibit.initSize[1])
       }
       const boxId = uuid()
       const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout}
@@ -202,6 +202,22 @@ export const MArtFrame = types
       }
     })
 
+    const updateFrame = flow(function* updateFrame(params) {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {frameId} = self
+      try {
+        yield io.art.updateFrame({
+          ...params,
+          ":artId": artId,
+          ":projectId": projectId,
+          ":frameId": frameId
+        })
+        self.set(params)
+      } catch (error) {
+        log.error("updateFrame Error:", error)
+      }
+    })
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
     }
@@ -210,6 +226,8 @@ export const MArtFrame = types
       initBox,
       createBox,
       removeBoxes,
+
+      updateFrame,
       recreateFrame
     }
   })

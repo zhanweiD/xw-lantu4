@@ -2,7 +2,7 @@ import React from "react"
 import {observer} from "mobx-react-lite"
 
 const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
-  const {x1, y1, x2, y2} = range
+  const {x1, y1, x2, y2, target} = range
   const width = x2 - x1
   const height = y2 - y1
   const commonStyle = {
@@ -88,13 +88,13 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         style={{
           width: `${width * scaler}px`,
           height: `${height * scaler}px`,
-          outline: "1px solid #07f"
-          // pointerEvents: "none"
+          outline: "1px solid #07f",
+          pointerEvents: target === "frame" ? "none" : "auto"
         }}
         onMouseDown={(e) => {
           e.stopPropagation()
           e.preventDefault()
-          console.log(e)
+          range.onMove(e)
         }}
       />
       {Object.entries(direction).map(([key, value]) => (

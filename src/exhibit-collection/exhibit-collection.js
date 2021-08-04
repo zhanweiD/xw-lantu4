@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-28 13:40:30
- * @LastEditTime: 2021-08-03 18:18:03
+ * @LastEditTime: 2021-08-04 14:52:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/exhibit-collection/exhibit-collection.js
@@ -88,6 +88,7 @@ const addModal = (exhibits) =>
 if (isEdit) {
   console.time("addWaves")
   addModal(waves, "wave")
+  console.log(exhibitCollection)
   console.timeEnd("addWaves")
 }
 

@@ -9,8 +9,6 @@ const ArtViewport = ({art}) => {
   const {editor} = w
   const {artId, viewport} = art
   const {totalWidth, totalHeight, frames, isInit, selectRange, scaler, baseOffsetX, baseOffsetY} = viewport
-  console.log(isInit)
-  console.log(frames)
   const viewRef = useRef(null)
   useEffect(() => {
     // 初始化可视区域元素尺寸数据，用于Tab内容缩放
@@ -48,7 +46,7 @@ const ArtViewport = ({art}) => {
               frame={frame}
               key={frame.frameId}
               isSelected={viewport.selectRange && viewport.selectRange.target === "frame" && viewport.selectRange.range[0].frameId === frame.frameId}
-              onMouseDown={() => {
+              onMouseDown={(e) => {
                 viewport.toggleSelectRange({
                   target: "frame",
                   selectRange: [
@@ -57,7 +55,7 @@ const ArtViewport = ({art}) => {
                     }
                   ]
                 })
-                // viewport.selectRange.onMove(e, "center")
+                viewport.selectRange.onMove(e)
               }}
             />
           ))}

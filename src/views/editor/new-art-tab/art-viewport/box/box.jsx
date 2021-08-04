@@ -5,7 +5,7 @@ import c from "classnames"
 import s from "./box.module.styl"
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_} = box
+  const {layout, isSelected, art_, viewport_, frame_} = box
   const {isBoxBackgroundVisible} = art_
   return (
     <div
@@ -20,21 +20,20 @@ const Box = ({box}) => {
         width: `${layout.width}px`,
         height: `${layout.height}px`
       }}
-      // onMouseDown={(e) => {
-      //   e.stopPropagation()
-      //   viewport.selectNone()
-      //   viewport.toggleSelectRange({
-      //     target: "box",
-      //     selectRange: [
-      //       {
-      //         frameId: frame.frameId,
-      //         boxIds: [box.boxId]
-      //       }
-      //     ]
-      //   })
-      // }}
+      onMouseDown={(e) => {
+        e.stopPropagation()
+        viewport_.toggleSelectRange({
+          target: "box",
+          selectRange: [
+            {
+              frameId: frame_.frameId,
+              boxIds: [box.boxId]
+            }
+          ]
+        })
+      }}
     >
-      123
+      这里就是我们需要的组件啊！
       {/* <Exhibit box={box} frame={frame} /> */}
     </div>
   )
