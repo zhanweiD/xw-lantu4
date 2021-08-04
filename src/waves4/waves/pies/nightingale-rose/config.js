@@ -1,10 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  arcLayer,
-  axisLayer,
-  legendLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, arcLayer, axisLayer, legendLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -25,14 +19,19 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "国家旅客周转量对比"
+      })
     },
     {
       key: "legend",
       type: "legend",
       name: "图例层",
       children: legendLayer.children(),
-      other: legendLayer.other()
+      other: legendLayer.other({
+        alignment: "middle-right",
+        direction: "vertical"
+      })
     },
     {
       key: "arc",
@@ -41,7 +40,8 @@ export const config = (k) => ({
       children: arcLayer.children(),
       other: arcLayer.other({
         type: "nightingaleRose",
-        innerRadius: 0
+        innerRadius: 0,
+        labelPosition: "outer"
       }),
       dataConfig: [
         [
@@ -51,8 +51,8 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "数量",
-                name: "数量",
+                key: "铁路旅客周转量",
+                name: "铁路旅客周转量",
                 type: "number"
               }
             ]
@@ -79,8 +79,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "月份",
+            name: "月份",
             type: "string"
           }
         ]

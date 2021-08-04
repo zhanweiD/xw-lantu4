@@ -1,10 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  legendLayer,
-  axisLayer,
-  radarLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -25,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2020年中国前五智能手机厂商市场份额占比"
+      })
     },
     {
       key: "legend",
@@ -50,8 +46,8 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "数量",
-                name: "数量",
+                key: "市场份额",
+                name: "市场份额",
                 type: "number"
               }
             ]
@@ -80,8 +76,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "供应商",
+            name: "供应商",
             type: "string"
           }
         ]

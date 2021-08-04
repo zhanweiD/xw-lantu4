@@ -400,9 +400,15 @@ export default {
     curveStep: "Step",
     curveStepAfter: "Step After",
     curveStepBefore: "Step Before",
+    fallback: "Fallback",
+    fallbackZero: "Zero",
+    fallbackBreak: "Break",
+    fallbackContinue: "Continue",
     shape: "Shape",
     rect: "Rectangle",
-    circle: "Circle"
+    circle: "Circle",
+    extendZero: "Extend Zero",
+    tickLineNumber: "Tick Line Number"
   },
   theme: {
     fairyLand: "Fairy Land",
@@ -527,18 +533,15 @@ export default {
     newPasswordPlaceholder: "Please input the new password",
     confirmPassword: "Confirm Password",
     repeatPasswordPlaceholder: "Please input the new password again",
-    stringLength:
-      "The string is 2-64 characters long and contains no special characters",
+    stringLength: "The string is 2-64 characters long and contains no special characters",
     cancel: "Cancel",
     logout: "Logout",
     wrongMobile: "Wrong Mobile",
     wrongEmail: "Wrong Email",
     createOrganization: "Create Organization",
     organizationInfo: "Organization Info",
-    wrongNameLength:
-      "The name is composed of 2 ~ 32 digits, Chinese and English, Numbers and underscores",
-    wrongUsernameLength:
-      "The nickname is composed of 2 ~ 32 digits, Chinese and English, Numbers and underscores",
+    wrongNameLength: "The name is composed of 2 ~ 32 digits, Chinese and English, Numbers and underscores",
+    wrongUsernameLength: "The nickname is composed of 2 ~ 32 digits, Chinese and English, Numbers and underscores",
     wrongDescriptionLength: "Describe it in 200 words or less",
     languageSet: "Language"
   },
@@ -583,8 +586,7 @@ export default {
     // eslint-disable-next-line max-len
     removeTips:
       "After deleting the organization, you will lose all the data in the organization, including the project and the large screen in the project, member information and data information. After deleting, it is unrecoverable. Please consider whether you need to back up the data before deleting.",
-    removeOrganizationConfirm:
-      "Please confirm the name of the organization you want to remove",
+    removeOrganizationConfirm: "Please confirm the name of the organization you want to remove",
     mobilePlaceholder: "Please input Phone Number",
     verifyCode: "Verify Code",
     verifyPlaceholder: "Please input verify code",
@@ -609,8 +611,7 @@ export default {
     exitOrganization: "Exit Organization",
     exitConfirm: "Are you sure exit the organization?",
     removeMember: "Remove Member",
-    removeConfirm:
-      "The user will be completely deleted and cannot be recovered. Please use caution",
+    removeConfirm: "The user will be completely deleted and cannot be recovered. Please use caution",
     removerecordConfirm: "Are you sure remove this record?",
     nickname: "Nickname",
     mobile: "Mobile",

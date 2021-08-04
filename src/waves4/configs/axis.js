@@ -221,6 +221,37 @@ const other = {
       }
     },
     {
+      section: "optionPanel.basic",
+      option: "extendZero",
+      field: {
+        type: "switch",
+        label: "wave.extendZero",
+        defaultValue: false
+      }
+    },
+    {
+      section: "optionPanel.basic",
+      option: "tickLineNumber",
+      field: {
+        type: "number",
+        label: "wave.tickLineNumber",
+        defaultValue: 5,
+        min: 0
+      }
+    },
+    {
+      section: "optionPanel.basic",
+      option: "paddingInner",
+      field: {
+        type: "number",
+        label: "wave.paddingInner",
+        defaultValue: 0.382,
+        min: 0,
+        max: 1,
+        step: 0.01
+      }
+    },
+    {
       section: "style.label",
       option: "labelOffset",
       field: {

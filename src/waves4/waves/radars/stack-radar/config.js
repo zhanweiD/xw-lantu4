@@ -1,10 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  legendLayer,
-  axisLayer,
-  radarLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -25,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "部分省份院校数量对比"
+      })
     },
     {
       key: "legend",

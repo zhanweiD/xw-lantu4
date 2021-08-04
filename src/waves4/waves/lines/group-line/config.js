@@ -1,17 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  lineLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, lineLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "groupLine",
   name: k("groupLine"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -25,14 +19,18 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2017年国内不同产业GDP增加值季度累计同比增长趋势"
+      })
     },
     {
       key: "legend",
       type: "legend",
       name: "图例层",
       children: legendLayer.children(),
-      other: legendLayer.other()
+      other: legendLayer.other({
+        alignment: "center-bottom"
+      })
     },
     {
       key: "line",
@@ -51,13 +49,18 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "本科院校",
-                name: "本科院校",
+                key: "第一产业（%）",
+                name: "第一产业（%）",
                 type: "number"
               },
               {
-                key: "高职院校",
-                name: "高职院校",
+                key: "第二产业（%）",
+                name: "第二产业（%）",
+                type: "number"
+              },
+              {
+                key: "第三产业（%）",
+                name: "第三产业（%）",
                 type: "number"
               }
             ]
@@ -84,8 +87,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "统计时间",
+            name: "统计时间",
             type: "string"
           }
         ]

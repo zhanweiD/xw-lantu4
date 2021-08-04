@@ -1,11 +1,11 @@
-import {getLayersConfig, textLayer, rectLayer, axisLayer} from "@waves4/configs"
+import {getLayersConfig, textLayer, legendLayer, rectLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "intervalBar",
   name: k("intervalBar"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -22,6 +22,13 @@ export const config = (k) => ({
       other: textLayer.other({
         content: "某地区一周内温度变化"
       })
+    },
+    {
+      key: "legend",
+      type: "legend",
+      name: "图例层",
+      children: legendLayer.children(),
+      other: legendLayer.other({})
     },
     {
       key: "rect",

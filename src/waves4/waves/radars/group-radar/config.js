@@ -1,10 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  legendLayer,
-  axisLayer,
-  radarLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -25,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "某公司财政预算和实际支出对比"
+      })
     },
     {
       key: "legend",
@@ -50,13 +46,13 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "本科院校",
-                name: "本科院校",
+                key: "预算",
+                name: "预算",
                 type: "number"
               },
               {
-                key: "高职院校",
-                name: "高职院校",
+                key: "实际支出",
+                name: "实际支出",
                 type: "number"
               }
             ]
@@ -85,8 +81,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "分类",
+            name: "分类",
             type: "string"
           }
         ]

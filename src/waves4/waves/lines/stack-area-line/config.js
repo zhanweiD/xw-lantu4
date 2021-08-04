@@ -1,17 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  lineLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, lineLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "stackAreaLine",
   name: k("stackAreaLine"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -25,14 +19,18 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "某公司上半年各项管理费用支出情况"
+      })
     },
     {
       key: "legend",
       type: "legend",
       name: "图例层",
       children: legendLayer.children(),
-      other: legendLayer.other()
+      other: legendLayer.other({
+        alignment: "center-bottom"
+      })
     },
     {
       key: "line",
@@ -55,13 +53,18 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "本科院校",
-                name: "本科院校",
+                key: "管理费用（亿元）",
+                name: "管理费用（亿元）",
                 type: "number"
               },
               {
-                key: "高职院校",
-                name: "高职院校",
+                key: "销售费用（亿元）",
+                name: "销售费用（亿元）",
+                type: "number"
+              },
+              {
+                key: "财务费用（亿元）",
+                name: "财务费用（亿元）",
                 type: "number"
               }
             ]
@@ -74,7 +77,9 @@ export const config = (k) => ({
       type: "axis",
       name: "坐标轴层",
       children: axisLayer.children(null, "cartesian-bandX-linearY"),
-      other: axisLayer.other()
+      other: axisLayer.other({
+        extendZero: true
+      })
     }
   ],
   // 数据
@@ -88,8 +93,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "季度",
+            name: "季度",
             type: "string"
           }
         ]

@@ -1,10 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  arcLayer,
-  axisLayer,
-  legendLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, arcLayer, axisLayer, legendLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -13,7 +7,7 @@ export const config = (k) => ({
   // 图表容器初始化的大小
   layout: () => [400, 300],
   // 图表主绘图区域的内边距
-  padding: [60, 0, 30, 0],
+  padding: [60, 30, 30, 0],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
   coordinate: "polar-bandAngle-linearRadius",
   // 追加图层
@@ -25,14 +19,19 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2017百度科普主题搜索占比"
+      })
     },
     {
       key: "legend",
       type: "legend",
       name: "图例层",
       children: legendLayer.children(),
-      other: legendLayer.other()
+      other: legendLayer.other({
+        alignment: "middle-right",
+        direction: "vertical"
+      })
     },
     {
       key: "arc",
@@ -40,7 +39,8 @@ export const config = (k) => ({
       name: "圆弧层",
       children: arcLayer.children(),
       other: arcLayer.other({
-        type: "pie"
+        type: "pie",
+        labelPosition: "outer"
       }),
       dataConfig: [
         [
@@ -50,8 +50,8 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "数量",
-                name: "数量",
+                key: "占比",
+                name: "占比",
                 type: "number"
               }
             ]
@@ -78,8 +78,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "类别",
+            name: "类别",
             type: "string"
           }
         ]
