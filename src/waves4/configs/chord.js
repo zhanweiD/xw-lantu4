@@ -9,16 +9,29 @@ const children = [
     graph: {
       fillType: {
         defaultValue: "theme",
-        disabledKey: []
-      },
-      fillSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      fillGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
+        disabledKey: ["gradient", "solid"]
       },
       fillOpacity: {
         defaultValue: 0.6,
+        hasSlider: true,
+        min: 0,
+        max: 1,
+        step: 0.01
+      },
+      strokeWidth: {
+        defaultValue: 0,
+        min: 0,
+        step: 0.1
+      },
+      strokeType: {
+        defaultValue: "solid",
+        disabledKey: ["gradient", "theme"]
+      },
+      strokeSolidColor: {
+        defaultValue: "rgb(255,255,255)"
+      },
+      strokeOpacity: {
+        defaultValue: 1,
         hasSlider: true,
         min: 0,
         max: 1,
@@ -60,13 +73,10 @@ const children = [
       },
       strokeType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["gradient", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       strokeOpacity: {
         defaultValue: 1,
@@ -167,7 +177,7 @@ const other = {
       option: "arcWidth",
       field: {
         type: "number",
-        label: "wave.arcWidth",
+        label: "width",
         defaultValue: 10
       }
     },

@@ -1,17 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  lineLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, lineLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "stepLine",
   name: k("stepLine"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -25,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2018年猪肉CPI走势"
+      })
     },
     {
       key: "legend",
@@ -52,8 +48,8 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "数量",
-                name: "数量",
+                key: "猪肉CPI",
+                name: "猪肉CPI",
                 type: "number"
               }
             ]
@@ -80,8 +76,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "日期",
+            name: "日期",
             type: "string"
           }
         ]

@@ -1,4 +1,4 @@
-import createWave from "./create"
+import {createWave} from "@waveview/wave"
 import translate from "./translate"
 import {graphMapping, textMapping, otherMapping} from "./mapping"
 

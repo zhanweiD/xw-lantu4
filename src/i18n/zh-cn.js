@@ -405,11 +405,16 @@ export default {
     curveStep: "分段居中",
     curveStepAfter: "分段后置",
     curveStepBefore: "分段前置",
+    fallback: "异常处理",
+    fallbackZero: "置零",
+    fallbackBreak: "断线",
+    fallbackContinue: "连续",
     shape: "形状",
     rect: "矩形",
-    circle: "圆形"
+    circle: "圆形",
+    extendZero: "拓展零",
+    tickLineNumber: "刻度线数量"
   },
-
   theme: {
     fairyLand: "梦幻岛",
     emeraldGreen: "冷翡翠",

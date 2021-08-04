@@ -11,23 +11,6 @@ const children = [
         defaultValue: 1,
         min: 0,
         step: 0.1
-      },
-      strokeType: {
-        defaultValue: "theme",
-        disabledKey: []
-      },
-      strokeSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
-      },
-      strokeOpacity: {
-        defaultValue: 0.6,
-        hasSlider: true,
-        min: 0,
-        max: 1,
-        step: 0.01
       }
     }
   },
@@ -37,7 +20,7 @@ const children = [
     option: "circle",
     graph: {
       fillType: {
-        defaultValue: "solid",
+        defaultValue: "theme",
         disabledKey: []
       },
       fillSolidColor: {
@@ -54,19 +37,16 @@ const children = [
         step: 0.01
       },
       strokeWidth: {
-        defaultValue: 2,
+        defaultValue: 0,
         min: 0,
         step: 0.1
       },
       strokeType: {
-        defaultValue: "theme",
-        disabledKey: []
+        defaultValue: "solid",
+        disabledKey: ["gradient", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       strokeOpacity: {
         defaultValue: 1,

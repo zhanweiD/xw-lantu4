@@ -7,7 +7,7 @@ export const config = (k) => ({
   // 图表容器初始化的大小
   layout: () => [600, 400],
   // 图表主绘图区域的内边距
-  padding: [60, 0, 0, 0],
+  padding: [60, 0, 10, 0],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
   coordinate: "polar",
   // 追加图层
@@ -19,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "生态环境部2019年部门预算"
+      })
     },
     {
       key: "sankey",
@@ -30,13 +32,25 @@ export const config = (k) => ({
       dataConfig: [
         [
           {
+            name: "节点ID",
+            type: ["string"],
+            range: [1, 1],
+            value: [
+              {
+                key: "id",
+                name: "id",
+                type: "string"
+              }
+            ]
+          },
+          {
             name: "节点名称",
             type: ["string"],
             range: [1, 1],
             value: [
               {
                 key: "name",
-                name: "节点名称",
+                name: "name",
                 type: "string"
               }
             ]
@@ -50,7 +64,7 @@ export const config = (k) => ({
             value: [
               {
                 key: "from",
-                name: "边开始",
+                name: "from",
                 type: "string"
               }
             ]
@@ -62,7 +76,7 @@ export const config = (k) => ({
             value: [
               {
                 key: "to",
-                name: "边结束",
+                name: "to",
                 type: "string"
               }
             ]
@@ -74,7 +88,7 @@ export const config = (k) => ({
             value: [
               {
                 key: "value",
-                name: "边数值",
+                name: "value",
                 type: "number"
               }
             ]

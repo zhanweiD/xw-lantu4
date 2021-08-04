@@ -39,13 +39,10 @@ const children = [
       },
       strokeType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["solid", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       strokeOpacity: {
         defaultValue: 1,

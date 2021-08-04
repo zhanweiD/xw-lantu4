@@ -1,17 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  rectLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, rectLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "stackBar",
   name: k("stackBar"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -26,7 +20,7 @@ export const config = (k) => ({
       name: "标题层",
       children: textLayer.children(),
       other: textLayer.other({
-        content: "某零钱 APP 收支占比趋势分析"
+        content: "近五年国家旅客对比"
       })
     },
     {
@@ -54,18 +48,18 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "31-100",
-                name: "31-100",
+                key: "铁路旅客",
+                name: "铁路旅客",
                 type: "number"
               },
               {
-                key: "11-30",
-                name: "11-30",
+                key: "公路旅客",
+                name: "公路旅客",
                 type: "number"
               },
               {
-                key: "1-10",
-                name: "1-10",
+                key: "民用航空旅客",
+                name: "民用航空旅客",
                 type: "number"
               }
             ]
@@ -78,7 +72,9 @@ export const config = (k) => ({
       type: "axis",
       name: "坐标轴层",
       children: axisLayer.children(null, "cartesian-linearX-bandY"),
-      other: axisLayer.other()
+      other: axisLayer.other({
+        extendZero: true
+      })
     }
   ],
   // 数据
@@ -92,8 +88,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "日期",
-            name: "日期",
+            key: "年份",
+            name: "年份",
             type: "string"
           }
         ]

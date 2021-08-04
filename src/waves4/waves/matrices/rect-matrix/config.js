@@ -1,9 +1,4 @@
-import {
-  getLayersConfig,
-  textLayer,
-  matrixLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, matrixLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
@@ -24,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2009-2020年杭州市各月份平均温度"
+      })
     },
     {
       key: "matrix",
@@ -43,8 +40,8 @@ export const config = (k) => ({
             range: [1, 1],
             value: [
               {
-                key: "数值",
-                name: "数值",
+                key: "平均温度",
+                name: "平均温度",
                 type: "number"
               }
             ]
@@ -57,7 +54,9 @@ export const config = (k) => ({
       type: "axis",
       name: "坐标轴层",
       children: axisLayer.children(null, "cartesian-bandX-linearY"),
-      other: axisLayer.other()
+      other: axisLayer.other({
+        paddingInner: 0.01
+      })
     }
   ],
   // 数据
@@ -76,8 +75,8 @@ export const config = (k) => ({
             type: "string"
           },
           {
-            key: "地区",
-            name: "地区",
+            key: "月份",
+            name: "月份",
             type: "string"
           }
         ]

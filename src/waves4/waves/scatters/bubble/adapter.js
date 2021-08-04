@@ -1,4 +1,4 @@
-import {createWave, translate, updateWave} from "@waves4-src"
+import {createWave, translate, updateWave} from "@waves4/waves/parser"
 import createExhibitAdapter from "@exhibit-adapter-creater"
 
 const Adapter = () =>

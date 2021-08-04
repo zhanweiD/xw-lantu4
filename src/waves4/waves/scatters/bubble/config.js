@@ -1,16 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  scatterLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, scatterLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "bubble",
   name: k("bubble"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -24,7 +19,9 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "各国财政收入支出情况"
+      })
     },
     {
       key: "scatter",
@@ -38,23 +35,49 @@ export const config = (k) => ({
       dataConfig: [
         [
           {
-            name: "散点层-数值",
-            type: ["string", "number"],
-            range: [1, Infinity],
+            name: "散点层-类别",
+            type: ["string"],
+            range: [1, 1],
             value: [
               {
-                key: "x",
-                name: "x",
-                type: "number"
-              },
+                key: "区域",
+                name: "区域",
+                type: "string"
+              }
+            ]
+          },
+          {
+            name: "散点层-x",
+            type: ["number"],
+            range: [1, 1],
+            value: [
               {
-                key: "y",
-                name: "y",
+                key: "总收入(亿元)",
+                name: "总收入(亿元)",
                 type: "number"
-              },
+              }
+            ]
+          },
+          {
+            name: "散点层-y",
+            type: ["number"],
+            range: [1, 1],
+            value: [
               {
-                key: "数值",
-                name: "数值",
+                key: "总支出(亿元)",
+                name: "总支出(亿元)",
+                type: "number"
+              }
+            ]
+          },
+          {
+            name: "散点层-数值",
+            type: ["number"],
+            range: [1, 1],
+            value: [
+              {
+                key: "店铺数",
+                name: "店铺数",
                 type: "number"
               }
             ]
@@ -73,21 +96,7 @@ export const config = (k) => ({
   // 数据
   data: {
     type: "json",
-    json: data,
-    dimension: [
-      {
-        name: "散点层-维度",
-        type: ["string"],
-        range: [1, 1],
-        value: [
-          {
-            key: "类别",
-            name: "类别",
-            type: "string"
-          }
-        ]
-      }
-    ]
+    json: data
   },
   // 交互
   interaction: {}

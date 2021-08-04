@@ -1,18 +1,11 @@
-import {
-  getLayersConfig,
-  textLayer,
-  rectLayer,
-  lineLayer,
-  legendLayer,
-  axisLayer
-} from "@waves4/configs"
+import {getLayersConfig, textLayer, rectLayer, lineLayer, legendLayer, axisLayer} from "@waves4/configs"
 import data from "./data"
 
 export const config = (k) => ({
   key: "groupLineColumn",
   name: k("groupLineColumn"),
   // 图表容器初始化的大小
-  layout: () => [400, 250],
+  layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
@@ -26,14 +19,18 @@ export const config = (k) => ({
       type: "text",
       name: "标题层",
       children: textLayer.children(),
-      other: textLayer.other()
+      other: textLayer.other({
+        content: "2018-2019季度GDP概况"
+      })
     },
     {
       key: "legend",
       type: "legend",
       name: "图例层",
       children: legendLayer.children(),
-      other: legendLayer.other()
+      other: legendLayer.other({
+        alignment: "center-bottom"
+      })
     },
     {
       key: "line",
@@ -50,13 +47,8 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "本科毕业生数",
-                name: "本科毕业生数",
-                type: "number"
-              },
-              {
-                key: "专科毕业生数",
-                name: "专科毕业生数",
+                key: "GDP增长",
+                name: "GDP增长",
                 type: "number"
               }
             ]
@@ -83,13 +75,18 @@ export const config = (k) => ({
             range: [1, Infinity],
             value: [
               {
-                key: "本科招生数",
-                name: "本科招生数",
+                key: "第一产业累计值",
+                name: "第一产业累计值",
                 type: "number"
               },
               {
-                key: "专科招生数",
-                name: "专科招生数",
+                key: "第二产业累计值",
+                name: "第二产业累计值",
+                type: "number"
+              },
+              {
+                key: "第三产业累计值",
+                name: "第三产业累计值",
                 type: "number"
               }
             ]
@@ -102,7 +99,9 @@ export const config = (k) => ({
       type: "axis",
       name: "坐标轴层",
       children: axisLayer.children(null, "cartesian-bandX-linearY"),
-      other: axisLayer.other()
+      other: axisLayer.other({
+        extendZero: true
+      })
     }
   ],
   // 数据
@@ -116,8 +115,8 @@ export const config = (k) => ({
         range: [1, 1],
         value: [
           {
-            key: "省份",
-            name: "省份",
+            key: "日期",
+            name: "日期",
             type: "string"
           }
         ]

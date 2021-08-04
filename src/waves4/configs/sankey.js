@@ -9,13 +9,7 @@ const children = [
     graph: {
       fillType: {
         defaultValue: "theme",
-        disabledKey: []
-      },
-      fillSolidColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      fillGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
+        disabledKey: ["gradient", "solid"]
       },
       fillOpacity: {
         defaultValue: 0.6,
@@ -31,13 +25,10 @@ const children = [
       },
       strokeType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["gradient", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       strokeOpacity: {
         defaultValue: 1,
@@ -77,13 +68,10 @@ const children = [
       },
       strokeType: {
         defaultValue: "solid",
-        disabledKey: []
+        disabledKey: ["gradient", "theme"]
       },
       strokeSolidColor: {
         defaultValue: "rgb(255,255,255)"
-      },
-      strokeGradientColor: {
-        defaultValue: ["rgb(74,144,226)", "rgb(80,227,194)"]
       },
       strokeOpacity: {
         defaultValue: 1,
@@ -196,6 +184,17 @@ const other = {
             value: "vertical"
           }
         ]
+      }
+    },
+    {
+      section: "style.node",
+      option: "nodeWidth",
+      field: {
+        type: "number",
+        label: "width",
+        defaultValue: 5,
+        min: 0,
+        step: 0.1
       }
     },
     {
