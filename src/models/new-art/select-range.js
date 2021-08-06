@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 17:01:56
- * @LastEditTime: 2021-08-04 16:41:58
+ * @LastEditTime: 2021-08-06 15:23:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
@@ -66,20 +66,82 @@ export const MSelectRange = types
     }
 
     let xy
-
+    let snapXY
     const onMove = (e) => {
+      const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
+      const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
+      const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
+      const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
+      const {gridUnit} = self.art_.basic
+      const {isSnap} = self.art_
       if (shortcut.space) {
         return
       }
       const mouseMove = (mouseMoveEvent) => {
         const offsetX = (mouseMoveEvent.clientX - e.clientX) / self.viewport_.scaler
         const offsetY = (mouseMoveEvent.clientY - e.clientY) / self.viewport_.scaler
-        self.set({
+        xy = {
           x1: Math.round(offsetX + origin.x1),
           x2: Math.round(offsetX + origin.x2),
           y1: Math.round(offsetY + origin.y1),
           y2: Math.round(offsetY + origin.y2)
-        })
+        }
+        snapXY = {
+          x1: Math.round(offsetX + origin.x1),
+          x2: Math.round(offsetX + origin.x2),
+          y1: Math.round(offsetY + origin.y1),
+          y2: Math.round(offsetY + origin.y2)
+        }
+        if (self.target === "box" && isSnap) {
+          if (offsetX > 0) {
+            const temp =
+              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) - gridUnit / 4 < xy.x2
+                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) + gridUnit / 4 < xy.x2
+                ? xy.x2
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+            snapXY.x2 = temp
+            snapXY.x1 = temp - (origin.x2 - origin.x1)
+          }
+          if (offsetY > 0) {
+            const temp =
+              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) - gridUnit / 4 < xy.y2
+                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) + gridUnit / 4 < xy.y2
+                ? xy.y2
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+            snapXY.y2 = temp
+            snapXY.y1 = temp - (origin.y2 - origin.y1)
+          }
+
+          if (offsetX < 0) {
+            const temp =
+              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) - gridUnit / 4 < xy.x1
+                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) + gridUnit / 4 < xy.x1
+                ? xy.x1
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
+            snapXY.x1 = temp
+            snapXY.x2 = temp + (origin.x2 - origin.x1)
+          }
+          if (offsetY < 0) {
+            const temp =
+              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) - gridUnit / 4 < xy.y1
+                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) + gridUnit / 4 < xy.y1
+                ? xy.y1
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
+            snapXY.y1 = temp
+            snapXY.y2 = temp + (origin.y2 - origin.y1)
+          }
+          self.set({
+            ...snapXY
+          })
+        } else {
+          self.set({
+            ...xy
+          })
+        }
       }
       const mouseUp = () => {
         const {x1, y1, x2, y2, boxes_, target, viewport_} = self
@@ -141,11 +203,17 @@ export const MSelectRange = types
     }
 
     const onScale = (e, direct) => {
+      const {gridUnit} = self.art_.basic
+      const {isSnap} = self.art_
       if (shortcut.space) {
         return
       }
 
       const setOffset = (x, y) => {
+        const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
+        const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
+        const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
+        const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
         xy = {
           x1: Math.round(x + origin.x1),
           x2: Math.round(x + origin.x2),
@@ -157,7 +225,36 @@ export const MSelectRange = types
         let eastX = xy.x2 > origin.x1 + 1
         let northY = origin.y2 > xy.y1 + 1
         let southY = xy.y2 > origin.y1 + 1
-
+        // 如果xy.x2 小于 Math.ceil(xy.x2 / gridUnit) * gridUnit - 15 那么 它的值 要么是xy.x2 否则就是 Math.ceil(xy.x2 / gridUnit) * gridUnit
+        // 如果xy.x2 大于  Math.floor(xy.x2 / gridUnit) * gridUnit + 15 那么它的值 就是xy.x2 否则就是Math.floor(xy.x2 / gridUnit) * gridUnit
+        if (self.target === "box") {
+          snapXY = {
+            x1:
+              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) - gridUnit / 4 < xy.x1
+                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) + gridUnit / 4 < xy.x1
+                ? xy.x1
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_),
+            x2:
+              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) - gridUnit / 4 < xy.x2
+                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) + gridUnit / 4 < xy.x2
+                ? xy.x2
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_),
+            y1:
+              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) - gridUnit / 4 < xy.y1
+                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) + gridUnit / 4 < xy.y1
+                ? xy.y1
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_),
+            y2:
+              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) - gridUnit / 4 < xy.y2
+                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) + gridUnit / 4 < xy.y2
+                ? xy.y2
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+          }
+        }
         switch (direct) {
           case "northwest":
             canSetoffset = westX && northY
@@ -187,6 +284,16 @@ export const MSelectRange = types
             canSetoffset = true
         }
         if (canSetoffset) {
+          staff[direct].forEach((item) => {
+            self.set(item, xy[item])
+          })
+        }
+        if (canSetoffset && self.target === "box") {
+          staff[direct].forEach((item) => {
+            self.set(item, isSnap ? snapXY[item] : xy[item])
+          })
+        }
+        if (canSetoffset && self.target === "frame") {
           staff[direct].forEach((item) => {
             self.set(item, xy[item])
           })
@@ -372,6 +479,7 @@ export const MSelectRange = types
     }
 
     const updateAlign = (direction) => {
+      const minFrameX1 = minBy(self.boxes_, (o) => o.x1_).frame_.x1_
       const minX = minBy(self.boxes_, (o) => o.x1_).x1_
       const maxX = maxBy(self.boxes_, (o) => o.x2_).x2_
       const minY = minBy(self.boxes_, (o) => o.y1_).y1_
@@ -393,7 +501,7 @@ export const MSelectRange = types
             }
             params.push(getBoxTransformation(box, item))
           })
-          self.x2 = minX + maxWidth
+          self.x2 = minX + minFrameX1 + maxWidth
           break
         case "right":
           self.boxes_.forEach((box) => {
@@ -406,7 +514,7 @@ export const MSelectRange = types
             }
             params.push(getBoxTransformation(box, item))
           })
-          self.x1 = maxX - maxWidth
+          self.x1 = maxX - maxWidth + minFrameX1
           break
         case "center":
           self.boxes_.forEach((box) => {

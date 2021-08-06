@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-04 14:44:28
+ * @LastEditTime: 2021-08-05 11:37:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
@@ -171,6 +171,14 @@ export const MArtFrame = types
         })
         realBox.set({
           boxId: box.boxId
+        })
+        self.viewport_.selectRange.set({
+          range: [
+            {
+              frameId,
+              boxIds: [box.boxId]
+            }
+          ]
         })
       } catch (error) {
         realBox.set({
