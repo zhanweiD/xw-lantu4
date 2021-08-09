@@ -1,8 +1,8 @@
 /*
- * @Author: your name
+ * @Author: 柿子
  * @Date: 2021-07-28 13:40:30
  * @LastEditTime: 2021-08-03 18:20:27
- * @LastEditors: your name
+ * @LastEditors: 柿子
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/exhibit-collection/create-exhibit-model-class.js
  */

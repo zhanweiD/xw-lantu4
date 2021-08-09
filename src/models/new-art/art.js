@@ -1,7 +1,7 @@
 /*
  * @Author: 柿子
  * @Date: 2021-07-29 15:02:53
- * @LastEditTime: 2021-08-03 15:32:10
+ * @LastEditTime: 2021-08-09 17:13:10
  * @LastEditors: Please set LastEditors
  * @Description: 数据屏的数据模型根目录
  * @FilePath: /waveview-front4/src/models/new-art/art.js
@@ -14,6 +14,7 @@ import createLog from "@utils/create-log"
 import {MDataManager} from "./art-data-manager"
 import {MArtBasic} from "./art-basic"
 import {MArtViewport} from "./art-viewport"
+import {MPublishInfo} from "./art-publish-info"
 import config from "@utils/config"
 
 const log = createLog("@models/art.js")
@@ -27,11 +28,14 @@ export const MArt = types
     basic: types.optional(MArtBasic, {}),
     // 数据屏可视化区域
     viewport: types.maybe(MArtViewport),
+    // 数据屏的发布版本信息
+    artPublishInfo: types.maybe(MPublishInfo),
     // 数据屏使用的数据id及其映射组件的关系
     dataManager: types.optional(MDataManager, {}),
     // 数据屏使用的数据，每次打开或更新均需要重新获取，不必保存
     datas: types.frozen(),
     // 前端工具属性 不必保存
+    isArtPublishInfoVisible: types.optional(types.boolean, false),
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),
@@ -119,6 +123,11 @@ export const MArt = types
         self.viewport.setSchema({
           frames
         })
+        self.artPublishInfo = {
+          publishId: art.publishId,
+          projectId: art.projectId,
+          artId: art.artId
+        }
         self.fetchState = "success"
       } catch (error) {
         log.error("getArt.Error:", error)
