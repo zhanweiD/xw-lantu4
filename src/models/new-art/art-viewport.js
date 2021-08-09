@@ -443,7 +443,8 @@ export const MArtViewport = types
 
     const zoomSingleToView = () => {
       initXY()
-      const frame = self.selectRange ? self.frames.find((f) => f.frameId === self.selectRange[0].frameId) : self.mainFrame_
+      console.log(self.selectRange)
+      const frame = self.selectRange ? self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId) : self.mainFrame_
       const {x, y, height, width} = frame.viewLayout
       self.zoom.update({
         x,
@@ -471,7 +472,7 @@ export const MArtViewport = types
       })
 
       if (self.selectRange && self.selectRange.target === "frame") {
-        const {x, y, height, width} = self.frames.find((f) => f.frameId === self.selectRange[0].frameId)
+        const {x, y, height, width} = self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
         self.selectRange.set({
           x1: x,
           y1: y,

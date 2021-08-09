@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 17:01:56
- * @LastEditTime: 2021-08-06 15:23:50
+ * @LastEditTime: 2021-08-09 15:37:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
@@ -68,10 +68,6 @@ export const MSelectRange = types
     let xy
     let snapXY
     const onMove = (e) => {
-      const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
-      const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
-      const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
-      const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
       const {gridUnit} = self.art_.basic
       const {isSnap} = self.art_
       if (shortcut.space) {
@@ -93,6 +89,10 @@ export const MSelectRange = types
           y2: Math.round(offsetY + origin.y2)
         }
         if (self.target === "box" && isSnap) {
+          const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
+          const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
+          const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
+          const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
           if (offsetX > 0) {
             const temp =
               Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) - gridUnit / 4 < xy.x2

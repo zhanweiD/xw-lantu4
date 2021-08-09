@@ -19,9 +19,8 @@ const Head = ({showTabs = true}) => {
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
   const {type, art, data, materialThumbnail} = activeTab
-  const {viewport} = art || {}
-  const {selectRange, isGridVisible, isBoxBackgroundVisible, isSnap} =
-    viewport || {}
+  const {viewport, isGridVisible, isBoxBackgroundVisible, isSnap} = art || {}
+  const {selectRange} = viewport || {}
   let size = 0
   if (selectRange) {
     if (selectRange.range.length > 1) {
@@ -203,7 +202,9 @@ const Head = ({showTabs = true}) => {
             canUse={isGridVisible}
             canClick
             onClick={() => {
-              viewport.set("isGridVisible", !isGridVisible)
+              art.set({
+                isGridVisible: !isGridVisible
+              })
             }}
             layout="start"
           />
@@ -213,7 +214,9 @@ const Head = ({showTabs = true}) => {
             canUse={isBoxBackgroundVisible}
             canClick
             onClick={() => {
-              viewport.set("isBoxBackgroundVisible", !isBoxBackgroundVisible)
+              art.set({
+                isBoxBackgroundVisible: !isBoxBackgroundVisible
+              })
             }}
             layout="end"
           />
@@ -243,31 +246,7 @@ const Head = ({showTabs = true}) => {
       )}
       {showTabs && type === "data" && (
         <>
-          {/* <IconGroupButton
-            icon="undo"
-            title="撤销"
-            canUse={size > 1}
-            canClick={size > 1}
-            onClick={() => {
-              selectRange.updateAlign('left')
-            }}
-            layout="start" />
-          <IconGroupButton
-            icon="redo"
-            title="重做"
-            canUse={size > 1}
-            canClick={size > 1}
-            onClick={() => {
-              selectRange.updateAlign('bottom')
-            }}
-            layout="end" /> */}
-          <IconGroupButton
-            icon="reset"
-            title="刷新"
-            canUse
-            canClick
-            onClick={data.getData}
-          />
+          <IconGroupButton icon="reset" title="刷新" canUse canClick onClick={data.getData} />
           <Button
             width={70}
             lineHeight={22}
