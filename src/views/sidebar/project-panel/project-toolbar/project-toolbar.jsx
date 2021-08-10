@@ -7,7 +7,7 @@ import s from "./project-toolbar.module.styl"
 
 const Toolbar = ({toolbar, hideCreateButton = false}) => {
   const {t} = useTranslation()
-  const {keyword, set, searchProjects, createProject, root_} = toolbar
+  const {keyword, set, searchProjects, createProject} = toolbar
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
       <div className="fb1">
@@ -36,26 +36,9 @@ const Toolbar = ({toolbar, hideCreateButton = false}) => {
         ""
       )}
 
-      <IconButton
-        icon="search"
-        className="cfw6"
-        title={t("search")}
-        onClick={searchProjects}
-      />
-      <IconButton
-        icon={toolbar.isThumbnailVisible ? "list" : "thumbnail-list"}
-        title="显示切换"
-        className="cfw10"
-        onClick={toolbar.toggleThumbnailVisible}
-      />
-      {!hideCreateButton && root_.hasPermission("project.create") && (
-        <IconButton
-          icon="create-project"
-          className="cfw10"
-          title={t("projectPanel.createProject")}
-          onClick={createProject}
-        />
-      )}
+      <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchProjects} />
+      <IconButton icon={toolbar.isThumbnailVisible ? "list" : "thumbnail-list"} title="显示切换" className="cfw10" onClick={toolbar.toggleThumbnailVisible} />
+      {!hideCreateButton && <IconButton icon="create-project" className="cfw10" title={t("projectPanel.createProject")} onClick={createProject} />}
     </div>
   )
 }

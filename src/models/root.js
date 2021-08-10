@@ -4,7 +4,6 @@ import {createStorage} from "@utils/storage"
 import {MHead} from "./head"
 import {MSidebar} from "./sidebar"
 import {MEditor} from "./editor/editor"
-import {MUser} from "./user"
 import {MOptionPanel} from "./option-panel"
 import {MOverlayManager} from "./common/overlay"
 import {MColorPickerBox} from "./common/color-picker-box"
@@ -12,7 +11,6 @@ import {MDataProcessor} from "./common/data-processor"
 
 export const MRoot = types
   .model("MRoot", {
-    user: types.maybe(MUser),
     head: types.optional(MHead, {}),
     sidebar: types.optional(MSidebar, {}),
     editor: types.optional(MEditor, {}),
@@ -115,11 +113,11 @@ export const MRoot = types
       self.user = content
       self.env_.local = createStorage({
         type: "localStorage",
-        key: `${self.user.userId}.${self.user.organizationId}`
+        key: `${content.userId}.${content.organizationId}`
       })
       self.env_.session = createStorage({
         type: "sessionStorage",
-        key: `${self.user.userId}.${self.user.organizationId}`
+        key: `${content.userId}.${content.organizationId}`
       })
     })
 
@@ -133,15 +131,7 @@ export const MRoot = types
         activePanel: activePanelInSession
       }
     }
-    /**
-     * 判断用户是否有操作权限，注意还要结合数据的权限
-     * @param {String}} permissionCode
-     * @param {Array} permissions 项目的权限
-     * @returns {Boolean}
-     */
-    const hasPermission = (permissionCode = "", permissions = []) => {
-      return self.user.hasPermission(permissionCode, permissions)
-    }
+
     /**
      * 提示
      * @param {Object} options
@@ -171,7 +161,6 @@ export const MRoot = types
       afterCreate,
       getUserInfo,
       initRoot,
-      hasPermission,
       confirm,
       colorPicker
     }

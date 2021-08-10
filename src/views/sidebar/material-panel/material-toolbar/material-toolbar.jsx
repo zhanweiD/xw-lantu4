@@ -13,7 +13,7 @@ import s from "./material-toolbar.module.styl"
 const MaterialToolbar = ({hideCreateButton = false, materialPanel}) => {
   const {t} = useTranslation()
   const {toolbar, creater} = materialPanel
-  const {keyword, set, searchMaterials, root_, showtype} = toolbar
+  const {keyword, set, searchMaterials, showtype} = toolbar
 
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
@@ -29,14 +29,7 @@ const MaterialToolbar = ({hideCreateButton = false, materialPanel}) => {
           onKeyDown={(e) => e.key === "Enter" && searchMaterials()}
         />
       </div>
-      <input
-        type="file"
-        id="folderPicker"
-        name="fileList"
-        webkitdirectory="true"
-        className={s.filepicker}
-        onChange={(e) => creater.importFolder(e.target.files)}
-      />
+      <input type="file" id="folderPicker" name="fileList" webkitdirectory="true" className={s.filepicker} onChange={(e) => creater.importFolder(e.target.files)} />
 
       {keyword ? (
         <IconButton
@@ -51,19 +44,9 @@ const MaterialToolbar = ({hideCreateButton = false, materialPanel}) => {
         ""
       )}
 
-      <IconButton
-        icon="search"
-        className="cfw6"
-        title={t("search")}
-        onClick={searchMaterials}
-      />
-      <IconButton
-        icon={showtype}
-        className="cfw10"
-        title="显示切换"
-        onClick={toolbar.toggleshowtype}
-      />
-      {!hideCreateButton && root_.hasPermission("project.create") && (
+      <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchMaterials} />
+      <IconButton icon={showtype} className="cfw10" title="显示切换" onClick={toolbar.toggleshowtype} />
+      {!hideCreateButton && (
         <IconButton
           icon="create-material"
           className="cfw12"

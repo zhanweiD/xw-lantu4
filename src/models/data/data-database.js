@@ -9,46 +9,43 @@ const log = createLog("@models/data/data-database")
 const defaultSql = `-- sql语句
 SELECT * FROM`
 
-export const MDatabaseCodeOptions = createConfigModelClass(
-  "MDatabaseCodeOptions",
-  {
-    id: types.identifier,
-    sections: ["dataPanel.sql", "dataPanel.sqlResult"],
-    fields: [
-      {
-        section: "dataPanel.sql",
-        option: "sql",
-        field: {
-          type: "code",
-          mode: "mysql",
-          readOnly: false,
-          height: 300,
-          value: defaultSql,
-          buttons: [
-            {
-              name: "执行",
-              position: "left",
-              action: (self) => {
-                const parent = getParent(self, 1)
-                parent.getSqlResult()
-              }
+export const MDatabaseCodeOptions = createConfigModelClass("MDatabaseCodeOptions", {
+  id: types.identifier,
+  sections: ["dataPanel.sql", "dataPanel.sqlResult"],
+  fields: [
+    {
+      section: "dataPanel.sql",
+      option: "sql",
+      field: {
+        type: "code",
+        mode: "mysql",
+        readOnly: false,
+        height: 300,
+        value: defaultSql,
+        buttons: [
+          {
+            name: "执行",
+            position: "left",
+            action: (self) => {
+              const parent = getParent(self, 1)
+              parent.getSqlResult()
             }
-          ]
-        }
-      },
-      {
-        section: "dataPanel.sqlResult",
-        option: "result",
-        field: {
-          type: "code",
-          readOnlyCode: true,
-          defaultValue: "",
-          height: 300
-        }
+          }
+        ]
       }
-    ]
-  }
-)
+    },
+    {
+      section: "dataPanel.sqlResult",
+      option: "result",
+      field: {
+        type: "code",
+        readOnlyCode: true,
+        defaultValue: "",
+        height: 300
+      }
+    }
+  ]
+})
 
 export const MDatabaseOptions = createConfigModelClass("MDatabaseOptions", {
   id: types.identifier,
@@ -163,30 +160,14 @@ export const MDatabase = types
       return getParent(self, 1)
     },
     get databaseTypes() {
-      const data = [
-        "Postgres",
-        "MySQL",
-        "MariaDB",
-        "SQLite",
-        "SQLServer",
-        "Oracle",
-        "ClickHouse"
-      ]
+      const data = ["Postgres", "MySQL", "MariaDB", "SQLite", "SQLServer", "Oracle", "ClickHouse"]
       return data.map((val) => ({key: val, value: val}))
     }
   }))
   .actions(commonAction(["set", "getSchema", "setSchema"]))
   .actions((self) => {
     const getDatabaseTypes = () => {
-      const data = [
-        "Postgres",
-        "MySQL",
-        "MariaDB",
-        "SQLite",
-        "SQLServer",
-        "Oracle",
-        "ClickHouse"
-      ]
+      const data = ["Postgres", "MySQL", "MariaDB", "SQLite", "SQLServer", "Oracle", "ClickHouse"]
       return {databaseTypes: data.map((val) => ({key: val, value: val}))}
     }
 
@@ -214,8 +195,7 @@ export const MDatabase = types
     const testDatabaseConnectivity = flow(function* testDatabaseConnectivity() {
       const {io, tip} = self.env_
       try {
-        const {type, host, port, userName, password, database} =
-          self.data_.dataSource.modelManager.modelConfig
+        const {type, host, port, userName, password, database} = self.data_.dataSource.modelManager.modelConfig
         yield io.data.test({
           host,
           port,
@@ -269,17 +249,7 @@ export const MDatabase = types
         remark: dataSource.remark,
         userName: dataSource.config.username
       })
-      const {
-        dataSourceId,
-        dataSourceName,
-        dataType,
-        config,
-        remark,
-        userId,
-        organizationId,
-        mtime,
-        ctime
-      } = dataSource
+      const {dataSourceId, dataSourceName, dataType, config, remark, userId, organizationId, mtime, ctime} = dataSource
       self.data_.dataSource.set({
         dataSourceId,
         dataSourceName,

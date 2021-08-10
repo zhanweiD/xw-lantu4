@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react"
 import {observer} from "mobx-react-lite"
-import {draw} from "@exhibit-collection"
+// import {draw} from "@exhibit-collection"
 
 const Exhibit = ({box, frame}) => {
   const el = useRef(null)
@@ -9,13 +9,14 @@ const Exhibit = ({box, frame}) => {
   const {id} = exhibit
   useEffect(() => {
     if (exhibit) {
-      draw({
-        exhibit,
-        container: el.current,
-        height,
-        width,
-        frame
-      })
+      console.log(frame, height, width)
+      // draw({
+      //   exhibit,
+      //   container: el.current,
+      //   height,
+      //   width,
+      //   frame
+      // })
     }
   }, [id])
 

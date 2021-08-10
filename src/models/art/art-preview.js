@@ -1,13 +1,13 @@
 import {types, flow, getParent} from "mobx-state-tree"
 import onerStorage from "oner-storage"
 import io from "@utils/io"
-import createEvent from "@utils/create-event"
+// import createEvent from "@utils/create-event"
 import commonAction from "@utils/common-action"
 import tip from "@components/tip"
 import {MZoom} from "@utils/zoom"
-import {registerExhibit} from "@exhibit-collection"
+// import {registerExhibit} from "@exhibit-collection"
 
-const event = createEvent()
+// const event = createEvent()
 const MWatermark = types.model("MWatermark", {
   isEnable: types.optional(types.boolean, false),
   value: types.optional(types.string, ""),
@@ -47,19 +47,19 @@ const MFrame = types
         layout
       })
       self.boxes.push(box)
-      const model = registerExhibit(exhibit.key)
-      if (model) {
-        const art = self.art_
-        art.exhibitManager.set(
-          exhibit.id,
-          model.initModel({
-            art,
-            themeId: art.themeId,
-            schema: exhibit,
-            event
-          })
-        )
-      }
+      // const model = registerExhibit(exhibit.key)
+      // if (model) {
+      //   const art = self.art_
+      //   art.exhibitManager.set(
+      //     exhibit.id,
+      //     model.initModel({
+      //       art,
+      //       themeId: art.themeId,
+      //       schema: exhibit,
+      //       event
+      //     })
+      //   )
+      // }
     }
     return {
       initBox
@@ -70,21 +70,7 @@ const MArtPreview = types
   .model("MArtPreview", {
     artId: types.maybe(types.number),
     publishId: types.maybe(types.string),
-    themeId: types.optional(
-      types.enumeration([
-        "fairyLand",
-        "emeraldGreen",
-        "duskUniverse",
-        "glaze",
-        "exquisite",
-        "blueGreen",
-        "greenRed",
-        "blueRed",
-        "orangePurple",
-        "brownGreen"
-      ]),
-      "glaze"
-    ),
+    themeId: types.optional(types.enumeration(["fairyLand", "emeraldGreen", "duskUniverse", "glaze", "exquisite", "blueGreen", "greenRed", "blueRed", "orangePurple", "brownGreen"]), "glaze"),
     gridUnit: types.optional(types.number, 40),
     watermark: types.optional(MWatermark, {}),
     password: types.optional(MPassword, {}),
@@ -92,14 +78,7 @@ const MArtPreview = types
     totalWidth: types.optional(types.number, 1),
     totalHeight: types.optional(types.number, 1),
     zoom: types.optional(MZoom, {}),
-    fetchState: types.optional(
-      types.enumeration("MArtPreview.fetchState", [
-        "loading",
-        "success",
-        "error"
-      ]),
-      "loading"
-    )
+    fetchState: types.optional(types.enumeration("MArtPreview.fetchState", ["loading", "success", "error"]), "loading")
   })
   .views((self) => ({
     get mainFrame_() {

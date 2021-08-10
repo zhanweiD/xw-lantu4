@@ -7,40 +7,36 @@ import "./project-member.styl"
 
 const ProjectMember = ({project}) => {
   const {members_} = project
-  const {user} = w
   // 表内容下拉框，设置成员角色
   const renderDropMenu = (title, rowData) => {
-    // todo 真实的权限控制应该看当前用户是否具备项目管理权限
-    const hasPermission = !rowData.isSelf
     return (
       <div className="fbh">
         <div>{title}</div>
-        {hasPermission && (
-          <IconButton
-            icon="arrow-down"
-            buttonSize={22}
-            iconSize={10}
-            onClick={(e, button) => {
-              e.stopPropagation()
-              const menu = w.overlayManager.get("menu")
-              menu.toggle({
-                attachTo: button,
-                list: project.roleCodeMapping_
-                  .filter(({value}) => value !== rowData.roleCode)
-                  .map((roleCodeMapping) => ({
-                    name: roleCodeMapping.key,
-                    action: () => {
-                      project.authorizeRole({
-                        roleCode: roleCodeMapping.value,
-                        userIds: [rowData.userId]
-                      })
-                      menu.hide()
-                    }
-                  }))
-              })
-            }}
-          />
-        )}
+
+        <IconButton
+          icon="arrow-down"
+          buttonSize={22}
+          iconSize={10}
+          onClick={(e, button) => {
+            e.stopPropagation()
+            const menu = w.overlayManager.get("menu")
+            menu.toggle({
+              attachTo: button,
+              list: project.roleCodeMapping_
+                .filter(({value}) => value !== rowData.roleCode)
+                .map((roleCodeMapping) => ({
+                  name: roleCodeMapping.key,
+                  action: () => {
+                    project.authorizeRole({
+                      roleCode: roleCodeMapping.value,
+                      userIds: [rowData.userId]
+                    })
+                    menu.hide()
+                  }
+                }))
+            })
+          }}
+        />
       </div>
     )
   }
@@ -96,7 +92,7 @@ const ProjectMember = ({project}) => {
             /* eslint-disable */
             render: (action, rowData) => (
               <>
-                {rowData.isSelf && !user.hasPermission && (
+                {rowData.isSelf && (
                   <div className="hand" onClick={project.leaveConfirm}>
                     退出
                   </div>

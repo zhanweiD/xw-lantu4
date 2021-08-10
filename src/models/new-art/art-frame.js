@@ -1,7 +1,7 @@
 /*
  * @Author: 柿子
  * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-05 11:37:18
+ * @LastEditTime: 2021-08-10 11:14:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
@@ -87,7 +87,7 @@ export const MArtFrame = types
     }
 
     const initBox = ({artId, boxId, name, frameId, exhibit, layout}) => {
-      const {exhibitCollection, event} = self.env_
+      // const { exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
         boxId,
@@ -97,38 +97,38 @@ export const MArtFrame = types
         layout
       })
       self.boxes.push(box)
-      const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
-      if (model) {
-        const art = self.art_
-        art.exhibitManager.set(
-          exhibit.id,
-          model.initModel({
-            art,
-            themeId: art.basic.themeId,
-            schema: exhibit,
-            event
-          })
-        )
-      }
+      // const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
+      // if (model) {
+      //   const art = self.art_
+      //   art.exhibitManager.set(
+      //     exhibit.id,
+      //     model.initModel({
+      //       art,
+      //       themeId: art.basic.themeId,
+      //       schema: exhibit,
+      //       event
+      //     })
+      //   )
+      // }
     }
 
-    const createBox = flow(function* createBox({position, lib, key}) {
-      const {io, exhibitCollection} = self.env_
+    const createBox = flow(function* createBox({position /* lib, key */}) {
+      const {io /* exhibitCollection */} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
-      const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+      // const findAdapter = exhibitCollection.has(`${lib}.${key}`)
       const art = self.art_
 
-      const model = findAdapter.value.initModel({
-        art,
-        themeId: art.basic.themeId,
-        schema: {
-          lib,
-          key,
-          id: uuid()
-        }
-      })
-      const exhibit = model.getSchema()
+      // const model = findAdapter.value.initModel({
+      //   art,
+      //   themeId: art.basic.themeId,
+      //   schema: {
+      //     lib,
+      //     key,
+      //     id: uuid()
+      //   }
+      // })
+      // const exhibit = model.getSchema()
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {
@@ -143,11 +143,11 @@ export const MArtFrame = types
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round(exhibit.initSize[0]),
-        height: Math.round(exhibit.initSize[1])
+        width: Math.round(/* exhibit.initSize[0] */ 400),
+        height: Math.round(/* exhibit.initSize[1] */ 240)
       }
       const boxId = uuid()
-      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout}
+      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, /* exhibit, */ layout}
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
         target: "box",
@@ -161,7 +161,7 @@ export const MArtFrame = types
       const realBox = self.boxes.find((o) => o.boxId === boxId)
       try {
         const box = yield io.art.createBox({
-          exhibit,
+          // exhibit,
           layout,
           layer: {},
           name: params.name,

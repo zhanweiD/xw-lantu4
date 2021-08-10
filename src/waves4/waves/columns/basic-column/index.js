@@ -1,5 +1,4 @@
 import {config} from "./config"
-import Adapter from "./adapter"
 import i18n from "./i18n"
 
 const basicColumn = {
@@ -10,8 +9,7 @@ const basicColumn = {
   description: "",
   icon: "basic-column",
   i18n,
-  config,
-  Adapter
+  config
 }
 
 export default basicColumn

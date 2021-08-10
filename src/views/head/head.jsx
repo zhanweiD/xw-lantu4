@@ -8,13 +8,12 @@ import Button from "@components/button"
 import {Link} from "react-router-dom"
 import config from "@utils/config"
 import copy from "@utils/copy"
-import {HeadDropMenu} from "./head-drop-menu"
 import s from "./head.module.styl"
 import PanelButton from "./panel-button"
 
 const Head = ({showTabs = true}) => {
   const {t} = useTranslation()
-  const {head, user, editor, env_, optionPanel} = w
+  const {head, editor, env_, optionPanel} = w
   const {panelButtons, activePanelButton} = head
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
@@ -291,8 +290,6 @@ const Head = ({showTabs = true}) => {
           }}
         />
       )}
-
-      {showTabs && <HeadDropMenu user={user} />}
     </div>
   )
 }

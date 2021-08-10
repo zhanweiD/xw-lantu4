@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-07-27 16:49:52
+ * @LastEditTime: 2021-08-10 11:01:17
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /waveview-front4/vite.config.js
+ */
 import {defineConfig} from "vite"
 import reactRefresh from "@vitejs/plugin-react-refresh"
 import viteSvgIcons from "vite-plugin-svg-icons"
@@ -12,10 +20,7 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     viteSvgIcons({
-      iconDirs: [
-        path.resolve(process.cwd(), "src/icons"),
-        path.resolve(process.cwd(), "src/waves4/icons")
-      ],
+      iconDirs: [path.resolve(process.cwd(), "src/icons"), path.resolve(process.cwd(), "src/waves4/icons")],
       symbolId: "[name]"
     })
   ],
@@ -28,10 +33,7 @@ export default defineConfig({
       "@Icons": resolve("src/icons"),
       "@i18n": resolve("src/i18n"),
       "@utils": resolve("src/utils"),
-      "@waves4": resolve("src/waves4"),
-      "@waves4-src": resolve("src/waves4-src"),
-      "@exhibit-collection": resolve("./src/exhibit-collection"),
-      "@exhibit-adapter-creater": resolve("src/exhibit-adapter-creater")
+      "@waves4": resolve("src/waves4")
     }
   },
   server: {
