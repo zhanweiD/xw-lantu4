@@ -16,11 +16,13 @@ import OptionPanel from "@views/option-panel"
 import Editor from "@views/editor"
 import Loading from "@components/loading"
 import w from "@models"
+
 import s from "./main.module.styl"
 
 const Main = () => {
   const {user} = w
-  if (!user)
+
+  if (!user.userId)
     return (
       <div className="w100p h100v fbv fbjc fbac">
         <Loading data="loading" />

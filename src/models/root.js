@@ -1,6 +1,5 @@
-import {types, getEnv, flow} from "mobx-state-tree"
+import {types, getEnv} from "mobx-state-tree"
 import {globalEvent} from "@utils/create-event"
-import {createStorage} from "@utils/storage"
 import {MHead} from "./head"
 import {MSidebar} from "./sidebar"
 import {MEditor} from "./editor/editor"
@@ -8,9 +7,11 @@ import {MOptionPanel} from "./option-panel"
 import {MOverlayManager} from "./common/overlay"
 import {MColorPickerBox} from "./common/color-picker-box"
 import {MDataProcessor} from "./common/data-processor"
+import {MUser} from "./user"
 
 export const MRoot = types
   .model("MRoot", {
+    user: types.optional(MUser, {}),
     head: types.optional(MHead, {}),
     sidebar: types.optional(MSidebar, {}),
     editor: types.optional(MEditor, {}),
@@ -26,9 +27,7 @@ export const MRoot = types
   }))
   .actions((self) => {
     const afterCreate = () => {
-      self.getUserInfo().then(() => {
-        self.initRoot()
-      })
+      self.initRoot()
       globalEvent.on("globalClick", () => {
         self.overlayManager.hideAll()
       })
@@ -106,20 +105,6 @@ export const MRoot = types
         width: 216
       })
     }
-    // 获取当前登录用户详情
-    const getUserInfo = flow(function* getUserInfo() {
-      const {io} = self.env_
-      const content = yield io.auth.loginInfo()
-      self.user = content
-      self.env_.local = createStorage({
-        type: "localStorage",
-        key: `${content.userId}.${content.organizationId}`
-      })
-      self.env_.session = createStorage({
-        type: "sessionStorage",
-        key: `${content.userId}.${content.organizationId}`
-      })
-    })
 
     const initRoot = () => {
       const {session} = self.env_
@@ -159,7 +144,6 @@ export const MRoot = types
 
     return {
       afterCreate,
-      getUserInfo,
       initRoot,
       confirm,
       colorPicker

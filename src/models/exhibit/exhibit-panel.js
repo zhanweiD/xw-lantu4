@@ -1,7 +1,6 @@
 import {getEnv, types} from "mobx-state-tree"
 import {categories} from "@waves4"
 
-console.log(categories)
 export const MExhibitThumbnail = types.model("MExhibitThumbnail", {
   id: types.string,
   key: types.string,

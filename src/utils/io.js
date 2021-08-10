@@ -15,7 +15,7 @@ export const context = onerIO.context({
   urlStamp: true,
   fit(response) {
     if (response.code === 403) {
-      window.waveview.session.data({})
+      window.waveview.session.remove()
     } else if (response.success === false) {
       if (response.code === "ERROR_USER_NOT_LOGGED") {
         window.location.href = "/login"
