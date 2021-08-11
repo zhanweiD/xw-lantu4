@@ -2,7 +2,6 @@ import {types, flow, getEnv} from "mobx-state-tree"
 import createLog from "@utils/create-log"
 import io from "@utils/io"
 import commonAction from "@utils/common-action"
-import {createStorage} from "@utils/storage"
 
 const log = createLog("@models/user.js")
 export const MUser = types
@@ -39,14 +38,6 @@ export const MUser = types
           email,
           organizationName,
           organizationId
-        })
-        self.env_.local = createStorage({
-          type: "localStorage",
-          key: `${self.userId}.${self.organizationId}`
-        })
-        self.env_.session = createStorage({
-          type: "sessionStorage",
-          key: `${self.userId}.${self.organizationId}`
         })
       } catch (error) {
         log.error("getUserInfo Error: ", error)
