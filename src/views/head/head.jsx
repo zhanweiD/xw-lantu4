@@ -11,7 +11,7 @@ import copy from "@utils/copy"
 import s from "./head.module.styl"
 import PanelButton from "./panel-button"
 
-const Head = ({showTabs = true}) => {
+const Head = () => {
   const {t} = useTranslation()
   const {head, editor, env_, optionPanel} = w
   const {panelButtons, activePanelButton} = head
@@ -39,25 +39,20 @@ const Head = ({showTabs = true}) => {
             <img src={config.logo} alt="logo" />
           </Link>
         </div>
-
-        {showTabs && (
-          <>
-            {panelButtons.map((panel) =>
-              Children.toArray(
-                <PanelButton
-                  name={t(panel)}
-                  active={activePanelButton === panel}
-                  onClick={() => {
-                    head.toggleActivePanel(panel)
-                  }}
-                />
-              )
-            )}
-          </>
+        {panelButtons.map((panel) =>
+          Children.toArray(
+            <PanelButton
+              name={t(panel)}
+              active={activePanelButton === panel}
+              onClick={() => {
+                head.toggleActivePanel(panel)
+              }}
+            />
+          )
         )}
       </div>
 
-      {showTabs && type === "art" && (
+      {type === "art" && (
         <>
           <IconGroupButton
             icon="lodestone"
@@ -243,7 +238,7 @@ const Head = ({showTabs = true}) => {
           />
         </>
       )}
-      {showTabs && type === "data" && (
+      {type === "data" && (
         <>
           <IconGroupButton icon="reset" title="刷新" canUse canClick onClick={data.getData} />
           <Button
@@ -259,22 +254,20 @@ const Head = ({showTabs = true}) => {
           </Button>
         </>
       )}
-      {showTabs && type === "materialView" && (
-        <>
-          <Button
-            width={70}
-            lineHeight={22}
-            className="ml8"
-            onClick={() => {
-              copy(materialThumbnail.id)
-              env_.tip.success({content: "复制成功"})
-            }}
-          >
-            复制ID
-          </Button>
-        </>
+      {type === "materialView" && (
+        <Button
+          width={70}
+          lineHeight={22}
+          className="ml8"
+          onClick={() => {
+            copy(materialThumbnail.id)
+            env_.tip.success({content: "复制成功"})
+          }}
+        >
+          复制ID
+        </Button>
       )}
-      {showTabs && isOptionPanelVisible_ && (
+      {isOptionPanelVisible_ && (
         <IconGroupButton
           icon="menu"
           title="显示隐藏配置项面板"

@@ -8,6 +8,7 @@ import Main from "@pages/main"
 import Publish from "@pages/publish"
 import Preview from "@pages/preview"
 import Login from "@pages/login"
+import User from "@pages/user"
 import "virtual:svg-icons-register"
 
 const App = () => (
@@ -24,6 +25,7 @@ const App = () => (
         <Route exact path="/publish/:publishId" component={Publish} />
         <Route exact path="/preview/:artId" component={Preview} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/user" component={User} />
       </Switch>
     </Router>
   </Suspense>

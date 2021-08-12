@@ -1,4 +1,4 @@
-import {types, getParent, getEnv} from "mobx-state-tree"
+import {types, getParent} from "mobx-state-tree"
 import isFunction from "lodash/isFunction"
 import isNumber from "lodash/isNumber"
 import isBoolean from "lodash/isBoolean"
@@ -39,9 +39,6 @@ export const MOverlay = types
     hasMask: types.optional(types.boolean, false)
   })
   .views((self) => ({
-    get env_() {
-      return getEnv(self)
-    },
     get style() {
       const hiddenTop = self.debug ? 100 : -1000000
       const hiddenLeft = self.debug ? 100 : -1000000
@@ -54,18 +51,11 @@ export const MOverlay = types
       if (self.isVisible) {
         if (self.attachToPosition) {
           if (!self.hasWidth) {
-            throw new Error(
-              "Layer组件的attachToPosition属性有值，则必须同时传入width属性"
-            )
+            throw new Error("Layer组件的attachToPosition属性有值，则必须同时传入width属性")
           }
 
           // 如果指定了吸附元素，则忽略top, right, bottom, left, width, isFullScreen
-          const {
-            left: elementLeft,
-            top: elementTop,
-            bottom: elementBottom,
-            right: elementRight
-          } = self.attachToPosition
+          const {left: elementLeft, top: elementTop, bottom: elementBottom, right: elementRight} = self.attachToPosition
           // console.log('elementRef.current.getBoundingClientRect()', elementRef.current.getBoundingClientRect())
 
           const windowWidth = window.innerWidth
@@ -110,20 +100,10 @@ export const MOverlay = types
           style.bottom = 0
           style.right = 0
         } else {
-          style.width =
-            self.hasLeft && self.hasRight ? "auto" : `${self.width}px`
-          style.height =
-            self.hasTop && self.hasBottom ? "auto" : `${self.height}px`
-          style.top = self.hasTop
-            ? `${self.top}px`
-            : self.hasBottom && self.hasHeight
-            ? "auto"
-            : "50%"
-          style.left = self.hasLeft
-            ? `${self.left}px`
-            : self.hasRight && self.hasWidth
-            ? "auto"
-            : "50%"
+          style.width = self.hasLeft && self.hasRight ? "auto" : `${self.width}px`
+          style.height = self.hasTop && self.hasBottom ? "auto" : `${self.height}px`
+          style.top = self.hasTop ? `${self.top}px` : self.hasBottom && self.hasHeight ? "auto" : "50%"
+          style.left = self.hasLeft ? `${self.left}px` : self.hasRight && self.hasWidth ? "auto" : "50%"
           style.bottom = self.hasBottom ? `${self.bottom}px` : "auto"
           style.right = self.hasRight ? `${self.right}px` : "auto"
 
@@ -207,35 +187,13 @@ export const MOverlay = types
     }
 
     // attachTo每次可以是不一样的
-    const show = ({
-      attachTo,
-      list,
-      title,
-      content,
-      width,
-      height,
-      closable,
-      right,
-      bottom,
-      left,
-      top,
-      autoHeight,
-      footer,
-      buttons,
-      needRecordPosition,
-      hasMask,
-      maxHeight,
-      minHeight
-    }) => {
+    const show = ({attachTo, list, title, content, width, height, closable, right, bottom, left, top, autoHeight, footer, buttons, needRecordPosition, hasMask, maxHeight, minHeight}) => {
       // NOTE layer可以独立运行，不都在manager里
       if (self.parent) {
         self.parent.hideAll()
       }
 
       reset()
-
-      const {session} = self.env_
-      const sessionSchema = session.get(self.id)
 
       const event = window.event || window.e
 
@@ -327,11 +285,6 @@ export const MOverlay = types
         self.minHeight = minHeight
       }
 
-      // 获取记录位置
-      if (self.canDrag && self.needRecordPosition && isDef(sessionSchema)) {
-        self.applyLocal()
-      }
-
       self.isVisible = true
     }
 
@@ -347,49 +300,18 @@ export const MOverlay = types
       }
     }
 
-    const initDrag = ({handler, target, getPosition}) => {
+    const initDrag = ({handler, target}) => {
       self.drag = new Drag({
         handler,
-        target,
-        getPosition
+        target
       })
-    }
-
-    const applyLocal = () => {
-      const {session} = self.env_
-      const sessionSchema = session.get(self.id)
-      const {left: x, top: y} = sessionSchema
-      self.attachToPosition = false
-      self.left = x
-      self.top = y
-      if (self.hasWidth) {
-        self.right = undefined
-      }
-      if (self.hasHeight) {
-        self.bottom = undefined
-      }
-    }
-
-    const saveLocal = (record) => {
-      const {session} = self.env_
-      if (
-        record.left > -(isDef(self.width) ? self.width : -1000000) &&
-        (record.left < window.innerWidth + isDef(self.width)
-          ? self.width
-          : 0) &&
-        record.top > -1000000
-      ) {
-        session.set(self.id, record)
-      }
     }
 
     return {
       show,
       hide,
       toggle,
-      initDrag,
-      saveLocal,
-      applyLocal
+      initDrag
     }
   })
 

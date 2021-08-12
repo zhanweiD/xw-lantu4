@@ -7,7 +7,7 @@ import createLog from "./create-log"
 
 const log = createLog("@utils/drag")
 export default class Drag {
-  constructor({target, handle, preventHandle, start, move, end, getPosition}) {
+  constructor({target, handle, preventHandle, start, move, end}) {
     if (!isDef(target)) {
       log.warn(`target(${target}) is not defined in drag.init()`)
       return
@@ -33,15 +33,10 @@ export default class Drag {
     const mousedown$ = fromEvent(handleElement, "mousedown").pipe(
       filter((startEvent) => {
         // stopDrag
-        if (
-          startEvent.target &&
-          startEvent.target.closest(".stopDrag") !== null
-        ) {
+        if (startEvent.target && startEvent.target.closest(".stopDrag") !== null) {
           return false
         }
-        return preventHandleElement
-          ? preventHandleElement.contains(startEvent.target) === false
-          : true
+        return preventHandleElement ? preventHandleElement.contains(startEvent.target) === false : true
       }),
       tap((startEvent) => {
         isFunction(start) && start(startEvent)
@@ -72,7 +67,6 @@ export default class Drag {
               left: moveEvent.x - startEvent.x + startLeft,
               top: moveEvent.y - startEvent.y + startTop
             }
-            isFunction(getPosition) && getPosition(position)
             return position
           })
         )

@@ -7,7 +7,7 @@ import {MOptionPanel} from "./option-panel"
 import {MOverlayManager} from "./common/overlay"
 import {MColorPickerBox} from "./common/color-picker-box"
 import {MDataProcessor} from "./common/data-processor"
-import {MUser} from "./user"
+import {MUser} from "./user/user"
 
 export const MRoot = types
   .model("MRoot", {
@@ -32,6 +32,7 @@ export const MRoot = types
         self.overlayManager.hideAll()
       })
 
+      // TODO 这里只应该有全局的，自己模型私有使用的 直接自己实例化去玩
       // overlay
       self.overlayManager.create({
         id: "menu",
@@ -53,15 +54,6 @@ export const MRoot = types
         width: 300,
         canDrag: false
       })
-
-      self.overlayManager.create({
-        id: "fieldModal",
-        type: "fieldModal",
-        hasMask: true,
-        width: 320,
-        canDrag: false
-      })
-
       self.overlayManager.create({
         id: "dataProcessor",
         title: "数据处理",
@@ -74,12 +66,6 @@ export const MRoot = types
         id: "dataSourceModal",
         width: 800,
         height: 600,
-        canDrag: true
-      })
-
-      self.overlayManager.create({
-        id: "otherlayer",
-        width: 360,
         canDrag: true
       })
 
