@@ -5,15 +5,7 @@ import isString from "lodash/isString"
 import isPlainObject from "lodash/isPlainObject"
 import createLog from "@utils/create-log"
 import isDef from "@utils/is-def"
-import {
-  defaultDataProcessor,
-  getProcessorFunction,
-  getDefaultValue,
-  getProcessorCode,
-  getUseProcessor,
-  valueIsFunction,
-  getHasSaveCode
-} from "@utils/field-processor"
+import {defaultDataProcessor, getProcessorFunction, getDefaultValue, getProcessorCode, getUseProcessor, valueIsFunction, getHasSaveCode} from "@utils/field-processor"
 import {MTextField} from "./text.model"
 import {MNumberField} from "./number.model"
 import {MMultiNumberField} from "./multi-number.model"
@@ -31,7 +23,7 @@ import {MImageField} from "./image.model"
 import {MAlignmentField} from "./alignment.model"
 import {MSectionConfigField} from "./section-config.model"
 import {MOffsetField} from "./offset.model"
-import {MExhibitDataField} from "./exhibit-data.model"
+// import {MExhibitDataField} from "./exhibit-data.model"
 
 const log = createLog("@components/field/create-config-model-class")
 
@@ -57,8 +49,8 @@ const fieldModel = {
   image: MImageField,
   alignment: MAlignmentField,
   sectionConfig: MSectionConfigField,
-  offset: MOffsetField,
-  exhibitData: MExhibitDataField
+  offset: MOffsetField
+  // exhibitData: MExhibitDataField
 }
 
 const MSectionField = types.model("MSectionField", {
@@ -67,11 +59,7 @@ const MSectionField = types.model("MSectionField", {
 })
 
 const isValidModelProp = (field) => {
-  return (
-    ["id", "key", "sections"].indexOf(field.option) === -1 &&
-    "field" in field &&
-    field.field.type
-  )
+  return ["id", "key", "sections"].indexOf(field.option) === -1 && "field" in field && field.field.type
 }
 
 const createConfigModelClass = (modelName, config, initProps = {}) => {
@@ -82,9 +70,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
         section.fields.forEach((sectionField) => {
           config.fields.push({
             section: section.section,
-            option: sectionField.option
-              ? section.option || sectionField.option
-              : `${section.section}_unsaveWithoutOption_${index}`,
+            option: sectionField.option ? section.option || sectionField.option : `${section.section}_unsaveWithoutOption_${index}`,
             field: {
               ...sectionField,
               sectionOption: section.option,
@@ -118,10 +104,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
                 case "code":
                   // 打开悬浮层初始化
                   dataProcessor.reset()
-                  dataProcessor.set(
-                    "processorCode",
-                    self.processorCode || defaultDataProcessor
-                  )
+                  dataProcessor.set("processorCode", self.processorCode || defaultDataProcessor)
                   // 保存时更新代码
                   dataProcessor.event.on("save", ({processorCode}) => {
                     self.set("processorCode", processorCode)
@@ -170,12 +153,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
           MFieldModel = MFieldModel.views((self) => ({
             // 获取处理函数字符串
             get processorFunction() {
-              return getProcessorFunction(
-                self.useProcessor,
-                self.value,
-                self.processorCode,
-                self.hasSaveCode
-              )
+              return getProcessorFunction(self.useProcessor, self.value, self.processorCode, self.hasSaveCode)
             }
           }))
           // 组件本身模型option键值对
@@ -208,10 +186,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
     initProps.__fields = types.optional(types.array(types.string), fields)
   }
 
-  initProps.sections = types.optional(
-    types.array(types.union(types.string, MSectionField)),
-    config.sections
-  )
+  initProps.sections = types.optional(types.array(types.union(types.string, MSectionField)), config.sections)
 
   initProps.updateTime = types.optional(types.number, 0)
 
@@ -254,15 +229,11 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
           } else if (key in self) {
             self[key] = value
           } else {
-            log.warn(
-              `The prop '${key}' is not existed on model ${modelName}, but ${modelName}.${key}.setValue() is called.`
-            )
+            log.warn(`The prop '${key}' is not existed on model ${modelName}, but ${modelName}.${key}.setValue() is called.`)
           }
         })
       } else {
-        log.error(
-          `Param muse be a plainobject for setValues(), but it was, ${values}`
-        )
+        log.error(`Param muse be a plainobject for setValues(), but it was, ${values}`)
       }
     }
 
@@ -299,9 +270,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
 
     // 从模型中提取样式配置
     const getValues = () => {
-      const fields = self.__fields
-        .toJSON()
-        .filter((field) => field.indexOf("_unsaveWithoutOption_") === -1)
+      const fields = self.__fields.toJSON().filter((field) => field.indexOf("_unsaveWithoutOption_") === -1)
       const values = {}
       fields.forEach((field) => {
         if (self[field]) {

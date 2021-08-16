@@ -22,7 +22,7 @@ import {ImageField} from "./image"
 import {AlignmentField} from "./alignment"
 import {SectionConfigField} from "./section-config"
 import {OffsetField} from "./offset"
-import {ExhibitDataField} from "./exhibit-data"
+// import {ExhibitDataField} from "./exhibit-data"
 
 const ModelToField = observer(({model, onAction}) => {
   const {t} = useTranslation()
@@ -89,14 +89,12 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           tip={t(model.tip)}
           type="basic-select"
-          options={model.options
-            .toJSON()
-            .map((option) => ({
-              key: t(option.key),
-              value: option.value,
-              data: option.data,
-              remark: option.remark
-            }))}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+            data: option.data,
+            remark: option.remark
+          }))}
           value={model.value}
           readOnly={model.readOnly}
           menuPlacement={model.menuPlacement}
@@ -119,14 +117,12 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           tip={t(model.tip)}
           type="basic-select"
-          options={model.options
-            .toJSON()
-            .map((option) => ({
-              key: t(option.key),
-              value: option.value,
-              data: option.data,
-              remark: option.remark
-            }))}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+            data: option.data,
+            remark: option.remark
+          }))}
           value={model.value}
           readOnly={model.readOnly}
           menuPlacement={model.menuPlacement}
@@ -150,14 +146,12 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           tip={t(model.tip)}
           type="select-thumbnail"
-          options={model.options
-            .toJSON()
-            .map((option) => ({
-              key: t(option.key),
-              value: option.value,
-              data: option.data,
-              thumbnail: option.thumbnail
-            }))}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+            data: option.data,
+            thumbnail: option.thumbnail
+          }))}
           value={model.value}
           readOnly={model.readOnly}
           menuPlacement={model.menuPlacement}
@@ -179,13 +173,11 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           tip={t(model.tip)}
           type="select-gradient-color"
-          options={model.options
-            .toJSON()
-            .map((option) => ({
-              key: t(option.key),
-              value: option.value,
-              data: option.data
-            }))}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+            data: option.data
+          }))}
           value={model.value}
           readOnly={model.readOnly}
           menuPlacement={model.menuPlacement}
@@ -207,13 +199,11 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           tip={t(model.tip)}
           type="select-theme-color"
-          options={model.options
-            .toJSON()
-            .map((option) => ({
-              key: t(option.key),
-              value: option.value,
-              data: option.colors
-            }))}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+            data: option.colors
+          }))}
           value={model.value}
           readOnly={model.readOnly}
           menuPlacement={model.menuPlacement}
@@ -234,9 +224,7 @@ const ModelToField = observer(({model, onAction}) => {
           className={c({hide: !model.whenIsSatisfied})}
           label={t(model.label)}
           tip={t(model.tip)}
-          options={model.options
-            .toJSON()
-            .map((option) => ({key: t(option.key), value: option.value}))}
+          options={model.options.toJSON().map((option) => ({key: t(option.key), value: option.value}))}
           value={model.value}
           readOnly={model.readOnly}
           disabledKey={model.disabledKey.toJSON()}
@@ -459,23 +447,23 @@ const ModelToField = observer(({model, onAction}) => {
       )
       break
 
-    case "exhibitData":
-      F = (
-        <ExhibitDataField
-          className={c({hide: !model.whenIsSatisfied})}
-          value={model.value}
-          config={model.config}
-          columns={model.columns_}
-          setEffectLayer={model.setEffectLayer}
-          onChange={(k, v) => {
-            model.setValue(k, v)
-          }}
-          sourceList={model.sourceList_}
-          sourceProcessorResult={model.sourceProcessorResult_}
-          jsonProcessorResult={model.jsonProcessorResult_}
-        />
-      )
-      break
+    // case "exhibitData":
+    //   F = (
+    //     <ExhibitDataField
+    //       className={c({hide: !model.whenIsSatisfied})}
+    //       value={model.value}
+    //       config={model.config}
+    //       columns={model.columns_}
+    //       setEffectLayer={model.setEffectLayer}
+    //       onChange={(k, v) => {
+    //         model.setValue(k, v)
+    //       }}
+    //       sourceList={model.sourceList_}
+    //       sourceProcessorResult={model.sourceProcessorResult_}
+    //       jsonProcessorResult={model.jsonProcessorResult_}
+    //     />
+    //   )
+    //   break
 
     default:
       F = <div>缺失的Field: {model.type}</div>
