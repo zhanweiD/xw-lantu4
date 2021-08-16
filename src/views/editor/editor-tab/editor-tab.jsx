@@ -7,7 +7,7 @@ import DataTab from "../data-tab"
 import ProjectDetailTab from "../project-detail-tab"
 import ArtDetailTab from "../art-detail-tab"
 import ArtInitTab from "../art-init-tab"
-import ArtTab from "../new-art-tab"
+import ArtTab from "../art-tab"
 
 const EditorTab = ({tab}) => {
   return (

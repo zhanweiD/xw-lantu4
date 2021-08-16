@@ -40,7 +40,6 @@ export const MUser = types
           organizationName,
           organizationId
         })
-        console.log(self.toJSON())
       } catch (error) {
         log.error("getUserInfo Error: ", error)
       }

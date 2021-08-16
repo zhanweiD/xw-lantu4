@@ -5,10 +5,9 @@ import ArtViewport from "./art-viewport"
 import PublishModal from "./art-publish-modal"
 
 const ArtTab = ({art}) => {
-  const {artToolbar} = art
   return (
     <div className="wh100p fbh">
-      <ArtToolbar artToolbar={artToolbar} />
+      <ArtToolbar art={art} />
       <ArtViewport art={art} />
       <PublishModal art={art} />
     </div>

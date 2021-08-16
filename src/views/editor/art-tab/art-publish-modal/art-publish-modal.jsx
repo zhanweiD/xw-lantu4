@@ -29,10 +29,7 @@ const PublishModal = ({art}) => {
       render: (val, rowData) => (
         <div className="fbh h100p fbac">
           {rowData.isOnline ? (
-            <div
-              className={c(s.copyButton, "pl8 pr8 hand cfw16")}
-              onClick={() => artPublishInfo.offline(rowData.versionId)}
-            >
+            <div className={c(s.copyButton, "pl8 pr8 hand cfw16")} onClick={() => artPublishInfo.offline(rowData.versionId)}>
               下线
             </div>
           ) : (
@@ -72,49 +69,45 @@ const PublishModal = ({art}) => {
           })
         }}
       >
-        <div className={c(s.align, "fbh")}>
-          <span>链接</span>
-          <TextField readOnly value={href} className="fb1 ml12 mr12" />
+        <div className="p28 pt24 pb24 fb1">
+          <div className={c(s.align, "fbh")}>
+            <span>链接</span>
+            <TextField readOnly value={href} className="fb1 ml12 mr12" />
+            <div
+              className={c(s.copyButton, "pl8 pr8 hand cfw16")}
+              onClick={() => {
+                artPublishInfo.copyUrl(href)
+              }}
+            >
+              复制
+            </div>
+          </div>
+          <div className={c(s.align, "fbh mt24")}>
+            <span>备注</span>
+            <TextField
+              placeholder="非必填，最多32个字符"
+              className="fb1 ml12 mr12"
+              value={remark || ""}
+              onChange={(value) => {
+                artPublishInfo.set({
+                  remark: value
+                })
+              }}
+            />
+            <div className={c(s.copyButton, "pl8 pr8 cfw16 o0p")}>复制</div>
+          </div>
           <div
-            className={c(s.copyButton, "pl8 pr8 hand cfw16")}
+            className={c(s.publishButton, "mt24 mb8 hand ctw", list && list.length > 4 && s.disableButton)}
             onClick={() => {
-              artPublishInfo.copyUrl(href)
+              artPublishInfo.publish()
             }}
           >
-            复制
+            确认发布
           </div>
+          <div className={c("mt8 mb8 ctw48 fbh fbjc")}>提示：本次发布将创建新的版本上线,最多可发布5次</div>
+          <div className={c("mt24 mb8 ctw64")}>历史版本</div>
+          <Table dataSource={list} columns={columns} placeholder="暂无历史版本" />
         </div>
-        <div className={c(s.align, "fbh mt24")}>
-          <span>备注</span>
-          <TextField
-            placeholder="非必填，最多32个字符"
-            className="fb1 ml12 mr12"
-            value={remark || ""}
-            onChange={(value) => {
-              artPublishInfo.set({
-                remark: value
-              })
-            }}
-          />
-          <div className={c(s.copyButton, "pl8 pr8 cfw16 o0p")}>复制</div>
-        </div>
-        <div
-          className={c(
-            s.publishButton,
-            "mt24 mb8 hand ctw",
-            list && list.length > 4 && s.disableButton
-          )}
-          onClick={() => {
-            artPublishInfo.publish()
-          }}
-        >
-          确认发布
-        </div>
-        <div className={c("mt8 mb8 ctw48 fbh fbjc")}>
-          提示：本次发布将创建新的版本上线,最多可发布5次
-        </div>
-        <div className={c("mt24 mb8 ctw64")}>历史版本</div>
-        <Table dataSource={list} columns={columns} placeholder="暂无历史版本" />
       </Modal>
     </>
   )

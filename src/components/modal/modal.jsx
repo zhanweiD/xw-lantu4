@@ -5,7 +5,7 @@ import {MOverlay} from "@models/common/overlay"
 import SectionFields from "@components/section-fields"
 
 // Modal组件
-const Modal = ({className, closable, title, isVisible, model, hasMask, height, width, hideWhenOutsideClick = false, onClose = () => {}, buttons = []}) => {
+const Modal = ({children, className, closable, title, isVisible, model, hasMask, height, width, hideWhenOutsideClick = false, onClose = () => {}, buttons = []}) => {
   const overlay = MOverlay.create({
     title,
     id: "modal",
@@ -18,7 +18,7 @@ const Modal = ({className, closable, title, isVisible, model, hasMask, height, w
   })
   return (
     <Overlay model={overlay} className={className} onClose={onClose} buttons={buttons}>
-      <SectionFields model={model} />
+      {model ? <SectionFields model={model} /> : children}
     </Overlay>
   )
 }

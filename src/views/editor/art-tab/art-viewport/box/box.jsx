@@ -1,12 +1,12 @@
 import React from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
-import Exhibit from "@views/public/exhibit"
+// import Exhibit from "@views/public/exhibit"
 import s from "./box.module.styl"
 
-const Box = ({box, frame, viewport}) => {
-  const {layout, isSelected} = box
-  const {isBoxBackgroundVisible} = viewport
+const Box = ({box}) => {
+  const {layout, isSelected, art_, viewport_, frame_} = box
+  const {isBoxBackgroundVisible} = art_
   return (
     <div
       id={`box-${box.boxId}`}
@@ -22,19 +22,19 @@ const Box = ({box, frame, viewport}) => {
       }}
       onMouseDown={(e) => {
         e.stopPropagation()
-        viewport.selectNone()
-        viewport.toggleSelectRange({
+        viewport_.toggleSelectRange({
           target: "box",
           selectRange: [
             {
-              frameId: frame.frameId,
+              frameId: frame_.frameId,
               boxIds: [box.boxId]
             }
           ]
         })
       }}
     >
-      <Exhibit box={box} frame={frame} />
+      这里就是我们需要的组件啊！
+      {/* <Exhibit box={box} frame={frame} /> */}
     </div>
   )
 }
