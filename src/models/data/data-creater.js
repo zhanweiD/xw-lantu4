@@ -97,10 +97,7 @@ export const MDataCreater = types
   .model("MDataCreater", {
     type: types.optional(types.frozen(), "Excel"),
     files: types.optional(types.array(types.frozen()), []),
-    state: types.optional(
-      types.enumeration(["loading", "success", "error"]),
-      "loading"
-    ),
+    state: types.optional(types.enumeration(["loading", "success", "error"]), "loading"),
     database: types.optional(MDatabase, {})
   })
   .views((self) => ({
@@ -186,6 +183,7 @@ export const MDataCreater = types
       // })
     }
 
+    // TODO 需要重新实现 不可以这样做
     const createrDatabase = () => {
       self.root_.overlayManager.get("modal").show({
         attachTo: false,

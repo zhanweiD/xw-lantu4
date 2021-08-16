@@ -4,28 +4,13 @@ import {observer} from "mobx-react-lite"
 import c from "classnames"
 import Scroll from "@components/scroll"
 import IconButton from "@components/icon-button"
-import debounce from "lodash/debounce"
 import s from "./overlay.module.styl"
 
-const Overlay = ({
-  model,
-  className,
-  children,
-  onClose = () => {},
-  buttons = [],
-  isScroll = true,
-  zIndex,
-  contentClassName,
-  outputData
-}) => {
+const Overlay = ({model, className, children, onClose = () => {}, buttons = [], isScroll = true, zIndex, contentClassName}) => {
   const boxRef = useRef(null)
   const titleRef = useRef(null)
   const buttonList = model.buttons || buttons
   const [isMaskVisible, setIsMaskVisible] = useState(false)
-
-  const debounceSetPosition = debounce((position) => {
-    model.saveLocal(position)
-  }, 1000)
 
   useLayoutEffect(() => {
     if (model.isVisible) {
@@ -42,28 +27,15 @@ const Overlay = ({
     if (model.canDrag) {
       model.initDrag({
         handler: boxRef.current,
-        target: boxRef.current,
-        // 拖拽时记录位置
-        getPosition: (position) => debounceSetPosition(position)
+        target: boxRef.current
       })
     }
   }, [model.id])
 
   return ReactDOM.createPortal(
-    <div
-      id={model.id}
-      className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})}
-      style={{zIndex}}
-    >
-      <div
-        ref={boxRef}
-        className={c("layerBox", "stopPropagation", s.layerBox, className)}
-        style={model.style}
-      >
-        <div
-          className={c("h100p fbv", s.content, contentClassName)}
-          style={model.contentStyle}
-        >
+    <div id={model.id} className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})} style={{zIndex}}>
+      <div ref={boxRef} className={c("layerBox", "stopPropagation", s.layerBox, className)} style={model.style}>
+        <div className={c("h100p fbv", s.content, contentClassName)} style={model.contentStyle}>
           {/* title */}
           {model.title && (
             <div ref={titleRef} className={c("fbh fbac", s.title)}>
@@ -82,13 +54,7 @@ const Overlay = ({
             </div>
           )}
           {/* content */}
-          {isScroll ? (
-            <Scroll className="fb1">{children || model.content}</Scroll>
-          ) : (
-            children || model.content
-          )}
-          {/* footer */}
-          {model.footer}
+          {isScroll ? <Scroll className="fb1">{children || model.content}</Scroll> : children || model.content}
           {buttonList.length > 0 && (
             <div className={c("fbh fbje", s.buttonWrapper)}>
               {buttonList.map((button, index) => {
@@ -101,7 +67,7 @@ const Overlay = ({
                       cfw10: buttonList.length - 1 === index
                     })}
                     onClick={() => {
-                      button.action(outputData)
+                      button.action()
                     }}
                   >
                     {button.name}

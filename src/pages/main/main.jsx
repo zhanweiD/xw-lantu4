@@ -9,7 +9,6 @@ import Sidebar from "@views/sidebar"
 import Menu from "@components/menu"
 import Confirm from "@components/confirm"
 import Overlay from "@components/overlay"
-import FieldModal from "@components/field-modal"
 import DataProcessor from "@components/data-processor"
 import ColorPicker from "@components/color-picker"
 import OptionPanel from "@views/option-panel"
@@ -42,7 +41,6 @@ const Main = () => {
       <Menu model={w.overlayManager.get("menu")} />
       <Confirm model={w.overlayManager.get("confirm")} />
       <Overlay model={w.overlayManager.get("modal")} />
-      <FieldModal model={w.overlayManager.get("fieldModal")} />
       <DataProcessor model={w.overlayManager.get("dataProcessor")} />
       <ColorPicker model={w.overlayManager.get("colorPicker")} />
     </div>

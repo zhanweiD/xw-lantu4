@@ -1,4 +1,4 @@
-import {types, getParent} from "mobx-state-tree"
+import {types} from "mobx-state-tree"
 import isFunction from "lodash/isFunction"
 import isNumber from "lodash/isNumber"
 import isBoolean from "lodash/isBoolean"
@@ -159,9 +159,6 @@ export const MOverlay = types
     },
     get hasMinHeight() {
       return isDef(self.minHeight)
-    },
-    get parent() {
-      return getParent(self, 2)
     }
   }))
   .actions(commonAction(["set"]))
@@ -187,12 +184,7 @@ export const MOverlay = types
     }
 
     // attachTo每次可以是不一样的
-    const show = ({attachTo, list, title, content, width, height, closable, right, bottom, left, top, autoHeight, footer, buttons, needRecordPosition, hasMask, maxHeight, minHeight}) => {
-      // NOTE layer可以独立运行，不都在manager里
-      if (self.parent) {
-        self.parent.hideAll()
-      }
-
+    const show = ({attachTo, list, title, content, width, height, closable, right, bottom, left, top, autoHeight, buttons, needRecordPosition, hasMask, maxHeight, minHeight}) => {
       reset()
 
       const event = window.event || window.e
@@ -227,10 +219,6 @@ export const MOverlay = types
 
       if (isDef(content)) {
         self.content = content
-      }
-
-      if (isDef(footer)) {
-        self.footer = footer
       }
 
       if (isDef(buttons)) {
