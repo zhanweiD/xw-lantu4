@@ -3,7 +3,6 @@ import {observer} from "mobx-react-lite"
 import {useTranslation} from "react-i18next"
 import c from "classnames"
 import w from "@models"
-import Panel from "@components/panel"
 import Tab from "@components/tab"
 import Section from "@components/section"
 import Caption from "@components/caption"
@@ -17,14 +16,7 @@ const Category = ({category}) => {
   const {t} = useTranslation()
   const {icon, name, exhibits} = category
   return (
-    <Section
-      id={`category-${category.name}`}
-      sessionId={`category-${category.name}`}
-      headIcon={icon}
-      className="pr8"
-      childrenClassName="pt8 pb8"
-      name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
-    >
+    <Section id={`category-${category.name}`} sessionId={`category-${category.name}`} headIcon={icon} className="pr8" childrenClassName="pt8 pb8" name={`${t(`exhibit.${name}`)} (${exhibits.length})`}>
       <Grid column={4}>
         {exhibits.map((exhibit) => (
           <Grid.Item key={exhibit.key}>
@@ -42,11 +34,7 @@ const Category = ({category}) => {
                   dragKey="CREATE_EXHIBIT_DRAG_KEY"
                   data={exhibit}
                 >
-                  {exhibit.icon ? (
-                    <Icon name={exhibit.icon} fill="white" size={40} />
-                  ) : (
-                    t(exhibit.name)
-                  )}
+                  {exhibit.icon ? <Icon name={exhibit.icon} fill="white" size={40} /> : t(exhibit.name)}
                 </DragSource>
               </div>
             </Caption>
@@ -63,7 +51,7 @@ const ExhibitPanel = () => {
   const {categories} = exhibitPanel
   let scrollToFn
   return (
-    <Panel>
+    <>
       <Tab sessionId="exhibit-panel" className="fb1">
         <Tab.Item name={t("exhibitPanel.exhibits")}>
           <div className="fbh h100p">
@@ -76,11 +64,7 @@ const ExhibitPanel = () => {
                     }}
                     className={c("hand fbv fbac fbjc", s.naviIcon)}
                   >
-                    {category.icon ? (
-                      <Icon name={category.icon} fill="white" size={16} />
-                    ) : (
-                      t(`exhibit.${category.name}`).substring(0, 1)
-                    )}
+                    {category.icon ? <Icon name={category.icon} fill="white" size={16} /> : t(`exhibit.${category.name}`).substring(0, 1)}
                   </div>
                 </Caption>
               ))}
@@ -88,15 +72,13 @@ const ExhibitPanel = () => {
             <Scroll className="fb1 pb8 pl8">
               {({scrollTo}) => {
                 scrollToFn = scrollTo
-                return categories.map((category) =>
-                  Children.toArray(<Category category={category} />)
-                )
+                return categories.map((category) => Children.toArray(<Category category={category} />))
               }}
             </Scroll>
           </div>
         </Tab.Item>
       </Tab>
-    </Panel>
+    </>
   )
 }
 

@@ -3,7 +3,6 @@ import {observer} from "mobx-react-lite"
 import {useTranslation} from "react-i18next"
 import c from "classnames"
 import w from "@models"
-import Panel from "@components/panel"
 import Tab from "@components/tab"
 import Scroll from "@components/scroll"
 import Section from "@components/section"
@@ -78,20 +77,10 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
   return (
     <div className="pr oh">
       {isTop && <div className={s.delta} />}
-      <a
-        style={{display: "none"}}
-        label="download"
-        ref={downloadRef}
-        href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}
-      >
+      <a style={{display: "none"}} label="download" ref={downloadRef} href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}>
         download
       </a>
-      <IconButton
-        icon="more"
-        onClick={(e, button) =>
-          createMenu(e, button, dataPanel, folder, isTop, "folder")
-        }
-      />
+      <IconButton icon="more" onClick={(e, button) => createMenu(e, button, dataPanel, folder, isTop, "folder")} />
     </div>
   )
 }
@@ -152,12 +141,7 @@ const DataFolders = observer(({dataPanel, folder, isTop}) => {
         <div className={c("mb16 emptyNote")}>
           <div>
             列表还是空空的，点击
-            <span
-              className="ctSecend hand"
-              onClick={(e, button) =>
-                createMenu(e, button, dataPanel, folder, false, "data")
-              }
-            >
+            <span className="ctSecend hand" onClick={(e, button) => createMenu(e, button, dataPanel, folder, false, "data")}>
               新建
             </span>
           </div>
@@ -174,42 +158,27 @@ const DataPanel = () => {
   const {folders_, toolbar, hasData_} = dataPanel
 
   return (
-    <Panel>
+    <>
       <Tab sessionId="data-panel-tab" className="w100p">
         <Tab.Item name={t("dataPanel.datas")}>
           <div className={c("h100p fbv")}>
             <DataToolbar dataPanel={dataPanel} />
             <Scroll>
-              {folders_.topFolders.map((folder) =>
-                Children.toArray(
-                  <DataFolders dataPanel={dataPanel} folder={folder} isTop />
-                )
-              )}
-              {folders_.basicFolders.map((folder) =>
-                Children.toArray(
-                  <DataFolders dataPanel={dataPanel} folder={folder} />
-                )
-              )}
+              {folders_.topFolders.map((folder) => Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} isTop />))}
+              {folders_.basicFolders.map((folder) => Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} />))}
 
               {hasData_ ? (
                 ""
               ) : toolbar.keyword ? (
                 <div className={c("m8 emptyNote")}>
-                  <div className="fbh fbjc">
-                    {`抱歉，没有找到与"${toolbar.keyword}"相关的数据`}
-                  </div>
+                  <div className="fbh fbjc">{`抱歉，没有找到与"${toolbar.keyword}"相关的数据`}</div>
                 </div>
               ) : (
                 <div className="fbv fbac fbjc mt30 pt30">
                   <div className="p10 fbv fbac fs10 lh32">
                     <Icon name="logo" fill="#fff5" size={42} />
-                    <div className="ctw52">
-                      数据列表还是空空的，点击下面的按钮启程
-                    </div>
-                    <div
-                      className="greenButton noselect"
-                      onClick={dataPanel.createFolderConfirm}
-                    >
+                    <div className="ctw52">数据列表还是空空的，点击下面的按钮启程</div>
+                    <div className="greenButton noselect" onClick={dataPanel.createFolderConfirm}>
                       新建数据文件夹
                     </div>
                   </div>
@@ -228,7 +197,7 @@ const DataPanel = () => {
           </div>
         </Tab.Item>
       </Tab>
-    </Panel>
+    </>
   )
 }
 

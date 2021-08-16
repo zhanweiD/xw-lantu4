@@ -1,10 +1,10 @@
-import React, {useState} from "react"
+import React from "react"
 import {observer} from "mobx-react-lite"
 import {Link} from "react-router-dom"
 import c from "classnames"
 import config from "@utils/config"
 import {MUser} from "@models/user/user"
-import Modal from "@components/modal"
+// import Modal from "@components/modal"
 import UserSection from "./user-section"
 import s from "./user.module.styl"
 
@@ -13,8 +13,6 @@ const user = MUser.create({})
 const {Item} = UserSection
 const User = () => {
   const {avatar, mobile, email, nickname} = user
-  console.log(nickname.getSchema())
-  const [isNicknameVisible, setIsNicknameVisible] = useState(false)
   return (
     <div className={s.page}>
       {user.userId && (
@@ -34,12 +32,12 @@ const User = () => {
               </Item>
               <Item label="昵称">
                 <div className="fbh">
-                  <div className={s.itemContent}>{nickname.getSchema().nickname}</div>
+                  <div className={s.itemContent}>{nickname}</div>
                   <div
                     className={s.option}
-                    onClick={() => {
-                      setIsNicknameVisible(true)
-                    }}
+                    // onClick={() => {
+                    //   setIsNicknameVisible(true)
+                    // }}
                   >
                     修改
                   </div>
@@ -55,7 +53,7 @@ const User = () => {
             <UserSection title="账户信息">
               <Item label="密码">*********</Item>
             </UserSection>
-            <Modal
+            {/* <Modal
               model={user.nickname}
               isVisible={isNicknameVisible}
               hasMask
@@ -80,7 +78,7 @@ const User = () => {
                   }
                 }
               ]}
-            />
+            /> */}
           </div>
         </>
       )}

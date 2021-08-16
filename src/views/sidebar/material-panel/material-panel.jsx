@@ -7,7 +7,6 @@ import {observer} from "mobx-react-lite"
 import {useTranslation} from "react-i18next"
 import c from "classnames"
 import w from "@models"
-import Panel from "@components/panel"
 import Tab from "@components/tab"
 import Grid from "@components/grid"
 import Scroll from "@components/scroll"
@@ -26,12 +25,7 @@ const MoreIcon = ({materialPanel, folder, isTop}) => {
   return (
     <div className="pr oh">
       {isTop && <div className={s.delta} />}
-      <a
-        style={{display: "none"}}
-        label="download"
-        ref={downloadRef}
-        href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}
-      >
+      <a style={{display: "none"}} label="download" ref={downloadRef} href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}>
         download
       </a>
       <IconButton
@@ -90,9 +84,7 @@ const MaterialFolders = observer(({materialPanel, folder, isTop}) => {
       version={3}
       className="pl8 pr8 mt8"
       childrenClassName="pt8"
-      icon={
-        <MoreIcon materialPanel={materialPanel} folder={folder} isTop={isTop} />
-      }
+      icon={<MoreIcon materialPanel={materialPanel} folder={folder} isTop={isTop} />}
       name={`${folderName} (${materials_.length})`}
       sessionId={`material-folder-${folderId}`}
       onFold={(fold) => session.set(section.sectionKey, fold)}
@@ -103,37 +95,19 @@ const MaterialFolders = observer(({materialPanel, folder, isTop}) => {
             {materials_.map((material, index) =>
               Children.toArray(
                 <Grid.Item>
-                  <MaterialThumbnail
-                    folder={folder}
-                    material={material}
-                    toolbar={toolbar}
-                    isLast={index === materials_.length - 1}
-                  />
+                  <MaterialThumbnail folder={folder} material={material} toolbar={toolbar} isLast={index === materials_.length - 1} />
                 </Grid.Item>
               )
             )}
           </Grid>
         ) : (
-          materials_.map((material, index) =>
-            Children.toArray(
-              <MaterialThumbnail
-                material={material}
-                toolbar={toolbar}
-                isLast={index === materials_.length - 1}
-                index={index}
-                folder={folder}
-              />
-            )
-          )
+          materials_.map((material, index) => Children.toArray(<MaterialThumbnail material={material} toolbar={toolbar} isLast={index === materials_.length - 1} index={index} folder={folder} />))
         )
       ) : (
         <div className={c("mb16 emptyNote")}>
           <div>
             列表还是空空的，点击
-            <span
-              className="ctSecend hand"
-              onClick={() => materialPanel.upload(folder.folderId)}
-            >
+            <span className="ctSecend hand" onClick={() => materialPanel.upload(folder.folderId)}>
               上传
             </span>
           </div>
@@ -150,7 +124,7 @@ const MaterialPanel = () => {
   const {types, folders_, creater, hasMaterial_, toolbar} = materialPanel
 
   return (
-    <Panel>
+    <>
       {materialPanel.state === "success" ? (
         <>
           <MaterialCreater model={creater} tempLayerKey="materialUploader" />
@@ -159,48 +133,22 @@ const MaterialPanel = () => {
               <div className={c("h100p fbv")}>
                 <MaterailToolbar types={types} materialPanel={materialPanel} />
                 <Scroll>
-                  {folders_.topFolders.length
-                    ? folders_.topFolders.map((folder) =>
-                        Children.toArray(
-                          <MaterialFolders
-                            materialPanel={materialPanel}
-                            folder={folder}
-                            isTop
-                          />
-                        )
-                      )
-                    : ""}
+                  {folders_.topFolders.length ? folders_.topFolders.map((folder) => Children.toArray(<MaterialFolders materialPanel={materialPanel} folder={folder} isTop />)) : ""}
 
-                  {folders_.basicFolders.length
-                    ? folders_.basicFolders.map((folder) =>
-                        Children.toArray(
-                          <MaterialFolders
-                            materialPanel={materialPanel}
-                            folder={folder}
-                          />
-                        )
-                      )
-                    : ""}
+                  {folders_.basicFolders.length ? folders_.basicFolders.map((folder) => Children.toArray(<MaterialFolders materialPanel={materialPanel} folder={folder} />)) : ""}
 
                   {hasMaterial_ ? (
                     ""
                   ) : toolbar.keyword ? (
                     <div className={c("m8 emptyNote")}>
-                      <div className="fbh fbjc">
-                        {`抱歉，没有找到与"${toolbar.keyword}"相关的素材`}
-                      </div>
+                      <div className="fbh fbjc">{`抱歉，没有找到与"${toolbar.keyword}"相关的素材`}</div>
                     </div>
                   ) : (
                     <div className="fbv fbac fbjc mt30 pt30">
                       <div className="p10 fbv fbac fs10 lh32">
                         <Icon name="logo" fill="#fff5" size={42} />
-                        <div className="ctw52">
-                          素材列表还是空空的，点击下面的按钮启程
-                        </div>
-                        <div
-                          className="greenButton noselect"
-                          onClick={materialPanel.createFolderConfirm}
-                        >
+                        <div className="ctw52">素材列表还是空空的，点击下面的按钮启程</div>
+                        <div className="greenButton noselect" onClick={materialPanel.createFolderConfirm}>
                           新建素材文件夹
                         </div>
                       </div>
@@ -230,7 +178,7 @@ const MaterialPanel = () => {
       ) : (
         <Loading data={materialPanel.state} />
       )}
-    </Panel>
+    </>
   )
 }
 
