@@ -8,10 +8,7 @@ import {getEnv, getRoot, types, getParent} from "mobx-state-tree"
 export const MMaterialToolbar = types
   .model({
     keyword: types.optional(types.string, ""),
-    showtype: types.optional(
-      types.enumeration(["grid-layout", "list", "thumbnail-list"]),
-      "thumbnail-list"
-    )
+    showtype: types.optional(types.enumeration(["grid-layout", "list", "thumbnail-list"]), "thumbnail-list")
   })
   .views((self) => ({
     get env_() {
@@ -46,6 +43,7 @@ export const MMaterialToolbar = types
     // TODO: 受阻于排序开发
     let seachDataSource = []
     const searchMaterials = () => {
+      console.log("here")
       if (!self.keyword) {
         seachDataSource.length &&
           self.materialPanel_.set({
@@ -73,10 +71,7 @@ export const MMaterialToolbar = types
 
       searchMaterialData = searchMaterialData
         .sort((a, b) => {
-          return (
-            b.folderName.split(self.keyword).length -
-            a.folderName.split(self.keyword).length
-          )
+          return b.folderName.split(self.keyword).length - a.folderName.split(self.keyword).length
         })
         .splice(0, 5)
 
@@ -86,10 +81,7 @@ export const MMaterialToolbar = types
         noSearchMaterialData.forEach((floder) => {
           let hasMatchingMaterial = false
           floder.materials.forEach((material) => {
-            if (
-              material.name.indexOf(self.keyword) !== -1 &&
-              searchMaterialData.length < 5
-            ) {
+            if (material.name.indexOf(self.keyword) !== -1 && searchMaterialData.length < 5) {
               hasMatchingMaterial = true
             }
           })
@@ -102,10 +94,7 @@ export const MMaterialToolbar = types
       searchMaterialData = searchMaterialData.map((floder) => {
         const materialSort = [...floder.materials]
           .sort((a, b) => {
-            return (
-              b.name.split(self.keyword).length -
-              a.name.split(self.keyword).length
-            )
+            return b.name.split(self.keyword).length - a.name.split(self.keyword).length
           })
           .map((material) => material.id)
         return {
