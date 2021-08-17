@@ -17,9 +17,13 @@ const Modal = ({children, className, closable, title, isVisible, model, hasMask,
     hideWhenOutsideClick
   })
   return (
-    <Overlay model={overlay} className={className} onClose={onClose} buttons={buttons}>
-      {model ? <SectionFields model={model} /> : children}
-    </Overlay>
+    <>
+      {isVisible && (
+        <Overlay model={overlay} className={className} onClose={onClose} buttons={buttons}>
+          {model ? <SectionFields model={model} /> : children}
+        </Overlay>
+      )}
+    </>
   )
 }
 
