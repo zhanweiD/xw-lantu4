@@ -86,6 +86,10 @@ context.create("io.project", {
   quit: {
     url: "project/:projectId/quit",
     method: "DELETE"
+  },
+  getTemplates: {
+    method: "GET",
+    url: "template"
   }
 })
 
@@ -271,6 +275,14 @@ context.create("io.art", {
   copy: {
     method: "POST",
     url: "project/:projectId/copy/art/:artId"
+  },
+  saveAsTemplate: {
+    method: "POST",
+    url: "art/:artId/template"
+  },
+  getThumbnail: {
+    method: "POST",
+    url: "art/:artId/capture"
   }
 })
 

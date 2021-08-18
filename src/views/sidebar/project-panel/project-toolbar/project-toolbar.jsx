@@ -4,41 +4,76 @@ import {useTranslation} from "react-i18next"
 import c from "classnames"
 import IconButton from "@components/icon-button"
 import s from "./project-toolbar.module.styl"
+import {createConfigModelClass} from "@components/field"
+import Modal from "@components/modal"
 
-const Toolbar = ({toolbar, hideCreateButton = false}) => {
+// 创建项目的 field 表单
+const MFieldModdal = createConfigModelClass("MFieldModdal", {
+  sections: ["__hide__"],
+  fields: [
+    {
+      section: "__hide__",
+      option: "name",
+      field: {
+        type: "text",
+        label: "name",
+        placeholder: "namePlaceholder",
+        required: true
+      }
+    },
+    {
+      section: "__hide__",
+      option: "description",
+      field: {
+        type: "textarea",
+        label: "description.description",
+        placeholder: "detailPlaceholder"
+      }
+    }
+  ]
+})
+
+const Toolbar = ({toolbar, useCreateButton = false}) => {
   const {t} = useTranslation()
-  const {keyword, set, searchProjects, createProject} = toolbar
+  const modal = MFieldModdal.create()
+  const {keyword, set, searchProjects, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = toolbar
+  const getProjectSchema = () => ({name: modal.name.value, description: modal.description.value})
+  const onClearText = () => (set("keyword", ""), searchProjects())
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
-      <div className="fb1">
-        <input
-          type="text"
-          value={keyword}
-          placeholder={t("searchPlaceholder")}
-          onChange={(e) => {
-            set("keyword", e.target.value)
-          }}
-          onBlur={() => !keyword && searchProjects()}
-          onKeyDown={(e) => e.key === "Enter" && searchProjects()}
-        />
-      </div>
-
-      {keyword ? (
-        <IconButton
-          icon="close"
-          title={t("remove")}
-          onClick={() => {
-            set("keyword", "")
-            searchProjects()
-          }}
-        />
-      ) : (
-        ""
-      )}
-
+      <input
+        type="text"
+        value={keyword}
+        placeholder={t("searchPlaceholder")}
+        onChange={(e) => set("keyword", e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && searchProjects()}
+      />
+      {keyword && <IconButton icon="close" title={t("remove")} onClick={onClearText} />}
       <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchProjects} />
-      <IconButton icon={toolbar.isThumbnailVisible ? "list" : "thumbnail-list"} title="显示切换" className="cfw10" onClick={toolbar.toggleThumbnailVisible} />
-      {!hideCreateButton && <IconButton icon="create-project" className="cfw10" title={t("projectPanel.createProject")} onClick={createProject} />}
+      <IconButton
+        icon={isThumbnailVisible ? "list" : "thumbnail-list"}
+        title="显示切换"
+        className="cfw10"
+        onClick={toggleDisplay}
+      />
+      {useCreateButton && (
+        <IconButton
+          icon="create-project"
+          title={t("projectPanel.createProject")}
+          className="cfw10"
+          onClick={() => set("isCreateModalVisible", true)}
+        />
+      )}
+      <Modal
+        width={350}
+        title="新建项目"
+        model={modal}
+        isVisible={isCreateModalVisible}
+        buttons={[
+          {name: "取消", action: () => set("isCreateModalVisible", false)},
+          {name: "确定", action: () => (set("isCreateModalVisible", false), createProject(getProjectSchema()))}
+        ]}
+      />
     </div>
   )
 }

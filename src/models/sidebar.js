@@ -8,7 +8,10 @@ const NO_ACTIVE_PANEL = "NO_ACTIVE_PANEL"
 
 export const MSidebar = types
   .model({
-    activePanel: types.optional(types.enumeration([NO_ACTIVE_PANEL, "projects", "exhibits", "datas", "materials"]), NO_ACTIVE_PANEL),
+    activePanel: types.optional(
+      types.enumeration([NO_ACTIVE_PANEL, "projects", "exhibits", "datas", "materials"]),
+      NO_ACTIVE_PANEL
+    ),
     panels: types.frozen(["projects", "exhibits", "datas", "materials"]),
     projectPanel: types.optional(MProjectPanel, {}),
     exhibitPanel: types.optional(MExhibitPanel, {}),
