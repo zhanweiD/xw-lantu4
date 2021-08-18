@@ -12,7 +12,6 @@ const MFolder = types.model("MFolder", {
 })
 export const MMaterialPanel = types
   .model("MMaterialPanel", {
-    toolbar: types.frozen(),
     folders: types.optional(types.array(MFolder), []),
     fetchState: types.optional(types.enumeration(["loading", "success", "error"]), "loading")
   })

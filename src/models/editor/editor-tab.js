@@ -56,10 +56,7 @@ export const MEditorTab = types
       if (type === "art") {
         if (!self.art) {
           self.art = {
-            artId: id,
-            artToolbar: {id},
-            viewport: {id},
-            artOption: {id}
+            artId: id
           }
           self.art.getArt()
         }
