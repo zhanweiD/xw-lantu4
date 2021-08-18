@@ -27,7 +27,7 @@ export const MArt = types
     // 数据屏全局信息
     basic: types.optional(MArtBasic, {}),
     // 数据屏可视化区域
-    viewport: types.maybe(MArtViewport),
+    viewport: types.optional(MArtViewport, {}),
     // 数据屏的发布版本信息
     artPublishInfo: types.maybe(MPublishInfo),
     // 数据屏使用的数据id及其映射组件的关系
