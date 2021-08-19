@@ -34,6 +34,7 @@ export const MProjectList = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
+    // 项目数据相关
     const afterCreate = () => {
       const {event} = self.env_
       self.dataList?.forEach((data) => data.set({isProject: true, projectId: self.projectId}))
@@ -90,7 +91,6 @@ export const MProjectList = types
 
     // 数据屏排序
     const moveArtSort = (sourcceIndex, targetIndex) => {
-      // 如果没有 artSort 那么前端生成默认 artSort
       if (!self.artSort) {
         self.artSort = self.arts.map((art) => art.artId)
       }
@@ -102,7 +102,9 @@ export const MProjectList = types
       }
       // 交换顺序
       const artSort = [...self.artSort]
-      artSort.splice(targetIndex, 0, artSort.splice(sourcceIndex, 1))
+      const temp = artSort[sourcceIndex]
+      artSort[sourcceIndex] = artSort[targetIndex]
+      artSort[targetIndex] = temp
       self.artSort = artSort
     }
 

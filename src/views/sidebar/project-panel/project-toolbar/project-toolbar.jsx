@@ -51,7 +51,7 @@ const Toolbar = ({toolbar, useCreateButton = false}) => {
       {keyword && <IconButton icon="close" title={t("remove")} onClick={onClearText} />}
       <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchProjects} />
       <IconButton
-        icon={isThumbnailVisible ? "list" : "thumbnail-list"}
+        icon={isThumbnailVisible ? "thumbnail-list" : "list"}
         title="显示切换"
         className="cfw10"
         onClick={toggleDisplay}

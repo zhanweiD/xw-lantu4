@@ -4,6 +4,7 @@ import ArtThumbnail from "@views/public/art-thumbnail"
 import IconButton from "@components/icon-button"
 import Section from "@components/section"
 import Upload from "@components/upload"
+import {DragSource} from "@components/drag-and-drop"
 import w from "@models"
 import s from "./project-list.module.styl"
 
@@ -52,7 +53,16 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
     >
       {arts.map((art, index) => (
         <div key={art.artId} className={s.list}>
-          <ArtThumbnail art={art} index={index} {...other} />
+          <DragSource
+            key={art.artId}
+            onEnd={(dropResult, data) => {
+              dropResult.create({art: data, source: "art"})
+            }}
+            dragKey="CREATE_ART_DRAG_KEY"
+            data={art}
+          >
+            <ArtThumbnail art={art} index={index} {...other} />
+          </DragSource>
         </div>
       ))}
       {children}

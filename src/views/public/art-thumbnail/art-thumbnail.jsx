@@ -8,8 +8,8 @@ import w from "@models"
 import s from "./art-thumbnail.module.styl"
 import thumbnail from "./thumbnail.png"
 
-const Sortable = observer(({art, index, project, children}) => {
-  return (
+const Sortable = observer(({art, index, project, children, enable}) => {
+  return enable ? (
     <DragSource
       key={art.artId}
       onEnd={(dropResult, data) => dropResult.changeSort(data)}
@@ -21,9 +21,9 @@ const Sortable = observer(({art, index, project, children}) => {
         acceptKey={`ART_SORT_DRAG_KEY_PROJECTID_${project?.projectId}`}
         data={{changeSort: project?.saveArtSort}}
         hover={(item) => {
+          // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
             project.moveArtSort(item.index, index)
-            // 重新赋值index，否则会出现无限交换情况
             item.index = index
           }
         }}
@@ -31,6 +31,8 @@ const Sortable = observer(({art, index, project, children}) => {
         {children}
       </DropTarget>
     </DragSource>
+  ) : (
+    children
   )
 })
 
@@ -53,7 +55,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
   ].filter(Boolean)
 
   return (
-    <Sortable art={art} index={index} project={project}>
+    <Sortable art={art} index={index} project={project} enable={!isThumbnailVisible}>
       <div
         className={c("w100p fs0", s.art, isThumbnailVisible ? "mb8" : "pl8 pr8")}
         onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
