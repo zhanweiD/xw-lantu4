@@ -1,10 +1,9 @@
-/**
- * @author 南风
- * @description 素材tab
- */
 import {flow, getEnv, getParent, types} from "mobx-state-tree"
 import {MZoom} from "@utils/zoom"
+import createLog from "@utils/create-log"
 import commonAction from "@utils/common-action"
+
+const log = createLog("@models/editor/material.js")
 
 const MMaterialOptions = types.model("MMaterialOptions", {})
 
@@ -37,7 +36,7 @@ export const MMaterialTab = types
   .actions(commonAction(["set"]))
   .actions((self) => {
     const getMaterialDetail = flow(function* getMaterialDetail() {
-      const {log, io} = self.env_
+      const {io} = self.env_
       try {
         const material = yield io.material.getMaterialDetail({
           ":materialId": self.id
@@ -49,7 +48,7 @@ export const MMaterialTab = types
     })
 
     const save = flow(function* save() {
-      const {log, io, tip} = self.env_
+      const {io, tip} = self.env_
       try {
         yield io.material.updateMaterial({
           ":materialId": self.id,

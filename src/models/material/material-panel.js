@@ -33,8 +33,9 @@ export const MMaterialPanel = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
-    const {io, tip} = self.env_
+    const {io, tip, event} = self.env_
     const afterCreate = () => {
+      event.on("materialPanel.getFolders", self.getFolders)
       self.getFolders()
     }
 

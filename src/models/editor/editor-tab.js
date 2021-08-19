@@ -18,7 +18,7 @@ export const MEditorTab = types
       "projectInit",
       "projectDetail",
       "artInit",
-      "materialView",
+      "material",
       "data",
       "artDetail",
       "dataSourceManager"
@@ -70,8 +70,11 @@ export const MEditorTab = types
           self.art.getArt()
         }
       }
-      if (type === "materialView") {
-        self.materialThumbnail = tabOptions
+      if (type === "material") {
+        console.log(self.id, self.tabOptions, self.type)
+        self.materialThumbnail = {
+          id: self.id
+        }
         self.materialThumbnail.getMaterialDetail()
         setTimeout(() => {
           self.materialThumbnail.initZoom()
@@ -110,7 +113,7 @@ export const MEditorTab = types
       if (type === "data" && data) {
         data.saveData()
       }
-      if (type === "materialView" && materialThumbnail) {
+      if (type === "material" && materialThumbnail) {
         materialThumbnail.save()
       }
     }

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const {sidebar} = w
   return (
     <div
-      className={c("cf2a fbh", {
+      className={c("cf2a fbh fbn", {
         [s.sidebar]: sidebar.panels.indexOf(sidebar.activePanel) > -1
       })}
     >
