@@ -86,7 +86,7 @@ const ProjectPanel = () => {
             </Scroll>
           </div>
         </Tab.Item>
-        {(recentProjects_.length || toolbar.keyword) && (
+        {recentProjects_.length && (
           <Tab.Item name={t("projectPanel.recent")}>
             <div className={c("h100p fbv")}>
               <ProjectToolbar toolbar={toolbar} />

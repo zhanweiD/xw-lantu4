@@ -23,10 +23,12 @@ export const MProjectList = types
     get projectPanel_() {
       return getParent(self, 2)
     },
+    // 获取展示的大屏（排序搜索后的结果）
     get arts_() {
+      const keyword = self.projectPanel_.toolbar.keyword
       const sortedArts = self.artSort.map((id) => self.arts.find((art) => art.artId === id)).filter(Boolean)
       const unsortedArts = self.arts.filter((art) => !self.artSort.includes(art.artId))
-      return [...sortedArts, ...unsortedArts]
+      return [...sortedArts, ...unsortedArts].filter(({name}) => name.match(keyword))
     },
     get dataList_() {
       return self.dataList

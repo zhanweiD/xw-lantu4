@@ -36,9 +36,9 @@ const MFieldModdal = createConfigModelClass("MFieldModdal", {
 const Toolbar = ({toolbar, useCreateButton = false}) => {
   const {t} = useTranslation()
   const modal = MFieldModdal.create()
-  const {keyword, set, searchProjects, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = toolbar
+  const {keyword, set, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = toolbar
   const getProjectSchema = () => ({name: modal.name.value, description: modal.description.value})
-  const onClearText = () => (set("keyword", ""), searchProjects())
+  const onClearText = () => set("keyword", "")
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
       <input
@@ -46,10 +46,9 @@ const Toolbar = ({toolbar, useCreateButton = false}) => {
         value={keyword}
         placeholder={t("searchPlaceholder")}
         onChange={(e) => set("keyword", e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && searchProjects()}
       />
       {keyword && <IconButton icon="close" title={t("remove")} onClick={onClearText} />}
-      <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchProjects} />
+      <IconButton icon="search" className="cfw6" title={t("search")} />
       <IconButton
         icon={isThumbnailVisible ? "thumbnail-list" : "list"}
         title="显示切换"

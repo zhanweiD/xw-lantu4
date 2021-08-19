@@ -33,6 +33,7 @@ export const MProjectPanel = types
       return self.projects.length
     },
     get projects_() {
+      const keyword = self.toolbar.keyword
       const basicProjects = []
       const topProjects = []
       self.projects.forEach((project) => {
@@ -42,6 +43,11 @@ export const MProjectPanel = types
           basicProjects.push(project)
         }
       })
+      // 搜索的时候过滤“空”项目
+      if (keyword) {
+        basicProjects.filter((project) => project.arts_.length)
+        topProjects.filter((project) => project.arts_.length)
+      }
       return {basicProjects, topProjects}
     }
   }))
