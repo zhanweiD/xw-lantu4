@@ -1,5 +1,8 @@
 import commonAction from "@utils/common-action"
 import {getEnv, flow, getRoot, types, getParent} from "mobx-state-tree"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/project/project-list.js")
 
 export const MProjectToolbar = types
   .model({
@@ -28,7 +31,7 @@ export const MProjectToolbar = types
 
     // 创建新的项目
     const createProject = flow(function* createProject({name, description}) {
-      const {io, event, tip, log} = self.env_
+      const {io, event, tip} = self.env_
       try {
         const project = yield io.project.create({name, description})
         event.fire("editor.finishCreate", {type: "project"})

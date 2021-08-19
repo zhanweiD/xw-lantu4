@@ -90,6 +90,13 @@ context.create("io.project", {
   getTemplates: {
     method: "GET",
     url: "template"
+  },
+  removeTemplate: {
+    method: "DELETE",
+    url: "template/:templateId",
+    willFetch: (vars, config) => {
+      config.query = vars.data
+    }
   }
 })
 

@@ -29,11 +29,8 @@ export const MProjectPanel = types
     get recentProjects_() {
       return self.recentProjectIds.map((id) => self.projects.find(({projectId}) => id === projectId)).filter(Boolean)
     },
-    get hasProject_() {
-      return self.projects.length
-    },
     get projects_() {
-      const keyword = self.toolbar.keyword
+      const {keyword} = self.toolbar
       const basicProjects = []
       const topProjects = []
       self.projects.forEach((project) => {

@@ -2,6 +2,9 @@ import commonAction from "@utils/common-action"
 import config from "@utils/config"
 import uuid from "@utils/uuid"
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/art/art-thumbnail.js")
 
 export const MArtThumbnail = types
   .model({
@@ -39,7 +42,7 @@ export const MArtThumbnail = types
     // 保存为模板
     const saveAsTemplate = flow(function* saveAsTemplate() {
       const {env_, artId} = self
-      const {io, tip, event, log} = env_
+      const {io, tip, event} = env_
       try {
         yield io.art.saveAsTemplate({
           ":artId": artId
@@ -55,7 +58,7 @@ export const MArtThumbnail = types
     // 复制数据屏
     const copyArt = flow(function* copyArt() {
       const {env_, projectId, artId} = self
-      const {io, tip, event, log} = env_
+      const {io, tip, event} = env_
       try {
         yield io.art.copy({
           ":projectId": projectId,
@@ -92,7 +95,7 @@ export const MArtThumbnail = types
     }
 
     // 展示数据屏详情
-    const showDetial = () => {
+    const showDetail = () => {
       const {event} = self.env_
       const {name, projectId, artId} = self
       event.fire("editor.openTab", {
@@ -106,7 +109,7 @@ export const MArtThumbnail = types
     // 删除数据屏，提示动作
     const removeArt = () => {
       self.root_.confirm({
-        content: `确认删除"${self.name}"数据屏么? 删除之后无法恢复`,
+        content: `确认删除"${self.name}"${self.isTemplate ? "模板" : "数据屏"}么? 删除之后无法恢复`,
         onConfirm: self.reallyRemoveArt,
         attachTo: false
       })
@@ -114,10 +117,14 @@ export const MArtThumbnail = types
 
     // 删除数据屏，删除动作
     const reallyRemoveArt = flow(function* removeArt() {
-      const {io, event, tip, log} = self.env_
+      const {io, event, tip} = self.env_
       const {projectId, artId} = self
       try {
-        yield io.art.remove({":projectId": projectId, ":artId": artId})
+        if (self.isTemplate) {
+          yield io.project.removeTemplate({":templateId": artId, source: "art"})
+        } else {
+          yield io.art.remove({":projectId": projectId, ":artId": artId})
+        }
         event.fire(self.isTemplate ? "project-panel.getTemplates" : "project-panel.getProjects")
         event.fire("editor.closeTab", self.artId)
         tip.success({content: "删除成功"})
@@ -144,7 +151,7 @@ export const MArtThumbnail = types
       exportArt,
       removeArt,
       reallyRemoveArt,
-      showDetial,
+      showDetail,
       previewArt,
       previewPublishArt,
       saveAsTemplate,

@@ -46,7 +46,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
   const list = [
     {name: "编辑", action: () => (art.editArt(), menu.hide())},
     {name: "预览", action: () => (art.previewArt(), menu.hide())},
-    !isTemplate && {name: "数据屏详情", action: () => (art.showDetial(), menu.hide())},
+    !isTemplate && {name: "数据屏详情", action: () => (art.showDetail(), menu.hide())},
     !isTemplate && {name: "保存为模板", action: () => (art.saveAsTemplate(), menu.hide())},
     {name: "更新缩略图", action: () => (art.updateThumbnail(), menu.hide())},
     !isTemplate && {name: "复制", action: () => (art.copyArt(), menu.hide())},

@@ -4,6 +4,9 @@ import uuid from "@utils/uuid"
 import commonAction from "@utils/common-action"
 import {MArtThumbnail} from "../art/art-thumbnail"
 import {MDataTab} from "../editor/editor-tab-data"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/project/project-list.js")
 
 export const MProjectList = types
   .model({
@@ -25,7 +28,7 @@ export const MProjectList = types
     },
     // 获取展示的大屏（排序搜索后的结果）
     get arts_() {
-      const keyword = self.projectPanel_.toolbar.keyword
+      const {keyword} = self.projectPanel_.toolbar
       const sortedArts = self.artSort.map((id) => self.arts.find((art) => art.artId === id)).filter(Boolean)
       const unsortedArts = self.arts.filter((art) => !self.artSort.includes(art.artId))
       return [...sortedArts, ...unsortedArts].filter(({name}) => name.match(keyword))
@@ -57,7 +60,7 @@ export const MProjectList = types
 
     // 从文件导入数据屏
     const importArt = flow(function* importArt(files, projectId) {
-      const {tip, log, event} = self.env_
+      const {tip, event} = self.env_
       const formData = new FormData().append(files[0].type, files[0], files[0].name)
       try {
         yield fetch(`${config.urlPrefix}project/${projectId}/import/art`, {
@@ -95,24 +98,16 @@ export const MProjectList = types
     const moveArtSort = (sourcceIndex, targetIndex) => {
       if (!self.artSort) {
         self.artSort = self.arts.map((art) => art.artId)
+      } else {
+        const temp = self.artSort[sourcceIndex]
+        self.artSort[sourcceIndex] = self.artSort[targetIndex]
+        self.artSort[targetIndex] = temp
       }
-      // 如果 artSort 与 arts 长度不一致，则保证 artSort 顺序前提下，往后追加剩余 art 的顺序
-      if (self.artSort.length !== self.arts.length) {
-        const sortArtIds = self.artSort.filter((id) => self.arts.find((art) => art.artId === id))
-        const unsortedArtIds = self.arts.map(({artId}) => artId).filter((artId) => !sortArtIds.includes(artId))
-        self.artSort = [...sortArtIds, ...unsortedArtIds]
-      }
-      // 交换顺序
-      const artSort = [...self.artSort]
-      const temp = artSort[sourcceIndex]
-      artSort[sourcceIndex] = artSort[targetIndex]
-      artSort[targetIndex] = temp
-      self.artSort = artSort
     }
 
     // 保存排序结果
     const saveArtSort = flow(function* saveArtSort() {
-      const {tip, log, io} = self.env_
+      const {tip, io} = self.env_
       try {
         yield io.project.sort({
           ":projectId": self.projectId,

@@ -51,7 +51,7 @@ const ProjectPanel = () => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {projectPanel} = sidebar
-  const {projects_, hasProject_, recentProjects_, toolbar, activeIndex, templates} = projectPanel
+  const {projects_, projects, recentProjects_, toolbar, activeIndex, templates} = projectPanel
   return (
     <Loading data={projectPanel.state}>
       <Tab className="w100p" sessionId="project-panel" activeIndex={activeIndex}>
@@ -69,7 +69,7 @@ const ProjectPanel = () => {
                   <ProjectListFallback project={project} />
                 </ProjectList>
               ))}
-              {!hasProject_ && <ProjectFallback toolbar={toolbar} />}
+              {!projects.length && <ProjectFallback toolbar={toolbar} />}
             </Scroll>
           </div>
         </Tab.Item>
