@@ -1,14 +1,14 @@
 import {types, getEnv, flow, applySnapshot, getRoot} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
 import {MProjectToolbar} from "./project-toolbar"
-import {MProjectThumbnail} from "./project-thumbnail"
+import {MProjectList} from "./project-list"
 import {MArtThumbnail} from "../art/art-thumbnail"
 
 export const MProjectPanel = types
   .model({
     name: "projectPanel",
     templates: types.optional(types.array(MArtThumbnail), []),
-    projects: types.optional(types.array(MProjectThumbnail), []),
+    projects: types.optional(types.array(MProjectList), []),
     projectSort: types.optional(types.array(types.number), []),
     // 最近访问的大屏
     recentProjectIds: types.optional(types.array(types.number), []),

@@ -34,34 +34,30 @@ const Sortable = observer(({art, index, project, children}) => {
   )
 })
 
-const ArtThumbnail = ({project, art, withoutOptions = false, index}) => {
+const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = false}) => {
   const {sidebar} = w
   const {projectPanel} = sidebar
   const {toolbar} = projectPanel
   const {isThumbnailVisible} = toolbar
   const mThumbnail = art.thumbnail || thumbnail
   const menu = w.overlayManager.get("menu")
+  const list = [
+    {name: "编辑", action: () => (art.editArt(), menu.hide())},
+    {name: "预览", action: () => (art.previewArt(), menu.hide())},
+    !isTemplate && {name: "数据屏详情", action: () => (art.showDetial(), menu.hide())},
+    !isTemplate && {name: "保存为模板", action: () => (art.saveAsTemplate(), menu.hide())},
+    {name: "更新缩略图", action: () => (art.updateThumbnail(), menu.hide())},
+    !isTemplate && {name: "复制", action: () => (art.copyArt(), menu.hide())},
+    !isTemplate && {name: "导出", action: () => (art.exportArt(), menu.hide())},
+    {name: "删除", action: () => (art.removeArt(), menu.hide())}
+  ].filter(Boolean)
+
   return (
     <Sortable art={art} index={index} project={project}>
       <div
         className={c("w100p fs0", s.art, isThumbnailVisible ? "mb8" : "pl8 pr8")}
+        onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
         onDoubleClick={art.editArt}
-        onContextMenu={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          menu.show({
-            list: [
-              {name: "编辑", action: () => (art.editArt(), menu.hide())},
-              {name: "预览", action: () => (art.previewArt(), menu.hide())},
-              {name: "数据屏详情", action: () => (art.showDetial(), menu.hide())},
-              {name: "保存为模板", action: () => (art.saveAsTemplate(), menu.hide())},
-              {name: "更新缩略图", action: () => (art.updateThumbnail(), menu.hide())},
-              {name: "复制", action: () => (art.copyArt(), menu.hide())},
-              {name: "导出", action: () => (art.exportArt(), menu.hide())},
-              {name: "删除", action: () => (art.removeArt(), menu.hide())}
-            ]
-          })
-        }}
       >
         {isThumbnailVisible && <img src={mThumbnail} alt={art.name} className={c("hand w100p", s.thumbnail)} />}
         <div className="fbh fbac">
@@ -69,7 +65,7 @@ const ArtThumbnail = ({project, art, withoutOptions = false, index}) => {
             {!isThumbnailVisible ? <Icon fill="#fff5" name="drag" size={10} /> : <div className="p4" />}
             <div className="omit">{art.name}</div>
           </div>
-          {!withoutOptions && (
+          {useButtons && (
             <div className={c("fbh")}>
               {art.isPublished && (
                 <IconButton

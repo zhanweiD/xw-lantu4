@@ -5,11 +5,11 @@ import commonAction from "@utils/common-action"
 import {MArtThumbnail} from "../art/art-thumbnail"
 import {MDataTab} from "../editor/editor-tab-data"
 
-export const MProjectThumbnail = types
+export const MProjectList = types
   .model({
-    projectId: types.union(types.string, types.number),
     name: types.string,
     description: types.string,
+    projectId: types.union(types.string, types.number),
     arts: types.optional(types.array(MArtThumbnail), []),
     // 大屏排序数据
     artSort: types.optional(types.array(types.number), []),

@@ -5,12 +5,13 @@ import {types, getEnv, flow, getRoot} from "mobx-state-tree"
 
 export const MArtThumbnail = types
   .model({
-    artId: types.number,
     name: types.string,
-    thumbnail: types.maybeNull(types.string),
-    isPublished: types.optional(types.boolean, false),
+    artId: types.number,
     projectId: types.number,
-    publishId: types.string
+    publishId: types.string,
+    thumbnail: types.maybeNull(types.string),
+    isOnline: types.optional(types.boolean, false),
+    isTemplate: types.optional(types.boolean, false)
   })
   .views((self) => ({
     get env_() {
@@ -116,11 +117,8 @@ export const MArtThumbnail = types
       const {io, event, tip, log} = self.env_
       const {projectId, artId} = self
       try {
-        yield io.art.remove({
-          ":projectId": projectId,
-          ":artId": artId
-        })
-        event.fire("project-panel.getProjects")
+        yield io.art.remove({":projectId": projectId, ":artId": artId})
+        event.fire(self.isTemplate ? "project-panel.getTemplates" : "project-panel.getProjects")
         event.fire("editor.closeTab", self.artId)
         tip.success({content: "删除成功"})
       } catch (error) {
@@ -134,8 +132,7 @@ export const MArtThumbnail = types
       const {io, tip, event} = self.env_
       try {
         yield io.art.getThumbnail({":artId": self.artId})
-        event.fire("project-panel.getProjects")
-        console.log(self.thumbnail)
+        event.fire(self.isTemplate ? "project-panel.getTemplates" : "project-panel.getProjects")
       } catch (error) {
         tip.error({content: error.message})
       }
