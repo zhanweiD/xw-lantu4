@@ -15,7 +15,7 @@ export const MProjectPanel = types
     // 搜索工具栏
     toolbar: types.optional(MProjectToolbar, {}),
     // 激活的 Tab 索引
-    activeIndex: types.optional(types.number, 2),
+    activeIndex: types.optional(types.number, 0),
     // 对应 Loading 组件的状态
     state: types.optional(types.enumeration(["loading", "success", "error"]), "loading")
   })
@@ -88,6 +88,9 @@ export const MProjectPanel = types
       const {local} = self.env_
       const localSchema = local.get("SKRecentProject")
       localSchema && applySnapshot(self, localSchema)
+      if (self.recentProjects_.length) {
+        self.activeIndex = 2
+      }
     }
 
     // 本地信息存储
