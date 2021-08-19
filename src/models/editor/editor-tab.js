@@ -13,7 +13,7 @@ export const MEditorTab = types
   .model({
     id: types.union(types.number, types.string),
     name: types.optional(types.string, ""),
-    type: types.enumeration(["art", "projectInit", "projectDetail", "artInit", "materialView", "data", "artDetail", "dataSourceManager"]),
+    type: types.enumeration(["art", "projectInit", "projectDetail", "artInit", "material", "data", "artDetail", "dataSourceManager"]),
     projectDetail: types.maybe(MProjectDetail),
     artDetail: types.maybe(MArtDetail),
     materialThumbnail: types.maybe(MMaterialTab),
@@ -61,8 +61,11 @@ export const MEditorTab = types
           self.art.getArt()
         }
       }
-      if (type === "materialView") {
-        self.materialThumbnail = tabOptions
+      if (type === "material") {
+        console.log(self.id, self.tabOptions, self.type)
+        self.materialThumbnail = {
+          id: self.id
+        }
         self.materialThumbnail.getMaterialDetail()
         setTimeout(() => {
           self.materialThumbnail.initZoom()
@@ -101,7 +104,7 @@ export const MEditorTab = types
       if (type === "data" && data) {
         data.saveData()
       }
-      if (type === "materialView" && materialThumbnail) {
+      if (type === "material" && materialThumbnail) {
         materialThumbnail.save()
       }
     }

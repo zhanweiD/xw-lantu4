@@ -18,7 +18,7 @@ const OptionPanel = () => {
         hide: !optionPanel.isActive
       })}
     >
-      {activeTab.type === "materialView" && activeTab.materialThumbnail && <MaterialOption material={activeTab.materialThumbnail} />}
+      {activeTab.type === "material" && activeTab.materialThumbnail && <MaterialOption material={activeTab.materialThumbnail} />}
       {activeTab.type === "data" && activeTab.data && <DataOption data={activeTab.data} />}
     </div>
   ) : (

@@ -22,7 +22,7 @@ const Editor = () => {
       return `data-${tab.data?.dataType}`
     }
 
-    if (tab.type === "materialView") {
+    if (tab.type === "material") {
       return `material-${tab.materialThumbnail?.type?.toLocaleLowerCase()}`
     }
   }

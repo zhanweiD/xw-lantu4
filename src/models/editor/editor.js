@@ -16,7 +16,7 @@ export const MEditor = types
     },
     get isOptionPanelVisible_() {
       const tab = self.tabs.find((item) => item.id === self.activeTabId)
-      return ["art", "materialView", "data"].includes(tab?.type)
+      return ["art", "material", "data"].includes(tab?.type)
     }
   }))
   .actions((self) => {
@@ -99,7 +99,7 @@ export const MEditor = types
         // 是否需要鼠标的拖拽指针
         const hasPanZoom = () => {
           const activeTab = self.tabs.filter((tab) => tab.id === self.activeTabId)[0]
-          return activeTab && ["art", "materialView"].includes(activeTab.type)
+          return activeTab && ["art", "material"].includes(activeTab.type)
         }
 
         // 绑定空格事件

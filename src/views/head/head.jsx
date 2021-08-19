@@ -254,7 +254,7 @@ const Head = () => {
           </Button>
         </>
       )}
-      {type === "materialView" && (
+      {type === "material" && (
         <Button
           width={70}
           lineHeight={22}
