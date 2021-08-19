@@ -20,7 +20,7 @@ export const MMaterialPanel = types
     // 搜索关键字
     keyword: types.optional(types.string, ""),
     // 列表展示类型 thumbnail-缩略图 grid-宫格缩略图 list-简略文字
-    showType: types.optional(types.enumeration(["grid", "list", "thumbnail"]), "thumbnail"),
+    showType: types.optional(types.enumeration(["grid-layout", "list", "thumbnail-list"]), "thumbnail-list"),
     fetchState: types.optional(types.enumeration(["loading", "success", "error"]), "loading")
   })
   .views((self) => ({
@@ -37,6 +37,24 @@ export const MMaterialPanel = types
     const afterCreate = () => {
       event.on("materialPanel.getFolders", self.getFolders)
       self.getFolders()
+    }
+
+    const toggleShowType = () => {
+      let showType
+      switch (self.showType) {
+        case "thumbnail-list":
+          showType = "grid-layout"
+          break
+        case "grid-layout":
+          showType = "list"
+          break
+        case "list":
+          showType = "thumbnail-list"
+          break
+        default:
+          showType = "thumbnail-list"
+      }
+      self.showType = showType
     }
 
     const getFolders = flow(function* getFolders() {
@@ -118,6 +136,7 @@ export const MMaterialPanel = types
       removeFolder,
       exportFolder,
       toggleFolderTop,
+      toggleShowType,
       remove
     }
   })

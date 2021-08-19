@@ -83,13 +83,12 @@ const Material = ({material, showType}) => {
       }}
     >
       {showType !== "list" ? <MaterialView material={material} /> : null}
-      {showType !== "grid" ? (
+      {showType !== "grid-layout" ? (
         <div className="fbh fbac lh24">
           <div
-            className={c(
-              "fb1 omit ctw60 fbh fbac"
-              // material.isActive_ && s.activeMaterial
-            )}
+            className={c("fb1 omit ctw60 fbh fbac", {
+              [s.activeMaterial]: material.isActive_
+            })}
           >
             {showType === "list" && <Icon className="mr4 ml4" fill="#fff5" name="drag" size={10} />}
             <div className="pr8">

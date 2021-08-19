@@ -9,6 +9,7 @@ import IconButton from "@components/icon-button"
 import w from "@models"
 import MaterialFolder from "./material-folder"
 import s from "./material-panel.module.styl"
+import MaterialToolbar from "./material-toolbar"
 
 const MoreIcon = ({folder, removeFolder, exportFolder, toggleFolderTop}) => {
   return (
@@ -67,6 +68,7 @@ const MaterialPanel = () => {
     <Loading data={fetchState}>
       <Tab sessionId="material-panel-tab" className="w100p">
         <Tab.Item name={t("materialPanel.materials")}>
+          <MaterialToolbar />
           {folders.length ? (
             folders
               .filter((f) => f.isTop)

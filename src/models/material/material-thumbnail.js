@@ -17,6 +17,9 @@ export const MMaterial = types
     },
     get env_() {
       return getEnv(self)
+    },
+    get isActive_() {
+      return getRoot(self).editor.activeTabId === self.materialId
     }
   }))
   .actions((self) => {
