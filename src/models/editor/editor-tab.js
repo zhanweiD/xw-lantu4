@@ -13,7 +13,16 @@ export const MEditorTab = types
   .model({
     id: types.union(types.number, types.string),
     name: types.optional(types.string, ""),
-    type: types.enumeration(["art", "projectInit", "projectDetail", "artInit", "materialView", "data", "artDetail", "dataSourceManager"]),
+    type: types.enumeration([
+      "art",
+      "projectInit",
+      "projectDetail",
+      "artInit",
+      "materialView",
+      "data",
+      "artDetail",
+      "dataSourceManager"
+    ]),
     projectDetail: types.maybe(MProjectDetail),
     artDetail: types.maybe(MArtDetail),
     materialThumbnail: types.maybe(MMaterialTab),
@@ -56,10 +65,7 @@ export const MEditorTab = types
       if (type === "art") {
         if (!self.art) {
           self.art = {
-            artId: id,
-            artToolbar: {id},
-            viewport: {id},
-            artOption: {id}
+            artId: id
           }
           self.art.getArt()
         }
