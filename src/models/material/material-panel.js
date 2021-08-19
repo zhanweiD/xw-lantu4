@@ -17,6 +17,8 @@ export const MMaterialPanel = types
     folders: types.optional(types.array(MFolder), []),
 
     // 前端使用的属性
+    // 创建文件夹弹窗是否展示
+    isVisible: types.optional(types.boolean, false),
     // 搜索关键字
     keyword: types.optional(types.string, ""),
     // 列表展示类型 thumbnail-缩略图 grid-宫格缩略图 list-简略文字
@@ -127,6 +129,7 @@ export const MMaterialPanel = types
       elink.style.display = "none"
       document.body.appendChild(elink)
       elink.click()
+      document.body.removeChild(elink)
     }
 
     return {
