@@ -50,10 +50,6 @@ const MaterialView = ({material}) => {
 }
 
 const Material = ({material, showType}) => {
-  const icon = {
-    image: "material-image",
-    GeoJSON: "material-geojson"
-  }[material.type]
   return (
     <div
       className={c("oh")}
@@ -84,16 +80,13 @@ const Material = ({material, showType}) => {
     >
       {showType !== "list" ? <MaterialView material={material} /> : null}
       {showType !== "grid-layout" ? (
-        <div className="fbh fbac lh24">
+        <div className="fbh fbac lh24 mb8">
           <div
-            className={c("fb1 omit ctw60 fbh fbac", {
+            className={c("fb1 omit ctw60 fbh fbac pl8", {
               [s.activeMaterial]: material.isActive_
             })}
           >
             {showType === "list" && <Icon className="mr4 ml4" fill="#fff5" name="drag" size={10} />}
-            <div className="pr8">
-              <Icon name={icon} />
-            </div>
             <div className="fb1 omit">{material.name}</div>
           </div>
         </div>

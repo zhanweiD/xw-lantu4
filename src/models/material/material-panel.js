@@ -2,16 +2,10 @@ import commonAction from "@utils/common-action"
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
 import createLog from "@utils/create-log"
 import config from "@utils/config"
-import {MMaterial} from "./material-thumbnail"
+import {MFolder} from "./material-folder"
 
 const log = createLog("@models/material-panel.js")
 
-const MFolder = types.model("MFolder", {
-  folderId: types.number,
-  folderName: types.string,
-  isTop: types.optional(types.boolean, false),
-  materials: types.optional(types.array(MMaterial), [])
-})
 export const MMaterialPanel = types
   .model("MMaterialPanel", {
     folders: types.optional(types.array(MFolder), []),

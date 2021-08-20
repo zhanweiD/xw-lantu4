@@ -29,7 +29,9 @@ const MoreIcon = ({folder, removeFolder, exportFolder, toggleFolderTop}) => {
               {
                 name: "上传素材",
                 action: () => {
-                  folder.upload()
+                  folder.set({
+                    isVisible: true
+                  })
                   menu.hide()
                 }
               },
