@@ -31,7 +31,21 @@ const MPassword = types
 export const MArtBasic = types
   .model("MArtBaisc", {
     // 主题色
-    themeId: types.optional(types.enumeration(["fairyLand", "emeraldGreen", "duskUniverse", "glaze", "exquisite", "blueGreen", "greenRed", "blueRed", "orangePurple", "brownGreen"]), "glaze"),
+    themeId: types.optional(
+      types.enumeration([
+        "fairyLand",
+        "emeraldGreen",
+        "duskUniverse",
+        "glaze",
+        "exquisite",
+        "blueGreen",
+        "greenRed",
+        "blueRed",
+        "orangePurple",
+        "brownGreen"
+      ]),
+      "glaze"
+    ),
     // 网格尺寸
     gridUnit: types.optional(types.number, 40),
     // 水印

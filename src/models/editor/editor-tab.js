@@ -1,7 +1,7 @@
 import {getEnv, types} from "mobx-state-tree"
 import isFunction from "lodash/isFunction"
 import commonAction from "@utils/common-action"
-import {MArt} from "../new-art/art"
+import {MArt} from "../art/art"
 import {MArtInit} from "./editor-tab-art-init"
 import {MProjectDetail} from "./editor-tab-project-detail"
 import {MArtDetail} from "./editor-tab-art-detail"

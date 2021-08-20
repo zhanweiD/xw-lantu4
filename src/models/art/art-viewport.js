@@ -283,7 +283,9 @@ export const MArtViewport = types
             // 我已经写的十分详细了 别再说看不懂了 求求了
             self.frames.forEach((v) => {
               const boxes = v.boxes.filter(
-                (b) => Math.max(range.x1, v.layout.x + b.x1_) <= Math.min(range.x2, v.layout.x + b.x2_) && Math.max(range.y1, v.layout.y + b.y1_) <= Math.min(range.y2, v.layout.y + b.y2_)
+                (b) =>
+                  Math.max(range.x1, v.layout.x + b.x1_) <= Math.min(range.x2, v.layout.x + b.x2_) &&
+                  Math.max(range.y1, v.layout.y + b.y1_) <= Math.min(range.y2, v.layout.y + b.y2_)
               )
               v.boxes.forEach((box) => {
                 const value = boxes.some((b) => b.boxId === box.boxId)
@@ -309,7 +311,11 @@ export const MArtViewport = types
             const ranges = []
             // 这里的逻辑参考上面那段超长的注释，一个逻辑。这里的表层需求是框选框覆盖到的组件容器均被框选
             self.frames.forEach((v) => {
-              const boxes = v.boxes.filter((b) => Math.max(x1, v.layout.x + b.x1_) <= Math.min(x2, v.layout.x + b.x2_) && Math.max(y1, v.layout.y + b.y1_) <= Math.min(y2, v.layout.y + b.y2_))
+              const boxes = v.boxes.filter(
+                (b) =>
+                  Math.max(x1, v.layout.x + b.x1_) <= Math.min(x2, v.layout.x + b.x2_) &&
+                  Math.max(y1, v.layout.y + b.y1_) <= Math.min(y2, v.layout.y + b.y2_)
+              )
               if (boxes.length) {
                 ranges.push({
                   frameId: v.frameId,
@@ -444,7 +450,9 @@ export const MArtViewport = types
     const zoomSingleToView = () => {
       initXY()
       console.log(self.selectRange)
-      const frame = self.selectRange ? self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId) : self.mainFrame_
+      const frame = self.selectRange
+        ? self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
+        : self.mainFrame_
       const {x, y, height, width} = frame.viewLayout
       self.zoom.update({
         x,

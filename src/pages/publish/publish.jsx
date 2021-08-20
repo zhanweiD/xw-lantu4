@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import {observer} from "mobx-react-lite"
-import art from "@models/new-art/art-preview"
+import art from "@models/art/art-preview"
 import ArtPreview from "@views/public/art-preview"
 import s from "./publish.module.styl"
 

@@ -2,7 +2,7 @@ import {types, getEnv, flow, applySnapshot, getRoot} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
 import {MProjectToolbar} from "./project-toolbar"
 import {MProjectList} from "./project-list"
-import {MArtThumbnail} from "../new-art/art-thumbnail"
+import {MArtThumbnail} from "../art/art-thumbnail"
 
 export const MProjectPanel = types
   .model({

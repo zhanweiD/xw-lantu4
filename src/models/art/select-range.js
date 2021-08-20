@@ -95,42 +95,74 @@ export const MSelectRange = types
           const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
           if (offsetX > 0) {
             const temp =
-              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) - gridUnit / 4 < xy.x2
-                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
-                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) + gridUnit / 4 < xy.x2
+              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                (maxXFrame.x1_ - maxXFrame.grid.extendX_) -
+                gridUnit / 4 <
+              xy.x2
+                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                    (maxXFrame.x1_ - maxXFrame.grid.extendX_) +
+                    gridUnit / 4 <
+                  xy.x2
                 ? xy.x2
-                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (maxXFrame.x1_ - maxXFrame.grid.extendX_)
             snapXY.x2 = temp
             snapXY.x1 = temp - (origin.x2 - origin.x1)
           }
           if (offsetY > 0) {
             const temp =
-              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) - gridUnit / 4 < xy.y2
-                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
-                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) + gridUnit / 4 < xy.y2
+              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                (maxYFrame.y1_ - maxYFrame.grid.extendY_) -
+                gridUnit / 4 <
+              xy.y2
+                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                    (maxYFrame.y1_ - maxYFrame.grid.extendY_) +
+                    gridUnit / 4 <
+                  xy.y2
                 ? xy.y2
-                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (maxYFrame.y1_ - maxYFrame.grid.extendY_)
             snapXY.y2 = temp
             snapXY.y1 = temp - (origin.y2 - origin.y1)
           }
 
           if (offsetX < 0) {
             const temp =
-              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) - gridUnit / 4 < xy.x1
-                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
-                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) + gridUnit / 4 < xy.x1
+              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                (minXFrame.x1_ - minXFrame.grid.extendX_) -
+                gridUnit / 4 <
+              xy.x1
+                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (minXFrame.x1_ - minXFrame.grid.extendX_)
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                    (minXFrame.x1_ - minXFrame.grid.extendX_) +
+                    gridUnit / 4 <
+                  xy.x1
                 ? xy.x1
-                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (minXFrame.x1_ - minXFrame.grid.extendX_)
             snapXY.x1 = temp
             snapXY.x2 = temp + (origin.x2 - origin.x1)
           }
           if (offsetY < 0) {
             const temp =
-              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) - gridUnit / 4 < xy.y1
-                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
-                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) + gridUnit / 4 < xy.y1
+              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                (minYFrame.y1_ - minYFrame.grid.extendY_) -
+                gridUnit / 4 <
+              xy.y1
+                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (minYFrame.y1_ - minYFrame.grid.extendY_)
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                    (minYFrame.y1_ - minYFrame.grid.extendY_) +
+                    gridUnit / 4 <
+                  xy.y1
                 ? xy.y1
-                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (minYFrame.y1_ - minYFrame.grid.extendY_)
             snapXY.y1 = temp
             snapXY.y2 = temp + (origin.y2 - origin.y1)
           }
@@ -230,29 +262,61 @@ export const MSelectRange = types
         if (self.target === "box") {
           snapXY = {
             x1:
-              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) - gridUnit / 4 < xy.x1
-                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_)
-                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_) + gridUnit / 4 < xy.x1
+              Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                (minXFrame.x1_ - minXFrame.grid.extendX_) -
+                gridUnit / 4 <
+              xy.x1
+                ? Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (minXFrame.x1_ - minXFrame.grid.extendX_)
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                    (minXFrame.x1_ - minXFrame.grid.extendX_) +
+                    gridUnit / 4 <
+                  xy.x1
                 ? xy.x1
-                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit + (minXFrame.x1_ - minXFrame.grid.extendX_),
+                : Math.floor((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (minXFrame.x1_ - minXFrame.grid.extendX_),
             x2:
-              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) - gridUnit / 4 < xy.x2
-                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_)
-                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_) + gridUnit / 4 < xy.x2
+              Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                (maxXFrame.x1_ - maxXFrame.grid.extendX_) -
+                gridUnit / 4 <
+              xy.x2
+                ? Math.ceil((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (maxXFrame.x1_ - maxXFrame.grid.extendX_)
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                    (maxXFrame.x1_ - maxXFrame.grid.extendX_) +
+                    gridUnit / 4 <
+                  xy.x2
                 ? xy.x2
-                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit + (maxXFrame.x1_ - maxXFrame.grid.extendX_),
+                : Math.floor((xy.x2 - (maxXFrame.x1_ - maxXFrame.grid.extendX_)) / gridUnit) * gridUnit +
+                  (maxXFrame.x1_ - maxXFrame.grid.extendX_),
             y1:
-              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) - gridUnit / 4 < xy.y1
-                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_)
-                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_) + gridUnit / 4 < xy.y1
+              Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                (minYFrame.y1_ - minYFrame.grid.extendY_) -
+                gridUnit / 4 <
+              xy.y1
+                ? Math.ceil((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (minYFrame.y1_ - minYFrame.grid.extendY_)
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                    (minYFrame.y1_ - minYFrame.grid.extendY_) +
+                    gridUnit / 4 <
+                  xy.y1
                 ? xy.y1
-                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit + (minYFrame.y1_ - minYFrame.grid.extendY_),
+                : Math.floor((xy.y1 - (minYFrame.y1_ - minYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (minYFrame.y1_ - minYFrame.grid.extendY_),
             y2:
-              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) - gridUnit / 4 < xy.y2
-                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
-                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_) + gridUnit / 4 < xy.y2
+              Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                (maxYFrame.y1_ - maxYFrame.grid.extendY_) -
+                gridUnit / 4 <
+              xy.y2
+                ? Math.ceil((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                    (maxYFrame.y1_ - maxYFrame.grid.extendY_) +
+                    gridUnit / 4 <
+                  xy.y2
                 ? xy.y2
-                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit + (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
+                  (maxYFrame.y1_ - maxYFrame.grid.extendY_)
           }
         }
         switch (direct) {
@@ -344,10 +408,14 @@ export const MSelectRange = types
                 width: Math.round((width / initWidth) * rangeWidth),
                 height: Math.round((height / initHeight) * rangeHeight)
               }
-              const northY = Math.round(((box.frame_.y1_ + y - origin.y2) / initHeight) * rangeHeight) + origin.y2 - box.frame_.y1_
-              const southY = Math.round(((box.frame_.y1_ + y - origin.y1) / initHeight) * rangeHeight) + origin.y1 - box.frame_.y1_
-              const eastX = Math.round(((box.frame_.x1_ + x - origin.x1) / initWidth) * rangeWidth) + origin.x1 - box.frame_.x1_
-              const westX = Math.round(((box.frame_.x1_ + x - origin.x2) / initWidth) * rangeWidth) + origin.x2 - box.frame_.x1_
+              const northY =
+                Math.round(((box.frame_.y1_ + y - origin.y2) / initHeight) * rangeHeight) + origin.y2 - box.frame_.y1_
+              const southY =
+                Math.round(((box.frame_.y1_ + y - origin.y1) / initHeight) * rangeHeight) + origin.y1 - box.frame_.y1_
+              const eastX =
+                Math.round(((box.frame_.x1_ + x - origin.x1) / initWidth) * rangeWidth) + origin.x1 - box.frame_.x1_
+              const westX =
+                Math.round(((box.frame_.x1_ + x - origin.x2) / initWidth) * rangeWidth) + origin.x2 - box.frame_.x1_
 
               switch (direct) {
                 case "northeast":
@@ -448,7 +516,8 @@ export const MSelectRange = types
         const gridWidth = (totalRangeWidth - totalBoxesWidth) / gridCount
         boxes.forEach((box, index) => {
           const {y, height, width} = box.layout
-          const offset = boxes.slice(0, index).reduce((total, current) => total + current.layout.width, 0) + gridWidth * index
+          const offset =
+            boxes.slice(0, index).reduce((total, current) => total + current.layout.width, 0) + gridWidth * index
           const item = {
             x: Math.round(startPointX + offset),
             y: Math.round(y),
@@ -465,7 +534,8 @@ export const MSelectRange = types
         const gridHeight = (totalRangeHeight - totalBoxesHeight) / gridCount
         boxes.forEach((box, index) => {
           const {x, height, width} = box.layout
-          const offset = boxes.slice(0, index).reduce((total, current) => total + current.layout.height, 0) + gridHeight * index
+          const offset =
+            boxes.slice(0, index).reduce((total, current) => total + current.layout.height, 0) + gridHeight * index
           const item = {
             x: Math.round(x),
             y: Math.round(startPointY + offset),
