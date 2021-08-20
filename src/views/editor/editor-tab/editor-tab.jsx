@@ -20,7 +20,11 @@ const EditorTab = ({tab}) => {
           <ArtTab art={tab.art} />
         </Loading>
       )}
-      {tab.type === "material" && tab.materialThumbnail && <MaterialTab material={tab.materialThumbnail} />}
+      {tab.type === "material" && tab.material && (
+        <Loading data={tab.material.fetchState}>
+          <MaterialTab material={tab.material} />
+        </Loading>
+      )}
       {tab.type === "data" && tab.data && <DataTab data={tab.data} />}
       {tab.type === "dataSourceManager" && tab.dataSourceManager && (
         <DataSourceManagerTab dataSourceManager={tab.dataSourceManager} />

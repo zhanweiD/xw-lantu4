@@ -1,3 +1,3 @@
-import MaterialTab from "./material-tab"
+import Material from "./material"
 
-export default MaterialTab
+export default Material

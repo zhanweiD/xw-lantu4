@@ -1,28 +1,12 @@
 import React, {useState} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
-import GeojsonPreview from "@components/geojson-preview"
+import Geo from "@components/geo-preview"
 import Icon from "@components/icon"
 import config from "@utils/config"
 import w from "@models"
 import s from "./material-panel.module.styl"
 import isDev from "@utils/is-dev"
-
-const Geo = ({path, onload = () => {}}) => {
-  let geoResult
-  try {
-    const geoPath = path
-    const xhr = new XMLHttpRequest()
-    xhr.open("get", geoPath, false)
-    xhr.send()
-    const responseFile = xhr.response
-    geoResult = JSON.parse(responseFile)
-    onload()
-  } catch (error) {
-    console.log("读取GeoJSON失败", error)
-  }
-  return geoResult ? <GeojsonPreview className="m8 hand" geojson={geoResult} height={168} /> : "读取GeoJSON失败"
-}
 
 const MaterialView = ({material}) => {
   const [onload, setOnload] = useState(false)

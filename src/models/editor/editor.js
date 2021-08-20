@@ -25,6 +25,9 @@ export const MEditor = types
       event.on("editor.openTab", ({type, name, id, tabOptions}) => {
         self.openTab({type, name, id, tabOptions})
       })
+      event.on("editor.updateTabname", ({id, name}) => {
+        self.updateTabname({id, name})
+      })
       event.on("editor.finishCreate", (data) => {
         self.finishCreate(data)
       })
@@ -204,6 +207,13 @@ export const MEditor = types
       tab && tab.showDetail()
     }
 
+    const updateTabname = ({id, name}) => {
+      const tab = self.tabs.filter((item) => item.id === id)[0]
+      tab.set({
+        name
+      })
+      self.saveSession()
+    }
     return {
       afterCreate,
       applySession,
@@ -216,6 +226,7 @@ export const MEditor = types
       closeOtherTabs,
       closeAllTabs,
       finishCreate,
-      showTabDetail
+      showTabDetail,
+      updateTabname
     }
   })

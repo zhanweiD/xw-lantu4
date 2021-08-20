@@ -17,7 +17,7 @@ const Head = () => {
   const {panelButtons, activePanelButton} = head
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
-  const {type, art, data, materialThumbnail} = activeTab
+  const {type, art, data, material} = activeTab
   const {viewport, isGridVisible, isBoxBackgroundVisible, isSnap} = art || {}
   const {selectRange} = viewport || {}
   let size = 0
@@ -260,7 +260,7 @@ const Head = () => {
           lineHeight={22}
           className="ml8"
           onClick={() => {
-            copy(materialThumbnail.id)
+            copy(material.id)
             env_.tip.success({content: "复制成功"})
           }}
         >

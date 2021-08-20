@@ -130,6 +130,7 @@ export const MArt = types
         }
         self.fetchState = "success"
       } catch (error) {
+        self.fetchState = "error"
         log.error("getArt.Error:", error)
       }
     })

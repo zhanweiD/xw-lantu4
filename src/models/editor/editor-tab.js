@@ -5,7 +5,7 @@ import {MArt} from "../art/art"
 import {MArtInit} from "./editor-tab-art-init"
 import {MProjectDetail} from "./editor-tab-project-detail"
 import {MArtDetail} from "./editor-tab-art-detail"
-import {MMaterialTab} from "./editor-tab-material-thumbnail"
+import {MMaterial} from "./editor-tab-material"
 import {MDataTab} from "./editor-tab-data"
 import {MDataSourceManager} from "./editor-tab-data-manager"
 
@@ -25,7 +25,7 @@ export const MEditorTab = types
     ]),
     projectDetail: types.maybe(MProjectDetail),
     artDetail: types.maybe(MArtDetail),
-    materialThumbnail: types.maybe(MMaterialTab),
+    material: types.maybe(MMaterial),
     data: types.maybe(MDataTab),
     initArt: types.maybe(MArtInit),
     tabOptions: types.frozen(),
@@ -71,14 +71,12 @@ export const MEditorTab = types
         }
       }
       if (type === "material") {
-        console.log(self.id, self.tabOptions, self.type)
-        self.materialThumbnail = {
-          id: self.id
+        if (!self.material) {
+          self.material = {
+            materialId: self.id
+          }
+          self.material.getMaterialDetail()
         }
-        self.materialThumbnail.getMaterialDetail()
-        setTimeout(() => {
-          self.materialThumbnail.initZoom()
-        }, 0)
       }
       if (type === "data") {
         if (!self.data) {
@@ -106,15 +104,15 @@ export const MEditorTab = types
     }
 
     const save = () => {
-      const {type, art, data, materialThumbnail} = self
+      const {type, art, data, material} = self
       if (type === "art" && art && isFunction(art.save)) {
         art.save()
       }
       if (type === "data" && data) {
         data.saveData()
       }
-      if (type === "material" && materialThumbnail) {
-        materialThumbnail.save()
+      if (type === "material" && material) {
+        material.save()
       }
     }
 
