@@ -13,7 +13,16 @@ export const MEditorTab = types
   .model({
     id: types.union(types.number, types.string),
     name: types.optional(types.string, ""),
-    type: types.enumeration(["art", "projectInit", "projectDetail", "artInit", "material", "data", "artDetail", "dataSourceManager"]),
+    type: types.enumeration([
+      "art",
+      "projectInit",
+      "projectDetail",
+      "artInit",
+      "material",
+      "data",
+      "artDetail",
+      "dataSourceManager"
+    ]),
     projectDetail: types.maybe(MProjectDetail),
     artDetail: types.maybe(MArtDetail),
     materialThumbnail: types.maybe(MMaterialTab),

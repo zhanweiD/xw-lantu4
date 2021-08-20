@@ -1,24 +1,23 @@
-/**
- * @author 南风
- * @description 项目管理面板-单个项目
- */
 import {types, getEnv, flow, getParent} from "mobx-state-tree"
 import config from "@utils/config"
 import uuid from "@utils/uuid"
 import commonAction from "@utils/common-action"
 import {MArtThumbnail} from "../art/art-thumbnail"
 import {MDataTab} from "../editor/editor-tab-data"
+import createLog from "@utils/create-log"
 
-export const MProjectThumbnail = types
+const log = createLog("@models/project/project-list.js")
+
+export const MProjectList = types
   .model({
-    projectId: types.union(types.string, types.number),
     name: types.string,
     description: types.string,
+    projectId: types.union(types.string, types.number),
     arts: types.optional(types.array(MArtThumbnail), []),
+    // 大屏排序数据
     artSort: types.optional(types.array(types.number), []),
-    dataList: types.optional(types.array(MDataTab), []),
-
-    isNew: types.optional(types.boolean, false)
+    // 项目数据
+    dataList: types.optional(types.array(MDataTab), [])
   })
   .views((self) => ({
     get env_() {
@@ -27,16 +26,12 @@ export const MProjectThumbnail = types
     get projectPanel_() {
       return getParent(self, 2)
     },
+    // 获取展示的大屏（排序搜索后的结果）
     get arts_() {
-      if (self.arts.length && self.artSort.length) {
-        const sortArtIds = self.artSort.filter(self.getArtById)
-        const sortArts = sortArtIds.map(self.getArtById)
-        const unSortArts = self.arts.filter(
-          (art) => !sortArtIds.includes(art.artId)
-        )
-        return [...sortArts, ...unSortArts]
-      }
-      return self.arts
+      const {keyword} = self.projectPanel_.toolbar
+      const sortedArts = self.artSort.map((id) => self.arts.find((art) => art.artId === id)).filter(Boolean)
+      const unsortedArts = self.arts.filter((art) => !self.artSort.includes(art.artId))
+      return [...sortedArts, ...unsortedArts].filter(({name}) => name.match(keyword))
     },
     get dataList_() {
       return self.dataList
@@ -44,18 +39,15 @@ export const MProjectThumbnail = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
+    // 项目数据相关
     const afterCreate = () => {
       const {event} = self.env_
-      self.dataList?.forEach((data) => {
-        data.set({
-          isProject: true,
-          projectId: self.projectId
-        })
-      })
+      self.dataList?.forEach((data) => data.set({isProject: true, projectId: self.projectId}))
       event.off(`projectThumbnail.updateData${self.projectId}`)
-      event.on(`projectThumbnail.updateData${self.projectId}`, self.updateData)
+      event.on(`projectThumbnail.updateData${self.projectId}`, ({dataList}) => self.set(dataList))
     }
 
+    // 新建新的数据屏
     const createArt = () => {
       const {event} = self.env_
       event.fire("editor.openTab", {
@@ -66,12 +58,10 @@ export const MProjectThumbnail = types
       })
     }
 
+    // 从文件导入数据屏
     const importArt = flow(function* importArt(files, projectId) {
-      const {tip, log, event} = self.env_
-      const formData = new FormData()
-
-      formData.append(files[0].type, files[0], files[0].name)
-
+      const {tip, event} = self.env_
+      const formData = new FormData().append(files[0].type, files[0], files[0].name)
       try {
         yield fetch(`${config.urlPrefix}project/${projectId}/import/art`, {
           method: "POST",
@@ -88,11 +78,12 @@ export const MProjectThumbnail = types
           })
       } catch (error) {
         tip.error({content: error.message})
-        log.error("create.Error:", error)
+        log.error(error)
       }
     })
 
-    const updateProject = () => {
+    // 打开项目详情面板
+    const editProject = () => {
       const {event} = self.env_
       const {name, projectId, description} = self
       event.fire("editor.openTab", {
@@ -103,30 +94,20 @@ export const MProjectThumbnail = types
       })
     }
 
+    // 数据屏排序
     const moveArtSort = (sourcceIndex, targetIndex) => {
-      // 如果没有 artSort 那么前端生成默认 artSort
-      if (!self.artSort.length) {
+      if (!self.artSort) {
         self.artSort = self.arts.map((art) => art.artId)
+      } else {
+        const temp = self.artSort[sourcceIndex]
+        self.artSort[sourcceIndex] = self.artSort[targetIndex]
+        self.artSort[targetIndex] = temp
       }
-      // 如果 artSort 与 arts 长度不一致，则保证 artSort 顺序前提下，往后追加剩余 art 的顺序
-      if (self.artSort.length !== self.arts.length) {
-        // 去除脏的 artSort 数据项
-        const sortArtIds = self.artSort.filter(self.getArtById)
-        const unSortArts = self.arts
-          .map(({artId}) => artId)
-          .filter((artId) => !sortArtIds.includes(artId))
-        self.artSort = [...sortArtIds, ...unSortArts]
-      }
-      const artSort = [...self.artSort]
-      const tmp = artSort[sourcceIndex] // 临时储存文件
-      artSort.splice(sourcceIndex, 1) // 移除拖拽项
-      artSort.splice(targetIndex, 0, tmp) // 插入放置项
-      self.artSort = artSort
     }
 
+    // 保存排序结果
     const saveArtSort = flow(function* saveArtSort() {
-      const {tip, log, io} = self.env_
-
+      const {tip, io} = self.env_
       try {
         yield io.project.sort({
           ":projectId": self.projectId,
@@ -139,22 +120,12 @@ export const MProjectThumbnail = types
       }
     })
 
-    const getArtById = (artId) => {
-      return self.arts.find((art) => art.artId === artId)
-    }
-
-    const updateData = ({dataList}) => {
-      self.dataList = dataList
-    }
-
     return {
       createArt,
       importArt,
-      updateProject,
+      editProject,
       moveArtSort,
-      getArtById,
       saveArtSort,
-      updateData,
       afterCreate
     }
   })
