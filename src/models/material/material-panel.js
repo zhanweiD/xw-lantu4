@@ -1,5 +1,6 @@
 import commonAction from "@utils/common-action"
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
+import cloneDeep from "lodash/cloneDeep"
 import createLog from "@utils/create-log"
 import config from "@utils/config"
 import {MFolder} from "./material-folder"
@@ -29,6 +30,7 @@ export const MMaterialPanel = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
+    let bakFolders = []
     const {io, tip, event} = self.env_
     const afterCreate = () => {
       event.on("materialPanel.getFolders", self.getFolders)
@@ -94,6 +96,7 @@ export const MMaterialPanel = types
         tip.error({content: error.message})
       }
     })
+
     const remove = flow(function* remove(folderId) {
       try {
         yield io.material.removeFolder({":folderId": folderId})
@@ -126,10 +129,37 @@ export const MMaterialPanel = types
       document.body.removeChild(elink)
     }
 
+    const searchFolders = () => {
+      if (!self.keyword) {
+        bakFolders.length && self.set({folders: bakFolders})
+        bakFolders = []
+        return
+      }
+      if (!bakFolders.length) {
+        bakFolders = cloneDeep(self.folders.toJSON())
+      }
+      let runtimeFolders = cloneDeep(bakFolders)
+      const folders = runtimeFolders.reduce((total, current) => {
+        if (current.folderName.includes(self.keyword)) {
+          total.push(current)
+        } else {
+          const materials = current.materials.filter((material) => material.name.includes(self.keyword))
+          if (materials.length) {
+            current.materials = materials
+            total.push(current)
+          }
+        }
+        return total
+      }, [])
+      self.set({
+        folders
+      })
+    }
     return {
       afterCreate,
       getFolders,
       createFolder,
+      searchFolders,
       removeFolder,
       exportFolder,
       toggleFolderTop,
