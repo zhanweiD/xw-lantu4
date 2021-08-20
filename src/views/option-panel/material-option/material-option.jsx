@@ -1,7 +1,3 @@
-/**
- * @author 南风
- * @description 素材面板配置信息栏封装
- */
 import React from "react"
 import {observer} from "mobx-react-lite"
 import {useTranslation} from "react-i18next"
