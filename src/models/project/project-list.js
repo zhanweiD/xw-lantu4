@@ -2,7 +2,7 @@ import {types, getEnv, flow, getParent} from "mobx-state-tree"
 import config from "@utils/config"
 import uuid from "@utils/uuid"
 import commonAction from "@utils/common-action"
-import {MArtThumbnail} from "../art/art-thumbnail"
+import {MArtThumbnail} from "../new-art/art-thumbnail"
 import {MDataTab} from "../editor/editor-tab-data"
 import createLog from "@utils/create-log"
 

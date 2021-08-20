@@ -1,6 +1,6 @@
 import commonAction from "@utils/common-action"
 import {flow, getEnv, types} from "mobx-state-tree"
-import {MArtThumbnail} from "../art/art-thumbnail"
+import {MArtThumbnail} from "../new-art/art-thumbnail"
 
 export const MArtInit = types
   .model({
