@@ -279,6 +279,10 @@ context.create("io.auth", {
     method: "POST",
     url: "login"
   },
+  register: {
+    method: "POST",
+    url: "register"
+  },
   loginInfo: {
     method: "GET",
     url: "user/login_info"
@@ -287,6 +291,11 @@ context.create("io.auth", {
   logout: {
     method: "POST",
     url: "logout"
+  },
+  // 验证码
+  getSMSCode: {
+    method: "POST",
+    url: "sms/code"
   }
 })
 context.create("io.user", {

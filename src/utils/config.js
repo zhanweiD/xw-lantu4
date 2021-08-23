@@ -7,10 +7,12 @@
 
 const config = {
   logo: "/logo.svg",
-  loginBack: "/bk.png",
+  loginBack: "/login-bg.png",
+  waveviewBack: "/waveview-bg.png",
   mascot: "/mascot.svg",
   slogan: "/slogan.png",
   pathPrefix: "",
   urlPrefix: "/api/v4/waveview/"
 }
+
 export default Object.assign(config, window.config)
