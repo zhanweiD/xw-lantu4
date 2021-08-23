@@ -323,7 +323,7 @@ context.create("io.user", {
   },
   top: {
     method: "POST",
-    url: "organization/:type/top"
+    url: "top/:type"
   }
 })
 context.create("io.organization", {
@@ -390,10 +390,7 @@ context.create("io.material", {
     url: "material",
     method: "POST"
   },
-  getMaterialTypes: {
-    method: "GET",
-    url: "material/supported/type"
-  },
+
   removeMaterial: {
     method: "DELETE",
     url: "material/:materialId"
@@ -402,10 +399,7 @@ context.create("io.material", {
     method: "PUT",
     url: "material/:materialId"
   },
-  getTypes: {
-    method: "GET",
-    url: "material/supported/type"
-  },
+
   getMaterials: {
     method: "GET",
     url: "material"

@@ -71,13 +71,17 @@ export const MMaterialPanel = types
       }
     })
 
-    const toggleFolderTop = flow(function* toggleTop(folderId) {
+    const toggleFolderTop = flow(function* toggleTop(folder) {
       try {
         yield io.user.top({
-          ":type": "folder",
-          organizationId: self.root_.user.organizationId,
-          ":folderId": folderId
+          ":type": "material-folder",
+          action: folder.isTop ? "cancel" : "top",
+          id: folder.folderId
         })
+        folder.set({
+          isTop: !folder.isTop
+        })
+        tip.success({content: folder.isTop ? "取消置顶成功" : "置顶成功"})
       } catch (error) {
         log.error("toggleTop Error: ", error)
         tip.error({content: error.message})
