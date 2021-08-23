@@ -17,7 +17,7 @@ const MaterialOption = ({material}) => {
         <Scroll className="h100p">
           {/* 日志信息 */}
           <Section name={t("materialPanel.logInfo")} childrenClassName="pt8 pb8" sessionId="material-log">
-            <TextField label={t("materialPanel.creater")} value={user?.nickname} readOnly />
+            <TextField label={t("materialPanel.creater")} value={user?.nickname || ""} readOnly />
             <TextField label={t("materialPanel.ctime")} value={moment(ctime).format("YYYY-MM-DD HH:mm:ss")} readOnly />
           </Section>
           {/* 基础信息 */}
