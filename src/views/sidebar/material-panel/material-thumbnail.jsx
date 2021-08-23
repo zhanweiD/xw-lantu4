@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
 import Geo from "@components/geo-preview"
@@ -9,7 +9,6 @@ import s from "./material-panel.module.styl"
 import isDev from "@utils/is-dev"
 
 const MaterialView = ({material}) => {
-  const [onload, setOnload] = useState(false)
   let F
   switch (material.type) {
     case "image":
@@ -19,13 +18,12 @@ const MaterialView = ({material}) => {
           src={`${config.urlPrefix}material/download/${material.materialId}`}
           draggable={false}
           alt=""
-          style={{display: !onload && "none"}}
-          onLoad={() => setOnload(true)}
+          style={{height: `${(material.height / material.width) * 270}px`}}
         />
       )
       break
     case "GeoJSON":
-      F = <Geo onload={() => setOnload(true)} path={`${config.urlPrefix}material/download/${material.materialId}`} />
+      F = <Geo path={`${config.urlPrefix}material/download/${material.materialId}`} />
       break
     default:
       null
