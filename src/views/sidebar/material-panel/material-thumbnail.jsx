@@ -1,31 +1,14 @@
-import React, {useState} from "react"
+import React from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
-import GeojsonPreview from "@components/geojson-preview"
+import Geo from "@components/geo-preview"
 import Icon from "@components/icon"
 import config from "@utils/config"
 import w from "@models"
 import s from "./material-panel.module.styl"
 import isDev from "@utils/is-dev"
 
-const Geo = ({path, onload = () => {}}) => {
-  let geoResult
-  try {
-    const geoPath = path
-    const xhr = new XMLHttpRequest()
-    xhr.open("get", geoPath, false)
-    xhr.send()
-    const responseFile = xhr.response
-    geoResult = JSON.parse(responseFile)
-    onload()
-  } catch (error) {
-    console.log("读取GeoJSON失败", error)
-  }
-  return geoResult ? <GeojsonPreview className="m8 hand" geojson={geoResult} height={168} /> : "读取GeoJSON失败"
-}
-
 const MaterialView = ({material}) => {
-  const [onload, setOnload] = useState(false)
   let F
   switch (material.type) {
     case "image":
@@ -35,13 +18,12 @@ const MaterialView = ({material}) => {
           src={`${config.urlPrefix}material/download/${material.materialId}`}
           draggable={false}
           alt=""
-          style={{display: !onload && "none"}}
-          onLoad={() => setOnload(true)}
+          style={{height: `${(material.height / material.width) * 270}px`}}
         />
       )
       break
     case "GeoJSON":
-      F = <Geo onload={() => setOnload(true)} path={`${config.urlPrefix}material/download/${material.materialId}`} />
+      F = <Geo path={`${config.urlPrefix}material/download/${material.materialId}`} />
       break
     default:
       null

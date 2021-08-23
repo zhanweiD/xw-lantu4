@@ -69,7 +69,8 @@ const MaterialPanel = () => {
   const [name, setName] = useState("")
   const {sidebar} = w
   const {materialPanel} = sidebar
-  const {fetchState, folders, showType, keyword, isVisible, toggleFolderTop, createFolder, removeFolder, exportFolder} = materialPanel
+  const {fetchState, folders, showType, keyword, isVisible, toggleFolderTop, createFolder, removeFolder, exportFolder} =
+    materialPanel
   return (
     <Loading data={fetchState}>
       <Tab sessionId="material-panel-tab" bodyClassName="fbv" className="w100p h100p">
@@ -82,7 +83,14 @@ const MaterialPanel = () => {
                 .concat(folders.filter((f) => !f.isTop))
                 .map((folder) => (
                   <MaterialFolder
-                    icon={<MoreIcon toggleFolderTop={toggleFolderTop} exportFolder={exportFolder} removeFolder={removeFolder} folder={folder} />}
+                    icon={
+                      <MoreIcon
+                        toggleFolderTop={toggleFolderTop}
+                        exportFolder={exportFolder}
+                        removeFolder={removeFolder}
+                        folder={folder}
+                      />
+                    }
                     key={folder.folderId}
                     folder={folder}
                     showType={showType}
@@ -90,7 +98,7 @@ const MaterialPanel = () => {
                 ))
             ) : keyword ? (
               <div className={c("m8 emptyNote")}>
-                <div className="fbh fbjc">{`抱歉，没有找到与"${toolbar.keyword}"相关的素材`}</div>
+                <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的素材`}</div>
               </div>
             ) : (
               <div className="fbv fbac fbjc mt30 pt30">

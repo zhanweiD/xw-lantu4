@@ -7,9 +7,10 @@ export const MMaterial = types
   .model(" MMaterial", {
     folderId: types.number,
     materialId: types.string,
-    type: types.string,
+    type: types.optional(types.enumeration(["GeoJSON", "image"]), "image"),
     name: types.optional(types.string, ""),
-    ctime: types.number
+    width: types.optional(types.number, 0),
+    height: types.optional(types.number, 0)
   })
   .views((self) => ({
     get root_() {

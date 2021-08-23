@@ -1,7 +1,19 @@
+/*
+ * @Author: 柿子
+ * @Date: 2021-08-09 17:07:03
+ * @LastEditTime: 2021-08-09 17:17:32
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /waveview-front4/src/models/new-art/art-publish-info.js
+ */
+
 import {types, flow, getEnv} from "mobx-state-tree"
 import io from "@utils/io"
 import copy from "@utils/copy"
 import commonAction from "@utils/common-action"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/art/art-publish-info.js")
 
 const PublishVersion = types.model("PublishVersion", {
   versionId: types.number,
@@ -36,8 +48,7 @@ export const MPublishInfo = types
         })
         self.list = list
       } catch (error) {
-        // todo 统一修改
-        console.log(error)
+        log.error("getVersions Error: ", error)
       }
     })
 
@@ -50,8 +61,7 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(true)
       } catch (error) {
-        // TODO error 统一替换
-        console.log(error)
+        log.error("publish Error: ", error)
       }
     })
 
@@ -66,8 +76,7 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(true)
       } catch (error) {
-        // TODO error 统一替换
-        console.log(error)
+        log.error("online Error: ", error)
       }
     })
 
@@ -82,8 +91,7 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(false)
       } catch (error) {
-        // TODO error 统一替换
-        console.log(error)
+        log.error("offline Error: ", error)
       }
     })
 
@@ -96,8 +104,7 @@ export const MPublishInfo = types
         })
         self.getVersions()
       } catch (error) {
-        // TODO error 统一替换
-        console.log(error)
+        log.error("remove Error: ", error)
       }
     })
 

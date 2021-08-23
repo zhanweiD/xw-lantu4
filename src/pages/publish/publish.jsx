@@ -11,9 +11,7 @@ const Publish = ({match}) => {
   }, [publishId])
   return (
     <div className={s.publish}>
-      <div className="wh100p">
-        {art.fetchState === "success" && <ArtPreview art={art} />}
-      </div>
+      <div className="wh100p">{art.fetchState === "success" && <ArtPreview art={art} />}</div>
     </div>
   )
 }

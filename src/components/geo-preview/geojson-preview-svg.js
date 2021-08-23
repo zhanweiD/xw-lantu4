@@ -24,10 +24,7 @@ export default class GeojsonPreviewSvg {
 
     this.mainWidth = this.containerWidth
     this.mainHeight = this.containerHeight
-    this.root = svg
-      .append("g")
-      .attr("width", this.containerWidth)
-      .attr("height", this.containerHeight)
+    this.root = svg.append("g").attr("width", this.containerWidth).attr("height", this.containerHeight)
 
     this._data = {}
     // d3

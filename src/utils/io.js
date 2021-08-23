@@ -86,6 +86,17 @@ context.create("io.project", {
   quit: {
     url: "project/:projectId/quit",
     method: "DELETE"
+  },
+  getTemplates: {
+    method: "GET",
+    url: "template"
+  },
+  removeTemplate: {
+    method: "DELETE",
+    url: "template/:templateId",
+    willFetch: (vars, config) => {
+      config.query = vars.data
+    }
   }
 })
 
@@ -271,6 +282,14 @@ context.create("io.art", {
   copy: {
     method: "POST",
     url: "project/:projectId/copy/art/:artId"
+  },
+  saveAsTemplate: {
+    method: "POST",
+    url: "art/:artId/template"
+  },
+  getThumbnail: {
+    method: "POST",
+    url: "art/:artId/capture"
   }
 })
 
@@ -313,7 +332,7 @@ context.create("io.user", {
   },
   top: {
     method: "POST",
-    url: "organization/:type/top"
+    url: "top/:type"
   }
 })
 context.create("io.organization", {
@@ -380,10 +399,7 @@ context.create("io.material", {
     url: "material",
     method: "POST"
   },
-  getMaterialTypes: {
-    method: "GET",
-    url: "material/supported/type"
-  },
+
   removeMaterial: {
     method: "DELETE",
     url: "material/:materialId"
@@ -392,10 +408,7 @@ context.create("io.material", {
     method: "PUT",
     url: "material/:materialId"
   },
-  getTypes: {
-    method: "GET",
-    url: "material/supported/type"
-  },
+
   getMaterials: {
     method: "GET",
     url: "material"

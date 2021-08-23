@@ -11,9 +11,7 @@ const Preview = ({match}) => {
   }, [artId])
   return (
     <div className={s.preview}>
-      <div className="wh100p">
-        {art.fetchState === "success" && <ArtPreview art={art} />}
-      </div>
+      <div className="wh100p">{art.fetchState === "success" && <ArtPreview art={art} />}</div>
     </div>
   )
 }

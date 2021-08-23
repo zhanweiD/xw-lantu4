@@ -4,20 +4,20 @@ import {useTranslation} from "react-i18next"
 import c from "classnames"
 import w from "@models"
 import IconGroupButton from "@components/icon-group-button"
-import Button from "@components/button"
+
 import {Link} from "react-router-dom"
 import config from "@utils/config"
-import copy from "@utils/copy"
+
 import s from "./head.module.styl"
 import PanelButton from "./panel-button"
 
 const Head = () => {
   const {t} = useTranslation()
-  const {head, editor, env_, optionPanel} = w
+  const {head, editor, optionPanel} = w
   const {panelButtons, activePanelButton} = head
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
-  const {type, art, data, materialThumbnail} = activeTab
+  const {type, art} = activeTab
   const {viewport, isGridVisible, isBoxBackgroundVisible, isSnap} = art || {}
   const {selectRange} = viewport || {}
   let size = 0
@@ -238,35 +238,6 @@ const Head = () => {
           />
         </>
       )}
-      {type === "data" && (
-        <>
-          <IconGroupButton icon="reset" title="刷新" canUse canClick onClick={data.getData} />
-          <Button
-            width={70}
-            lineHeight={22}
-            className="ml8"
-            onClick={() => {
-              copy(data.dataId)
-              env_.tip.success({content: "复制成功"})
-            }}
-          >
-            复制ID
-          </Button>
-        </>
-      )}
-      {type === "material" && (
-        <Button
-          width={70}
-          lineHeight={22}
-          className="ml8"
-          onClick={() => {
-            copy(materialThumbnail.id)
-            env_.tip.success({content: "复制成功"})
-          }}
-        >
-          复制ID
-        </Button>
-      )}
       {isOptionPanelVisible_ && (
         <IconGroupButton
           icon="menu"
@@ -275,11 +246,6 @@ const Head = () => {
           canClick
           onClick={() => {
             optionPanel.toggle()
-            if (art) {
-              setTimeout(() => {
-                art.viewport.resizeViewport()
-              }, 60)
-            }
           }}
         />
       )}

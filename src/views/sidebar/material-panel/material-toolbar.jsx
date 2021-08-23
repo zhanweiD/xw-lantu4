@@ -10,7 +10,7 @@ const MaterialToolbar = () => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {materialPanel} = sidebar
-  const {keyword, showType, searchMaterials} = materialPanel
+  const {keyword, showType, searchFolders} = materialPanel
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
       <div className="fb1">
@@ -23,7 +23,7 @@ const MaterialToolbar = () => {
               keyword: e.target.value
             })
           }}
-          onKeyDown={(e) => e.key === "Enter" && searchMaterials()}
+          onKeyDown={(e) => e.key === "Enter" && searchFolders()}
         />
       </div>
       {keyword && (
@@ -34,11 +34,11 @@ const MaterialToolbar = () => {
             materialPanel.set({
               keyword: ""
             })
-            // searchMaterials()
+            searchFolders()
           }}
         />
       )}
-      <IconButton icon="search" className="cfw6" title={t("search")} />
+      <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchFolders} />
       <IconButton icon={showType} className="cfw10" title="显示切换" onClick={materialPanel.toggleShowType} />
       <IconButton
         icon="create-material"

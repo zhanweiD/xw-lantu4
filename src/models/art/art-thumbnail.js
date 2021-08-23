@@ -1,20 +1,20 @@
-/**
- * @author 南风
- * @description 大屏详情
- */
 import commonAction from "@utils/common-action"
 import config from "@utils/config"
 import uuid from "@utils/uuid"
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/art/art-thumbnail.js")
 
 export const MArtThumbnail = types
   .model({
-    artId: types.number,
     name: types.string,
-    thumbnail: types.maybeNull(types.string),
-    isOnline: types.boolean,
+    artId: types.number,
     projectId: types.number,
-    publishId: types.string
+    publishId: types.string,
+    thumbnail: types.maybeNull(types.string),
+    isOnline: types.optional(types.boolean, false),
+    isTemplate: types.optional(types.boolean, false)
   })
   .views((self) => ({
     get env_() {
@@ -29,24 +29,33 @@ export const MArtThumbnail = types
   }))
   .actions(commonAction(["set"]))
   .actions((self) => {
+    // 预览数据屏
     const previewArt = () => {
-      window.open(
-        `${window.location.origin}${config.pathPrefix}/preview/${self.artId}`,
-        "previewWindow"
-      )
+      window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, "previewWindow")
     }
 
+    // 预览发布的数据屏
     const previewPublishArt = () => {
-      window.open(
-        `${window.location.origin}${config.pathPrefix}/publish/${self.publishId}`,
-        "previewWindow"
-      )
+      window.open(`${window.location.origin}${config.pathPrefix}/publish/${self.publishId}`, "previewWindow")
     }
 
-    const saveAsTemplate = () => {
-      console.log("save as template")
-    }
+    // 保存为模板
+    const saveAsTemplate = flow(function* saveAsTemplate() {
+      const {env_, artId} = self
+      const {io, tip, event} = env_
+      try {
+        yield io.art.saveAsTemplate({
+          ":artId": artId
+        })
+        event.fire("project-panel.getTemplates")
+        tip.success({content: "保存为模板成功"})
+      } catch (error) {
+        log.error(error)
+        tip.error({content: error.message})
+      }
+    })
 
+    // 复制数据屏
     const copyArt = flow(function* copyArt() {
       const {env_, projectId, artId} = self
       const {io, tip, event} = env_
@@ -55,99 +64,97 @@ export const MArtThumbnail = types
           ":projectId": projectId,
           ":artId": artId
         })
-        tip.success({content: "复制大屏成功"})
         event.fire("project-panel.getProjects")
+        tip.success({content: "复制数据屏成功"})
       } catch (error) {
+        log.error(error)
         tip.error({content: error.message})
       }
     })
 
+    // 导出数据屏
     const exportArt = () => {
       const {tip} = self.env_
       const a = document.createElement("a")
-      a.href = `api/v4/waveview/export/art/${self.artId}`
       const e = document.createEvent("MouseEvents")
-      e.initMouseEvent(
-        "click",
-        true,
-        false,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
-      )
+      a.href = `api/v4/waveview/export/art/${self.artId}`
+      e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
       a.dispatchEvent(e)
-      tip.success({content: "导出大屏成功"})
+      tip.success({content: "导出数据屏成功"})
     }
 
-    const showDetail = () => {
+    // 编辑数据屏
+    const editArt = () => {
       const {event} = self.env_
+      event.fire("project-panel.createRecentProject", self.projectId)
       event.fire("editor.openTab", {
         id: self.artId,
         name: self.name,
         type: "art"
       })
-      event.fire("project-panel.createRecentProject", self.projectId)
     }
 
-    const updateArt = () => {
+    // 展示数据屏详情
+    const showDetail = () => {
       const {event} = self.env_
       const {name, projectId, artId} = self
       event.fire("editor.openTab", {
-        type: "artDetail",
         name,
         id: uuid(),
-        tabOptions: {
-          name,
-          projectId,
-          artId
-        }
+        type: "artDetail",
+        tabOptions: {name, projectId, artId}
       })
     }
 
-    const remove = () => {
+    // 删除数据屏，提示动作
+    const removeArt = () => {
       self.root_.confirm({
-        content: `确认删除"${self.name}"数据屏么? 删除之后无法恢复`,
-        onConfirm: self.removeArt,
+        content: `确认删除"${self.name}"${self.isTemplate ? "模板" : "数据屏"}么? 删除之后无法恢复`,
+        onConfirm: self.reallyRemoveArt,
         attachTo: false
       })
     }
 
-    const removeArt = flow(function* removeArt() {
+    // 删除数据屏，删除动作
+    const reallyRemoveArt = flow(function* removeArt() {
       const {io, event, tip} = self.env_
       const {projectId, artId} = self
       try {
-        yield io.art.remove({
-          ":projectId": projectId,
-          ":artId": artId
-        })
-        event.fire("project-panel.getProjects")
+        if (self.isTemplate) {
+          yield io.project.removeTemplate({":templateId": artId, source: "art"})
+        } else {
+          yield io.art.remove({":projectId": projectId, ":artId": artId})
+        }
+        event.fire(self.isTemplate ? "project-panel.getTemplates" : "project-panel.getProjects")
         event.fire("editor.closeTab", self.artId)
         tip.success({content: "删除成功"})
       } catch (error) {
-        // TODO error 统一替换
-        console.error(error)
+        log.error(error)
         tip.error({content: "删除失败"})
       }
     })
 
+    // 更新缩略图
+    const updateThumbnail = flow(function* () {
+      const {io, tip, event} = self.env_
+      try {
+        yield io.art.getThumbnail({":artId": self.artId})
+        event.fire(self.isTemplate ? "project-panel.getTemplates" : "project-panel.getProjects")
+      } catch (error) {
+        tip.error({content: error.message})
+      }
+    })
+
     return {
+      editArt,
       copyArt,
-      saveAsTemplate,
-      showDetail,
+      exportArt,
       removeArt,
-      remove,
-      updateArt,
+      reallyRemoveArt,
+      showDetail,
       previewArt,
       previewPublishArt,
-      exportArt
+      saveAsTemplate,
+      updateThumbnail
     }
   })

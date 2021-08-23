@@ -70,7 +70,21 @@ const MArtPreview = types
   .model("MArtPreview", {
     artId: types.maybe(types.number),
     publishId: types.maybe(types.string),
-    themeId: types.optional(types.enumeration(["fairyLand", "emeraldGreen", "duskUniverse", "glaze", "exquisite", "blueGreen", "greenRed", "blueRed", "orangePurple", "brownGreen"]), "glaze"),
+    themeId: types.optional(
+      types.enumeration([
+        "fairyLand",
+        "emeraldGreen",
+        "duskUniverse",
+        "glaze",
+        "exquisite",
+        "blueGreen",
+        "greenRed",
+        "blueRed",
+        "orangePurple",
+        "brownGreen"
+      ]),
+      "glaze"
+    ),
     gridUnit: types.optional(types.number, 40),
     watermark: types.optional(MWatermark, {}),
     password: types.optional(MPassword, {}),

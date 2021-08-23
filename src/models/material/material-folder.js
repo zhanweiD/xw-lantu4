@@ -75,32 +75,6 @@ export const MFolder = types
       })
     }
 
-    // const uploadMaterial = flow(function* create() {
-    //   const {tip, event} = self.env_
-    //   const formData = new FormData()
-    //   while (self.files.length === 0) {
-    //     tip.error({content: "上传列表不能为空！"})
-    //     return
-    //   }
-    //   self.files.forEach((file) => {
-    //     formData.append(file.fileType, file, file.name)
-    //   })
-    //   try {
-    //     yield fetch(`${config.urlPrefix}material?folderId=${self.activeFolderId}`, {
-    //       method: "POST",
-    //       body: formData
-    //     })
-    //     tip.success({content: "素材新建成功"})
-    //     self.set({
-    //       files: [],
-    //       isVisible: false
-    //     })
-    //     event.fire("materialPanel.getFolders")
-    //   } catch (error) {
-    //     tip.error({content: error.message, isManuallyClose: true})
-    //     log.error("upload Error: ", error)
-    //   }
-    // })
     const uploadMaterial = () => {
       const {tip, event} = self.env_
       const formData = new FormData()
