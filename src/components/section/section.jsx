@@ -32,14 +32,14 @@ const Section = ({
   tipColor,
   headIcon,
   childrenClassName,
-  onClick
+  onClick,
+  updateKey
 }) => {
   if (allSessionIds[sessionId]) {
     console.warn(`'Section'组件有重复的'sessionId(${sessionId})'出现，请检查`)
   }
 
   const sessionKey = sessionId ? `section-${sessionId}` : undefined
-
   const [fold, setFold] = useState(sessionKey ? session.get(sessionKey, isFold) : isFold)
   const [isDrawed, setIsDrawed] = useState(false)
   const contentRef = useRef()
@@ -63,6 +63,12 @@ const Section = ({
       }
     }
   }, [fold])
+
+  useEffect(() => {
+    if (updateKey) {
+      setFold(sessionKey ? session.get(sessionKey, isFold) : isFold)
+    }
+  }, [updateKey])
 
   return (
     <div

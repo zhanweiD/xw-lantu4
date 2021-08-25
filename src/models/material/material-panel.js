@@ -31,7 +31,7 @@ export const MMaterialPanel = types
   .actions(commonAction(["set"]))
   .actions((self) => {
     let bakFolders = []
-    const {io, tip, event} = self.env_
+    const {io, tip, event, session} = self.env_
     const afterCreate = () => {
       event.on("materialPanel.getFolders", self.getFolders)
       self.getFolders()
@@ -52,6 +52,9 @@ export const MMaterialPanel = types
         default:
           showType = "thumbnail-list"
       }
+      self.folders.forEach((folder) => {
+        session.set(`section-material-folder-${folder.folderId}`, false)
+      })
       self.showType = showType
     }
 

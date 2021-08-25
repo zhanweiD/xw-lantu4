@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
 import Geo from "@components/geo-preview"
@@ -8,17 +8,22 @@ import w from "@models"
 import s from "./material-panel.module.styl"
 import isDev from "@utils/is-dev"
 
-const MaterialView = ({material}) => {
+const MaterialView = ({material, showType}) => {
+  const [onload, setOnload] = useState(false)
   let F
   switch (material.type) {
     case "image":
       F = (
         <img
-          className={c("hand", s.thumbnail)}
+          className={c("hand", {
+            [s.grid]: showType === "grid-layout",
+            [s.thumbnail]: showType !== "grid-layout"
+          })}
           src={`${config.urlPrefix}material/download/${material.materialId}`}
           draggable={false}
           alt=""
-          style={{height: `${(material.height / material.width) * 270}px`}}
+          style={{height: !onload && `${(material.height / material.width) * 270}px`}}
+          onLoad={() => setOnload(true)}
         />
       )
       break
@@ -60,7 +65,15 @@ const Material = ({material, showType}) => {
         menu.show({list})
       }}
     >
-      {showType !== "list" ? <MaterialView material={material} /> : null}
+      {showType !== "list" ? (
+        <div
+          className={c("cfw6 fbh", {
+            [s.gridWrap]: showType === "grid-layout"
+          })}
+        >
+          <MaterialView material={material} showType={showType} />
+        </div>
+      ) : null}
       {showType !== "grid-layout" ? (
         <div className="fbh fbac lh24 mb8">
           <div
