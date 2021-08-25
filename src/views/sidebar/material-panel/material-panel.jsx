@@ -152,11 +152,9 @@ const MaterialPanel = () => {
           {
             name: "新增",
             action: () => {
-              createFolder(name)
-              materialPanel.set({
-                isVisible: false
+              createFolder(name, () => {
+                setName("")
               })
-              setName("")
             }
           }
         ]}

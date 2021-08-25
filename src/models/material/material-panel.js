@@ -81,20 +81,30 @@ export const MMaterialPanel = types
         folder.set({
           isTop: !folder.isTop
         })
-        tip.success({content: folder.isTop ? "取消置顶成功" : "置顶成功"})
+        tip.success({content: folder.isTop ? "置顶成功" : "取消置顶成功"})
       } catch (error) {
         log.error("toggleTop Error: ", error)
         tip.error({content: error.message})
       }
     })
 
-    const createFolder = flow(function* create(name) {
+    const createFolder = flow(function* create(name, cb) {
+      if (!name) {
+        tip.error({
+          content: "文件夹名称不可为空"
+        })
+        return
+      }
       try {
         yield io.material.createFolder({folderName: name})
         self.getFolders()
         tip.success({
           content: `“${name.length > 10 ? name.slice(0, 10) : name}”文件夹新建成功`
         })
+        self.set({
+          isVisible: false
+        })
+        cb()
       } catch (error) {
         log.error("createFolder Error: ", error)
         tip.error({content: error.message})
