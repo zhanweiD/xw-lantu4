@@ -48,6 +48,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
       version={3}
       name={`${folder.folderName}(${folder.materials.length})`}
       sessionId={`material-folder-${folder.folderId}`}
+      updateKey={showType}
     >
       {materials.length === 0 ? (
         <div className={c("mb16 emptyNote")}>
