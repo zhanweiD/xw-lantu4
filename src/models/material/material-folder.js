@@ -39,11 +39,10 @@ export const MFolder = types
     const addMaterial = (images) => {
       const {tip} = self.env_
       if (images.length > 5) {
-        images = images.slice(0, 5)
         tip.error({content: "一次上传数量不能大于5个"})
         return
       }
-      if (self.files.length >= 5) {
+      if (self.files.length + images.length > 5) {
         tip.error({content: "总上传数量不能大于5个"})
         return
       }
@@ -55,7 +54,6 @@ export const MFolder = types
           })
         )
         .concat(...self.files)
-        .slice(0, 5)
       self.set({
         files
       })
