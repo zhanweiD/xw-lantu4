@@ -137,6 +137,7 @@ export const MMaterialPanel = types
     const exportFolder = (folder) => {
       const elink = document.createElement("a")
       elink.href = `${config.urlPrefix}material/folder/${folder.folderId}/export`
+      elink.name = folder.name
       elink.style.display = "none"
       document.body.appendChild(elink)
       elink.click()
