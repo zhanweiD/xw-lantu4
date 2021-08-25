@@ -38,40 +38,26 @@ export const MFolder = types
   .actions((self) => {
     const addMaterial = (images) => {
       const {tip} = self.env_
-      let data = []
+      if (images.length > 5) {
+        images = images.slice(0, 5)
+        tip.error({content: "一次上传数量不能大于5个"})
+        return
+      }
       if (self.files.length >= 5) {
         tip.error({content: "总上传数量不能大于5个"})
         return
       }
-      if (images.length > 5) {
-        images = images.slice(0, 5)
-        tip.error({content: "一次上传数量不能大于5个"})
-      }
-      const length = self.files.length + images.length
-      if (length >= 5) {
-        const tempImages = [].concat(images.slice(0, 5 - self.files.length))
-        data = [].concat(
-          tempImages.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-              fileType: getType(file)
-            })
-          ),
-          ...self.files
+      const files = images
+        .map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+            fileType: getType(file)
+          })
         )
-      } else {
-        data = [].concat(
-          images.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-              fileType: getType(file)
-            })
-          ),
-          ...self.files
-        )
-      }
+        .concat(...self.files)
+        .slice(0, 5)
       self.set({
-        files: data
+        files
       })
     }
 

@@ -40,9 +40,7 @@ const Section = ({
 
   const sessionKey = sessionId ? `section-${sessionId}` : undefined
 
-  const [fold, setFold] = useState(
-    sessionKey ? session.get(sessionKey, isFold) : isFold
-  )
+  const [fold, setFold] = useState(sessionKey ? session.get(sessionKey, isFold) : isFold)
   const [isDrawed, setIsDrawed] = useState(false)
   const contentRef = useRef()
   const heightRef = useRef()
@@ -116,11 +114,10 @@ const Section = ({
               }}
             />
           )}
-          {headIcon && (
-            <Icon name={headIcon} className="mr8" fill="white" size={16} />
-          )}
+          {headIcon && <Icon name={headIcon} className="mr8" fill="white" size={16} />}
           <div
             className="omit"
+            title={name}
             onClick={(e) => {
               if (onClick) {
                 e.stopPropagation()
