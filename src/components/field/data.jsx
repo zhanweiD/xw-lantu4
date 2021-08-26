@@ -1,10 +1,13 @@
-import React from "react"
+import React, {useState} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
+import hJSON from "hjson"
+import Section from "@components/section"
+import tip from "@components/tip"
+import copy from "@utils/copy"
+import {CodeField} from "./code"
 import {Field} from "./base"
 import s from "./data.module.styl"
-import Section from "@components/section"
-import {CodeField} from "./code"
 
 const Check = ({value, onChange, options}) => {
   return (
@@ -27,65 +30,89 @@ const Check = ({value, onChange, options}) => {
   )
 }
 
-export const DataField = observer(
-  ({label, value, onChange = () => {}, onCopy = () => {}, onFormat = () => {}, onSave = () => {}}) => {
-    return (
-      <>
-        <Field label={label}>
-          <Check
-            value={value.type}
-            options={[
+export const DataField = observer(({label, value, onChange = () => {}}) => {
+  const [json, setJson] = useState(value.private)
+  return (
+    <>
+      <Field label={label}>
+        <Check
+          value={value.type}
+          options={[
+            {
+              key: "私有JSON",
+              value: "private"
+            },
+            {
+              key: "数据源",
+              value: "source"
+            }
+          ]}
+          onChange={(value) => {
+            onChange({
+              type: value
+            })
+          }}
+        />
+      </Field>
+      {value.type === "private" && (
+        <Section name="私有JSON">
+          <CodeField
+            value={json}
+            height={140}
+            onChange={(value) => {
+              setJson(value)
+            }}
+            buttons={[
               {
-                key: "私有JSON",
-                value: "private"
+                name: "复制",
+                action: () => {
+                  copy(json)
+                  tip.success({content: "复制成功"})
+                },
+                position: "left"
               },
               {
-                key: "数据源",
-                value: "source"
+                name: "格式化",
+                action: () => {
+                  try {
+                    const hjson = hJSON.parse(json)
+                    setJson(hJSON.stringify(hjson, {space: 2, quotes: "strings", separator: true}))
+                  } catch (error) {
+                    tip.error({content: "格式化失败,请检查JSON是否合法"})
+                  }
+                },
+                position: "left"
+              },
+              {
+                name: "保存",
+                action: () => {
+                  try {
+                    const hjson = hJSON.parse(json)
+                    onChange({
+                      private: hJSON.stringify(hjson, {space: 2, quotes: "strings", separator: true})
+                    })
+                  } catch (error) {
+                    tip.error({content: "保存失败,请检查JSON是否合法"})
+                  }
+                },
+                position: "right"
               }
             ]}
-            onChange={(value) => {
-              onChange({
-                type: value
-              })
-            }}
           />
-        </Field>
-        {value.type === "private" && (
-          <Section name="私有JSON">
-            <CodeField
-              value={value.private}
-              height={140}
-              onChange={(value) => {
-                onChange({
-                  private: value
-                })
-              }}
-              buttons={[
-                {
-                  name: "复制",
-                  action: onCopy,
-                  position: "left"
-                },
-                {
-                  name: "格式化",
-                  action: onFormat,
-                  position: "left"
-                },
-                {
-                  name: "保存",
-                  action: onSave,
-                  position: "right"
-                }
-              ]}
-            />
-          </Section>
-        )}
-        <div>
-          <div>字段预览</div>
-          <div></div>
-        </div>
-      </>
-    )
-  }
-)
+          <div>
+            <div>字段预览</div>
+            {value.private && (
+              <div>
+                {hJSON.parse(value.private)[0].map((v) => (
+                  <span className="mr8" key={v}>
+                    {v}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </Section>
+      )}
+    </>
+  )
+})

@@ -453,17 +453,7 @@ const ModelToField = observer(({model, onAction}) => {
           label={t(model.label)}
           value={model.value}
           onChange={(v) => {
-            console.log(model)
             model.setValue(v)
-          }}
-          onCopy={() => {
-            model.copyJSON()
-          }}
-          onFormat={() => {
-            model.formatJSON()
-          }}
-          onSave={() => {
-            model.saveValue()
           }}
         />
       )
