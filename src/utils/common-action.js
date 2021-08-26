@@ -9,8 +9,7 @@ import createLog from "@utils/create-log"
 const log = createLog("@utils/common-action")
 
 export const getModelSchema = (node, option = {}) => {
-  const {normalKeys = node.normalKeys || [], deepKeys = node.deepKeys || []} =
-    option
+  const {normalKeys = node.normalKeys || [], deepKeys = node.deepKeys || []} = option
 
   const typeName = getType(node).name
   // NOTE 修改这个值，在对应type类使用断点调试
@@ -61,17 +60,11 @@ export const getModelSchema = (node, option = {}) => {
         if (isFunction(node[key].getSchema)) {
           schema[key] = node[key].getSchema(option)
         } else {
-          log.warn(
-            "getSchema is not a function on object. Function: 'getModelSchema'",
-            node[key]
-          )
+          log.warn("getSchema is not a function on object. Function: 'getModelSchema'", node[key])
         }
       }
     } else {
-      log.warn(
-        `${key} is not found on node(${typeName}). Function: 'getModelSchema'`,
-        node
-      )
+      log.warn(`${key} is not found on node(${typeName}). Function: 'getModelSchema'`, node)
     }
   })
 
@@ -118,25 +111,17 @@ export const setModelSchema = (node, schema) => {
             // node[key].push({id: itemSchema.id})
             // node[key][node[key].length - 1].setSchema(itemSchema)
           })
-        } else if (
-          isPlainObject(schema[key]) &&
-          isMapType(getType(node[key]))
-        ) {
+        } else if (isPlainObject(schema[key]) && isMapType(getType(node[key]))) {
           node[key].setSchema(schema[key])
         } else {
           if (isFunction(node[key].setSchema)) {
             node[key].setSchema(schema[key])
           } else {
-            log.warn(
-              "setSchema is not a function on object. Function: 'setModelSchema'",
-              node[key]
-            )
+            log.warn("setSchema is not a function on object. Function: 'setModelSchema'", node[key])
           }
         }
       } else {
-        log.warn(
-          `deepKey(${key}) property is not found on node(${typeName}). Function: 'setModelSchema'`
-        )
+        log.warn(`deepKey(${key}) property is not found on node(${typeName}). Function: 'setModelSchema'`)
       }
     })
   }
@@ -147,7 +132,6 @@ export const setModelSchema = (node, schema) => {
     })
   }
 
-  // TODO 文档 从 afterCreate 切换到 afterSetSchema 的原因及重要性
   // 原因及重要性：afterCreate只保障的id值的完成了初始化，不能保障所有props值都完成初始化
   if (isFunction(node.afterSetSchema)) {
     node.afterSetSchema()

@@ -142,8 +142,6 @@ const MArtPreview = types
         initXY()
         self.fetchState = "success"
       } catch (error) {
-        // TODO error 统一替换
-        console.log(error)
         self.fetchState = "error"
       }
     })

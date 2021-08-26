@@ -89,11 +89,7 @@ const keyUpPrefix = (keyName) => `keyUp-${keyName}`
 // 是否处于输入状态
 const isInputting = () => {
   const {activeElement} = document
-  return (
-    activeElement &&
-    (activeElement.nodeName === "TEXTAREA" ||
-      activeElement.nodeName === "INPUT")
-  )
+  return activeElement && (activeElement.nodeName === "TEXTAREA" || activeElement.nodeName === "INPUT")
 }
 
 const isFnKeyHolding = () => {
@@ -139,7 +135,6 @@ export const shortcut = {
           document.body.classList.add("noselect")
           break
         // 苹果上的option
-        // TODO window的alt待验证
         case 18:
           shortcut.option = true
           shortcutEvent.fire(keyDownPrefix("option"))
@@ -206,7 +201,6 @@ export const shortcut = {
           document.body.classList.remove("noselect")
           break
         // 苹果上的option
-        // TODO window的alt待验证
         case 18:
           shortcut.option = false
           shortcutEvent.fire(keyUpPrefix("option"))

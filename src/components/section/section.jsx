@@ -57,8 +57,6 @@ const Section = ({
       if (fold) {
         contentRef.current.style.height = 0
       } else {
-        // contentRef.current.style.height = `${heightRef.current}px`
-        // TODO 待优化，应该是具体数值，scroll时高度会有变化
         contentRef.current.style.height = "auto"
       }
     }
