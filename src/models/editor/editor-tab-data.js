@@ -3,7 +3,7 @@ import commonAction from "@utils/common-action"
 import moment from "moment"
 import createLog from "@utils/create-log"
 import uuid from "@utils/uuid"
-import hJSON from "hanson"
+import hJSON from "hjson"
 import random from "@utils/random"
 import {MDatabase} from "../data/data-database"
 import {MApi} from "../data/data-api"
@@ -55,11 +55,7 @@ export const MDataTab = types
       return iconMapping[self.dataType] || ""
     },
     get result_() {
-      if (
-        self.dataType === "api" ||
-        self.dataType === "json" ||
-        self.dataType === "database"
-      ) {
+      if (self.dataType === "api" || self.dataType === "json" || self.dataType === "database") {
         return hJSON.parse(self[self.dataType].codeOptions.result.value)
       }
       const {data, columns} = self.excel
@@ -102,17 +98,7 @@ export const MDataTab = types
     })
 
     const setData = (data) => {
-      const {
-        dataType,
-        dataName,
-        ctime,
-        mtime,
-        remark,
-        user,
-        config,
-        dataSource,
-        customId
-      } = data
+      const {dataType, dataName, ctime, mtime, remark, user, config, dataSource, customId} = data
       let type = dataType
       // basic赋值
       self.dataName = dataName
@@ -143,8 +129,7 @@ export const MDataTab = types
         const {useDataProcessor} = config
         const codeOptions = {
           data: data.fileData,
-          useDataProcessor:
-            typeof useDataProcessor === "boolean" ? useDataProcessor : true
+          useDataProcessor: typeof useDataProcessor === "boolean" ? useDataProcessor : true
         }
         self.json.codeOptions.setValues(codeOptions)
         self.json.formatData(false)
@@ -162,8 +147,7 @@ export const MDataTab = types
           headers,
           dataProcessor: processorFunction,
           query: qs,
-          useDataProcessor:
-            typeof useDataProcessor === "boolean" ? useDataProcessor : true
+          useDataProcessor: typeof useDataProcessor === "boolean" ? useDataProcessor : true
         })
         body && self.api.codeOptions.setValues({body})
       } else {
@@ -231,11 +215,8 @@ export const MDataTab = types
         } else if (dataType === "json") {
           // 保存前先格式化
           self.json.formatData()
-          const {useDataProcessor, dataProcessor} =
-            self.json.codeOptions.getSchema()
-          const jsonData = JSON.stringify(
-            JSON.parse(self.json.codeOptions.data.value)
-          )
+          const {useDataProcessor, dataProcessor} = self.json.codeOptions.getSchema()
+          const jsonData = JSON.stringify(JSON.parse(self.json.codeOptions.data.value))
           // Q: 为什么要这么实现
           // A: 一个全局数据由数据和数据源两部分组成，数据一定要包含一个数据源，所以创建数据之前一定要创建数据源
           dataSourceOptions = {
@@ -265,8 +246,7 @@ export const MDataTab = types
           afterDataSourceHandel = (dataSource) => {
             // self.dataSource.set(...dataSource)
             const {method, url} = self.api.options.getSchema()
-            const {headers, query, body, dataProcessor, useDataProcessor} =
-              self.api.codeOptions.getSchema()
+            const {headers, query, body, dataProcessor, useDataProcessor} = self.api.codeOptions.getSchema()
             data = {
               ...data,
               dataSourceId: dataSource.dataSourceId,
@@ -355,8 +335,7 @@ export const MDataTab = types
           const result = yield dataIo.createData(data)
           self.isCreate = true
           self.basic.setSchema({isCreate: true})
-          const {nickname, ctime, mtime, dataName, remark, dataId, customId} =
-            result
+          const {nickname, ctime, mtime, dataName, remark, dataId, customId} = result
           self.basic.setSchema({
             ctime: moment(ctime).format("YYYY-MM-DD HH:mm:ss"),
             mtime: moment(mtime).format("YYYY-MM-DD HH:mm:ss"),
@@ -452,9 +431,7 @@ export const MDataTab = types
       const dataFieldKey = dataField.map((field) => field.key)
 
       // 真实的数据字段里额外的数据字段
-      const extraDataField = dataField.filter(
-        (field) => !customDataFieldKey.includes(field.key)
-      )
+      const extraDataField = dataField.filter((field) => !customDataFieldKey.includes(field.key))
       // 自定义字段中无效的数据字段
       const invalidCustomDataField = []
       // 自定义字段中有效的数据字段
@@ -495,12 +472,7 @@ export const MDataTab = types
         })
         const dataSources =
           type === "database" &&
-          list.filter(
-            (data) =>
-              data.dataType !== "json" &&
-              data.dataType !== "api" &&
-              data.dataType !== "excel"
-          )
+          list.filter((data) => data.dataType !== "json" && data.dataType !== "api" && data.dataType !== "excel")
         self.set({dataSources})
       } catch (error) {
         // TODO error 统一替换

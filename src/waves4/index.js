@@ -1,6 +1,18 @@
 import basicColumn from "./waves/columns/basic-column"
 import i18n from "@i18n"
 
+const waves = {
+  basicColumn
+}
+
+Object.values(waves).forEach((wave) => {
+  const k = i18n.sandbox(wave.i18n, wave.id || wave.icon)
+  wave.config = wave.config(k)
+  wave.Adapter = wave.Adapter(k)
+})
+
+export default waves
+
 const categories = [
   {
     // 柱状图
@@ -15,15 +27,27 @@ const categories = [
 categories.forEach((category) => {
   category.exhibits.forEach((exhibit, i) => {
     if (exhibit.completed) {
-      const k = i18n.sandbox(exhibit.i18n, exhibit.id || exhibit.icon)
-      exhibit.config = exhibit.config(k)
+      const {config} = exhibit
       category.exhibits[i] = {
         ...exhibit,
-        key: exhibit.config.key,
-        name: exhibit.config.name
+        key: config.key,
+        name: config.name
       }
     }
   })
 })
+// categories.forEach((category) => {
+//   category.exhibits.forEach((exhibit, i) => {
+//     if (exhibit.completed) {
+//       const k = i18n.sandbox(exhibit.i18n, exhibit.id || exhibit.icon)
+//       exhibit.config = exhibit.config(k)
+//       category.exhibits[i] = {
+//         ...exhibit,
+//         key: exhibit.config.key,
+//         name: exhibit.config.name
+//       }
+//     }
+//   })
+// })
 
 export {categories}

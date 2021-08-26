@@ -2,6 +2,7 @@ import React from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
 import w from "@models"
+import ArtOption from "./art-option"
 import MaterialOption from "./material-option"
 import DataOption from "./data-option"
 import s from "./option-panel.module.styl"
@@ -18,6 +19,7 @@ const OptionPanel = () => {
         hide: !optionPanel.isActive
       })}
     >
+      {activeTab.type === "art" && activeTab.art && <ArtOption art={activeTab.art} />}
       {activeTab.type === "material" && activeTab.material && <MaterialOption material={activeTab.material} />}
       {activeTab.type === "data" && activeTab.data && <DataOption data={activeTab.data} />}
     </div>

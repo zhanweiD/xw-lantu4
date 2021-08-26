@@ -53,6 +53,7 @@ const SectionFields = observer(
       })
       // 目前只取了section.fields中的首个sectionConfig，后续优化支持多个配置
       const sectionConfigField = sectionFields.find(([, fieldModel]) => fieldModel.type === "sectionConfig")
+
       if (sectionFields.length) {
         return (
           <Section

@@ -6,7 +6,7 @@ import {types, getEnv, getParent} from "mobx-state-tree"
 import {createConfigModelClass} from "@components/field"
 import commonAction from "@utils/common-action"
 import makeFunction from "@utils/make-function"
-import hJSON from "hanson"
+import hJSON from "hjson"
 import createLog from "@utils/create-log"
 
 // import {MSection} from '../common/section'
@@ -124,8 +124,7 @@ export const MJson = types
 
     const getResult = () => {
       const {tip} = self.env_
-      const {dataProcessor, data, useDataProcessor} =
-        self.codeOptions.getSchema()
+      const {dataProcessor, data, useDataProcessor} = self.codeOptions.getSchema()
       if (useDataProcessor) {
         try {
           let result = makeFunction(dataProcessor)({data: hJSON.parse(data)})

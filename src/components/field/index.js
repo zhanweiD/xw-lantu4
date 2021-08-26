@@ -19,6 +19,7 @@ import {ConstraintsField} from "./constraints"
 import {AlignmentField} from "./alignment"
 import {OffsetField} from "./offset"
 import {ImageField} from "./image"
+import {DataField} from "./data"
 import createConfigModelClass from "./create-config-model-class"
 import ModelToField from "./model-to-field"
 
@@ -47,5 +48,6 @@ export {
   OffsetField,
   createConfigModelClass,
   ModelToField,
-  CodeField
+  CodeField,
+  DataField
 }

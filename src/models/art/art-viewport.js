@@ -449,7 +449,6 @@ export const MArtViewport = types
 
     const zoomSingleToView = () => {
       initXY()
-      console.log(self.selectRange)
       const frame = self.selectRange
         ? self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
         : self.mainFrame_

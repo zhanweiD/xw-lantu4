@@ -33,7 +33,8 @@ export default defineConfig({
       "@Icons": resolve("src/icons"),
       "@i18n": resolve("src/i18n"),
       "@utils": resolve("src/utils"),
-      "@waves4": resolve("src/waves4")
+      "@waves4": resolve("src/waves4"),
+      "@exhibit-collection": resolve("src/exhibit-collection")
     }
   },
   server: {

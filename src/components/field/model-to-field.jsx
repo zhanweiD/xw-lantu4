@@ -22,6 +22,7 @@ import {ImageField} from "./image"
 import {AlignmentField} from "./alignment"
 import {SectionConfigField} from "./section-config"
 import {OffsetField} from "./offset"
+import {DataField} from "./data"
 // import {ExhibitDataField} from "./exhibit-data"
 
 const ModelToField = observer(({model, onAction}) => {
@@ -446,25 +447,27 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-
-    // case "exhibitData":
-    //   F = (
-    //     <ExhibitDataField
-    //       className={c({hide: !model.whenIsSatisfied})}
-    //       value={model.value}
-    //       config={model.config}
-    //       columns={model.columns_}
-    //       setEffectLayer={model.setEffectLayer}
-    //       onChange={(k, v) => {
-    //         model.setValue(k, v)
-    //       }}
-    //       sourceList={model.sourceList_}
-    //       sourceProcessorResult={model.sourceProcessorResult_}
-    //       jsonProcessorResult={model.jsonProcessorResult_}
-    //     />
-    //   )
-    //   break
-
+    case "data":
+      F = (
+        <DataField
+          label={t(model.label)}
+          value={model.value}
+          onChange={(v) => {
+            console.log(model)
+            model.setValue(v)
+          }}
+          onCopy={() => {
+            model.copyJSON()
+          }}
+          onFormat={() => {
+            model.formatJSON()
+          }}
+          onSave={() => {
+            model.saveValue()
+          }}
+        />
+      )
+      break
     default:
       F = <div>缺失的Field: {model.type}</div>
       console.warn("Field is not existed. ", model)
