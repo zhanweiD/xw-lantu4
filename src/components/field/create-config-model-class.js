@@ -5,7 +5,15 @@ import isString from "lodash/isString"
 import isPlainObject from "lodash/isPlainObject"
 import createLog from "@utils/create-log"
 import isDef from "@utils/is-def"
-import {defaultDataProcessor, getProcessorFunction, getDefaultValue, getProcessorCode, getUseProcessor, valueIsFunction, getHasSaveCode} from "@utils/field-processor"
+import {
+  defaultDataProcessor,
+  getProcessorFunction,
+  getDefaultValue,
+  getProcessorCode,
+  getUseProcessor,
+  valueIsFunction,
+  getHasSaveCode
+} from "@utils/field-processor"
 import {MTextField} from "./text.model"
 import {MNumberField} from "./number.model"
 import {MMultiNumberField} from "./multi-number.model"
@@ -23,7 +31,7 @@ import {MImageField} from "./image.model"
 import {MAlignmentField} from "./alignment.model"
 import {MSectionConfigField} from "./section-config.model"
 import {MOffsetField} from "./offset.model"
-// import {MExhibitDataField} from "./exhibit-data.model"
+import {MDataField} from "./data.model"
 
 const log = createLog("@components/field/create-config-model-class")
 
@@ -49,8 +57,8 @@ const fieldModel = {
   image: MImageField,
   alignment: MAlignmentField,
   sectionConfig: MSectionConfigField,
-  offset: MOffsetField
-  // exhibitData: MExhibitDataField
+  offset: MOffsetField,
+  data: MDataField
 }
 
 const MSectionField = types.model("MSectionField", {
@@ -70,7 +78,9 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
         section.fields.forEach((sectionField) => {
           config.fields.push({
             section: section.section,
-            option: sectionField.option ? section.option || sectionField.option : `${section.section}_unsaveWithoutOption_${index}`,
+            option: sectionField.option
+              ? section.option || sectionField.option
+              : `${section.section}_unsaveWithoutOption_${index}`,
             field: {
               ...sectionField,
               sectionOption: section.option,
@@ -229,7 +239,9 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
           } else if (key in self) {
             self[key] = value
           } else {
-            log.warn(`The prop '${key}' is not existed on model ${modelName}, but ${modelName}.${key}.setValue() is called.`)
+            log.warn(
+              `The prop '${key}' is not existed on model ${modelName}, but ${modelName}.${key}.setValue() is called.`
+            )
           }
         })
       } else {

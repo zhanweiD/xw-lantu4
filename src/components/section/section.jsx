@@ -25,11 +25,9 @@ const Section = ({
   hasAnimation = false,
   icon,
   canFold = true,
-  version = 4,
   isFold = false,
   sectionConfigField,
   onFold = () => {},
-  tipColor,
   headIcon,
   childrenClassName,
   onClick,
@@ -57,8 +55,6 @@ const Section = ({
       if (fold) {
         contentRef.current.style.height = 0
       } else {
-        // contentRef.current.style.height = `${heightRef.current}px`
-        // TODO 待优化，应该是具体数值，scroll时高度会有变化
         contentRef.current.style.height = "auto"
       }
     }
@@ -83,21 +79,17 @@ const Section = ({
       id={id}
     >
       <div
-        className={c("fbh cfw10", s.name, {
-          h32: version === 3,
-          h24: version === 4,
+        className={c("fbh cfw10 h24", s.name, s.name_select, s.name_bottom, {
           fbjsb: isDef(sectionConfigField),
-          [s.name_folded]: version === 3 && fold,
-          [s.name_select]: version === 4,
-          [s.name_bottom]: version === 4,
+
           hand: canFold,
           // 在配置面板里，有一种特殊的section，是隐藏头部的
           hide: hideNameBar === true
         })}
-        style={{borderLeftColor: version === 4 ? "none" : tipColor}}
+        style={{borderLeftColor: "none"}}
       >
         <div
-          className={c("fb1 pr8 omit fbh fbac", {pl8: version === 3})}
+          className={c("fb1 pr8 omit fbh fbac")}
           onClick={() => {
             if (canFold === false) return
             sessionKey && session.set(sessionKey, !fold)
@@ -105,21 +97,20 @@ const Section = ({
             onFold(!fold)
           }}
         >
-          {version === 4 && (
-            <IconButton
-              icon={fold ? "arrow-right" : "arrow-down"}
-              iconFill="#fff"
-              iconSize={8}
-              buttonSize={24}
-              onClick={(e) => {
-                e.stopPropagation()
-                if (canFold === false) return
-                sessionKey && session.set(sessionKey, !fold)
-                setFold(!fold)
-                onFold(!fold)
-              }}
-            />
-          )}
+          <IconButton
+            icon={fold ? "arrow-right" : "arrow-down"}
+            iconFill="#fff"
+            iconSize={8}
+            buttonSize={24}
+            onClick={(e) => {
+              e.stopPropagation()
+              if (canFold === false) return
+              sessionKey && session.set(sessionKey, !fold)
+              setFold(!fold)
+              onFold(!fold)
+            }}
+          />
+
           {headIcon && <Icon name={headIcon} className="mr8" fill="white" size={16} />}
           <div
             className="omit"

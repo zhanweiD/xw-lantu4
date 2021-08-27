@@ -1,5 +1,6 @@
 import {observer} from "mobx-react-lite"
 import React, {useRef} from "react"
+import c from "classnames"
 import ArtThumbnail from "@views/public/art-thumbnail"
 import IconButton from "@components/icon-button"
 import Section from "@components/section"
@@ -34,7 +35,7 @@ const MoreIcon = ({project, isTop, isRecent}) => {
       <Upload accept=".json" multiple={false} onOk={onUpload}>
         <div ref={uploadRef} />
       </Upload>
-      <IconButton icon="more" onClick={onClickMore} />
+      <IconButton icon="more" buttonSize={24} onClick={onClickMore} />
     </div>
   )
 }
@@ -44,15 +45,13 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
   return (
     <Section
       key={id}
-      version={3}
       sessionId={`SKProject-${id}`}
       name={`${name} (${arts.length})`}
-      className="pl8 pr8 mt8"
       childrenClassName="pt8"
       icon={icon}
     >
       {arts.map((art, index) => (
-        <div key={art.artId} className={s.list}>
+        <div key={art.artId} className={c("ml8 mr8")}>
           <DragSource
             key={art.artId}
             onEnd={(dropResult, data) => {

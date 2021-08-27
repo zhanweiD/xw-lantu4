@@ -27,9 +27,7 @@ export const Field = observer(
   }) => {
     return (
       <div className={c("fbh mb8 noFieldEvent w100p pr", className)}>
-        {tip && (
-          <IconButton title={tip} icon="tip" buttonSize={24} className="pa" />
-        )}
+        {tip && <IconButton title={tip} icon="tip" buttonSize={24} className="pa" />}
         <div
           className={c("w100p ml24", s.field, {
             mr16: !supportProcessor,
@@ -39,10 +37,7 @@ export const Field = observer(
           })}
         >
           {isDef(label) && (
-            <div
-              className={c("fb3", !label && "hide", s.label)}
-              style={labelStyle}
-            >
+            <div className={c("fb3", !label && "hide", s.label)} style={labelStyle}>
               {label}
             </div>
           )}

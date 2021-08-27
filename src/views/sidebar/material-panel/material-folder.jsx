@@ -43,15 +43,13 @@ const MaterialFolder = ({folder, showType, icon}) => {
   return (
     <Section
       icon={icon}
-      className="pl8 pr8 mt8"
-      childrenClassName="pt8"
-      version={3}
+      childrenClassName="pt8 pb8"
       name={`${folder.folderName}(${folder.materials.length})`}
       sessionId={`material-folder-${folder.folderId}`}
       updateKey={showType}
     >
       {materials.length === 0 ? (
-        <div className={c("mb16 emptyNote")}>
+        <div className={c("mb16 emptyNote mr8 ml8")}>
           <div>
             列表还是空空的，点击
             <span
@@ -68,7 +66,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
         </div>
       ) : null}
       {showType === "grid-layout" ? (
-        <Grid column={4}>
+        <Grid column={4} className="mr8 ml8">
           {materials.map((material) => (
             <Grid.Item key={material.materialId}>
               <Material key={material.materialId} material={material} showType={showType} />

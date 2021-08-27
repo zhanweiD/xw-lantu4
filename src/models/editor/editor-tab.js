@@ -4,7 +4,6 @@ import commonAction from "@utils/common-action"
 import {MArt} from "../art/art"
 import {MArtInit} from "./editor-tab-art-init"
 import {MProjectDetail} from "./editor-tab-project-detail"
-import {MArtDetail} from "./editor-tab-art-detail"
 import {MMaterial} from "./editor-tab-material"
 import {MDataTab} from "./editor-tab-data"
 import {MDataSourceManager} from "./editor-tab-data-manager"
@@ -13,18 +12,8 @@ export const MEditorTab = types
   .model({
     id: types.union(types.number, types.string),
     name: types.optional(types.string, ""),
-    type: types.enumeration([
-      "art",
-      "projectInit",
-      "projectDetail",
-      "artInit",
-      "material",
-      "data",
-      "artDetail",
-      "dataSourceManager"
-    ]),
+    type: types.enumeration(["art", "projectDetail", "artInit", "material", "data", "dataSourceManager"]),
     projectDetail: types.maybe(MProjectDetail),
-    artDetail: types.maybe(MArtDetail),
     material: types.maybe(MMaterial),
     data: types.maybe(MDataTab),
     initArt: types.maybe(MArtInit),
@@ -50,10 +39,7 @@ export const MEditorTab = types
         }
         self.projectDetail.getDetail()
       }
-      if (type === "artDetail") {
-        self.artDetail = tabOptions
-        self.artDetail.getDetail()
-      }
+
       if (type === "artInit") {
         const {projectId} = tabOptions
         self.initArt = {

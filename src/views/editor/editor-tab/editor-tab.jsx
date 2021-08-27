@@ -5,7 +5,6 @@ import DataSourceManagerTab from "../data-source-manager-tab"
 import MaterialTab from "../material-tab"
 import DataTab from "../data-tab"
 import ProjectDetailTab from "../project-detail-tab"
-import ArtDetailTab from "../art-detail-tab"
 import ArtInitTab from "../art-init-tab"
 import ArtTab from "../art-tab"
 
@@ -13,7 +12,6 @@ const EditorTab = ({tab}) => {
   return (
     <div className="wh100p">
       {tab.type === "projectDetail" && tab.projectDetail && <ProjectDetailTab project={tab.projectDetail} />}
-      {tab.type === "artDetail" && tab.artDetail && <ArtDetailTab art={tab.artDetail} />}
       {tab.type === "artInit" && tab.initArt && <ArtInitTab art={tab.initArt} id={tab.id} />}
       {tab.type === "art" && tab.art && (
         <Loading data={tab.art.fetchState}>

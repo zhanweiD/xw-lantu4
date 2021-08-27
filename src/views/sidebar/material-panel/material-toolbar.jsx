@@ -44,22 +44,10 @@ const MaterialToolbar = () => {
         icon="create-material"
         className="cfw12"
         title={t("materialPanel.materialCreate")}
-        onClick={(e, button) => {
+        onClick={(e) => {
           e.stopPropagation()
-          const menu = w.overlayManager.get("menu")
-          menu.toggle({
-            attachTo: button,
-            list: [
-              {
-                name: "新建文件夹",
-                action: () => {
-                  materialPanel.set({
-                    isVisible: true
-                  })
-                  menu.hide()
-                }
-              }
-            ]
+          materialPanel.set({
+            isVisible: true
           })
         }}
       />

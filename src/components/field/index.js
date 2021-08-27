@@ -1,3 +1,4 @@
+// TODO 有空整个文件夹都需要重写，太乱且太多冗余无用代码
 import {Field} from "./base"
 import {CheckField} from "./check"
 import {TextField} from "./text"
@@ -18,6 +19,7 @@ import {ConstraintsField} from "./constraints"
 import {AlignmentField} from "./alignment"
 import {OffsetField} from "./offset"
 import {ImageField} from "./image"
+import {DataField} from "./data"
 import createConfigModelClass from "./create-config-model-class"
 import ModelToField from "./model-to-field"
 
@@ -46,5 +48,6 @@ export {
   OffsetField,
   createConfigModelClass,
   ModelToField,
-  CodeField
+  CodeField,
+  DataField
 }

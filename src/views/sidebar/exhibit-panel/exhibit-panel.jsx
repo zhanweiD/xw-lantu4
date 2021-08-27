@@ -16,7 +16,13 @@ const Category = ({category}) => {
   const {t} = useTranslation()
   const {icon, name, exhibits} = category
   return (
-    <Section id={`category-${category.name}`} sessionId={`category-${category.name}`} headIcon={icon} className="pr8" childrenClassName="pt8 pb8" name={`${t(`exhibit.${name}`)} (${exhibits.length})`}>
+    <Section
+      id={`category-${category.name}`}
+      sessionId={`category-${category.name}`}
+      headIcon={icon}
+      childrenClassName="pt8 pb8"
+      name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
+    >
       <Grid column={4}>
         {exhibits.map((exhibit) => (
           <Grid.Item key={exhibit.key}>
@@ -55,7 +61,7 @@ const ExhibitPanel = () => {
       <Tab sessionId="exhibit-panel" className="fb1">
         <Tab.Item name={t("exhibitPanel.exhibits")}>
           <div className="fbh h100p">
-            <div className="pt8 pl8 pb8">
+            <div className="pb8">
               {Object.entries(categories).map(([id, category]) => (
                 <Caption content={t(`exhibit.${category.name}`)} key={id}>
                   <div
@@ -64,7 +70,11 @@ const ExhibitPanel = () => {
                     }}
                     className={c("hand fbv fbac fbjc", s.naviIcon)}
                   >
-                    {category.icon ? <Icon name={category.icon} fill="white" size={16} /> : t(`exhibit.${category.name}`).substring(0, 1)}
+                    {category.icon ? (
+                      <Icon name={category.icon} fill="white" size={16} />
+                    ) : (
+                      t(`exhibit.${category.name}`).substring(0, 1)
+                    )}
                   </div>
                 </Caption>
               ))}

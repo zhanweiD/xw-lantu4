@@ -1,6 +1,5 @@
 import commonAction from "@utils/common-action"
 import config from "@utils/config"
-import uuid from "@utils/uuid"
 import {types, getEnv, flow, getRoot} from "mobx-state-tree"
 import createLog from "@utils/create-log"
 
@@ -94,18 +93,6 @@ export const MArtThumbnail = types
       })
     }
 
-    // 展示数据屏详情
-    const showDetail = () => {
-      const {event} = self.env_
-      const {name, projectId, artId} = self
-      event.fire("editor.openTab", {
-        name,
-        id: uuid(),
-        type: "artDetail",
-        tabOptions: {name, projectId, artId}
-      })
-    }
-
     // 删除数据屏，提示动作
     const removeArt = () => {
       self.root_.confirm({
@@ -151,7 +138,6 @@ export const MArtThumbnail = types
       exportArt,
       removeArt,
       reallyRemoveArt,
-      showDetail,
       previewArt,
       previewPublishArt,
       saveAsTemplate,
