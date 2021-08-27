@@ -10,7 +10,7 @@ export const MProjectPanel = types
     templates: types.optional(types.array(MArtThumbnail), []),
     projects: types.optional(types.array(MProjectList), []),
     projectSort: types.optional(types.array(types.number), []),
-    // 最近访问的大屏
+    // 最近访问的项目
     recentProjectIds: types.optional(types.array(types.number), []),
     // 搜索工具栏
     toolbar: types.optional(MProjectToolbar, {}),
@@ -27,12 +27,20 @@ export const MProjectPanel = types
       return getRoot(self)
     },
     get recentProjects_() {
-      return self.recentProjectIds.map((id) => self.projects.find(({projectId}) => id === projectId)).filter(Boolean)
+      const {keyword} = self.toolbar
+      let recentProjects = self.recentProjectIds
+        .map((id) => self.projects.find(({projectId}) => id === projectId))
+        .filter(Boolean)
+      // 搜索的时候过滤“空”项目
+      if (keyword) {
+        recentProjects = recentProjects.filter((project) => project.arts_.length)
+      }
+      return recentProjects
     },
     get projects_() {
       const {keyword} = self.toolbar
-      const basicProjects = []
-      const topProjects = []
+      let basicProjects = []
+      let topProjects = []
       self.projects.forEach((project) => {
         if (self.projectSort.includes(project.projectId)) {
           topProjects.push(project)
@@ -42,10 +50,14 @@ export const MProjectPanel = types
       })
       // 搜索的时候过滤“空”项目
       if (keyword) {
-        basicProjects.filter((project) => project.arts_.length)
-        topProjects.filter((project) => project.arts_.length)
+        topProjects = topProjects.filter((project) => project.arts_.length)
+        basicProjects = basicProjects.filter((project) => project.arts_.length)
       }
       return {basicProjects, topProjects}
+    },
+    get templates_() {
+      const {keyword} = self.toolbar
+      return self.templates.filter(({name}) => name.match(keyword))
     }
   }))
   .actions(commonAction(["set"]))
@@ -63,15 +75,18 @@ export const MProjectPanel = types
       // 初始化调用一次获取数据
       self.getProjects()
       self.getTemplates()
-      self.applyLocal()
     }
 
     // 最近访问新增一个大屏
     const createResentProject = (id) => {
-      if (!self.recentProjectIds.includes(id)) {
+      const index = self.recentProjectIds.findIndex((projectId) => projectId === id)
+      if (index === -1) {
         self.recentProjectIds.unshift(id)
-        self.saveLocal()
+      } else {
+        const id = self.recentProjectIds.splice(index, 1)[0]
+        self.recentProjectIds.unshift(id)
       }
+      self.saveLocal()
     }
 
     // 更新大屏数据
@@ -87,6 +102,8 @@ export const MProjectPanel = types
       localSchema && applySnapshot(self, localSchema)
       if (self.recentProjects_.length) {
         self.activeIndex = 2
+      } else {
+        self.activeIndex = 0
       }
     }
 
@@ -95,7 +112,8 @@ export const MProjectPanel = types
       const {local} = self.env_
       local.set("SKRecentProject", {
         recentProjectIds: self.recentProjectIds,
-        toolbar: self.toolbar
+        toolbar: self.toolbar,
+        state: self.state
       })
     }
 
@@ -104,6 +122,7 @@ export const MProjectPanel = types
       const {io, tip} = self.env_
       try {
         const projects = yield io.project.getProjects()
+        self.applyLocal()
         self.projects = projects.list
         self.projectSort = projects.projectSort
         self.state = "success"
@@ -130,16 +149,12 @@ export const MProjectPanel = types
     const toggleProjectTop = flow(function* toggleProjectTop(project, isTop) {
       const {io, tip} = self.env_
       try {
-        if (isTop || self.projectSort.includes(project.projectId)) {
-          self.projectSort = self.projectSort.filter((sortId) => sortId !== project.projectId)
-        } else {
-          self.projectSort.push(project.projectId)
-        }
         yield io.user.top({
           ":type": "project",
-          organizationId: self.root_.user.organizationId,
-          sortArr: self.projectSort
+          id: project.projectId,
+          action: isTop ? "top" : "cancel"
         })
+        self.getProjects()
       } catch (error) {
         tip.error({content: "置顶失败"})
       }

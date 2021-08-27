@@ -24,7 +24,7 @@ const MoreIcon = ({project, isTop, isRecent}) => {
         {name: "项目详情", action: () => (project.editProject(), menu.hide())},
         {
           name: !isRecent && (isTop ? "取消置顶项目" : "置顶项目"),
-          action: () => (project.projectPanel_.toggleProjectTop(project, isTop), menu.hide())
+          action: () => (project.projectPanel_.toggleProjectTop(project, !isTop), menu.hide())
         }
       ]
     })
