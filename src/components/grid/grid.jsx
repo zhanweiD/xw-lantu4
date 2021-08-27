@@ -4,20 +4,12 @@ import c from "classnames"
 import s from "./grid.module.styl"
 
 const Item = observer(({children}) => (
-  <div
-    className={c(
-      {"fb1 fbh fbac fbjc pr": true, hand: !!children},
-      s.item,
-      children && s.itemHover
-    )}
-  >
-    {children}
-  </div>
+  <div className={c({"fb1 fbh fbac fbjc pr": true, hand: !!children}, s.item, children && s.itemHover)}>{children}</div>
 ))
 
-const Row = ({children}) => <div className={c("fbh", s.row)}>{children}</div>
+const Row = ({children, className}) => <div className={c("fbh", s.row, className)}>{children}</div>
 
-const Grid = ({column = 4, children}) => {
+const Grid = ({column = 4, children, className}) => {
   const rows = []
   const rowNumber = Math.ceil(children.length / column)
 
@@ -29,7 +21,7 @@ const Grid = ({column = 4, children}) => {
       row.push(children[childIndex] ? children[childIndex] : <Item />)
       childIndex++
     }
-    rows.push(<Row>{Children.toArray(row)}</Row>)
+    rows.push(<Row className={className}>{Children.toArray(row)}</Row>)
   }
 
   return Children.toArray(rows)

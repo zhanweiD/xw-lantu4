@@ -46,12 +46,7 @@ const Toolbar = ({dataSourceManager}) => {
         ""
       )}
 
-      <IconButton
-        icon="search"
-        title={t("search")}
-        className="cfw8"
-        onClick={searchDatas}
-      />
+      <IconButton icon="search" title={t("search")} className="cfw8" onClick={searchDatas} />
       <IconButton
         icon="create-data"
         className="cfw12"
@@ -60,12 +55,7 @@ const Toolbar = ({dataSourceManager}) => {
           dataSourceManager.applyModalValue()
           overlayManager.show({
             title: "数据库信息",
-            content: (
-              <DataSourceField
-                data={dataSourceManager.modal}
-                dataSourceManager={dataSourceManager}
-              />
-            ),
+            content: <DataSourceField data={dataSourceManager.modal} dataSourceManager={dataSourceManager} />,
             attachTo: false
             // top: 500,
             // left: 500,
@@ -85,7 +75,6 @@ const DataSourceManager = ({dataSourceManager}) => {
       {dataSourceManager.dataSources.map((item, index) => {
         return (
           <Section
-            version={3}
             className="pl8 pr8 mt8"
             childrenClassName="pt8"
             name={item.dataSourceName}
@@ -114,10 +103,7 @@ const DataSourceManager = ({dataSourceManager}) => {
               />
             }
           >
-            <DataSourceField
-              data={item}
-              dataSourceManager={dataSourceManager}
-            />
+            <DataSourceField data={item} dataSourceManager={dataSourceManager} />
           </Section>
         )
       })}

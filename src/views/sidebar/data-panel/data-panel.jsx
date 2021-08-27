@@ -77,10 +77,19 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
   return (
     <div className="pr oh">
       {isTop && <div className={s.delta} />}
-      <a style={{display: "none"}} label="download" ref={downloadRef} href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}>
+      <a
+        style={{display: "none"}}
+        label="download"
+        ref={downloadRef}
+        href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}
+      >
         download
       </a>
-      <IconButton icon="more" onClick={(e, button) => createMenu(e, button, dataPanel, folder, isTop, "folder")} />
+      <IconButton
+        buttonSize={24}
+        icon="more"
+        onClick={(e, button) => createMenu(e, button, dataPanel, folder, isTop, "folder")}
+      />
     </div>
   )
 }
@@ -96,7 +105,6 @@ const DataFolders = observer(({dataPanel, folder, isTop}) => {
 
   return (
     <Section
-      version={3}
       className="pl8 pr8 mt8"
       childrenClassName="pt8"
       icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop={isTop} />}
@@ -141,7 +149,10 @@ const DataFolders = observer(({dataPanel, folder, isTop}) => {
         <div className={c("mb16 emptyNote")}>
           <div>
             列表还是空空的，点击
-            <span className="ctSecend hand" onClick={(e, button) => createMenu(e, button, dataPanel, folder, false, "data")}>
+            <span
+              className="ctSecend hand"
+              onClick={(e, button) => createMenu(e, button, dataPanel, folder, false, "data")}
+            >
               新建
             </span>
           </div>
@@ -164,8 +175,12 @@ const DataPanel = () => {
           <div className={c("h100p fbv")}>
             <DataToolbar dataPanel={dataPanel} />
             <Scroll>
-              {folders_.topFolders.map((folder) => Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} isTop />))}
-              {folders_.basicFolders.map((folder) => Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} />))}
+              {folders_.topFolders.map((folder) =>
+                Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} isTop />)
+              )}
+              {folders_.basicFolders.map((folder) =>
+                Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} />)
+              )}
 
               {hasData_ ? (
                 ""

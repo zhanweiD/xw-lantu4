@@ -39,7 +39,7 @@ const MaterialView = ({material, showType}) => {
 const Material = ({material, showType}) => {
   return (
     <div
-      className={c("oh")}
+      className={c("oh mr8 ml8")}
       onDoubleClick={material.showDetail}
       onContextMenu={(e) => {
         e.preventDefault()

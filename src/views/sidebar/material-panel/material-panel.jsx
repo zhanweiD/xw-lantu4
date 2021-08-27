@@ -20,6 +20,7 @@ const MoreIcon = ({folder, removeFolder, exportFolder, toggleFolderTop}) => {
       {folder.isTop && <div className={s.delta} />}
       <IconButton
         icon="more"
+        buttonSize={24}
         onClick={(e, button) => {
           e.stopPropagation()
           const menu = w.overlayManager.get("menu")
