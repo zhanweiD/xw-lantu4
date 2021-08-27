@@ -51,7 +51,7 @@ const ProjectPanel = () => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {projectPanel} = sidebar
-  const {projects_, projects, recentProjects_, toolbar, activeIndex, templates} = projectPanel
+  const {projects_, projects, recentProjects_, templates_, toolbar, activeIndex} = projectPanel
   return (
     <Loading data={projectPanel.state}>
       <Tab className="w100p" sessionId="project-panel" activeIndex={activeIndex}>
@@ -80,19 +80,21 @@ const ProjectPanel = () => {
               <TemplateList id="official-template" name="官方模板" arts={[]} isTemplate>
                 <TemplateFallback />
               </TemplateList>
-              <TemplateList id="user-template" name="自定义模板" arts={templates} isTemplate>
-                {!templates.length && <TemplateFallback />}
+              <TemplateList id="user-template" name="自定义模板" arts={templates_} isTemplate>
+                {!templates_.length && <TemplateFallback />}
               </TemplateList>
             </Scroll>
           </div>
         </Tab.Item>
-        {recentProjects_.length && (
+        {(recentProjects_.length || (!recentProjects_.length && toolbar.keyword)) && (
           <Tab.Item name={t("projectPanel.recent")}>
             <div className={c("h100p fbv")}>
               <ProjectToolbar toolbar={toolbar} />
               <Scroll>
                 {recentProjects_.map((project) => (
-                  <ProjectList key={project.projectId} project={project} isRecent />
+                  <ProjectList key={project.projectId} project={project} isRecent>
+                    <ProjectListFallback project={project} />
+                  </ProjectList>
                 ))}
               </Scroll>
             </div>
