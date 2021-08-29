@@ -37,7 +37,6 @@ export const exhibitRegister = (exhibit) => {
       config,
       Model,
       initModel({art, schema, themeId, event, globalData, projectData, officialData}) {
-        console.log(projectData)
         // 创建组件的模型实例
         const model = Model.create(
           {

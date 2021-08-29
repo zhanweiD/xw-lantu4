@@ -7,10 +7,11 @@ import tip from "@components/tip"
 import copy from "@utils/copy"
 import Modal from "@components/modal"
 import Tab from "@components/tab"
+import Icon from "@components/icon"
+import IconButton from "@components/icon-button"
 import {CodeField} from "./code"
 import {Field} from "./base"
 import s from "./data.module.styl"
-import Icon from "@components/icon"
 
 const Check = ({value, onChange, options}) => {
   return (
@@ -46,7 +47,6 @@ export const DataField = observer(
   }) => {
     const [json, setJson] = useState(value.private)
     const [isVisible, setIsVisible] = useState(false)
-    console.log(value.sourceData_)
     return (
       <>
         <Field label={label}>
@@ -73,7 +73,7 @@ export const DataField = observer(
           <Section name="私有JSON" dashed childrenClassName="pt8">
             <CodeField
               value={json}
-              height={140}
+              height={200}
               onChange={(value) => {
                 setJson(value)
               }}
@@ -114,12 +114,12 @@ export const DataField = observer(
                 }
               ]}
             />
-            <div>
-              <div>字段预览</div>
+            <div className="ml24">
+              <div className="mb8">字段预览</div>
               {value.private && (
                 <div>
                   {hJSON.parse(value.private)[0].map((v) => (
-                    <span className="mr8" key={v}>
+                    <span className={c("mr8", s.fieldPreview)} key={v}>
                       {v}
                     </span>
                   ))}
@@ -130,30 +130,40 @@ export const DataField = observer(
         )}
         {value.type === "source" && (
           <>
-            <Section name="数据源" dashed>
-              <div>
+            <Section name="数据源" dashed childrenClassName="ml24">
+              {value.source ? (
                 <div
-                  placeholder="请选择数据源"
+                  className="hand fbh fbac fbjsb mb8"
                   onClick={() => {
                     setIsVisible(true)
                   }}
                 >
-                  {value.sourceName_}
-                  <Icon
-                    name="remove"
+                  <div className={c("fb1 lh24", s.name)}>{value.sourceName_}</div>
+                  <IconButton
+                    icon="remove"
+                    buttonSize={24}
                     onClick={(e) => {
                       e.stopPropagation()
                       removeSource(value.source)
                     }}
                   />
                 </div>
-              </div>
+              ) : (
+                <div
+                  className={c("hand fbh fbac fbjsb mb8 lh24 mr16 ctw20", s.name)}
+                  onClick={() => {
+                    setIsVisible(true)
+                  }}
+                >
+                  请选择数据源
+                </div>
+              )}
               <div>
-                <div>字段预览</div>
+                <div className="mb8">字段预览</div>
                 {value.sourceData_ && (
                   <div>
                     {value.sourceData_[0].map((v) => (
-                      <span className="mr8" key={v}>
+                      <span className={c("mr8", s.fieldPreview)} key={v}>
                         {v}
                       </span>
                     ))}

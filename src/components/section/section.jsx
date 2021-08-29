@@ -4,7 +4,7 @@
  * Section去除本身默认内部padding，Section组件添加内部padding可用childrenClassName属性或者config文件配置section的padding属性
  */
 
-import React, {useState, useRef, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
 import {session} from "@utils/storage"
@@ -21,7 +21,6 @@ const Section = ({
   hideNameBar = false,
   className,
   children,
-  hasAnimation = false,
   icon,
   canFold = true,
   isFold = false,
@@ -39,26 +38,6 @@ const Section = ({
 
   const sessionKey = sessionId ? `section-${sessionId}` : undefined
   const [fold, setFold] = useState(sessionKey ? session.get(sessionKey, isFold) : isFold)
-  const [isDrawed, setIsDrawed] = useState(false)
-  const contentRef = useRef()
-  const heightRef = useRef()
-
-  useEffect(() => {
-    if (hasAnimation) {
-      heightRef.current = contentRef.current.offsetHeight
-      setIsDrawed(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (hasAnimation) {
-      if (fold) {
-        contentRef.current.style.height = 0
-      } else {
-        contentRef.current.style.height = "auto"
-      }
-    }
-  }, [fold])
 
   useEffect(() => {
     if (updateKey) {
@@ -71,8 +50,7 @@ const Section = ({
       className={c(
         "pr w100p animate",
         {
-          [s.root_folded]: fold,
-          [s.enterAnimation]: hasAnimation
+          [s.root_folded]: fold
         },
         className
       )}
@@ -129,12 +107,8 @@ const Section = ({
         {sectionConfigField}
       </div>
       <div
-        ref={contentRef}
         className={c(childrenClassName, {
-          oh: hasAnimation,
-          [s.foldAnimation]: hasAnimation,
-          [s.paddingHide]: hasAnimation && isDrawed && fold,
-          hide: !hasAnimation && fold
+          hide: fold
         })}
       >
         {children}

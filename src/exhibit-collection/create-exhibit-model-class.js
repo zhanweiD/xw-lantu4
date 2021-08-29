@@ -41,7 +41,6 @@ export const createExhibitModelClass = (exhibit) => {
         return getEnv(self).globalData
       },
       get projectData_() {
-        console.log(getEnv(self).projectData)
         return getEnv(self).projectData
       },
       get officialData_() {
