@@ -1,13 +1,21 @@
 import {types, getEnv} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
-// import {createConfigModelClass} from "@components/field"
+import {createConfigModelClass} from "@components/field"
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
-  // const MStyle = createConfigModelClass(`M${config.key}Style`, {
-  //   sections: config.styleSections,
-  //   fields: config.style,
-  // })
+  const MStyle = createConfigModelClass("MModel", {
+    sections: ["__hide__"],
+    fields: [
+      {
+        section: "__hide__",
+        option: "data",
+        field: {
+          type: "data"
+        }
+      }
+    ]
+  })
   const {config} = exhibit
 
   const MExhibit = types
@@ -19,7 +27,7 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
 
-      // style: types.optional(MStyle, {}),
+      style: types.optional(MStyle, {}),
       context: types.frozen()
     })
     .views((self) => ({
@@ -28,6 +36,16 @@ export const createExhibitModelClass = (exhibit) => {
       },
       get event_() {
         return getEnv(self).event
+      },
+      get globalData_() {
+        return getEnv(self).globalData
+      },
+      get projectData_() {
+        console.log(getEnv(self).projectData)
+        return getEnv(self).projectData
+      },
+      get officialData_() {
+        return getEnv(self).officialData
       }
     }))
     .actions(commonAction(["getSchema", "setSchema", "dumpSchema"]))

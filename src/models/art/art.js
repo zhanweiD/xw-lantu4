@@ -59,7 +59,7 @@ export const MArt = types
       // 注册2个事件
       // 1、增加数据屏中组件依赖的数据id和组件id，若数据已经被记录则在此条记录中追加记录依赖此数据的组件id
       // 2、删除数据屏中组件依赖的数据id
-      event.on(`art.${self.artId}.addData`, ({exhibitId, dataId, data}) => {
+      event.on(`art.${self.artId}.addData`, ({exhibitId, dataId}) => {
         if (self.dataManager.get(dataId)) {
           const mData = self.dataManager.get(dataId)
           mData.addExhibit(exhibitId)
@@ -73,12 +73,7 @@ export const MArt = types
               datas: []
             })
           }
-          self.set({
-            datas: self.datas.concat({
-              id: dataId,
-              data
-            })
-          })
+          self.addData(dataId)
         }
       })
       event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId}) => {
@@ -86,6 +81,19 @@ export const MArt = types
         data.removeExhibit(exhibitId)
       })
     }
+
+    const addData = flow(function* addData(dataId) {
+      try {
+        const data = yield io.data.getDatasInfo({
+          ids: dataId
+        })
+        self.set({
+          datas: self.datas.concat(data)
+        })
+      } catch (error) {
+        log.error("addData Error: ", error)
+      }
+    })
 
     // 获取大屏相关信息
     const getArt = flow(function* getArt() {
@@ -143,6 +151,7 @@ export const MArt = types
     return {
       afterCreate,
       getArt,
+      addData,
       preview
     }
   })

@@ -9,7 +9,6 @@ import {observer} from "mobx-react-lite"
 import c from "classnames"
 import {session} from "@utils/storage"
 import Icon from "@components/icon"
-import isDef from "@utils/is-def"
 import IconButton from "@components/icon-button"
 import s from "./section.module.styl"
 
@@ -31,7 +30,8 @@ const Section = ({
   headIcon,
   childrenClassName,
   onClick,
-  updateKey
+  updateKey,
+  dashed = false
 }) => {
   if (allSessionIds[sessionId]) {
     console.warn(`'Section'组件有重复的'sessionId(${sessionId})'出现，请检查`)
@@ -79,14 +79,13 @@ const Section = ({
       id={id}
     >
       <div
-        className={c("fbh cfw10 h24", s.name, s.name_select, s.name_bottom, {
-          fbjsb: isDef(sectionConfigField),
-
+        className={c("fbh h24", s.name_select, s.name_bottom, {
+          cfw10: !dashed,
+          [s.name]: !dashed,
           hand: canFold,
           // 在配置面板里，有一种特殊的section，是隐藏头部的
           hide: hideNameBar === true
         })}
-        style={{borderLeftColor: "none"}}
       >
         <div
           className={c("fb1 pr8 omit fbh fbac")}
@@ -100,7 +99,7 @@ const Section = ({
           <IconButton
             icon={fold ? "arrow-right" : "arrow-down"}
             iconFill="#fff"
-            iconSize={8}
+            iconSize={dashed ? 6 : 8}
             buttonSize={24}
             onClick={(e) => {
               e.stopPropagation()
@@ -124,6 +123,7 @@ const Section = ({
           >
             {name}
           </div>
+          {dashed && <div className={c("fb1 ml8 mr16", s.dashed)} />}
         </div>
         {icon}
         {sectionConfigField}

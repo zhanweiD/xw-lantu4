@@ -452,8 +452,17 @@ const ModelToField = observer(({model, onAction}) => {
         <DataField
           label={t(model.label)}
           value={model.value}
+          globalData={model.globalData_}
+          projectData={model.projectData_}
+          officialData={model.officialData_}
           onChange={(v) => {
             model.setValue(v)
+          }}
+          addSource={(v) => {
+            model.addSource(v)
+          }}
+          removeSource={(v) => {
+            model.removeSource(v)
           }}
         />
       )

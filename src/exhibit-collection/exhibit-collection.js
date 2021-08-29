@@ -30,14 +30,14 @@ export const draw = ({exhibit, container, height, width, frame}) => {
 
 export const exhibitRegister = (exhibit) => {
   const {config, lib} = exhibit
-  console.log(exhibit)
   const Model = createExhibitModelClass(exhibit)
 
   if (!exhibitCollection.get(`${lib}.${config.key}`)) {
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
-      initModel({art, schema, themeId, event}) {
+      initModel({art, schema, themeId, event, globalData, projectData, officialData}) {
+        console.log(projectData)
         // 创建组件的模型实例
         const model = Model.create(
           {
@@ -48,7 +48,10 @@ export const exhibitRegister = (exhibit) => {
           },
           {
             art,
-            event
+            event,
+            globalData,
+            projectData,
+            officialData
           }
         )
         model.setSchema(schema)

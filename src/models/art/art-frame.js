@@ -87,7 +87,7 @@ export const MArtFrame = types
     }
 
     const initBox = ({artId, boxId, name, frameId, exhibit, layout}) => {
-      // const { exhibitCollection, event} = self.env_
+      const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
         boxId,
@@ -97,19 +97,29 @@ export const MArtFrame = types
         layout
       })
       self.boxes.push(box)
-      // const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
-      // if (model) {
-      //   const art = self.art_
-      //   art.exhibitManager.set(
-      //     exhibit.id,
-      //     model.initModel({
-      //       art,
-      //       themeId: art.basic.themeId,
-      //       schema: exhibit,
-      //       event
-      //     })
-      //   )
-      // }
+      const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
+      const {dataPanel, projectPanel} = self.root_.sidebar
+      const {projects} = projectPanel
+      let dataList
+      if (projects.length) {
+        dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
+      }
+
+      if (model) {
+        const art = self.art_
+
+        art.exhibitManager.set(
+          exhibit.id,
+          model.initModel({
+            art,
+            themeId: art.basic.themeId,
+            schema: exhibit,
+            event,
+            globalData: dataPanel,
+            projectData: dataList
+          })
+        )
+      }
     }
 
     const createBox = flow(function* createBox({position /* lib, key */}) {
