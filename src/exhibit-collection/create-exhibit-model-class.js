@@ -26,9 +26,10 @@ export const createExhibitModelClass = (exhibit) => {
       icon: types.optional(types.string, ""),
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
-
       style: types.optional(MStyle, {}),
-      context: types.frozen()
+      context: types.frozen(),
+      normalKeys: types.frozen(["id", "lib", "key", "initSize"]),
+      deepKeys: types.frozen(["style"])
     })
     .views((self) => ({
       get art_() {
