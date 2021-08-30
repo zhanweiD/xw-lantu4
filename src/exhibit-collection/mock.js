@@ -34,8 +34,8 @@ const getLayersConfig = () => {
               type: "data-map",
               label: "经度",
               option: "lat",
-              link: (target, self) => {
-                target.event.on("change", (v) => {
+              link: (root, self) => {
+                root.data.event.on("change", (v) => {
                   self.setOptions(v)
                 })
               }
@@ -44,8 +44,8 @@ const getLayersConfig = () => {
               type: "data-map",
               label: "纬度",
               option: "lan",
-              link: (target, self) => {
-                target.event.on("change", (v) => {
+              link: (root, self) => {
+                root.data.event.on("change", (v) => {
                   self.setOptions(v)
                 })
               }
@@ -67,8 +67,8 @@ const getLayersConfig = () => {
               label: "字段",
               type: "data-map",
               option: "field",
-              link: (target, self) => {
-                target.event.on("change", (v) => {
+              link: (root, self) => {
+                root.data.event.on("change", (v) => {
                   self.setOptions(v)
                 })
               }
@@ -106,6 +106,59 @@ const getLayersConfig = () => {
                   key: "Y"
                 }
               ]
+            }
+          ]
+        },
+        {
+          label: "填充",
+          option: "fill",
+          canSetVisible: true,
+          icons: [
+            {
+              icon: "eyes",
+              option: "isVisible"
+            }
+          ],
+          fields: [
+            {
+              label: "字段",
+              option: "field",
+              type: "filter",
+              link: (root, self) => {
+                root.data.event.on("change", (v) => {
+                  self.setOptions(v)
+                })
+              }
+            },
+            {
+              label: "颜色",
+              option: "color",
+              type: "colorField",
+              link: (root, self) => {
+                root.fill.field.event.on("change", (v) => {
+                  self.setOptions(v)
+                })
+                root.fill.reverse.event.on("change", (v) => {
+                  self.setReverse(v)
+                })
+                root.fill.count.event.on("change", (v) => {
+                  self.setCount(v)
+                })
+              }
+            },
+            {
+              label: "反转",
+              option: "reverse",
+              type: "switch",
+              defaultValue: false
+            },
+            {
+              label: "数量",
+              option: "count",
+              type: "number",
+              step: 1,
+              min: 0,
+              defaultValue: 6
             }
           ]
         }
