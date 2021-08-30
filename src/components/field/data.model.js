@@ -8,9 +8,9 @@ import {commonFieldModelViews} from "./base"
 const MValue = types
   .model("MValue", {
     type: types.optional(types.enumeration(["private", "source"]), "private"),
-    private: types.maybe(types.string),
+    private: types.optional(types.string, ""),
     source: types.maybe(types.number),
-    sourceProcessor: types.optional(types.string, "")
+    sourceProcessor: types.maybe(types.string)
   })
   .views((self) => ({
     get sourceData_() {
