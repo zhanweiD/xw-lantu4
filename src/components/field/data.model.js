@@ -19,7 +19,11 @@ const MValue = types
       return data
     },
     get sourceName_() {
-      const name = getParent(self).globalData_.find((data) => data.dataId === self.source)?.dataName
+      const name = [
+        ...getParent(self).globalData_,
+        ...getParent(self).projectData_,
+        ...getParent(self).officialData_
+      ].find((data) => data.dataId === self.source)?.dataName
       return name
     }
   }))
