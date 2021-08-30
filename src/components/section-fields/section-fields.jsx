@@ -60,10 +60,9 @@ const SectionFields = observer(
             name={t(sectionName)}
             hideNameBar={sectionName === "__hide__"}
           >
-            {sectionFields.map(
-              ([key, fieldModel]) =>
-                fieldModel.type !== "sectionConfig" && <ModelToField key={key} model={fieldModel} onAction={onAction} />
-            )}
+            {sectionFields.map(([key, fieldModel]) => (
+              <ModelToField key={key} model={fieldModel} onAction={onAction} />
+            ))}
           </Section>
         )
       }

@@ -15,7 +15,7 @@ const MValue = types
   .views((self) => ({
     get sourceData_() {
       const datas = getRoot(self).art_.datas
-      const data = datas.find((v) => v.id === self.source)?.data
+      const data = datas?.find((v) => v.id === self.source)?.data
       return data
     },
     get sourceName_() {

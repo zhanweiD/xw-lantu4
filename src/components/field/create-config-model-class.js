@@ -222,15 +222,6 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
                 self[key].set("processorCode", defaultDataProcessor)
                 self[key].setValue(value)
               }
-            } else if (self[key].type === "sectionConfig") {
-              if (typeof value === "boolean") {
-                self[key].set("value", value)
-              } else {
-                // 解析section配置值, 目前只支持第一个
-                Object.entries(value).forEach(([, propValue]) => {
-                  self[key].set("value", Object.values(propValue)[0])
-                })
-              }
             } else {
               self[key].setValue(value)
             }
