@@ -24,7 +24,6 @@ const Section = ({
   icon,
   canFold = true,
   isFold = false,
-  sectionConfigField,
   onFold = () => {},
   headIcon,
   childrenClassName,
@@ -104,7 +103,6 @@ const Section = ({
           {dashed && <div className={c("fb1 ml8 mr16", s.dashed)} />}
         </div>
         {icon}
-        {sectionConfigField}
       </div>
       <div
         className={c(childrenClassName, {

@@ -29,7 +29,6 @@ import {MTextareaField} from "./textarea.model"
 import {MConstraintsField} from "./constraints.model"
 import {MImageField} from "./image.model"
 import {MAlignmentField} from "./alignment.model"
-import {MSectionConfigField} from "./section-config.model"
 import {MOffsetField} from "./offset.model"
 import {MDataField} from "./data.model"
 
@@ -56,7 +55,6 @@ const fieldModel = {
   constraints: MConstraintsField,
   image: MImageField,
   alignment: MAlignmentField,
-  sectionConfig: MSectionConfigField,
   offset: MOffsetField,
   data: MDataField
 }

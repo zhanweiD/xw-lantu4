@@ -20,7 +20,6 @@ import {ConstraintsField} from "./constraints"
 import {GradientColorField} from "./gradient-color"
 import {ImageField} from "./image"
 import {AlignmentField} from "./alignment"
-import {SectionConfigField} from "./section-config"
 import {OffsetField} from "./offset"
 import {DataField} from "./data"
 // import {ExhibitDataField} from "./exhibit-data"
@@ -412,22 +411,6 @@ const ModelToField = observer(({model, onAction}) => {
           isExternal={false}
           gradientColor={model.gradientColor}
           readOnly={model.readOnly}
-          onChange={(v) => {
-            model.setValue(v)
-          }}
-        />
-      )
-      break
-    case "sectionConfig":
-      F = (
-        <SectionConfigField
-          className={c({hide: !model.whenIsSatisfied})}
-          value={model.value}
-          tip={t(model.tip)}
-          icon={model.icon}
-          action={model.action}
-          readOnly={model.readOnly}
-          onAction={onAction}
           onChange={(v) => {
             model.setValue(v)
           }}

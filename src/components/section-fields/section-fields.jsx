@@ -51,17 +51,12 @@ const SectionFields = observer(
       const sectionFields = fields.filter(([, fieldModel]) => {
         return fieldModel.section === sectionName && fieldModel.whenIsSatisfied === true
       })
-      // 目前只取了section.fields中的首个sectionConfig，后续优化支持多个配置
-      const sectionConfigField = sectionFields.find(([, fieldModel]) => fieldModel.type === "sectionConfig")
       if (sectionFields.length) {
         return (
           <Section
             key={sectionName}
             childrenClassName={c("pt8 pb8", className)}
             sessionId={sessionId ? `${sessionId}.${sectionName}` : undefined}
-            sectionConfigField={
-              sectionConfigField && <ModelToField model={sectionConfigField[1]} onAction={onAction} />
-            }
             name={t(sectionName)}
             hideNameBar={sectionName === "__hide__"}
           >
