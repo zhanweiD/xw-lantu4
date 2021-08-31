@@ -31,11 +31,15 @@ const Category = ({category}) => {
                 <DragSource
                   key={exhibit.key}
                   onEnd={(dropResult, data, position) => {
+                    w.env_.event.fire("editor.setProps", {isPointerEventsNone: false})
                     dropResult.create({
                       lib: data.lib,
                       key: data.key,
                       position
                     })
+                  }}
+                  onBegin={() => {
+                    w.env_.event.fire("editor.setProps", {isPointerEventsNone: true})
                   }}
                   dragKey="CREATE_EXHIBIT_DRAG_KEY"
                   data={exhibit}

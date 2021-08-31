@@ -3,12 +3,14 @@ import {reaction} from "mobx"
 import {viewport} from "@utils/zoom"
 import {shortcut} from "@utils/create-event"
 import {MEditorTab} from "./editor-tab"
+import commonAction from "@utils/common-action"
 
 export const MEditor = types
   .model({
     tabs: types.optional(types.array(MEditorTab), []),
     activeTabId: types.maybe(types.union(types.number, types.string)),
-    activeNote: types.optional(types.array(types.union(types.number, types.string)), [])
+    activeNote: types.optional(types.array(types.union(types.number, types.string)), []),
+    isPointerEventsNone: types.optional(types.boolean, false)
   })
   .views((self) => ({
     get env_() {
@@ -19,6 +21,7 @@ export const MEditor = types
       return ["art", "material", "data"].includes(tab?.type)
     }
   }))
+  .actions(commonAction(["set"]))
   .actions((self) => {
     const afterCreate = () => {
       const {event} = self.env_
@@ -33,6 +36,10 @@ export const MEditor = types
       })
       event.on("editor.closeTab", (id) => {
         self.closeTab(id)
+      })
+      event.on("editor.setProps", (value) => {
+        // console.log()
+        self.set(value)
       })
       self.init()
       shortcut.add({

@@ -42,10 +42,14 @@ const Material = ({material, showType}) => {
     <DragSource
       key={material.materialId}
       onEnd={(dropResult, data, position) => {
+        w.env_.event.fire("editor.setProps", {isPointerEventsNone: false})
         dropResult.createBackground({
           material: data,
           position
         })
+      }}
+      onBegin={() => {
+        w.env_.event.fire("editor.setProps", {isPointerEventsNone: true})
       }}
       dragKey="UPDATE_BOX_BACKGROUND_DRAGE_KEY"
       data={material}

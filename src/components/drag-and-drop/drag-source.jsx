@@ -1,12 +1,15 @@
 import React from "react"
 import {useDrag} from "react-dnd"
 
-const DragSource = ({data, dragKey, onEnd, children, className}) => {
+const DragSource = ({data, dragKey, onBegin, onEnd, children, className}) => {
   const style = {
     cursor: "move"
   }
   const [{isDragging}, drag] = useDrag({
-    item: {...data},
+    item: () => {
+      if (onBegin) onBegin()
+      return {...data}
+    },
     type: dragKey,
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult()

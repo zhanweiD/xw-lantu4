@@ -1,10 +1,13 @@
 import React from "react"
 import {observer} from "mobx-react-lite"
+import w from "@models"
 
 const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
   const {x1, y1, x2, y2, target} = range
   const width = x2 - x1
   const height = y2 - y1
+  const {editor} = w
+  const {isPointerEventsNone} = editor
   const commonStyle = {
     width: "10px",
     height: "10px",
@@ -13,12 +16,6 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
     border: "2px solid white"
   }
   const direction = {
-    // center: {
-    //   width: `${width * scaler}px`,
-    //   height: `${height * scaler}px`,
-    //   pointerEvents: target === "frame" ? "none" : "auto",
-    //   outline: "1px solid #07f"
-    // },
     northwest: {
       ...commonStyle,
       top: -5,
@@ -89,7 +86,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
           width: `${width * scaler}px`,
           height: `${height * scaler}px`,
           outline: "1px solid #07f",
-          pointerEvents: target === "frame" ? "none" : "auto"
+          pointerEvents: isPointerEventsNone ? "none" : target === "frame" ? "none" : "auto"
         }}
         onMouseDown={(e) => {
           e.stopPropagation()
