@@ -13,8 +13,10 @@ const ArtOption = ({art}) => {
   if (selectRange) {
     if (selectRange.target === "box" && selectRange.boxes_.length === 1) {
       box = selectRange.boxes_[0]
-      exhibitId = box.exhibit.id
-      exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
+      exhibitId = box.exhibit?.id
+      if (exhibitId) {
+        exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
+      }
     }
   }
   return (

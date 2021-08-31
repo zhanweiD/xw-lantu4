@@ -251,6 +251,10 @@ context.create("io.art", {
     method: "GET",
     url: "art/:artId/:frameId/box"
   },
+  updateBox: {
+    method: "PUT",
+    url: "project/:projectId/art/:artId/frame/:frameId/box/:boxId"
+  },
   updateBoxes: {
     method: "PUT",
     url: "project/:projectId/art/:artId/move/boxes"

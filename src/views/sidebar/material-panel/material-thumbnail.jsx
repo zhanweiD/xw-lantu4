@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import {observer} from "mobx-react-lite"
 import c from "classnames"
+import {DragSource} from "@components/drag-and-drop"
 import Geo from "@components/geo-preview"
 import Icon from "@components/icon"
 import config from "@utils/config"
@@ -38,55 +39,67 @@ const MaterialView = ({material, showType}) => {
 
 const Material = ({material, showType}) => {
   return (
-    <div
-      className={c("oh mr8 ml8")}
-      onDoubleClick={material.showDetail}
-      onContextMenu={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        const menu = w.overlayManager.get("menu")
-        const list = [
-          {
-            name: "删除",
-            action: () => {
-              material.remove()
-              menu.hide()
-            }
-          }
-        ]
-        isDev &&
-          list.unshift({
-            name: "复制素材ID",
-            action: () => {
-              material.copyId()
-              menu.hide()
-            }
-          })
-        menu.show({list})
+    <DragSource
+      key={material.materialId}
+      onEnd={(dropResult, data, position) => {
+        dropResult.createBackground({
+          material: data,
+          position
+        })
       }}
+      dragKey="UPDATE_BOX_BACKGROUND_DRAGE_KEY"
+      data={material}
     >
-      {showType !== "list" ? (
-        <div
-          className={c("cfw6 fbh", {
-            [s.gridWrap]: showType === "grid-layout"
-          })}
-        >
-          <MaterialView material={material} showType={showType} />
-        </div>
-      ) : null}
-      {showType !== "grid-layout" ? (
-        <div className="fbh fbac lh24 mb8">
+      <div
+        className={c("oh mr8 ml8")}
+        onDoubleClick={material.showDetail}
+        onContextMenu={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          const menu = w.overlayManager.get("menu")
+          const list = [
+            {
+              name: "删除",
+              action: () => {
+                material.remove()
+                menu.hide()
+              }
+            }
+          ]
+          isDev &&
+            list.unshift({
+              name: "复制素材ID",
+              action: () => {
+                material.copyId()
+                menu.hide()
+              }
+            })
+          menu.show({list})
+        }}
+      >
+        {showType !== "list" ? (
           <div
-            className={c("fb1 omit ctw60 fbh fbac pl8", {
-              [s.activeMaterial]: material.isActive_
+            className={c("cfw6 fbh", {
+              [s.gridWrap]: showType === "grid-layout"
             })}
           >
-            {showType === "list" && <Icon className="mr4 ml4" fill="#fff5" name="drag" size={10} />}
-            <div className="fb1 omit">{material.name}</div>
+            <MaterialView material={material} showType={showType} />
           </div>
-        </div>
-      ) : null}
-    </div>
+        ) : null}
+        {showType !== "grid-layout" ? (
+          <div className="fbh fbac lh24 mb8">
+            <div
+              className={c("fb1 omit ctw60 fbh fbac pl8", {
+                [s.activeMaterial]: material.isActive_
+              })}
+            >
+              {showType === "list" && <Icon className="mr4 ml4" fill="#fff5" name="drag" size={10} />}
+              <div className="fb1 omit">{material.name}</div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </DragSource>
   )
 }
 

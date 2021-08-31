@@ -6,22 +6,17 @@ import c from "classnames"
 /**
  * 接受放置拖拽源
  */
-const DropTarget = ({
-  acceptKey,
-  children,
-  style,
-  data,
-  className,
-  disabled,
-  hover = () => {},
-  hideOutLine
-}) => {
+const DropTarget = ({acceptKey, children, style, data, className, disabled, hover = () => {}, hideOutLine}) => {
   const [{canDrop, isOver}, drop] = useDrop({
     accept: acceptKey,
     hover: (item, monitor) => hover(item, monitor, drop),
     // 拖拽完成后，源组件接受的目标容器数据
     drop: (props, monitor) => {
       const position = monitor.getClientOffset()
+      const didDrop = monitor.didDrop()
+      if (didDrop) {
+        return
+      }
       return {
         position,
         data
@@ -36,9 +31,9 @@ const DropTarget = ({
   let outline = ""
   let cursor = ""
   if (isActive) {
-    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.8) "
+    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.8)"
   } else if (canDrop) {
-    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.4) "
+    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.4)"
     cursor = "copy"
   }
 
@@ -48,11 +43,7 @@ const DropTarget = ({
     pointerEvents.pointerEvents = "auto"
   }
   return (
-    <div
-      ref={drop}
-      className={c(className)}
-      style={{...style, outline, cursor, ...pointerEvents}}
-    >
+    <div ref={drop} className={c(className)} style={{...style, outline, cursor, ...pointerEvents}}>
       {children}
     </div>
   )

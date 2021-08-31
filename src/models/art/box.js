@@ -11,6 +11,7 @@ import commonAction from "@utils/common-action"
 import {getEnv, types, getParent, flow} from "mobx-state-tree"
 import {MLayout} from "../common/layout"
 import createLog from "@utils/create-log"
+import uuid from "@utils/uuid"
 
 const log = createLog("@models/art/box.js")
 export const MBox = types
@@ -21,7 +22,7 @@ export const MBox = types
     artId: types.number,
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
-
+    background: types.maybeNull(types.frozen()),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 
@@ -60,12 +61,58 @@ export const MBox = types
     const resize = () => {
       const {layout} = self
       const {width, height} = layout
-      const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+      const exhibitModel = self.art_.exhibitManager.get(self.exhibit?.id)
       if (exhibitModel.adapter) {
         // 这个if是暂时性的 因为没对接exhibit
         exhibitModel.adapter.refresh(width, height)
       }
     }
+
+    const updateBackground = (data) => {
+      self.background = {
+        path: data.material.materialId
+      }
+      updateBox()
+    }
+
+    const updateExhibit = ({lib, key}) => {
+      const {exhibitCollection} = self.env_
+      const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+      const art = self.art_
+      const model = findAdapter.value.initModel({
+        art,
+        themeId: art.basic.themeId,
+        schema: {
+          lib,
+          key,
+          id: uuid()
+        }
+      })
+      const exhibit = model.getSchema()
+      self.exhibit = exhibit
+      updateBox()
+    }
+
+    const updateBox = flow(function* updateBox() {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {layout, name, frameId, exhibit, background, boxId} = self
+      try {
+        yield io.art.updateBox({
+          ":boxId": boxId,
+          ":artId": artId,
+          ":frameId": frameId,
+          ":projectId": projectId,
+          name,
+          layout,
+          exhibit,
+          background
+        })
+      } catch (error) {
+        log.error("update Error: ", error)
+      }
+    })
+
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -74,7 +121,6 @@ export const MBox = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          layer: {},
           name,
           ":artId": artId,
           ":frameId": frameId,
@@ -93,6 +139,8 @@ export const MBox = types
 
     return {
       resize,
-      recreateBox
+      recreateBox,
+      updateBackground,
+      updateExhibit
     }
   })

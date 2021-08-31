@@ -85,10 +85,19 @@ const ArtFrame = ({frame}) => {
             height: `${grid.height_}px`
           }}
           className={c("pa art-frame", s.root)}
-          acceptKey="CREATE_EXHIBIT_DRAG_KEY"
+          acceptKey={["CREATE_EXHIBIT_DRAG_KEY", "UPDATE_BOX_BACKGROUND_DRAGE_KEY"]}
           data={{
             create: (data) => {
-              frame.createBox(data)
+              frame.createBox({
+                ...data,
+                type: "exhibit"
+              })
+            },
+            createBackground: (data) => {
+              frame.createBox({
+                ...data,
+                type: "background"
+              })
             }
           }}
         >

@@ -86,7 +86,7 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout}) => {
+    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
@@ -94,52 +94,61 @@ export const MArtFrame = types
         name,
         frameId,
         exhibit,
-        layout
+        layout,
+        background
       })
       self.boxes.push(box)
-      const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
-      const {dataPanel, projectPanel} = self.root_.sidebar
-      const {projects} = projectPanel
-      let dataList
-      if (projects.length) {
-        dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
-      }
+      if (exhibit) {
+        const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
+        const {dataPanel, projectPanel} = self.root_.sidebar
+        const {projects} = projectPanel
+        let dataList
+        if (projects.length) {
+          dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
+        }
 
-      if (model) {
-        const art = self.art_
+        if (model) {
+          const art = self.art_
 
-        art.exhibitManager.set(
-          exhibit.id,
-          model.initModel({
-            art,
-            themeId: art.basic.themeId,
-            schema: exhibit,
-            event,
-            globalData: dataPanel,
-            projectData: dataList
-          })
-        )
+          art.exhibitManager.set(
+            exhibit.id,
+            model.initModel({
+              art,
+              themeId: art.basic.themeId,
+              schema: exhibit,
+              event,
+              globalData: dataPanel,
+              projectData: dataList
+            })
+          )
+        }
       }
     }
 
-    const createBox = flow(function* createBox({position, lib, key}) {
+    // type 可以为exhibit|background|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰的空容器
+    const createBox = flow(function* createBox({position, lib, key, type = "exhibit", material}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
-      console.log(exhibitCollection)
-      const findAdapter = exhibitCollection.has(`${lib}.${key}`)
       const art = self.art_
-
-      const model = findAdapter.value.initModel({
-        art,
-        themeId: art.basic.themeId,
-        schema: {
-          lib,
-          key,
-          id: uuid()
-        }
-      })
-      const exhibit = model.getSchema()
+      let exhibit
+      let background
+      if (type === "exhibit") {
+        const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+        const model = findAdapter.value.initModel({
+          art,
+          themeId: art.basic.themeId,
+          schema: {
+            lib,
+            key,
+            id: uuid()
+          }
+        })
+        exhibit = model.getSchema()
+      }
+      if (type === "background") {
+        background = {path: material.materialId}
+      }
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {
@@ -154,11 +163,11 @@ export const MArtFrame = types
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round(exhibit.initSize[0]),
-        height: Math.round(exhibit.initSize[1])
+        width: Math.round(type === "exhibit" ? exhibit.initSize[0] : 16 * self.grid.unit_),
+        height: Math.round(type === "exhibit" ? exhibit.initSize[0] : 9 * self.grid.unit_)
       }
       const boxId = uuid()
-      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout}
+      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, background}
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
         target: "box",
@@ -174,7 +183,7 @@ export const MArtFrame = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          layer: {},
+          background,
           name: params.name,
           ":artId": params.artId,
           ":frameId": params.frameId,
