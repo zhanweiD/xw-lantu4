@@ -23,9 +23,7 @@ const OptionPanel = () => {
       {activeTab.type === "material" && activeTab.material && <MaterialOption material={activeTab.material} />}
       {activeTab.type === "data" && activeTab.data && <DataOption data={activeTab.data} />}
     </div>
-  ) : (
-    ""
-  )
+  ) : null
 }
 
 export default observer(OptionPanel)
