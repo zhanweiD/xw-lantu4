@@ -219,9 +219,7 @@ export const MDataPanel = types
     // 置顶文件夹
     const stickyFolder = flow(function* stickyFolder(folder, isTop) {
       if (isTop || self.topFoldersId.includes(folder.folderId)) {
-        self.topFoldersId = self.topFoldersId.filter(
-          (sortId) => sortId !== folder.folderId
-        )
+        self.topFoldersId = self.topFoldersId.filter((sortId) => sortId !== folder.folderId)
       } else {
         self.topFoldersId.push(folder.folderId)
       }

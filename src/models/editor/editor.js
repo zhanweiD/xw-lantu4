@@ -38,7 +38,6 @@ export const MEditor = types
         self.closeTab(id)
       })
       event.on("editor.setProps", (value) => {
-        // console.log()
         self.set(value)
       })
       self.init()
@@ -150,7 +149,7 @@ export const MEditor = types
       session.set("SKEditor", {
         activeTabId: self.activeTabId,
         tabs: tabsNote,
-        activeNote: self.activeNote
+        activeNote: self.activeNote.toJSON()
       })
     }
 

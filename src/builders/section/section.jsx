@@ -10,7 +10,10 @@ const allSessionIds = {}
 const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) => {
   // type 仅仅有0, 1, 2这三个值 对应三种不同的section头
   return (
-    <div className={c("h24 fbh fbac", {mr24: type === 2}, s.title, s[`title_${type}`], className)} onClick={onClick}>
+    <div
+      className={c("h24 fbh fbac", {ml24: type === 2, hand: type !== 2}, s.title, s[`title_${type}`], className)}
+      onClick={type !== 2 ? onClick : () => {}}
+    >
       {type !== 2 && (
         <IconButton
           icon={fold ? "arrow-right" : "arrow-down"}
@@ -20,7 +23,7 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
         />
       )}
       <div className="fb1 fbh fbac">
-        <div className="hand omit" title={name}>
+        <div className="omit" title={name}>
           {name}
         </div>
         <div className="fbn">{icon}</div>
