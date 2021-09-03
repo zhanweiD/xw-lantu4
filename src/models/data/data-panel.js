@@ -212,7 +212,7 @@ export const MDataPanel = types
     const saveLocal = () => {
       const {local} = self.env_
       local.set("SKMaterialPanel", {
-        toolbar: self.toolbar
+        toolbar: self.toolbar.toJSON()
       })
     }
 

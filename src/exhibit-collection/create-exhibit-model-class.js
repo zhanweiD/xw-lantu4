@@ -1,23 +1,23 @@
 import {types, getEnv} from "mobx-state-tree"
 import commonAction from "@utils/common-action"
-import {createConfigModelClass} from "@components/field"
+// import createConfigModelClass from "../builders/create-config-model-class"
+import {transform} from "./exhibit-config"
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
-  const MStyle = createConfigModelClass("MModel", {
-    sections: ["__hide__"],
-    fields: [
-      {
-        section: "__hide__",
-        option: "data",
-        field: {
-          type: "data"
-        }
-      }
-    ]
-  })
   const {config} = exhibit
+  const {fields, sections} = config.layers[0]
 
+  // const Layer = createConfigModelClass(`MLayer${id}`, {
+  //   sections,
+  //   fields
+  // })
+  const c = transform({
+    sections,
+    fields
+  })
+  console.log(c)
+  // console.log(Layer.create({}))
   const MExhibit = types
     .model(`MExhibit${config.key}`, {
       id: types.optional(types.string, ""),
@@ -26,10 +26,10 @@ export const createExhibitModelClass = (exhibit) => {
       icon: types.optional(types.string, ""),
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
-      style: types.optional(MStyle, {}),
+      // style: types.optional(MStyle, {}),
       context: types.frozen(),
-      normalKeys: types.frozen(["id", "lib", "key", "initSize"]),
-      deepKeys: types.frozen(["style"])
+      normalKeys: types.frozen(["id", "lib", "key", "initSize"])
+      // deepKeys: types.frozen(["style"])
     })
     .views((self) => ({
       get art_() {
