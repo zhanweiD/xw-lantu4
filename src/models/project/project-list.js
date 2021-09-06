@@ -14,7 +14,7 @@ export const MProjectList = types
     description: types.string,
     projectId: types.union(types.string, types.number),
     arts: types.optional(types.array(MArtThumbnail), []),
-    // 大屏排序数据
+    // 数据屏排序数据
     artSort: types.optional(types.array(types.number), []),
     // 项目数据
     dataList: types.optional(types.array(MDataTab), [])
@@ -26,7 +26,7 @@ export const MProjectList = types
     get projectPanel_() {
       return getParent(self, 2)
     },
-    // 获取展示的大屏（排序搜索后的结果）
+    // 获取展示的数据屏（排序搜索后的结果）
     get arts_() {
       const {keyword} = self.projectPanel_.toolbar
       const sortedArts = self.artSort.map((id) => self.arts.find((art) => art.artId === id)).filter(Boolean)
@@ -98,11 +98,19 @@ export const MProjectList = types
     const moveArtSort = (sourcceIndex, targetIndex) => {
       if (!self.artSort) {
         self.artSort = self.arts.map((art) => art.artId)
-      } else {
-        const temp = self.artSort[sourcceIndex]
-        self.artSort[sourcceIndex] = self.artSort[targetIndex]
-        self.artSort[targetIndex] = temp
       }
+      // 如果 artSort 与 arts 长度不一致，则保证 artSort 顺序前提下，往后追加剩余 art 的顺序
+      if (self.artSort.length !== self.arts.length) {
+        const sortArtIds = self.artSort.filter((id) => self.arts.find((art) => art.artId === id))
+        const unsortedArtIds = self.arts.map(({artId}) => artId).filter((artId) => !sortArtIds.includes(artId))
+        self.artSort = [...sortArtIds, ...unsortedArtIds]
+      }
+      // 交换顺序
+      const artSort = self.artSort.toJSON()
+      const temp = artSort[sourcceIndex]
+      artSort[sourcceIndex] = artSort[targetIndex]
+      artSort[targetIndex] = temp
+      self.artSort = artSort
     }
 
     // 保存排序结果
