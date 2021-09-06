@@ -23,7 +23,6 @@ export const MFolder = types
   .model("MFolder", {
     folderId: types.number,
     folderName: types.string,
-    isTop: types.optional(types.boolean, false),
     isVisible: types.optional(types.boolean, false),
     materials: types.optional(types.array(MMaterial), []),
     // 前端存储上传file

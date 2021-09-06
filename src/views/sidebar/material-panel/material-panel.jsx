@@ -14,10 +14,11 @@ import MaterialFolder from "./material-folder"
 import s from "./material-panel.module.styl"
 import MaterialToolbar from "./material-toolbar"
 
-const MoreIcon = ({folder, removeFolder, exportFolder, toggleFolderTop}) => {
+const MoreIcon = ({folder, folderSort, removeFolder, exportFolder, toggleFolderTop}) => {
+  const isTop = folderSort.includes(folder.folderId)
   return (
     <div className="pr oh">
-      {folder.isTop && <div className={s.delta} />}
+      {isTop && <div className={s.delta} />}
       <IconButton
         icon="more"
         buttonSize={24}
@@ -37,7 +38,7 @@ const MoreIcon = ({folder, removeFolder, exportFolder, toggleFolderTop}) => {
                 }
               },
               {
-                name: `${folder.isTop ? "取消置顶" : "置顶"}文件夹`,
+                name: `${isTop ? "取消置顶" : "置顶"}文件夹`,
                 action: () => {
                   toggleFolderTop(folder)
                   menu.hide()
@@ -70,8 +71,26 @@ const MaterialPanel = () => {
   const [name, setName] = useState("")
   const {sidebar} = w
   const {materialPanel} = sidebar
-  const {fetchState, folders, showType, keyword, isVisible, toggleFolderTop, createFolder, removeFolder, exportFolder} =
-    materialPanel
+  const {
+    fetchState,
+    folders,
+    showType,
+    folderSort,
+    keyword,
+    isVisible,
+    toggleFolderTop,
+    createFolder,
+    removeFolder,
+    exportFolder
+  } = materialPanel
+  let prevProps = []
+  folderSort.forEach((v) => {
+    const folder = folders.find((l) => l.folderId === v)
+    if (folder) {
+      prevProps.push(folder)
+    }
+  })
+  const list = prevProps.concat(...folders.filter((v) => !folderSort.includes(v.folderId)))
   return (
     <Loading data={fetchState}>
       <Tab sessionId="material-panel-tab" bodyClassName="fbv" className="w100p h100p">
@@ -79,24 +98,22 @@ const MaterialPanel = () => {
           <MaterialToolbar />
           <Scroll className="h100p">
             {folders.length ? (
-              folders
-                .filter((f) => f.isTop)
-                .concat(folders.filter((f) => !f.isTop))
-                .map((folder) => (
-                  <MaterialFolder
-                    icon={
-                      <MoreIcon
-                        toggleFolderTop={toggleFolderTop}
-                        exportFolder={exportFolder}
-                        removeFolder={removeFolder}
-                        folder={folder}
-                      />
-                    }
-                    key={folder.folderId}
-                    folder={folder}
-                    showType={showType}
-                  />
-                ))
+              list.map((folder) => (
+                <MaterialFolder
+                  icon={
+                    <MoreIcon
+                      toggleFolderTop={toggleFolderTop}
+                      exportFolder={exportFolder}
+                      removeFolder={removeFolder}
+                      folder={folder}
+                      folderSort={folderSort}
+                    />
+                  }
+                  key={folder.folderId}
+                  folder={folder}
+                  showType={showType}
+                />
+              ))
             ) : keyword ? (
               <div className={c("m8 emptyNote")}>
                 <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的素材`}</div>

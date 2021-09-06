@@ -18,6 +18,7 @@ export const MMaterialPanel = types
     keyword: types.optional(types.string, ""),
     // 列表展示类型 thumbnail-缩略图 grid-宫格缩略图 list-简略文字
     showType: types.optional(types.enumeration(["grid-layout", "list", "thumbnail-list"]), "thumbnail-list"),
+    folderSort: types.optional(types.array(types.number), []),
     fetchState: types.optional(types.enumeration(["loading", "success", "error"]), "loading")
   })
   .views((self) => ({
@@ -60,13 +61,10 @@ export const MMaterialPanel = types
 
     const getFolders = flow(function* getFolders() {
       try {
-        const {list, folderSort} = yield io.material.getMaterials()
-        const folders = list.map((folder) => ({
-          ...folder,
-          isTop: folderSort.includes(folder.folderId)
-        }))
+        const {list: folders, folderSort} = yield io.material.getMaterials()
         self.set({
           folders,
+          folderSort,
           fetchState: "success"
         })
       } catch (error) {
@@ -75,16 +73,16 @@ export const MMaterialPanel = types
     })
 
     const toggleFolderTop = flow(function* toggleTop(folder) {
+      const isTop = self.folderSort.includes(folder.folderId)
       try {
         yield io.user.top({
           ":type": "material-folder",
-          action: folder.isTop ? "cancel" : "top",
+          action: isTop ? "cancel" : "top",
           id: folder.folderId
         })
-        folder.set({
-          isTop: !folder.isTop
-        })
-        tip.success({content: folder.isTop ? "置顶成功" : "取消置顶成功"})
+
+        tip.success({content: isTop ? "取消置顶成功" : "置顶成功"})
+        isTop ? self.folderSort.remove(folder.folderId) : self.folderSort.unshift(folder.folderId)
       } catch (error) {
         log.error("toggleTop Error: ", error)
         tip.error({content: error.message})
