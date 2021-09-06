@@ -36,7 +36,7 @@ const createSectionClass = (node) => {
           MFieldModel = MFieldModel.views((self) => field.views(self))
         }
 
-        models.push(MFieldModel.create(field))
+        models.push({[field.name]: MFieldModel.create(field)})
       } else {
         log.warn(`Field for '${field.type}' is NOT supported yet!`)
       }
@@ -58,7 +58,25 @@ const createSectionClass = (node) => {
           self.effective = node.effective
         }
       }
-      const getValues = () => {}
+      const getValues = () => {
+        let values = {}
+        if (self.sections) {
+          const data = {}
+          self.sections.forEach((section) => {
+            data[section.name] = section.getValues()
+          })
+          // console.log(data)
+          values = {...data}
+        }
+        if (self.fields) {
+          self.fields.forEach((field) => {
+            Object.entries(field).forEach(([key, value]) => {
+              values[key] = value.getValue()
+            })
+          })
+        }
+        return values
+      }
       const setValues = () => {}
       return {
         afterCreate,
@@ -91,7 +109,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
           MFieldModel = MFieldModel.views((self) => field.views(self))
         }
 
-        models.push(MFieldModel.create(field))
+        models.push({[field.name]: MFieldModel.create(field)})
       } else {
         log.warn(`Field for '${field.type}' is NOT supported yet!`)
       }
@@ -118,6 +136,18 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
     // }
     const getValues = () => {
       const values = {}
+      if (self.sections) {
+        self.sections.forEach((section) => {
+          values[section.name] = section.getValues()
+        })
+      }
+      if (self.fields) {
+        self.fields.forEach((field) => {
+          Object.entries(field).forEach(([key, value]) => {
+            values[key] = value.getValue()
+          })
+        })
+      }
       return values
     }
 

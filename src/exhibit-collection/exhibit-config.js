@@ -3,8 +3,24 @@ import isArray from "lodash/isArray"
 import mappingConfig from "./config-fields-mapping"
 import createConfigModelClass from "../builders/create-config-model-class"
 
+const pointCoordinate = {
+  name: "pointCoordinate",
+
+  fields: [
+    {
+      name: "lang",
+      defaultValue: 12
+    },
+    {
+      name: "lat",
+      defaultValue: 10
+    }
+  ]
+}
+
 const text = {
   name: "text",
+  sections: [pointCoordinate],
   fields: [
     {
       name: "textSize",
@@ -31,21 +47,6 @@ const label = {
 const rectCoordinate = {
   name: "rectCoordinate",
   isAdvance: true,
-  fields: [
-    {
-      name: "lang",
-      defaultValue: 12
-    },
-    {
-      name: "lat",
-      defaultValue: 10
-    }
-  ]
-}
-
-const pointCoordinate = {
-  name: "pointCoordinate",
-
   fields: [
     {
       name: "lang",
@@ -122,6 +123,7 @@ export const transform = ({id, sections, fields}) => {
     res.fields = getFields(fields)
   }
   const n = createConfigModelClass(`MLayer${id}`, res)
-  console.log(n.create({}))
+  const x = n.create({})
+  console.log(x.getValues())
   return res
 }

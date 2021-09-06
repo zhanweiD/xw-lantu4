@@ -4,6 +4,16 @@ const textSize = {
   defaultValue: 12
 }
 
+const lang = {
+  type: "text",
+  label: "lang",
+  defaultValue: 12
+}
+const lat = {
+  type: "text",
+  label: "lat",
+  defaultValue: 12
+}
 const opacity = {
   type: "number",
   label: "opacity",
@@ -23,7 +33,9 @@ const angle = {
 const mappingConfig = {
   textSize,
   opacity,
-  angle
+  angle,
+  lang,
+  lat
 }
 
 export default mappingConfig
