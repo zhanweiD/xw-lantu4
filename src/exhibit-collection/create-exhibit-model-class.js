@@ -6,17 +6,18 @@ import {transform} from "./exhibit-config"
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
   const {config} = exhibit
-  const {fields, sections} = config.layers[0]
+  const {id, fields, sections} = config.layers[0]
 
   // const Layer = createConfigModelClass(`MLayer${id}`, {
   //   sections,
   //   fields
   // })
-  const c = transform({
+  transform({
+    id,
     sections,
     fields
   })
-  console.log(c)
+
   // console.log(Layer.create({}))
   const MExhibit = types
     .model(`MExhibit${config.key}`, {

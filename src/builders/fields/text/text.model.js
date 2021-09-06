@@ -6,8 +6,8 @@ export const MTextField = types
   .model("MTextField", {
     type: types.optional(types.enumeration(["text", "password"]), "text"),
     label: types.optional(types.string, ""),
-    value: types.maybe(types.string),
-    defaultValue: types.optional(types.string, ""),
+    value: types.maybe(types.union(types.number, types.string)),
+    defaultValue: types.maybe(types.union(types.number, types.string)),
     placeholder: types.optional(types.string, "")
   })
   .actions(commonAction(["set"]))

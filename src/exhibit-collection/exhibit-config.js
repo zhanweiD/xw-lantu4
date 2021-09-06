@@ -1,6 +1,7 @@
 import isDef from "@utils/is-def"
 import isArray from "lodash/isArray"
 import mappingConfig from "./config-fields-mapping"
+import createConfigModelClass from "../builders/create-config-model-class"
 
 const text = {
   name: "text",
@@ -11,7 +12,8 @@ const text = {
     },
     {
       name: "opacity",
-      defaultValue: 0.8
+      defaultValue: 0.8,
+      isAdvance: true
     },
     {
       name: "angle",
@@ -97,7 +99,7 @@ const recusiveNode = (nodes, isExtend) => {
       }
     } else if (isArray(subSections)) {
       subSections = subSections.filter((sSection) => section.sections?.some((v) => v.name === sSection.name))
-      res.sections = recusiveNode(subSections, true)
+      res.sections = recusiveNode(subSections, false)
     }
 
     if (isDef(fields)) {
@@ -111,7 +113,7 @@ const recusiveNode = (nodes, isExtend) => {
   })
 }
 
-export const transform = ({sections, fields}) => {
+export const transform = ({id, sections, fields}) => {
   const res = {}
   if (isArray(sections)) {
     res.sections = recusiveNode(sections)
@@ -119,5 +121,7 @@ export const transform = ({sections, fields}) => {
   if (isDef(fields)) {
     res.fields = getFields(fields)
   }
+  const n = createConfigModelClass(`MLayer${id}`, res)
+  console.log(n.create({}))
   return res
 }
