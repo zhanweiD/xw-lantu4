@@ -56,7 +56,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
   return (
     <Sortable art={art} index={index} project={project} enable={!isThumbnailVisible}>
       <div
-        className={c("w100p fs0", s.art, isThumbnailVisible ? "mb8" : "pl8 pr8")}
+        className={c("w100p", s.art)}
         onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
         onDoubleClick={art.editArt}
       >

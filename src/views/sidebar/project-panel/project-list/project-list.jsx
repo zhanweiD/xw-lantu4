@@ -42,16 +42,20 @@ const MoreIcon = ({project, isTop, isRecent}) => {
 
 // 模板列表
 export const TemplateList = observer(({id, name, arts, icon, children, ...other}) => {
+  const {sidebar} = w
+  const {projectPanel} = sidebar
+  const {toolbar} = projectPanel
+  const {isThumbnailVisible} = toolbar
   return (
     <Section
       key={id}
       sessionId={`SKProject-${id}`}
       name={`${name} (${arts.length})`}
-      childrenClassName="pt8"
+      childrenClassName="pt8 pb8"
       icon={icon}
     >
       {arts.map((art, index) => (
-        <div key={art.artId} className={c("ml8 mr8")}>
+        <div key={art.artId} className={c("ml8 mr8", {["mb8"]: isThumbnailVisible && index !== arts.length - 1})}>
           <DragSource
             key={art.artId}
             onEnd={(dropResult, data) => {
