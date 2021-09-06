@@ -31,9 +31,9 @@ const ProjectFallback = ({toolbar}) =>
 // 项目下无大屏时的 UI
 const ProjectListFallback = ({project}) =>
   !project.arts_.length && (
-    <div className={c("mb16 emptyNote")}>
+    <div className={c("ml8 mr8 mb8 emptyNote")}>
       项目内还没有创建数据屏，点击
-      <span className="ctSecend hand mb8" onClick={project.createArt}>
+      <span className="ctSecend hand" onClick={project.createArt}>
         创建
       </span>
     </div>

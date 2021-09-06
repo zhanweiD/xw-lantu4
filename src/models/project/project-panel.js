@@ -111,8 +111,8 @@ export const MProjectPanel = types
     const saveLocal = () => {
       const {local} = self.env_
       local.set("SKRecentProject", {
-        recentProjectIds: self.recentProjectIds,
-        toolbar: self.toolbar,
+        recentProjectIds: self.recentProjectIds.toJSON(),
+        toolbar: self.toolbar.toJSON(),
         state: self.state
       })
     }

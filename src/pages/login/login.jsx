@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react"
-import io from "@utils/io"
 import check from "@utils/check"
-import s from "./login.module.styl"
-import c from "classnames"
 import config from "@utils/config"
 import createLog from "@utils/create-log"
+import io from "@utils/io"
+import c from "classnames"
+import React, {useEffect, useState} from "react"
+import s from "./login.module.styl"
 
 // 错误自动消失定时器
 let errorClearTimer
@@ -23,8 +23,6 @@ const Form = () => {
   const [inviteCode, setInviteCode] = useState("")
   // 是否记住登录状态
   const [isKeepLogin, setKeepLogin] = useState(false)
-  // 是否同意用户协议
-  const [isAgreeUserAgreement, setAgreeUserAgreement] = useState(false)
   // 错误提示
   const [message, setMessage] = useState("")
   // 验证码提示文字
@@ -52,10 +50,6 @@ const Form = () => {
       setMessage("请输入邀请码")
       return
     }
-    if (page === "register" && !isAgreeUserAgreement) {
-      setMessage("请阅读相关协议并勾选")
-      return
-    }
     let user
     try {
       if (page === "login") {
@@ -67,7 +61,7 @@ const Form = () => {
             code: verificationCode
           }
         })
-      } else {
+      } else if (page === "register") {
         user = await io.auth.register({
           mobile,
           inviteCode,
@@ -196,18 +190,9 @@ const Form = () => {
               </label>
             )}
             {page === "register" && (
-              <div className="fbh fbac">
-                <label>
-                  <input
-                    className="hand"
-                    type="checkbox"
-                    value={isAgreeUserAgreement}
-                    onChange={(e) => setAgreeUserAgreement(e.target.checked)}
-                  />
-                  <span className={c("pl8 fs12 lh32 hand")}>我已阅读并同意</span>
-                </label>
+              <div className="fbh fbac fbjc">
+                <span className={c("fs12 lh32 hand ctb50")}>未注册手机验证后自动登录，注册即代表同意</span>
                 <span className={c("fs12 lh32 hand")}>《澜图用户协议》</span>
-                <span className={c("fs12 lh32 hand")}>《澜图免责声明》</span>
               </div>
             )}
           </form>
