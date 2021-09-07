@@ -104,13 +104,12 @@ export const setModelSchema = (node, schema) => {
     node.deepKeys.forEach((key) => {
       if (isDef(node[key])) {
         // NOTE 经验 模型节点，使用isArray检测是不是数组即可，使用isArrayType返回的是false
-        if (isArray(schema[key]) && isArray(node[key])) {
-          // node[key] = [] // NOTE 给数组setSchema的时候需要先清掉原来的值
-          schema[key].forEach((itemSchema, index) => {
-            node[key][index].setSchema(itemSchema)
-            // node[key].push({id: itemSchema.id})
-            // node[key][node[key].length - 1].setSchema(itemSchema)
-          })
+        if (isArray(node[key])) {
+          if (isArray(schema[key])) {
+            schema[key].forEach((itemSchema, index) => {
+              node[key][index].setSchema(itemSchema)
+            })
+          }
         } else if (isPlainObject(schema[key]) && isMapType(getType(node[key]))) {
           node[key].setSchema(schema[key])
         } else {

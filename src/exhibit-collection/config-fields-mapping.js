@@ -1,7 +1,7 @@
 const textSize = {
   type: "text",
   label: "textSize",
-  defaultValue: 12
+  defaultValue: 10
 }
 
 const lang = {

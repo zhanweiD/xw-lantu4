@@ -3,6 +3,25 @@ import isArray from "lodash/isArray"
 import mappingConfig from "./config-fields-mapping"
 import createConfigModelClass from "../builders/create-config-model-class"
 
+// 这种格式是给组件的 但是不能用于保存
+// const getValues = () => {
+//   let values = {}
+//   if (self.sections) {
+//     const data = {}
+//     self.sections.forEach((section) => {
+//       data[section.name] = section.getValues()
+//     })
+//     values = {...data}
+//   }
+//   if (self.fields) {
+//     self.fields.forEach((field) => {
+//       Object.entries(field).forEach(([key, value]) => {
+//         values[key] = value.getValue()
+//       })
+//     })
+//   }
+//   return values
+// }
 const pointCoordinate = {
   name: "pointCoordinate",
 
@@ -20,11 +39,10 @@ const pointCoordinate = {
 
 const text = {
   name: "text",
-  sections: [pointCoordinate],
   fields: [
     {
       name: "textSize",
-      defaultValue: 12
+      defaultValue: 10
     },
     {
       name: "opacity",
@@ -114,16 +132,18 @@ const recusiveNode = (nodes, isExtend) => {
   })
 }
 
-export const transform = ({id, sections, fields}) => {
-  const res = {}
+export const transform = ({id, type, name, sections, fields}) => {
+  const props = {}
   if (isArray(sections)) {
-    res.sections = recusiveNode(sections)
+    props.sections = recusiveNode(sections)
   }
   if (isDef(fields)) {
-    res.fields = getFields(fields)
+    props.fields = getFields(fields)
   }
-  const n = createConfigModelClass(`MLayer${id}`, res)
-  const x = n.create({})
-  console.log(x.getValues())
-  return res
+
+  return createConfigModelClass(`MLayer${id}`, props, {
+    id,
+    type,
+    name
+  }).create({})
 }

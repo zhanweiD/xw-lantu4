@@ -4,6 +4,7 @@ import isEdit from "@utils/is-edit"
 import createLog from "@utils/create-log"
 import {themeConfigs} from "@utils/theme"
 import {createExhibitModelClass} from "./create-exhibit-model-class"
+import {createExhibitLayersClass} from "./create-exhibit-layer-class"
 
 const log = createLog("@exhibit-collection")
 
@@ -53,7 +54,12 @@ export const exhibitRegister = (exhibit) => {
             officialData
           }
         )
+        const {layers} = config
+        model.set({
+          layers: createExhibitLayersClass(config.key, layers)
+        })
         model.setSchema(schema)
+        console.log(model, "model")
         return model
       },
       Adapter: exhibit.Adapter

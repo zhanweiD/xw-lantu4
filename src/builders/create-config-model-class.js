@@ -1,8 +1,8 @@
-import {types} from "mobx-state-tree"
+import {getParent, types} from "mobx-state-tree"
 import isArray from "lodash/isArray"
 import isFunction from "lodash/isFunction"
+import isPlainObject from "lodash/isPlainObject"
 import createLog from "@utils/create-log"
-
 import {MTextField} from "./fields"
 import isDef from "@utils/is-def"
 
@@ -19,6 +19,9 @@ const createFieldClass = (fields) => {
       let MFieldModel = fieldModel[field.type].actions((self) => ({
         getSchema() {
           return self.getValue()
+        },
+        setSchema(schema) {
+          return self.setValue(schema)
         }
       }))
       // 如果有views，重新创建模型
@@ -63,7 +66,6 @@ const createSectionClass = (node) => {
           self.effective = node.effective
         }
       }
-      // 这种是保存用的
       const getValues = () => {
         const values = {}
         values.name = self.name
@@ -73,6 +75,9 @@ const createSectionClass = (node) => {
             data.push(section.getValues())
           })
           values.sections = data
+        }
+        if (self.effective) {
+          values.effective = self.effective
         }
         if (self.fields) {
           const fields = {}
@@ -85,35 +90,46 @@ const createSectionClass = (node) => {
         }
         return values
       }
-      // 这种格式是给组件的 但是不能用于保存
-      // const getValues = () => {
-      //   let values = {}
-      //   if (self.sections) {
-      //     const data = {}
-      //     self.sections.forEach((section) => {
-      //       data[section.name] = section.getValues()
-      //     })
-      //     values = {...data}
-      //   }
-      //   if (self.fields) {
-      //     self.fields.forEach((field) => {
-      //       Object.entries(field).forEach(([key, value]) => {
-      //         values[key] = value.getValue()
-      //       })
-      //     })
-      //   }
-      //   return values
-      // }
-      const setValues = () => {}
+
+      const setValues = (values) => {
+        Object.entries(values).forEach(([key, value]) => {
+          if (["name", "effective"].find((v) => v === key)) {
+            self[key] = value
+          } else if (key === "sections") {
+            self[key].forEach((v, index) => {
+              v.setSchema(value[index])
+            })
+          } else if (key === "fields") {
+            self[key].forEach((v) => {
+              Object.entries(v).forEach(([k, x]) => {
+                x.setSchema(value[k])
+              })
+            })
+          }
+        })
+      }
+
+      const setSchema = (schema) => {
+        self.setValues(schema)
+      }
+
+      const update = () => {
+        getParent(self, 2).update()
+      }
       return {
         afterCreate,
         getValues,
-        setValues
+        setValues,
+        setSchema,
+        update
       }
     })
   return MSection.create({})
 }
 const createConfigModelClass = (modelName, config, initProps = {}) => {
+  // 初始化数据也需要被保存下来
+  const _keys = Object.keys(initProps)
+
   let fields
   const sections = []
   if (isArray(config.sections)) {
@@ -126,7 +142,16 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
   }
 
   initProps.updateTime = types.optional(types.number, 0)
-
+  // [{
+  //   name: 'label',
+  //   effective: false,
+  //   sections: [{
+  //     name: 'text',
+  //     fields: [{
+  //       textSize: 12,
+  //     }]
+  //   }]
+  // }]
   return types.model(modelName, initProps).actions((self) => {
     const afterCreate = () => {
       if (fields && fields.length) {
@@ -136,15 +161,37 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
         self.sections = sections
       }
     }
-    // const setValues = (values) => {
-    //   if(isPlainObject(values)) {
 
-    //   } else {
-    //     log.warn(`Param muse be a plainobject for setValues(), but it was, ${values}`)
-    //   }
-    // }
+    const setValues = (values) => {
+      if (isPlainObject(values)) {
+        Object.entries(values).forEach(([key, value]) => {
+          if (_keys.find((v) => v === key)) {
+            self[key] = value
+          } else if (key === "sections") {
+            self[key].forEach((v, index) => {
+              v.setSchema(value[index])
+            })
+          } else if (key === "fields") {
+            self[key].forEach((v) => {
+              Object.entries(v).forEach(([k, x]) => {
+                x.setSchema(value[k])
+              })
+            })
+          }
+        })
+      } else {
+        log.error(`Param muse be a plainobject for setValues(), but it was, ${values}`)
+      }
+    }
+
+    const update = () => {
+      self.updateTime = Date.now()
+    }
     const getValues = () => {
       const values = {}
+      _keys.forEach((key) => {
+        values[key] = self[key]
+      })
       if (self.sections) {
         const sections = []
         self.sections.forEach((section) => {
@@ -164,9 +211,31 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       return values
     }
 
+    const setSchema = (schema) => {
+      self.setValues(schema)
+      // 保存和util的setSchema一样，都支持afterSetSchema方法
+      if (isFunction(self.afterSetSchema)) {
+        self.afterSetSchema()
+      }
+    }
+
+    // 仅供递归调用，功能和getValues一样
+    const getSchema = () => {
+      return self.getValues()
+    }
+
+    const dumpSchema = () => {
+      console.log(JSON.stringify(self.getSchema(), null, 4))
+    }
+
     return {
       afterCreate,
-      getValues
+      setValues,
+      getValues,
+      update,
+      setSchema,
+      getSchema,
+      dumpSchema
     }
   })
 }
