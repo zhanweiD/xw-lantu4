@@ -3,6 +3,9 @@ import commonAction from "@utils/common-action"
 import {MProjectToolbar} from "./project-toolbar"
 import {MProjectList} from "./project-list"
 import {MArtThumbnail} from "../art/art-thumbnail"
+import createLog from "@utils/create-log"
+
+const log = createLog("@models/project/project-panel.js")
 
 export const MProjectPanel = types
   .model({
@@ -128,6 +131,7 @@ export const MProjectPanel = types
         self.state = "success"
       } catch (error) {
         self.state = "error"
+        log.error(error.message)
         tip.error({content: "加载项目列表失败"})
       }
     })
@@ -140,7 +144,7 @@ export const MProjectPanel = types
         const templates = yield io.project.getTemplates({source: "art"})
         self.templates = templates.list
       } catch (error) {
-        self.state = "error"
+        log.error(error.message)
         tip.error({content: "加载模板列表失败"})
       }
     })
@@ -156,6 +160,7 @@ export const MProjectPanel = types
         })
         self.getProjects()
       } catch (error) {
+        log.error(error.message)
         tip.error({content: "置顶失败"})
       }
     })

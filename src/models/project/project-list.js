@@ -77,8 +77,8 @@ export const MProjectList = types
             }
           })
       } catch (error) {
-        tip.error({content: error.message})
         log.error(error)
+        tip.error({content: error.message})
       }
     })
 
@@ -122,8 +122,8 @@ export const MProjectList = types
           artSort: self.artSort
         })
       } catch (error) {
+        log.error(error)
         tip.error({content: error.message, isManuallyClose: true})
-        log.error("ProjectSort.Error:", error)
         self.state = "fail"
       }
     })
