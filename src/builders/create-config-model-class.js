@@ -11,9 +11,31 @@ const log = createLog("@builder/create-config-model-class")
 const fieldModel = {
   text: MTextField
 }
+const createFieldClass = (fields) => {
+  const result = []
+  fields.forEach((field) => {
+    if (fieldModel[field.type]) {
+      // 后面根据配置会重新赋值
+      let MFieldModel = fieldModel[field.type].actions((self) => ({
+        getSchema() {
+          return self.getValue()
+        }
+      }))
+      // 如果有views，重新创建模型
+      if (isFunction(field.views)) {
+        MFieldModel = MFieldModel.views((self) => field.views(self))
+      }
+
+      result.push({[field.name]: MFieldModel.create(field)})
+    } else {
+      log.warn(`Field for '${field.type}' is NOT supported yet!`)
+    }
+  })
+  return result
+}
 
 const createSectionClass = (node) => {
-  const models = []
+  let fields
   const sections = []
   if (isArray(node.sections)) {
     node.sections.forEach((v) => {
@@ -22,26 +44,9 @@ const createSectionClass = (node) => {
   }
 
   if (isArray(node.fields)) {
-    node.fields.forEach((field) => {
-      if (fieldModel[field.type]) {
-        // 后面根据配置会重新赋值
-        let MFieldModel = fieldModel[field.type].actions((self) => ({
-          getSchema() {
-            return self.getValue()
-          }
-        }))
-
-        // 如果有views，重新创建模型
-        if (isFunction(field.views)) {
-          MFieldModel = MFieldModel.views((self) => field.views(self))
-        }
-
-        models.push({[field.name]: MFieldModel.create(field)})
-      } else {
-        log.warn(`Field for '${field.type}' is NOT supported yet!`)
-      }
-    })
+    fields = createFieldClass(node.fields)
   }
+
   const MSection = types
     .model("MSection", {
       name: types.optional(types.string, node.name)
@@ -49,7 +54,7 @@ const createSectionClass = (node) => {
     .actions((self) => {
       const afterCreate = () => {
         if (isArray(node.fields)) {
-          self.fields = models
+          self.fields = fields
         }
         if (isArray(node.sections)) {
           self.sections = sections
@@ -58,25 +63,47 @@ const createSectionClass = (node) => {
           self.effective = node.effective
         }
       }
+      // 这种是保存用的
       const getValues = () => {
-        let values = {}
+        const values = {}
+        values.name = self.name
         if (self.sections) {
-          const data = {}
+          const data = []
           self.sections.forEach((section) => {
-            data[section.name] = section.getValues()
+            data.push(section.getValues())
           })
-          // console.log(data)
-          values = {...data}
+          values.sections = data
         }
         if (self.fields) {
+          const fields = {}
           self.fields.forEach((field) => {
             Object.entries(field).forEach(([key, value]) => {
-              values[key] = value.getValue()
+              fields[key] = value.getValue()
             })
           })
+          values.fields = fields
         }
         return values
       }
+      // 这种格式是给组件的 但是不能用于保存
+      // const getValues = () => {
+      //   let values = {}
+      //   if (self.sections) {
+      //     const data = {}
+      //     self.sections.forEach((section) => {
+      //       data[section.name] = section.getValues()
+      //     })
+      //     values = {...data}
+      //   }
+      //   if (self.fields) {
+      //     self.fields.forEach((field) => {
+      //       Object.entries(field).forEach(([key, value]) => {
+      //         values[key] = value.getValue()
+      //       })
+      //     })
+      //   }
+      //   return values
+      // }
       const setValues = () => {}
       return {
         afterCreate,
@@ -87,7 +114,7 @@ const createSectionClass = (node) => {
   return MSection.create({})
 }
 const createConfigModelClass = (modelName, config, initProps = {}) => {
-  const models = []
+  let fields
   const sections = []
   if (isArray(config.sections)) {
     config.sections.forEach((section) => {
@@ -95,33 +122,15 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
     })
   }
   if (isArray(config.fields)) {
-    config.fields.forEach((field) => {
-      if (fieldModel[field.type]) {
-        // 后面根据配置会重新赋值
-        let MFieldModel = fieldModel[field.type].actions((self) => ({
-          getSchema() {
-            return self.getValue()
-          }
-        }))
-
-        // 如果有views，重新创建模型
-        if (isFunction(field.views)) {
-          MFieldModel = MFieldModel.views((self) => field.views(self))
-        }
-
-        models.push({[field.name]: MFieldModel.create(field)})
-      } else {
-        log.warn(`Field for '${field.type}' is NOT supported yet!`)
-      }
-    })
+    fields = createFieldClass(config.fields)
   }
 
   initProps.updateTime = types.optional(types.number, 0)
 
   return types.model(modelName, initProps).actions((self) => {
     const afterCreate = () => {
-      if (models.length) {
-        self.fields = models
+      if (fields && fields.length) {
+        self.fields = fields
       }
       if (sections.length) {
         self.sections = sections
@@ -137,16 +146,20 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
     const getValues = () => {
       const values = {}
       if (self.sections) {
+        const sections = []
         self.sections.forEach((section) => {
-          values[section.name] = section.getValues()
+          sections.push(section.getValues())
         })
+        values.sections = sections
       }
       if (self.fields) {
+        const fields = {}
         self.fields.forEach((field) => {
           Object.entries(field).forEach(([key, value]) => {
-            values[key] = value.getValue()
+            fields[key] = value.getValue()
           })
         })
+        values.fields = fields
       }
       return values
     }
