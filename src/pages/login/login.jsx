@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from "react"
-import io from "@utils/io"
 import check from "@utils/check"
-import s from "./login.module.styl"
-import c from "classnames"
 import config from "@utils/config"
+import createLog from "@utils/create-log"
+import io from "@utils/io"
+import c from "classnames"
+import React, {useEffect, useState} from "react"
+import s from "./login.module.styl"
 
 // 错误自动消失定时器
 let errorClearTimer
+// 日志
+const log = createLog("@pages/login")
 
 // 右侧表单
 const Form = () => {
@@ -20,10 +23,6 @@ const Form = () => {
   const [inviteCode, setInviteCode] = useState("")
   // 是否记住登录状态
   const [isKeepLogin, setKeepLogin] = useState(false)
-  // 是否同意用户协议
-  const [isAgreeUserAgreement, setAgreeUserAgreement] = useState(false)
-  // 是否同意免责声明
-  const [isAgreeDisclaimer, setAgreeDisclaimer] = useState(false)
   // 错误提示
   const [message, setMessage] = useState("")
   // 验证码提示文字
@@ -36,11 +35,7 @@ const Form = () => {
       return
     }
     if (!check("mobile", mobile)) {
-      setMessage("请输入正确的手机号码")
-      return
-    }
-    if (page === "register" && !inviteCode) {
-      setMessage("请输入邀请码")
+      setMessage("手机号码不正确")
       return
     }
     if (!verificationCode) {
@@ -48,15 +43,11 @@ const Form = () => {
       return
     }
     if (!/^[0-9]{6}$/.test(verificationCode)) {
-      setMessage("请输入正确的6位手机验证码")
+      setMessage("验证码不正确")
       return
     }
-    if (page === "register" && !isAgreeUserAgreement) {
-      setMessage("请阅读《澜图用户协议》相关条款并勾选")
-      return
-    }
-    if (page === "register" && !isAgreeDisclaimer) {
-      setMessage("请阅读《澜图免责声明》相关条款并勾选")
+    if (page === "register" && !inviteCode) {
+      setMessage("请输入邀请码")
       return
     }
     let user
@@ -70,7 +61,7 @@ const Form = () => {
             code: verificationCode
           }
         })
-      } else {
+      } else if (page === "register") {
         user = await io.auth.register({
           mobile,
           inviteCode,
@@ -82,7 +73,11 @@ const Form = () => {
         window.location.href = window.appData?.pathPrefix || "/"
       }
     } catch (error) {
-      setMessage(error.message)
+      if (error.code === "ERROR_PARAMS_ERROR") {
+        log.error(error)
+      } else {
+        setMessage(error.message)
+      }
     }
   }
   // 获取验证码
@@ -93,7 +88,7 @@ const Form = () => {
       return
     }
     if (!check("mobile", mobile)) {
-      setMessage("请输入正确的手机号码")
+      setMessage("手机号码不正确")
       return
     }
     try {
@@ -114,7 +109,11 @@ const Form = () => {
         }, 1000)
       }
     } catch (error) {
-      setMessage(error.message)
+      if (error.code === "ERROR_PARAMS_ERROR") {
+        log.error(error)
+      } else {
+        setMessage(error.message)
+      }
     }
   }
   // 提示文字发生变化时自动注销
@@ -144,14 +143,31 @@ const Form = () => {
               type="text"
               className="mb20 lh32 ctb70 fs16"
               placeholder="请输入手机号码"
+              value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />
+            <div className="fbh pr lh32">
+              <input
+                type="text"
+                className="fb1 mb20 lh32 ctb70 fs16"
+                placeholder="请输入手机验证码"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+              />
+              <span
+                className={c("hand fs16", s.sendCode, {ctb50: inviteCodeTip !== "获取验证码"})}
+                onClick={getVerificationCode}
+              >
+                {inviteCodeTip}
+              </span>
+            </div>
             {page === "register" && (
               <div className="fbh pr lh32">
                 <input
                   type="text"
                   className="fb1 mb20 lh32 ctb70 fs16"
                   placeholder="请输入邀请码"
+                  value={inviteCode}
                   onChange={(e) => setInviteCode(e.target.value)}
                 />
                 <span
@@ -162,36 +178,21 @@ const Form = () => {
                 </span>
               </div>
             )}
-            <div className="fbh pr lh32">
-              <input
-                type="text"
-                className="fb1 mb20 lh32 ctb70 fs16"
-                placeholder="请输入手机验证码"
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <span
-                className={c("hand fs16", s.sendCode, {ctb50: inviteCodeTip !== "获取验证码"})}
-                onClick={getVerificationCode}
-              >
-                {inviteCodeTip}
-              </span>
-            </div>
             {page === "login" && (
-              <div className="fbh fbac">
-                <input className="hand" type="checkbox" onChange={(e) => setKeepLogin(e.target.checked)} />
-                <span className={c("pl8 fs16 lh32")}>记住登录状态</span>
-              </div>
+              <label className="fbh fbac hand">
+                <input
+                  className="hand"
+                  type="checkbox"
+                  value={isKeepLogin}
+                  onChange={(e) => setKeepLogin(e.target.checked)}
+                />
+                <span className={c("pl8 fs12 lh32")}>记住登录状态</span>
+              </label>
             )}
             {page === "register" && (
-              <div className="fbh fbac">
-                <input className="hand" type="checkbox" onChange={(e) => setAgreeUserAgreement(e.target.checked)} />
-                <span className={c("pl8 fs16 lh32 hand")}>我已阅读并同意《澜图用户协议》</span>
-              </div>
-            )}
-            {page === "register" && (
-              <div className="fbh fbac">
-                <input className="hand" type="checkbox" onChange={(e) => setAgreeDisclaimer(e.target.checked)} />
-                <span className={c("pl8 fs16 lh32 hand")}>我已阅读并知晓《澜图免责声明》</span>
+              <div className="fbh fbac fbjc">
+                <span className={c("fs12 lh32 hand ctb50")}>未注册手机验证后自动登录，注册即代表同意</span>
+                <span className={c("fs12 lh32 hand")}>《澜图用户协议》</span>
               </div>
             )}
           </form>
