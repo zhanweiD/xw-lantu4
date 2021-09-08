@@ -1,8 +1,11 @@
-import {MTextField, TextField} from "./text"
-
-export {MTextField}
+import {MTextField, TextField} from './text'
+import {MNumberField, NumberField} from './number'
 
 const fields = {
-  TextField
+  TextField,
+  NumberField,
 }
+
+export {MTextField, MNumberField}
+
 export default fields

@@ -3,7 +3,7 @@ import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import fields from './fields'
 
-const {TextField} = fields
+const {TextField, NumberField} = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
   let F
@@ -19,6 +19,23 @@ const ModelToField = ({model}) => {
           onChange={(v) => {
             model.setValue(v)
           }}
+        />
+      )
+      break
+    case 'number':
+      F = (
+        <NumberField
+          className="ml24"
+          label={t(model.label)}
+          value={model.inputValue}
+          defaultValue={model.defaultValue}
+          min={model.min}
+          max={model.max}
+          step={model.step}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+          hasSlider={model.hasSlider}
         />
       )
       break
