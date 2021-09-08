@@ -6,10 +6,9 @@ import Icon from '@components/icon'
 import s from './check.module.styl'
 
 // 点选
-const CheckField = ({label, value, onChange, className, options}) => {
-  console.log(options)
+const CheckField = ({label, value, onChange, labelClassName, childrenClassName, className, options}) => {
   return (
-    <Field label={label} className={className}>
+    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
       {options.map((option) => (
         <div
           key={option.value}
