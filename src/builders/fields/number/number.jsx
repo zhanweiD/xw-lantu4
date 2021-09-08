@@ -26,7 +26,7 @@ const NumberRange = ({min, max}) => {
 }
 
 export const NumberInput = observer(
-  ({value, defaultValue = 0, onChange, min, max, step, readOnly, placeholder, className, toggleFocus = () => {}}) => {
+  ({value, defaultValue = 0, onChange, min, max, step, placeholder, className, toggleFocus = () => {}}) => {
     const numberRef = useRef(null)
 
     useEffect(() => {
@@ -43,7 +43,6 @@ export const NumberInput = observer(
         ref={numberRef}
         value={isDef(value) ? value : defaultValue}
         placeholder={placeholder}
-        disabled={readOnly}
         onKeyDown={(e) => {
           const v = trim(e.target.value)
           if (isNumeric(v)) {
@@ -105,7 +104,7 @@ const NumberField = ({
     <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
       <div className="fb1 pr">
         <NumberInput
-          className={c(className, {[s.sliderFocus]: hasSlider && isFocus})}
+          className={c({[s.sliderFocus]: hasSlider && isFocus})}
           value={value}
           defaultValue={defaultValue}
           onChange={onChange}
