@@ -1,7 +1,7 @@
-import isDef from "@utils/is-def"
-import isArray from "lodash/isArray"
-import mappingConfig from "./config-fields-mapping"
-import createConfigModelClass from "../builders/create-config-model-class"
+import isDef from '@utils/is-def'
+import isArray from 'lodash/isArray'
+import mappingConfig from '../exhibit-option-system/fields'
+import createConfigModelClass from '../builders/create-config-model-class'
 
 // 这种格式是给组件的 但是不能用于保存
 // const getValues = () => {
@@ -23,63 +23,63 @@ import createConfigModelClass from "../builders/create-config-model-class"
 //   return values
 // }
 const pointCoordinate = {
-  name: "pointCoordinate",
+  name: 'pointCoordinate',
 
   fields: [
     {
-      name: "lang",
-      defaultValue: 12
+      name: 'lang',
+      defaultValue: 12,
     },
     {
-      name: "lat",
-      defaultValue: 10
-    }
-  ]
+      name: 'lat',
+      defaultValue: 10,
+    },
+  ],
 }
 
 const text = {
-  name: "text",
+  name: 'text',
   fields: [
     {
-      name: "textSize",
-      defaultValue: 10
+      name: 'textSize',
+      defaultValue: 10,
     },
     {
-      name: "opacity",
+      name: 'opacity',
       defaultValue: 0.8,
-      isAdvance: true
+      isAdvance: true,
     },
     {
-      name: "angle",
+      name: 'angle',
       defaultValue: 30,
-      isAdvance: true
-    }
-  ]
+      isAdvance: true,
+    },
+  ],
 }
 
 const label = {
-  name: "label",
-  sections: [text]
+  name: 'label',
+  sections: [text],
 }
 
 const rectCoordinate = {
-  name: "rectCoordinate",
+  name: 'rectCoordinate',
   isAdvance: true,
   fields: [
     {
-      name: "lang",
-      defaultValue: 12
+      name: 'lang',
+      defaultValue: 12,
     },
     {
-      name: "lat",
-      defaultValue: 10
-    }
-  ]
+      name: 'lat',
+      defaultValue: 10,
+    },
+  ],
 }
 
 const coordinate = {
-  name: "coordinate",
-  sections: [pointCoordinate, rectCoordinate]
+  name: 'coordinate',
+  sections: [pointCoordinate, rectCoordinate],
 }
 
 export const allSections = {
@@ -87,7 +87,7 @@ export const allSections = {
   text,
   coordinate,
   rectCoordinate,
-  pointCoordinate
+  pointCoordinate,
 }
 
 //
@@ -127,7 +127,7 @@ const recusiveNode = (nodes, isExtend) => {
 
     return {
       ...node,
-      ...res
+      ...res,
     }
   })
 }
@@ -144,6 +144,6 @@ export const transform = ({id, type, name, sections, fields}) => {
   return createConfigModelClass(`MLayer${id}`, props, {
     id,
     type,
-    name
+    name,
   }).create({})
 }

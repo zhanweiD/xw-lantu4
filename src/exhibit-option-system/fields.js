@@ -1,5 +1,5 @@
-// type:
-// - columnSelect 字段映射
+// type文档：https://dtwave.yuque.com/waveview/levoxx/eo63xo
+// NOTE: 这个文件内只定义最新版的配置体系，不包含向后兼容的映射
 
 /**
  * =====================================
@@ -46,6 +46,7 @@ const opacity = {
 }
 
 // 相对位置
+// NOTE: 锚点依赖position
 const position = {
   type: 'check',
   label: 'position',
@@ -91,6 +92,21 @@ const position = {
   ],
 }
 
+// 锚点
+const anchor = Object.assign({}, position, {
+  label: 'anchor',
+})
+
+// 角度
+const angle = {
+  type: 'number',
+  label: 'angle',
+  defaultValue: 0,
+  min: 0,
+  max: 360,
+  step: 1,
+}
+
 /**
  * =====================================
  * gis
@@ -98,13 +114,13 @@ const position = {
  */
 
 // 经度字段选择
-const gisLogitudeColumn = {
+const logitudeColumn = {
   type: 'columnSelect',
   label: 'longitude',
 }
 
 // 维度字段选择
-const gisLatitudeColumn = {
+const latitudeColumn = {
   type: 'columnSelect',
   label: 'longitude',
 }
@@ -164,8 +180,10 @@ export default {
   offset,
   opacity,
   position,
-  gisLogitudeColumn,
-  gisLatitudeColumn,
+  anchor,
+  angle,
+  logitudeColumn,
+  latitudeColumn,
   textSize,
   textWeight,
   textDirection,
