@@ -66,7 +66,8 @@ export default {
     dataField: "数据字段"
   },
   materialPanel: {
-    materials: "素材列表",
+    project: "项目素材",
+    space: "空间素材",
     official: "官方素材",
     collect: "收藏列表",
     materialCreate: "创建素材",

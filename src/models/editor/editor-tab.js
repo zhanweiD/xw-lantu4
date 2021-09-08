@@ -29,6 +29,7 @@ export const MEditorTab = types
   .actions(commonAction(["set"]))
   .actions((self) => {
     const showDetail = () => {
+      const {event} = self.env_
       const {type, id, tabOptions} = self
       if (type === "projectDetail") {
         // ! description 有问题，后续改
@@ -55,6 +56,9 @@ export const MEditorTab = types
           }
           self.art.getArt()
         }
+        // 设置项目素材的 projectId
+        const {projectId} = self.tabOptions
+        event.fire("materialPanel.setProjectId", {projectId})
       }
       if (type === "material") {
         if (!self.material) {

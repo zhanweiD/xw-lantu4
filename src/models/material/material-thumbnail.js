@@ -1,6 +1,6 @@
-import {getRoot, types, flow, getEnv} from "mobx-state-tree"
-import createLog from "@utils/create-log"
 import copy from "@utils/copy"
+import createLog from "@utils/create-log"
+import {flow, getEnv, getParent, getRoot, types} from "mobx-state-tree"
 
 const log = createLog("@models/material-thumbnail.js")
 export const MMaterial = types
@@ -21,10 +21,13 @@ export const MMaterial = types
     },
     get isActive_() {
       return getRoot(self).editor.activeTabId === self.materialId
+    },
+    get materialPanel_() {
+      return getParent(self, 4)
     }
   }))
   .actions((self) => {
-    const {event, io, tip} = self.env_
+    const {event, io, tip, session} = self.env_
     const remove = () => {
       self.root_.confirm({
         content: `确认删除素材“${self.name}”么？删除后无法恢复！`,
@@ -46,14 +49,22 @@ export const MMaterial = types
     }
 
     const removeMaterial = flow(function* remove() {
+      const tabIndex = session.get("tab-material-panel-tab", -1)
+      const {projectId} = self.materialPanel_
       try {
-        yield io.material.removeMaterial({
-          ":materialId": self.materialId
-        })
+        if (tabIndex === 0 && projectId) {
+          yield io.material.removeProjectMaterial({":projectId": projectId, ":materialId": self.materialId})
+          event.fire("materialPanel.getProjectFolders")
+        } else if (tabIndex === 1) {
+          yield io.material.removeMaterial({":materialId": self.materialId})
+          event.fire("materialPanel.getFolders")
+        } else {
+          throw new Error()
+        }
         event.fire("editor.closeTab", self.materialId)
-        event.fire("materialPanel.getFolders")
       } catch (error) {
         log.error("remove Error: ", error)
+        tip.error({content: "删除失败"})
       }
     })
 
