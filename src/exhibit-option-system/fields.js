@@ -1,5 +1,8 @@
 // type文档：https://dtwave.yuque.com/waveview/levoxx/eo63xo
 // NOTE: 这个文件内只定义最新版的配置体系，不包含向后兼容的映射
+// TODO:
+// - 向后兼容的设计
+// - 相对位置的图标
 
 /**
  * =====================================
@@ -35,6 +38,14 @@ const offset = {
   ],
 }
 
+const blur = {
+  type: 'number',
+  label: 'blur',
+  defaultValue: 0,
+  min: 0,
+  max: 10,
+}
+
 // 透明度
 const opacity = {
   type: 'number',
@@ -46,54 +57,54 @@ const opacity = {
 }
 
 // 相对位置
-// NOTE: 锚点依赖position
-const position = {
+// NOTE: 锚点依赖relativePosition
+const relativePosition = {
   type: 'check',
   label: 'position',
   defaultValue: 'topCenter',
   // TODO
   options: [
     {
-      icon: 'position-top-left',
+      icon: 'relative-position-top-left',
       value: 'topLeft',
     },
     {
-      icon: 'position-top-center',
+      icon: 'relative-position-top-center',
       value: 'topCenter',
     },
     {
-      icon: 'position-top-right',
+      icon: 'relative-position-top-right',
       value: 'topRight',
     },
     {
-      icon: 'position-middle-left',
+      icon: 'relative-position-middle-left',
       value: 'middleLeft',
     },
     {
-      icon: 'position-middle-center',
+      icon: 'relative-position-middle-center',
       value: 'middleCenter',
     },
     {
-      icon: 'position-middle-right',
+      icon: 'relative-position-middle-right',
       value: 'middleRight',
     },
     {
-      icon: 'position-bottom-left',
+      icon: 'relative-position-bottom-left',
       value: 'bottomLeft',
     },
     {
-      icon: 'position-bottom-center',
+      icon: 'relative-position-bottom-center',
       value: 'bottomCenter',
     },
     {
-      icon: 'position-bottom-right',
+      icon: 'relative-position-bottom-right',
       value: 'bottomRight',
     },
   ],
 }
 
 // 锚点
-const anchor = Object.assign({}, position, {
+const anchor = Object.assign({}, relativePosition, {
   label: 'anchor',
 })
 
@@ -132,12 +143,13 @@ const latitudeColumn = {
  */
 
 // 字号
+// ok
 const textSize = {
   type: 'number',
   label: 'textSize',
+  defaultValue: 12,
   min: 4,
   step: 1,
-  defaultValue: 12,
 }
 
 // 字重
@@ -147,10 +159,10 @@ const textWeight = {
   defaultValue: '2',
   options: [
     {key: '1', value: '100'},
-    {key: '2', value: '00'},
-    {key: '3', value: '00'},
-    {key: '4', value: '00'},
-    {key: '5', value: '00'},
+    {key: '2', value: '200'},
+    {key: '3', value: '300'},
+    {key: '4', value: '400'},
+    {key: '5', value: '500'},
     {key: '6', value: '600'},
     {key: '7', value: '700'},
     {key: '8', value: '800'},
@@ -178,8 +190,9 @@ const textDirection = {
 export default {
   color,
   offset,
+  blur,
   opacity,
-  position,
+  relativePosition,
   anchor,
   angle,
   logitudeColumn,
