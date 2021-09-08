@@ -21,7 +21,7 @@ const CheckField = ({label, value, onChange, className, options}) => {
             onChange(option.value, option)
           }}
         >
-          {option.icon ? <Icon name="add" size={12} fill="#ffffff" /> : option.key}
+          {option.icon ? <Icon name={option.icon} size={12} fill="#ffffff" /> : option.key}
         </div>
       ))}
     </Field>
