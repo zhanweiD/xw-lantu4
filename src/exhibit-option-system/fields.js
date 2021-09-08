@@ -212,7 +212,7 @@ const percentage = {
 
 // 小数位数
 const decimalPlaces = {
-  type: 'number',
+  type: 'check',
   label: 'decimalPlaces',
   defaultValue: 0,
   options: [
