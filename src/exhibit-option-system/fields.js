@@ -44,6 +44,7 @@ const blur = {
   defaultValue: 0,
   min: 0,
   max: 10,
+  hasSlider: true,
 }
 
 // 透明度
@@ -54,6 +55,7 @@ const opacity = {
   min: 0,
   max: 1,
   step: 0.1,
+  hasSlider: true,
 }
 
 // 相对位置
@@ -116,6 +118,7 @@ const angle = {
   min: 0,
   max: 360,
   step: 1,
+  hasSlider: true,
 }
 
 /**
@@ -149,14 +152,16 @@ const textSize = {
   label: 'textSize',
   defaultValue: 12,
   min: 4,
+  max: 200,
   step: 1,
+  hasSlider: true,
 }
 
 // 字重
 const textWeight = {
   type: 'check', // 待确认
   label: 'textWeight',
-  defaultValue: '2',
+  defaultValue: '200',
   options: [
     {key: '1', value: '100'},
     {key: '2', value: '200'},
@@ -165,8 +170,6 @@ const textWeight = {
     {key: '5', value: '500'},
     {key: '6', value: '600'},
     {key: '7', value: '700'},
-    {key: '8', value: '800'},
-    {key: '9', value: '900'},
   ],
 }
 
@@ -187,6 +190,63 @@ const textDirection = {
   ],
 }
 
+/**
+ * =====================================
+ * number
+ * =====================================
+ */
+
+// 千分位
+const thousandDiv = {
+  type: 'switch',
+  label: 'thousandDiv',
+  defaultValue: false,
+}
+
+// 百分比
+const percentage = {
+  type: 'switch',
+  label: 'percentage',
+  defaultValue: false,
+}
+
+// 小数位数
+const decimalPlaces = {
+  type: 'number',
+  label: 'decimalPlaces',
+  defaultValue: 0,
+  options: [
+    {
+      key: '1',
+      value: 1,
+    },
+    {
+      key: '2',
+      value: 2,
+    },
+    {
+      key: '3',
+      value: 3,
+    },
+    {
+      key: '4',
+      value: 4,
+    },
+    {
+      key: '5',
+      value: 5,
+    },
+    {
+      key: '6',
+      value: 6,
+    },
+    {
+      key: '7',
+      value: 7,
+    },
+  ],
+}
+
 export default {
   color,
   offset,
@@ -200,4 +260,7 @@ export default {
   textSize,
   textWeight,
   textDirection,
+  thousandDiv,
+  percentage,
+  decimalPlaces,
 }
