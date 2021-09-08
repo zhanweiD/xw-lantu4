@@ -1,16 +1,16 @@
-import onerStorage from "oner-storage"
-import waves from "@waves4"
-import isEdit from "@utils/is-edit"
-import createLog from "@utils/create-log"
-import {themeConfigs} from "@utils/theme"
-import {createExhibitModelClass} from "./create-exhibit-model-class"
-import {createExhibitLayersClass} from "./create-exhibit-layer-class"
+import onerStorage from 'oner-storage'
+import waves from '@waves4'
+import isEdit from '@utils/is-edit'
+import createLog from '@utils/create-log'
+import {themeConfigs} from '@utils/theme'
+import {createExhibitModelClass} from './create-exhibit-model-class'
+import {createExhibitLayersClass} from './create-exhibit-layer-class'
 
-const log = createLog("@exhibit-collection")
+const log = createLog('@exhibit-collection')
 
 const exhibitCollection = onerStorage({
-  type: "variable",
-  key: "waveview-exhibit-adapter"
+  type: 'variable',
+  key: 'waveview-exhibit-adapter',
 })
 
 export const draw = ({exhibit, container, height, width, frame}) => {
@@ -22,10 +22,10 @@ export const draw = ({exhibit, container, height, width, frame}) => {
       height,
       width,
       model,
-      isEdit
+      isEdit,
     })
   } else {
-    log.warn("组件模型未找到", exhibit.id)
+    log.warn('组件模型未找到', exhibit.id)
   }
 }
 
@@ -43,26 +43,26 @@ export const exhibitRegister = (exhibit) => {
           {
             context: {
               baseFontSize: (1080 / 1050).toFixed(2) - 0,
-              themeColors: themeConfigs[themeId].colors
-            }
+              themeColors: themeConfigs[themeId].colors,
+            },
           },
           {
             art,
             event,
             globalData,
             projectData,
-            officialData
+            officialData,
           }
         )
         const {layers} = config
         model.set({
-          layers: createExhibitLayersClass(config.key, layers)
+          layers: createExhibitLayersClass(config.key, layers),
         })
         model.setSchema(schema)
-        console.log(model, "model")
+
         return model
       },
-      Adapter: exhibit.Adapter
+      Adapter: exhibit.Adapter,
     })
   }
 }
@@ -81,7 +81,7 @@ const addModal = (exhibits) =>
 
 // 编辑状态下需要初始化注册所有组件，预览发布状态下不需要
 if (isEdit) {
-  addModal(waves, "wave")
+  addModal(waves, 'wave')
 }
 
 export default exhibitCollection
