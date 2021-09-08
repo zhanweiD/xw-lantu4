@@ -10,11 +10,47 @@
  * =====================================
  */
 
+// 颜色类型
+const colorType = {
+  type: 'check',
+  label: 'colorType',
+  options: [
+    {
+      key: 'singleColor',
+      value: 'single',
+    },
+    {
+      key: 'gradientColor',
+      value: 'gradient',
+    },
+    {
+      key: 'listColor',
+      value: 'list',
+    },
+  ],
+}
+
 // 颜色
-const color = {
-  type: 'colorPicker',
-  label: 'color',
+const colorSingle = {
+  type: 'color',
+  label: 'singleColor',
   defaultValue: '#ffffff',
+}
+
+// 颜色渐变
+// TODO
+const colorGradient = {
+  type: 'gradient',
+  label: 'gradientColor',
+  defaultValue: ['#00D8FF', '#007EFF'],
+}
+
+// 颜色列表
+// TODO
+const colorList = {
+  type: 'colorList',
+  label: 'listColor',
+  defaultValue: ['#007EFF'],
 }
 
 // 偏移
@@ -106,9 +142,50 @@ const relativePosition = {
 }
 
 // 锚点
-const anchor = Object.assign({}, relativePosition, {
+const anchor = {
+  type: 'check',
   label: 'anchor',
-})
+  defaultValue: 'topLeft',
+  // TODO
+  options: [
+    {
+      icon: 'anchor-top-left',
+      value: 'topLeft',
+    },
+    {
+      icon: 'anchor-top-center',
+      value: 'topCenter',
+    },
+    {
+      icon: 'anchor-top-right',
+      value: 'topRight',
+    },
+    {
+      icon: 'anchor-middle-left',
+      value: 'middleLeft',
+    },
+    {
+      icon: 'anchor-middle-center',
+      value: 'middleCenter',
+    },
+    {
+      icon: 'anchor-middle-right',
+      value: 'middleRight',
+    },
+    {
+      icon: 'anchor-bottom-left',
+      value: 'bottomLeft',
+    },
+    {
+      icon: 'anchor-bottom-center',
+      value: 'bottomCenter',
+    },
+    {
+      icon: 'anchor-bottom-right',
+      value: 'bottomRight',
+    },
+  ],
+}
 
 // 角度
 const angle = {
@@ -247,8 +324,60 @@ const decimalPlaces = {
   ],
 }
 
+/**
+ * =====================================
+ * line
+ * =====================================
+ */
+
+// 线宽
+const lineWidth = {
+  type: 'number',
+  label: 'lineWidth',
+  defaultValue: 1,
+  min: 1,
+  max: 10,
+  step: 1,
+}
+
+// 曲线样式
+const lineCurve = {
+  type: 'select',
+  label: 'lineCurve',
+  defaultValue: 'curveLinear',
+  options: [
+    {
+      key: 'Linear',
+      value: 'curveLinear',
+    },
+    {
+      key: 'Natural',
+      value: 'curveNatural',
+    },
+    {
+      key: 'Step',
+      value: 'curveStep',
+    },
+    {
+      key: 'BumpX',
+      value: 'curveBumpX',
+    },
+    {
+      key: 'BumpY',
+      value: 'curveBumpY',
+    },
+    {
+      key: 'MonotoneX',
+      value: 'curveMonotoneX',
+    },
+  ],
+}
+
 export default {
-  color,
+  colorType,
+  colorSingle,
+  colorGradient,
+  colorList,
   offset,
   blur,
   opacity,
@@ -263,4 +392,6 @@ export default {
   thousandDiv,
   percentage,
   decimalPlaces,
+  lineWidth,
+  lineCurve,
 }

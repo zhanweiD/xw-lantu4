@@ -15,7 +15,7 @@ const text = {
       name: 'textWeight',
     },
     {
-      name: 'color',
+      name: 'colorSingle',
     },
     {
       name: 'opacity',
@@ -47,7 +47,7 @@ const text = {
 const shadow = {
   fields: [
     {
-      name: 'color',
+      name: 'colorSingle',
     },
     {
       name: 'opacity',
@@ -99,7 +99,60 @@ const label = {
 // 线
 const line = {
   name: 'line',
-  fields: [{name: 'color'}, {name: 'opacity'}, {name: 'lineWeight'}, {name: 'curveType'}],
+  fields: [
+    {
+      name: 'colorSingle',
+    },
+    {
+      name: 'opacity',
+    },
+    {
+      name: 'lineWidth',
+    },
+    {
+      name: 'lineCurve',
+      isAdvance: true,
+    },
+  ],
+}
+
+// 填充
+const fill = {
+  name: 'fill',
+  fields: [
+    {
+      name: 'colorSingle',
+    },
+    {
+      name: 'opacity',
+    },
+  ],
+}
+
+// 描边
+const stroke = {
+  name: 'stroke',
+  fields: [
+    {
+      name: 'colorSingle',
+    },
+    {
+      name: 'lineWidth',
+    },
+  ],
+}
+
+// 点
+const point = {
+  name: 'line',
+  sections: [
+    {
+      name: 'fill',
+    },
+    {
+      name: 'stroke',
+    },
+  ],
 }
 
 /**
@@ -122,17 +175,24 @@ const pointCoordinate = {
 }
 
 // 起点坐标
-const startPointCoordinate = Object.assign({}, pointCoordinate, {name: 'startPointCoordinate'})
+const startPointCoordinate = Object.assign({}, pointCoordinate, {
+  name: 'startPointCoordinate',
+})
 
 // 终点坐标
-const endPointCoordinate = Object.assign({}, pointCoordinate, {name: 'endPointCoordinate'})
+const endPointCoordinate = Object.assign({}, pointCoordinate, {
+  name: 'endPointCoordinate',
+})
 
 export default {
-  line,
   text,
   shadow,
   format,
   label,
+  line,
+  fill,
+  stroke,
+  point,
   pointCoordinate,
   startPointCoordinate,
   endPointCoordinate,
