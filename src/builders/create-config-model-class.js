@@ -11,6 +11,7 @@ import {
   MTextareaField,
   MColorField,
   MMultiNumberField,
+  MSelectField,
 } from './fields'
 import isDef from '@utils/is-def'
 
@@ -24,6 +25,7 @@ const fieldModel = {
   textarea: MTextareaField,
   color: MColorField,
   multiNumber: MMultiNumberField,
+  select: MSelectField,
 }
 const createFieldClass = (fields) => {
   const result = []

@@ -3,7 +3,8 @@ import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import fields from './fields'
 
-const {TextField, NumberField, CheckField, SwitchField, TextareaField, ColorField, MultiNumberField} = fields
+const {TextField, NumberField, CheckField, SwitchField, TextareaField, ColorField, MultiNumberField, SelectField} =
+  fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
   let F
@@ -100,6 +101,22 @@ const ModelToField = ({model}) => {
           value={model.inputValue.toJSON()}
           defaultValue={model.defaultValue.toJSON()}
           items={model.items}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+        />
+      )
+      break
+    case 'select':
+      F = (
+        <SelectField
+          className="ml24"
+          label={t(model.label)}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+          }))}
+          value={model.value}
           onChange={(v) => {
             model.setValue(v)
           }}
