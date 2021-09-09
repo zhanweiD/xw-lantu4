@@ -134,7 +134,7 @@ export const MMaterialPanel = types
     const setProjectId = ({projectId}) => {
       if (projectId !== self.projectId) {
         self.projectId = projectId
-        if (projectId === null) {
+        if (!projectId) {
           self.projectFolders = []
         } else {
           self.getProjectFolders()

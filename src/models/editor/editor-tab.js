@@ -49,10 +49,6 @@ export const MEditorTab = types
           projectId
         }
       }
-      // 初始化项目素材的 projectId 为 null
-      if (type !== "art") {
-        event.fire("materialPanel.setProjectId", {projectId: null})
-      }
       if (type === "art") {
         if (!self.art) {
           self.art = {
@@ -60,9 +56,6 @@ export const MEditorTab = types
           }
           self.art.getArt()
         }
-        // 设置项目素材的 projectId
-        const {projectId} = self.tabOptions
-        event.fire("materialPanel.setProjectId", {projectId})
       }
       if (type === "material") {
         if (!self.material) {
@@ -71,6 +64,16 @@ export const MEditorTab = types
           }
           self.material.getMaterialDetail()
         }
+      }
+      // 设置项目素材的 projectId
+      // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
+      if (type !== "art" && type !== "material") {
+        event.fire("materialPanel.setProjectId", {projectId: null})
+      } else {
+        const {projectId} = self.tabOptions
+        event.fire("materialPanel.setProjectId", {
+          projectId
+        })
       }
       if (type === "data") {
         if (!self.data) {
@@ -85,7 +88,6 @@ export const MEditorTab = types
           self.data.getData()
         }
       }
-
       if (type === "dataSourceManager") {
         if (!self.dataSourceManager) {
           self.dataSourceManager = {

@@ -42,6 +42,7 @@ export const MMaterial = types
         name: self.name,
         type: "material",
         tabOptions: {
+          projectId: self.materialPanel_.projectId,
           folderId: self.folderId,
           materialType: self.type
         }
