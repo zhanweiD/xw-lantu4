@@ -16,6 +16,7 @@ const text = {
     },
     {
       name: 'colorSingle',
+      // isAdvance: true,
     },
     {
       name: 'opacity',

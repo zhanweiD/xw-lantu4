@@ -6,11 +6,11 @@ import IconButton from "@components/icon-button"
 import w from "@models"
 import s from "./material-panel.module.styl"
 
-const MaterialToolbar = () => {
+const MaterialToolbar = ({useCreate}) => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {materialPanel} = sidebar
-  const {keyword, showType, searchFolders} = materialPanel
+  const {keyword, showType, searchFolders, set} = materialPanel
   return (
     <div className={c("fbh fbac cfw2 pl8", s.toolbar)}>
       <div className="fb1">
@@ -18,39 +18,20 @@ const MaterialToolbar = () => {
           type="text"
           value={keyword}
           placeholder={t("searchPlaceholder")}
-          onChange={(e) => {
-            materialPanel.set({
-              keyword: e.target.value
-            })
-          }}
-          onKeyDown={(e) => e.key === "Enter" && searchFolders()}
+          onChange={(e) => set({keyword: e.target.value})}
         />
       </div>
-      {keyword && (
-        <IconButton
-          icon="close"
-          title={t("remove")}
-          onClick={() => {
-            materialPanel.set({
-              keyword: ""
-            })
-            searchFolders()
-          }}
-        />
-      )}
+      {keyword && <IconButton icon="close" title={t("remove")} onClick={() => set({keyword: ""})} />}
       <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchFolders} />
       <IconButton icon={showType} className="cfw10" title="显示切换" onClick={materialPanel.toggleShowType} />
-      <IconButton
-        icon="create-material"
-        className="cfw12"
-        title={t("materialPanel.materialCreate")}
-        onClick={(e) => {
-          e.stopPropagation()
-          materialPanel.set({
-            isVisible: true
-          })
-        }}
-      />
+      {useCreate && (
+        <IconButton
+          icon="create-material"
+          className="cfw12"
+          title={t("materialPanel.materialCreate")}
+          onClick={(e) => (e.stopPropagation(), set({isVisible: true}))}
+        />
+      )}
     </div>
   )
 }
