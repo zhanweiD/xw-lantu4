@@ -6,7 +6,7 @@ import IconButton from "@components/icon-button"
 import w from "@models"
 import s from "./material-panel.module.styl"
 
-const MaterialToolbar = () => {
+const MaterialToolbar = ({useCreate}) => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {materialPanel} = sidebar
@@ -24,12 +24,14 @@ const MaterialToolbar = () => {
       {keyword && <IconButton icon="close" title={t("remove")} onClick={() => set({keyword: ""})} />}
       <IconButton icon="search" className="cfw6" title={t("search")} onClick={searchFolders} />
       <IconButton icon={showType} className="cfw10" title="显示切换" onClick={materialPanel.toggleShowType} />
-      <IconButton
-        icon="create-material"
-        className="cfw12"
-        title={t("materialPanel.materialCreate")}
-        onClick={(e) => (e.stopPropagation(), set({isVisible: true}))}
-      />
+      {useCreate && (
+        <IconButton
+          icon="create-material"
+          className="cfw12"
+          title={t("materialPanel.materialCreate")}
+          onClick={(e) => (e.stopPropagation(), set({isVisible: true}))}
+        />
+      )}
     </div>
   )
 }

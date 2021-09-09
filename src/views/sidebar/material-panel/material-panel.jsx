@@ -38,10 +38,17 @@ const MoreIcon = ({materialPanel, folder, isTop}) => {
 }
 
 // 项目面板无项目时的 UI
-const MaterialFallback = ({keyword, set}) =>
+const MaterialFallback = ({keyword, set, noProject}) =>
   keyword ? (
     <div className={c("m8 emptyNote")}>
       <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的素材`}</div>
+    </div>
+  ) : noProject ? (
+    <div className="fbv fbac fbjc mt30 pt30">
+      <div className="p10 fbv fbac fs10 lh32">
+        <Icon name="logo" fill="#fff5" size={42} />
+        <div className="ctw52">当前无关联的数据屏</div>
+      </div>
     </div>
   ) : (
     <div className="fbv fbac fbjc mt30 pt30">
@@ -60,14 +67,14 @@ const MaterialPanel = () => {
   const [name, setName] = useState("")
   const {sidebar} = w
   const {materialPanel} = sidebar
-  const {set, state, folders_, projectFolders_, showType, keyword, isVisible, createFolder} = materialPanel
+  const {set, state, folders_, projectFolders_, projectId, showType, keyword, isVisible, createFolder} = materialPanel
   const {basicFolders, topFolders} = folders_
   const {basicProjectFolders, topProjectFolders} = projectFolders_
   return (
     <Loading data={state}>
       <Tab sessionId="material-panel-tab" bodyClassName="fbv" className="w100p h100p">
         <Tab.Item name={t("materialPanel.project")}>
-          <MaterialToolbar />
+          <MaterialToolbar useCreate />
           <Scroll className="h100p">
             {topProjectFolders.map((folder) => (
               <MaterialFolder
@@ -86,12 +93,12 @@ const MaterialPanel = () => {
               />
             ))}
             {!basicProjectFolders.length && !topProjectFolders.length && (
-              <MaterialFallback keyword={keyword} set={set} />
+              <MaterialFallback keyword={keyword} set={set} noProject={!projectId} />
             )}
           </Scroll>
         </Tab.Item>
         <Tab.Item name={t("materialPanel.space")}>
-          <MaterialToolbar />
+          <MaterialToolbar useCreate />
           <Scroll className="h100p">
             {topFolders.map((folder) => (
               <MaterialFolder
@@ -113,6 +120,7 @@ const MaterialPanel = () => {
           </Scroll>
         </Tab.Item>
         <Tab.Item name={t("materialPanel.official")}>
+          <MaterialToolbar />
           <div className="fbv fbac fbjc mt30 pt30">
             <div className="p10 fbv fbac fs10 lh32">
               <Icon name="logo" fill="#fff5" size={42} />

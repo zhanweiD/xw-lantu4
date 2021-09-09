@@ -58,13 +58,14 @@ export const MEditor = types
       const tab = self.tabs.filter((item) => item.id === self.activeTabId)[0]
       if (data.type === "art") {
         // art init
+        const {projectId} = data
         tab.type = data.type
         tab.id = data.artId
         tab.name = data.name
         const index = self.activeNote.findIndex((id) => id === self.activeTabId)
         self.activeNote.splice(index, 1, data.artId)
         self.activeTabId = data.artId
-        tab.tabOptions = undefined
+        tab.tabOptions = {projectId}
         self.showTabDetail()
         event.fire("project-panel.getProjects")
       } else if (data.type === "data") {

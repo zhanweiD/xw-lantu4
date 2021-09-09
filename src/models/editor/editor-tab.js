@@ -49,6 +49,10 @@ export const MEditorTab = types
           projectId
         }
       }
+      // 初始化项目素材的 projectId 为 null
+      if (type !== "art") {
+        event.fire("materialPanel.setProjectId", {projectId: null})
+      }
       if (type === "art") {
         if (!self.art) {
           self.art = {

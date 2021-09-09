@@ -8,7 +8,6 @@ export const MArtInit = types
     name: types.string,
     width: types.optional(types.union(types.number, types.string), 1920),
     height: types.optional(types.union(types.number, types.string), 1080),
-
     source: types.optional(types.enumeration(["art", "template"]), "template"),
     templateId: types.maybe(types.union(types.number, types.string)),
     template: types.maybe(MArtThumbnail)
@@ -63,7 +62,12 @@ export const MArtInit = types
         name,
         ":projectId": projectId
       })
-      event.fire("editor.finishCreate", {type: "art", artId: art.artId, name})
+      event.fire("editor.finishCreate", {
+        type: "art",
+        artId: art.artId,
+        name,
+        projectId
+      })
       event.fire("project-panel.createRecentProject", projectId)
     })
 

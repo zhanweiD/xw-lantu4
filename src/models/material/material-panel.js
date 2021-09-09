@@ -13,7 +13,7 @@ export const MMaterialPanel = types
     folders: types.optional(types.array(MFolder), []),
     folderSort: types.optional(types.array(types.number), []),
     // 项目素材
-    projectId: types.maybe(types.number),
+    projectId: types.maybeNull(types.number),
     projectFolders: types.optional(types.array(MFolder), []),
     projectFolderSort: types.optional(types.array(types.number), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
@@ -34,8 +34,6 @@ export const MMaterialPanel = types
     },
     get folders_() {
       let total = cloneDeep(self.folders.toJSON())
-      let basicFolders = []
-      let topFolders = []
       // 搜索关键字匹配文件夹名和素材名
       if (self.keyword) {
         total = total
@@ -48,19 +46,15 @@ export const MMaterialPanel = types
           .filter(Boolean)
       }
       // 区分置顶与非置顶
-      total.forEach((folder) => {
-        if (self.folderSort.includes(folder.folderId)) {
-          topFolders.push(folder)
-        } else {
-          basicFolders.push(folder)
-        }
-      })
-      return {basicFolders, topFolders}
+      const topFolderIds = self.folderSort.filter((id) => total.find((folder) => folder.folderId === id))
+      const basicFolderIds = total.map(({folderId}) => !topFolderIds.includes(folderId) && folderId).filter(Boolean)
+      return {
+        topFolders: topFolderIds.map((id) => self.folders.find(({folderId}) => folderId === id)),
+        basicFolders: basicFolderIds.map((id) => self.folders.find(({folderId}) => folderId === id))
+      }
     },
     get projectFolders_() {
       let total = cloneDeep(self.projectFolders.toJSON())
-      let basicProjectFolders = []
-      let topProjectFolders = []
       // 搜索关键字匹配文件夹名和素材名
       if (self.keyword) {
         total = total
@@ -73,14 +67,12 @@ export const MMaterialPanel = types
           .filter(Boolean)
       }
       // 区分置顶与非置顶
-      total.forEach((folder) => {
-        if (self.projectFolderSort.includes(folder.folderId)) {
-          topProjectFolders.push(folder)
-        } else {
-          basicProjectFolders.push(folder)
-        }
-      })
-      return {basicProjectFolders, topProjectFolders}
+      const topFolderIds = self.projectFolderSort.filter((id) => total.find((folder) => folder.folderId === id))
+      const basicFolderIds = total.map(({folderId}) => !topFolderIds.includes(folderId) && folderId).filter(Boolean)
+      return {
+        topProjectFolders: topFolderIds.map((id) => self.projectFolders.find(({folderId}) => folderId === id)),
+        basicProjectFolders: basicFolderIds.map((id) => self.projectFolders.find(({folderId}) => folderId === id))
+      }
     }
   }))
   .actions(commonAction(["set"]))
@@ -140,21 +132,31 @@ export const MMaterialPanel = types
 
     // 项目ID变化时更新项目素材
     const setProjectId = ({projectId}) => {
-      if (projectId && projectId !== self.projectId) {
+      if (projectId !== self.projectId) {
         self.projectId = projectId
-        self.getProjectFolders()
+        if (projectId === null) {
+          self.projectFolders = []
+        } else {
+          self.getProjectFolders()
+        }
       }
     }
 
     // 置顶和取消置顶，区分项目素材和空间素材
     const toggleFolderTop = flow(function* toggleTop(folder) {
-      const isTop = self.folderSort.includes(folder.folderId)
       const tabIndex = session.get("tab-material-panel-tab", -1)
+      let isTop
+      if (tabIndex === 0 && self.projectId) {
+        isTop = self.projectFolderSort.includes(folder.folderId)
+      } else if (tabIndex === 1) {
+        isTop = self.folderSort.includes(folder.folderId)
+      }
       try {
         yield io.user.top({
           ":type": "material-folder",
           action: isTop ? "cancel" : "top",
-          id: folder.folderId
+          id: folder.folderId,
+          projectId: self.projectId || null
         })
         tip.success({content: isTop ? "取消置顶成功" : "置顶成功"})
         if (tabIndex === 0 && self.projectId) {
@@ -183,7 +185,7 @@ export const MMaterialPanel = types
           yield io.material.createFolder({folderName: name})
           self.getFolders()
         } else {
-          throw new Error()
+          throw new Error("当前无关联的数据屏")
         }
         self.set({isVisible: false})
         tip.success({content: `“${name.length > 10 ? name.slice(0, 10) : name}”文件夹新建成功`})
@@ -205,7 +207,7 @@ export const MMaterialPanel = types
           yield io.material.removeFolder({":folderId": folderId})
           self.getFolders()
         } else {
-          throw new Error()
+          throw new Error("当前无关联的数据屏")
         }
       } catch (error) {
         log.error("removeFolder Error: ", error)

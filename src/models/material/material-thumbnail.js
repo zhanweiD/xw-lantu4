@@ -59,7 +59,7 @@ export const MMaterial = types
           yield io.material.removeMaterial({":materialId": self.materialId})
           event.fire("materialPanel.getFolders")
         } else {
-          throw new Error()
+          throw new Error("当前无关联的数据屏")
         }
         event.fire("editor.closeTab", self.materialId)
       } catch (error) {
