@@ -185,16 +185,48 @@ const endPointCoordinate = Object.assign({}, pointCoordinate, {
   name: 'endPointCoordinate',
 })
 
+// 摄像机镜头
+const cameraViewport = {
+  name: 'viewport',
+  fields: [
+    {
+      name: 'gisCenterCoordinate',
+    },
+    {
+      name: 'gisZoom',
+    },
+    {
+      name: 'gisPitch',
+    },
+    {
+      name: 'gisBearing',
+    },
+  ],
+}
+
 export default {
+  // 文本
   text,
+  // 阴影
   shadow,
+  // 格式化
   format,
+  // 标签
   label,
+  // 线
   line,
+  // 填充
   fill,
+  // 描边
   stroke,
+  // 点
   point,
+  // 点坐标
   pointCoordinate,
+  // 起点坐标
   startPointCoordinate,
+  // 终点坐标
   endPointCoordinate,
+  // 摄像机镜头
+  cameraViewport,
 }
