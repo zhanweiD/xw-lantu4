@@ -1,5 +1,5 @@
 import commonAction from "@utils/common-action"
-import {types, getEnv} from "mobx-state-tree"
+import {types, getEnv, getParent} from "mobx-state-tree"
 import createLog from "@utils/create-log"
 import config from "@utils/config"
 import {MMaterial} from "./material-thumbnail"
@@ -31,6 +31,9 @@ export const MFolder = types
   .views((self) => ({
     get env_() {
       return getEnv(self)
+    },
+    get materialPanel_() {
+      return getParent(self, 2)
     }
   }))
   .actions(commonAction(["set"]))
@@ -59,8 +62,10 @@ export const MFolder = types
     }
 
     const uploadMaterial = () => {
-      const {tip, event} = self.env_
+      const {tip, event, session} = self.env_
       const formData = new FormData()
+      const tabIndex = session.get("tab-material-panel-tab", -1)
+      const {projectId} = self.materialPanel_
       while (self.files.length === 0) {
         tip.error({content: "上传列表不能为空！"})
         return
@@ -68,10 +73,13 @@ export const MFolder = types
       self.files.forEach((file) => {
         formData.append(file.fileType, file, file.name)
       })
-      fetch(`${config.urlPrefix}material?folderId=${self.folderId}`, {
-        method: "POST",
-        body: formData
-      })
+      let url
+      if (tabIndex === 0) {
+        url = `${config.urlPrefix}project/${projectId}/folder/${self.folderId}/materials`
+      } else {
+        url = `${config.urlPrefix}material?folderId=${self.folderId}`
+      }
+      fetch(url, {method: "POST", body: formData})
         .then((res) => res.json())
         .then((res) => {
           if (!res.success) {
@@ -83,7 +91,11 @@ export const MFolder = types
               files: [],
               isVisible: false
             })
-            event.fire("materialPanel.getFolders")
+            if (tabIndex === 0) {
+              event.fire("materialPanel.getProjectFolders")
+            } else if (tabIndex === 1) {
+              event.fire("materialPanel.getFolders")
+            }
           }
         })
         .catch((error) => {

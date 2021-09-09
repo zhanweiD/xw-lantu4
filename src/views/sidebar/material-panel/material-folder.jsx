@@ -16,7 +16,6 @@ const MaterialFolder = ({folder, showType, icon}) => {
   const {materials, files} = folder
   const thumbs = files.map((file, index) => {
     let F
-
     switch (file.fileType) {
       case "image":
         F = <img src={file.preview} className={c("inlineBlock", s.previewImg)} alt="" />
@@ -27,7 +26,6 @@ const MaterialFolder = ({folder, showType, icon}) => {
       default:
         null
     }
-
     return (
       <div key={`${file.preview}.${index}`} className={c(s.thumb, "fbh fbjc fbac pr mb30")}>
         {F}
@@ -52,14 +50,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
         <div className={c("mb16 emptyNote mr8 ml8")}>
           <div>
             列表还是空空的，点击
-            <span
-              className="ctSecend hand"
-              onClick={() =>
-                folder.set({
-                  isVisible: true
-                })
-              }
-            >
+            <span className="ctSecend hand" onClick={() => folder.set({isVisible: true})}>
               上传
             </span>
           </div>
@@ -82,22 +73,10 @@ const MaterialFolder = ({folder, showType, icon}) => {
         width={800}
         hasMask
         isVisible={folder.isVisible}
-        onClose={() => {
-          folder.resetUpload()
-        }}
+        onClose={() => folder.resetUpload()}
         buttons={[
-          {
-            name: "取消",
-            action: () => {
-              folder.resetUpload()
-            }
-          },
-          {
-            name: "上传",
-            action: () => {
-              folder.uploadMaterial()
-            }
-          }
+          {name: "取消", action: () => folder.resetUpload()},
+          {name: "上传", action: () => folder.uploadMaterial()}
         ]}
       >
         <div className="fbv h100p">

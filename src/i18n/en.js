@@ -66,7 +66,8 @@ export default {
     dataField: "Data Field"
   },
   materialPanel: {
-    materials: "Materials",
+    project: "Project Materials",
+    space: "Space Materials",
     official: "Official Materials",
     collect: "Collect Materials",
     materialCreate: "Create Material",
