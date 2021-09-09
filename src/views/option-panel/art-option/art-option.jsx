@@ -1,8 +1,8 @@
-import React from "react"
-import {observer} from "mobx-react-lite"
-import Tab from "@components/tab"
-// import Scroll from "@components/scroll"
-// import SectionFields from "@components/section-fields"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import Tab from '@components/tab'
+import Scroll from '@components/scroll'
+import Builder from '../../../builders'
 
 const ArtOption = ({art}) => {
   const {viewport} = art
@@ -11,7 +11,7 @@ const ArtOption = ({art}) => {
   let exhibitId
   let box
   if (selectRange) {
-    if (selectRange.target === "box" && selectRange.boxes_.length === 1) {
+    if (selectRange.target === 'box' && selectRange.boxes_.length === 1) {
       box = selectRange.boxes_[0]
       exhibitId = box.exhibit?.id
       if (exhibitId) {
@@ -19,11 +19,11 @@ const ArtOption = ({art}) => {
       }
     }
   }
-  console.log(exhibit)
+
   return (
     <Tab sessionId="material-option" className="fb1">
       <Tab.Item name="数据呈现">
-        {/* <Scroll className="h100p">{exhibit && <SectionFields model={exhibit.style} />}</Scroll> */}
+        <Scroll className="h100p">{exhibit && <Builder sections={exhibit.layers} />}</Scroll>
       </Tab.Item>
     </Tab>
   )

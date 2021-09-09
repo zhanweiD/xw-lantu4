@@ -7,17 +7,17 @@
  * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
  */
 
-import {types, getParent, getEnv, getRoot, flow} from "mobx-state-tree"
-import commonAction from "@utils/common-action"
-import uuid from "@utils/uuid"
-import createLog from "@utils/create-log"
-import {MBox} from "./box"
-import {MArtFrameGrid} from "./art-frame-grid"
-import {MLayout} from "../common/layout"
+import {types, getParent, getEnv, getRoot, flow} from 'mobx-state-tree'
+import commonAction from '@utils/common-action'
+import uuid from '@utils/uuid'
+import createLog from '@utils/create-log'
+import {MBox} from './box'
+import {MArtFrameGrid} from './art-frame-grid'
+import {MLayout} from '../common/layout'
 
-const log = createLog("@models/art/art-frame.js")
+const log = createLog('@models/art/art-frame.js')
 export const MArtFrame = types
-  .model("MArtFrame", {
+  .model('MArtFrame', {
     frameId: types.union(types.string, types.number),
     artId: types.number,
     name: types.string,
@@ -30,7 +30,9 @@ export const MArtFrame = types
     isCreateFail: types.maybe(types.boolean),
     // 动态展示的位置信息，原点不定，可视区域中最小的左上角计算得出
     viewLayout: types.maybe(MLayout),
-    grid: types.optional(MArtFrameGrid, {})
+    grid: types.optional(MArtFrameGrid, {}),
+    normalKeys: types.frozen(['frameId', 'artId', 'name', 'isMain']),
+    deepKeys: types.frozen(['boxes', 'layout']),
   })
   .views((self) => ({
     get env_() {
@@ -72,9 +74,9 @@ export const MArtFrame = types
     get nameY_() {
       // 24是画布标题Y轴相对于画布定边缘的偏移
       return self.y1_ * self.scaler_ + self.baseOffsetY_ - 19
-    }
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     const getNearlyOrigin = (origin, target) => {
       const grid = self.grid.unit_ * self.scaler_
@@ -82,7 +84,7 @@ export const MArtFrame = types
       const y = Math.floor((target.y - origin.y) / grid) * grid - self.grid.extendY_ * self.scaler_
       return {
         x,
-        y
+        y,
       }
     }
 
@@ -95,7 +97,7 @@ export const MArtFrame = types
         frameId,
         exhibit,
         layout,
-        background
+        background,
       })
       self.boxes.push(box)
       if (exhibit) {
@@ -118,7 +120,7 @@ export const MArtFrame = types
               schema: exhibit,
               event,
               globalData: dataPanel,
-              projectData: dataList
+              projectData: dataList,
             })
           )
         }
@@ -126,14 +128,14 @@ export const MArtFrame = types
     }
 
     // type 可以为exhibit|background|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰的空容器
-    const createBox = flow(function* createBox({position, lib, key, type = "exhibit", material}) {
+    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', material}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
       let exhibit
       let background
-      if (type === "exhibit") {
+      if (type === 'exhibit') {
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
           art,
@@ -141,42 +143,42 @@ export const MArtFrame = types
           schema: {
             lib,
             key,
-            id: uuid()
-          }
+            id: uuid(),
+          },
         })
         exhibit = model.getSchema()
       }
-      if (type === "background") {
+      if (type === 'background') {
         background = {path: material.materialId}
       }
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {
         x: frameviewport.x,
-        y: frameviewport.y
+        y: frameviewport.y,
       }
       const nomal = {
         x: position.x - deviceXY.x,
-        y: position.y - deviceXY.y
+        y: position.y - deviceXY.y,
       }
       const targetPosition = art.isSnap ? getNearlyOrigin(gridOrigin, position) : nomal
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round(type === "exhibit" ? exhibit.initSize[0] : 16 * self.grid.unit_),
-        height: Math.round(type === "exhibit" ? exhibit.initSize[0] : 9 * self.grid.unit_)
+        width: Math.round(type === 'exhibit' ? exhibit.initSize[0] : 16 * self.grid.unit_),
+        height: Math.round(type === 'exhibit' ? exhibit.initSize[0] : 9 * self.grid.unit_),
       }
       const boxId = uuid()
       const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, background}
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
-        target: "box",
+        target: 'box',
         selectRange: [
           {
             frameId,
-            boxIds: [boxId]
-          }
-        ]
+            boxIds: [boxId],
+          },
+        ],
       })
       const realBox = self.boxes.find((o) => o.boxId === boxId)
       try {
@@ -185,26 +187,26 @@ export const MArtFrame = types
           layout,
           background,
           name: params.name,
-          ":artId": params.artId,
-          ":frameId": params.frameId,
-          ":projectId": projectId
+          ':artId': params.artId,
+          ':frameId': params.frameId,
+          ':projectId': projectId,
         })
         realBox.set({
-          boxId: box.boxId
+          boxId: box.boxId,
         })
         self.viewport_.selectRange.set({
           range: [
             {
               frameId,
-              boxIds: [box.boxId]
-            }
-          ]
+              boxIds: [box.boxId],
+            },
+          ],
         })
       } catch (error) {
         realBox.set({
-          isCreateFail: true
+          isCreateFail: true,
         })
-        log.error("createBox Error: ", error)
+        log.error('createBox Error: ', error)
       }
     })
 
@@ -216,17 +218,17 @@ export const MArtFrame = types
         const {frameId} = yield io.art.addFrame({
           name,
           layout,
-          ":projectId": projectId,
-          ":artId": artId
+          ':projectId': projectId,
+          ':artId': artId,
         })
 
         self.frameId = frameId
         self.isCreateFail = undefined
         self.viewport_.selectRange.set({
-          range: [{frameId}]
+          range: [{frameId}],
         })
       } catch (error) {
-        log.error("recreateFrame Error:", error)
+        log.error('recreateFrame Error:', error)
       }
     })
 
@@ -237,13 +239,13 @@ export const MArtFrame = types
       try {
         yield io.art.updateFrame({
           ...params,
-          ":artId": artId,
-          ":projectId": projectId,
-          ":frameId": frameId
+          ':artId': artId,
+          ':projectId': projectId,
+          ':frameId': frameId,
         })
         self.set(params)
       } catch (error) {
-        log.error("updateFrame Error:", error)
+        log.error('updateFrame Error:', error)
       }
     })
     const removeBoxes = (boxIds) => {
@@ -256,6 +258,6 @@ export const MArtFrame = types
       removeBoxes,
 
       updateFrame,
-      recreateFrame
+      recreateFrame,
     }
   })

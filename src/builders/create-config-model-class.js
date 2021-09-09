@@ -1,15 +1,18 @@
-import {getParent, types} from "mobx-state-tree"
-import isArray from "lodash/isArray"
-import isFunction from "lodash/isFunction"
-import isPlainObject from "lodash/isPlainObject"
-import createLog from "@utils/create-log"
-import {MTextField} from "./fields"
-import isDef from "@utils/is-def"
+import {getParent, types} from 'mobx-state-tree'
+import isArray from 'lodash/isArray'
+import isFunction from 'lodash/isFunction'
+import isPlainObject from 'lodash/isPlainObject'
+import createLog from '@utils/create-log'
+import {MTextField, MNumberField, MCheckField, MSwitchField} from './fields'
+import isDef from '@utils/is-def'
 
-const log = createLog("@builder/create-config-model-class")
+const log = createLog('@builder/create-config-model-class')
 
 const fieldModel = {
-  text: MTextField
+  text: MTextField,
+  number: MNumberField,
+  check: MCheckField,
+  switch: MSwitchField,
 }
 const createFieldClass = (fields) => {
   const result = []
@@ -22,7 +25,7 @@ const createFieldClass = (fields) => {
         },
         setSchema(schema) {
           return self.setValue(schema)
-        }
+        },
       }))
       // 如果有views，重新创建模型
       if (isFunction(field.views)) {
@@ -51,8 +54,8 @@ const createSectionClass = (node) => {
   }
 
   const MSection = types
-    .model("MSection", {
-      name: types.optional(types.string, node.name)
+    .model('MSection', {
+      name: types.optional(types.string, node.name),
     })
     .actions((self) => {
       const afterCreate = () => {
@@ -92,21 +95,23 @@ const createSectionClass = (node) => {
       }
 
       const setValues = (values) => {
-        Object.entries(values).forEach(([key, value]) => {
-          if (["name", "effective"].find((v) => v === key)) {
-            self[key] = value
-          } else if (key === "sections") {
-            self[key].forEach((v, index) => {
-              v.setSchema(value[index])
-            })
-          } else if (key === "fields") {
-            self[key].forEach((v) => {
-              Object.entries(v).forEach(([k, x]) => {
-                x.setSchema(value[k])
+        if (isPlainObject(values)) {
+          Object.entries(values).forEach(([key, value]) => {
+            if (['name', 'effective'].find((v) => v === key)) {
+              self[key] = value
+            } else if (key === 'sections') {
+              self[key].forEach((v, index) => {
+                v.setSchema(value[index])
               })
-            })
-          }
-        })
+            } else if (key === 'fields') {
+              self[key].forEach((v) => {
+                Object.entries(v).forEach(([k, x]) => {
+                  x.setSchema(value[k])
+                })
+              })
+            }
+          })
+        }
       }
 
       const setSchema = (schema) => {
@@ -121,7 +126,7 @@ const createSectionClass = (node) => {
         getValues,
         setValues,
         setSchema,
-        update
+        update,
       }
     })
   return MSection.create({})
@@ -142,16 +147,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
   }
 
   initProps.updateTime = types.optional(types.number, 0)
-  // [{
-  //   name: 'label',
-  //   effective: false,
-  //   sections: [{
-  //     name: 'text',
-  //     fields: [{
-  //       textSize: 12,
-  //     }]
-  //   }]
-  // }]
+
   return types.model(modelName, initProps).actions((self) => {
     const afterCreate = () => {
       if (fields && fields.length) {
@@ -167,11 +163,11 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
         Object.entries(values).forEach(([key, value]) => {
           if (_keys.find((v) => v === key)) {
             self[key] = value
-          } else if (key === "sections") {
+          } else if (key === 'sections') {
             self[key].forEach((v, index) => {
               v.setSchema(value[index])
             })
-          } else if (key === "fields") {
+          } else if (key === 'fields') {
             self[key].forEach((v) => {
               Object.entries(v).forEach(([k, x]) => {
                 x.setSchema(value[k])
@@ -235,7 +231,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       update,
       setSchema,
       getSchema,
-      dumpSchema
+      dumpSchema,
     }
   })
 }

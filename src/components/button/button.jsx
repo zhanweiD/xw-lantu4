@@ -1,7 +1,7 @@
-import React from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import s from "./button.module.styl"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import s from './button.module.styl'
 
 /**
  * button 组件设计思路
@@ -17,42 +17,42 @@ import s from "./button.module.styl"
 const Button = ({
   name,
   color,
-  type = "default",
+  type = 'default',
   lineHeight = 26,
   className,
   onClick,
   onMouseDown,
-  size = "small",
+  size = 'small',
   block,
   width,
   circle = 4,
   danger,
   children,
   disabled,
-  title
+  title,
 }) => {
-  const style = {width: "fit-content"}
-  block && (style.width = "100%")
+  const style = {width: 'fit-content'}
+  block && (style.width = '100%')
   width && (style.width = `${width}px`)
-  circle && (style.borderRadius = Number(circle) ? `${circle}px` : "14px")
-  danger && (style.background = "red")
+  circle && (style.borderRadius = Number(circle) ? `${circle}px` : '14px')
+  danger && (style.background = 'red')
   lineHeight && (style.lineHeight = `${lineHeight}px`)
   color && (style.color = `${color}`)
   return (
     <div
       className={c(
-        "cf3 fbh fbac pl16 pr16",
+        'cf3 fbh fbac pl16 pr16',
         s.button,
         {
-          [s.primary]: type === "primary",
-          [s.default]: type === "default",
-          [s.cancel]: type === "cancel",
-          [s.dashed]: type === "dashed",
-          [s.text]: type === "text",
-          [s.defaultSize]: size === "default",
-          [s.smallSize]: size === "small",
-          [s.largeSize]: size === "large",
-          [s.disabled]: disabled
+          [s.primary]: type === 'primary',
+          [s.default]: type === 'default',
+          [s.cancel]: type === 'cancel',
+          [s.dashed]: type === 'dashed',
+          [s.text]: type === 'text',
+          [s.defaultSize]: size === 'default',
+          [s.smallSize]: size === 'small',
+          [s.largeSize]: size === 'large',
+          [s.disabled]: disabled,
         },
         className
       )}
