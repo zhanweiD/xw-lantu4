@@ -1,136 +1,139 @@
-import {getLayersConfig, textLayer, rectLayer, legendLayer, axisLayer} from "@waves4/configs"
-import {contourDensity} from "d3"
-import data from "./data"
+import {getLayersConfig, textLayer, rectLayer, legendLayer, axisLayer} from '@waves4/configs'
+import {contourDensity} from 'd3'
+import data from './data'
 
 const lineLayer = (k) => ({
-  name: "线层",
+  name: '线层',
 
   // 第二层sections
   sections: [
     {
-      name: "line",
+      name: 'line',
       // 是否有数据字段映射
       hasColumn: true,
       fields: [
         {
           // 曲线类型
-          name: "lineStyle"
-        }
-      ]
+          name: 'lineCurve',
+          // 可以自定义option
+          option: 'lineStyle',
+        },
+      ],
     },
     {
-      name: "point",
+      name: 'point',
       // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效
       effective: true,
       fields: [
         {
           // 通用图形尺寸
-          name: "size",
-          defaultValue: 10
-        }
+          name: 'size',
+          defaultValue: 10,
+        },
       ],
       sections: [
         {
-          name: "fill",
+          name: 'fill',
           fields: [
             {
-              name: "color",
-              defaultValue: "pink"
-            }
-          ]
+              name: 'color',
+
+              defaultValue: 'pink',
+            },
+          ],
         },
         {
-          name: "stroke",
+          name: 'stroke',
           fields: [
             {
-              name: "color",
-              defaultValue: "blue"
+              name: 'color',
+              defaultValue: 'blue',
             },
             {
-              name: "strokeWeight",
-              defaultValue: 2
-            }
-          ]
-        }
-      ]
+              name: 'strokeWeight',
+              defaultValue: 2,
+            },
+          ],
+        },
+      ],
     },
     {
-      name: "label",
+      name: 'label',
       effective: true,
       sections: [
         {
-          name: "text",
+          name: 'text',
           fields: [
             {
-              name: "potision"
+              name: 'potision',
             },
             {
-              name: "offset"
+              name: 'offset',
             },
             {
-              name: "color"
+              name: 'color',
             },
             {
-              name: "opacity"
+              name: 'opacity',
             },
             {
-              name: "textSize"
+              name: 'textSize',
             },
             {
-              name: "textWeight"
-            }
-          ]
+              name: 'textWeight',
+            },
+          ],
         },
         {
-          name: "shadow",
+          name: 'shadow',
           fields: [
             {
-              name: "color"
+              name: 'color',
             },
             {
-              name: "opacity"
+              name: 'opacity',
             },
             {
-              name: "offset"
-            }
-          ]
+              name: 'offset',
+            },
+          ],
         },
         {
-          name: "format",
+          name: 'format',
           fields: [
             {
-              name: "thousandDiv",
-              defaultValue: false
+              name: 'thousandDiv',
+              defaultValue: false,
             },
             {
-              name: "percentage",
-              defaultValue: false
+              name: 'percentage',
+              defaultValue: false,
             },
             {
-              name: "decimalPlaces",
-              defaultValue: 2
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: 'decimalPlaces',
+              defaultValue: 2,
+            },
+          ],
+        },
+      ],
+    },
+  ],
 })
 
 export const config = (k) => ({
-  key: "basicColumn",
-  name: k("basicColumn"),
+  key: 'basicColumn',
+  name: k('basicColumn'),
   // 图表容器初始化的大小
   layout: () => [500, 300],
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   data: {
-    type: "normal",
+    type: 'normal',
     json: [
-      ["city", "count", {name: "city", tip: "City Name"}],
-      ["beijing", 2000]
+      ['city', 'count', {name: 'city', tip: 'City Name'}],
+      ['beijing', 2000],
     ],
-    demension: ["city"]
+    demension: ['city'],
   },
-  layers: [lineLayer(k)]
+  layers: [lineLayer(k)],
 })

@@ -10,49 +10,6 @@
  * =====================================
  */
 
-// 颜色类型
-const colorType = {
-  type: 'check',
-  label: 'colorType',
-  options: [
-    {
-      key: 'singleColor',
-      value: 'single',
-    },
-    {
-      key: 'gradientColor',
-      value: 'gradient',
-    },
-    {
-      key: 'listColor',
-      value: 'list',
-    },
-  ],
-}
-
-// 颜色
-const colorSingle = {
-  type: 'color',
-  label: 'singleColor',
-  defaultValue: '#ffffff',
-}
-
-// 颜色渐变
-// TODO
-const colorGradient = {
-  type: 'gradient',
-  label: 'gradientColor',
-  defaultValue: ['#00D8FF', '#007EFF'],
-}
-
-// 颜色列表
-// TODO
-const colorList = {
-  type: 'colorList',
-  label: 'listColor',
-  defaultValue: ['#007EFF'],
-}
-
 // 偏移
 const offset = {
   type: 'multiNumber',
@@ -198,22 +155,148 @@ const angle = {
   hasSlider: true,
 }
 
+// 触发事件类型
+const eventType = {
+  type: 'check',
+  label: 'trigger',
+  options: [
+    {
+      key: 'click',
+      value: 'click',
+    },
+    {
+      key: 'hover',
+      value: 'hover',
+    },
+  ],
+}
+
+/**
+ * =====================================
+ * color
+ * =====================================
+ */
+
+// 颜色类型
+const colorType = {
+  type: 'check',
+  label: 'colorType',
+  options: [
+    {
+      key: 'singleColor',
+      value: 'single',
+    },
+    {
+      key: 'gradientColor',
+      value: 'gradient',
+    },
+    {
+      key: 'listColor',
+      value: 'list',
+    },
+  ],
+}
+
+// 颜色
+const colorSingle = {
+  type: 'color',
+  label: 'singleColor',
+  defaultValue: '#ffffff',
+}
+
+// 颜色渐变
+// TODO
+const colorGradient = {
+  type: 'gradient',
+  label: 'gradientColor',
+  defaultValue: ['#00D8FF', '#007EFF'],
+}
+
+// 颜色列表
+// TODO
+const colorList = {
+  type: 'colorList',
+  label: 'listColor',
+  defaultValue: ['#007EFF'],
+}
+
+/**
+ * =====================================
+ * column
+ * =====================================
+ */
+
+// 普通字段
+const column = {
+  type: 'columnSelect',
+  label: 'column',
+}
+
+// 经度字段
+const columnLongitude = {
+  type: 'columnSelect',
+  label: 'longitude',
+}
+
+// 维度字段
+const columnLatitude = {
+  type: 'columnSelect',
+  label: 'latitude',
+}
+
 /**
  * =====================================
  * gis
  * =====================================
  */
 
-// 经度字段选择
-const logitudeColumn = {
-  type: 'columnSelect',
-  label: 'longitude',
+// gis中心点坐标
+const gisCenterCoordinate = {
+  type: 'multiNumber',
+  label: 'centerCoordinate',
+  // 默认杭州
+  defaultValue: [120.19, 30.26],
 }
 
-// 维度字段选择
-const latitudeColumn = {
-  type: 'columnSelect',
-  label: 'longitude',
+// gis缩放系数
+const gisZoom = {
+  type: 'number',
+  label: 'zoom',
+  defaultValue: 12,
+  min: 1,
+  max: 24,
+  step: 0.1,
+  hasSlider: true,
+}
+
+// gis倾斜角度
+const gisPitch = {
+  type: 'number',
+  label: 'pitch',
+  defaultValue: 45,
+  min: 0,
+  max: 60,
+  step: 1,
+  hasSlider: true,
+}
+
+// gis旋转角度
+const gisBearing = {
+  type: 'number',
+  label: 'bearing',
+  defaultValue: 0,
+  step: 1,
+}
+
+// gis单位
+const gisUnit = {
+  type: 'check',
+  label: 'unit',
+  defaultValue: 'hover',
+  options: [
+    {key: 'meter', value: 'meter'},
+    {key: 'px', value: 'px'},
+  ],
 }
 
 /**
@@ -340,7 +423,7 @@ const lineWidth = {
   step: 1,
 }
 
-// 曲线样式
+// 线样式
 const lineCurve = {
   type: 'select',
   label: 'lineCurve',
@@ -373,25 +456,76 @@ const lineCurve = {
   ],
 }
 
+/**
+ * =====================================
+ * range
+ * =====================================
+ */
+
+// 数值范围
+const rangeNumber = {
+  type: 'rangeNumber',
+  label: 'rangeNumber',
+  defaultValue: [0, 20],
+}
+
+// 时间范围 暂不做
+
 export default {
+  // 颜色类型
   colorType,
+  // 颜色单色
   colorSingle,
+  // 颜色渐变
   colorGradient,
+  // 颜色列表
   colorList,
+  // 偏移
   offset,
+  // 模糊
   blur,
+  // 透明度
   opacity,
+  // 相对位置
   relativePosition,
+  // 锚点
   anchor,
+  // 角度
   angle,
-  logitudeColumn,
-  latitudeColumn,
+  // 触发事件类型
+  eventType,
+  // 普通字段
+  column,
+  // 经度
+  columnLongitude,
+  // 纬度
+  columnLatitude,
+  // gis中心点坐标
+  gisCenterCoordinate,
+  // gis缩放系数
+  gisZoom,
+  // gis倾斜角度
+  gisPitch,
+  // gis旋转角度
+  gisBearing,
+  // gis单位
+  gisUnit,
+  // 字号
   textSize,
+  // 字重
   textWeight,
+  // 文字方向
   textDirection,
+  // 千分位
   thousandDiv,
+  // 百分比
   percentage,
+  // 小数位数
   decimalPlaces,
+  // 线宽
   lineWidth,
+  // 线样式
   lineCurve,
+  // 数值范围
+  rangeNumber,
 }
