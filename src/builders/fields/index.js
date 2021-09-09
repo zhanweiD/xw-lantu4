@@ -3,6 +3,7 @@ import {MNumberField, NumberField} from './number'
 import {CheckField, MCheckField} from './check'
 import {SwitchField, MSwitchField} from './switch'
 import {MTextareaField, TextareaField} from './textarea'
+import {MColorField, ColorField} from './color'
 
 const fields = {
   TextField,
@@ -10,8 +11,9 @@ const fields = {
   CheckField,
   SwitchField,
   TextareaField,
+  ColorField,
 }
 
-export {MTextField, MNumberField, MCheckField, MSwitchField, MTextareaField}
+export {MTextField, MNumberField, MCheckField, MSwitchField, MTextareaField, MColorField}
 
 export default fields
