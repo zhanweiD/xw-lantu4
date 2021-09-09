@@ -57,6 +57,9 @@ export const MArtViewport = types
     get env_() {
       return getEnv(self)
     },
+    get root_() {
+      return getRoot(self)
+    },
     get art_() {
       return getParent(self)
     },
@@ -64,7 +67,7 @@ export const MArtViewport = types
       return self.frames.find((frame) => frame.isMain)
     },
     get activeTabId_() {
-      return getRoot(self).editor.activeTabId
+      return self.root_.editor.activeTabId
     },
   }))
   .actions(commonAction(['set', 'getSchema']))
@@ -77,7 +80,11 @@ export const MArtViewport = types
         keyUp: () => {
           const {artId} = self.art_
           if (artId === self.activeTabId_ && self.selectRange) {
-            self.selectRange.remove()
+            self.root_.confirm({
+              content: `正在执行删除操作, 删除之后暂时无法恢复, 您确定这样做吗?`,
+              onConfirm: self.selectRange.remove,
+              attachTo: false,
+            })
           }
         },
       })
@@ -86,7 +93,11 @@ export const MArtViewport = types
         keyUp: () => {
           const {artId} = self.art_
           if (artId === self.activeTabId_ && self.selectRange) {
-            self.selectRange.remove()
+            self.root_.confirm({
+              content: `正在执行删除操作, 删除之后暂时无法恢复, 您确定这样做吗?`,
+              onConfirm: self.selectRange.remove,
+              attachTo: false,
+            })
           }
         },
       })

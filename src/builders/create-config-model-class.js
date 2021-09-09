@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import createLog from '@utils/create-log'
-import {MTextField, MNumberField, MCheckField, MSwitchField} from './fields'
+import {MTextField, MNumberField, MCheckField, MSwitchField, MTextareaField} from './fields'
 import isDef from '@utils/is-def'
 
 const log = createLog('@builder/create-config-model-class')
@@ -13,6 +13,7 @@ const fieldModel = {
   number: MNumberField,
   check: MCheckField,
   switch: MSwitchField,
+  textarea: MTextareaField,
 }
 const createFieldClass = (fields) => {
   const result = []
