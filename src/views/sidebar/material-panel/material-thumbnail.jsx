@@ -69,7 +69,7 @@ const Material = ({material, showType}) => {
         {showType !== 'grid-layout' && (
           <div className={c('fbh fbac lh24', {mb8: showType === 'thumbnail-list'})}>
             <div className={c('fb1 omit ctw60 fbh fbac pl4', {[s.activeMaterial]: material.isActive_})}>
-              {showType === 'list' && <Icon className="mr4 ml4" fill="#fff5" name="drag" size={10} />}
+              {showType === 'list' && <Icon fill="#fff5" name="drag" size={10} />}
               <div className="fb1 omit">{material.name}</div>
             </div>
           </div>
