@@ -1,32 +1,32 @@
-import {observer} from "mobx-react-lite"
-import React, {useRef} from "react"
-import c from "classnames"
-import ArtThumbnail from "@views/public/art-thumbnail"
-import IconButton from "@components/icon-button"
-import Section from "@components/section"
-import Upload from "@components/upload"
-import {DragSource} from "@components/drag-and-drop"
-import w from "@models"
-import s from "./project-list.module.styl"
+import {observer} from 'mobx-react-lite'
+import React, {useRef} from 'react'
+import c from 'classnames'
+import ArtThumbnail from '@views/public/art-thumbnail'
+import IconButton from '@components/icon-button'
+import Section from '@components/section'
+import Upload from '@components/upload'
+import {DragSource} from '@components/drag-and-drop'
+import w from '@models'
+import s from './project-list.module.styl'
 
 // 针对项目的右上角菜单
 const MoreIcon = ({project, isTop, isRecent}) => {
   const uploadRef = useRef(null)
-  const menu = w.overlayManager.get("menu")
+  const menu = w.overlayManager.get('menu')
   const onUpload = (files) => project.importArt(files, project.projectId)
   const onClickMore = (e, button) => {
     e.stopPropagation()
     menu.toggle({
       attachTo: button,
       list: [
-        {name: "新建数据屏", action: () => (project.createArt(), menu.hide())},
-        {name: "导入数据屏", action: () => (uploadRef.current.click(), menu.hide())},
-        {name: "项目详情", action: () => (project.editProject(), menu.hide())},
+        {name: '新建数据屏', action: () => (project.createArt(), menu.hide())},
+        {name: '导入数据屏', action: () => (uploadRef.current.click(), menu.hide())},
+        {name: '项目详情', action: () => (project.editProject(), menu.hide())},
         {
-          name: !isRecent && (isTop ? "取消置顶项目" : "置顶项目"),
-          action: () => (project.projectPanel_.toggleProjectTop(project, !isTop), menu.hide())
-        }
-      ]
+          name: !isRecent && (isTop ? '取消置顶项目' : '置顶项目'),
+          action: () => (project.projectPanel_.toggleProjectTop(project, !isTop), menu.hide()),
+        },
+      ],
     })
   }
   return (
@@ -44,8 +44,7 @@ const MoreIcon = ({project, isTop, isRecent}) => {
 export const TemplateList = observer(({id, name, arts, icon, children, ...other}) => {
   const {sidebar} = w
   const {projectPanel} = sidebar
-  const {toolbar} = projectPanel
-  const {isThumbnailVisible} = toolbar
+  const {isThumbnailVisible} = projectPanel
   return (
     <Section
       key={id}
@@ -55,11 +54,11 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
       icon={icon}
     >
       {arts.map((art, index) => (
-        <div key={art.artId} className={c("ml8 mr8", {["mb8"]: isThumbnailVisible && index !== arts.length - 1})}>
+        <div key={art.artId} className={c('ml8 mr8', {['mb8']: isThumbnailVisible && index !== arts.length - 1})}>
           <DragSource
             key={art.artId}
             onEnd={(dropResult, data) => {
-              dropResult.create({art: data, source: "art"})
+              dropResult.create({art: data, source: 'art'})
             }}
             dragKey="CREATE_ART_DRAG_KEY"
             data={art}
