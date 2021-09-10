@@ -2,22 +2,23 @@
  * @author 南风
  * @description 数据面板
  */
-import {flow} from "mobx"
-import {types, getEnv, getRoot, applySnapshot} from "mobx-state-tree"
-import commonAction from "@utils/common-action"
-import uuid from "@utils/uuid"
-import {createConfigModelClass} from "@components/field"
-import createLog from "@utils/create-log"
-import io from "@utils/io"
-import {MDataToolbar} from "./data-toolbar"
-import {MDataTab} from "../editor/editor-tab-data"
+import {flow} from 'mobx'
+import {types, getEnv, getRoot, applySnapshot} from 'mobx-state-tree'
+import commonAction from '@utils/common-action'
+import uuid from '@utils/uuid'
+import {createConfigModelClass} from '@components/field'
+import createLog from '@utils/create-log'
+import io from '@utils/io'
+import {MDataToolbar} from './data-toolbar'
+import {MDataTab} from '../editor/editor-tab-data'
 
-const log = createLog("@models/data/data-panel")
+const log = createLog('@models/data/data-panel')
+
 const MDataFolder = types
-  .model("MDataFolder", {
+  .model('MDataFolder', {
     folderId: types.number,
     folderName: types.string,
-    datas: types.optional(types.array(MDataTab), [])
+    datas: types.optional(types.array(MDataTab), []),
   })
   .views((self) => ({
     get env_() {
@@ -25,15 +26,16 @@ const MDataFolder = types
     },
     get datas_() {
       return self.datas
-    }
+    },
   }))
 
 export const MDataPanel = types
   .model({
-    name: "dataPanel",
     toolbar: types.optional(MDataToolbar, {}),
+    // 空间数据
     folders: types.optional(types.array(MDataFolder), []),
-    topFoldersId: types.optional(types.array(types.number), [])
+    folderSort: types.optional(types.array(types.number), []),
+    // 项目数据
   })
   .views((self) => ({
     get env_() {
@@ -55,7 +57,7 @@ export const MDataPanel = types
 
       return {
         basicFolders,
-        topFolders
+        topFolders,
       }
     },
     get hasData_() {
@@ -72,57 +74,57 @@ export const MDataPanel = types
         })
       })
       return datas
-    }
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
   .actions((self) => {
     // 新建文件夹的 Model 框
     const createFolderConfirm = () => {
-      const modal = self.root_.overlayManager.get("fieldModal")
-      const MDataCreaterFolder = createConfigModelClass("MDataCreaterFolder", {
-        sections: ["__hide__"],
+      const modal = self.root_.overlayManager.get('fieldModal')
+      const MDataCreaterFolder = createConfigModelClass('MDataCreaterFolder', {
+        sections: ['__hide__'],
         fields: [
           {
-            section: "__hide__",
-            option: "name",
+            section: '__hide__',
+            option: 'name',
             field: {
-              type: "text",
-              label: "name",
-              placeholder: "文件夹名称不能为空、重复",
-              defaultValue: ""
-            }
-          }
-        ]
+              type: 'text',
+              label: 'name',
+              placeholder: '文件夹名称不能为空、重复',
+              defaultValue: '',
+            },
+          },
+        ],
       })
       modal.show({
         attachTo: false,
-        title: "新建文件夹",
+        title: '新建文件夹',
         height: 160,
         content: MDataCreaterFolder.create(),
         buttons: [
           {
-            name: "取消",
+            name: '取消',
             action: () => {
               modal.hide()
-            }
+            },
           },
           {
-            name: "确定",
+            name: '确定',
             action: (schema) => {
               self.createDataFolder(schema)
-            }
-          }
-        ]
+            },
+          },
+        ],
       })
     }
 
     const createDataFolder = flow(function* createDataFolder({name}) {
       // console.log(name)
-      const modal = self.root_.overlayManager.get("fieldModal")
+      const modal = self.root_.overlayManager.get('fieldModal')
       const {event, tip} = self.env_
       try {
         const result = yield io.data.createDataFolder({folderName: name})
-        event.fire("dataPanel.getDataFolder")
+        event.fire('dataPanel.getDataFolder')
         tip.success({content: `"${name}"文件夹新建成功`})
         modal.hide()
 
@@ -132,14 +134,14 @@ export const MDataPanel = types
               {
                 folderId: result.folderId,
                 folderName: result.folderName,
-                data: []
-              }
-            ].concat(self.folders)
+                data: [],
+              },
+            ].concat(self.folders),
           })
         }
       } catch (error) {
         log.error({content: error.message})
-        tip.error({content: "文件夹新建失败"})
+        tip.error({content: '文件夹新建失败'})
         // event.once('overlay.fieldModal.onConfirm', self.createDataFolder)
       }
     })
@@ -164,7 +166,7 @@ export const MDataPanel = types
         // })
         self.set({
           folders: list,
-          topFoldersId: folderSort
+          topFoldersId: folderSort,
         })
       } catch (error) {
         // TODO error 统一替换
@@ -174,25 +176,25 @@ export const MDataPanel = types
 
     const openTabByData = ({folder, data, type}) => {
       const {event} = self.env_
-      let defaultDataName = "未命名数据"
-      if (type === "excel") {
-        defaultDataName = "新建Excel"
-      } else if (type === "json") {
-        defaultDataName = "新建JSON"
-      } else if (type === "database") {
-        defaultDataName = "新建SQL"
-      } else if (type === "api") {
-        defaultDataName = "新建API"
+      let defaultDataName = '未命名数据'
+      if (type === 'excel') {
+        defaultDataName = '新建Excel'
+      } else if (type === 'json') {
+        defaultDataName = '新建JSON'
+      } else if (type === 'database') {
+        defaultDataName = '新建SQL'
+      } else if (type === 'api') {
+        defaultDataName = '新建API'
       }
 
-      event.fire("editor.openTab", {
+      event.fire('editor.openTab', {
         id: data ? data.dataId : uuid(),
         name: data?.dataName || defaultDataName,
-        type: "data",
+        type: 'data',
         tabOptions: {
           folderId: folder.folderId,
-          dataType: type
-        }
+          dataType: type,
+        },
       })
     }
 
@@ -200,19 +202,19 @@ export const MDataPanel = types
       const {event} = self.env_
       self.getDataFolder()
 
-      event && event.on("dataPanel.getDataFolder", self.getDataFolder)
+      event && event.on('dataPanel.getDataFolder', self.getDataFolder)
     }
 
     const applyLocal = () => {
       const {local} = self.env_
-      const localSchema = local.get("SKMaterialPanel")
+      const localSchema = local.get('SKMaterialPanel')
       localSchema && applySnapshot(self, localSchema)
     }
 
     const saveLocal = () => {
       const {local} = self.env_
-      local.set("SKMaterialPanel", {
-        toolbar: self.toolbar.toJSON()
+      local.set('SKMaterialPanel', {
+        toolbar: self.toolbar.toJSON(),
       })
     }
 
@@ -227,9 +229,9 @@ export const MDataPanel = types
 
       try {
         yield io.user.top({
-          ":type": "data-folder",
+          ':type': 'data-folder',
           organizationId: self.root_.user.organizationId,
-          sortArr: self.topFoldersId
+          sortArr: self.topFoldersId,
         })
       } catch (error) {
         // TODO error 统一替换
@@ -247,7 +249,7 @@ export const MDataPanel = types
         self.root_.confirm({
           content: `“${folder.folderName}”下有${dataCount}个数据，您确定要删除吗？`,
           onConfirm: () => self.removeDataFolder(folder),
-          attachTo: false
+          attachTo: false,
         })
       }
     }
@@ -256,17 +258,17 @@ export const MDataPanel = types
     const removeDataFolder = flow(function* removeDataFolder(folder) {
       const {tip, event} = self.env_
       try {
-        yield io.data.removeDataFolder({":folderId": folder.folderId})
+        yield io.data.removeDataFolder({':folderId': folder.folderId})
 
         folder.datas.forEach((data) => {
-          event.fire("editor.closeTab", data.dataId)
+          event.fire('editor.closeTab', data.dataId)
         })
 
-        event.fire("dataPanel.getDataFolder")
-        tip.success({content: "删除文件夹成功"})
+        event.fire('dataPanel.getDataFolder')
+        tip.success({content: '删除文件夹成功'})
       } catch (error) {
         log.error(error)
-        tip.error({content: "删除文件夹失败"})
+        tip.error({content: '删除文件夹失败'})
       }
     })
 
@@ -276,16 +278,16 @@ export const MDataPanel = types
       self.root_.confirm({
         content: `确认删除数据“${dataName}”么？删除后无法恢复！`,
         onConfirm: () => self.removeData({dataId}),
-        attachTo: false
+        attachTo: false,
       })
     }
 
     const removeData = flow(function* removeData({dataId}) {
       const {event} = self.env_
       try {
-        yield io.data.removeData({":dataId": dataId})
-        event.fire("dataPanel.getDataFolder")
-        event.fire("editor.closeTab", dataId)
+        yield io.data.removeData({':dataId': dataId})
+        event.fire('dataPanel.getDataFolder')
+        event.fire('editor.closeTab', dataId)
       } catch (error) {
         // TODO error 统一替换
         console.log(error)
@@ -304,6 +306,6 @@ export const MDataPanel = types
       removeDataFolder,
       confirmDeleteData,
       removeData,
-      confirmDeleteFolder
+      confirmDeleteFolder,
     }
   })
