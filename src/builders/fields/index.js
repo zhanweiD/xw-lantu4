@@ -6,6 +6,7 @@ import {MTextareaField, TextareaField} from './textarea'
 import {MColorField, ColorField} from './color'
 import {MMultiNumberField, MultiNumberField} from './multi-number'
 import {MSelectField, SelectField} from './select'
+import {MCodeField, CodeField} from './code'
 
 const fields = {
   TextField,
@@ -16,6 +17,7 @@ const fields = {
   ColorField,
   MultiNumberField,
   SelectField,
+  CodeField,
 }
 
 export {
@@ -27,6 +29,7 @@ export {
   MColorField,
   MMultiNumberField,
   MSelectField,
+  MCodeField,
 }
 
 export default fields

@@ -12,6 +12,7 @@ import {
   MColorField,
   MMultiNumberField,
   MSelectField,
+  MCodeField,
 } from './fields'
 import isDef from '@utils/is-def'
 
@@ -26,6 +27,7 @@ const fieldModel = {
   color: MColorField,
   multiNumber: MMultiNumberField,
   select: MSelectField,
+  code: MCodeField,
 }
 const createFieldClass = (fields) => {
   const result = []
