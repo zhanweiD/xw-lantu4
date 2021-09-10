@@ -3,7 +3,7 @@ import data from './data'
 
 const pointLayer = (k) => ({
   name: '散点气泡层',
-  type: 'bubble',
+  type: 'pointLayer',
   // 第二层sections
   sections: [
     {
