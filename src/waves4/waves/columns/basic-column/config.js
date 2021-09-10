@@ -56,8 +56,12 @@ export const config = (k) => ({
       },
     ],
   },
+  // 坐标轴
   axisPanel: true,
+  // 极坐标系坐标轴
   polarPanel: false,
+  // 动画
   animationPanel: false,
+  // 高级
   advancePanel: false,
 })

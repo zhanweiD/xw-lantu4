@@ -3,6 +3,9 @@ const title = {
   name: 'title',
   sections: [
     {
+      name: 'titleBase',
+    },
+    {
       name: 'text',
     },
     {
