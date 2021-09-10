@@ -61,8 +61,8 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
       >
         {isThumbnailVisible && <img src={mThumbnail} alt={art.name} className={c('hand w100p', s.thumbnail)} />}
         <div className="fbh fbac">
-          <div className={c('fb1 omit ctw60 fbh fbac fs12 lh24', art.isActive_ && s.activeArt)}>
-            {!isThumbnailVisible ? <Icon fill="#fff5" name="drag" size={10} /> : <div className="p4" />}
+          <div className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4', art.isActive_ && s.activeArt)}>
+            {!isThumbnailVisible && <Icon fill="#fff5" name="drag" size={10} />}
             <div className="omit">{art.name}</div>
           </div>
           {useButtons && (
