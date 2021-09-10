@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -38,7 +38,8 @@ const Toolbar = ({useCreateButton}) => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {projectPanel} = sidebar
-  const {keyword, set, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = projectPanel
+  const {set, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = projectPanel
+  const [keyword, setKeyword] = useState('')
   const modal = MFieldModdal.create()
   const getProjectSchema = () => ({name: modal.name.value, description: modal.description.value})
   return (
@@ -47,10 +48,10 @@ const Toolbar = ({useCreateButton}) => {
         type="text"
         value={keyword}
         placeholder={t('searchPlaceholder')}
-        onChange={(e) => set('keyword', e.target.value)}
+        onChange={(e) => setKeyword(e.target.value)}
       />
-      {keyword && <IconButton icon="close" title={t('remove')} onClick={() => set('keyword', '')} />}
-      <IconButton icon="search" className="cfw6" title={t('search')} />
+      {keyword && <IconButton icon="close" title={t('remove')} onClick={() => (setKeyword(''), set({keyword: ''}))} />}
+      <IconButton icon="search" className="cfw6" title={t('search')} onClick={() => set({keyword})} />
       <IconButton
         icon={isThumbnailVisible ? 'thumbnail-list' : 'list'}
         title="显示切换"
