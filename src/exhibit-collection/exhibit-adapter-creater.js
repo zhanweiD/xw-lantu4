@@ -1,22 +1,22 @@
-import createLog from "@utils/create-log"
-import createEvent from "@utils/create-event"
+import createLog from '@utils/create-log'
+import createEvent from '@utils/create-event'
 
-const log = createLog("@exhibit-adapter-creater")
+const log = createLog('@exhibit-adapter-creater')
 
 const createExhibitAdapter = (hooks) =>
   class Adapter {
     // 内置的hook名称
     static frozenHookNames = [
-      "init",
-      "update",
-      "data",
-      "draw",
-      "destroy",
-      "getStyle",
-      "getData",
-      "preview",
-      "warn",
-      "event"
+      'init',
+      'update',
+      'data',
+      'draw',
+      'destroy',
+      'getStyle',
+      'getData',
+      'preview',
+      'warn',
+      'event',
     ]
 
     static draw({container, height, width, model, box, isEdit}) {
@@ -28,7 +28,7 @@ const createExhibitAdapter = (hooks) =>
           model,
           box,
           isEdit,
-          staticDrawOptions: {container, height, width, model, box, isEdit}
+          staticDrawOptions: {container, height, width, model, box, isEdit},
         })
       )
 
@@ -39,7 +39,7 @@ const createExhibitAdapter = (hooks) =>
       this.container = container
       this.size = {
         width,
-        height
+        height,
       }
       this.model = model
       this.isEdit = isEdit
@@ -59,24 +59,24 @@ const createExhibitAdapter = (hooks) =>
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
-      this.data = this.model.getData()
+      // this.data = this.model.getData()
       this.layers = this.model.getLayers()
-      this.coordinate = this.model.getCoordinate()
+
       const instanceOption = {
         container: this.container,
-        coordinate: this.coordinate,
+
         layers: this.layers,
-        data: this.data,
+
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,
-        isPreview: !this.isEdit
+        isPreview: !this.isEdit,
       }
       console.log(instanceOption)
       this.instance = hooks.init.call(this, instanceOption)
-      this.instance.event.once("ready", () => {
-        this.event.fire("ready")
-      })
+      // this.instance.event.once('ready', () => {
+      //   this.event.fire('ready')
+      // })
     }
 
     setRuleValue({ruleValue, lastUpdateTime}) {
@@ -90,7 +90,7 @@ const createExhibitAdapter = (hooks) =>
       // 触发首次加载完成事件，和交互规则的“加载后触发一次”相对应
       if (this.ready === false) {
         this.ready = true
-        this.event.fire("ready")
+        this.event.fire('ready')
       }
     }
 
@@ -112,7 +112,7 @@ const createExhibitAdapter = (hooks) =>
         value,
         schema,
         totalValue,
-        action
+        action,
       })
     }
 

@@ -22,18 +22,8 @@ const recusiveNode = (nodes, level = 0) => {
   })
 }
 
-const Builder = ({sections, fields}) => {
-  return (
-    <div>
-      {isArray(fields) &&
-        fields.map((field) => {
-          return Object.entries(field).map(([key, value]) => {
-            return <ModelToField model={value} key={key} />
-          })
-        })}
-      {recusiveNode(sections)}
-    </div>
-  )
+const Builder = ({sections}) => {
+  return recusiveNode(sections)
 }
 
 export default observer(Builder)
