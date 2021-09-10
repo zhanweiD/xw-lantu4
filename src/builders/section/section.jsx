@@ -22,7 +22,7 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
           buttonSize={24}
         />
       )}
-      <div className="fb1 fbh fbac">
+      <div className="fb1 fbh fbac lh24">
         <div className="omit" title={name}>
           {name}
         </div>

@@ -71,7 +71,7 @@ export const createExhibitModelClass = (exhibit) => {
             id,
             name,
             type,
-            sections: getLayerData(sections),
+            options: getLayerData(sections),
           }
           return values
         })
