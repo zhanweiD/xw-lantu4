@@ -1,12 +1,12 @@
-import React from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import IconButton from "@components/icon-button"
-import Icon from "@components/icon"
-import {DragSource, DropTarget} from "@components/drag-and-drop"
-import w from "@models"
-import s from "./art-thumbnail.module.styl"
-import thumbnail from "./thumbnail.png"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import IconButton from '@components/icon-button'
+import Icon from '@components/icon'
+import {DragSource, DropTarget} from '@components/drag-and-drop'
+import w from '@models'
+import s from './art-thumbnail.module.styl'
+import thumbnail from './thumbnail.png'
 
 const Sortable = observer(({art, index, project, children, enable}) => {
   return enable ? (
@@ -39,35 +39,34 @@ const Sortable = observer(({art, index, project, children, enable}) => {
 const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = false}) => {
   const {sidebar} = w
   const {projectPanel} = sidebar
-  const {toolbar} = projectPanel
-  const {isThumbnailVisible} = toolbar
+  const {isThumbnailVisible} = projectPanel
   const mThumbnail = art.thumbnail || thumbnail
-  const menu = w.overlayManager.get("menu")
+  const menu = w.overlayManager.get('menu')
   const list = [
-    {name: "编辑", action: () => (art.editArt(), menu.hide())},
-    {name: "预览", action: () => (art.previewArt(), menu.hide())},
-    !isTemplate && {name: "保存为模板", action: () => (art.saveAsTemplate(), menu.hide())},
-    {name: "更新缩略图", action: () => (art.updateThumbnail(), menu.hide())},
-    !isTemplate && {name: "复制", action: () => (art.copyArt(), menu.hide())},
-    !isTemplate && {name: "导出", action: () => (art.exportArt(), menu.hide())},
-    {name: "删除", action: () => (art.removeArt(), menu.hide())}
+    {name: '编辑', action: () => (art.editArt(), menu.hide())},
+    {name: '预览', action: () => (art.previewArt(), menu.hide())},
+    !isTemplate && {name: '保存为模板', action: () => (art.saveAsTemplate(), menu.hide())},
+    {name: '更新缩略图', action: () => (art.updateThumbnail(), menu.hide())},
+    !isTemplate && {name: '复制', action: () => (art.copyArt(), menu.hide())},
+    !isTemplate && {name: '导出', action: () => (art.exportArt(), menu.hide())},
+    {name: '删除', action: () => (art.removeArt(), menu.hide())},
   ].filter(Boolean)
 
   return (
     <Sortable art={art} index={index} project={project} enable={!isThumbnailVisible}>
       <div
-        className={c("w100p", s.art)}
+        className={c('w100p', s.art)}
         onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
         onDoubleClick={art.editArt}
       >
-        {isThumbnailVisible && <img src={mThumbnail} alt={art.name} className={c("hand w100p", s.thumbnail)} />}
+        {isThumbnailVisible && <img src={mThumbnail} alt={art.name} className={c('hand w100p', s.thumbnail)} />}
         <div className="fbh fbac">
-          <div className={c("fb1 omit ctw60 fbh fbac fs12 lh24", art.isActive_ && s.activeArt)}>
+          <div className={c('fb1 omit ctw60 fbh fbac fs12 lh24', art.isActive_ && s.activeArt)}>
             {!isThumbnailVisible ? <Icon fill="#fff5" name="drag" size={10} /> : <div className="p4" />}
             <div className="omit">{art.name}</div>
           </div>
           {useButtons && (
-            <div className={c("fbh")}>
+            <div className={c('fbh')}>
               {art.isPublished && (
                 <IconButton
                   buttonSize={24}
