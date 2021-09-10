@@ -1,9 +1,10 @@
-import createExhibitAdapter from "@exhibit-collection/exhibit-adapter-creater"
+import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init(options) {
+      console.log(JSON.stringify(options, null, 4))
       // const instance = createWave(translate(options))
       // return instance
     },
@@ -21,7 +22,7 @@ const Adapter = () =>
     // 任何错误的处理
     warn({instance, warn}) {
       instance.warn(warn)
-    }
+    },
   })
 
 export default Adapter

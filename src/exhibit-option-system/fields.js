@@ -305,8 +305,21 @@ const gisUnit = {
  * =====================================
  */
 
+// 名称
+const name = {
+  type: 'text',
+  label: 'name',
+  defaultValue: '',
+}
+
+// URL
+const url = {
+  type: 'text',
+  label: 'url',
+  defaultValue: '',
+}
+
 // 字号
-// ok
 const textSize = {
   type: 'number',
   label: 'textSize',
@@ -472,6 +485,10 @@ const rangeNumber = {
 // 时间范围 暂不做
 
 export default {
+  // 名称
+  name,
+  // URL
+  url,
   // 颜色类型
   colorType,
   // 颜色单色
