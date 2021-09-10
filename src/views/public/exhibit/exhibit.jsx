@@ -4,9 +4,10 @@ import {draw} from '@exhibit-collection'
 
 const Exhibit = ({box, frame}) => {
   const el = useRef(null)
+  // 这里不能直接exhibit = {}
   const {exhibit, layout} = box
   const {height, width} = layout
-  const {id} = exhibit
+  const {id} = exhibit || {}
   useEffect(() => {
     if (exhibit) {
       draw({
