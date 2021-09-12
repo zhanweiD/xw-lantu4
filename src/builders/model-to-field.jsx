@@ -2,6 +2,7 @@ import React from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import fields from './fields'
+import {DataField} from './data-section'
 
 const {
   TextField,
@@ -56,6 +57,26 @@ const ModelToField = ({model}) => {
           defaultValue={model.defaultValue}
           onChange={(v) => {
             model.setValue(v)
+          }}
+        />
+      )
+      break
+    case 'data':
+      F = (
+        <DataField
+          className="ml24 mt8"
+          value={model.value}
+          globalData={model.globalData_}
+          projectData={model.projectData_}
+          officialData={model.officialData_}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+          addSource={(v) => {
+            model.addSource(v)
+          }}
+          removeSource={(v) => {
+            model.removeSource(v)
           }}
         />
       )

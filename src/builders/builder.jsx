@@ -4,7 +4,7 @@ import Section from './section'
 import isArray from 'lodash/isArray'
 import ModelToField from './model-to-field'
 
-const recusiveNode = (nodes, level = 0) => {
+const recusiveNode = (nodes, level = 1) => {
   return nodes.map((node) => {
     let fields = node.fields
     let subSections = node.sections
@@ -22,18 +22,18 @@ const recusiveNode = (nodes, level = 0) => {
   })
 }
 
-const Builder = ({sections, fields}) => {
-  return (
-    <div>
-      {isArray(fields) &&
-        fields.map((field) => {
-          return Object.entries(field).map(([key, value]) => {
-            return <ModelToField model={value} key={key} />
-          })
-        })}
-      {recusiveNode(sections)}
-    </div>
-  )
+const Builder = ({layers, data}) => {
+  return layers.map((layer) => {
+    return (
+      <div key={layer.id}>
+        {data && <ModelToField model={data} />}
+        <Section titleClassName="pr8" sessionId={layer.name} type={0} name={layer.name} key={layer.name}>
+          {layer.data && <ModelToField model={layer.data} />}
+          {recusiveNode(layer.options.sections)}
+        </Section>
+      </div>
+    )
+  })
 }
 
 export default observer(Builder)

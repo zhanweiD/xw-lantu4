@@ -54,9 +54,5 @@ export const transform = ({id, type, name, sections, fields}) => {
     props.fields = getFields(fields)
   }
 
-  return createConfigModelClass(`MLayer${id}`, props, {
-    id,
-    type,
-    name,
-  }).create({})
+  return createConfigModelClass(`MLayer${id}`, props)
 }

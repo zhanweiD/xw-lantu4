@@ -1,35 +1,41 @@
-import {types} from "mobx-state-tree"
-import uuid from "@utils/uuid"
-import commonAction from "@utils/common-action"
-import {transform} from "./exhibit-config"
+import {types, getRoot} from 'mobx-state-tree'
+import uuid from '@utils/uuid'
+import commonAction from '@utils/common-action'
+import {transform} from './exhibit-config'
+import {MDataField} from '../builders/data-section'
 
-// const createLayer = (key, layer) => {
-//   const {name, type, id = uuid(), sections, fields} = layer
-//   const MLayer = types
-//     .model(`M${key}Layer`, {
-//       id: types.optional(types.string, id),
-//       type: types.optional(types.string, type),
-//       name: types.optional(types.string, name)
-//     })
-//     .actions(commonAction(["set", "getSchema", "setSchema"]))
-//     .actions((self) => {
-//       const afterCreate = () => {
-//         const MConfig = transform({id, sections, fields})
-//         const x = MConfig.create({})
-//         console.log(x)
-//       }
-//       return {
-//         afterCreate
-//       }
-//     })
-//   return MLayer.create(layer)
-// }
+const createLayer = (key, layer, env) => {
+  const {name, type, id = uuid(), sections} = layer
+  const MLayer = types
+    .model(`M${key}Layer`, {
+      id: types.optional(types.string, id),
+      type: types.optional(types.string, type),
+      name: types.optional(types.string, name),
+      normalKeys: types.frozen(['id', 'type', 'name']),
+      deepKeys: types.frozen(['options', 'data']),
+    })
+    .actions(commonAction(['set', 'getSchema', 'setSchema']))
+    .actions((self) => {
+      const afterCreate = () => {
+        // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
+        const MConfig = transform({id, sections})
+        self.options = MConfig.create()
+        self.data = MDataField.create(
+          {
+            type: 'data',
+          },
+          {
+            ...env,
+          }
+        )
+      }
+      return {
+        afterCreate,
+      }
+    })
+  return MLayer.create(layer)
+}
 
-export const createExhibitLayersClass = (key, layers) => {
-  const result = layers.map((layer) => {
-    // createLayer(key, layer)
-    const {name, type, id = uuid(), sections, fields} = layer
-    return transform({id, type, name, sections, fields})
-  })
-  return result
+export const createExhibitLayersClass = (key, layers, env) => {
+  return layers.map((layer) => createLayer(key, layer, env))
 }

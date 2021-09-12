@@ -41,6 +41,9 @@ const text = {
       name: 'angle',
       isAdvance: true,
     },
+    {
+      name: 'colorGradient',
+    },
   ],
 }
 

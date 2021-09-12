@@ -53,48 +53,35 @@ export const createExhibitModelClass = (exhibit) => {
       }
       const getLayers = () => {
         const getLayerData = (nodes) => {
+          const {sections} = nodes
           const values = {}
-          nodes.forEach((node) => {
+          sections.forEach((node) => {
             values[node.name] = {
               ...node.fields,
             }
 
             if (node.sections) {
-              values[node.name] = {...values[node.name], ...getLayerData(node.sections)}
+              values[node.name] = {...values[node.name], ...getLayerData(node)}
             }
           })
           return values
         }
         const layers = self.layers.map((layer) => {
-          const {id, type, name, sections} = layer.getSchema()
+          const {id, type, name, options, data} = layer.getSchema()
           const values = {
             id,
             name,
             type,
-            options: getLayerData(sections),
+            data,
+            options: getLayerData(options),
           }
           return values
         })
-        // 这种格式是给组件的 但是不能用于保存
-        // const getValues = () => {
-        //   let values = {}
-        //   if (self.sections) {
-        //     const data = {}
-        //     self.sections.forEach((section) => {
-        //       data[section.name] = section.getValues()
-        //     })
-        //     values = {...data}
-        //   }
-        //   if (self.fields) {
-        //     self.fields.forEach((field) => {
-        //       Object.entries(field).forEach(([key, value]) => {
-        //         values[key] = value.getValue()
-        //       })
-        //     })
-        //   }
-        //   return values
-        // }
         return layers
+      }
+
+      const setLayers = (layers) => {
+        self.layers = layers
       }
 
       return {
@@ -102,6 +89,7 @@ export const createExhibitModelClass = (exhibit) => {
         setCachedData,
         setContext,
         setAdapter,
+        setLayers,
         getLayers,
       }
     })
