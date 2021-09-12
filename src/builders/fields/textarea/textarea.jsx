@@ -16,11 +16,6 @@ const TextareaField = ({
 }) => {
   const textRef = useRef(null)
   useEffect(() => {
-    textRef.current.addEventListener('keyup', (e) => {
-      e.stopPropagation()
-    })
-  }, [])
-  useEffect(() => {
     autosize(textRef.current)
     return () => {
       autosize.destroy(textRef.current)

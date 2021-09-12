@@ -13,6 +13,7 @@ import {
   MMultiNumberField,
   MSelectField,
   MCodeField,
+  MGradientField,
 } from './fields'
 import isDef from '@utils/is-def'
 
@@ -28,6 +29,7 @@ const fieldModel = {
   multiNumber: MMultiNumberField,
   select: MSelectField,
   code: MCodeField,
+  gradient: MGradientField,
 }
 const createFieldClass = (fields) => {
   const result = []

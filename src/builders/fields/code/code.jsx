@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import CodeBoard from '@components/code-board'
@@ -19,13 +19,6 @@ const CodeField = ({
   buttons = [],
   parent,
 }) => {
-  const codeRef = useRef(null)
-
-  useEffect(() => {
-    codeRef.current.addEventListener('keyup', (e) => {
-      e.stopPropagation()
-    })
-  }, [])
   return (
     <Field
       className={className}
@@ -34,7 +27,7 @@ const CodeField = ({
       label={label}
       direction="vertical"
     >
-      <div ref={codeRef} className={c('w100p fbv mb8')}>
+      <div className={c('w100p fbv mb8')}>
         <div style={{height: `${height}px`, width: '100%'}} className={c('stopDrag')}>
           <CodeBoard
             placeholder={placeholder}
