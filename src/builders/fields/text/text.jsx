@@ -16,7 +16,7 @@ const TextField = ({
   className,
 }) => {
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       <input
         type={type}
         value={isDef(value) ? value : defaultValue}

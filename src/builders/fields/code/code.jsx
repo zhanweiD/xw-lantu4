@@ -23,7 +23,7 @@ const CodeField = ({
     <Field
       className={className}
       childrenClassName={childrenClassName}
-      lebelClassName={labelClassName}
+      labelClassName={labelClassName}
       label={label}
       direction="vertical"
     >

@@ -175,7 +175,7 @@ const GradientField = ({
   }
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       <div className="pr w100p cfw10 h24">
         {/* 用一个fixed的div放在下面，点击这个div时，触发关闭退出编辑状态 */}
         {isEdit && !canShowPicker && (

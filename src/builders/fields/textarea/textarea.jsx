@@ -23,7 +23,7 @@ const TextareaField = ({
   })
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       <textarea
         ref={textRef}
         value={isDef(value) ? value : defaultValue}
