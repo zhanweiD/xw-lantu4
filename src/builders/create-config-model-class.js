@@ -14,6 +14,7 @@ import {
   MSelectField,
   MCodeField,
   MGradientField,
+  MColumnSelectField,
 } from './fields'
 import isDef from '@utils/is-def'
 
@@ -30,10 +31,12 @@ const fieldModel = {
   select: MSelectField,
   code: MCodeField,
   gradient: MGradientField,
+  columnSelect: MColumnSelectField,
 }
 const createFieldClass = (fields) => {
   const result = []
   fields.forEach((field) => {
+    console.log(field)
     if (fieldModel[field.type]) {
       // 后面根据配置会重新赋值
       let MFieldModel = fieldModel[field.type].actions((self) => ({

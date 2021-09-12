@@ -15,6 +15,7 @@ const {
   SelectField,
   CodeField,
   GradientField,
+  ColumnSelectField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
@@ -42,6 +43,22 @@ const ModelToField = ({model}) => {
           height={model.height}
           mode={model.mode}
           buttons={model.buttons}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+        />
+      )
+      break
+    case 'columnSelect':
+      F = (
+        <ColumnSelectField
+          className="ml24"
+          label={t(model.label)}
+          options={model.options.toJSON().map((option) => ({
+            key: t(option.key),
+            value: option.value,
+          }))}
+          value={model.value}
           onChange={(v) => {
             model.setValue(v)
           }}

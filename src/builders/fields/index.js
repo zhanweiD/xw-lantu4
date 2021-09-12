@@ -8,6 +8,7 @@ import {MMultiNumberField, MultiNumberField} from './multi-number'
 import {MSelectField, SelectField} from './select'
 import {MCodeField, CodeField} from './code'
 import {MGradientField, GradientField} from './gradient'
+import {MColumnSelectField, ColumnSelectField} from './column-select'
 
 const fields = {
   TextField,
@@ -20,6 +21,7 @@ const fields = {
   SelectField,
   CodeField,
   GradientField,
+  ColumnSelectField,
 }
 
 export {
@@ -33,6 +35,7 @@ export {
   MSelectField,
   MCodeField,
   MGradientField,
+  MColumnSelectField,
 }
 
 export default fields
