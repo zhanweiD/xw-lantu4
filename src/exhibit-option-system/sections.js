@@ -170,7 +170,7 @@ const pointCoordinate = {
   name: 'pointCoordinate',
   fields: [
     {
-      name: 'columnLangitude',
+      name: 'columnLongitude',
     },
     {
       name: 'columnLatitude',

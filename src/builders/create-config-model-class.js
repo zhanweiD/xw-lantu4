@@ -36,7 +36,6 @@ const fieldModel = {
 const createFieldClass = (fields) => {
   const result = []
   fields.forEach((field) => {
-    console.log(field)
     if (fieldModel[field.type]) {
       // 后面根据配置会重新赋值
       let MFieldModel = fieldModel[field.type].actions((self) => ({
@@ -138,6 +137,27 @@ const createSectionClass = (node) => {
         self.setValues(schema)
       }
 
+      const getRelationFields = (type) => {
+        const values = []
+
+        if (self.sections) {
+          self.sections.forEach((section) => {
+            values.push(...section.getRelationFields(type))
+          })
+        }
+
+        if (self.fields) {
+          self.fields.forEach((field) => {
+            Object.entries(field).forEach(([, value]) => {
+              if (value.type === type) {
+                values.push(value)
+              }
+            })
+          })
+        }
+        return values
+      }
+
       const update = () => {
         getParent(self, 2).update()
       }
@@ -146,6 +166,7 @@ const createSectionClass = (node) => {
         getValues,
         setValues,
         setSchema,
+        getRelationFields,
         update,
       }
     })
@@ -240,6 +261,25 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       return self.getValues()
     }
 
+    const getRelationFields = (type) => {
+      const values = []
+      if (self.fields) {
+        self.fields.forEach((field) => {
+          Object.entries(field).forEach(([, value]) => {
+            if (value.type === type) {
+              values.push(value)
+            }
+          })
+        })
+      }
+      if (self.sections) {
+        self.sections.forEach((section) => {
+          values.push(...section.getRelationFields(type))
+        })
+      }
+      return values
+    }
+
     const dumpSchema = () => {
       console.log(JSON.stringify(self.getSchema(), null, 4))
     }
@@ -252,6 +292,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       setSchema,
       getSchema,
       dumpSchema,
+      getRelationFields,
     }
   })
 }

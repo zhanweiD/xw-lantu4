@@ -86,6 +86,7 @@ const ModelToField = ({model}) => {
           globalData={model.globalData_}
           projectData={model.projectData_}
           officialData={model.officialData_}
+          onAction={model.onAction}
           onChange={(v) => {
             model.setValue(v)
           }}

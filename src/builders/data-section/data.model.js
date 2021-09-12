@@ -32,6 +32,7 @@ export const MDataField = types
     type: types.enumeration(['data']),
     value: types.maybe(MValue),
     defaultValue: types.optional(MValue, {}),
+    relationModels: types.frozen(),
   })
   .views((self) => ({
     get env_() {
@@ -66,8 +67,6 @@ export const MDataField = types
   .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
-      console.log(getEnv(self))
-
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
@@ -88,6 +87,14 @@ export const MDataField = types
     const setSchema = (schema) => {
       return self.setValue(schema)
     }
+
+    const onAction = () => {
+      self.relationModels.map((model) => {
+        const {type, sourceData_, private: privateData} = self.value
+        model.update(type === 'private' ? privateData : sourceData_)
+      })
+    }
+
     const addSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
       event.fire(`art.${art.artId}.addData`, {
@@ -118,5 +125,6 @@ export const MDataField = types
       getSchema,
       addSource,
       removeSource,
+      onAction,
     }
   })

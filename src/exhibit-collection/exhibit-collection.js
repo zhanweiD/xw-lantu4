@@ -55,7 +55,6 @@ export const exhibitRegister = (exhibit) => {
           }
         )
         const {layers} = config
-        console.log(model)
         model.setLayers(
           createExhibitLayersClass(config.key, layers, {
             exhibitId: model.id,

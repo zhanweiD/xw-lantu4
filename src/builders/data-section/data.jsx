@@ -42,6 +42,7 @@ const DataField = ({
   addSource = () => {},
   removeSource = () => {},
   type = 1,
+  onAction = () => {},
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
@@ -106,6 +107,7 @@ const DataField = ({
                     onChange({
                       private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
                     })
+                    onAction()
                   } catch (error) {
                     tip.error({content: '保存失败,请检查JSON是否合法'})
                   }
@@ -118,7 +120,7 @@ const DataField = ({
             <div className="mb8">字段预览</div>
             {value.private && (
               <div>
-                {hJSON.parse(value.private)[0].map((v) => (
+                {hJSON.parse(value.private)[0]?.map((v) => (
                   <span className={c('mr8', s.fieldPreview)} key={v}>
                     {v}
                   </span>
