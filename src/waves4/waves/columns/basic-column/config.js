@@ -39,9 +39,11 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   layers: [pointLayer(k)],
-  // 下面的xPanel面板，工具内部是有固定顺序的
-  titlePanel: true,
-  lengedPanel: {
+  // 下面的面板，工具内部是有固定顺序的
+  // 标题面板
+  title: true,
+  // 图例面板
+  lenged: {
     sections: [
       {
         name: 'base',
@@ -56,12 +58,12 @@ export const config = (k) => ({
       },
     ],
   },
-  // 坐标轴
-  axisPanel: true,
+  // 直角坐标系坐标轴
+  axis: true,
   // 极坐标系坐标轴
-  polarPanel: false,
+  polarAxis: false,
   // 动画
-  animationPanel: false,
+  animation: false,
   // 高级
-  advancePanel: false,
+  advance: false,
 })
