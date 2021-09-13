@@ -112,9 +112,6 @@ const area = {
     {
       name: 'opacity',
     },
-    {
-      name: 'lineWidth',
-    },
   ],
 }
 
