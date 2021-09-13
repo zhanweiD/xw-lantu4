@@ -6,21 +6,21 @@
  * @Description: 数据屏的数据模型根目录
  * @FilePath: /waveview-front4/src/models/new-art/art.js
  */
-import onerStorage from "oner-storage"
-import {getEnv, types, flow} from "mobx-state-tree"
-import io from "@utils/io"
-import commonAction from "@utils/common-action"
-import createLog from "@utils/create-log"
-import {MDataManager} from "./art-data-manager"
-import {MArtBasic} from "./art-basic"
-import {MArtViewport} from "./art-viewport"
-import {MPublishInfo} from "./art-publish-info"
-import config from "@utils/config"
+import onerStorage from 'oner-storage'
+import {getEnv, types, flow} from 'mobx-state-tree'
+import io from '@utils/io'
+import commonAction from '@utils/common-action'
+import createLog from '@utils/create-log'
+import {MDataManager} from './art-data-manager'
+import {MArtBasic} from './art-basic'
+import {MArtViewport} from './art-viewport'
+import {MPublishInfo} from './art-publish-info'
+import config from '@utils/config'
 
-const log = createLog("@models/art.js")
+const log = createLog('@models/art.js')
 
 export const MArt = types
-  .model("MArt", {
+  .model('MArt', {
     artId: types.number,
     projectId: types.maybe(types.number),
     publishId: types.maybe(types.string),
@@ -39,46 +39,43 @@ export const MArt = types
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),
-    activeTool: types.optional(types.enumeration("MArtToolbar.activeTool", ["select", "createFrame"]), "select"),
-    fetchState: types.optional(types.enumeration("MArtTab.fetchState", ["loading", "success", "error"]), "loading")
+    activeTool: types.optional(types.enumeration('MArtToolbar.activeTool', ['select', 'createFrame']), 'select'),
+    fetchState: types.optional(types.enumeration('MArtTab.fetchState', ['loading', 'success', 'error']), 'loading'),
+    normalKeys: types.frozen(['artId', 'projectId']),
+    deepKeys: types.frozen(['viewport', 'dataManager', 'basic']),
   })
   .views((self) => ({
     get env_() {
       return getEnv(self)
-    }
+    },
   }))
-  .actions(commonAction(["set", "getSchema", "setSchema"]))
+  .actions(commonAction(['set', 'getSchema', 'setSchema']))
   .actions((self) => {
     const afterCreate = () => {
       const {event} = self.env_
       const exhibitManager = onerStorage({
-        type: "variable",
-        key: `waveview-exhibit-manager`
+        type: 'variable',
+        key: `waveview-exhibit-manager`,
       })
       self.exhibitManager = exhibitManager
       // 注册2个事件
       // 1、增加数据屏中组件依赖的数据id和组件id，若数据已经被记录则在此条记录中追加记录依赖此数据的组件id
       // 2、删除数据屏中组件依赖的数据id
-      event.on(`art.${self.artId}.addData`, ({exhibitId, dataId, data}) => {
+      event.on(`art.${self.artId}.addData`, ({exhibitId, dataId}) => {
         if (self.dataManager.get(dataId)) {
           const mData = self.dataManager.get(dataId)
           mData.addExhibit(exhibitId)
         } else {
           self.dataManager.create({
             id: dataId,
-            usedByExhibits: [exhibitId]
+            usedByExhibits: [exhibitId],
           })
           if (!self.datas) {
             self.set({
-              datas: []
+              datas: [],
             })
           }
-          self.set({
-            datas: self.datas.concat({
-              id: dataId,
-              data
-            })
-          })
+          self.addData(dataId)
         }
       })
       event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId}) => {
@@ -87,18 +84,31 @@ export const MArt = types
       })
     }
 
+    const addData = flow(function* addData(dataId) {
+      try {
+        const data = yield io.data.getDatasInfo({
+          ids: dataId,
+        })
+        self.set({
+          datas: self.datas.concat(data),
+        })
+      } catch (error) {
+        log.error('addData Error: ', error)
+      }
+    })
+
     // 获取大屏相关信息
     const getArt = flow(function* getArt() {
-      self.fetchState = "loading"
+      self.fetchState = 'loading'
       try {
         const art = yield io.art.getDetail({
-          ":artId": self.artId,
-          hasBoxes: true
+          ':artId': self.artId,
+          hasBoxes: true,
         })
         const {publishId, projectId, themeId, gridUnit, watermark, password, frames} = art
         self.set({
           projectId,
-          publishId
+          publishId,
         })
         const ids = []
         let data
@@ -109,40 +119,70 @@ export const MArt = types
         // 如果有依赖其他数据源:全局数据源或者项目数据源 则去请求相关数据。
         if (ids.length > 0) {
           data = yield io.data.getDatasInfo({
-            ids: ids.join(",")
+            ids: ids.join(','),
           })
         }
 
         self.datas = data
         self.basic.setSchema({
-          themeId: themeId || "glaze",
+          themeId: themeId || 'glaze',
           gridUnit,
           watermark,
-          password
+          password,
         })
         self.viewport.setSchema({
-          frames
+          frames,
         })
         self.artPublishInfo = {
           publishId: art.publishId,
           projectId: art.projectId,
-          artId: art.artId
+          artId: art.artId,
         }
-        self.fetchState = "success"
+        self.fetchState = 'success'
       } catch (error) {
-        self.fetchState = "error"
-        log.error("getArt.Error:", error)
+        self.fetchState = 'error'
+        log.error('getArt Error:', error)
       }
     })
 
     // 预览数据屏
     const preview = () => {
-      window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, "previewWindow")
+      window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, 'previewWindow')
     }
 
+    const save = flow(function* save() {
+      try {
+        const {basic, viewport, artId, projectId, dataManager} = self.getSchema()
+        const {frames} = viewport
+        frames.forEach((frame) => {
+          const {boxes} = frame
+          boxes.forEach((box) => {
+            const exhibitModel = self.exhibitManager.get(box.exhibit.id)
+            if (exhibitModel) {
+              const schema = exhibitModel.getSchema()
+              box.exhibit = schema
+            }
+          })
+        })
+        const params = {
+          ':projectId': projectId,
+          ':artId': artId,
+          dataManager,
+          ...basic,
+          frames,
+        }
+        yield io.art.update(params)
+        self.env_.tip.success({content: '保存成功'})
+      } catch (error) {
+        log.error('save Error: ', error)
+        self.env_.tip.error({content: '保存失败'})
+      }
+    })
     return {
       afterCreate,
       getArt,
-      preview
+      addData,
+      preview,
+      save,
     }
   })

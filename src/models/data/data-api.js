@@ -87,18 +87,19 @@ const MApiCodeOptions = createConfigModelClass(
       "dataPanel.headers",
       "dataPanel.queries",
       "dataPanel.body",
-      {
-        section: "optionPanel.dataProcessor",
-        fields: [
-          {
-            type: "sectionConfig",
-            option: "useDataProcessor",
-            defaultValue: true,
-            readOnly: false,
-            icon: "checkbox"
-          }
-        ]
-      }
+      "optionPanel.dataProcessor"
+      // {
+      //   section: "optionPanel.dataProcessor",
+      //   fields: [
+      //     {
+      //       type: "sectionConfig",
+      //       option: "useDataProcessor",
+      //       defaultValue: true,
+      //       readOnly: false,
+      //       icon: "checkbox"
+      //     }
+      //   ]
+      // }
     ],
     fields: [
       {

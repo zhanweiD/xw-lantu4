@@ -29,7 +29,6 @@ import {MTextareaField} from "./textarea.model"
 import {MConstraintsField} from "./constraints.model"
 import {MImageField} from "./image.model"
 import {MAlignmentField} from "./alignment.model"
-import {MSectionConfigField} from "./section-config.model"
 import {MOffsetField} from "./offset.model"
 import {MDataField} from "./data.model"
 
@@ -56,7 +55,6 @@ const fieldModel = {
   constraints: MConstraintsField,
   image: MImageField,
   alignment: MAlignmentField,
-  sectionConfig: MSectionConfigField,
   offset: MOffsetField,
   data: MDataField
 }
@@ -223,15 +221,6 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
                 // 赋值默认函数
                 self[key].set("processorCode", defaultDataProcessor)
                 self[key].setValue(value)
-              }
-            } else if (self[key].type === "sectionConfig") {
-              if (typeof value === "boolean") {
-                self[key].set("value", value)
-              } else {
-                // 解析section配置值, 目前只支持第一个
-                Object.entries(value).forEach(([, propValue]) => {
-                  self[key].set("value", Object.values(propValue)[0])
-                })
               }
             } else {
               self[key].setValue(value)

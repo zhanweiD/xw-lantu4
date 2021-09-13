@@ -251,6 +251,10 @@ context.create("io.art", {
     method: "GET",
     url: "art/:artId/:frameId/box"
   },
+  updateBox: {
+    method: "PUT",
+    url: "project/:projectId/art/:artId/frame/:frameId/box/:boxId"
+  },
   updateBoxes: {
     method: "PUT",
     url: "project/:projectId/art/:artId/move/boxes"
@@ -399,27 +403,41 @@ context.create("io.material", {
     url: "material",
     method: "POST"
   },
-
   removeMaterial: {
     method: "DELETE",
     url: "material/:materialId"
+  },
+  removeProjectMaterial: {
+    method: "DELETE",
+    url: "project/:projectId/material/:materialId"
   },
   updateMaterial: {
     method: "PUT",
     url: "material/:materialId"
   },
-
   getMaterials: {
     method: "GET",
     url: "material"
+  },
+  getProjectMaterials: {
+    method: "GET",
+    url: "project/:projectId/material"
   },
   createFolder: {
     method: "POST",
     url: "material/folder"
   },
+  createProjectFolder: {
+    method: "POST",
+    url: "project/:projectId/material/folder"
+  },
   removeFolder: {
     method: "DELETE",
     url: "material/folder/:folderId"
+  },
+  removeProjectFolder: {
+    method: "DELETE",
+    url: "project/:projectId/material/folder/:folderId"
   },
   sort: {
     method: "POST",
@@ -428,6 +446,10 @@ context.create("io.material", {
   getMaterialDetail: {
     method: "GET",
     url: "material/:materialId"
+  },
+  getProjectMaterialDetail: {
+    method: "GET",
+    url: "/project/:projectId/material/:materialId"
   }
 })
 

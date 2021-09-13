@@ -1,15 +1,15 @@
-import isFunction from "lodash/isFunction"
-import random from "./random"
-import isDef from "./is-def"
+import isFunction from 'lodash/isFunction'
+import random from './random'
+import isDef from './is-def'
 
-const createEvent = (privateName = "") => {
+const createEvent = (privateName = '') => {
   const id = `__event-${privateName}-${random()}`
   const rename = (name) => `${id}-${name}`
   let cache = {}
 
   const event = {
     on(name, fn, remark) {
-      if (typeof name === "string" && typeof fn === "function") {
+      if (typeof name === 'string' && typeof fn === 'function') {
         const prefixedName = rename(name)
         cache[prefixedName] = cache[prefixedName] || []
         fn.remark = remark
@@ -18,7 +18,7 @@ const createEvent = (privateName = "") => {
     },
 
     once(name, fn, remark) {
-      if (typeof name === "string" && typeof fn === "function") {
+      if (typeof name === 'string' && typeof fn === 'function') {
         const prefixedName = rename(name)
         cache[prefixedName] = cache[prefixedName] || []
         fn.remark = remark
@@ -63,7 +63,7 @@ const createEvent = (privateName = "") => {
     // 清空所有事件
     clear() {
       cache = {}
-    }
+    },
   }
 
   return event
@@ -73,14 +73,14 @@ export default createEvent
 
 export const globalEvent = createEvent()
 
-document.body.addEventListener("click", (e) => {
-  if (e.target && e.target.closest(".stopPropagation") === null) {
-    globalEvent.fire("globalClick", e)
+document.body.addEventListener('click', (e) => {
+  if (e.target && e.target.closest('.stopPropagation') === null) {
+    globalEvent.fire('globalClick', e)
   }
 })
 
-window.addEventListener("resize", (e) => {
-  globalEvent.fire("globalResize", e)
+window.addEventListener('resize', (e) => {
+  globalEvent.fire('globalResize', e)
 })
 
 const keyDownPrefix = (keyName) => `keyDown-${keyName}`
@@ -89,7 +89,7 @@ const keyUpPrefix = (keyName) => `keyUp-${keyName}`
 // 是否处于输入状态
 const isInputting = () => {
   const {activeElement} = document
-  return activeElement && (activeElement.nodeName === "TEXTAREA" || activeElement.nodeName === "INPUT")
+  return activeElement && (activeElement.nodeName === 'TEXTAREA' || activeElement.nodeName === 'INPUT')
 }
 
 const isFnKeyHolding = () => {
@@ -124,7 +124,12 @@ export const shortcut = {
       switch (e.keyCode) {
         // backspace 退格键
         case 8:
-          shortcutEvent.fire(keyDownPrefix("backspace"))
+        case 46:
+          if (e.metaKey || e.ctrlKey) {
+            shortcutEvent.fire(keyDownPrefix('commandDelete'))
+          } else {
+            shortcutEvent.fire(keyDownPrefix('delete'))
+          }
           break
         // Tab 按下时阻止默认行为，抬起时执行tab事件
         // case 9:
@@ -132,27 +137,24 @@ export const shortcut = {
         //   break
         // Shift
         case 16:
-          document.body.classList.add("noselect")
+          document.body.classList.add('noselect')
           break
         // 苹果上的option
         case 18:
           shortcut.option = true
-          shortcutEvent.fire(keyDownPrefix("option"))
+          shortcutEvent.fire(keyDownPrefix('option'))
           break
         // 空格
         case 32:
           shortcut.space = true
-          shortcutEvent.fireSingleKey(keyDownPrefix("space"))
+          shortcutEvent.fireSingleKey(keyDownPrefix('space'))
           break
-        // 删除键
-        case 46:
-          shortcutEvent.fire(keyDownPrefix("delete"))
-          break
+
         // K
         case 75:
           if (e.metaKey || e.ctrlKey) {
             e.preventDefault()
-            shortcutEvent.fire(keyDownPrefix("commandK"))
+            shortcutEvent.fire(keyDownPrefix('commandK'))
           }
           break
         // Command+S
@@ -161,17 +163,17 @@ export const shortcut = {
         case 83:
           if (e.metaKey || e.ctrlKey) {
             e.preventDefault()
-            shortcutEvent.fire(keyDownPrefix("commandS"))
+            shortcutEvent.fire(keyDownPrefix('commandS'))
           }
           break
         // commandZ / commandShiftZ
         case 90:
           if ((e.metaKey || e.ctrlKey) && e.shiftKey) {
             e.preventDefault()
-            shortcutEvent.fire(keyDownPrefix("commandShiftZ"))
+            shortcutEvent.fire(keyDownPrefix('commandShiftZ'))
           } else if (e.metaKey || e.ctrlKey) {
             e.preventDefault()
-            shortcutEvent.fire(keyDownPrefix("commandZ"))
+            shortcutEvent.fire(keyDownPrefix('commandZ'))
           }
           break
         default:
@@ -180,15 +182,15 @@ export const shortcut = {
     }
 
     // !NOTE 这里不能使用节流，否则浏览器的默认行为的无法拦截的
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener('keydown', (e) => {
       keyDownFunction(e)
     })
 
-    document.addEventListener("keyup", (e) => {
+    document.addEventListener('keyup', (e) => {
       switch (e.keyCode) {
         // backspace 退格键
         case 8:
-          shortcutEvent.fire(keyUpPrefix("backspace"))
+          shortcutEvent.fire(keyUpPrefix('backspace'))
           break
         // Tab
         // case 9:
@@ -198,65 +200,65 @@ export const shortcut = {
         //   break
         // Shift
         case 16:
-          document.body.classList.remove("noselect")
+          document.body.classList.remove('noselect')
           break
         // 苹果上的option
         case 18:
           shortcut.option = false
-          shortcutEvent.fire(keyUpPrefix("option"))
+          shortcutEvent.fire(keyUpPrefix('option'))
           break
         // 空格
         case 32:
           shortcut.space = false
-          shortcutEvent.fireSingleKey(keyUpPrefix("space"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('space'))
           break
         // 删除键
         case 46:
-          shortcutEvent.fire(keyUpPrefix("delete"))
+          shortcutEvent.fire(keyUpPrefix('delete'))
           break
         // A
         case 65:
-          shortcutEvent.fireSingleKey(keyUpPrefix("a"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('a'))
           break
         // B
         case 66:
-          shortcutEvent.fireSingleKey(keyUpPrefix("b"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('b'))
           break
         // M
         case 77:
-          shortcutEvent.fireSingleKey(keyUpPrefix("m"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('m'))
           break
         // N
         case 78:
-          shortcutEvent.fireSingleKey(keyUpPrefix("n"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('n'))
           break
         // V
         case 86:
-          shortcutEvent.fireSingleKey(keyUpPrefix("v"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('v'))
           break
         // ESC
         case 27:
-          shortcutEvent.fireSingleKey(keyUpPrefix("ESC"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('ESC'))
           break
         // 上
         case 38:
-          shortcutEvent.fireSingleKey(keyUpPrefix("Top"))
-          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix("ShiftTop"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('Top'))
+          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix('ShiftTop'))
           break
         // 右
         case 39:
-          shortcutEvent.fireSingleKey(keyUpPrefix("Right"))
-          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix("ShiftRight"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('Right'))
+          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix('ShiftRight'))
           break
         // 下
         case 40:
-          shortcutEvent.fireSingleKey(keyUpPrefix("Down"))
-          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix("ShiftDown"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('Down'))
+          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix('ShiftDown'))
           break
         // 左
         case 37:
-          shortcutEvent.fireSingleKey(keyUpPrefix("Left"))
-          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix("ShiftLeft"))
+          shortcutEvent.fireSingleKey(keyUpPrefix('Left'))
+          e.shiftKey && shortcutEvent.fireSingleKey(keyUpPrefix('ShiftLeft'))
           break
         // Delete
         // case 46:
@@ -296,7 +298,7 @@ export const shortcut = {
         off()
       })
     }
-  }
+  },
 }
 
 shortcut.init()

@@ -87,9 +87,12 @@ export const MArtThumbnail = types
       const {event} = self.env_
       event.fire("project-panel.createRecentProject", self.projectId)
       event.fire("editor.openTab", {
+        type: "art",
         id: self.artId,
         name: self.name,
-        type: "art"
+        tabOptions: {
+          projectId: self.projectId
+        }
       })
     }
 

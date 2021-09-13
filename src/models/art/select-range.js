@@ -242,11 +242,13 @@ export const MSelectRange = types
       }
 
       const setOffset = (x, y) => {
-        const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
-        const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
-        const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
-        const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
         xy = {
+          x1: Math.round(x + origin.x1),
+          x2: Math.round(x + origin.x2),
+          y1: Math.round(y + origin.y1),
+          y2: Math.round(y + origin.y2)
+        }
+        snapXY = {
           x1: Math.round(x + origin.x1),
           x2: Math.round(x + origin.x2),
           y1: Math.round(y + origin.y1),
@@ -259,7 +261,11 @@ export const MSelectRange = types
         let southY = xy.y2 > origin.y1 + 1
         // 如果xy.x2 小于 Math.ceil(xy.x2 / gridUnit) * gridUnit - 15 那么 它的值 要么是xy.x2 否则就是 Math.ceil(xy.x2 / gridUnit) * gridUnit
         // 如果xy.x2 大于  Math.floor(xy.x2 / gridUnit) * gridUnit + 15 那么它的值 就是xy.x2 否则就是Math.floor(xy.x2 / gridUnit) * gridUnit
-        if (self.target === "box") {
+        if (self.target === "box" && isSnap) {
+          const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
+          const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
+          const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
+          const maxYFrame = maxBy(self.boxes_, (o) => o.frame_.y1_ + o.y2_).frame_
           snapXY = {
             x1:
               Math.ceil((xy.x1 - (minXFrame.x1_ - minXFrame.grid.extendX_)) / gridUnit) * gridUnit +

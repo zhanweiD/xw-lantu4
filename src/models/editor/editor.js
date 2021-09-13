@@ -3,12 +3,14 @@ import {reaction} from "mobx"
 import {viewport} from "@utils/zoom"
 import {shortcut} from "@utils/create-event"
 import {MEditorTab} from "./editor-tab"
+import commonAction from "@utils/common-action"
 
 export const MEditor = types
   .model({
     tabs: types.optional(types.array(MEditorTab), []),
     activeTabId: types.maybe(types.union(types.number, types.string)),
-    activeNote: types.optional(types.array(types.union(types.number, types.string)), [])
+    activeNote: types.optional(types.array(types.union(types.number, types.string)), []),
+    isPointerEventsNone: types.optional(types.boolean, false)
   })
   .views((self) => ({
     get env_() {
@@ -19,6 +21,7 @@ export const MEditor = types
       return ["art", "material", "data"].includes(tab?.type)
     }
   }))
+  .actions(commonAction(["set"]))
   .actions((self) => {
     const afterCreate = () => {
       const {event} = self.env_
@@ -33,6 +36,9 @@ export const MEditor = types
       })
       event.on("editor.closeTab", (id) => {
         self.closeTab(id)
+      })
+      event.on("editor.setProps", (value) => {
+        self.set(value)
       })
       self.init()
       shortcut.add({
@@ -52,13 +58,14 @@ export const MEditor = types
       const tab = self.tabs.filter((item) => item.id === self.activeTabId)[0]
       if (data.type === "art") {
         // art init
+        const {projectId} = data
         tab.type = data.type
         tab.id = data.artId
         tab.name = data.name
         const index = self.activeNote.findIndex((id) => id === self.activeTabId)
         self.activeNote.splice(index, 1, data.artId)
         self.activeTabId = data.artId
-        tab.tabOptions = undefined
+        tab.tabOptions = {projectId}
         self.showTabDetail()
         event.fire("project-panel.getProjects")
       } else if (data.type === "data") {
@@ -143,7 +150,7 @@ export const MEditor = types
       session.set("SKEditor", {
         activeTabId: self.activeTabId,
         tabs: tabsNote,
-        activeNote: self.activeNote
+        activeNote: self.activeNote.toJSON()
       })
     }
 

@@ -7,44 +7,46 @@
  * @FilePath: /waveview-front4/src/models/new-art/art-basic.js
  */
 
-import commonAction from "@utils/common-action"
-import {reaction} from "mobx"
-import {types, getParent} from "mobx-state-tree"
-import {themeConfigs} from "@utils/theme"
+import commonAction from '@utils/common-action'
+import {reaction} from 'mobx'
+import {types, getParent} from 'mobx-state-tree'
+import {themeConfigs} from '@utils/theme'
 
 const MWatermark = types
-  .model("MWatermark", {
+  .model('MWatermark', {
     isEnable: types.optional(types.boolean, false),
-    value: types.optional(types.string, ""),
+    value: types.optional(types.string, ''),
     rotation: types.optional(types.frozen(), -15),
-    opacity: types.optional(types.number, 1)
+    opacity: types.optional(types.number, 1),
+    normalKeys: types.frozen(['isEnable', 'value', 'rotation', 'opacity']),
   })
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set', 'setSchema', 'getSchema']))
 
 const MPassword = types
-  .model("MPassword", {
+  .model('MPassword', {
     isEnable: types.optional(types.boolean, false),
-    value: types.optional(types.string, "")
+    value: types.optional(types.string, ''),
+    normalKeys: types.frozen(['isEnable', 'value']),
   })
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set', 'setSchema', 'getSchema']))
 
 export const MArtBasic = types
-  .model("MArtBaisc", {
+  .model('MArtBaisc', {
     // 主题色
     themeId: types.optional(
       types.enumeration([
-        "fairyLand",
-        "emeraldGreen",
-        "duskUniverse",
-        "glaze",
-        "exquisite",
-        "blueGreen",
-        "greenRed",
-        "blueRed",
-        "orangePurple",
-        "brownGreen"
+        'fairyLand',
+        'emeraldGreen',
+        'duskUniverse',
+        'glaze',
+        'exquisite',
+        'blueGreen',
+        'greenRed',
+        'blueRed',
+        'orangePurple',
+        'brownGreen',
       ]),
-      "glaze"
+      'glaze'
     ),
     // 网格尺寸
     gridUnit: types.optional(types.number, 40),
@@ -52,14 +54,15 @@ export const MArtBasic = types
     watermark: types.optional(MWatermark, {}),
     // 访问权限密码
     password: types.optional(MPassword, {}),
-    normalKeys: types.frozen(["themeId", "gridUnit", "watermark", "password"])
+    normalKeys: types.frozen(['themeId', 'gridUnit']),
+    deepKeys: types.frozen(['watermark', 'password']),
   })
   .views((self) => ({
     get art_() {
       return getParent(self, 2)
-    }
+    },
   }))
-  .actions(commonAction(["set", "setSchema", "getSchema"]))
+  .actions(commonAction(['set', 'setSchema', 'getSchema']))
   .actions((self) => {
     let reactionDisposer
     const afterSetSchema = () => {
@@ -67,7 +70,7 @@ export const MArtBasic = types
         () => {
           return {
             themeColors: themeConfigs[self.themeId].colors,
-            baseFontSize: (1080 / 1050).toFixed(2) - 0
+            baseFontSize: (1080 / 1050).toFixed(2) - 0,
           }
         },
         (newContext) => {
@@ -85,8 +88,8 @@ export const MArtBasic = types
           // delay: 3000,
           fireImmediately: false,
           onError(error) {
-            console.log("~~ save schema error:", error)
-          }
+            console.log('~~ save schema error:', error)
+          },
         }
       )
     }
@@ -96,6 +99,6 @@ export const MArtBasic = types
 
     return {
       afterSetSchema,
-      beforeDestroy
+      beforeDestroy,
     }
   })

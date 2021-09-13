@@ -157,32 +157,7 @@ const children = [
 
 // 其他的配置属性
 const other = {
-  sections: [
-    "optionPanel.basic",
-    "style.label",
-    {
-      section: "graph.fixedWidth",
-      fields: [
-        {
-          type: "sectionConfig",
-          option: "useFixedWidth",
-          defaultValue: false,
-          icon: "checkbox"
-        }
-      ]
-    },
-    {
-      section: "graph.fixedPaddingInner",
-      fields: [
-        {
-          type: "sectionConfig",
-          option: "useFixedPaddingInner",
-          defaultValue: false,
-          icon: "checkbox"
-        }
-      ]
-    }
-  ],
+  sections: ["optionPanel.basic", "style.label", "graph.fixedWidth", "graph.fixedPaddingInner"],
   fields: [
     {
       section: "optionPanel.basic",

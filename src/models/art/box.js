@@ -8,9 +8,10 @@
  */
 
 import commonAction from "@utils/common-action"
-import {getEnv, types, getParent, flow} from "mobx-state-tree"
+import {getEnv, types, getParent, flow, getRoot} from "mobx-state-tree"
 import {MLayout} from "../common/layout"
 import createLog from "@utils/create-log"
+import uuid from "@utils/uuid"
 
 const log = createLog("@models/art/box.js")
 export const MBox = types
@@ -21,15 +22,18 @@ export const MBox = types
     artId: types.number,
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
-
+    background: types.maybeNull(types.frozen()),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(["frameId", "boxId", "artId", "exhibit", "name"]),
+    normalKeys: types.frozen(["frameId", "boxId", "artId", "exhibit", "background", "name"]),
     deepKeys: types.frozen(["layout"])
   })
   .views((self) => ({
+    get root_() {
+      return getRoot(self)
+    },
     get env_() {
       return getEnv(self)
     },
@@ -60,12 +64,79 @@ export const MBox = types
     const resize = () => {
       const {layout} = self
       const {width, height} = layout
-      const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
-      if (exhibitModel.adapter) {
-        // 这个if是暂时性的 因为没对接exhibit
-        exhibitModel.adapter.refresh(width, height)
+      if (self.exhibit) {
+        const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+        //这里if是因为exhibit组件根本没对接进来 暂时保证正确性
+        if (exhibitModel.adapter) {
+          exhibitModel.adapter.refresh(width, height)
+        }
       }
     }
+
+    const updateBackground = (data) => {
+      self.background = {
+        path: data.material.materialId
+      }
+      updateBox()
+    }
+
+    const updateExhibit = ({lib, key}) => {
+      const {exhibitCollection, event} = self.env_
+      const model = exhibitCollection.get(`${lib}.${key}`)
+      if (model) {
+        const art = self.art_
+        const {dataPanel, projectPanel} = self.root_.sidebar
+        const {projects} = projectPanel
+        let dataList
+        if (projects.length) {
+          dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
+        }
+        const exhibitModel = model.initModel({
+          art,
+          themeId: art.basic.themeId,
+          schema: {
+            lib,
+            key,
+            id: uuid()
+          }
+        })
+        const exhibit = exhibitModel.getSchema()
+        art.exhibitManager.set(
+          exhibit.id,
+          model.initModel({
+            art,
+            themeId: art.basic.themeId,
+            schema: exhibit,
+            event,
+            globalData: dataPanel,
+            projectData: dataList
+          })
+        )
+        self.exhibit = exhibit
+        updateBox()
+      }
+    }
+
+    const updateBox = flow(function* updateBox() {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {layout, name, frameId, exhibit, background, boxId} = self
+      try {
+        yield io.art.updateBox({
+          ":boxId": boxId,
+          ":artId": artId,
+          ":frameId": frameId,
+          ":projectId": projectId,
+          name,
+          layout,
+          exhibit,
+          background
+        })
+      } catch (error) {
+        log.error("update Error: ", error)
+      }
+    })
+
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -74,7 +145,6 @@ export const MBox = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          layer: {},
           name,
           ":artId": artId,
           ":frameId": frameId,
@@ -93,6 +163,8 @@ export const MBox = types
 
     return {
       resize,
-      recreateBox
+      recreateBox,
+      updateBackground,
+      updateExhibit
     }
   })

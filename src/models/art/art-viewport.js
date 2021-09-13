@@ -1,17 +1,17 @@
-import {types, getParent, flow, getEnv, getRoot} from "mobx-state-tree"
-import {reaction} from "mobx"
-import minBy from "lodash/minBy"
-import maxBy from "lodash/maxBy"
-import isEmpty from "lodash/isEmpty"
-import {MZoom} from "@utils/zoom"
-import commonAction from "@utils/common-action"
-import {shortcut} from "@utils/create-event"
-import createLog from "@utils/create-log"
-import uuid from "@utils/uuid"
-import {MArtFrame} from "./art-frame"
-import {MSelectRange} from "./select-range"
+import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree'
+import {reaction} from 'mobx'
+import minBy from 'lodash/minBy'
+import maxBy from 'lodash/maxBy'
+import isEmpty from 'lodash/isEmpty'
+import {MZoom} from '@utils/zoom'
+import commonAction from '@utils/common-action'
+import {shortcut} from '@utils/create-event'
+import createLog from '@utils/create-log'
+import uuid from '@utils/uuid'
+import {MArtFrame} from './art-frame'
+import {MSelectRange} from './select-range'
 
-const log = createLog("@models/art/art-viewport.js")
+const log = createLog('@models/art/art-viewport.js')
 
 const getCoordinate = (rects) => {
   const minX = minBy(rects, (o) => o.x1_).x1_
@@ -22,7 +22,7 @@ const getCoordinate = (rects) => {
     x1: minX,
     y1: minY,
     x2: maxX,
-    y2: maxY
+    y2: maxY,
   }
 }
 
@@ -30,11 +30,11 @@ const MRect = types.model({
   x1: types.number,
   y1: types.number,
   x2: types.number,
-  y2: types.number
+  y2: types.number,
 })
 
 export const MArtViewport = types
-  .model("MArtViewprot", {
+  .model('MArtViewprot', {
     frames: types.optional(types.array(MArtFrame), []),
 
     // 存储框选状态，不必保存
@@ -50,11 +50,15 @@ export const MArtViewport = types
     baseOffsetX: types.optional(types.number, 0),
     baseOffsetY: types.optional(types.number, 0),
     zoom: types.optional(MZoom, {}),
-    isInit: types.optional(types.boolean, false)
+    isInit: types.optional(types.boolean, false),
+    deepKeys: types.frozen(['frames']),
   })
   .views((self) => ({
     get env_() {
       return getEnv(self)
+    },
+    get root_() {
+      return getRoot(self)
     },
     get art_() {
       return getParent(self)
@@ -63,35 +67,25 @@ export const MArtViewport = types
       return self.frames.find((frame) => frame.isMain)
     },
     get activeTabId_() {
-      return getRoot(self).editor.activeTabId
-    }
+      return self.root_.editor.activeTabId
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     let removeShortcutDelete
-    let removeShortcutBackspace
     const afterCreate = () => {
       removeShortcutDelete = shortcut.add({
-        keyName: "delete",
-        keyUp: () => {
+        keyName: 'commandDelete',
+        keyDown: () => {
           const {artId} = self.art_
           if (artId === self.activeTabId_ && self.selectRange) {
             self.selectRange.remove()
           }
-        }
-      })
-      removeShortcutBackspace = shortcut.add({
-        keyName: "backspace",
-        keyUp: () => {
-          const {artId} = self.art_
-          if (artId === self.activeTabId_ && self.selectRange) {
-            self.selectRange.remove()
-          }
-        }
+        },
       })
       reaction(
         () => ({
-          selectRange: self.selectRange && self.selectRange.toJSON()
+          selectRange: self.selectRange && self.selectRange.toJSON(),
         }),
         ({selectRange}) => {
           if (selectRange) {
@@ -100,7 +94,7 @@ export const MArtViewport = types
         },
         {
           fireImmediately: true,
-          delay: 300
+          delay: 300,
         }
       )
     }
@@ -119,7 +113,7 @@ export const MArtViewport = types
       const {artId} = self.art_
       session.set(`SKViewport.${artId}`, {
         // 这个简直坑死人 一定要写toJSON.  血泪教训 否则当触发时它会找不到实例而报错TypeError: Cannot read property 'cache' of undefined
-        selectRange: self.selectRange.toJSON()
+        selectRange: self.selectRange.toJSON(),
       })
     }
 
@@ -131,7 +125,7 @@ export const MArtViewport = types
         self.set({
           scaler,
           baseOffsetX: offsetX,
-          baseOffsetY: offsetY
+          baseOffsetY: offsetY,
         })
       }
       // 此句非常重要，它代表着初始化成功，页面应该正常展示，jsx页面需要根据此字段来判断是否展示画布等相关信息。
@@ -139,7 +133,7 @@ export const MArtViewport = types
       self.zoom.init(document.querySelector(`#art-viewport-${artId}`), {
         transform: () => {
           updateViewportProps()
-        }
+        },
       })
     }
 
@@ -151,7 +145,7 @@ export const MArtViewport = types
           x1_: x,
           y1_: y,
           x2_: x + width,
-          y2_: y + height
+          y2_: y + height,
         }
       })
       const xy = getCoordinate(frames)
@@ -159,7 +153,7 @@ export const MArtViewport = types
       self.frames.forEach((item) => {
         item.viewLayout.set({
           x: item.x1_ - x1,
-          y: item.y1_ - y1
+          y: item.y1_ - y1,
         })
       })
       self.initMinX = xy.x1
@@ -177,7 +171,7 @@ export const MArtViewport = types
         name,
         isMain,
         layout,
-        viewLayout: layout
+        viewLayout: layout,
       })
       self.frames.push(frame)
       boxes.forEach((box) => {
@@ -203,18 +197,18 @@ export const MArtViewport = types
       const origin = document.querySelector(`#artFrame-${self.mainFrame_.frameId}`).getBoundingClientRect()
       const originXY = {
         x: origin.x,
-        y: origin.y
+        y: origin.y,
       }
       // 所有的容器均取消选中状态
       self.frames.forEach((v) => {
         v.boxes.forEach((box) => {
           box.set({
-            isSelected: false
+            isSelected: false,
           })
         })
       })
       // 这里实际上是做了一次清除操作，清除选中状态及其临时绘制所存的草稿记录
-      if (mouseDownEvent.target.closest(".artframeName") === null && mouseDownEvent.target.closest(".box") === null) {
+      if (mouseDownEvent.target.closest('.artframeName') === null && mouseDownEvent.target.closest('.box') === null) {
         self.removeSelectRange()
       }
       self.drawRect = undefined
@@ -222,11 +216,11 @@ export const MArtViewport = types
       const mouseMove = (mouseMoveEvent) => {
         if (!fixDiv) {
           // 按下鼠标之后初次进入到这里 记录鼠标位置信息准备绘制框选矩形
-          fixDiv = document.createElement("div")
-          fixDiv.style.position = "fixed"
+          fixDiv = document.createElement('div')
+          fixDiv.style.position = 'fixed'
           fixDiv.style.top = `${mouseDownEvent.clientY}px`
           fixDiv.style.left = `${mouseDownEvent.clientX}px`
-          fixDiv.style.border = "1px solid"
+          fixDiv.style.border = '1px solid'
           document.body.appendChild(fixDiv)
         } else {
           // 鼠标移动过程中不断记录绘制的矩形的宽高，此时由于绘制方向的不确定性，宽高可能为负值，其会导致矩形的左上角坐标变化
@@ -267,13 +261,13 @@ export const MArtViewport = types
             x1: logicX,
             y1: logicY,
             x2: Math.round(logicX + Math.abs(width) / scaler),
-            y2: Math.round(logicY + Math.abs(height) / scaler)
+            y2: Math.round(logicY + Math.abs(height) / scaler),
           }
           // 此时 range对应的即是真实存放在后端以主画布左上角为原点的坐标
           self.set({
-            drawRect: range
+            drawRect: range,
           })
-          if (activeTool === "select") {
+          if (activeTool === 'select') {
             // 需求: 当绘制矩形的时候 若与页面上的容器有交点 则容器高亮
             // 进一步提炼需求: 判断两个矩形相交
             // 如果重心的在x轴和y轴上的距离都比他们边长和的一半要小就符合相交的条件
@@ -289,7 +283,7 @@ export const MArtViewport = types
               )
               v.boxes.forEach((box) => {
                 const value = boxes.some((b) => b.boxId === box.boxId)
-                box.set("isSelected", value)
+                box.set('isSelected', value)
               })
             })
           }
@@ -300,12 +294,12 @@ export const MArtViewport = types
           fixDiv && fixDiv.remove()
           const {drawRect} = self
           const {x1, y1, x2, y2} = drawRect
-          if (activeTool === "createFrame") {
+          if (activeTool === 'createFrame') {
             self.createFrame({
               x: x1,
               y: y1,
               width: Math.round(x2 - x1),
-              height: Math.round(y2 - y1)
+              height: Math.round(y2 - y1),
             })
           } else {
             const ranges = []
@@ -319,7 +313,7 @@ export const MArtViewport = types
               if (boxes.length) {
                 ranges.push({
                   frameId: v.frameId,
-                  boxIds: boxes.map((b) => b.boxId)
+                  boxIds: boxes.map((b) => b.boxId),
                 })
               }
             })
@@ -327,28 +321,28 @@ export const MArtViewport = types
               // 这里是为了让操作更平滑，否则会有粘滞感
               setTimeout(() => {
                 self.toggleSelectRange({
-                  target: "box",
-                  selectRange: ranges
+                  target: 'box',
+                  selectRange: ranges,
                 })
               }, 40)
             }
           }
-          document.body.removeEventListener("mousemove", mouseMove)
-          document.body.removeEventListener("mouseup", mouseUp)
+          document.body.removeEventListener('mousemove', mouseMove)
+          document.body.removeEventListener('mouseup', mouseUp)
         } catch (error) {
-          document.body.removeEventListener("mousemove", mouseMove)
-          document.body.removeEventListener("mouseup", mouseUp)
+          document.body.removeEventListener('mousemove', mouseMove)
+          document.body.removeEventListener('mouseup', mouseUp)
         }
       }
-      document.body.addEventListener("mousemove", mouseMove)
-      document.body.addEventListener("mouseup", mouseUp)
+      document.body.addEventListener('mousemove', mouseMove)
+      document.body.addEventListener('mouseup', mouseUp)
     }
 
     // 删除框选状态
     const removeSelectRange = () => {
       const {session} = self.env_
       self.selectRange = undefined
-      session.set("SKViewport", undefined)
+      session.set('SKViewport', undefined)
     }
 
     // 创建画布
@@ -360,46 +354,46 @@ export const MArtViewport = types
       const id = uuid()
       const params = {
         name: `画布-${id.substring(0, 4)}`,
-        layout: {x, y, height, width}
+        layout: {x, y, height, width},
       }
       const frame = MArtFrame.create({
         frameId: id,
         artId,
         ...params,
         viewLayout: {},
-        projectId
+        projectId,
       })
       frame.viewLayout.set({
         x: x - self.initMinX,
         y: y - self.initMinY,
         width,
-        height
+        height,
       })
       self.frames.push(frame)
       self.toggleSelectRange({
-        target: "frame",
+        target: 'frame',
         selectRange: [
           {
-            frameId: id
-          }
-        ]
+            frameId: id,
+          },
+        ],
       })
       const realFrame = self.frames.find((o) => o.frameId === id)
       try {
         const {frameId} = yield io.art.addFrame({
           ...params,
-          ":projectId": projectId,
-          ":artId": artId
+          ':projectId': projectId,
+          ':artId': artId,
         })
         realFrame.set({
-          frameId
+          frameId,
         })
         self.selectRange.range[0].frameId = frameId
       } catch (error) {
         realFrame.set({
-          isCreateFail: true
+          isCreateFail: true,
         })
-        log.error("createFrame Error:", error)
+        log.error('createFrame Error:', error)
       }
     })
 
@@ -420,7 +414,7 @@ export const MArtViewport = types
 
     const toggleSelectRange = ({target, selectRange}) => {
       self.removeSelectRange()
-      if (target === "frame") {
+      if (target === 'frame') {
         const frame = self.frames.find((f) => f.frameId === selectRange[0].frameId)
         self.selectRange = {
           target,
@@ -428,7 +422,7 @@ export const MArtViewport = types
           x1: frame.x1_,
           y1: frame.y1_,
           x2: frame.x2_,
-          y2: frame.y2_
+          y2: frame.y2_,
         }
       } else {
         const layouts = selectRange.map((value) => {
@@ -439,7 +433,7 @@ export const MArtViewport = types
             x1_: frame.x1_ + x1,
             y1_: frame.y1_ + y1,
             x2_: frame.x1_ + x2,
-            y2_: frame.y1_ + y2
+            y2_: frame.y1_ + y2,
           }
         })
         const {x1, y1, x2, y2} = getCoordinate(layouts)
@@ -457,14 +451,14 @@ export const MArtViewport = types
         x,
         y,
         height,
-        width
+        width,
       })
-      if (self.selectRange && self.selectRange.target === "frame") {
+      if (self.selectRange && self.selectRange.target === 'frame') {
         self.selectRange.set({
           x1: x,
           y1: y,
           x2: x + width,
-          y2: y + height
+          y2: y + height,
         })
       }
     }
@@ -475,23 +469,22 @@ export const MArtViewport = types
         x: 0,
         y: 0,
         height: self.totalHeight,
-        width: self.totalWidth
+        width: self.totalWidth,
       })
 
-      if (self.selectRange && self.selectRange.target === "frame") {
+      if (self.selectRange && self.selectRange.target === 'frame') {
         const {x, y, height, width} = self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
         self.selectRange.set({
           x1: x,
           y1: y,
           x2: x + width,
-          y2: y + height
+          y2: y + height,
         })
       }
     }
 
     const beforeDestroy = () => {
       removeShortcutDelete()
-      removeShortcutBackspace()
     }
 
     return {
@@ -513,6 +506,6 @@ export const MArtViewport = types
       removeBoxes,
       // 缩放全部画布到可视区域 & 缩放选中画布到可视区域
       zoomAllToView,
-      zoomSingleToView
+      zoomSingleToView,
     }
   })
