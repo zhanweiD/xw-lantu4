@@ -20,7 +20,6 @@ const createLayer = (key, layer, env) => {
         // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
         const MConfig = transform({id, sections})
         self.options = MConfig.create()
-        console.log(self.options.getRelationFields('columnSelect'))
         self.data = MDataField.create(
           {
             type: 'data',
