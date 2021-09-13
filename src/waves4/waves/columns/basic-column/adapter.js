@@ -4,14 +4,18 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init(options) {
-      console.log('------')
+      console.log('adapter init')
       console.log(options)
-      // const instance = createWave(translate(options))
-      // return instance
+
+      // const a = new A({
+      //   fontSize: options.get('label.text.xxxx'),
+      // })
     },
 
     // 处理包括数据、样式等变更
     update(options) {
+      console.log('update')
+      console.log(options)
       // updateWave(options)
     },
 

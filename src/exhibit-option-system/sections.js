@@ -100,6 +100,24 @@ const label = {
   ],
 }
 
+// 面积
+const area = {
+  name: 'area',
+  // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效
+  effective: false,
+  fields: [
+    {
+      name: 'colorSingle',
+    },
+    {
+      name: 'opacity',
+    },
+    {
+      name: 'lineWidth',
+    },
+  ],
+}
+
 // 线
 const line = {
   name: 'line',
@@ -149,6 +167,14 @@ const stroke = {
 // 点
 const point = {
   name: 'line',
+  fields: [
+    {
+      name: 'size',
+    },
+    {
+      name: 'relativePosition',
+    },
+  ],
   sections: [
     {
       name: 'fill',
@@ -216,6 +242,8 @@ export default {
   format,
   // 标签
   label,
+  // 面积
+  area,
   // 线
   line,
   // 填充
