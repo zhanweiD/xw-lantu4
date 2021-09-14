@@ -32,10 +32,24 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
         <div className="omit" title={name}>
           {name}
         </div>
-        <div className="fbn">{icon}</div>
+        <div
+          className="fbn"
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+        >
+          {icon}
+        </div>
         {type === 1 && <div className={c('fb1 ml8', s.dashed)} />}
       </div>
-      <div className={'fbn'}>{extra}</div>
+      <div
+        className={'fbn'}
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
+        {extra}
+      </div>
     </div>
   )
 }

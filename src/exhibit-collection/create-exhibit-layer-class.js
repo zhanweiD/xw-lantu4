@@ -4,7 +4,7 @@ import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
 import {MDataField} from '../builders/data-section'
 
-const createLayer = (key, layer, env) => {
+export const createLayer = (key, layer, env) => {
   const {name, type, id = uuid(), sections} = layer
   const MLayer = types
     .model(`M${key}Layer`, {

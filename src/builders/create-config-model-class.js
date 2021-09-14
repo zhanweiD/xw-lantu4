@@ -3,6 +3,7 @@ import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import createLog from '@utils/create-log'
+import commonAction from '@utils/common-action'
 import {
   MTextField,
   MNumberField,
@@ -76,6 +77,7 @@ const createSectionClass = (node) => {
     .model('MSection', {
       name: types.optional(types.string, node.name),
     })
+    .actions(commonAction(['set']))
     .actions((self) => {
       const afterCreate = () => {
         if (isArray(node.fields)) {

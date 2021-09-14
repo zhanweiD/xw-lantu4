@@ -56,12 +56,14 @@ export const createExhibitModelClass = (exhibit) => {
           const {sections} = nodes
           const values = {}
           sections.forEach((node) => {
-            values[node.name] = {
-              ...node.fields,
-            }
+            if (node.effective) {
+              values[node.name] = {
+                ...node.fields,
+              }
 
-            if (node.sections) {
-              values[node.name] = {...values[node.name], ...getLayerData(node)}
+              if (node.sections) {
+                values[node.name] = {...values[node.name], ...getLayerData(node)}
+              }
             }
           })
           return values
@@ -84,13 +86,24 @@ export const createExhibitModelClass = (exhibit) => {
         self.layers = layers
       }
 
+      const addLayer = () => {
+        console.log('addLayer')
+      }
+
+      // 这里是每一个层需要做的事情，暂时未实现，先占位
+      const doSomething = () => {
+        console.log('open menu')
+      }
+
       return {
         afterCreate,
         setCachedData,
         setContext,
         setAdapter,
+        addLayer,
         setLayers,
         getLayers,
+        doSomething,
       }
     })
 
