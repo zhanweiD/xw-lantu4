@@ -47,11 +47,6 @@ const createFieldClass = (fields) => {
           return self.setValue(schema)
         },
       }))
-      // 如果有views，重新创建模型
-      if (isFunction(field.views)) {
-        MFieldModel = MFieldModel.views((self) => field.views(self))
-      }
-
       result.push({[field.name]: MFieldModel.create(field)})
     } else {
       log.warn(`Field for '${field.type}' is NOT supported yet!`)

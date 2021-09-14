@@ -1,10 +1,11 @@
 import {types, getEnv} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import {MDataField} from '../builders/data-section'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
-  const {config} = exhibit
+  const {config, data} = exhibit
 
   const MExhibit = types
     .model(`MExhibit${config.key}`, {
@@ -96,6 +97,26 @@ export const createExhibitModelClass = (exhibit) => {
         console.log('open menu')
       }
 
+      const setData = () => {
+        const relationModels = []
+        self.layers.forEach((layer) => {
+          relationModels.push(...layer.options.getRelationFields('columnSelect'))
+        })
+        self.data = MDataField.create(
+          {
+            type: 'data',
+            sectionStyleType: 0,
+            relationModels,
+          },
+          {
+            art: self.art_,
+            event: self.event_,
+            globalData: self.globalData_,
+            projectData: self.projectData_,
+            officialData: self.officialData_,
+          }
+        )
+      }
       return {
         afterCreate,
         setCachedData,
@@ -105,6 +126,7 @@ export const createExhibitModelClass = (exhibit) => {
         setLayers,
         getLayers,
         doSomething,
+        setData,
       }
     })
 

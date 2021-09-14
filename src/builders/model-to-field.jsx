@@ -83,6 +83,7 @@ const ModelToField = ({model}) => {
         <DataField
           className="ml24 mt8"
           value={model.value}
+          type={model.sectionStyleType}
           globalData={model.globalData_}
           projectData={model.projectData_}
           officialData={model.officialData_}

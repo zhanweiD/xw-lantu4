@@ -48,7 +48,7 @@ const DataField = ({
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-      <div className="fbh fbjc mt8 ml24">
+      <div className="fbh fbjc mt8 ml24 mb8">
         <Check
           value={value.type}
           options={[

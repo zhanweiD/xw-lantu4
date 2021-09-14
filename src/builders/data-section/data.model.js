@@ -30,6 +30,7 @@ const MValue = types
 export const MDataField = types
   .model('MDataField', {
     type: types.enumeration(['data']),
+    sectionStyleType: types.optional(types.number, 1),
     value: types.maybe(MValue),
     defaultValue: types.optional(MValue, {}),
     relationModels: types.optional(types.frozen(), []),
