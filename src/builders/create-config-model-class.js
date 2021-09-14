@@ -47,11 +47,6 @@ const createFieldClass = (fields) => {
           return self.setValue(schema)
         },
       }))
-      // 如果有views，重新创建模型
-      if (isFunction(field.views)) {
-        MFieldModel = MFieldModel.views((self) => field.views(self))
-      }
-
       result.push({[field.name]: MFieldModel.create(field)})
     } else {
       log.warn(`Field for '${field.type}' is NOT supported yet!`)
@@ -100,7 +95,7 @@ const createSectionClass = (node) => {
           })
           values.sections = data
         }
-        if (self.effective) {
+        if (isDef(self.effective)) {
           values.effective = self.effective
         }
         if (self.fields) {
