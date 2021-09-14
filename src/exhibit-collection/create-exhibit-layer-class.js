@@ -4,15 +4,15 @@ import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
 import {MDataField} from '../builders/data-section'
 
-const createLayer = (key, layer, env) => {
+export const createLayer = (key, layer, env) => {
   const {name, type, id = uuid(), sections} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
-      normalKeys: types.frozen(['id', 'type', 'name', 'data']),
-      deepKeys: types.frozen(['options']),
+      normalKeys: types.frozen(['id', 'type', 'name']),
+      deepKeys: types.frozen(['options', 'data']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {

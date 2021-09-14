@@ -23,7 +23,9 @@ const ArtOption = ({art}) => {
   return (
     <Tab sessionId="material-option" className="fb1">
       <Tab.Item name="数据呈现">
-        <Scroll className="h100p">{exhibit && <Builder data={exhibit.data} layers={exhibit.layers} />}</Scroll>
+        <Scroll className="h100p">
+          {exhibit && <Builder data={exhibit.data} layers={exhibit.layers} exhibit={exhibit} />}
+        </Scroll>
       </Tab.Item>
     </Tab>
   )
