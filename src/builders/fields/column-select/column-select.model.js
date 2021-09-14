@@ -37,7 +37,7 @@ export const MColumnSelectField = types
     }
 
     const update = (table) => {
-      const options = hJSON.parse(table)[0].map((v) => ({
+      const options = hJSON.parse(table)[0]?.map((v) => ({
         key: `${v}`,
         value: v,
       }))

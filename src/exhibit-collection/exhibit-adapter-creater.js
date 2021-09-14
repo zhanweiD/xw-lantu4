@@ -59,14 +59,14 @@ const createExhibitAdapter = (hooks) =>
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
-      // this.data = this.model.getData()
+      this.data = this.model.getData()
       this.layers = this.model.getLayers()
 
       const instanceOption = {
         container: this.container,
 
         layers: this.layers,
-
+        data: this.data,
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,

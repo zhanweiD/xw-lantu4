@@ -17,7 +17,7 @@ export const createExhibitModelClass = (exhibit) => {
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
-      deepKeys: types.frozen(['layers']),
+      deepKeys: types.frozen(['layers', 'data']),
     })
     .views((self) => ({
       get art_() {
@@ -76,8 +76,10 @@ export const createExhibitModelClass = (exhibit) => {
             id,
             name,
             type,
-            data,
             options: getLayerData(options),
+          }
+          if (exhibit.key !== 'demo') {
+            values.data = data
           }
           return values
         })
@@ -117,6 +119,9 @@ export const createExhibitModelClass = (exhibit) => {
           }
         )
       }
+      const getData = () => {
+        return self.data.getSchema()
+      }
       return {
         afterCreate,
         setCachedData,
@@ -127,6 +132,7 @@ export const createExhibitModelClass = (exhibit) => {
         getLayers,
         doSomething,
         setData,
+        getData,
       }
     })
 
