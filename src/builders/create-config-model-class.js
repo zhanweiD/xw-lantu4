@@ -119,17 +119,21 @@ const createSectionClass = (node) => {
             if (['name', 'effective'].find((v) => v === key)) {
               self[key] = value
             } else if (key === 'sections') {
-              self[key].forEach((section) => {
-                if (value.find((v) => v.name === section.name)) {
-                  section.setSchema(value.find((v) => v.name === section.name))
-                }
-              })
-            } else if (key === 'fields') {
-              self[key].forEach((v) => {
-                Object.entries(v).forEach(([k, x]) => {
-                  x.setSchema(value[k])
+              if (self[key]) {
+                self[key].forEach((section) => {
+                  if (value.find((v) => v.name === section.name)) {
+                    section.setSchema(value.find((v) => v.name === section.name))
+                  }
                 })
-              })
+              }
+            } else if (key === 'fields') {
+              if (self[key]) {
+                self[key].forEach((v) => {
+                  Object.entries(v).forEach(([k, x]) => {
+                    x.setSchema(value[k])
+                  })
+                })
+              }
             }
           })
         }
@@ -180,7 +184,6 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
 
   let fields
   const sections = []
-  console.log(config, 'configs')
   if (isArray(config.sections)) {
     config.sections.forEach((section) => {
       sections.push(createSectionClass(section))
@@ -208,17 +211,21 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
           if (_keys.find((v) => v === key)) {
             self[key] = value
           } else if (key === 'sections') {
-            self[key].forEach((section) => {
-              if (value.find((v) => v.name === section.name)) {
-                section.setSchema(value.find((v) => v.name === section.name))
-              }
-            })
-          } else if (key === 'fields') {
-            self[key].forEach((v) => {
-              Object.entries(v).forEach(([k, x]) => {
-                x.setSchema(value[k])
+            if (self[key]) {
+              self[key].forEach((section) => {
+                if (value.find((v) => v.name === section.name)) {
+                  section.setSchema(value.find((v) => v.name === section.name))
+                }
               })
-            })
+            }
+          } else if (key === 'fields') {
+            if (self[key]) {
+              self[key].forEach((v) => {
+                Object.entries(v).forEach(([k, x]) => {
+                  x.setSchema(value[k])
+                })
+              })
+            }
           }
         })
       } else {

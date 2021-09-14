@@ -1,4 +1,3 @@
-import isDef from '@utils/is-def'
 import isArray from 'lodash/isArray'
 import mappingConfig from '../exhibit-option-system/fields'
 import allSections from '../exhibit-option-system/sections'
@@ -7,7 +6,9 @@ import createConfigModelClass from '../builders/create-config-model-class'
 const getFields = (fields) => {
   return fields.map((field) => {
     const config = mappingConfig[field.name]
-    return {...config, ...field}
+    if (config) {
+      return {...config, ...field}
+    }
   })
 }
 
@@ -18,15 +19,12 @@ const recusiveNode = (nodes) => {
     let section
     const res = {}
     section = allSections[node.name]
-    if (!isDef(fields)) {
-      fields = section.fields
-    }
     if (isArray(subSections)) {
       subSections = subSections.filter((sSection) => section.sections?.some((v) => v.name === sSection.name))
       res.sections = recusiveNode(subSections)
     }
 
-    if (isDef(fields)) {
+    if (isArray(fields)) {
       res.fields = getFields(fields)
     }
 
@@ -42,7 +40,7 @@ export const transform = ({id, type, name, sections, fields}) => {
   if (isArray(sections)) {
     props.sections = recusiveNode(sections)
   }
-  if (isDef(fields)) {
+  if (isArray(fields)) {
     props.fields = getFields(fields)
   }
 
