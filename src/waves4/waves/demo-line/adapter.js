@@ -29,17 +29,18 @@ const Adapter = () =>
         //   text: 'ECharts entry example',
         // },
         tooltip: {},
-        legend: {
-          data: ['Sales'],
-        },
+        // legend: {
+        //   data: ['Sales'],
+        // },
         xAxis: {
+          type: 'category',
           data: ['shirt', 'cardign', 'chiffon shirt', 'pants', 'heels', 'socks'],
         },
         yAxis: {},
         series: [
           {
             name: 'Sales',
-            type: 'line',
+            type: 'bar',
             data: [5, 20, 36, 10, 10, 20],
           },
         ],

@@ -10,6 +10,7 @@ const lineLayer = (k) => ({
       fields: [
         {
           name: 'column',
+          defaultValue: ['成员名称'],
         },
       ],
     },
