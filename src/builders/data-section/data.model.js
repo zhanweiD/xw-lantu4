@@ -81,7 +81,7 @@ export const MDataField = types
     }
 
     const getSchema = () => {
-      self.getValue()
+      return self.getValue()
     }
 
     const setSchema = (schema) => {

@@ -11,8 +11,8 @@ const createLayer = (key, layer, env) => {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
-      normalKeys: types.frozen(['id', 'type', 'name', 'data']),
-      deepKeys: types.frozen(['options']),
+      normalKeys: types.frozen(['id', 'type', 'name']),
+      deepKeys: types.frozen(['options', 'data']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {
