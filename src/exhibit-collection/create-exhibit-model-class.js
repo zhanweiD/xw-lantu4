@@ -1,5 +1,6 @@
 import {types, getEnv} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
+import isDef from '@utils/is-def'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -56,7 +57,7 @@ export const createExhibitModelClass = (exhibit) => {
           const {sections} = nodes
           const values = {}
           sections.forEach((node) => {
-            if (!idDef(node.effective) || node.effective) {
+            if (!isDef(node.effective) || node.effective) {
               values[node.name] = {
                 ...node.fields,
               }
