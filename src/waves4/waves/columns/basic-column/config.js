@@ -8,6 +8,11 @@ const pointLayer = (k) => ({
   sections: [
     {
       name: 'line',
+      fields: [
+        {
+          name: 'column',
+        },
+      ],
     },
     {
       name: 'point',
@@ -23,12 +28,12 @@ const pointLayer = (k) => ({
       sections: [
         {
           name: 'text',
-        },
-        {
-          name: 'shadow',
-        },
-        {
-          name: 'format',
+          fields: [
+            {
+              name: 'textSize',
+              defaultValue: 15,
+            },
+          ],
         },
       ],
     },

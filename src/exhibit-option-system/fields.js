@@ -328,6 +328,13 @@ const url = {
   defaultValue: '',
 }
 
+// 内容
+const content = {
+  type: 'text',
+  label: 'content',
+  defaultValue: '',
+}
+
 // 字号
 const textSize = {
   type: 'number',
@@ -538,6 +545,8 @@ export default {
   name,
   // URL
   url,
+  // 内容
+  content,
   // 字号
   textSize,
   // 字重
