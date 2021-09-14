@@ -56,7 +56,7 @@ export const createExhibitModelClass = (exhibit) => {
           const {sections} = nodes
           const values = {}
           sections.forEach((node) => {
-            if (node.effective) {
+            if (!idDef(node.effective) || node.effective) {
               values[node.name] = {
                 ...node.fields,
               }
