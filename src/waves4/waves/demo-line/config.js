@@ -10,7 +10,7 @@ const lineLayer = (k) => ({
       fields: [
         {
           name: 'column',
-          defaultValue: ['成员名称'],
+          defaultValue: ['项目交付'],
         },
       ],
     },
@@ -44,6 +44,10 @@ export const config = (k) => ({
   key: 'demo',
   name: k('line'),
   data,
+  // 维度数量范围
+  dimensionRange: [1, 1],
+  // 初始状态的维度列
+  dimensionColumn: ['成员名称'],
   // 图表容器初始化的大小
   layout: () => [400, 200],
   // 图表主绘图区域的内边距
