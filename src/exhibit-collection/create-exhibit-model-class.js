@@ -120,7 +120,7 @@ export const createExhibitModelClass = (exhibit) => {
         )
       }
       const getData = () => {
-        return self.data.getSchema()
+        return self.data ? self.data.getSchema() : undefined
       }
       return {
         afterCreate,

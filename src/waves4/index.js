@@ -1,11 +1,14 @@
-import basicColumn from "./waves/columns/basic-column"
-import i18n from "@i18n"
+import basicColumn from './waves/columns/basic-column'
+import demoLine from './waves/demo-line'
+import i18n from '@i18n'
 
 const waves = {
-  basicColumn
+  basicColumn,
+  demoLine,
 }
 
 Object.values(waves).forEach((wave) => {
+  console.log(wave)
   const k = i18n.sandbox(wave.i18n, wave.id || wave.icon)
   wave.config = wave.config(k)
   wave.Adapter = wave.Adapter(k)
@@ -16,12 +19,20 @@ export default waves
 const categories = [
   {
     // 柱状图
-    name: "classifyColumn",
-    icon: "exhibit-rect",
+    name: 'classifyColumn',
+    icon: 'exhibit-rect',
     exhibits: [
-      basicColumn // 基础柱状图
-    ]
-  }
+      basicColumn, // 基础柱状图
+    ],
+  },
+  {
+    // 演示对接
+    name: 'demo',
+    icon: 'demo-line',
+    exhibits: [
+      demoLine, // 折线
+    ],
+  },
 ]
 
 categories.forEach((category) => {
@@ -31,7 +42,7 @@ categories.forEach((category) => {
       category.exhibits[i] = {
         ...exhibit,
         key: config.key,
-        name: config.name
+        name: config.name,
       }
     }
   })
