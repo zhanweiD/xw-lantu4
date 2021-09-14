@@ -17,7 +17,7 @@ export const MEditorTab = types
     material: types.maybe(MMaterial),
     data: types.maybe(MDataTab),
     initArt: types.maybe(MArtInit),
-    tabOptions: types.frozen(),
+    tabOptions: types.optional(types.frozen(), {}),
     art: types.maybe(MArt),
     dataSourceManager: types.maybe(MDataSourceManager),
   })
@@ -40,7 +40,6 @@ export const MEditorTab = types
         }
         self.projectDetail.getDetail()
       }
-
       if (type === 'artInit') {
         const {projectId} = tabOptions
         self.initArt = {
@@ -59,8 +58,11 @@ export const MEditorTab = types
       }
       if (type === 'material') {
         if (!self.material) {
+          const {projectId, folderId} = self.tabOptions
           self.material = {
             materialId: self.id,
+            projectId,
+            folderId,
           }
           self.material.getMaterialDetail()
         }
@@ -70,9 +72,7 @@ export const MEditorTab = types
         event.fire('materialPanel.setProjectId', {projectId: null})
       } else {
         const {projectId} = self.tabOptions
-        event.fire('materialPanel.setProjectId', {
-          projectId,
-        })
+        event.fire('materialPanel.setProjectId', {projectId})
       }
       if (type === 'data') {
         if (!self.data) {

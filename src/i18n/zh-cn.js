@@ -70,7 +70,7 @@ export default {
     space: '空间素材',
     official: '官方素材',
     collect: '收藏列表',
-    materialCreate: '创建素材文件夹',
+    materialCreate: '新建素材文件夹',
     logInfo: '日志信息',
     basicInfo: '基本信息',
     creater: '添加人',
@@ -558,7 +558,7 @@ export default {
     slogan: 'slogan',
   },
   namePlaceholder: '2～32位，中英文、数字、下划线',
-  detailPlaceholder: '描述为200字以内',
+  descriptionPlaceholder: '描述为200字以内',
   organization: {
     personalSpace: '个人空间',
     organizationInfo: '组织信息',

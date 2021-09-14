@@ -554,7 +554,8 @@ export default {
     submit: 'Submit',
     slogan: 'slogan',
   },
-  namePlaceholder: '2-32 digits, Chinese and English, numerals, underlined',
+  namePlaceholder: '1~32 digits, Chinese and English, numerals, underlined',
+  descriptionPlaceholder: 'Description is within 200 words',
   organization: {
     personalSpace: 'PersonalSpace',
     organizationInfo: 'Organization Information',

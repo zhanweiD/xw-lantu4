@@ -1,15 +1,15 @@
-import onerIO from "oner-io"
+import onerIO from 'oner-io'
 
 export const context = onerIO.context({
   rest: true,
   header: {
-    "Content-Type": "application/json;charset=utf-8"
+    'Content-Type': 'application/json;charset=utf-8',
   },
   // 如果设为 true, 需要服务端设置响应头 Access-Control-Allow-Origin 为具体的白名单
   withCredentials: false,
   mock: false,
-  mockUrlPrefix: "http://119.45.200.52:38080/app/mock/20/",
-  urlPrefix: "/api/v4/waveview/",
+  mockUrlPrefix: 'http://119.45.200.52:38080/app/mock/20/',
+  urlPrefix: '/api/v4/waveview/',
   // 添加额外参数后端会报错
   urlMark: false,
   urlStamp: true,
@@ -17,12 +17,12 @@ export const context = onerIO.context({
     if (response.code === 403) {
       window.waveview.session.remove()
     } else if (response.success === false) {
-      if (response.code === "ERROR_USER_NOT_LOGGED") {
-        window.location.href = "/login"
+      if (response.code === 'ERROR_USER_NOT_LOGGED') {
+        window.location.href = '/login'
       } else {
         this.toReject({
           message: response.message,
-          code: response.code
+          code: response.code,
         })
       }
     } else {
@@ -32,14 +32,14 @@ export const context = onerIO.context({
         this.toResolve(response)
       }
     }
-  }
+  },
 })
 
 // 操作项目的接口
-context.create("io.project", {
+context.create('io.project', {
   getProjects: {
-    method: "GET",
-    url: "project",
+    method: 'GET',
+    url: 'project',
     process(content) {
       content.list.map((project) => {
         project.arts.map((art) => {
@@ -49,408 +49,412 @@ context.create("io.project", {
         return project
       })
       return content
-    }
+    },
   },
   create: {
-    method: "POST",
-    url: "project"
+    method: 'POST',
+    url: 'project',
   },
   update: {
-    method: "PUT",
-    url: "project/:projectId"
+    method: 'PUT',
+    url: 'project/:projectId',
   },
   remove: {
-    method: "DELETE",
-    url: "project/:projectId"
+    method: 'DELETE',
+    url: 'project/:projectId',
   },
   sort: {
-    method: "POST",
-    url: "project/:projectId/art/sort"
+    method: 'POST',
+    url: 'project/:projectId/art/sort',
   },
   getDetail: {
-    method: "GET",
-    url: "project/:projectId"
+    method: 'GET',
+    url: 'project/:projectId',
   },
   addMembers: {
-    method: "POST",
-    url: "project/:projectId/members"
+    method: 'POST',
+    url: 'project/:projectId/members',
   },
   removeMembers: {
-    url: "project/:projectId/members",
-    method: "DELETE"
+    url: 'project/:projectId/members',
+    method: 'DELETE',
   },
   authorizeRole: {
-    method: "PUT",
-    url: "project/:projectId/members/authorize"
+    method: 'PUT',
+    url: 'project/:projectId/members/authorize',
   },
   quit: {
-    url: "project/:projectId/quit",
-    method: "DELETE"
+    url: 'project/:projectId/quit',
+    method: 'DELETE',
   },
   getTemplates: {
-    method: "GET",
-    url: "template"
+    method: 'GET',
+    url: 'template',
   },
   removeTemplate: {
-    method: "DELETE",
-    url: "template/:templateId",
+    method: 'DELETE',
+    url: 'template/:templateId',
     willFetch: (vars, config) => {
       config.query = vars.data
-    }
-  }
+    },
+  },
 })
 
-context.create("io.data", {
+context.create('io.data', {
   // 创建
   createDataFolder: {
-    method: "POST",
-    url: "data/folder"
+    method: 'POST',
+    url: 'data/folder',
   },
   createDataSource: {
-    method: "POST",
-    url: "data/source"
+    method: 'POST',
+    url: 'data/source',
   },
   createData: {
-    method: "POST",
-    url: "data"
+    method: 'POST',
+    url: 'data',
   },
   parseExcel: {
-    method: "POST",
-    url: "data/parse/excel"
+    method: 'POST',
+    url: 'data/parse/excel',
   },
   removeDataFolder: {
-    method: "DELETE",
-    url: "data/folder/:folderId"
+    method: 'DELETE',
+    url: 'data/folder/:folderId',
   },
   removeDataSource: {
-    method: "DELETE",
-    url: "data/source/:dataSourceId"
+    method: 'DELETE',
+    url: 'data/source/:dataSourceId',
   },
   removeData: {
-    method: "DELETE",
-    url: "data/:dataId"
+    method: 'DELETE',
+    url: 'data/:dataId',
   },
   getDataFolder: {
-    method: "GET",
-    url: "data/folder",
+    method: 'GET',
+    url: 'data/folder',
     mock: false,
-    mockUrl: "data/folder"
+    mockUrl: 'data/folder',
   },
   getDataSource: {
-    method: "GET",
-    url: "data/source"
+    method: 'GET',
+    url: 'data/source',
   },
   getData: {
-    method: "GET",
-    url: "data/:dataId/detail"
+    method: 'GET',
+    url: 'data/:dataId/detail',
   },
   // 接口代理
   proxy: {
-    method: "POST",
-    url: "proxy"
+    method: 'POST',
+    url: 'proxy',
   },
   getDatabases: {
-    method: "POST",
-    url: "data/source/database"
+    method: 'POST',
+    url: 'data/source/database',
   },
   getDatabaseResult: {
-    method: "GET",
-    url: "data/source/:dataSourceId/query"
+    method: 'GET',
+    url: 'data/source/:dataSourceId/query',
   },
   test: {
-    method: "GET",
-    url: "database/test"
+    method: 'GET',
+    url: 'database/test',
   },
   updateData: {
-    method: "PUT",
-    url: "data/:dataId"
+    method: 'PUT',
+    url: 'data/:dataId',
   },
   updateDataSource: {
-    method: "PUT",
-    url: "data/source/:dataSourceId"
+    method: 'PUT',
+    url: 'data/source/:dataSourceId',
   },
   getDatasInfo: {
-    method: "GET",
-    url: "bulk/data"
-  }
+    method: 'GET',
+    url: 'bulk/data',
+  },
 })
 
-context.create("io.project.data", {
+context.create('io.project.data', {
   createData: {
-    method: "POST",
-    url: "project/:projectId/data"
+    method: 'POST',
+    url: 'project/:projectId/data',
   },
   createDataSource: {
-    method: "POST",
-    url: "project/:projectId/data/source"
+    method: 'POST',
+    url: 'project/:projectId/data/source',
   },
   getDataList: {
-    method: "GET",
-    url: "project/:projectId/data"
+    method: 'GET',
+    url: 'project/:projectId/data',
   },
   getDataSource: {
-    method: "GET",
-    url: "project/:projectId/data/source"
+    method: 'GET',
+    url: 'project/:projectId/data/source',
   },
   removeDataSource: {
-    method: "DELETE",
-    url: "project/:projectId/data/source/:dataSourceId"
+    method: 'DELETE',
+    url: 'project/:projectId/data/source/:dataSourceId',
   },
   removeData: {
-    method: "DELETE",
-    url: "project/:projectId/data/:dataId"
+    method: 'DELETE',
+    url: 'project/:projectId/data/:dataId',
   },
   updateDataSource: {
-    method: "PUT",
-    url: "project/:projectId/data/source/:dataSourceId"
+    method: 'PUT',
+    url: 'project/:projectId/data/source/:dataSourceId',
   },
   updateData: {
-    method: "PUT",
-    url: "project/:projectId/data/:dataId"
+    method: 'PUT',
+    url: 'project/:projectId/data/:dataId',
   },
   getData: {
-    method: "GET",
-    url: "project/:projectId/data/:dataId/detail"
-  }
+    method: 'GET',
+    url: 'project/:projectId/data/:dataId/detail',
+  },
 })
 
-context.create("io.art", {
+context.create('io.art', {
   create: {
-    method: "POST",
-    url: "project/:projectId/art"
+    method: 'POST',
+    url: 'project/:projectId/art',
   },
   getDetail: {
-    method: "GET",
-    url: "art/:artId"
+    method: 'GET',
+    url: 'art/:artId',
   },
   remove: {
-    method: "DELETE",
-    url: "project/:projectId/art/:artId"
+    method: 'DELETE',
+    url: 'project/:projectId/art/:artId',
   },
   update: {
-    method: "PUT",
-    url: "project/:projectId/art/:artId"
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId',
   },
   addFrame: {
-    method: "POST",
-    url: "project/:projectId/art/:artId/frame"
+    method: 'POST',
+    url: 'project/:projectId/art/:artId/frame',
   },
   updateFrame: {
-    method: "PUT",
-    url: "project/:projectId/art/:artId/frame/:frameId"
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId/frame/:frameId',
   },
   removeFrame: {
-    method: "DELETE",
-    url: "project/:projectId/art/:artId/frame/:frameId"
+    method: 'DELETE',
+    url: 'project/:projectId/art/:artId/frame/:frameId',
   },
   createBox: {
-    method: "POST",
-    url: "project/:projectId/art/:artId/:frameId/box"
+    method: 'POST',
+    url: 'project/:projectId/art/:artId/:frameId/box',
   },
   getBox: {
-    method: "GET",
-    url: "art/:artId/:frameId/box"
+    method: 'GET',
+    url: 'art/:artId/:frameId/box',
   },
   updateBox: {
-    method: "PUT",
-    url: "project/:projectId/art/:artId/frame/:frameId/box/:boxId"
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId/frame/:frameId/box/:boxId',
   },
   updateBoxes: {
-    method: "PUT",
-    url: "project/:projectId/art/:artId/move/boxes"
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId/move/boxes',
   },
   removeBoxes: {
-    method: "POST",
-    url: "project/:projectId/art/:artId/delete/boxes"
+    method: 'POST',
+    url: 'project/:projectId/art/:artId/delete/boxes',
   },
   publish: {
-    method: "POST",
-    url: "project/:projectId/art/:artId/publish"
+    method: 'POST',
+    url: 'project/:projectId/art/:artId/publish',
   },
   getPublishDetail: {
-    method: "GET",
-    url: "art/publish/:publishId/online"
+    method: 'GET',
+    url: 'art/publish/:publishId/online',
   },
   getPublishVersions: {
-    method: "GET",
-    url: "art/:artId/version"
+    method: 'GET',
+    url: 'art/:artId/version',
   },
   updateVersionStatus: {
-    method: "PUT",
-    url: "project/:projectId/art/:artId/:versionId/:action"
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId/:versionId/:action',
   },
   removeVersion: {
-    method: "DELETE",
-    url: "project/:projectId/art/:artId/:versionId/version"
+    method: 'DELETE',
+    url: 'project/:projectId/art/:artId/:versionId/version',
   },
   copy: {
-    method: "POST",
-    url: "project/:projectId/copy/art/:artId"
+    method: 'POST',
+    url: 'project/:projectId/copy/art/:artId',
   },
   saveAsTemplate: {
-    method: "POST",
-    url: "art/:artId/template"
+    method: 'POST',
+    url: 'art/:artId/template',
   },
   getThumbnail: {
-    method: "POST",
-    url: "art/:artId/capture"
-  }
+    method: 'POST',
+    url: 'art/:artId/capture',
+  },
 })
 
-context.create("io.auth", {
+context.create('io.auth', {
   login: {
-    method: "POST",
-    url: "login"
+    method: 'POST',
+    url: 'login',
   },
   register: {
-    method: "POST",
-    url: "register"
+    method: 'POST',
+    url: 'register',
   },
   loginInfo: {
-    method: "GET",
-    url: "user/login_info"
+    method: 'GET',
+    url: 'user/login_info',
   },
   // 退出登陆
   logout: {
-    method: "POST",
-    url: "logout"
+    method: 'POST',
+    url: 'logout',
   },
   // 验证码
   getSMSCode: {
-    method: "POST",
-    url: "sms/code"
-  }
+    method: 'POST',
+    url: 'sms/code',
+  },
 })
-context.create("io.user", {
+context.create('io.user', {
   update: {
-    method: "put",
-    url: "user"
+    method: 'put',
+    url: 'user',
   },
   changeWorkspace: {
-    method: "PUT",
-    url: "user/change_workspace"
+    method: 'PUT',
+    url: 'user/change_workspace',
   },
   changeLoginDefault: {
-    method: "PUT",
-    url: "user/change_login_default"
+    method: 'PUT',
+    url: 'user/change_login_default',
   },
   top: {
-    method: "POST",
-    url: "top/:type"
-  }
+    method: 'POST',
+    url: 'top/:type',
+  },
 })
-context.create("io.organization", {
+context.create('io.organization', {
   getOrganizationList: {
-    method: "GET",
-    url: "organization"
+    method: 'GET',
+    url: 'organization',
   },
   // 创建组织
   create: {
-    method: "POST",
-    url: "organization"
+    method: 'POST',
+    url: 'organization',
   },
   updateOrgById: {
-    method: "PUT",
-    url: "organization/:organizationId"
+    method: 'PUT',
+    url: 'organization/:organizationId',
   },
   // 删除组织
   removeOrganization: {
-    method: "DELETE",
-    url: "organization/:organizationId"
+    method: 'DELETE',
+    url: 'organization/:organizationId',
   },
   // 退出
   quitOrganization: {
-    method: "DELETE",
-    url: "organization/:organizationId/quit"
+    method: 'DELETE',
+    url: 'organization/:organizationId/quit',
   },
   search: {
-    method: "GET",
-    url: "organization/:organizationId/user/search"
+    method: 'GET',
+    url: 'organization/:organizationId/user/search',
   },
   getOrgMembers: {
-    method: "GET",
-    url: "organization/:organizationId/user"
+    method: 'GET',
+    url: 'organization/:organizationId/user',
   },
   addMembers: {
-    method: "POST",
-    url: "organization/:organizationId/user"
+    method: 'POST',
+    url: 'organization/:organizationId/user',
   },
   removeMember: {
-    method: "DELETE",
-    url: "organization/:organizationId/user/:userId"
+    method: 'DELETE',
+    url: 'organization/:organizationId/user/:userId',
   },
   updateMember: {
-    method: "PUT",
-    url: "organization/:organizationId/user/:userId/authorize"
+    method: 'PUT',
+    url: 'organization/:organizationId/user/:userId/authorize',
   },
   getOrganizationInfo: {
-    method: "GET",
-    url: "organization/info"
+    method: 'GET',
+    url: 'organization/info',
   },
   updateOrganization: {
-    method: "PUT",
-    url: "organization"
+    method: 'PUT',
+    url: 'organization',
   },
   // 更新组织信息
   update: {
-    method: "PUT",
-    url: "organization"
-  }
+    method: 'PUT',
+    url: 'organization',
+  },
 })
 
-context.create("io.material", {
+context.create('io.material', {
   uploadMaterials: {
-    url: "material",
-    method: "POST"
+    url: 'material',
+    method: 'POST',
   },
   removeMaterial: {
-    method: "DELETE",
-    url: "material/:materialId"
+    method: 'DELETE',
+    url: 'material/:materialId',
   },
   removeProjectMaterial: {
-    method: "DELETE",
-    url: "project/:projectId/material/:materialId"
+    method: 'DELETE',
+    url: 'project/:projectId/material/:materialId',
   },
   updateMaterial: {
-    method: "PUT",
-    url: "material/:materialId"
+    method: 'PUT',
+    url: 'folder/:folderId/material/:materialId',
+  },
+  updateProjectMaterial: {
+    method: 'PUT',
+    url: 'project/:projectId/folder/:folderId/material/:materialId',
   },
   getMaterials: {
-    method: "GET",
-    url: "material"
+    method: 'GET',
+    url: 'material',
   },
   getProjectMaterials: {
-    method: "GET",
-    url: "project/:projectId/material"
+    method: 'GET',
+    url: 'project/:projectId/material',
   },
   createFolder: {
-    method: "POST",
-    url: "material/folder"
+    method: 'POST',
+    url: 'material/folder',
   },
   createProjectFolder: {
-    method: "POST",
-    url: "project/:projectId/material/folder"
+    method: 'POST',
+    url: 'project/:projectId/material/folder',
   },
   removeFolder: {
-    method: "DELETE",
-    url: "material/folder/:folderId"
+    method: 'DELETE',
+    url: 'material/folder/:folderId',
   },
   removeProjectFolder: {
-    method: "DELETE",
-    url: "project/:projectId/material/folder/:folderId"
+    method: 'DELETE',
+    url: 'project/:projectId/material/folder/:folderId',
   },
   sort: {
-    method: "POST",
-    url: "material/folder/:folderId/sort"
+    method: 'POST',
+    url: 'material/folder/:folderId/sort',
   },
   getMaterialDetail: {
-    method: "GET",
-    url: "material/:materialId"
+    method: 'GET',
+    url: 'material/:materialId',
   },
   getProjectMaterialDetail: {
-    method: "GET",
-    url: "/project/:projectId/material/:materialId"
-  }
+    method: 'GET',
+    url: 'project/:projectId/material/:materialId',
+  },
 })
 
 const {io} = context.api
