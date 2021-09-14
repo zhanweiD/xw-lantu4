@@ -1,4 +1,5 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
+import {createWave, translate} from '@waves4/waves/parser'
 
 const Adapter = () =>
   createExhibitAdapter({
@@ -6,10 +7,8 @@ const Adapter = () =>
     init(options) {
       console.log('adapter init')
       console.log(options)
-
-      // const a = new A({
-      //   fontSize: options.get('label.text.xxxx'),
-      // })
+      const instance = createWave(translate(options))
+      return instance
     },
 
     // 处理包括数据、样式等变更
