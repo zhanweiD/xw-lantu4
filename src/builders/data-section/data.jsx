@@ -121,7 +121,7 @@ const DataField = ({
             {value.private && (
               <div className="fbh fbw">
                 {hJSON.parse(value.private)[0]?.map((v) => (
-                  <div className={c('mr8', s.fieldPreview)} key={v}>
+                  <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
                     {v}
                   </div>
                 ))}
@@ -165,7 +165,7 @@ const DataField = ({
               {value.sourceData_ && (
                 <div className="fbh fbw">
                   {value.sourceData_[0].map((v) => (
-                    <div className={c('mr8', s.fieldPreview)} key={v}>
+                    <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
                       {v}
                     </div>
                   ))}
