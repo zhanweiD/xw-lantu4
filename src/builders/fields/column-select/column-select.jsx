@@ -27,12 +27,10 @@ const ColumnSelectField = ({
   placeholder = '请选择',
 }) => {
   const selectRef = useRef()
-
   const realvalue = valueTransform(options, value)
   const extra = isArray(value)
     ? value.filter((item) => options.map((option) => option.value).indexOf(item) === -1)
     : undefined
-
   // 重写Option
   const Option = (props) => {
     const {children} = props

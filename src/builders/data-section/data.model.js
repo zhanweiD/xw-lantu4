@@ -32,7 +32,7 @@ export const MDataField = types
     type: types.enumeration(['data']),
     value: types.maybe(MValue),
     defaultValue: types.optional(MValue, {}),
-    relationModels: types.frozen(),
+    relationModels: types.optional(types.frozen(), []),
   })
   .views((self) => ({
     get env_() {
@@ -81,11 +81,12 @@ export const MDataField = types
     }
 
     const getSchema = () => {
-      return self.getValue()
+      self.getValue()
     }
 
     const setSchema = (schema) => {
-      return self.setValue(schema)
+      self.setValue(schema)
+      self.onAction()
     }
 
     const onAction = () => {
