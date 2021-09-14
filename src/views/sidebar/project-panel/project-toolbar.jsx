@@ -1,47 +1,21 @@
 import React, {useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
+import {TextField} from '@components/field'
 import c from 'classnames'
 import IconButton from '@components/icon-button'
 import s from './project-toolbar.module.styl'
-import {createConfigModelClass} from '@components/field'
 import Modal from '@components/modal'
 import w from '@models'
-
-// 创建项目的 field 表单
-const MFieldModdal = createConfigModelClass('MFieldModdal', {
-  sections: ['__hide__'],
-  fields: [
-    {
-      section: '__hide__',
-      option: 'name',
-      field: {
-        type: 'text',
-        label: 'name',
-        placeholder: 'namePlaceholder',
-        required: true,
-      },
-    },
-    {
-      section: '__hide__',
-      option: 'description',
-      field: {
-        type: 'textarea',
-        label: 'description.description',
-        placeholder: 'detailPlaceholder',
-      },
-    },
-  ],
-})
 
 const Toolbar = ({useCreateButton}) => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {projectPanel} = sidebar
   const {set, toggleDisplay, isThumbnailVisible, isCreateModalVisible, createProject} = projectPanel
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [keyword, setKeyword] = useState('')
-  const modal = MFieldModdal.create()
-  const getProjectSchema = () => ({name: modal.name.value, description: modal.description.value})
   return (
     <div className={c('fbh fbac cfw2 pl8', s.toolbar)}>
       <input
@@ -67,15 +41,29 @@ const Toolbar = ({useCreateButton}) => {
         />
       )}
       <Modal
-        width={350}
+        width={360}
         title="新建项目"
-        model={modal}
         isVisible={isCreateModalVisible}
         buttons={[
           {name: '取消', action: () => set('isCreateModalVisible', false)},
-          {name: '确定', action: () => (set('isCreateModalVisible', false), createProject(getProjectSchema()))},
+          {name: '确定', action: () => createProject({name, description}, () => set('isCreateModalVisible', false))},
         ]}
-      />
+      >
+        <TextField
+          value={name}
+          onChange={(value) => setName(value)}
+          className="pt8 pb8"
+          label={t('name')}
+          placeholder={t('namePlaceholder')}
+        />
+        <TextField
+          value={description}
+          onChange={(value) => setDescription(value)}
+          className="pt8 pb8"
+          label={t('description.description')}
+          placeholder={t('descriptionPlaceholder')}
+        />
+      </Modal>
     </div>
   )
 }

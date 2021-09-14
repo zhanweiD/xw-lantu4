@@ -74,7 +74,7 @@ const MaterialPanel = () => {
     <Loading data={state}>
       <Tab sessionId="material-panel-tab" bodyClassName="fbv" className="w100p h100p">
         <Tab.Item name={t('materialPanel.project')}>
-          <MaterialToolbar useCreate />
+          <MaterialToolbar useCreate={projectId} />
           <Scroll className="h100p">
             {topProjectFolders.map((folder) => (
               <MaterialFolder
@@ -131,8 +131,7 @@ const MaterialPanel = () => {
       </Tab>
       <Modal
         title="新建文件夹"
-        height={160}
-        width={320}
+        width={360}
         isVisible={isVisible}
         onClose={() => set({isVisible: false})}
         buttons={[
@@ -145,7 +144,7 @@ const MaterialPanel = () => {
           onChange={(value) => setName(value)}
           className="pt8 pb8"
           label={t('name')}
-          placeholder="文件夹名称不能为空、重复"
+          placeholder={t('namePlaceholder')}
         />
       </Modal>
     </Loading>
