@@ -50,7 +50,24 @@ export const config = (k) => ({
   layers: [pointLayer(k)],
   // 下面的面板，工具内部是有固定顺序的
   // 标题面板
-  title: true,
+  title: [
+    ['titleBase.content', 'xxx.yyy.title', 'GIS地图'],
+    ['text.textSize', 'xxx.yyy.fontSize', 12],
+  ],
+
+  title: {
+    sections: [
+      {
+        name: 'titleBase',
+        fields: [
+          {
+            name: 'content',
+            defaultValue: 'GIS地图',
+          },
+        ],
+      },
+    ],
+  },
   // 图例面板
   lenged: {
     sections: [
