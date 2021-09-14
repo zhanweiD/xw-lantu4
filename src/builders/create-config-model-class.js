@@ -100,7 +100,7 @@ const createSectionClass = (node) => {
           })
           values.sections = data
         }
-        if (self.effective) {
+        if (isDef(self.effective)) {
           values.effective = self.effective
         }
         if (self.fields) {
