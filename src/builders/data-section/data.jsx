@@ -119,11 +119,11 @@ const DataField = ({
           <div className="ml24">
             <div className="mb8">字段预览</div>
             {value.private && (
-              <div>
+              <div className="fbh fbw">
                 {hJSON.parse(value.private)[0]?.map((v) => (
-                  <span className={c('mr8', s.fieldPreview)} key={v}>
+                  <div className={c('mr8', s.fieldPreview)} key={v}>
                     {v}
-                  </span>
+                  </div>
                 ))}
               </div>
             )}
@@ -163,11 +163,11 @@ const DataField = ({
             <div>
               <div className="mb8">字段预览</div>
               {value.sourceData_ && (
-                <div>
+                <div className="fbh fbw">
                   {value.sourceData_[0].map((v) => (
-                    <span className={c('mr8', s.fieldPreview)} key={v}>
+                    <div className={c('mr8', s.fieldPreview)} key={v}>
                       {v}
-                    </span>
+                    </div>
                   ))}
                 </div>
               )}

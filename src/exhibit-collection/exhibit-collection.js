@@ -66,7 +66,7 @@ export const exhibitRegister = (exhibit) => {
           })
         )
         if (config.key === 'demo') {
-          model.setData()
+          model.setData(config.data)
         }
         model.setSchema(schema)
 

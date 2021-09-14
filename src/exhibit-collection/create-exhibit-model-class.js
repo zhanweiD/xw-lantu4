@@ -1,5 +1,6 @@
 import {types, getEnv} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
+import hJSON from 'hjson'
 import isDef from '@utils/is-def'
 import {MDataField} from '../builders/data-section'
 
@@ -99,7 +100,7 @@ export const createExhibitModelClass = (exhibit) => {
         console.log('open menu')
       }
 
-      const setData = () => {
+      const setData = (data) => {
         const relationModels = []
         self.layers.forEach((layer) => {
           relationModels.push(...layer.options.getRelationFields('columnSelect'))
@@ -109,6 +110,10 @@ export const createExhibitModelClass = (exhibit) => {
             type: 'data',
             sectionStyleType: 0,
             relationModels,
+            value: {
+              type: 'private',
+              private: hJSON.stringify(data, {space: 2, quotes: 'strings', separator: true}),
+            },
           },
           {
             art: self.art_,
