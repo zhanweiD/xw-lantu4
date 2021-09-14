@@ -12,6 +12,10 @@ const pointLayer = (k) => ({
     {
       name: 'point',
     },
+    // 下面area打开会报错
+    // {
+    //   name: 'area',
+    // },
     {
       name: 'label',
       // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效

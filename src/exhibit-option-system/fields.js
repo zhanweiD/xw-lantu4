@@ -59,18 +59,18 @@ const relativePosition = {
   defaultValue: 'topCenter',
   // TODO
   options: [
-    {
-      icon: 'relative-position-top-left',
-      value: 'topLeft',
-    },
+    // {
+    //   icon: 'relative-position-top-left',
+    //   value: 'topLeft',
+    // },
     {
       icon: 'relative-position-top-center',
       value: 'topCenter',
     },
-    {
-      icon: 'relative-position-top-right',
-      value: 'topRight',
-    },
+    // {
+    //   icon: 'relative-position-top-right',
+    //   value: 'topRight',
+    // },
     {
       icon: 'relative-position-middle-left',
       value: 'middleLeft',
@@ -83,18 +83,18 @@ const relativePosition = {
       icon: 'relative-position-middle-right',
       value: 'middleRight',
     },
-    {
-      icon: 'relative-position-bottom-left',
-      value: 'bottomLeft',
-    },
+    // {
+    //   icon: 'relative-position-bottom-left',
+    //   value: 'bottomLeft',
+    // },
     {
       icon: 'relative-position-bottom-center',
       value: 'bottomCenter',
     },
-    {
-      icon: 'relative-position-bottom-right',
-      value: 'bottomRight',
-    },
+    // {
+    //   icon: 'relative-position-bottom-right',
+    //   value: 'bottomRight',
+    // },
   ],
 }
 
@@ -171,6 +171,15 @@ const eventType = {
   ],
 }
 
+// 尺寸
+const size = {
+  type: 'number',
+  label: 'size',
+  min: 1,
+  max: 100,
+  step: 1,
+}
+
 /**
  * =====================================
  * color
@@ -197,14 +206,14 @@ const colorType = {
   ],
 }
 
-// 颜色
+// 单色
 const colorSingle = {
   type: 'color',
   label: 'singleColor',
   defaultValue: '#ffffff',
 }
 
-// 颜色渐变
+// 渐变
 // TODO
 const colorGradient = {
   type: 'gradient',
@@ -485,18 +494,6 @@ const rangeNumber = {
 // 时间范围 暂不做
 
 export default {
-  // 名称
-  name,
-  // URL
-  url,
-  // 颜色类型
-  colorType,
-  // 颜色单色
-  colorSingle,
-  // 颜色渐变
-  colorGradient,
-  // 颜色列表
-  colorList,
   // 偏移
   offset,
   // 模糊
@@ -511,6 +508,16 @@ export default {
   angle,
   // 触发事件类型
   eventType,
+  // 尺寸
+  size,
+  // 颜色类型
+  colorType,
+  // 颜色单色
+  colorSingle,
+  // 颜色渐变
+  colorGradient,
+  // 颜色列表
+  colorList,
   // 普通字段
   column,
   // 经度
@@ -527,6 +534,10 @@ export default {
   gisBearing,
   // gis单位
   gisUnit,
+  // 名称
+  name,
+  // URL
+  url,
   // 字号
   textSize,
   // 字重
