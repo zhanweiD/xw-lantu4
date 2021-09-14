@@ -11,7 +11,7 @@ const getFields = (fields) => {
   })
 }
 
-const recusiveNode = (nodes, isExtend) => {
+const recusiveNode = (nodes) => {
   return nodes.map((node) => {
     let fields = node.fields
     let subSections = node.sections
@@ -19,19 +19,11 @@ const recusiveNode = (nodes, isExtend) => {
     const res = {}
     section = allSections[node.name]
     if (!isDef(fields)) {
-      fields = section.fields?.filter((v) => !v.isAdvance)
-    } else {
-      const sf = isExtend ? section.fields.filter((v) => !v.isAdvance) : section.fields
-      fields = fields.filter((field) => sf.some((v) => v.name === field.name))
+      fields = section.fields
     }
-    if (!isDef(subSections)) {
-      subSections = section.sections?.filter((v) => !v.isAdvance)
-      if (isArray(subSections)) {
-        res.sections = recusiveNode(subSections, true)
-      }
-    } else if (isArray(subSections)) {
+    if (isArray(subSections)) {
       subSections = subSections.filter((sSection) => section.sections?.some((v) => v.name === sSection.name))
-      res.sections = recusiveNode(subSections, false)
+      res.sections = recusiveNode(subSections)
     }
 
     if (isDef(fields)) {
