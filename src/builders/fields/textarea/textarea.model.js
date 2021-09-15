@@ -5,8 +5,7 @@ import commonAction from '@utils/common-action'
 export const MTextareaField = types
   .model('MTextareaField', {
     type: types.enumeration(['textarea']),
-    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
-    option: types.optional(types.string, 'option'),
+
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
     defaultValue: types.optional(types.string, ''),

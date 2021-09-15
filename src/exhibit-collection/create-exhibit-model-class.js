@@ -55,37 +55,36 @@ export const createExhibitModelClass = (exhibit) => {
         self.adapter = adapter
       }
       const getLayers = () => {
-        // const getLayerData = (nodes) => {
-        //   const {sections} = nodes
-        //   const values = {}
-        //   sections.forEach((node) => {
-        //     if (!isDef(node.effective) || node.effective) {
-        //       values[node.name] = {
-        //         ...node.fields,
-        //       }
+        const getLayerData = (nodes) => {
+          const {sections} = nodes
+          const values = {}
+          sections.forEach((node) => {
+            if (!isDef(node.effective) || node.effective) {
+              values[node.name] = {
+                ...node.fields,
+              }
 
-        //       if (node.sections) {
-        //         values[node.name] = {...values[node.name], ...getLayerData(node)}
-        //       }
-        //     }
-        //   })
-        //   return values
-        // }
-        // const layers = self.layers.map((layer) => {
-        //   const {id, type, name, options, data} = layer.getSchema()
-        //   const values = {
-        //     id,
-        //     name,
-        //     type,
-        //     options: getLayerData(options),
-        //   }
-        //   if (exhibit.key !== 'demo') {
-        //     values.data = data
-        //   }
-        //   return values
-        // })
-        // return layers
-        return []
+              if (node.sections) {
+                values[node.name] = {...values[node.name], ...getLayerData(node)}
+              }
+            }
+          })
+          return values
+        }
+        const layers = self.layers.map((layer) => {
+          const {id, type, name, options, data} = layer.getSchema()
+          const values = {
+            id,
+            name,
+            type,
+            options: getLayerData(options),
+          }
+          if (exhibit.key !== 'demo') {
+            values.data = data
+          }
+          return values
+        })
+        return layers
       }
 
       const setLayers = (layers) => {

@@ -8,8 +8,7 @@ import isNumeric from '@utils/is-numberic'
 export const MNumberField = types
   .model('MNumberField', {
     type: types.enumeration(['number']),
-    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
-    option: types.optional(types.string, 'option'),
+
     label: types.optional(types.string, ''),
     inputValue: types.frozen(),
     value: types.maybe(types.number),

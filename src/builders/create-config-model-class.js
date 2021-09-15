@@ -45,6 +45,9 @@ const createFieldsClass = (fields) => {
         setSchema(schema) {
           return self.setValue(schema)
         },
+        afterAttach() {
+          console.log('~~~~~~~~~~')
+        },
       }))
 
       initProps[field.name] = types.optional(MFieldModel, {
