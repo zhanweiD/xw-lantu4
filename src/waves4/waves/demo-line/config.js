@@ -3,14 +3,32 @@ import data from './data'
 
 const lineLayer = (k) => ({
   name: '线层',
-  type: 'lineLayer',
+  type: 'line',
   sections: [
     {
-      name: 'line',
+      name: 'data',
       fields: [
         {
           name: 'column',
           defaultValue: ['项目交付'],
+        },
+      ],
+    },
+    {
+      name: 'line',
+      fields: [
+        {
+          name: 'colorSingle',
+        },
+        {
+          name: 'opacity',
+        },
+        {
+          name: 'lineWidth',
+          defaultValue: 3,
+        },
+        {
+          name: 'lineCurve',
         },
       ],
     },
@@ -49,9 +67,9 @@ export const config = (k) => ({
   // 初始状态的维度列
   dimensionColumn: ['成员名称'],
   // 图表容器初始化的大小
-  layout: () => [400, 200],
+  layout: () => [10, 6],
   // 图表主绘图区域的内边距
-  padding: [60, 40, 40, 40],
+  padding: [0, 0, 0, 0],
   layers: [lineLayer(k)],
   // 下面的面板，工具内部是有固定顺序的
   // 标题面板

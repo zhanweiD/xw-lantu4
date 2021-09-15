@@ -165,8 +165,8 @@ export const MArtFrame = types
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round(type === 'exhibit' ? exhibit.initSize[0] : 16 * self.grid.unit_),
-        height: Math.round(type === 'exhibit' ? exhibit.initSize[0] : 9 * self.grid.unit_),
+        width: Math.round((type === 'exhibit' ? exhibit.initSize[0] : 16) * self.grid.unit_),
+        height: Math.round((type === 'exhibit' ? exhibit.initSize[1] : 9) * self.grid.unit_),
       }
       const boxId = uuid()
       const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, background}

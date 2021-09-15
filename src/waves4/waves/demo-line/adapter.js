@@ -7,46 +7,99 @@ const Adapter = () =>
       console.log('adapter init')
       console.log(options)
 
-      // const style = util.mapOptions(options.layers[0], {
-      //   'font.size': 'lable.text.textSize',
-      // })
+      const {container, data, layers} = options
 
-      // style.font.size
+      const chart = echarts.init(container, 'dark', {
+        renderer: 'svg',
+      })
 
-      // const a = new A({
-      //   fontSize: options.get('label.text.xxxx'),
-      // })
+      const series = layers.map((layer) => {
+        const {options} = layer
+        console.log('layer', layer)
+        return {
+          type: 'line',
+          // TODO 对接面板
+          encode: {
+            x: '成员名称',
+            y: '项目交付',
+          },
+          lineStyle: {
+            // TODO 对接面板
+            width: 3,
+          },
+          // TODO 对接面板
+          smooth: true,
+          symbol: 'circle',
+          // TODO 对接面板
+          symbolSize: 10,
+          label: {
+            show: true,
+            color: '#fff',
+            textShadowColor: '#000',
+            textShadowBlur: 2,
+          },
+        }
+      })
 
-      const {container} = options
-
-      // based on prepared DOM, initialize echarts instance
-      const chart = echarts.init(container, 'dark')
-
-      // specify chart configuration item and data
       const option = {
+        color: ['#d95850', '#eb8146', '#ffb248', '#f2d643', '#ebdba4', '#c4db8a'],
+        // TODO 对接面板
+        grid: {
+          right: 2,
+          top: 30,
+          bottom: 30,
+          left: 60,
+        },
+        dataset: {
+          // NOTE: 临时方案
+          source: JSON.parse(data.private),
+        },
         backgroundColor: 'transparent',
-        // title: {
-        //   text: 'ECharts entry example',
-        // },
-        tooltip: {},
-        // legend: {
-        //   data: ['Sales'],
-        // },
         xAxis: {
           type: 'category',
-          data: ['shirt', 'cardign', 'chiffon shirt', 'pants', 'heels', 'socks'],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: 'Sales',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20],
+          axisLabel: {
+            // TODO 对接面板
+            fontSize: 12,
           },
-        ],
+          axisTick: {
+            show: true,
+            alignWithLabel: true,
+            lineStyle: {
+              color: '#ccc',
+            },
+          },
+          // 主轴线
+          axisLine: {
+            lineStyle: {
+              color: '#ccc',
+            },
+          },
+          // 分割线
+          // splitLine: {
+          //   show: true,
+          //   lineStyle: {
+          //     color: '#ffff00',
+          //   },
+          // },
+        },
+
+        // 这个去掉会报错
+        yAxis: {
+          // 分割线
+          splitLine: {
+            show: true,
+            lineStyle: {
+              // TODO 对接面板
+              color: 'rgba(255, 255, 255, 0.3)',
+              type: [3, 5],
+            },
+          },
+        },
+        series,
       }
 
       chart.setOption(option)
+      return chart
     },
 
     // 处理包括数据、样式等变更
