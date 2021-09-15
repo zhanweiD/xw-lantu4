@@ -106,6 +106,7 @@ export const createExhibitModelClass = (exhibit) => {
                   type: 'variable',
                   key: `exhibit-new-layer-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
                 })
+                newStorageLayerOptions.data({})
                 Object.entries(pairs).map(([oldPath, newPath]) => {
                   newStorageLayerOptions.set(newPath, storageLayerOptions.get(oldPath))
                 })
@@ -163,6 +164,21 @@ export const createExhibitModelClass = (exhibit) => {
       const getData = () => {
         return self.data ? self.data.getSchema() : undefined
       }
+
+      // 传入的对象需要有options属性, 该方法基于options的值添加getOption和mapOption方法
+      const addOptionUtil = (obj) => {
+        if (isPlainObject(obj) && isPlainObject(obj.options)) {
+          // storage化的options数据
+          const storageOptions = onerStorage({
+            type: 'variable',
+            key: `exhibit-options-${obj.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+          })
+
+          storageOptions.data(obj.options)
+        }
+        console.warn('obj')
+      }
+
       return {
         afterCreate,
         setCachedData,

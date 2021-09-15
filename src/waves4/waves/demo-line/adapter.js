@@ -37,6 +37,7 @@ const Adapter = () =>
           symbol: 'circle',
           // 可配参数
           symbolSize: getOption('point.size'),
+          // 可配参数
           label: {
             show: true,
             color: '#fff',
@@ -117,7 +118,9 @@ const Adapter = () =>
 
     // 销毁图表实例
     destroy({instance}) {
-      instance.destroy()
+      // echart是dispose方法
+      instance.dispose()
+      // instance.destroy()
     },
 
     // 任何错误的处理

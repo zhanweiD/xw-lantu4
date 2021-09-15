@@ -491,6 +491,13 @@ const lineCurve = {
   ],
 }
 
+// 线光滑
+const lineSmooth = {
+  type: 'switch',
+  label: 'lineSmooth',
+  defaultValue: true,
+}
+
 /**
  * =====================================
  * range
@@ -570,6 +577,8 @@ export default {
   lineWidth,
   // 线样式
   lineCurve,
+  // 线光滑
+  lineSmooth,
   // 数值范围
   rangeNumber,
 }
