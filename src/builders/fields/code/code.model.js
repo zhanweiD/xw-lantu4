@@ -5,6 +5,8 @@ import commonAction from '@utils/common-action'
 export const MCodeField = types
   .model('MCodeField', {
     type: types.enumeration(['code']),
+    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
+    option: types.optional(types.string, 'option'),
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
     defaultValue: types.optional(types.string, ''),

@@ -11,6 +11,8 @@ const MKeyValue = types.model('MKeyValue', {
 export const MColumnSelectField = types
   .model('MColumnSelectField', {
     type: types.enumeration(['columnSelect']),
+    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
+    option: types.optional(types.string, 'option'),
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.frozen(),

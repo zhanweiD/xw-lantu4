@@ -72,7 +72,6 @@ const createExhibitAdapter = (hooks) =>
         ...this.size,
         isPreview: !this.isEdit,
       }
-      console.log(instanceOption)
       this.instance = hooks.init.call(this, instanceOption)
       // this.instance.event.once('ready', () => {
       //   this.event.fire('ready')
