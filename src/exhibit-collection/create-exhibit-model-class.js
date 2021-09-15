@@ -60,7 +60,8 @@ export const createExhibitModelClass = (exhibit) => {
         const getLayerData = (nodes) => {
           const {sections} = nodes
           const values = {}
-          sections.forEach((node) => {
+
+          Object.values(sections).forEach((node) => {
             if (!isDef(node.effective) || node.effective) {
               values[node.name] = {
                 ...node.fields,
@@ -162,7 +163,12 @@ export const createExhibitModelClass = (exhibit) => {
         )
       }
       const getData = () => {
-        return self.data ? self.data.getSchema() : undefined
+        const {type, private: privateData} = self.data.getSchema()
+        let data
+        if (type === 'private') {
+          data = hJSON.parse(privateData)
+        }
+        return data
       }
 
       // 传入的对象需要有options属性, 该方法基于options的值添加getOption和mapOption方法

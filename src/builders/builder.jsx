@@ -1,13 +1,12 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
 import Section from './section'
-import isArray from 'lodash/isArray'
 import ModelToField from './model-to-field'
 import IconButton from '@components/icon-button'
 import isDef from '@utils/is-def'
 
 const recusiveNode = (nodes, level = 1) => {
-  return nodes.map((node) => {
+  return Object.values(nodes).map((node) => {
     let fields = node.fields
     let subSections = node.sections
     return (
@@ -23,15 +22,13 @@ const recusiveNode = (nodes, level = 1) => {
               className="ml8"
               icon={node.effective ? 'eye-open' : 'eye-close'}
               buttonSize={18}
-              onClick={() => {
-                node.set({effective: !node.effective})
-              }}
+              onClick={node.toggleEffective}
             />
           )
         }
       >
         {isDef(fields) && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}
-        {isArray(subSections) && recusiveNode(subSections, level + 1)}
+        {isDef(subSections) && recusiveNode(subSections, level + 1)}
       </Section>
     )
   })

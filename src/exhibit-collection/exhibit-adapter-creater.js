@@ -1,4 +1,7 @@
+import {reaction} from 'mobx'
+import onerStorage from 'oner-storage'
 import createLog from '@utils/create-log'
+import random from '@utils/random'
 import createEvent from '@utils/create-event'
 
 const log = createLog('@exhibit-adapter-creater')
@@ -59,23 +62,75 @@ const createExhibitAdapter = (hooks) =>
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
-      this.data = this.model.getData()
-      this.layers = this.model.getLayers()
+      const instanceOption = this.getAllOptions()
+      this.instance = hooks.init.call(this, instanceOption)
 
+      this.observerModel()
+    }
+
+    getAllOptions() {
+      this.layers = this.model.getLayers()
       const instanceOption = {
         container: this.container,
-
         layers: this.layers,
-        data: this.data,
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,
         isPreview: !this.isEdit,
       }
-      this.instance = hooks.init.call(this, instanceOption)
-      // this.instance.event.once('ready', () => {
-      //   this.event.fire('ready')
-      // })
+      if (this.model.data) {
+        this.data = this.model.getData()
+        instanceOption.data = this.data
+      }
+      return instanceOption
+    }
+
+    observerModel() {
+      const {model} = this
+      const {data, layers} = model
+      if (data) {
+        this.observerDisposers.push(
+          reaction(
+            () => model.data.value.toJSON(),
+            () => {
+              this.update({
+                action: 'data',
+                options: this.getAllOptions(),
+                data: this.model.getData(),
+              })
+            }
+          )
+        )
+      }
+      this.model.layers.map((layer) => {
+        this.observerDisposers.push(
+          reaction(
+            () => ({key: layer.options.updateKey, value: layer.options.updateValue}),
+            () => {
+              console.log(layer.options.updateKey)
+              console.log(layer.options.updateValue)
+              const updateOptions = onerStorage({
+                type: 'variable',
+                key: `layer-options-${random()}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+              })
+              updateOptions.set(layer.options.updateKey, layer.options.updateValue)
+              this.update({
+                action: 'layer',
+                options: this.getAllOptions(),
+                updateLayer: {
+                  id: layer.id,
+                  options: updateOptions.get(),
+                },
+              })
+            }
+          )
+        )
+      })
+      // this.observerDisposers.push(reaction(() => ))
+    }
+
+    stopObserverModel() {
+      this.observerDisposers.forEach((disposer) => disposer())
     }
 
     setRuleValue({ruleValue, lastUpdateTime}) {
@@ -98,24 +153,23 @@ const createExhibitAdapter = (hooks) =>
       // 停止配置项的监听
       // 清空适配器实例对象的事件
       this.event.clear()
+      this.stopObserverModel()
       // 调用原实例对象的销毁方法
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({tabId, layerId, option, value, schema, totalValue, action}) {
+    update({options, data, updateLayer, action}) {
       hooks.update.call(this, {
         instance: this.instance,
-        tabId,
-        layerId,
-        option,
-        value,
-        schema,
-        totalValue,
+        options,
+        data,
+        updateLayer,
         action,
       })
     }
 
     refresh(width, height) {
+      console.log('here')
       this.destroy()
       setTimeout(() => {
         if (width && height) {
