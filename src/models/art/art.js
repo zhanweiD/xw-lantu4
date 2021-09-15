@@ -160,7 +160,6 @@ export const MArt = types
             const exhibitModel = self.exhibitManager.get(box.exhibit.id)
             if (exhibitModel) {
               const schema = exhibitModel.getSchema()
-              console.log(schema)
               box.exhibit = schema
             }
           })

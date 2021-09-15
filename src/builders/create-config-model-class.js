@@ -3,7 +3,6 @@ import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import createLog from '@utils/create-log'
-import commonAction from '@utils/common-action'
 import {
   MTextField,
   MNumberField,
@@ -35,206 +34,50 @@ const fieldModel = {
   columnSelect: MColumnSelectField,
 }
 
-const createFieldClass = (field) => {
-  if (fieldModel[field.type]) {
-    // 后面根据配置会重新赋值
-    let MFieldModel = fieldModel[field.type].actions((self) => ({
-      afterAttach() {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
-      },
-      getSchema() {
-        return self.getValue()
-      },
-      setSchema(schema) {
-        return self.setValue(schema)
-      },
-    }))
+const createFieldsClass = (fields) => {
+  const initProps = {}
+  fields.forEach((field) => {
+    if (fieldModel[field.type]) {
+      let MFieldModel = fieldModel[field.type].actions((self) => ({
+        getSchema() {
+          return self.getValue()
+        },
+        setSchema(schema) {
+          return self.setValue(schema)
+        },
+      }))
 
-    return MFieldModel.create({...field, option: field.name})
-  } else {
-    log.warn(`Field for '${field.type}' is NOT supported yet!`)
-  }
+      initProps[field.name] = types.optional(MFieldModel, {
+        ...field,
+      })
+    } else {
+      log.warn(`Field for '${field.type}' is NOT supported yet!`)
+    }
+  })
+  return types.model(initProps)
 }
 
-const createSectionClass = (node) => {
-  const MSection = types
-    .model('MSection', {
-      name: types.optional(types.string, node.name),
-    })
-    .actions(commonAction(['set']))
-    .actions((self) => {
-      const afterCreate = () => {
-        if (isArray(node.fields)) {
-          self.fields = []
-          node.fields.forEach((field) => {
-            self.fields.push(createFieldClass(field))
-          })
-        }
-        if (isArray(node.sections)) {
-          self.sections = []
-          node.sections.forEach((section) => {
-            self.sections.push(createSectionClass(section))
-          })
-        }
-        if (isDef(node.effective)) {
-          self.effective = node.effective
-        }
-      }
-      const getValues = () => {
-        const values = {}
-        values.name = self.name
-        if (self.sections) {
-          const data = []
-          self.sections.forEach((section) => {
-            data.push(section.getValues())
-          })
-          values.sections = data
-        }
-        if (isDef(self.effective)) {
-          values.effective = self.effective
-        }
-        if (self.fields) {
-          const fields = {}
-          self.fields.forEach((field) => {
-            fields[field.option] = field.getValue()
-          })
-          values.fields = fields
-        }
-        return values
-      }
-
-      const setValues = (values) => {
-        if (isPlainObject(values)) {
-          Object.entries(values).forEach(([key, value]) => {
-            if (['name', 'effective'].find((v) => v === key)) {
-              self[key] = value
-            } else if (key === 'sections') {
-              if (self[key]) {
-                self[key].forEach((section) => {
-                  if (value.find((v) => v.name === section.name)) {
-                    section.setSchema(value.find((v) => v.name === section.name))
-                  }
-                })
-              }
-            } else if (key === 'fields') {
-              if (self[key]) {
-                self[key].forEach((field) => {
-                  field.setSchema(value[field.option])
-                })
-              }
-            }
-          })
-        }
-      }
-
-      const setSchema = (schema) => {
-        self.setValues(schema)
-      }
-
-      const getRelationFields = (type) => {
-        const values = []
-
-        if (self.sections) {
-          self.sections.forEach((section) => {
-            values.push(...section.getRelationFields(type))
-          })
-        }
-
-        if (self.fields) {
-          self.fields.forEach((field) => {
-            if (field.type === type) {
-              values.push(field)
-            }
-          })
-        }
-        return values
-      }
-
-      const update = () => {
-        console.log('here')
-        // getParent(self, 2).update()
-      }
-      return {
-        afterCreate,
-        getValues,
-        setValues,
-        setSchema,
-        getRelationFields,
-        update,
-      }
-    })
-  return MSection.create({})
-}
 const createConfigModelClass = (modelName, config, initProps = {}) => {
-  // 初始化数据也需要被保存下来
-  const _keys = Object.keys(initProps)
+  if (isArray(config.fields)) {
+    initProps.fields = types.optional(createFieldsClass(config.fields), {})
+  }
+
+  if (isArray(config.sections)) {
+    const sections = config.sections.map((section) => createConfigModelClass(`${modelName}.section`, section).create())
+    initProps.sections = types.optional(types.frozen(), sections)
+  }
+
+  if (isDef(config.name)) {
+    initProps.name = config.name
+  }
+  if (isDef(config.effective)) {
+    initProps.effective = config.effective
+  }
+
   initProps.updateTime = types.optional(types.number, 0)
-
   return types.model(modelName, initProps).actions((self) => {
-    const afterCreate = () => {
-      if (isArray(config.sections)) {
-        self.sections = []
-        config.sections.forEach((section) => {
-          self.sections.push(createSectionClass(section))
-        })
-      }
-      if (isArray(config.fields)) {
-        self.fields = []
-        config.fields.forEach((field) => {
-          self.fields.push(createFieldClass(field))
-        })
-      }
-    }
-
-    const setValues = (values) => {
-      if (isPlainObject(values)) {
-        Object.entries(values).forEach(([key, value]) => {
-          if (_keys.find((v) => v === key)) {
-            self[key] = value
-          } else if (key === 'sections') {
-            if (self[key]) {
-              self[key].forEach((section) => {
-                if (value.find((v) => v.name === section.name)) {
-                  section.setSchema(value.find((v) => v.name === section.name))
-                }
-              })
-            }
-          } else if (key === 'fields') {
-            if (self[key]) {
-              self[key].forEach((field) => {
-                field.setSchema(value[field.option])
-              })
-            }
-          }
-        })
-      } else {
-        log.error(`Param muse be a plainobject for setValues(), but it was, ${values}`)
-      }
-    }
-
     const update = () => {
       self.updateTime = Date.now()
-    }
-    const getValues = () => {
-      const values = {}
-      _keys.forEach((key) => {
-        values[key] = self[key]
-      })
-      if (self.sections) {
-        const sections = []
-        self.sections.forEach((section) => {
-          sections.push(section.getValues())
-        })
-        values.sections = sections
-      }
-      if (self.fields) {
-        const fields = {}
-        self.fields.forEach((field) => {
-          fields[field.option] = field.getValue()
-        })
-        values.fields = fields
-      }
-      return values
     }
 
     const setSchema = (schema) => {
@@ -249,13 +92,67 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
     const getSchema = () => {
       return self.getValues()
     }
+    const dumpSchema = () => {
+      console.log(JSON.stringify(self.getSchema(), null, 4))
+    }
+
+    const getValues = () => {
+      const values = {}
+      if (isDef(self.name)) {
+        values.name = self.name
+      }
+      if (isDef(self.effective)) {
+        values.effective = self.effective
+      }
+      if (self.sections) {
+        const sections = []
+        self.sections.forEach((section) => {
+          sections.push(section.getValues())
+        })
+        values.sections = sections
+      }
+      if (self.fields) {
+        const fields = {}
+        Object.entries(self.fields).forEach(([key, field]) => {
+          fields[key] = field.getValue()
+        })
+        values.fields = fields
+      }
+      return values
+    }
+
+    const setValues = (values) => {
+      if (isPlainObject(values)) {
+        Object.entries(values).forEach(([key, value]) => {
+          if (key === 'sections') {
+            if (self[key]) {
+              self[key].forEach((section) => {
+                if (value.find((v) => v.name === section.name)) {
+                  section.setSchema(value.find((v) => v.name === section.name))
+                }
+              })
+            }
+          } else if (key === 'fields') {
+            if (self[key]) {
+              Object.entries(self[key]).forEach(([fieldKey, fieldModel]) => {
+                fieldModel.setSchema(value[fieldKey])
+              })
+            }
+          } else {
+            self[key] = value
+          }
+        })
+      } else {
+        log.error(`Param muse be a plainobject for setValues(), but it was, ${values}`)
+      }
+    }
 
     const getRelationFields = (type) => {
       const values = []
       if (self.fields) {
-        self.fields.forEach((field) => {
-          if (field.type === type) {
-            values.push(field)
+        Object.entries(self.fields).forEach(([, fieldModel]) => {
+          if (fieldModel.type === type) {
+            values.push(fieldModel)
           }
         })
       }
@@ -267,12 +164,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       return values
     }
 
-    const dumpSchema = () => {
-      console.log(JSON.stringify(self.getSchema(), null, 4))
-    }
-
     return {
-      afterCreate,
       setValues,
       getValues,
       update,
