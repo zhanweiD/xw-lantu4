@@ -30,12 +30,7 @@ const recusiveNode = (nodes, level = 1) => {
           )
         }
       >
-        {isArray(fields) &&
-          fields.map((field) => {
-            return Object.entries(field).map(([key, value]) => {
-              return <ModelToField model={value} key={key} />
-            })
-          })}
+        {isArray(fields) && fields.map((field) => <ModelToField model={field} key={field.option} />)}
         {isArray(subSections) && recusiveNode(subSections, level + 1)}
       </Section>
     )

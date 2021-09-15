@@ -4,8 +4,8 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init(options) {
-      console.log('adapter init')
-      console.log(options)
+      // console.log('adapter init')
+      // console.log(options)
 
       // const style = util.mapOptions(options.layers[0], {
       //   'font.size': 'lable.text.textSize',

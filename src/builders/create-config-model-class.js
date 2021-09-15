@@ -1,4 +1,4 @@
-import {getParent, types} from 'mobx-state-tree'
+import {types} from 'mobx-state-tree'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
@@ -34,40 +34,29 @@ const fieldModel = {
   gradient: MGradientField,
   columnSelect: MColumnSelectField,
 }
-const createFieldClass = (fields) => {
-  const result = []
-  fields.forEach((field) => {
-    if (fieldModel[field.type]) {
-      // 后面根据配置会重新赋值
-      let MFieldModel = fieldModel[field.type].actions((self) => ({
-        getSchema() {
-          return self.getValue()
-        },
-        setSchema(schema) {
-          return self.setValue(schema)
-        },
-      }))
-      result.push({[field.name]: MFieldModel.create(field)})
-    } else {
-      log.warn(`Field for '${field.type}' is NOT supported yet!`)
-    }
-  })
-  return result
+
+const createFieldClass = (field) => {
+  if (fieldModel[field.type]) {
+    // 后面根据配置会重新赋值
+    let MFieldModel = fieldModel[field.type].actions((self) => ({
+      afterAttach() {
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~')
+      },
+      getSchema() {
+        return self.getValue()
+      },
+      setSchema(schema) {
+        return self.setValue(schema)
+      },
+    }))
+
+    return MFieldModel.create({...field, option: field.name})
+  } else {
+    log.warn(`Field for '${field.type}' is NOT supported yet!`)
+  }
 }
 
 const createSectionClass = (node) => {
-  let fields
-  const sections = []
-  if (isArray(node.sections)) {
-    node.sections.forEach((v) => {
-      sections.push(createSectionClass(v))
-    })
-  }
-
-  if (isArray(node.fields)) {
-    fields = createFieldClass(node.fields)
-  }
-
   const MSection = types
     .model('MSection', {
       name: types.optional(types.string, node.name),
@@ -76,10 +65,16 @@ const createSectionClass = (node) => {
     .actions((self) => {
       const afterCreate = () => {
         if (isArray(node.fields)) {
-          self.fields = fields
+          self.fields = []
+          node.fields.forEach((field) => {
+            self.fields.push(createFieldClass(field))
+          })
         }
         if (isArray(node.sections)) {
-          self.sections = sections
+          self.sections = []
+          node.sections.forEach((section) => {
+            self.sections.push(createSectionClass(section))
+          })
         }
         if (isDef(node.effective)) {
           self.effective = node.effective
@@ -101,9 +96,7 @@ const createSectionClass = (node) => {
         if (self.fields) {
           const fields = {}
           self.fields.forEach((field) => {
-            Object.entries(field).forEach(([key, value]) => {
-              fields[key] = value.getValue()
-            })
+            fields[field.option] = field.getValue()
           })
           values.fields = fields
         }
@@ -125,10 +118,8 @@ const createSectionClass = (node) => {
               }
             } else if (key === 'fields') {
               if (self[key]) {
-                self[key].forEach((v) => {
-                  Object.entries(v).forEach(([k, x]) => {
-                    x.setSchema(value[k])
-                  })
+                self[key].forEach((field) => {
+                  field.setSchema(value[field.option])
                 })
               }
             }
@@ -151,18 +142,17 @@ const createSectionClass = (node) => {
 
         if (self.fields) {
           self.fields.forEach((field) => {
-            Object.entries(field).forEach(([, value]) => {
-              if (value.type === type) {
-                values.push(value)
-              }
-            })
+            if (field.type === type) {
+              values.push(field)
+            }
           })
         }
         return values
       }
 
       const update = () => {
-        getParent(self, 2).update()
+        console.log('here')
+        // getParent(self, 2).update()
       }
       return {
         afterCreate,
@@ -178,27 +168,21 @@ const createSectionClass = (node) => {
 const createConfigModelClass = (modelName, config, initProps = {}) => {
   // 初始化数据也需要被保存下来
   const _keys = Object.keys(initProps)
-
-  let fields
-  const sections = []
-  if (isArray(config.sections)) {
-    config.sections.forEach((section) => {
-      sections.push(createSectionClass(section))
-    })
-  }
-  if (isArray(config.fields)) {
-    fields = createFieldClass(config.fields)
-  }
-
   initProps.updateTime = types.optional(types.number, 0)
 
   return types.model(modelName, initProps).actions((self) => {
     const afterCreate = () => {
-      if (fields && fields.length) {
-        self.fields = fields
+      if (isArray(config.sections)) {
+        self.sections = []
+        config.sections.forEach((section) => {
+          self.sections.push(createSectionClass(section))
+        })
       }
-      if (sections.length) {
-        self.sections = sections
+      if (isArray(config.fields)) {
+        self.fields = []
+        config.fields.forEach((field) => {
+          self.fields.push(createFieldClass(field))
+        })
       }
     }
 
@@ -217,10 +201,8 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
             }
           } else if (key === 'fields') {
             if (self[key]) {
-              self[key].forEach((v) => {
-                Object.entries(v).forEach(([k, x]) => {
-                  x.setSchema(value[k])
-                })
+              self[key].forEach((field) => {
+                field.setSchema(value[field.option])
               })
             }
           }
@@ -248,9 +230,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       if (self.fields) {
         const fields = {}
         self.fields.forEach((field) => {
-          Object.entries(field).forEach(([key, value]) => {
-            fields[key] = value.getValue()
-          })
+          fields[field.option] = field.getValue()
         })
         values.fields = fields
       }
@@ -274,11 +254,9 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       const values = []
       if (self.fields) {
         self.fields.forEach((field) => {
-          Object.entries(field).forEach(([, value]) => {
-            if (value.type === type) {
-              values.push(value)
-            }
-          })
+          if (field.type === type) {
+            values.push(field)
+          }
         })
       }
       if (self.sections) {

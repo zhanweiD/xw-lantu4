@@ -1,5 +1,4 @@
 import {types} from 'mobx-state-tree'
-
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 import isNumber from 'lodash/isNumber'
