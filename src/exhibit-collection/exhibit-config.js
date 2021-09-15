@@ -9,6 +9,7 @@ const getFields = (fields) => {
     if (config) {
       return {...config, ...field}
     }
+    return mappingConfig.missing
   })
 }
 
@@ -26,6 +27,7 @@ const recusiveNode = (nodes) => {
 
     if (isArray(fields)) {
       res.fields = getFields(fields)
+      console.log(res.fields)
     }
 
     return {

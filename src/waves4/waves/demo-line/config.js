@@ -18,22 +18,23 @@ const lineLayer = (k) => ({
       name: 'line',
       fields: [
         {
-          name: 'colorSingle',
-        },
-        {
-          name: 'opacity',
-        },
-        {
           name: 'lineWidth',
-          defaultValue: 10,
+          defaultValue: 4,
         },
         {
-          name: 'lineCurve',
+          name: 'lineSmooth',
+          defaultValue: true,
         },
       ],
     },
     {
       name: 'point',
+      fields: [
+        {
+          name: 'size',
+          defaultValue: 8,
+        },
+      ],
     },
     // 下面area打开会报错
     // {

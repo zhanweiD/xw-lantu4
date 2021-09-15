@@ -29,14 +29,14 @@ const Adapter = () =>
             y: '项目交付',
           },
           lineStyle: {
-            // NOTE 可配参数
+            // 可配参数
             width: getOption('line.lineWidth'),
           },
-          // TODO 对接面板
-          smooth: true,
+          // 可配参数
+          smooth: getOption('line.lineSmooth'),
           symbol: 'circle',
-          // TODO 对接面板
-          symbolSize: 10,
+          // 可配参数
+          symbolSize: getOption('point.size'),
           label: {
             show: true,
             color: '#fff',

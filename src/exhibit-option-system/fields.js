@@ -180,6 +180,12 @@ const size = {
   step: 1,
 }
 
+// 缺失
+const missing = {
+  type: 'missing',
+  label: 'missing',
+}
+
 /**
  * =====================================
  * color
@@ -517,6 +523,7 @@ export default {
   eventType,
   // 尺寸
   size,
+  missing,
   // 颜色类型
   colorType,
   // 颜色单色
