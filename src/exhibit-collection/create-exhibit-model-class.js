@@ -79,46 +79,19 @@ export const createExhibitModelClass = (exhibit) => {
         const layers = self.layers.map((layer) => {
           const {id, type, name, options, data} = layer.getSchema()
 
-          // 原始options数据
-          const layerOptions = getLayerData(options)
-
-          // storage化的options数据
-          const storageLayerOptions = onerStorage({
-            type: 'variable',
-            key: `exhibit-layer-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
-          })
-
-          storageLayerOptions.data(layerOptions)
-
           const values = {
             id,
             name,
             type,
-            options: layerOptions,
-            // 根据路径取得参数的便捷方式
-            getOption(path) {
-              return storageLayerOptions.get(path)
-            },
-            // 三文的需求，实验性开放
-            mapOption(pairs = {}) {
-              console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
-              if (isPlainObject(pairs)) {
-                const newStorageLayerOptions = onerStorage({
-                  type: 'variable',
-                  key: `exhibit-new-layer-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
-                })
-                newStorageLayerOptions.data({})
-                Object.entries(pairs).map(([oldPath, newPath]) => {
-                  newStorageLayerOptions.set(newPath, storageLayerOptions.get(oldPath))
-                })
-                return newStorageLayerOptions.get()
-              }
-              return {}
-            },
+            options: getLayerData(options),
           }
+
           if (exhibit.key !== 'demo') {
             values.data = data
           }
+
+          self.addOptionUtil(values)
+
           return values
         })
 
@@ -171,18 +144,43 @@ export const createExhibitModelClass = (exhibit) => {
         return data
       }
 
-      // 传入的对象需要有options属性, 该方法基于options的值添加getOption和mapOption方法
+      // 在带有options属性的对象上, 添加getOption和mapOption方法
       const addOptionUtil = (obj) => {
         if (isPlainObject(obj) && isPlainObject(obj.options)) {
           // storage化的options数据
           const storageOptions = onerStorage({
             type: 'variable',
-            key: `exhibit-options-${obj.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+            key: `exhibit-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
           })
 
           storageOptions.data(obj.options)
+
+          // 根据路径取得参数的便捷方式
+          obj.getOption = (path) => {
+            return storageOptions.get(path)
+          }
+
+          // 三文的需求，实验性开放
+          obj.mapOption = (pairs = {}) => {
+            console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
+            if (isPlainObject(pairs)) {
+              const newStorageOptions = onerStorage({
+                type: 'variable',
+                key: `exhibit-new-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+              })
+              newStorageOptions.data({})
+              Object.entries(pairs).map(([oldPath, newPath]) => {
+                newStorageOptions.set(newPath, storageOptions.get(oldPath))
+              })
+              return newStorageOptions.get()
+            }
+            return {}
+          }
+
+          return obj
         }
-        console.warn('obj')
+        console.warn('obj不合法')
+        return obj
       }
 
       return {
@@ -196,6 +194,7 @@ export const createExhibitModelClass = (exhibit) => {
         doSomething,
         setData,
         getData,
+        addOptionUtil,
       }
     })
 
