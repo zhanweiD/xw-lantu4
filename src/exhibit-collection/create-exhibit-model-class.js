@@ -1,5 +1,7 @@
 import {types, getEnv} from 'mobx-state-tree'
+import isPlainObject from 'lodash/isPlainObject'
 import commonAction from '@utils/common-action'
+import onerStorage from 'oner-storage'
 import hJSON from 'hjson'
 import isDef from '@utils/is-def'
 import {MDataField} from '../builders/data-section'
@@ -69,21 +71,55 @@ export const createExhibitModelClass = (exhibit) => {
               }
             }
           })
+
           return values
         }
+
         const layers = self.layers.map((layer) => {
           const {id, type, name, options, data} = layer.getSchema()
+
+          // 原始options数据
+          const layerOptions = getLayerData(options)
+
+          // storage化的options数据
+          const storageLayerOptions = onerStorage({
+            type: 'variable',
+            key: `exhibit-layer-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+          })
+
+          storageLayerOptions.data(layerOptions)
+
           const values = {
             id,
             name,
             type,
-            options: getLayerData(options),
+            options: layerOptions,
+            // 根据路径取得参数的便捷方式
+            getOption(path) {
+              return storageLayerOptions.get(path)
+            },
+            // 三文的需求，实验性开放
+            mapOption(pairs = {}) {
+              console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
+              if (isPlainObject(pairs)) {
+                const newStorageLayerOptions = onerStorage({
+                  type: 'variable',
+                  key: `exhibit-new-layer-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+                })
+                Object.entries(pairs).map(([oldPath, newPath]) => {
+                  newStorageLayerOptions.set(newPath, storageLayerOptions.get(oldPath))
+                })
+                return newStorageLayerOptions.get()
+              }
+              return {}
+            },
           }
           if (exhibit.key !== 'demo') {
             values.data = data
           }
           return values
         })
+
         return layers
       }
 

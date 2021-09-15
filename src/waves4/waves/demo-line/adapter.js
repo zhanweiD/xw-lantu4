@@ -5,17 +5,22 @@ const Adapter = () =>
     // 初始化组件实例
     init(options) {
       // console.log('adapter init')
-      // console.log(options)
+      console.log('options', options)
 
-      const {container, data, layers} = options
+      const {container, data, layers, themeColors} = options
 
       const chart = echarts.init(container, 'dark', {
         renderer: 'svg',
       })
 
       const series = layers.map((layer) => {
-        const {options} = layer
-        console.log('layer', layer)
+        const {getOption} = layer
+
+        const myOptions = layer.mapOption({
+          'line.lineWidth': 'a.b.lineWidth',
+        })
+        console.log('myOptions', myOptions)
+
         return {
           type: 'line',
           // TODO 对接面板
@@ -24,8 +29,8 @@ const Adapter = () =>
             y: '项目交付',
           },
           lineStyle: {
-            // TODO 对接面板
-            width: 3,
+            // NOTE 可配参数
+            width: getOption('line.lineWidth'),
           },
           // TODO 对接面板
           smooth: true,
@@ -42,7 +47,8 @@ const Adapter = () =>
       })
 
       const option = {
-        color: ['#d95850', '#eb8146', '#ffb248', '#f2d643', '#ebdba4', '#c4db8a'],
+        // NOTE 全局可配参数
+        color: themeColors,
         // TODO 对接面板
         grid: {
           right: 2,

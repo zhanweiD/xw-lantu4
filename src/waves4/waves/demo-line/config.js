@@ -25,7 +25,7 @@ const lineLayer = (k) => ({
         },
         {
           name: 'lineWidth',
-          defaultValue: 3,
+          defaultValue: 10,
         },
         {
           name: 'lineCurve',
