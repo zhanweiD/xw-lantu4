@@ -15,6 +15,7 @@ const MItem = types.model('MItem', {
 export const MMultiNumberField = types
   .model('MMultiNumberField', {
     type: types.enumeration(['multiNumber']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     inputValue: types.optional(types.array(types.union(types.number, types.string)), []),

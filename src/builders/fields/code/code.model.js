@@ -5,6 +5,7 @@ import commonAction from '@utils/common-action'
 export const MCodeField = types
   .model('MCodeField', {
     type: types.enumeration(['code']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),

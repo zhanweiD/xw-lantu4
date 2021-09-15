@@ -6,6 +6,7 @@ import commonAction from '@utils/common-action'
 export const MColorField = types
   .model('MColorField', {
     type: types.enumeration(['color']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.frozen(),

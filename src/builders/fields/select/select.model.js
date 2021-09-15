@@ -10,6 +10,7 @@ const MKeyValue = types.model('MKeyValue', {
 export const MSelectField = types
   .model('MSelectField', {
     type: types.enumeration(['select']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.maybe(types.union(types.number, types.string)),

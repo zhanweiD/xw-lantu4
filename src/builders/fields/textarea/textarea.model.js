@@ -5,6 +5,7 @@ import commonAction from '@utils/common-action'
 export const MTextareaField = types
   .model('MTextareaField', {
     type: types.enumeration(['textarea']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),

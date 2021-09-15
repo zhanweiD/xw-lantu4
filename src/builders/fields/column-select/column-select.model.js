@@ -11,6 +11,7 @@ const MKeyValue = types.model('MKeyValue', {
 export const MColumnSelectField = types
   .model('MColumnSelectField', {
     type: types.enumeration(['columnSelect']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.frozen(),

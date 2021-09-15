@@ -9,6 +9,7 @@ const log = createLog('@components/field/switch.model')
 export const MSwitchField = types
   .model('MSwitchField', {
     type: types.enumeration(['switch']),
+    option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
     value: types.maybe(types.boolean),
