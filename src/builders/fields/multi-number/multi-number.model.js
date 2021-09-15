@@ -15,6 +15,8 @@ const MItem = types.model('MItem', {
 export const MMultiNumberField = types
   .model('MMultiNumberField', {
     type: types.enumeration(['multiNumber']),
+    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
+    option: types.optional(types.string, 'option'),
     label: types.optional(types.string, ''),
     inputValue: types.optional(types.array(types.union(types.number, types.string)), []),
     // ! union很重要，数字输入框输入过程中清空的时候，是空字符串

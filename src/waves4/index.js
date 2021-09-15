@@ -8,7 +8,6 @@ const waves = {
 }
 
 Object.values(waves).forEach((wave) => {
-  console.log(wave)
   const k = i18n.sandbox(wave.i18n, wave.id || wave.icon)
   wave.config = wave.config(k)
   wave.Adapter = wave.Adapter(k)

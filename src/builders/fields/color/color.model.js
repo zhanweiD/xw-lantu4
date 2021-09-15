@@ -6,6 +6,8 @@ import commonAction from '@utils/common-action'
 export const MColorField = types
   .model('MColorField', {
     type: types.enumeration(['color']),
+    // option -返回此field值时所用的key 返回值: {[self.option]: self.value}
+    option: types.optional(types.string, 'option'),
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.frozen(),
