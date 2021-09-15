@@ -7,13 +7,13 @@
  * @FilePath: /waveview-front4/src/models/new-art/box.js
  */
 
-import commonAction from "@utils/common-action"
-import {getEnv, types, getParent, flow, getRoot} from "mobx-state-tree"
-import {MLayout} from "../common/layout"
-import createLog from "@utils/create-log"
-import uuid from "@utils/uuid"
+import commonAction from '@utils/common-action'
+import {getEnv, types, getParent, flow, getRoot} from 'mobx-state-tree'
+import {MLayout} from '../common/layout'
+import createLog from '@utils/create-log'
+import uuid from '@utils/uuid'
 
-const log = createLog("@models/art/box.js")
+const log = createLog('@models/art/box.js')
 export const MBox = types
   .model({
     boxId: types.union(types.string, types.number),
@@ -27,8 +27,8 @@ export const MBox = types
     isCreateFail: types.maybe(types.boolean),
 
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(["frameId", "boxId", "artId", "exhibit", "background", "name"]),
-    deepKeys: types.frozen(["layout"])
+    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'background', 'name']),
+    deepKeys: types.frozen(['layout']),
   })
   .views((self) => ({
     get root_() {
@@ -57,16 +57,16 @@ export const MBox = types
     },
     get frame_() {
       return getParent(self, 2)
-    }
+    },
   }))
-  .actions(commonAction(["set", "getSchema"]))
+  .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     const resize = () => {
       const {layout} = self
       const {width, height} = layout
       if (self.exhibit) {
         const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
-        //这里if是因为exhibit组件根本没对接进来 暂时保证正确性
+        //   //这里if是因为exhibit组件根本没对接进来 暂时保证正确性
         if (exhibitModel.adapter) {
           exhibitModel.adapter.refresh(width, height)
         }
@@ -75,7 +75,7 @@ export const MBox = types
 
     const updateBackground = (data) => {
       self.background = {
-        path: data.material.materialId
+        path: data.material.materialId,
       }
       updateBox()
     }
@@ -97,8 +97,8 @@ export const MBox = types
           schema: {
             lib,
             key,
-            id: uuid()
-          }
+            id: uuid(),
+          },
         })
         const exhibit = exhibitModel.getSchema()
         art.exhibitManager.set(
@@ -109,7 +109,7 @@ export const MBox = types
             schema: exhibit,
             event,
             globalData: dataPanel,
-            projectData: dataList
+            projectData: dataList,
           })
         )
         self.exhibit = exhibit
@@ -123,17 +123,17 @@ export const MBox = types
       const {layout, name, frameId, exhibit, background, boxId} = self
       try {
         yield io.art.updateBox({
-          ":boxId": boxId,
-          ":artId": artId,
-          ":frameId": frameId,
-          ":projectId": projectId,
+          ':boxId': boxId,
+          ':artId': artId,
+          ':frameId': frameId,
+          ':projectId': projectId,
           name,
           layout,
           exhibit,
-          background
+          background,
         })
       } catch (error) {
-        log.error("update Error: ", error)
+        log.error('update Error: ', error)
       }
     })
 
@@ -146,18 +146,18 @@ export const MBox = types
           exhibit,
           layout,
           name,
-          ":artId": artId,
-          ":frameId": frameId,
-          ":projectId": projectId
+          ':artId': artId,
+          ':frameId': frameId,
+          ':projectId': projectId,
         })
 
         self.boxId = box.boxId
         self.isCreateFail = undefined
         self.viewport_.selectRange.set({
-          range: [{frameId}]
+          range: [{frameId}],
         })
       } catch (error) {
-        log.error("recreateBox Error: ", error)
+        log.error('recreateBox Error: ', error)
       }
     })
 
@@ -165,6 +165,6 @@ export const MBox = types
       resize,
       recreateBox,
       updateBackground,
-      updateExhibit
+      updateExhibit,
     }
   })

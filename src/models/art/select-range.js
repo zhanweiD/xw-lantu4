@@ -6,28 +6,28 @@
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
  */
-import commonAction from "@utils/common-action"
-import {getEnv, getParent, types, flow} from "mobx-state-tree"
-import createLog from "@utils/create-log"
-import {shortcut} from "@utils/create-event"
-import sortBy from "lodash/sortBy"
-import minBy from "lodash/minBy"
-import maxBy from "lodash/maxBy"
+import commonAction from '@utils/common-action'
+import {getEnv, getParent, types, flow} from 'mobx-state-tree'
+import createLog from '@utils/create-log'
+import {shortcut} from '@utils/create-event'
+import sortBy from 'lodash/sortBy'
+import minBy from 'lodash/minBy'
+import maxBy from 'lodash/maxBy'
 
-const log = createLog("@models/art/select-range.js")
+const log = createLog('@models/art/select-range.js')
 const MRange = types.model({
   frameId: types.union(types.string, types.number),
-  boxIds: types.optional(types.array(types.union(types.string, types.number)), [])
+  boxIds: types.optional(types.array(types.union(types.string, types.number)), []),
 })
 
 export const MSelectRange = types
-  .model("MSelectRange", {
-    target: types.enumeration(["frame", "box"]),
+  .model('MSelectRange', {
+    target: types.enumeration(['frame', 'box']),
     range: types.maybe(types.array(MRange)),
     x1: types.number,
     x2: types.number,
     y1: types.number,
-    y2: types.number
+    y2: types.number,
   })
   .views((self) => ({
     get env_() {
@@ -47,22 +47,22 @@ export const MSelectRange = types
         result.push(...boxes)
       })
       return result
-    }
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
   .actions((self) => {
     const {io} = self.env_
     let origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
     const afterCreate = () => {}
     const staff = {
-      northwest: ["x1", "y1"],
-      north: ["y1"],
-      northeast: ["x2", "y1"],
-      west: ["x1"],
-      east: ["x2"],
-      southwest: ["x1", "y2"],
-      south: ["y2"],
-      southeast: ["x2", "y2"]
+      northwest: ['x1', 'y1'],
+      north: ['y1'],
+      northeast: ['x2', 'y1'],
+      west: ['x1'],
+      east: ['x2'],
+      southwest: ['x1', 'y2'],
+      south: ['y2'],
+      southeast: ['x2', 'y2'],
     }
 
     let xy
@@ -80,15 +80,15 @@ export const MSelectRange = types
           x1: Math.round(offsetX + origin.x1),
           x2: Math.round(offsetX + origin.x2),
           y1: Math.round(offsetY + origin.y1),
-          y2: Math.round(offsetY + origin.y2)
+          y2: Math.round(offsetY + origin.y2),
         }
         snapXY = {
           x1: Math.round(offsetX + origin.x1),
           x2: Math.round(offsetX + origin.x2),
           y1: Math.round(offsetY + origin.y1),
-          y2: Math.round(offsetY + origin.y2)
+          y2: Math.round(offsetY + origin.y2),
         }
-        if (self.target === "box" && isSnap) {
+        if (self.target === 'box' && isSnap) {
           const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
           const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
           const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
@@ -167,11 +167,11 @@ export const MSelectRange = types
             snapXY.y2 = temp + (origin.y2 - origin.y1)
           }
           self.set({
-            ...snapXY
+            ...snapXY,
           })
         } else {
           self.set({
-            ...xy
+            ...xy,
           })
         }
       }
@@ -179,29 +179,30 @@ export const MSelectRange = types
         const {x1, y1, x2, y2, boxes_, target, viewport_} = self
         const updated = x1 !== origin.x1 || y1 !== origin.y1 || x2 !== origin.x2 || y2 !== origin.y2
         try {
-          if (target === "frame" && updated) {
+          if (target === 'frame' && updated) {
             const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
             const {layout, viewLayout} = frame
             viewLayout.set({
               x: Math.round(x1),
               y: Math.round(y1),
               width: Math.round(x2 - x1),
-              height: Math.round(y2 - y1)
+              height: Math.round(y2 - y1),
             })
             const params = {
               layout: {
                 x: Math.round(layout.x + x1 - origin.x1),
                 y: Math.round(layout.y + y1 - origin.y1),
                 height: Math.round(y2 - y1),
-                width: Math.round(x2 - x1)
-              }
+                width: Math.round(x2 - x1),
+              },
             }
             frame.updateFrame(params)
-          } else if (target === "box" && updated) {
+          } else if (target === 'box' && updated) {
             const rangeWidth = Math.round(x2 - x1)
             const rangeHeight = Math.round(y2 - y1)
             const initWidth = Math.round(origin.x2 - origin.x1)
             const initHeight = Math.round(origin.y2 - origin.y1)
+            console.log('xxxxxx')
             const params = []
             boxes_.forEach((box) => {
               const {layout} = box
@@ -210,7 +211,7 @@ export const MSelectRange = types
                 x,
                 y,
                 width: Math.round((width / initWidth) * rangeWidth),
-                height: Math.round((height / initHeight) * rangeHeight)
+                height: Math.round((height / initHeight) * rangeHeight),
               }
               const offsetX = x1 - origin.x1
               const offsetY = y1 - origin.y1
@@ -220,18 +221,19 @@ export const MSelectRange = types
               item.height = height
               params.push(getBoxTransformation(box, item))
             })
+            console.log('12312321')
             self.updateBoxes(params)
           }
         } catch (error) {
-          document.body.removeEventListener("mousemove", mouseMove)
-          document.body.removeEventListener("mouseup", mouseUp)
+          document.body.removeEventListener('mousemove', mouseMove)
+          document.body.removeEventListener('mouseup', mouseUp)
         }
         origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
-        document.body.removeEventListener("mousemove", mouseMove)
-        document.body.removeEventListener("mouseup", mouseUp)
+        document.body.removeEventListener('mousemove', mouseMove)
+        document.body.removeEventListener('mouseup', mouseUp)
       }
-      document.body.addEventListener("mousemove", mouseMove)
-      document.body.addEventListener("mouseup", mouseUp)
+      document.body.addEventListener('mousemove', mouseMove)
+      document.body.addEventListener('mouseup', mouseUp)
     }
 
     const onScale = (e, direct) => {
@@ -246,13 +248,13 @@ export const MSelectRange = types
           x1: Math.round(x + origin.x1),
           x2: Math.round(x + origin.x2),
           y1: Math.round(y + origin.y1),
-          y2: Math.round(y + origin.y2)
+          y2: Math.round(y + origin.y2),
         }
         snapXY = {
           x1: Math.round(x + origin.x1),
           x2: Math.round(x + origin.x2),
           y1: Math.round(y + origin.y1),
-          y2: Math.round(y + origin.y2)
+          y2: Math.round(y + origin.y2),
         }
         let canSetoffset
         let westX = origin.x2 > xy.x1 + 1
@@ -261,7 +263,7 @@ export const MSelectRange = types
         let southY = xy.y2 > origin.y1 + 1
         // 如果xy.x2 小于 Math.ceil(xy.x2 / gridUnit) * gridUnit - 15 那么 它的值 要么是xy.x2 否则就是 Math.ceil(xy.x2 / gridUnit) * gridUnit
         // 如果xy.x2 大于  Math.floor(xy.x2 / gridUnit) * gridUnit + 15 那么它的值 就是xy.x2 否则就是Math.floor(xy.x2 / gridUnit) * gridUnit
-        if (self.target === "box" && isSnap) {
+        if (self.target === 'box' && isSnap) {
           const minXFrame = minBy(self.boxes_, (o) => o.frame_.x1_ + o.x1_).frame_
           const maxXFrame = maxBy(self.boxes_, (o) => o.frame_.x1_ + o.x2_).frame_
           const minYFrame = minBy(self.boxes_, (o) => o.frame_.y1_ + o.y1_).frame_
@@ -322,32 +324,32 @@ export const MSelectRange = types
                   xy.y2
                 ? xy.y2
                 : Math.floor((xy.y2 - (maxYFrame.y1_ - maxYFrame.grid.extendY_)) / gridUnit) * gridUnit +
-                  (maxYFrame.y1_ - maxYFrame.grid.extendY_)
+                  (maxYFrame.y1_ - maxYFrame.grid.extendY_),
           }
         }
         switch (direct) {
-          case "northwest":
+          case 'northwest':
             canSetoffset = westX && northY
             break
-          case "north":
+          case 'north':
             canSetoffset = northY
             break
-          case "northeast":
+          case 'northeast':
             canSetoffset = eastX && northY
             break
-          case "east":
+          case 'east':
             canSetoffset = eastX
             break
-          case "west":
+          case 'west':
             canSetoffset = westX
             break
-          case "southwest":
+          case 'southwest':
             canSetoffset = westX && southY
             break
-          case "south":
+          case 'south':
             canSetoffset = southY
             break
-          case "southeast":
+          case 'southeast':
             canSetoffset = eastX && southY
             break
           default:
@@ -358,12 +360,12 @@ export const MSelectRange = types
             self.set(item, xy[item])
           })
         }
-        if (canSetoffset && self.target === "box") {
+        if (canSetoffset && self.target === 'box') {
           staff[direct].forEach((item) => {
             self.set(item, isSnap ? snapXY[item] : xy[item])
           })
         }
-        if (canSetoffset && self.target === "frame") {
+        if (canSetoffset && self.target === 'frame') {
           staff[direct].forEach((item) => {
             self.set(item, xy[item])
           })
@@ -380,25 +382,25 @@ export const MSelectRange = types
         const {x1, y1, x2, y2, boxes_, target, viewport_} = self
         const updated = x1 !== origin.x1 || y1 !== origin.y1 || x2 !== origin.x2 || y2 !== origin.y2
         try {
-          if (target === "frame" && updated) {
+          if (target === 'frame' && updated) {
             const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
             const {layout, viewLayout} = frame
             viewLayout.set({
               x: Math.round(x1),
               y: Math.round(y1),
               width: Math.round(x2 - x1),
-              height: Math.round(y2 - y1)
+              height: Math.round(y2 - y1),
             })
             const params = {
               layout: {
                 x: Math.round(layout.x + x1 - origin.x1),
                 y: Math.round(layout.y + y1 - origin.y1),
                 height: Math.round(y2 - y1),
-                width: Math.round(x2 - x1)
-              }
+                width: Math.round(x2 - x1),
+              },
             }
             frame.updateFrame(params)
-          } else if (target === "box" && updated) {
+          } else if (target === 'box' && updated) {
             const rangeWidth = Math.round(x2 - x1)
             const rangeHeight = Math.round(y2 - y1)
             const initWidth = Math.round(origin.x2 - origin.x1)
@@ -412,7 +414,7 @@ export const MSelectRange = types
                 x,
                 y,
                 width: Math.round((width / initWidth) * rangeWidth),
-                height: Math.round((height / initHeight) * rangeHeight)
+                height: Math.round((height / initHeight) * rangeHeight),
               }
               const northY =
                 Math.round(((box.frame_.y1_ + y - origin.y2) / initHeight) * rangeHeight) + origin.y2 - box.frame_.y1_
@@ -424,31 +426,31 @@ export const MSelectRange = types
                 Math.round(((box.frame_.x1_ + x - origin.x2) / initWidth) * rangeWidth) + origin.x2 - box.frame_.x1_
 
               switch (direct) {
-                case "northeast":
+                case 'northeast':
                   item.x = eastX
                   item.y = northY
                   break
-                case "north":
+                case 'north':
                   item.y = northY
                   break
-                case "northwest":
+                case 'northwest':
                   item.x = westX
                   item.y = northY
                   break
-                case "east":
+                case 'east':
                   item.x = eastX
                   break
-                case "west":
+                case 'west':
                   item.x = westX
                   break
-                case "southeast":
+                case 'southeast':
                   item.x = eastX
                   item.y = southY
                   break
-                case "south":
+                case 'south':
                   item.y = southY
                   break
-                case "southwest":
+                case 'southwest':
                   item.x = westX
                   item.y = southY
                   break
@@ -459,16 +461,16 @@ export const MSelectRange = types
             })
             self.updateBoxes(params)
           }
-          document.body.removeEventListener("mousemove", mouseMove)
-          document.body.removeEventListener("mouseup", mouseUp)
+          document.body.removeEventListener('mousemove', mouseMove)
+          document.body.removeEventListener('mouseup', mouseUp)
         } catch (error) {
-          document.body.removeEventListener("mousemove", mouseMove)
-          document.body.removeEventListener("mouseup", mouseUp)
+          document.body.removeEventListener('mousemove', mouseMove)
+          document.body.removeEventListener('mouseup', mouseUp)
         }
         origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
       }
-      document.body.addEventListener("mousemove", mouseMove)
-      document.body.addEventListener("mouseup", mouseUp)
+      document.body.addEventListener('mousemove', mouseMove)
+      document.body.addEventListener('mouseup', mouseUp)
     }
 
     const updateAverage = (direction) => {
@@ -476,7 +478,7 @@ export const MSelectRange = types
       const gridCount = self.boxes_.length - 1
       const params = []
       const {gridUnit} = self.art_.basic
-      if (direction === "horizontal") {
+      if (direction === 'horizontal') {
         const averageTotalWidth = x2 - x1 - gridCount * gridUnit
         const averageWidth = averageTotalWidth / self.boxes_.length
         const boxes = sortBy(self.boxes_, (o) => o.x1_)
@@ -487,7 +489,7 @@ export const MSelectRange = types
             x: Math.round(startPointX + index * (averageWidth + gridUnit)),
             y: Math.round(y1_),
             width: Math.round(averageWidth),
-            height: Math.round(y2_ - y1_)
+            height: Math.round(y2_ - y1_),
           }
           params.push(getBoxTransformation(box, item))
         })
@@ -502,7 +504,7 @@ export const MSelectRange = types
             x: Math.round(x1_),
             y: Math.round(startPointY + index * (averageHeight + gridUnit)),
             width: Math.round(x2_ - x1_),
-            height: Math.round(averageHeight)
+            height: Math.round(averageHeight),
           }
           params.push(getBoxTransformation(box, item))
         })
@@ -514,7 +516,7 @@ export const MSelectRange = types
       const {x1, y1, x2, y2} = self
       const gridCount = self.boxes_.length - 1
       const params = []
-      if (direction === "horizontal") {
+      if (direction === 'horizontal') {
         const boxes = sortBy(self.boxes_, (o) => o.x1_)
         const startPointX = boxes[0].x1_
         const totalRangeWidth = x2 - x1
@@ -528,7 +530,7 @@ export const MSelectRange = types
             x: Math.round(startPointX + offset),
             y: Math.round(y),
             width: Math.round(width),
-            height: Math.round(height)
+            height: Math.round(height),
           }
           params.push(getBoxTransformation(box, item))
         })
@@ -546,7 +548,7 @@ export const MSelectRange = types
             x: Math.round(x),
             y: Math.round(startPointY + offset),
             width: Math.round(width),
-            height: Math.round(height)
+            height: Math.round(height),
           }
           params.push(getBoxTransformation(box, item))
         })
@@ -566,80 +568,80 @@ export const MSelectRange = types
       const centerY = (self.y2 - self.y1) / 2 + self.y1
       const params = []
       switch (direction) {
-        case "left":
+        case 'left':
           self.boxes_.forEach((box) => {
             const {y, width, height} = box.layout
             const item = {
               x: Math.round(minX),
               y: Math.round(y),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
           self.x2 = minX + minFrameX1 + maxWidth
           break
-        case "right":
+        case 'right':
           self.boxes_.forEach((box) => {
             const {y, width, height} = box.layout
             const item = {
               x: Math.round(maxX - width),
               y: Math.round(y),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
           self.x1 = maxX - maxWidth + minFrameX1
           break
-        case "center":
+        case 'center':
           self.boxes_.forEach((box) => {
             const {y, width, height} = box.layout
             const item = {
               x: Math.round((maxX - minX) / 2 + minX - width / 2),
               y: Math.round(y),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
           self.x1 = centerX - maxWidth / 2
           self.x2 = centerX + maxWidth / 2
           break
-        case "top":
+        case 'top':
           self.boxes_.forEach((box) => {
             const {x, width, height} = box.layout
             const item = {
               x: Math.round(x),
               y: Math.round(minY),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
           self.y2 = self.y1 + maxHeight
           break
-        case "bottom":
+        case 'bottom':
           self.boxes_.forEach((box) => {
             const {x, width, height} = box.layout
             const item = {
               x: Math.round(x),
               y: Math.round(maxY - height),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
           self.y1 = self.y2 - maxHeight
           break
-        case "middle":
+        case 'middle':
           self.boxes_.forEach((box) => {
             const {x, width, height} = box.layout
             const item = {
               x: Math.round(x),
               y: Math.round((maxY - minY) / 2 + minY - height / 2),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             }
             params.push(getBoxTransformation(box, item))
           })
@@ -656,7 +658,7 @@ export const MSelectRange = types
 
     const remove = () => {
       const {target} = self
-      if (target === "frame") {
+      if (target === 'frame') {
         removeFrame()
       } else {
         removeBoxes()
@@ -668,13 +670,13 @@ export const MSelectRange = types
       const {range} = self
       try {
         yield io.art.removeFrame({
-          ":projectId": projectId,
-          ":artId": artId,
-          ":frameId": range[0].frameId
+          ':projectId': projectId,
+          ':artId': artId,
+          ':frameId': range[0].frameId,
         })
         self.viewport_.removeFrame()
       } catch (error) {
-        log.error("removeFrame Error: ", error)
+        log.error('removeFrame Error: ', error)
       }
     })
 
@@ -682,17 +684,17 @@ export const MSelectRange = types
       const {projectId, artId} = self.art_
       const boxIds = self.boxes_.map((box) => ({
         frameId: box.frameId,
-        boxId: box.boxId
+        boxId: box.boxId,
       }))
       try {
         yield io.art.removeBoxes({
-          ":projectId": projectId,
-          ":artId": artId,
-          boxIds
+          ':projectId': projectId,
+          ':artId': artId,
+          boxIds,
         })
         self.viewport_.removeBoxes()
       } catch (error) {
-        log.error("select-range removeBoxes Error: ", error)
+        log.error('select-range removeBoxes Error: ', error)
       }
     })
 
@@ -701,24 +703,24 @@ export const MSelectRange = types
       const {projectId, artId} = self.art_
       try {
         yield io.art.updateBoxes({
-          ":projectId": projectId,
-          ":artId": artId,
-          moveInfo: params
+          ':projectId': projectId,
+          ':artId': artId,
+          moveInfo: params,
         })
       } catch (error) {
-        log.error("updateBoxes Error: ", error)
+        log.error('updateBoxes Error: ', error)
       }
     })
 
     const getBoxTransformation = (box, item) => {
       box.layout.set({
-        ...item
+        ...item,
       })
       box.resize()
       return {
         frameId: box.frameId,
         boxId: box.boxId,
-        layout: item
+        layout: item,
       }
     }
 
@@ -730,6 +732,6 @@ export const MSelectRange = types
       updateSpace,
       updateAlign,
       updateBoxes,
-      remove
+      remove,
     }
   })

@@ -60,7 +60,8 @@ export const createExhibitModelClass = (exhibit) => {
         const getLayerData = (nodes) => {
           const {sections} = nodes
           const values = {}
-          sections.forEach((node) => {
+
+          Object.values(sections).forEach((node) => {
             if (!isDef(node.effective) || node.effective) {
               values[node.name] = {
                 ...node.fields,
@@ -161,7 +162,12 @@ export const createExhibitModelClass = (exhibit) => {
         )
       }
       const getData = () => {
-        return self.data ? self.data.getSchema() : undefined
+        const {type, private: privateData} = self.data.getSchema()
+        let data
+        if (type === 'private') {
+          data = hJSON.parse(privateData)
+        }
+        return data
       }
       return {
         afterCreate,

@@ -58,7 +58,7 @@ const Adapter = () =>
         },
         dataset: {
           // NOTE: 临时方案
-          source: JSON.parse(data.private),
+          source: data,
         },
         backgroundColor: 'transparent',
         xAxis: {
