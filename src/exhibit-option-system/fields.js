@@ -259,6 +259,18 @@ const columnLatitude = {
   label: 'latitude',
 }
 
+// X轴
+const columnX = {
+  type: 'columnSelect',
+  label: 'xAxis',
+}
+
+// Y轴
+const columnY = {
+  type: 'columnSelect',
+  label: 'yAxis',
+}
+
 /**
  * =====================================
  * gis
@@ -545,6 +557,10 @@ export default {
   columnLongitude,
   // 纬度
   columnLatitude,
+  // X轴
+  columnX,
+  // Y轴
+  columnY,
   // gis中心点坐标
   gisCenterCoordinate,
   // gis缩放系数
