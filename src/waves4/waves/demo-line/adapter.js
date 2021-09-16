@@ -43,6 +43,7 @@ const Adapter = () =>
             color: '#fff',
             textShadowColor: '#000',
             textShadowBlur: 2,
+            textShadow: true,
           },
         }
       })

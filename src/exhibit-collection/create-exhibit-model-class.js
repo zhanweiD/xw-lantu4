@@ -86,7 +86,7 @@ export const createExhibitModelClass = (exhibit) => {
             options: getLayerData(options),
           }
 
-          if (exhibit.key !== 'demo') {
+          if (config.key !== 'demo') {
             values.data = layer.getData()
           }
 

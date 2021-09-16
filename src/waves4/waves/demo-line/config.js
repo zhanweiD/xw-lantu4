@@ -66,6 +66,16 @@ const lineLayer = (k) => ({
             },
           ],
         },
+        {
+          name: 'shadow',
+          effective: false,
+          fields: [
+            {
+              name: 'blur',
+              defaultValue: 4,
+            },
+          ],
+        },
       ],
     },
   ],
