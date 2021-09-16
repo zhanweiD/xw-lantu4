@@ -16,10 +16,10 @@ const Adapter = () =>
       const series = layers.map((layer) => {
         const {getOption} = layer
 
-        const myOptions = layer.mapOption({
-          'line.lineWidth': 'a.b.lineWidth',
-        })
-        console.log('myOptions', myOptions)
+        // const myOptions = layer.mapOption({
+        //   'line.lineWidth': 'a.b.lineWidth',
+        // })
+        // console.log('myOptions', myOptions)
 
         return {
           type: 'line',
