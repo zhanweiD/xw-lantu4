@@ -155,7 +155,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
           data = getLayerData(self.getSchema())
         }
         const updateOptions = {
-          useable: self.effective,
+          effective: self.effective,
           ...data,
         }
         self.update(updateOptions, true)
