@@ -107,8 +107,6 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => layer.options.updateOptions,
             () => {
-              console.log(layer.options.updateOptions)
-
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
@@ -126,7 +124,7 @@ const createExhibitAdapter = (hooks) =>
               () => layer.data.value.toJSON(),
               () => {
                 this.update({
-                  action: 'data',
+                  action: 'layer',
                   options: this.getAllOptions(),
                   updateLayer: {
                     id: layer.id,

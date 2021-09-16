@@ -8,7 +8,7 @@ import {MDataField} from '../builders/data-section'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
-  const {config, data} = exhibit
+  const {config} = exhibit
 
   const MExhibit = types
     .model(`MExhibit${config.key}`, {

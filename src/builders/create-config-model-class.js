@@ -122,20 +122,27 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
 
       // 内部使用，仅仅是把数组变成对象
       const getLayerData = (nodes) => {
-        const {sections} = nodes
-        const values = {}
+        const {sections, fields} = nodes
+        let values = {}
+        if (isDef(sections)) {
+          Object.values(sections).forEach((node) => {
+            if (!isDef(node.effective) || node.effective) {
+              values[node.name] = {
+                ...node.fields,
+              }
 
-        Object.values(sections).forEach((node) => {
-          if (!isDef(node.effective) || node.effective) {
-            values[node.name] = {
-              ...node.fields,
+              if (node.sections) {
+                values[node.name] = {...values[node.name], ...getLayerData(node)}
+              }
             }
-
-            if (node.sections) {
-              values[node.name] = {...values[node.name], ...getLayerData(node)}
-            }
+          })
+        }
+        if (isDef(fields)) {
+          values = {
+            ...values,
+            ...nodes.fields,
           }
-        })
+        }
 
         return values
       }
@@ -143,6 +150,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
       const toggleEffective = () => {
         self.effective = !self.effective
         let data = {}
+
         if (self.effective) {
           data = getLayerData(self.getSchema())
         }
