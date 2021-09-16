@@ -24,7 +24,9 @@ const ArtOption = ({art}) => {
     <Tab sessionId="material-option" className="fb1">
       <Tab.Item name="数据呈现">
         <Scroll className="h100p">
-          {exhibit && <Builder data={exhibit.data} layers={exhibit.layers} exhibit={exhibit} />}
+          {exhibit && (
+            <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
+          )}
         </Scroll>
       </Tab.Item>
     </Tab>

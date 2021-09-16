@@ -64,7 +64,6 @@ const createExhibitAdapter = (hooks) =>
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
       this.instance = hooks.init.call(this, instanceOption)
-
       this.observerModel()
     }
 
@@ -79,15 +78,17 @@ const createExhibitAdapter = (hooks) =>
         isPreview: !this.isEdit,
       }
       if (this.model.data) {
-        this.data = this.model.getData()
-        instanceOption.data = this.data
+        instanceOption.data = this.model.getData()
+      }
+      if (this.model.dimension) {
+        instanceOption.dimension = this.model.getDimension()
       }
       return instanceOption
     }
 
     observerModel() {
       const {model} = this
-      const {data, layers} = model
+      const {data, layers, dimension} = model
       if (data) {
         this.observerDisposers.push(
           reaction(
@@ -102,19 +103,51 @@ const createExhibitAdapter = (hooks) =>
           )
         )
       }
-      this.model.layers.map((layer) => {
+      if (dimension) {
         this.observerDisposers.push(
           reaction(
-            () => layer.options.updateOptions,
+            () => model.dimension.updateOptions,
             () => {
+              this.update({
+                action: 'dimension',
+                options: this.getAllOptions(),
+                dimension: model.dimension.updateOptions,
+              })
+            }
+          )
+        )
+      }
+      layers.map((layer) => {
+        this.observerDisposers.push(
+          reaction(
+            () => layer.effective,
+            () => {
+              const options = this.model.getLayers()
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
                 updateLayer: {
                   id: layer.id,
-                  options: layer.options.updateOptions,
+                  options: options.find((o) => o.id === layer.id),
                 },
               })
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => layer.options.updateOptions,
+            () => {
+              if (layer.effective) {
+                this.update({
+                  action: 'layer',
+                  options: this.getAllOptions(),
+                  updateLayer: {
+                    id: layer.id,
+                    options: layer.options.updateOptions,
+                  },
+                })
+              }
             }
           )
         )
@@ -123,16 +156,18 @@ const createExhibitAdapter = (hooks) =>
             reaction(
               () => layer.data.value.toJSON(),
               () => {
-                this.update({
-                  action: 'layer',
-                  options: this.getAllOptions(),
-                  updateLayer: {
-                    id: layer.id,
-                    options: {
-                      data: layer.getData(),
+                if (layer.effective) {
+                  this.update({
+                    action: 'layer',
+                    options: this.getAllOptions(),
+                    updateLayer: {
+                      id: layer.id,
+                      options: {
+                        data: layer.getData(),
+                      },
                     },
-                  },
-                })
+                  })
+                }
               }
             )
           )
@@ -169,12 +204,14 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, data, updateLayer, action}) {
+    update({options, data, updateLayer, dimension, action}) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
         data,
+        dimension,
         updateLayer,
+
         action,
       })
     }

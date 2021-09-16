@@ -1,4 +1,4 @@
-import {types, getRoot} from 'mobx-state-tree'
+import {types, hasParent} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import uuid from '@utils/uuid'
 import commonAction from '@utils/common-action'
@@ -12,7 +12,8 @@ export const createLayer = (key, layer, env) => {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
-      normalKeys: types.frozen(['id', 'type', 'name']),
+      effective: types.optional(types.boolean, true),
+      normalKeys: types.frozen(['id', 'type', 'name', 'effective']),
       deepKeys: types.frozen(['options', 'data']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
@@ -43,9 +44,14 @@ export const createLayer = (key, layer, env) => {
         return data
       }
 
+      const toggleEffective = () => {
+        self.effective = !self.effective
+      }
+
       return {
         afterCreate,
         getData,
+        toggleEffective,
       }
     })
   return MLayer.create(layer)

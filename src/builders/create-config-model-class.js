@@ -121,7 +121,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
       }
 
       // 内部使用，仅仅是把数组变成对象
-      const getLayerData = (nodes) => {
+      const getObjectData = (nodes) => {
         const {sections, fields} = nodes
         let values = {}
         if (isDef(sections)) {
@@ -132,7 +132,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
               }
 
               if (node.sections) {
-                values[node.name] = {...values[node.name], ...getLayerData(node)}
+                values[node.name] = {...values[node.name], ...getObjectData(node)}
               }
             }
           })
@@ -152,7 +152,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
         let data = {}
 
         if (self.effective) {
-          data = getLayerData(self.getSchema())
+          data = getObjectData(self.getSchema())
         }
         const updateOptions = {
           effective: self.effective,

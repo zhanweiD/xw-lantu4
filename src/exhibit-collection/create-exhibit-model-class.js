@@ -1,9 +1,10 @@
 import {types, getEnv} from 'mobx-state-tree'
 import isPlainObject from 'lodash/isPlainObject'
-import commonAction from '@utils/common-action'
 import onerStorage from 'oner-storage'
 import hJSON from 'hjson'
+import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import {transform} from './exhibit-config'
 import {MDataField} from '../builders/data-section'
 
 // 根据schema创建组件独有的模型
@@ -20,7 +21,7 @@ export const createExhibitModelClass = (exhibit) => {
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
-      deepKeys: types.frozen(['layers', 'data']),
+      deepKeys: types.frozen(['layers', 'data', 'dimension']),
     })
     .views((self) => ({
       get art_() {
@@ -56,47 +57,55 @@ export const createExhibitModelClass = (exhibit) => {
       const setAdapter = (adapter) => {
         self.adapter = adapter
       }
-      const getLayers = () => {
-        const getLayerData = (nodes) => {
-          const {sections} = nodes
-          const values = {}
 
+      const getObjectData = (nodes) => {
+        const {sections, fields} = nodes
+        let values = {}
+        if (isDef(sections)) {
           Object.values(sections).forEach((node) => {
-            if (isDef(node.effective)) {
-              values[node.name] = {
-                effective: node.effective,
-              }
-            }
             if (!isDef(node.effective) || node.effective) {
               values[node.name] = {
-                ...values[node.name],
                 ...node.fields,
               }
 
               if (node.sections) {
-                values[node.name] = {...values[node.name], ...getLayerData(node)}
+                values[node.name] = {...values[node.name], ...getObjectData(node)}
               }
             }
           })
-
-          return values
+        }
+        if (isDef(fields)) {
+          values = {
+            ...values,
+            ...nodes.fields,
+          }
         }
 
-        const layers = self.layers.map((layer) => {
-          const {id, type, name, options} = layer.getSchema()
+        return values
+      }
 
-          const values = {
+      const getLayers = () => {
+        const layers = self.layers.map((layer) => {
+          const {id, type, name, options, effective} = layer.getSchema()
+          let values = {
             id,
             name,
             type,
-            options: getLayerData(options),
+            effective,
           }
-
-          if (config.key !== 'demo') {
-            values.data = layer.getData()
+          if (effective) {
+            values = {
+              id,
+              name,
+              type,
+              effective,
+              options: getObjectData(options),
+            }
+            if (config.key !== 'demo') {
+              values.data = layer.getData()
+            }
+            self.addOptionUtil(values)
           }
-
-          self.addOptionUtil(values)
 
           return values
         })
@@ -122,6 +131,9 @@ export const createExhibitModelClass = (exhibit) => {
         self.layers.forEach((layer) => {
           relationModels.push(...layer.options.getRelationFields('columnSelect'))
         })
+
+        relationModels.push(...self.dimension.getRelationFields('columnSelect'))
+
         self.data = MDataField.create(
           {
             type: 'data',
@@ -141,6 +153,20 @@ export const createExhibitModelClass = (exhibit) => {
           }
         )
       }
+
+      const setDimension = (dimension) => {
+        const {id} = self
+        const {sections, fields} = dimension
+        const MDimension = transform({id, sections, fields})
+
+        self.dimension = MDimension.create()
+      }
+
+      const getDimension = () => {
+        const schema = self.dimension.getSchema()
+        return getObjectData(schema)
+      }
+
       const getData = () => {
         const {type, private: privateData} = self.data.getSchema()
         let data
@@ -200,6 +226,8 @@ export const createExhibitModelClass = (exhibit) => {
         doSomething,
         setData,
         getData,
+        setDimension,
+        getDimension,
         addOptionUtil,
       }
     })
