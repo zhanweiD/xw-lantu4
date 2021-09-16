@@ -27,7 +27,6 @@ const recusiveNode = (nodes) => {
 
     if (isArray(fields)) {
       res.fields = getFields(fields)
-      console.log(res.fields)
     }
 
     return {

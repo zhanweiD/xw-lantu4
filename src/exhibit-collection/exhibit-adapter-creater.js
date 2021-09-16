@@ -105,28 +105,41 @@ const createExhibitAdapter = (hooks) =>
       this.model.layers.map((layer) => {
         this.observerDisposers.push(
           reaction(
-            () => ({key: layer.options.updateKey, value: layer.options.updateValue}),
+            () => layer.options.updateOptions,
             () => {
-              console.log(layer.options.updateKey)
-              console.log(layer.options.updateValue)
-              const updateOptions = onerStorage({
-                type: 'variable',
-                key: `layer-options-${random()}`, // !!! 唯一必选的参数, 用于内部存储 !!!
-              })
-              updateOptions.set(layer.options.updateKey, layer.options.updateValue)
+              console.log(layer.options.updateOptions)
+
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
                 updateLayer: {
                   id: layer.id,
-                  options: updateOptions.get(),
+                  options: layer.options.updateOptions,
                 },
               })
             }
           )
         )
+        if (layer.data) {
+          this.observerDisposers.push(
+            reaction(
+              () => layer.data.value.toJSON(),
+              () => {
+                this.update({
+                  action: 'data',
+                  options: this.getAllOptions(),
+                  updateLayer: {
+                    id: layer.id,
+                    options: {
+                      data: layer.getData(),
+                    },
+                  },
+                })
+              }
+            )
+          )
+        }
       })
-      // this.observerDisposers.push(reaction(() => ))
     }
 
     stopObserverModel() {
@@ -169,7 +182,6 @@ const createExhibitAdapter = (hooks) =>
     }
 
     refresh(width, height) {
-      console.log('here')
       this.destroy()
       setTimeout(() => {
         if (width && height) {

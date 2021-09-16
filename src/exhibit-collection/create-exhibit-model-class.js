@@ -77,7 +77,7 @@ export const createExhibitModelClass = (exhibit) => {
         }
 
         const layers = self.layers.map((layer) => {
-          const {id, type, name, options, data} = layer.getSchema()
+          const {id, type, name, options} = layer.getSchema()
 
           const values = {
             id,
@@ -87,7 +87,7 @@ export const createExhibitModelClass = (exhibit) => {
           }
 
           if (exhibit.key !== 'demo') {
-            values.data = data
+            values.data = layer.getData()
           }
 
           self.addOptionUtil(values)

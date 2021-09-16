@@ -202,7 +202,6 @@ export const MSelectRange = types
             const rangeHeight = Math.round(y2 - y1)
             const initWidth = Math.round(origin.x2 - origin.x1)
             const initHeight = Math.round(origin.y2 - origin.y1)
-            console.log('xxxxxx')
             const params = []
             boxes_.forEach((box) => {
               const {layout} = box
@@ -221,7 +220,6 @@ export const MSelectRange = types
               item.height = height
               params.push(getBoxTransformation(box, item))
             })
-            console.log('12312321')
             self.updateBoxes(params)
           }
         } catch (error) {

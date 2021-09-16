@@ -55,7 +55,10 @@ const createFieldsClass = (fields) => {
               }
             },
             () => {
-              getParent(self, 2).update({key: self.option, value: self.getValue()})
+              const value = {
+                [self.option]: self.getValue(),
+              }
+              getParent(self, 2).update(value, false)
             },
             {
               delay: 300,
@@ -104,17 +107,50 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
     .model(modelName, initProps)
     .actions(commonAction(['set']))
     .actions((self) => {
-      const update = ({key, value}) => {
-        if (hasParent(self) && self.effective !== false) {
-          getParent(self, 2).update({key: `${self.name}.${key}`, value})
+      const update = (value, isFromSection) => {
+        if (hasParent(self) && (self.effective !== false || isFromSection)) {
+          const updateValue = {
+            [self.name]: {
+              ...value,
+            },
+          }
+          getParent(self, 2).update(updateValue)
         } else {
-          self.updateKey = key
-          self.updateValue = value
+          self.updateOptions = value
         }
+      }
+
+      // 内部使用，仅仅是把数组变成对象
+      const getLayerData = (nodes) => {
+        const {sections} = nodes
+        const values = {}
+
+        Object.values(sections).forEach((node) => {
+          if (!isDef(node.effective) || node.effective) {
+            values[node.name] = {
+              ...node.fields,
+            }
+
+            if (node.sections) {
+              values[node.name] = {...values[node.name], ...getLayerData(node)}
+            }
+          }
+        })
+
+        return values
       }
 
       const toggleEffective = () => {
         self.effective = !self.effective
+        let data = {}
+        if (self.effective) {
+          data = getLayerData(self.getSchema())
+        }
+        const updateOptions = {
+          useable: self.effective,
+          ...data,
+        }
+        self.update(updateOptions, true)
       }
 
       const setSchema = (schema) => {

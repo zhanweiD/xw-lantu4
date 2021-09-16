@@ -1,4 +1,5 @@
 import {types, getRoot} from 'mobx-state-tree'
+import hJSON from 'hjson'
 import uuid from '@utils/uuid'
 import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
@@ -32,8 +33,19 @@ export const createLayer = (key, layer, env) => {
           )
         }
       }
+
+      const getData = () => {
+        const {type, private: privateData} = self.data.getSchema()
+        let data
+        if (type === 'private') {
+          data = hJSON.parse(privateData)
+        }
+        return data
+      }
+
       return {
         afterCreate,
+        getData,
       }
     })
   return MLayer.create(layer)
