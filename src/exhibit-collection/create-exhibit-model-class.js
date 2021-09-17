@@ -4,9 +4,12 @@ import onerStorage from 'oner-storage'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
-import isDef from '@utils/is-def'
+import getObjectData from '@utils/get-object-data'
 import {transform} from './exhibit-config'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
+import {createTitleClass} from './create-exhibit-title-class'
+import isDef from '@utils/is-def'
+import {createLengedClass} from './create-exhibit-lenged-class'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -53,6 +56,9 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.title) {
           self.setTitle(config.title)
         }
+        if (config.lenged) {
+          self.setLenged(config.lenged)
+        }
       }
       const setCachedData = (data) => {
         self.cachedData = data
@@ -63,37 +69,6 @@ export const createExhibitModelClass = (exhibit) => {
       }
       const setAdapter = (adapter) => {
         self.adapter = adapter
-      }
-
-      const getObjectData = (nodes) => {
-        const {sections, fields} = nodes
-        let values = {}
-
-        if (isDef(sections)) {
-          Object.values(sections).forEach((node) => {
-            if (!isDef(node.effective) || node.effective) {
-              values[node.name] = {
-                ...node.fields,
-              }
-
-              if (node.sections) {
-                values[node.name] = {...values[node.name], ...getObjectData(node)}
-              }
-            } else {
-              values[node.name] = {
-                effective: node.effective,
-              }
-            }
-          })
-        }
-        if (isDef(fields)) {
-          values = {
-            ...values,
-            ...nodes.fields,
-          }
-        }
-
-        return values
       }
 
       const getLayers = () => {
@@ -207,31 +182,50 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setTitle = (title) => {
-        const {id} = self
-        const {sections, fields, effective} = title
-        const MTitle = transform({id, name: 'title', effective, sections, fields})
-
-        self.title = MTitle.create()
+        self.title = createTitleClass(config.key, title)
       }
 
       const getTitle = () => {
         let title
         if (self.title) {
-          const schema = self.title.getSchema()
-          const {effective} = schema
-          title = {
-            effective,
+          const {options, effective} = self.title.getSchema()
+          title = {}
+          if (isDef(effective)) {
+            title.effective = effective
           }
-          if (effective) {
+
+          if (!isDef(effective) || effective) {
             title = {
-              effective,
-              ...getObjectData(schema),
+              ...title,
+              ...getObjectData(options),
             }
           }
         }
         return title
       }
 
+      const setLenged = (lenged) => {
+        self.lenged = createLengedClass(config.key, lenged)
+      }
+
+      const getLenged = () => {
+        let lenged
+        if (self.lenged) {
+          const {options, effective} = self.lenged.getSchema()
+          lenged = {}
+          if (isDef(effective)) {
+            lenged.effective = effective
+          }
+
+          if (!isDef(effective) || effective) {
+            lenged = {
+              ...lenged,
+              ...getObjectData(options),
+            }
+          }
+        }
+        return lenged
+      }
       // 在带有options属性的对象上, 添加getOption和mapOption方法
       const addOptionUtil = (obj) => {
         if (isPlainObject(obj) && isPlainObject(obj.options)) {
@@ -286,6 +280,8 @@ export const createExhibitModelClass = (exhibit) => {
         getDimension,
         setTitle,
         getTitle,
+        setLenged,
+        getLenged,
         addOptionUtil,
       }
     })
