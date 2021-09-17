@@ -18,7 +18,7 @@ const lineLayer = (k) => ({
   type: 'line',
   sections: [
     {
-      name: 'data',
+      name: 'dataEncode',
       fields: [
         {
           name: 'column',

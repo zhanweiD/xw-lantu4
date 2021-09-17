@@ -76,13 +76,6 @@ const Adapter = () =>
               color: '#ccc',
             },
           },
-          // 分割线
-          // splitLine: {
-          //   show: true,
-          //   lineStyle: {
-          //     color: '#ffff00',
-          //   },
-          // },
         },
 
         // 这个去掉会报错

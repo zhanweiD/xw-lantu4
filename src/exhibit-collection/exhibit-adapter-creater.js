@@ -125,6 +125,7 @@ const createExhibitAdapter = (hooks) =>
             () => layer.effective,
             () => {
               const options = this.model.getLayers()
+
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
@@ -212,7 +213,7 @@ const createExhibitAdapter = (hooks) =>
         options,
         updatedData,
         updatedDimension,
-        updatedLayer,
+        updatedLayer: this.model.addOptionUtil(updatedLayer),
         action,
       })
     }
