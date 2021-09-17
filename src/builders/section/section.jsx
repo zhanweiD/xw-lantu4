@@ -11,13 +11,7 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
   // type 仅仅有0, 1, 2这三个值 对应三种不同的section头
   return (
     <div
-      className={c(
-        'h24 fbh fbac mb8 bold',
-        {ml24: type === 2, hand: type !== 2},
-        s.title,
-        s[`title_${type}`],
-        className
-      )}
+      className={c('h24 fbh fbac bold', {ml24: type === 2, hand: type !== 2}, s.title, s[`title_${type}`], className)}
       onClick={type !== 2 ? onClick : () => {}}
     >
       {type !== 2 && (
@@ -89,7 +83,7 @@ const Section = ({
         }}
       />
       <div
-        className={c(childrenClassName, {
+        className={c('pt8', childrenClassName, {
           hide: fold,
         })}
       >

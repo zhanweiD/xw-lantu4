@@ -50,7 +50,7 @@ const Tab = ({
                   <IconButton
                     iconFill={index === currentIndex ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.4)'}
                     icon={icon}
-                    buttonSize={12}
+                    buttonSize={14}
                     onClick={onIconClick}
                   />
                 )}

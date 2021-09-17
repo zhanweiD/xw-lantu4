@@ -24,8 +24,9 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
               headIcon={
                 isDef(node.effective) && (
                   <IconButton
-                    className="ml8"
+                    className="ml4"
                     icon={node.effective ? 'eye-open' : 'eye-close'}
+                    iconSize={14}
                     buttonSize={18}
                     onClick={node.toggleEffective}
                   />
@@ -64,10 +65,11 @@ const Builder = ({layers, data, dimension, exhibit}) => {
                 <div className="fbh">
                   <IconButton
                     icon={layer.effective ? 'eye-open' : 'eye-close'}
+                    iconSize={14}
                     buttonSize={24}
                     onClick={layer.toggleEffective}
                   />
-                  <IconButton icon="more" buttonSize={24} onClick={exhibit.doSomething} />
+                  <IconButton icon="more" iconSize={14} buttonSize={24} onClick={exhibit.doSomething} />
                 </div>
               }
             >
