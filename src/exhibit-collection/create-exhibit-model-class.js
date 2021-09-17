@@ -212,14 +212,22 @@ export const createExhibitModelClass = (exhibit) => {
         const MTitle = transform({id, name: 'title', effective, sections, fields})
 
         self.title = MTitle.create()
-        console.log(self.title)
       }
 
       const getTitle = () => {
         let title
         if (self.title) {
           const schema = self.title.getSchema()
-          title = getObjectData(schema)
+          const {effective} = schema
+          title = {
+            effective,
+          }
+          if (effective) {
+            title = {
+              effective,
+              ...getObjectData(schema),
+            }
+          }
         }
         return title
       }
