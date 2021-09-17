@@ -212,8 +212,8 @@ export const createExhibitModelClass = (exhibit) => {
 
       const getTitle = () => {
         let title
-        if (self.dimension) {
-          const schema = self.dimension.getSchema()
+        if (self.title) {
+          const schema = self.title.getSchema()
           title = getObjectData(schema)
         }
         return title
