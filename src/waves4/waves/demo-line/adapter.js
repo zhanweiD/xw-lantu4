@@ -105,9 +105,9 @@ const Adapter = () =>
     },
 
     // 处理包括数据、样式等变更
-    update({instance, options, updatedData, updatedDimension, updatedLayer, action, updatedPath}) {
+    update({instance, options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle}) {
       console.log('🚗 update')
-      console.log({instance, options, updatedData, updatedDimension, updatedLayer, action, updatedPath})
+      console.log({instance, options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle})
       // updateWave(options)
     },
 

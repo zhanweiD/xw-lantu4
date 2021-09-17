@@ -70,27 +70,39 @@ const createExhibitAdapter = (hooks) =>
     }
 
     getAllOptions() {
-      this.layers = this.model.getLayers()
       const instanceOption = {
         container: this.container,
-        layers: this.layers,
+        layers: this.model.getLayers(),
+        title: this.model.getTitle(),
+        data: this.model.getData(),
+        dimension: this.model.getDimension(),
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,
         isPreview: !this.isEdit,
-      }
-      if (this.model.data) {
-        instanceOption.data = this.model.getData()
-      }
-      if (this.model.dimension) {
-        instanceOption.dimension = this.model.getDimension()
       }
       return instanceOption
     }
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension} = model
+      const {data, layers, dimension, title} = model
+      if (title) {
+        this.observerDisposers.push(
+          reaction(
+            () => title.updatedOptions,
+            () => {
+              this.update({
+                action: 'title',
+                options: this.getAllOptions(),
+                updatedTitle: title.updatedOptions,
+                updatedPath: title.updatedPath,
+              })
+            }
+          )
+        )
+      }
+
       if (data) {
         this.observerDisposers.push(
           reaction(
@@ -132,7 +144,7 @@ const createExhibitAdapter = (hooks) =>
                   id: layer.id,
                   options: options.find((o) => o.id === layer.id),
                 },
-                updatedPath: layer.name,
+                updatedPath: 'effective',
               })
             }
           )
@@ -209,7 +221,7 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath}) {
+    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle}) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
@@ -218,6 +230,7 @@ const createExhibitAdapter = (hooks) =>
         updatedLayer,
         action,
         updatedPath,
+        updatedTitle,
       })
     }
 

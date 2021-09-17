@@ -1,7 +1,7 @@
 import isArray from 'lodash/isArray'
 import mappingConfig from '../exhibit-option-system/fields'
 import allSections from '../exhibit-option-system/sections'
-import createConfigModelClass from '../builders/create-config-model-class'
+import createConfigModelClass from '@builders/create-config-model-class'
 
 const getFields = (fields) => {
   return fields.map((field) => {
@@ -36,8 +36,11 @@ const recusiveNode = (nodes) => {
   })
 }
 
-export const transform = ({id, type, name, sections, fields}) => {
-  const props = {}
+export const transform = ({id, name, effective, sections, fields}) => {
+  const props = {
+    effective,
+    name,
+  }
   if (isArray(sections)) {
     props.sections = recusiveNode(sections)
   }

@@ -2,10 +2,11 @@ import {types, getEnv} from 'mobx-state-tree'
 import isPlainObject from 'lodash/isPlainObject'
 import onerStorage from 'oner-storage'
 import hJSON from 'hjson'
+import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 import {transform} from './exhibit-config'
-import {MDataField} from '../builders/data-section'
+import {createExhibitLayersClass} from './create-exhibit-layer-class'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -21,7 +22,7 @@ export const createExhibitModelClass = (exhibit) => {
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
-      deepKeys: types.frozen(['layers', 'data', 'dimension']),
+      deepKeys: types.frozen(['title', 'layers', 'data', 'dimension']),
     })
     .views((self) => ({
       get art_() {
@@ -43,9 +44,15 @@ export const createExhibitModelClass = (exhibit) => {
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
     .actions((self) => {
       const afterCreate = () => {
-        // setTimeout(() => {
-        //   self.dumpSchema()
-        // }, 10000)
+        if (config.data) {
+          self.setData(config.data)
+        }
+        if (config.dimension) {
+          self.setDimension(config.dimension)
+        }
+        if (config.title) {
+          self.setTitle(config.title)
+        }
       }
       const setCachedData = (data) => {
         self.cachedData = data
@@ -114,7 +121,23 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setLayers = (layers) => {
-        self.layers = layers
+        self.layers = createExhibitLayersClass(config.key, layers, {
+          exhibitId: self.id,
+          art: self.art_,
+          event: self.event_,
+          globalData: self.globalData_,
+          projectData: self.projectData_,
+          officialData: self.officialData_,
+        })
+        if (self.data) {
+          const models = []
+          self.layers.forEach((layer) => {
+            models.push(...layer.options.getRelationFields('columnSelect'))
+          })
+
+          const relationModels = [].concat(...self.data.getRelationModels(), ...models)
+          self.data.setRelationModels(relationModels)
+        }
       }
 
       const addLayer = () => {
@@ -127,18 +150,10 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setData = (data) => {
-        const relationModels = []
-        self.layers.forEach((layer) => {
-          relationModels.push(...layer.options.getRelationFields('columnSelect'))
-        })
-
-        relationModels.push(...self.dimension.getRelationFields('columnSelect'))
-
         self.data = MDataField.create(
           {
             type: 'data',
             sectionStyleType: 0,
-            relationModels,
             value: {
               type: 'private',
               private: hJSON.stringify(data, {space: 2, quotes: 'strings', separator: true}),
@@ -153,6 +168,16 @@ export const createExhibitModelClass = (exhibit) => {
           }
         )
       }
+      const getData = () => {
+        let data
+        if (self.data) {
+          const {type, private: privateData} = self.data.getSchema()
+          if (type === 'private') {
+            data = hJSON.parse(privateData)
+          }
+        }
+        return data
+      }
 
       const setDimension = (dimension) => {
         const {id} = self
@@ -160,20 +185,38 @@ export const createExhibitModelClass = (exhibit) => {
         const MDimension = transform({id, sections, fields})
 
         self.dimension = MDimension.create()
+        const relationModels = [].concat(
+          ...self.data.getRelationModels(),
+          ...self.dimension.getRelationFields('columnSelect')
+        )
+        self.data.setRelationModels(relationModels)
       }
 
       const getDimension = () => {
-        const schema = self.dimension.getSchema()
-        return getObjectData(schema)
+        let dimension
+        if (self.dimension) {
+          const schema = self.dimension.getSchema()
+          dimension = getObjectData(schema)
+        }
+        return dimension
       }
 
-      const getData = () => {
-        const {type, private: privateData} = self.data.getSchema()
-        let data
-        if (type === 'private') {
-          data = hJSON.parse(privateData)
+      const setTitle = (title) => {
+        const {id} = self
+        const {sections, fields, effective} = title
+        const MTitle = transform({id, name: 'title', effective, sections, fields})
+
+        self.title = MTitle.create()
+        console.log(self.title)
+      }
+
+      const getTitle = () => {
+        let title
+        if (self.dimension) {
+          const schema = self.dimension.getSchema()
+          title = getObjectData(schema)
         }
-        return data
+        return title
       }
 
       // 在带有options属性的对象上, 添加getOption和mapOption方法
@@ -228,6 +271,8 @@ export const createExhibitModelClass = (exhibit) => {
         getData,
         setDimension,
         getDimension,
+        setTitle,
+        getTitle,
         addOptionUtil,
       }
     })

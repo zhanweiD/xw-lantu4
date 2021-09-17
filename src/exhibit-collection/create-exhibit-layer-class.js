@@ -1,9 +1,9 @@
-import {types, hasParent} from 'mobx-state-tree'
+import {types} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import uuid from '@utils/uuid'
+import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
-import {MDataField} from '../builders/data-section'
 
 export const createLayer = (key, layer, env) => {
   const {name, type, id = uuid(), sections} = layer
@@ -36,10 +36,12 @@ export const createLayer = (key, layer, env) => {
       }
 
       const getData = () => {
-        const {type, private: privateData} = self.data.getSchema()
         let data
-        if (type === 'private') {
-          data = hJSON.parse(privateData)
+        if (self.data) {
+          const {type, private: privateData} = self.data.getSchema()
+          if (type === 'private') {
+            data = hJSON.parse(privateData)
+          }
         }
         return data
       }

@@ -368,15 +368,15 @@ const textSize = {
 const textWeight = {
   type: 'check', // 待确认
   label: 'textWeight',
-  defaultValue: '200',
+  defaultValue: 200,
   options: [
-    {key: '1', value: '100'},
-    {key: '2', value: '200'},
-    {key: '3', value: '300'},
-    {key: '4', value: '400'},
-    {key: '5', value: '500'},
-    {key: '6', value: '600'},
-    {key: '7', value: '700'},
+    {key: '1', value: 100},
+    {key: '2', value: 200},
+    {key: '3', value: 300},
+    {key: '4', value: 400},
+    {key: '5', value: 500},
+    {key: '6', value: 600},
+    {key: '7', value: 700},
   ],
 }
 

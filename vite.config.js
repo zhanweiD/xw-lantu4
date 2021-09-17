@@ -35,6 +35,7 @@ export default defineConfig({
       '@utils': resolve('src/utils'),
       '@waves4': resolve('src/waves4'),
       '@exhibit-collection': resolve('src/exhibit-collection'),
+      '@builders': resolve('src/builders'),
     },
   },
   server: {

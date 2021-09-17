@@ -6,7 +6,7 @@ import IconButton from '@components/icon-button'
 import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 
-const recusiveNode = ({sections, fields, level = 1}) => {
+export const recusiveNode = ({sections, fields, level = 1}) => {
   return (
     <>
       {fields && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}
