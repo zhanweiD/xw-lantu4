@@ -30,7 +30,7 @@ export default defineConfig({
       '@views': resolve('src/views'),
       '@components': resolve('src/components'),
       '@models': resolve('src/models'),
-      '@icons': resolve('src/icons'),
+      '@Icons': resolve('src/icons'),
       '@i18n': resolve('src/i18n'),
       '@utils': resolve('src/utils'),
       '@waves4': resolve('src/waves4'),
@@ -47,6 +47,7 @@ export default defineConfig({
       },
     },
     hmr: false,
+    reload: true,
   },
   build: {
     brotliSize: false,

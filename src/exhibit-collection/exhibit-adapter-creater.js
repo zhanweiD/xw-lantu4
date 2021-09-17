@@ -63,7 +63,9 @@ const createExhibitAdapter = (hooks) =>
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-      this.instance = hooks.init.call(this, instanceOption)
+      this.instance = hooks.init.call(this, {
+        options: instanceOption,
+      })
       this.observerModel()
     }
 
@@ -97,7 +99,7 @@ const createExhibitAdapter = (hooks) =>
               this.update({
                 action: 'data',
                 options: this.getAllOptions(),
-                data: this.model.getData(),
+                updatedData: this.model.getData(),
               })
             }
           )
@@ -111,7 +113,7 @@ const createExhibitAdapter = (hooks) =>
               this.update({
                 action: 'dimension',
                 options: this.getAllOptions(),
-                dimension: model.dimension.updateOptions,
+                updatedDimension: model.dimension.updateOptions,
               })
             }
           )
@@ -126,7 +128,7 @@ const createExhibitAdapter = (hooks) =>
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
-                updateLayer: {
+                updatedLayer: {
                   id: layer.id,
                   options: options.find((o) => o.id === layer.id),
                 },
@@ -142,7 +144,7 @@ const createExhibitAdapter = (hooks) =>
                 this.update({
                   action: 'layer',
                   options: this.getAllOptions(),
-                  updateLayer: {
+                  updatedLayer: {
                     id: layer.id,
                     options: layer.options.updateOptions,
                   },
@@ -160,7 +162,7 @@ const createExhibitAdapter = (hooks) =>
                   this.update({
                     action: 'layer',
                     options: this.getAllOptions(),
-                    updateLayer: {
+                    updatedLayer: {
                       id: layer.id,
                       options: {
                         data: layer.getData(),
@@ -204,14 +206,13 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, data, updateLayer, dimension, action}) {
+    update({options, updatedData, updatedDimension, updatedLayer, action}) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
-        data,
-        dimension,
-        updateLayer,
-
+        updatedData,
+        updatedDimension,
+        updatedLayer,
         action,
       })
     }

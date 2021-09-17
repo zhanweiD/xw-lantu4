@@ -3,11 +3,10 @@ import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
-    init(options) {
-      // console.log('adapter init')
-      console.log('options', options)
+    init({options}) {
+      console.log('🚗 init', options)
 
-      const {container, data, layers, themeColors} = options
+      const {container, dimension, data, layers, themeColors} = options
 
       const chart = echarts.init(container, 'dark', {
         renderer: 'svg',
@@ -16,17 +15,12 @@ const Adapter = () =>
       const series = layers.map((layer) => {
         const {getOption} = layer
 
-        // const myOptions = layer.mapOption({
-        //   'line.lineWidth': 'a.b.lineWidth',
-        // })
-        // console.log('myOptions', myOptions)
-
         return {
           type: 'line',
-          // TODO 对接面板
           encode: {
-            x: '成员名称',
-            y: '项目交付',
+            // // 可配维度
+            x: dimension.columnX[0],
+            y: getOption('data.column'),
           },
           lineStyle: {
             // 可配参数
@@ -111,9 +105,9 @@ const Adapter = () =>
     },
 
     // 处理包括数据、样式等变更
-    update(options) {
-      console.log('update')
-      console.log(options)
+    update({instance, options, updatedData, updatedDimension, updatedLayer, action}) {
+      console.log('🚗 update')
+      console.log({instance, options, updatedData, updatedDimension, updatedLayer, action})
       // updateWave(options)
     },
 

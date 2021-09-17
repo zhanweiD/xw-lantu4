@@ -3,7 +3,7 @@ import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
-    init(options) {
+    init({options}) {
       // console.log('adapter init')
       // console.log(options)
       // const style = util.mapOptions(options.layers[0], {
@@ -16,7 +16,7 @@ const Adapter = () =>
     },
 
     // 处理包括数据、样式等变更
-    update(options) {
+    update({options}) {
       console.log('update')
       console.log(options)
       // updateWave(options)
@@ -24,6 +24,7 @@ const Adapter = () =>
 
     // 销毁图表实例
     destroy({instance}) {
+      do {} while (condition)
       instance.destroy()
     },
 
