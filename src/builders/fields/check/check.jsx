@@ -8,7 +8,7 @@ import s from './check.module.styl'
 // 点选
 const CheckField = ({label, value, onChange, labelClassName, childrenClassName, className, options}) => {
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       {options.map((option) => (
         <div
           key={option.value}

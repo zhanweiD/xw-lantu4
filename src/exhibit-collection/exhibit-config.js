@@ -1,4 +1,3 @@
-import isDef from '@utils/is-def'
 import isArray from 'lodash/isArray'
 import mappingConfig from '../exhibit-option-system/fields'
 import allSections from '../exhibit-option-system/sections'
@@ -7,34 +6,26 @@ import createConfigModelClass from '../builders/create-config-model-class'
 const getFields = (fields) => {
   return fields.map((field) => {
     const config = mappingConfig[field.name]
-    return {...config, ...field}
+    if (config) {
+      return {...config, ...field}
+    }
+    return mappingConfig.missing
   })
 }
 
-const recusiveNode = (nodes, isExtend) => {
+const recusiveNode = (nodes) => {
   return nodes.map((node) => {
     let fields = node.fields
     let subSections = node.sections
     let section
     const res = {}
     section = allSections[node.name]
-    if (!isDef(fields)) {
-      fields = section.fields?.filter((v) => !v.isAdvance)
-    } else {
-      const sf = isExtend ? section.fields.filter((v) => !v.isAdvance) : section.fields
-      fields = fields.filter((field) => sf.some((v) => v.name === field.name))
-    }
-    if (!isDef(subSections)) {
-      subSections = section.sections?.filter((v) => !v.isAdvance)
-      if (isArray(subSections)) {
-        res.sections = recusiveNode(subSections, true)
-      }
-    } else if (isArray(subSections)) {
+    if (isArray(subSections)) {
       subSections = subSections.filter((sSection) => section.sections?.some((v) => v.name === sSection.name))
-      res.sections = recusiveNode(subSections, false)
+      res.sections = recusiveNode(subSections)
     }
 
-    if (isDef(fields)) {
+    if (isArray(fields)) {
       res.fields = getFields(fields)
     }
 
@@ -50,13 +41,9 @@ export const transform = ({id, type, name, sections, fields}) => {
   if (isArray(sections)) {
     props.sections = recusiveNode(sections)
   }
-  if (isDef(fields)) {
+  if (isArray(fields)) {
     props.fields = getFields(fields)
   }
 
-  return createConfigModelClass(`MLayer${id}`, props, {
-    id,
-    type,
-    name,
-  }).create({})
+  return createConfigModelClass(`MLayer${id}`, props)
 }

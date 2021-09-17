@@ -59,18 +59,18 @@ const relativePosition = {
   defaultValue: 'topCenter',
   // TODO
   options: [
-    {
-      icon: 'relative-position-top-left',
-      value: 'topLeft',
-    },
+    // {
+    //   icon: 'relative-position-top-left',
+    //   value: 'topLeft',
+    // },
     {
       icon: 'relative-position-top-center',
       value: 'topCenter',
     },
-    {
-      icon: 'relative-position-top-right',
-      value: 'topRight',
-    },
+    // {
+    //   icon: 'relative-position-top-right',
+    //   value: 'topRight',
+    // },
     {
       icon: 'relative-position-middle-left',
       value: 'middleLeft',
@@ -83,18 +83,18 @@ const relativePosition = {
       icon: 'relative-position-middle-right',
       value: 'middleRight',
     },
-    {
-      icon: 'relative-position-bottom-left',
-      value: 'bottomLeft',
-    },
+    // {
+    //   icon: 'relative-position-bottom-left',
+    //   value: 'bottomLeft',
+    // },
     {
       icon: 'relative-position-bottom-center',
       value: 'bottomCenter',
     },
-    {
-      icon: 'relative-position-bottom-right',
-      value: 'bottomRight',
-    },
+    // {
+    //   icon: 'relative-position-bottom-right',
+    //   value: 'bottomRight',
+    // },
   ],
 }
 
@@ -171,6 +171,21 @@ const eventType = {
   ],
 }
 
+// 尺寸
+const size = {
+  type: 'number',
+  label: 'size',
+  min: 1,
+  max: 100,
+  step: 1,
+}
+
+// 缺失
+const missing = {
+  type: 'missing',
+  label: 'missing',
+}
+
 /**
  * =====================================
  * color
@@ -197,14 +212,14 @@ const colorType = {
   ],
 }
 
-// 颜色
+// 单色
 const colorSingle = {
   type: 'color',
   label: 'singleColor',
   defaultValue: '#ffffff',
 }
 
-// 颜色渐变
+// 渐变
 // TODO
 const colorGradient = {
   type: 'gradient',
@@ -242,6 +257,18 @@ const columnLongitude = {
 const columnLatitude = {
   type: 'columnSelect',
   label: 'latitude',
+}
+
+// X轴
+const columnX = {
+  type: 'columnSelect',
+  label: 'xAxis',
+}
+
+// Y轴
+const columnY = {
+  type: 'columnSelect',
+  label: 'yAxis',
 }
 
 /**
@@ -316,6 +343,13 @@ const name = {
 const url = {
   type: 'text',
   label: 'url',
+  defaultValue: '',
+}
+
+// 内容
+const content = {
+  type: 'text',
+  label: 'content',
   defaultValue: '',
 }
 
@@ -469,6 +503,13 @@ const lineCurve = {
   ],
 }
 
+// 线光滑
+const lineSmooth = {
+  type: 'switch',
+  label: 'lineSmooth',
+  defaultValue: true,
+}
+
 /**
  * =====================================
  * range
@@ -485,18 +526,6 @@ const rangeNumber = {
 // 时间范围 暂不做
 
 export default {
-  // 名称
-  name,
-  // URL
-  url,
-  // 颜色类型
-  colorType,
-  // 颜色单色
-  colorSingle,
-  // 颜色渐变
-  colorGradient,
-  // 颜色列表
-  colorList,
   // 偏移
   offset,
   // 模糊
@@ -511,12 +540,27 @@ export default {
   angle,
   // 触发事件类型
   eventType,
+  // 尺寸
+  size,
+  missing,
+  // 颜色类型
+  colorType,
+  // 颜色单色
+  colorSingle,
+  // 颜色渐变
+  colorGradient,
+  // 颜色列表
+  colorList,
   // 普通字段
   column,
   // 经度
   columnLongitude,
   // 纬度
   columnLatitude,
+  // X轴
+  columnX,
+  // Y轴
+  columnY,
   // gis中心点坐标
   gisCenterCoordinate,
   // gis缩放系数
@@ -527,6 +571,12 @@ export default {
   gisBearing,
   // gis单位
   gisUnit,
+  // 名称
+  name,
+  // URL
+  url,
+  // 内容
+  content,
   // 字号
   textSize,
   // 字重
@@ -543,6 +593,8 @@ export default {
   lineWidth,
   // 线样式
   lineCurve,
+  // 线光滑
+  lineSmooth,
   // 数值范围
   rangeNumber,
 }

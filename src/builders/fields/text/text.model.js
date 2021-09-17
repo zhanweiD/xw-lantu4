@@ -5,6 +5,8 @@ import isDef from '@utils/is-def'
 export const MTextField = types
   .model('MTextField', {
     type: types.optional(types.enumeration(['text', 'password']), 'text'),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
     defaultValue: types.maybe(types.string),

@@ -95,9 +95,6 @@ export const opTransform = (options = []) => {
   return options.map((item) => ({
     label: item.key,
     value: item.value,
-    data: item.data,
-    thumbnail: item.thumbnail,
-    remark: item.remark,
   }))
 }
 // 选中值转换函数

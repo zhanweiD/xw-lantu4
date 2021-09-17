@@ -8,10 +8,19 @@ const pointLayer = (k) => ({
   sections: [
     {
       name: 'line',
+      fields: [
+        {
+          name: 'column',
+        },
+      ],
     },
     {
       name: 'point',
     },
+    // 下面area打开会报错
+    // {
+    //   name: 'area',
+    // },
     {
       name: 'label',
       // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效
@@ -19,12 +28,12 @@ const pointLayer = (k) => ({
       sections: [
         {
           name: 'text',
-        },
-        {
-          name: 'shadow',
-        },
-        {
-          name: 'format',
+          fields: [
+            {
+              name: 'textSize',
+              defaultValue: 15,
+            },
+          ],
         },
       ],
     },
@@ -39,9 +48,28 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [60, 40, 40, 40],
   layers: [pointLayer(k)],
-  // 下面的xPanel面板，工具内部是有固定顺序的
-  titlePanel: true,
-  lengedPanel: {
+  // 下面的面板，工具内部是有固定顺序的
+  // 标题面板
+  title: [
+    ['titleBase.content', 'xxx.yyy.title', 'GIS地图'],
+    ['text.textSize', 'xxx.yyy.fontSize', 12],
+  ],
+
+  title: {
+    sections: [
+      {
+        name: 'titleBase',
+        fields: [
+          {
+            name: 'content',
+            defaultValue: 'GIS地图',
+          },
+        ],
+      },
+    ],
+  },
+  // 图例面板
+  lenged: {
     sections: [
       {
         name: 'base',
@@ -56,12 +84,12 @@ export const config = (k) => ({
       },
     ],
   },
-  // 坐标轴
-  axisPanel: true,
+  // 直角坐标系坐标轴
+  axis: true,
   // 极坐标系坐标轴
-  polarPanel: false,
+  polarAxis: false,
   // 动画
-  animationPanel: false,
+  animation: false,
   // 高级
-  advancePanel: false,
+  advance: false,
 })

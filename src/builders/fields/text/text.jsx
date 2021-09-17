@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import trim from 'lodash/trim'
 import isDef from '@utils/is-def'
@@ -15,17 +15,9 @@ const TextField = ({
   childrenClassName,
   className,
 }) => {
-  const textRef = useRef(null)
-
-  useEffect(() => {
-    textRef.current.addEventListener('keyup', (e) => {
-      e.stopPropagation()
-    })
-  }, [])
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       <input
-        ref={textRef}
         type={type}
         value={isDef(value) ? value : defaultValue}
         placeholder={placeholder}

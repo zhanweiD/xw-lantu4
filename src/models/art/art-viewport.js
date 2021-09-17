@@ -73,31 +73,13 @@ export const MArtViewport = types
   .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     let removeShortcutDelete
-    let removeShortcutBackspace
     const afterCreate = () => {
       removeShortcutDelete = shortcut.add({
-        keyName: 'delete',
-        keyUp: () => {
+        keyName: 'commandDelete',
+        keyDown: () => {
           const {artId} = self.art_
           if (artId === self.activeTabId_ && self.selectRange) {
-            self.root_.confirm({
-              content: `正在执行删除操作, 删除之后暂时无法恢复, 您确定这样做吗?`,
-              onConfirm: self.selectRange.remove,
-              attachTo: false,
-            })
-          }
-        },
-      })
-      removeShortcutBackspace = shortcut.add({
-        keyName: 'backspace',
-        keyUp: () => {
-          const {artId} = self.art_
-          if (artId === self.activeTabId_ && self.selectRange) {
-            self.root_.confirm({
-              content: `正在执行删除操作, 删除之后暂时无法恢复, 您确定这样做吗?`,
-              onConfirm: self.selectRange.remove,
-              attachTo: false,
-            })
+            self.selectRange.remove()
           }
         },
       })
@@ -503,7 +485,6 @@ export const MArtViewport = types
 
     const beforeDestroy = () => {
       removeShortcutDelete()
-      removeShortcutBackspace()
     }
 
     return {

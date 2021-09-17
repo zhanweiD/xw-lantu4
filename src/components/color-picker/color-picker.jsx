@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React from 'react'
 import {SketchPicker} from 'react-color'
 import {observer} from 'mobx-react-lite'
 import isFunction from 'lodash/isFunction'
@@ -9,15 +9,10 @@ import s from './color-picker.module.styl'
 const ColorPicker = ({model}) => {
   const {colorPickerBox} = w
   const {onChange} = model
-  const colorRef = useRef(null)
-  useEffect(() => {
-    colorRef.current.addEventListener('keyup', (e) => {
-      e.stopPropagation()
-    })
-  }, [])
+
   return (
     <Overlay model={model} zIndex={21099} isScroll={false}>
-      <div className={s.pickerBox} ref={colorRef}>
+      <div className={s.pickerBox}>
         <SketchPicker
           color={colorPickerBox.rgbaOrderObject}
           disableAlpha

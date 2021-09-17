@@ -508,6 +508,7 @@ export default {
     select: 'Select',
     datepicker: 'Datepicker',
     classifyTextIndicator: 'Text Indicator',
+    demo: 'Demo',
   },
   user: {
     personalCenter: 'My Center',

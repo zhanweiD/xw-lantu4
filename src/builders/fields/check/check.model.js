@@ -12,6 +12,8 @@ const MKeyValue = types.model('MKeyValue', {
 export const MCheckField = types
   .model('MCheckField', {
     type: types.enumeration(['check']),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     value: types.maybe(types.union(types.string, types.number)),
     defaultValue: types.optional(types.string, ''),

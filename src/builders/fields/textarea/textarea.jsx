@@ -16,11 +16,6 @@ const TextareaField = ({
 }) => {
   const textRef = useRef(null)
   useEffect(() => {
-    textRef.current.addEventListener('keyup', (e) => {
-      e.stopPropagation()
-    })
-  }, [])
-  useEffect(() => {
     autosize(textRef.current)
     return () => {
       autosize.destroy(textRef.current)
@@ -28,7 +23,7 @@ const TextareaField = ({
   })
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
       <textarea
         ref={textRef}
         value={isDef(value) ? value : defaultValue}

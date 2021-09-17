@@ -16,30 +16,28 @@ const text = {
     },
     {
       name: 'colorSingle',
-      // isAdvance: true,
+      //
     },
     {
       name: 'opacity',
     },
     {
       name: 'textDirection',
-      isAdvance: true,
     },
     {
       name: 'offset',
-      isAdvance: true,
     },
     {
       name: 'relativePosition',
-      isAdvance: true,
     },
     {
       name: 'anchor',
-      isAdvance: true,
     },
     {
       name: 'angle',
-      isAdvance: true,
+    },
+    {
+      name: 'colorGradient',
     },
   ],
 }
@@ -70,11 +68,9 @@ const format = {
     },
     {
       name: 'percentage',
-      isAdvance: true,
     },
     {
       name: 'decimalPlaces',
-      isAdvance: true,
     },
   ],
 }
@@ -88,11 +84,24 @@ const label = {
     },
     {
       name: 'shadow',
-      isAdvance: true,
     },
     {
       name: 'format',
-      isAdvance: true,
+    },
+  ],
+}
+
+// 面积
+const area = {
+  name: 'area',
+  // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效
+  effective: false,
+  fields: [
+    {
+      name: 'colorSingle',
+    },
+    {
+      name: 'opacity',
     },
   ],
 }
@@ -112,7 +121,6 @@ const line = {
     },
     {
       name: 'lineCurve',
-      isAdvance: true,
     },
   ],
 }
@@ -146,12 +154,30 @@ const stroke = {
 // 点
 const point = {
   name: 'line',
+  fields: [
+    {
+      name: 'size',
+    },
+    {
+      name: 'relativePosition',
+    },
+  ],
   sections: [
     {
       name: 'fill',
     },
     {
       name: 'stroke',
+    },
+  ],
+}
+
+// 标题基础
+const titleBase = {
+  name: 'titleBase',
+  fields: [
+    {
+      name: 'content',
     },
   ],
 }
@@ -167,10 +193,10 @@ const pointCoordinate = {
   name: 'pointCoordinate',
   fields: [
     {
-      name: 'langitudeColumn',
+      name: 'columnLongitude',
     },
     {
-      name: 'latitudeColumn',
+      name: 'columnLatitude',
     },
   ],
 }
@@ -213,6 +239,8 @@ export default {
   format,
   // 标签
   label,
+  // 面积
+  area,
   // 线
   line,
   // 填充
@@ -221,6 +249,8 @@ export default {
   stroke,
   // 点
   point,
+  // 标题基础
+  titleBase,
   // 点坐标
   pointCoordinate,
   // 起点坐标

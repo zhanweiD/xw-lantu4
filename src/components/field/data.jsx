@@ -1,26 +1,26 @@
-import React, {useState} from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import hJSON from "hjson"
-import Section from "@components/section"
-import tip from "@components/tip"
-import copy from "@utils/copy"
-import Modal from "@components/modal"
-import Tab from "@components/tab"
-import Icon from "@components/icon"
-import IconButton from "@components/icon-button"
-import {CodeField} from "./code"
-import {Field} from "./base"
-import s from "./data.module.styl"
+import React, {useState} from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import hJSON from 'hjson'
+import Section from '@components/section'
+import tip from '@components/tip'
+import copy from '@utils/copy'
+import Modal from '@components/modal'
+import Tab from '@components/tab'
+import Icon from '@components/icon'
+import IconButton from '@components/icon-button'
+import {CodeField} from './code'
+import {Field} from './base'
+import s from './data.module.styl'
 
 const Check = ({value, onChange, options}) => {
   return (
-    <div className={c("fbh", s.wrap)}>
+    <div className={c('fbh', s.wrap)}>
       {options.map((option) => (
         <div
           key={option.key}
-          className={c("fb1", s.checkOption, {
-            [s.checkOption_checked]: value === option.value
+          className={c('fb1', s.checkOption, {
+            [s.checkOption_checked]: value === option.value,
           })}
           value={option.value}
           onClick={() => {
@@ -43,7 +43,7 @@ export const DataField = observer(
     projectData = [],
     officialData = [],
     addSource = () => {},
-    removeSource = () => {}
+    removeSource = () => {},
   }) => {
     const [json, setJson] = useState(value.private)
     const [isVisible, setIsVisible] = useState(false)
@@ -54,22 +54,22 @@ export const DataField = observer(
             value={value.type}
             options={[
               {
-                key: "私有JSON",
-                value: "private"
+                key: '私有JSON',
+                value: 'private',
               },
               {
-                key: "数据源",
-                value: "source"
-              }
+                key: '数据源',
+                value: 'source',
+              },
             ]}
             onChange={(value) => {
               onChange({
-                type: value
+                type: value,
               })
             }}
           />
         </Field>
-        {value.type === "private" && (
+        {value.type === 'private' && (
           <Section name="私有JSON" dashed childrenClassName="pt8">
             <CodeField
               value={json}
@@ -79,39 +79,39 @@ export const DataField = observer(
               }}
               buttons={[
                 {
-                  name: "复制",
+                  name: '复制',
                   action: () => {
                     copy(json)
-                    tip.success({content: "复制成功"})
+                    tip.success({content: '复制成功'})
                   },
-                  position: "left"
+                  position: 'left',
                 },
                 {
-                  name: "格式化",
+                  name: '格式化',
                   action: () => {
                     try {
                       const hjson = hJSON.parse(json)
-                      setJson(hJSON.stringify(hjson, {space: 2, quotes: "strings", separator: true}))
+                      setJson(hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}))
                     } catch (error) {
-                      tip.error({content: "格式化失败,请检查JSON是否合法"})
+                      tip.error({content: '格式化失败,请检查JSON是否合法'})
                     }
                   },
-                  position: "left"
+                  position: 'left',
                 },
                 {
-                  name: "保存",
+                  name: '保存',
                   action: () => {
                     try {
                       const hjson = hJSON.parse(json)
                       onChange({
-                        private: hJSON.stringify(hjson, {space: 2, quotes: "strings", separator: true})
+                        private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
                       })
                     } catch (error) {
-                      tip.error({content: "保存失败,请检查JSON是否合法"})
+                      tip.error({content: '保存失败,请检查JSON是否合法'})
                     }
                   },
-                  position: "right"
-                }
+                  position: 'right',
+                },
               ]}
             />
             <div className="ml24">
@@ -119,7 +119,7 @@ export const DataField = observer(
               {value.private && (
                 <div>
                   {hJSON.parse(value.private)[0].map((v) => (
-                    <span className={c("mr8", s.fieldPreview)} key={v}>
+                    <span className={c('mr4 mb4', s.fieldPreview)} key={v}>
                       {v}
                     </span>
                   ))}
@@ -128,7 +128,7 @@ export const DataField = observer(
             </div>
           </Section>
         )}
-        {value.type === "source" && (
+        {value.type === 'source' && (
           <>
             <Section name="数据源" dashed childrenClassName="ml24">
               {value.source ? (
@@ -138,7 +138,7 @@ export const DataField = observer(
                     setIsVisible(true)
                   }}
                 >
-                  <div className={c("fb1 lh24", s.name)}>{value.sourceName_}</div>
+                  <div className={c('fb1 lh24', s.name)}>{value.sourceName_}</div>
                   <IconButton
                     icon="remove"
                     buttonSize={24}
@@ -150,7 +150,7 @@ export const DataField = observer(
                 </div>
               ) : (
                 <div
-                  className={c("hand fbh fbac fbjsb mb8 lh24 mr16 ctw20", s.name)}
+                  className={c('hand fbh fbac fbjsb mb8 lh24 mr16 ctw20', s.name)}
                   onClick={() => {
                     setIsVisible(true)
                   }}
@@ -163,7 +163,7 @@ export const DataField = observer(
                 {value.sourceData_ && (
                   <div>
                     {value.sourceData_[0].map((v) => (
-                      <span className={c("mr8", s.fieldPreview)} key={v}>
+                      <span className={c('mr4 mb4', s.fieldPreview)} key={v}>
                         {v}
                       </span>
                     ))}
@@ -186,7 +186,7 @@ export const DataField = observer(
                     return (
                       <div
                         key={data.dataId}
-                        className={c("fbh fbac lh24 pr8 pl8 ctw60 hand mb2", s.row)}
+                        className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                         onClick={() => {
                           addSource(data.dataId)
                           setIsVisible(false)
@@ -203,7 +203,7 @@ export const DataField = observer(
                     return (
                       <div
                         key={data.dataId}
-                        className={c("fbh fbac lh24 pr8 pl8 ctw60 hand mb2", s.row)}
+                        className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                         onClick={() => {
                           addSource(data.dataId)
                           setIsVisible(false)
@@ -220,7 +220,7 @@ export const DataField = observer(
                     return (
                       <div
                         key={data.dataId}
-                        className={c("fbh fbac lh24 pr8 pl8 ctw60 hand mb2", s.row)}
+                        className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                         onClick={() => {
                           addSource(data.dataId)
                           setIsVisible(false)
