@@ -5,12 +5,10 @@ import createLog from '@utils/create-log'
 import uuid from '@utils/uuid'
 import hJSON from 'hanson'
 import random from '@utils/random'
-import {MDatabase} from '../data/data-database'
 import {MApi} from '../data/data-api'
 import {MJson} from '../data/data-json'
 import {MExcel} from '../data/data-excel'
 import {MDataBasic} from '../data/data-basic'
-import {MDataSource} from '../data/data-source'
 import {MDataField} from '../data/data-field'
 
 const log = createLog('@models/editor/editor-tab-data')
@@ -25,10 +23,7 @@ export const MDataTab = types
     excel: types.optional(MExcel, {}),
     json: types.optional(MJson, {}),
     api: types.optional(MApi, {}),
-    database: types.optional(MDatabase, {}),
     dataField: types.optional(MDataField, {}),
-    dataSource: types.optional(MDataSource, {}),
-    dataSources: types.optional(types.array(MDataSource), []),
     // 数据加载的状态
     state: types.optional(types.enumeration('State', ['loading', 'loadSuccess', 'loadError']), 'loadSuccess'),
     // 是否已经创建数据
@@ -101,13 +96,11 @@ export const MDataTab = types
         self.basic = {id: 0}
         self.basic.setSchema({customId: random(6)})
         // self.updateDataField()
-        self.getDataSources({type: 'database'})
       }
     })
 
     const setData = (data) => {
-      const {dataType, dataName, ctime, mtime, remark, user, config, dataSource, customId} = data
-      let type = dataType
+      const {dataType, dataName, ctime, mtime, remark, user, config} = data
       // basic赋值
       self.dataName = dataName
       self.basic.setSchema({
@@ -116,7 +109,6 @@ export const MDataTab = types
         creator: user ? user.nickname : '',
         dataName,
         remark,
-        customId: customId.toString(),
       })
       // dataFiled赋值
       if (config && config.dataField) {
@@ -125,144 +117,87 @@ export const MDataTab = types
         })
       }
 
-      if (type !== 'excel' && type !== 'json' && type !== 'api') {
-        // 站在全局数据角度看，类型只有database
-        // TODO database 改为sql
-        type = 'database'
-        self.getDataSources({type: 'database'})
-      }
-      self[type].setData(data)
+      self[dataType].setData(data)
 
       self.set({
-        dataType: type,
+        dataType: dataType,
         isCreate: true,
       })
       self.basic.setSchema({isCreate: true})
-      const {dataSourceId, dataSourceName} = dataSource
-      self.dataSource.set({
-        dataSourceId,
-        dataSourceName,
-        type,
-        config: dataSource.config,
-      })
+
       self.updateDataField()
       // 全部执行完成之后将状态置为成功
       self.set({state: 'loadSuccess'})
     }
 
     const saveData = () => {
+      // 保存前校验，通不过直接就结束
+      if (!beforeSave()) {
+        return
+      }
       const {tip} = self.env_
       try {
         const {dataType, folderId, basic, dataField} = self
         const {dataName, remark} = basic.getSchema()
-        if (!beforeSave()) {
-          return
-        }
         // 数据需要的配置
         let data = {
+          dataType,
           folderId,
           dataName,
           remark,
-          // customId,
           config: {
             dataField: hJSON.parse(dataField.dataFieldCode.value),
           },
         }
-        // 数据源需要的配置
-        // let dataSourceOptions = {
-        //   dataType,
-        //   dataSourceName: dataName,
-        //   config: {}
-        // }
         // 数据源创建、修改后执行的函数
-        let afterDataSourceHandel = () => {}
-        if (dataType === 'database') {
-          const {dataSource} = self
-          const {sql} = self.database.codeOptions.getSchema()
-          data = {
-            ...data,
-            dataSourceId: dataSource.dataSourceId,
-            config: {...data.config, sql},
-          }
-          self.updateData(data)
-        } else if (dataType === 'json') {
+        if (dataType === 'json') {
           // 保存前先格式化
           self.json.formatData()
+          const fileData = JSON.stringify(JSON.parse(self.json.codeOptions.data.value))
           const {useDataProcessor, dataProcessor} = self.json.codeOptions.getSchema()
-          // const jsonData = JSON.stringify(JSON.parse(self.json.codeOptions.data.value))
-          // Q: 为什么要这么实现
-          // A: 一个全局数据由数据和数据源两部分组成，数据一定要包含一个数据源，所以创建数据之前一定要创建数据源
-          // dataSourceOptions = {
-          //   ...dataSourceOptions,
-          //   data: jsonData
-          // }
-          afterDataSourceHandel = (dataSource) => {
-            data = {
-              ...data,
-              dataSourceId: dataSource.dataSourceId,
-              config: {
-                ...data.config,
-                useDataProcessor,
-              },
-              processorFunction: dataProcessor,
-            }
-            self.updateData(data)
-            self.dataSource.set({...dataSource})
+          data = {
+            ...data,
+            config: {
+              ...data.config,
+              useDataProcessor,
+            },
+            fileData,
+            processorFunction: dataProcessor,
           }
         } else if (dataType === 'api') {
-          // dataSourceOptions = {
-          //   ...dataSourceOptions,
-          //   config: {
-          //     url: self.api.options.url.value
-          //   }
-          // }
-          afterDataSourceHandel = (dataSource) => {
-            // self.dataSource.set(...dataSource)
-            const {method, url} = self.api.options.getSchema()
-            const {headers, query, body, dataProcessor, useDataProcessor} = self.api.codeOptions.getSchema()
-            data = {
-              ...data,
-              dataSourceId: dataSource.dataSourceId,
-              config: {
-                ...data.config,
-                url,
-                method,
-                headers,
-                qs: query,
-                body,
-                useDataProcessor,
-              },
-              processorFunction: dataProcessor,
-            }
-            self.updateData(data)
-            self.dataSource.set({...dataSource})
+          const {method, url} = self.api.options.getSchema()
+          const {headers, query, body, dataProcessor, useDataProcessor} = self.api.codeOptions.getSchema()
+          data = {
+            ...data,
+            config: {
+              ...data.config,
+              url,
+              method,
+              headers,
+              qs: query,
+              body,
+              useDataProcessor,
+            },
+            processorFunction: dataProcessor,
           }
         } else if (dataType === 'excel') {
-          const excelData = JSON.stringify({
+          const fileData = JSON.stringify({
             columns: self.excel.columns,
             data: self.excel.data,
           })
           const {row, limit, isSetAlias} = self.excel.options.getSchema()
-
-          afterDataSourceHandel = () => {
-            data = {
-              ...data,
-              dataType,
-              fileData: excelData,
-              config: {
-                ...data.config,
-                row,
-                limit,
-                isSetAlias,
-              },
-            }
-            self.updateData(data)
+          data = {
+            ...data,
+            fileData,
+            config: {
+              ...data.config,
+              row,
+              limit,
+              isSetAlias,
+            },
           }
         }
-
-        if (dataType === 'json' || dataType === 'excel' || dataType === 'api') {
-          afterDataSourceHandel()
-        }
+        self.updateData(data)
       } catch (error) {
         log.error('SaveData error', error)
         tip.error({content: '保存失败！'})
@@ -323,7 +258,7 @@ export const MDataTab = types
             content: '自定义ID校验错误，请检查是否包含数字和字母外的字符',
           })
         } else {
-          tip.error({content: error.message})
+          tip.error({content: '数据保存失败'})
         }
       }
     })
@@ -411,26 +346,8 @@ export const MDataTab = types
       self.dataField.setConfigs({dataField: {options: dataFieldConfigs}})
     }
 
-    // 筛选 dataSources 的类型，目前用法只用来筛选database类型的数据源，后续可能扩展
-    const getDataSources = flow(function* getDataSources({type = ''}) {
-      const {io} = self.env_
-      const dataIo = self.isProject ? io.project.data : io.data
-      try {
-        const {list} = yield dataIo.getDataSource({
-          ':projectId': self.isProject ? self.projectId : null,
-        })
-        const dataSources =
-          type === 'database' &&
-          list.filter((data) => data.dataType !== 'json' && data.dataType !== 'api' && data.dataType !== 'excel')
-        self.set({dataSources})
-      } catch (error) {
-        // TODO error 统一替换
-        log.error(error)
-      }
-    })
-
-    // 仅内部调用
     // 保存前的校验
+    // 后面可能存在扩展，单独抽出生命周期
     const beforeSave = () => {
       const {tip} = self.env_
       const {basic} = self
@@ -448,6 +365,5 @@ export const MDataTab = types
       saveData,
       updateData,
       updateDataField,
-      getDataSources,
     }
   })

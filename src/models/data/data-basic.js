@@ -65,15 +65,15 @@ export const MDataBasic = createConfigModelClass('MDataBasic', {
         defaultValue: '',
       },
     },
-    {
-      section: 'optionPanel.basicInfo',
-      option: 'customId',
-      field: {
-        type: 'text',
-        label: 'dataPanel.customId',
-        value: '',
-      },
-    },
+    // {
+    //   section: 'optionPanel.basicInfo',
+    //   option: 'customId',
+    //   field: {
+    //     type: 'text',
+    //     label: 'dataPanel.customId',
+    //     value: '',
+    //   },
+    // },
     {
       section: '',
       option: 'isCreate',
