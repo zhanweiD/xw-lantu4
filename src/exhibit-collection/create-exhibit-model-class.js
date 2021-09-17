@@ -68,6 +68,7 @@ export const createExhibitModelClass = (exhibit) => {
       const getObjectData = (nodes) => {
         const {sections, fields} = nodes
         let values = {}
+
         if (isDef(sections)) {
           Object.values(sections).forEach((node) => {
             if (!isDef(node.effective) || node.effective) {
@@ -77,6 +78,10 @@ export const createExhibitModelClass = (exhibit) => {
 
               if (node.sections) {
                 values[node.name] = {...values[node.name], ...getObjectData(node)}
+              }
+            } else {
+              values[node.name] = {
+                effective: node.effective,
               }
             }
           })
