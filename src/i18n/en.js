@@ -28,7 +28,6 @@ export default {
   },
   dataPanel: {
     project: 'Project Data',
-
     datas: 'Datas',
     official: 'Official Data',
     dataCreate: 'Create Data',

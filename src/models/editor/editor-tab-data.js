@@ -204,6 +204,7 @@ export const MDataTab = types
       }
     }
 
+    // todo:留这个方法没有意义，准备干掉和save合并
     const updateData = flow(function* createData(data) {
       const {io, tip, event} = self.env_
       let dataIo = io.data
@@ -246,7 +247,7 @@ export const MDataTab = types
         if (self.isProject) {
           event.fire('projectDetail.getData')
         } else {
-          event.fire('dataPanel.getDataFolder')
+          event.fire('dataPanel.getFolders')
         }
 
         self.editor_.finishCreate({...self, type: 'data'})
@@ -358,6 +359,10 @@ export const MDataTab = types
       }
       return true
     }
+
+    // const afterSave = () => {
+
+    // }
 
     return {
       getData,

@@ -28,7 +28,6 @@ export default {
   },
   dataPanel: {
     project: '项目数据',
-
     datas: '数据列表',
     official: '官方数据',
     dataCreate: '新建数据',

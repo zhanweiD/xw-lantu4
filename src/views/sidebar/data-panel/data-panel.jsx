@@ -1,4 +1,4 @@
-import React, {useState, Children} from 'react'
+import React, {useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -8,7 +8,6 @@ import Scroll from '@components/scroll'
 import Section from '@components/section'
 import Icon from '@components/icon'
 import IconButton from '@components/icon-button'
-import Grid from '@components/grid'
 import Modal from '@components/modal'
 import {TextField} from '@components/field'
 import DataToolbar from './data-toolbar'
@@ -17,7 +16,7 @@ import s from './data-panel.module.styl'
 import Loading from '@components/loading'
 
 const createMenu = (e, button, dataPanel, folder, isTop, isOnClickMore) => {
-  const {toggleFolderTop, removeFolder, openTabByData} = dataPanel
+  const {toggleFolderTop, confirm, openTabByData} = dataPanel
   e.stopPropagation()
   const menu = w.overlayManager.get('menu')
   const createList = [
@@ -29,7 +28,7 @@ const createMenu = (e, button, dataPanel, folder, isTop, isOnClickMore) => {
   const list = [
     {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
     ...createList,
-    {name: '删除文件夹', action: () => (removeFolder(folder), menu.hide())},
+    {name: '删除文件夹', action: () => (confirm(folder, 'folder'), menu.hide())},
   ]
   menu.toggle({
     attachTo: button,
@@ -53,14 +52,7 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
 }
 
 const DataFolders = observer(({dataPanel, folder, icon, onNoDataClick}) => {
-  // TODO 多语言
-  // const {t} = useTranslation()
-  const {toolbar} = dataPanel
-  // const {datas_, folderName, section, env_ = {}} = folder
   const {datas_, folderName, section} = folder
-
-  // const {session} = env_
-
   return (
     <Section
       className="pl8 pr8 mt8"
@@ -73,36 +65,7 @@ const DataFolders = observer(({dataPanel, folder, icon, onNoDataClick}) => {
       }}
     >
       {datas_.length ? (
-        toolbar.showtype === 'grid-layout' ? (
-          <Grid column={toolbar.showtype === 'grid-layout' ? 4 : 1}>
-            {datas_.map((data) =>
-              Children.toArray(
-                <Grid.Item>
-                  <DataThumbnail
-                    folder={folder}
-                    data={data}
-                    // toolbar={toolbar}
-                    // isLast={index === datas_.length - 1}
-                    dataPanel={dataPanel}
-                  />
-                </Grid.Item>
-              )
-            )}
-          </Grid>
-        ) : (
-          datas_.map((data) =>
-            Children.toArray(
-              <DataThumbnail
-                data={data}
-                dataPanel={dataPanel}
-                // toolbar={toolbar}
-                // isLast={index === datas_.length - 1}
-                // index={index}
-                folder={folder}
-              />
-            )
-          )
-        )
+        datas_.map((data) => <DataThumbnail data={data} dataPanel={dataPanel} folder={folder} key={data.dataId} />)
       ) : (
         <div className={c('mb16 emptyNote')}>
           <div>

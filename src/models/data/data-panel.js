@@ -1,5 +1,5 @@
 import {flow} from 'mobx'
-import {types, getEnv, getRoot, applySnapshot} from 'mobx-state-tree'
+import {types, getEnv, getRoot} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
 import uuid from '@utils/uuid'
 // import {createConfigModelClass} from '@components/field'
@@ -97,48 +97,8 @@ export const MDataPanel = types
       event.on('dataPanel.getFolders', self.getFolders)
       event.on('dataPanel.getProjectFolders', self.getProjectFolders)
       event.on('dataPanel.setProjectId', self.setProjectId)
-      // self.getFolders()
       self.getFolders()
     }
-    // 新建文件夹的 Model 框
-    // const createFolderConfirm = () => {
-    //   const modal = self.root_.overlayManager.get('fieldModal')
-    //   const MDataCreaterFolder = createConfigModelClass('MDataCreaterFolder', {
-    //     sections: ['__hide__'],
-    //     fields: [
-    //       {
-    //         section: '__hide__',
-    //         option: 'name',
-    //         field: {
-    //           type: 'text',
-    //           label: 'name',
-    //           placeholder: '文件夹名称不能为空、重复',
-    //           defaultValue: '',
-    //         },
-    //       },
-    //     ],
-    //   })
-    //   modal.show({
-    //     attachTo: false,
-    //     title: '新建文件夹',
-    //     height: 160,
-    //     content: MDataCreaterFolder.create(),
-    //     buttons: [
-    //       {
-    //         name: '取消',
-    //         action: () => {
-    //           modal.hide()
-    //         },
-    //       },
-    //       {
-    //         name: '确定',
-    //         action: (schema) => {
-    //           self.createDataFolder(schema)
-    //         },
-    //       },
-    //     ],
-    //   })
-    // }
 
     // 创建数据文件夹
     const createFolder = flow(function* createFolder(name, callback) {
@@ -161,7 +121,6 @@ export const MDataPanel = types
       } catch (error) {
         log.error({content: error.message})
         tip.error({content: '文件夹新建失败'})
-        // event.once('overlay.fieldModal.onConfirm', self.createDataFolder)
       }
     })
 
@@ -203,26 +162,6 @@ export const MDataPanel = types
       })
     }
 
-    // const afterCreate = () => {
-    //   const {event} = self.env_
-    //   self.getDataFolder()
-
-    //   event && event.on('dataPanel.getDataFolder', self.getDataFolder)
-    // }
-
-    const applyLocal = () => {
-      const {local} = self.env_
-      const localSchema = local.get('SKMaterialPanel')
-      localSchema && applySnapshot(self, localSchema)
-    }
-
-    const saveLocal = () => {
-      const {local} = self.env_
-      local.set('SKMaterialPanel', {
-        toolbar: self.toolbar.toJSON(),
-      })
-    }
-
     // 置顶文件夹
     const stickyFolder = flow(function* stickyFolder(folder, isTop) {
       if (isTop || self.topFoldersId.includes(folder.folderId)) {
@@ -245,18 +184,36 @@ export const MDataPanel = types
       }
     })
 
-    // 确认删除文件夹
-    const confirmDeleteFolder = (folder) => {
-      const dataCount = folder.datas.length
-      if (!dataCount) {
-        self.removeDataFolder(folder)
-      } else {
-        self.root_.confirm({
-          content: `“${folder.folderName}”下有${dataCount}个数据，您确定要删除吗？`,
-          onConfirm: () => self.removeDataFolder(folder),
-          attachTo: false,
-        })
+    // 抽象的确认
+    const confirm = (data, type) => {
+      let content = ''
+      let onConfirm = () => {}
+      switch (type) {
+        case 'folder': {
+          const dataCount = data.datas.length
+          if (!dataCount) {
+            removeDataFolder(data)
+            return
+          } else {
+            content = `“${data.folderName}”下有${dataCount}个数据，您确定要删除吗？`
+            onConfirm = () => removeDataFolder(data)
+          }
+          break
+        }
+        case 'data': {
+          const {dataName, dataId} = data
+          content = `确认删除数据“${dataName}”么？删除后无法恢复！`
+          onConfirm = () => removeData({dataId})
+          break
+        }
+        default:
+          break
       }
+      self.root_.confirm({
+        content,
+        onConfirm,
+        attachTo: false,
+      })
     }
 
     // 删除文件夹
@@ -269,7 +226,7 @@ export const MDataPanel = types
           event.fire('editor.closeTab', data.dataId)
         })
 
-        event.fire('dataPanel.getDataFolder')
+        event.fire('dataPanel.getFolders')
         tip.success({content: '删除文件夹成功'})
       } catch (error) {
         log.error(error)
@@ -277,41 +234,27 @@ export const MDataPanel = types
       }
     })
 
-    // 确认删除数据
-    const confirmDeleteData = (data) => {
-      const {dataName, dataId} = data
-      self.root_.confirm({
-        content: `确认删除数据“${dataName}”么？删除后无法恢复！`,
-        onConfirm: () => self.removeData({dataId}),
-        attachTo: false,
-      })
-    }
-
+    // 删除数据
     const removeData = flow(function* removeData({dataId}) {
       const {event} = self.env_
       try {
         yield io.data.removeData({':dataId': dataId})
-        event.fire('dataPanel.getDataFolder')
+        event.fire('dataPanel.getFolders')
         event.fire('editor.closeTab', dataId)
+        tip.success({content: '删除数据成功'})
       } catch (error) {
         // TODO error 统一替换
-        console.log(error)
+        tip.error({content: '删除数据失败'})
+        log.error(error)
       }
     })
 
     return {
       afterCreate,
-      // getDataFolder,
       getFolders,
-      applyLocal,
-      saveLocal,
       openTabByData,
       createFolder,
-      // createFolderConfirm,
       stickyFolder,
-      removeDataFolder,
-      confirmDeleteData,
-      removeData,
-      confirmDeleteFolder,
+      confirm,
     }
   })

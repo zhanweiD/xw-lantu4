@@ -29,7 +29,7 @@ const DataToolbar = ({useCreate}) => {
         <IconButton
           icon="create-data"
           className="cfw12"
-          title={t('dataPanel.dataCreate')}
+          title={t('dataPanel.dataFoldCreate')}
           onClick={(e) => (e.stopPropagation(), set({isVisible: true}))}
         />
       )}
