@@ -45,10 +45,29 @@ const Adapter = () =>
       const option = {
         // 全局可配参数
         color: themeColors,
+        title: {
+          // TODO 对接面板
+          show: true,
+          // TODO 对接面板
+          text: '标题测试文字',
+          // TODO 对接面板 水平位置 left | center | right
+          left: 'center',
+          // TODO 对接面板 垂直位置 top | middle | bottom
+          top: 'top',
+          textStyle: {
+            // TODO 对接面板
+
+            color: '#00ff00',
+            // TODO 对接面板
+            fontWeight: 400,
+            // TODO 对接面板
+            fontSize: 20,
+          },
+        },
         // TODO 对接面板
         grid: {
           right: 2,
-          top: 30,
+          top: 60,
           bottom: 30,
           left: 60,
         },
@@ -76,13 +95,6 @@ const Adapter = () =>
               color: '#ccc',
             },
           },
-          // 分割线
-          // splitLine: {
-          //   show: true,
-          //   lineStyle: {
-          //     color: '#ffff00',
-          //   },
-          // },
         },
 
         // 这个去掉会报错
