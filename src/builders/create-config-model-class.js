@@ -1,4 +1,4 @@
-import {types, getParent, hasParent} from 'mobx-state-tree'
+import {types, getParent, hasParent, isStateTreeNode} from 'mobx-state-tree'
 import isArray from 'lodash/isArray'
 import {reaction} from 'mobx'
 import isFunction from 'lodash/isFunction'
@@ -51,7 +51,7 @@ const createFieldsClass = (fields) => {
           reaction(
             () => {
               return {
-                value: self.value,
+                value: isStateTreeNode(self.value) ? self.value.toJSON() : self.value,
               }
             },
             () => {
