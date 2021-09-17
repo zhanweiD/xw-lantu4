@@ -100,42 +100,153 @@ export const config = (k) => ({
   layers: [lineLayer(k)],
   // 下面的面板，工具内部是有固定顺序的
   // 标题面板
-  // title: [
-  //   ['titleBase.content', 'xxx.yyy.title', 'GIS地图'],
-  //   ['text.textSize', 'xxx.yyy.fontSize', 12],
-  // ],
-
-  // title: {
-  //   sections: [
-  //     {
-  //       name: 'titleBase',
-  //       fields: [
-  //         {
-  //           name: 'content',
-  //           defaultValue: 'GIS地图',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // // 图例面板
-  // lenged: {
-  //   sections: [
-  //     {
-  //       name: 'base',
-  //       fields: [
-  //         {
-  //           name: 'size',
-  //         },
-  //         {
-  //           name: 'position',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // // 直角坐标系坐标轴
-  // axis: true,
+  title: {
+    effective: true,
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'content',
+            defaultValue: k('line'),
+          },
+        ],
+      },
+      {
+        name: 'text',
+        fields: [
+          {
+            name: 'textSize',
+            defaultValue: 16,
+          },
+          {
+            name: 'textWeight',
+            defaultValue: 400,
+          },
+          {
+            name: 'colorSingle',
+            defaultValue: '#ffffff',
+          },
+          {
+            name: 'opacity',
+            defaultValue: 1,
+          },
+          {
+            name: 'offset',
+            defaultValue: [0, 0],
+          },
+        ],
+      },
+      {
+        name: 'shadow',
+        effective: false,
+        fields: [
+          {
+            name: 'colorSingle',
+          },
+          {
+            name: 'offset',
+          },
+        ],
+      },
+    ],
+  },
+  // 图例面板
+  lenged: {
+    effective: true,
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'size',
+          },
+          {
+            name: 'position',
+          },
+          {
+            name: 'offset',
+          },
+        ],
+      },
+    ],
+  },
+  // 直角坐标系坐标轴
+  axis: {
+    sections: [
+      {
+        name: 'xAxis',
+        effective: true,
+        sections: [
+          {
+            name: 'label',
+            sections: [
+              {
+                name: 'text',
+                fields: [
+                  {
+                    name: 'textSize',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'xAxisLine',
+            fields: [
+              {
+                name: 'colorSingle',
+                defaultValue: '#cccccc',
+              },
+            ],
+          },
+          {
+            name: 'xAxisSplitLine',
+            effective: true,
+            fields: [
+              {
+                name: 'colorSingle',
+                defaultValue: '#cccccc',
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.3,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'yAxis',
+        effective: true,
+        sections: [
+          {
+            name: 'yAxisLine',
+            fields: [
+              {
+                name: 'colorSingle',
+                defaultValue: '#cccccc',
+              },
+            ],
+          },
+          {
+            name: 'yAxisSplitLine',
+            effective: true,
+            fields: [
+              {
+                name: 'colorSingle',
+                defaultValue: '#cccccc',
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.3,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
   // // 极坐标系坐标轴
   // polarAxis: false,
   // // 动画

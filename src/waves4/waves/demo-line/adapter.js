@@ -49,7 +49,7 @@ const Adapter = () =>
       })
 
       const option = {
-        // NOTE 全局可配参数
+        // 全局可配参数
         color: themeColors,
         // TODO 对接面板
         grid: {
@@ -59,7 +59,6 @@ const Adapter = () =>
           left: 60,
         },
         dataset: {
-          // NOTE: 临时方案
           source: data,
         },
         backgroundColor: 'transparent',
@@ -79,6 +78,7 @@ const Adapter = () =>
           // 主轴线
           axisLine: {
             lineStyle: {
+              // TODO 对接面板
               color: '#ccc',
             },
           },

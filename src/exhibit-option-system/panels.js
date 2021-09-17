@@ -1,4 +1,4 @@
-// 标签
+// 标题
 const title = {
   name: 'title',
   sections: [
@@ -22,7 +22,6 @@ const title = {
         },
         {
           name: 'colorSingle',
-          //
         },
         {
           name: 'opacity',
@@ -34,6 +33,7 @@ const title = {
     },
     {
       name: 'shadow',
+      effective: false,
       fields: [
         {
           name: 'colorSingle',
