@@ -58,7 +58,7 @@ const createFieldsClass = (fields) => {
               const value = {
                 [self.option]: self.getValue(),
               }
-              getParent(self, 2).update(value, false)
+              getParent(self, 2).update(value, self.option, false)
             },
             {
               delay: 300,
@@ -101,22 +101,24 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
     initProps.effective = config.effective
   }
 
-  initProps.updateOptions = types.frozen()
+  initProps.updatedOptions = types.frozen()
+  initProps.updatedPath = types.optional(types.string, '')
 
   return types
     .model(modelName, initProps)
     .actions(commonAction(['set']))
     .actions((self) => {
-      const update = (value, isFromSection) => {
+      const update = (value, path, isFromSection) => {
         if (hasParent(self) && (self.effective !== false || isFromSection)) {
           const updateValue = {
             [self.name]: {
               ...value,
             },
           }
-          getParent(self, 2).update(updateValue)
+          getParent(self, 2).update(updateValue, `${self.name}.${path}`)
         } else {
-          self.updateOptions = value
+          self.updatedPath = path
+          self.updatedOptions = value
         }
       }
 
@@ -154,11 +156,12 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
         if (self.effective) {
           data = getObjectData(self.getSchema())
         }
-        const updateOptions = {
+
+        const updatedOptions = {
           effective: self.effective,
           ...data,
         }
-        self.update(updateOptions, true)
+        self.update(updatedOptions, 'effective', true)
       }
 
       const setSchema = (schema) => {
