@@ -108,12 +108,12 @@ const createExhibitAdapter = (hooks) =>
       if (dimension) {
         this.observerDisposers.push(
           reaction(
-            () => model.dimension.updateOptions,
+            () => model.dimension.updatedOptions,
             () => {
               this.update({
                 action: 'dimension',
                 options: this.getAllOptions(),
-                updatedDimension: model.dimension.updateOptions,
+                updatedDimension: model.dimension.updatedOptions,
               })
             }
           )
@@ -133,13 +133,14 @@ const createExhibitAdapter = (hooks) =>
                   id: layer.id,
                   options: options.find((o) => o.id === layer.id),
                 },
+                updatedPath: layer.name,
               })
             }
           )
         )
         this.observerDisposers.push(
           reaction(
-            () => layer.options.updateOptions,
+            () => layer.options.updatedOptions,
             () => {
               if (layer.effective) {
                 this.update({
@@ -147,8 +148,9 @@ const createExhibitAdapter = (hooks) =>
                   options: this.getAllOptions(),
                   updatedLayer: {
                     id: layer.id,
-                    options: layer.options.updateOptions,
+                    options: layer.options.updatedOptions,
                   },
+                  updatedPath: layer.options.updatedPath,
                 })
               }
             }
@@ -169,6 +171,7 @@ const createExhibitAdapter = (hooks) =>
                         data: layer.getData(),
                       },
                     },
+                    updatedPath: 'data',
                   })
                 }
               }
@@ -207,7 +210,7 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, updatedData, updatedDimension, updatedLayer, action}) {
+    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath}) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
@@ -215,6 +218,7 @@ const createExhibitAdapter = (hooks) =>
         updatedDimension,
         updatedLayer: this.model.addOptionUtil(updatedLayer),
         action,
+        updatedPath,
       })
     }
 
