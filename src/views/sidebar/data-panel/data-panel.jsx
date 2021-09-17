@@ -1,4 +1,4 @@
-import React, {Children, useRef} from 'react'
+import React, {useState, Children} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -9,93 +9,50 @@ import Section from '@components/section'
 import Icon from '@components/icon'
 import IconButton from '@components/icon-button'
 import Grid from '@components/grid'
-import config from '@utils/config'
+import Modal from '@components/modal'
+import {TextField} from '@components/field'
 import DataToolbar from './data-toolbar'
 import DataThumbnail from './data-thumbnail'
 import s from './data-panel.module.styl'
 import Loading from '@components/loading'
 
-const createMenu = (e, button, dataPanel, folder, isTop, type) => {
+const createMenu = (e, button, dataPanel, folder, isTop, isOnClickMore) => {
+  const {toggleFolderTop, removeFolder, openTabByData} = dataPanel
   e.stopPropagation()
   const menu = w.overlayManager.get('menu')
   const createList = [
-    {
-      name: '新建Excel',
-      action: () => {
-        dataPanel.openTabByData({folder, type: 'excel'})
-        menu.hide()
-      },
-    },
-    {
-      name: '新建JSON',
-      action: () => {
-        dataPanel.openTabByData({folder, type: 'json'})
-        menu.hide()
-      },
-    },
-    {
-      name: '新建API',
-      action: () => {
-        dataPanel.openTabByData({folder, type: 'api'})
-        menu.hide()
-      },
-    },
-    {
-      name: '新建SQL',
-      action: () => {
-        dataPanel.openTabByData({folder, type: 'database'})
-        menu.hide()
-      },
-    },
+    {name: '新建Excel', action: () => (openTabByData({folder, type: 'excel'}), menu.hide())},
+    {name: '新建JSON', action: () => (openTabByData({folder, type: 'json'}), menu.hide())},
+    {name: '新建API', action: () => (openTabByData({folder, type: 'api'}), menu.hide())},
+    // {name: '新建SQL',action: () => (openTabByData({folder, type: 'database'}), menu.hide())},
   ]
   const list = [
-    {
-      name: `${isTop ? '取消置顶' : '置顶'}文件夹`,
-      action: () => {
-        dataPanel.stickyFolder(folder, isTop)
-        menu.hide()
-      },
-    },
+    {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
     ...createList,
-    {
-      name: '删除文件夹',
-      action: () => {
-        // const modal = w.overlayManager.get('fieldModal')
-
-        dataPanel.confirmDeleteFolder(folder)
-        menu.hide()
-      },
-    },
+    {name: '删除文件夹', action: () => (removeFolder(folder), menu.hide())},
   ]
   menu.toggle({
     attachTo: button,
-    list: type === 'folder' ? list : createList,
+    list: isOnClickMore ? list : createList,
   })
 }
 
 const MoreIcon = ({dataPanel, folder, isTop}) => {
-  const downloadRef = useRef(null)
   return (
     <div className="pr oh">
       {isTop && <div className={s.delta} />}
-      <a
-        style={{display: 'none'}}
-        label="download"
-        ref={downloadRef}
-        href={`${config.urlPrefix}material/folder/${folder.folderId}/export`}
-      >
-        download
-      </a>
       <IconButton
         buttonSize={24}
         icon="more"
-        onClick={(e, button) => createMenu(e, button, dataPanel, folder, isTop, 'folder')}
+        onClick={(e, button) => {
+          createMenu(e, button, dataPanel, folder, isTop, true)
+        }}
       />
     </div>
   )
 }
 
-const DataFolders = observer(({dataPanel, folder, isTop}) => {
+const DataFolders = observer(({dataPanel, folder, icon, onNoDataClick}) => {
   // TODO 多语言
   // const {t} = useTranslation()
   const {toolbar} = dataPanel
@@ -108,7 +65,7 @@ const DataFolders = observer(({dataPanel, folder, isTop}) => {
     <Section
       className="pl8 pr8 mt8"
       childrenClassName="pt8"
-      icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop={isTop} />}
+      icon={icon}
       name={`${folderName} (${datas_.length})`}
       props={section}
       onFold={() => {
@@ -150,10 +107,7 @@ const DataFolders = observer(({dataPanel, folder, isTop}) => {
         <div className={c('mb16 emptyNote')}>
           <div>
             列表还是空空的，点击
-            <span
-              className="ctSecend hand"
-              onClick={(e, button) => createMenu(e, button, dataPanel, folder, false, 'data')}
-            >
+            <span className="ctSecend hand" onClick={onNoDataClick}>
               新建
             </span>
           </div>
@@ -182,7 +136,7 @@ const DataPanelFallback = ({keyword, set, noProject}) =>
         <Icon name="logo" fill="#fff5" size={42} />
         <div className="ctw52">数据列表还是空空的，点击下面的按钮启程</div>
         <div className="greenButton noselect" onClick={() => set({isVisible: true})}>
-          新建素材文件夹
+          新建数据文件夹
         </div>
       </div>
     </div>
@@ -190,9 +144,10 @@ const DataPanelFallback = ({keyword, set, noProject}) =>
 
 const DataPanel = () => {
   const {t} = useTranslation()
+  const [name, setName] = useState('')
   const {sidebar} = w
   const {dataPanel} = sidebar
-  const {set, state, folders_, hasData_, keyword, projectId} = dataPanel
+  const {set, state, folders_, hasData_, keyword, projectId, isVisible, createFolder} = dataPanel
 
   return (
     <Loading data={state}>
@@ -207,12 +162,24 @@ const DataPanel = () => {
           <div className={c('h100p fbv')}>
             <DataToolbar useCreate />
             <Scroll>
-              {folders_.topFolders.map((folder) =>
-                Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} isTop />)
-              )}
-              {folders_.basicFolders.map((folder) =>
-                Children.toArray(<DataFolders dataPanel={dataPanel} folder={folder} />)
-              )}
+              {folders_.topFolders.map((folder) => (
+                <DataFolders
+                  icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop />}
+                  key={folder.folderId}
+                  dataPanel={dataPanel}
+                  folder={folder}
+                  onNoDataClick={(e, button) => createMenu(e, button, dataPanel, folder, false, false)}
+                />
+              ))}
+              {folders_.basicFolders.map((folder) => (
+                <DataFolders
+                  icon={<MoreIcon dataPanel={dataPanel} folder={folder} />}
+                  key={folder.folderId}
+                  dataPanel={dataPanel}
+                  folder={folder}
+                  onNoDataClick={(e, button) => createMenu(e, button, dataPanel, folder, false, false)}
+                />
+              ))}
 
               {hasData_ || <DataPanelFallback keyword={keyword} set={set} />}
             </Scroll>
@@ -229,6 +196,25 @@ const DataPanel = () => {
           </div>
         </Tab.Item>
       </Tab>
+      <Modal
+        title="新建数据文件夹"
+        height={160}
+        width={320}
+        isVisible={isVisible}
+        onClose={() => (set({isVisible: false}), setName(''))}
+        buttons={[
+          {name: '取消', action: () => (set({isVisible: false}), setName(''))},
+          {name: '新增', action: () => createFolder(name, () => setName(''))},
+        ]}
+      >
+        <TextField
+          value={name}
+          onChange={(value) => setName(value)}
+          className="pt8 pb8"
+          label={t('name')}
+          placeholder="文件夹名称不能为空、重复"
+        />
+      </Modal>
     </Loading>
   )
 }
