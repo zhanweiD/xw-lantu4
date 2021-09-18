@@ -1,17 +1,47 @@
-// 标签
+// 标题
 const title = {
   name: 'title',
   sections: [
     {
-      // 标题基础，目前sections里没有定义，则显示“模块(titleBase)未定义”
       name: 'titleBase',
+      fields: [
+        {
+          name: 'content',
+          defaultValue: '显示当前的title',
+        },
+      ],
     },
     {
       name: 'text',
+      fields: [
+        {
+          name: 'textSize',
+        },
+        {
+          name: 'textWeight',
+        },
+        {
+          name: 'colorSingle',
+        },
+        {
+          name: 'opacity',
+        },
+        {
+          name: 'offset',
+        },
+      ],
     },
     {
       name: 'shadow',
-      isAdvance: true,
+      effective: false,
+      fields: [
+        {
+          name: 'colorSingle',
+        },
+        {
+          name: 'offset',
+        },
+      ],
     },
   ],
 }

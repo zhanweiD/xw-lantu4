@@ -98,6 +98,23 @@ const relativePosition = {
   ],
 }
 
+// 坐标位置
+const xyPosition = {
+  type: 'multiNumber',
+  label: 'coordinate',
+  defaultValue: [0, 0],
+  items: [
+    {
+      key: 'X',
+      step: 1,
+    },
+    {
+      key: 'Y',
+      step: 1,
+    },
+  ],
+}
+
 // 锚点
 const anchor = {
   type: 'check',
@@ -171,6 +188,36 @@ const eventType = {
   ],
 }
 
+// 缺失
+const missing = {
+  type: 'missing',
+  label: 'missing',
+}
+
+/**
+ * =====================================
+ * size
+ * =====================================
+ */
+
+// 宽度
+const width = {
+  type: 'number',
+  label: 'width',
+  min: 0,
+  max: 5000,
+  step: 1,
+}
+
+// 高度
+const height = {
+  type: 'number',
+  label: 'height',
+  min: 0,
+  max: 5000,
+  step: 1,
+}
+
 // 尺寸
 const size = {
   type: 'number',
@@ -178,6 +225,25 @@ const size = {
   min: 1,
   max: 100,
   step: 1,
+}
+
+// 尺寸(宽高)
+const areaSize = {
+  type: 'multiNumber',
+  label: 'size',
+  defaultValue: [0, 0],
+  items: [
+    {
+      key: 'width',
+      min: 0,
+      step: 1,
+    },
+    {
+      key: 'height',
+      min: 0,
+      step: 1,
+    },
+  ],
 }
 
 /**
@@ -242,15 +308,27 @@ const column = {
 }
 
 // 经度字段
-const columnLongitude = {
+const longitudeColumn = {
   type: 'columnSelect',
   label: 'longitude',
 }
 
 // 维度字段
-const columnLatitude = {
+const latitudeColumn = {
   type: 'columnSelect',
   label: 'latitude',
+}
+
+// X轴
+const xColumn = {
+  type: 'columnSelect',
+  label: 'xAxis',
+}
+
+// Y轴
+const yColumn = {
+  type: 'columnSelect',
+  label: 'yAxis',
 }
 
 /**
@@ -328,6 +406,13 @@ const url = {
   defaultValue: '',
 }
 
+// 内容
+const content = {
+  type: 'text',
+  label: 'content',
+  defaultValue: '',
+}
+
 // 字号
 const textSize = {
   type: 'number',
@@ -343,15 +428,15 @@ const textSize = {
 const textWeight = {
   type: 'check', // 待确认
   label: 'textWeight',
-  defaultValue: '200',
+  defaultValue: 200,
   options: [
-    {key: '1', value: '100'},
-    {key: '2', value: '200'},
-    {key: '3', value: '300'},
-    {key: '4', value: '400'},
-    {key: '5', value: '500'},
-    {key: '6', value: '600'},
-    {key: '7', value: '700'},
+    {key: '1', value: 100},
+    {key: '2', value: 200},
+    {key: '3', value: 300},
+    {key: '4', value: 400},
+    {key: '5', value: 500},
+    {key: '6', value: 600},
+    {key: '7', value: 700},
   ],
 }
 
@@ -478,6 +563,13 @@ const lineCurve = {
   ],
 }
 
+// 线光滑
+const lineSmooth = {
+  type: 'switch',
+  label: 'lineSmooth',
+  defaultValue: true,
+}
+
 /**
  * =====================================
  * range
@@ -485,13 +577,48 @@ const lineCurve = {
  */
 
 // 数值范围
-const rangeNumber = {
-  type: 'rangeNumber',
-  label: 'rangeNumber',
+const numberRange = {
+  type: 'numberRange',
+  label: 'numberRange',
   defaultValue: [0, 20],
 }
 
 // 时间范围 暂不做
+
+/**
+ * =====================================
+ * special
+ * =====================================
+ */
+
+// 约束
+const constraint = {
+  type: 'constraint',
+  label: 'constraint',
+  // 上右下左宽高
+  default: [false, false, false, false, true, true],
+}
+
+// 填充方式
+const fillType = {
+  type: 'check',
+  label: 'fillType',
+  defaultValue: 'shortEdgeFill',
+  options: [
+    {
+      key: 'shortEdgeFill',
+      value: 'shortEdgeFill',
+    },
+    {
+      key: 'longEdgeFill',
+      value: 'longEdgeFill',
+    },
+    {
+      key: 'StretchFill',
+      value: 'StretchFill',
+    },
+  ],
+}
 
 export default {
   // 偏移
@@ -502,14 +629,24 @@ export default {
   opacity,
   // 相对位置
   relativePosition,
+  // 坐标位置
+  xyPosition,
   // 锚点
   anchor,
   // 角度
   angle,
   // 触发事件类型
   eventType,
+  // 缺失
+  missing,
+  // 宽度
+  width,
+  // 高度
+  height,
   // 尺寸
   size,
+  // 尺寸(宽高)
+  areaSize,
   // 颜色类型
   colorType,
   // 颜色单色
@@ -521,9 +658,13 @@ export default {
   // 普通字段
   column,
   // 经度
-  columnLongitude,
+  longitudeColumn,
   // 纬度
-  columnLatitude,
+  latitudeColumn,
+  // X轴
+  xColumn,
+  // Y轴
+  yColumn,
   // gis中心点坐标
   gisCenterCoordinate,
   // gis缩放系数
@@ -538,6 +679,8 @@ export default {
   name,
   // URL
   url,
+  // 内容
+  content,
   // 字号
   textSize,
   // 字重
@@ -554,6 +697,12 @@ export default {
   lineWidth,
   // 线样式
   lineCurve,
+  // 线光滑
+  lineSmooth,
   // 数值范围
-  rangeNumber,
+  numberRange,
+  // 约束
+  constraint,
+  // 填充方式
+  fillType,
 }

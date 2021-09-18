@@ -1,10 +1,11 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import {createWave, translate} from '@waves4/waves/parser'
 
-const Adapter = () =>
-  createExhibitAdapter({
+const makeAdapter = ({k}) => {
+  // k 组件私有化多语言方法
+  return createExhibitAdapter({
     // 初始化组件实例
-    init(options) {
+    init({options}) {
       console.log('adapter init')
       console.log(options)
       const instance = createWave(translate(options))
@@ -12,7 +13,7 @@ const Adapter = () =>
     },
 
     // 处理包括数据、样式等变更
-    update(options) {
+    update({options}) {
       console.log('update')
       console.log(options)
       // updateWave(options)
@@ -20,6 +21,7 @@ const Adapter = () =>
 
     // 销毁图表实例
     destroy({instance}) {
+      do {} while (condition)
       instance.destroy()
     },
 
@@ -28,5 +30,5 @@ const Adapter = () =>
       instance.warn(warn)
     },
   })
-
-export default Adapter
+}
+export default makeAdapter

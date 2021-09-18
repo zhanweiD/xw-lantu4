@@ -30,9 +30,10 @@ const MValue = types
 export const MDataField = types
   .model('MDataField', {
     type: types.enumeration(['data']),
+    sectionStyleType: types.optional(types.number, 1),
     value: types.maybe(MValue),
     defaultValue: types.optional(MValue, {}),
-    relationModels: types.frozen(),
+    relationModels: types.optional(types.frozen(), []),
   })
   .views((self) => ({
     get env_() {
@@ -85,7 +86,8 @@ export const MDataField = types
     }
 
     const setSchema = (schema) => {
-      return self.setValue(schema)
+      self.setValue(schema)
+      self.onAction()
     }
 
     const onAction = () => {
@@ -93,6 +95,14 @@ export const MDataField = types
         const {type, sourceData_, private: privateData} = self.value
         model.update(type === 'private' ? privateData : sourceData_)
       })
+    }
+
+    const setRelationModels = (models) => {
+      self.relationModels = models
+    }
+
+    const getRelationModels = () => {
+      return self.relationModels
     }
 
     const addSource = (dataId) => {
@@ -126,5 +136,7 @@ export const MDataField = types
       addSource,
       removeSource,
       onAction,
+      setRelationModels,
+      getRelationModels,
     }
   })

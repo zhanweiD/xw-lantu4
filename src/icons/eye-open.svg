@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 11.56"><defs><style>.cls-1{fill:none;}.cls-2{isolation:isolate;}.cls-3{clip-path:url(#clip-path);}.cls-4{fill:#fff;}</style><clipPath id="clip-path" transform="translate(0 -2.22)"><rect class="cls-1" width="16" height="16"/></clipPath></defs><title>其他_明文</title><g id="图层_2" data-name="图层 2"><g id="图层_1-2" data-name="图层 1"><g class="cls-2"><g class="cls-3"><path class="cls-4" d="M8,12.62A7.33,7.33,0,0,1,1.2,8,7.31,7.31,0,0,1,14.8,8,7.33,7.33,0,0,1,8,12.62ZM8,2.22A8.48,8.48,0,0,0,0,7.8a.55.55,0,0,0,0,.4A8.47,8.47,0,0,0,16,8.2a.55.55,0,0,0,0-.4A8.48,8.48,0,0,0,8,2.22Z" transform="translate(0 -2.22)"/><path class="cls-4" d="M8,9.73A1.73,1.73,0,1,1,9.73,8,1.74,1.74,0,0,1,8,9.73ZM8,5.11A2.89,2.89,0,1,0,10.89,8,2.91,2.91,0,0,0,8,5.11Z" transform="translate(0 -2.22)"/></g></g></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 10 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-1365.3,-3276.88)">
+        <g transform="matrix(1.00029,0,0,6.02179,-50.86,-11494)">
+            <g transform="matrix(0.344726,0,0,0.061253,1120.23,2422.21)">
+                <g transform="matrix(0.604167,0,0,0.564815,857.251,495.916)">
+                    <path d="M24,13.25C30.682,13.255 37.038,16.18 41.39,21.25C42.121,22.115 42.789,23.03 43.39,23.99C42.789,24.95 42.121,25.865 41.39,26.73C37.046,31.811 30.685,34.741 24,34.741C17.315,34.741 10.954,31.811 6.61,26.73C5.879,25.865 5.211,24.95 4.61,23.99C5.211,23.03 5.879,22.115 6.61,21.25C10.962,16.18 17.318,13.255 24,13.25M24,9.25C13.881,9.273 4.591,14.982 -0,24C4.583,33.021 13.881,38.726 24,38.726C34.119,38.726 43.417,33.021 48,24C43.409,14.982 34.119,9.273 24,9.25Z" style="fill-rule:nonzero;"/>
+                </g>
+                <g transform="matrix(0.604167,0,0,0.564815,857.251,495.916)">
+                    <path d="M24,20C26.194,20 28,21.806 28,24C28,26.194 26.194,28 24,28C21.806,28 20,26.194 20,24C20,21.806 21.806,20 24,20M24,16C19.611,16 16,19.611 16,24C16,28.389 19.611,32 24,32C28.389,32 32,28.389 32,24C32,19.611 28.389,16 24,16Z" style="fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

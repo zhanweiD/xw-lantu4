@@ -1,4 +1,7 @@
+import {reaction} from 'mobx'
+import onerStorage from 'oner-storage'
 import createLog from '@utils/create-log'
+import random from '@utils/random'
 import createEvent from '@utils/create-event'
 
 const log = createLog('@exhibit-adapter-creater')
@@ -59,24 +62,184 @@ const createExhibitAdapter = (hooks) =>
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
-      // this.data = this.model.getData()
-      this.layers = this.model.getLayers()
+      const instanceOption = this.getAllOptions()
+      this.instance = hooks.init.call(this, {
+        options: instanceOption,
+      })
+      this.observerModel()
+    }
 
+    getAllOptions() {
       const instanceOption = {
         container: this.container,
-
-        layers: this.layers,
-
+        layers: this.model.getLayers(),
+        title: this.model.getTitle(),
+        data: this.model.getData(),
+        dimension: this.model.getDimension(),
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,
         isPreview: !this.isEdit,
       }
-      console.log(instanceOption)
-      this.instance = hooks.init.call(this, instanceOption)
-      // this.instance.event.once('ready', () => {
-      //   this.event.fire('ready')
-      // })
+      return instanceOption
+    }
+
+    observerModel() {
+      const {model} = this
+      const {data, layers, dimension, title, lenged} = model
+      if (lenged) {
+        this.observerDisposers.push(
+          reaction(
+            () => lenged.options.updatedOptions,
+            () => {
+              if (lenged.effective) {
+                this.update({
+                  action: 'lenged',
+                  options: this.getAllOptions(),
+                  updatedLenged: lenged.options.updatedOptions,
+                  updatedPath: lenged.options.updatedPath,
+                })
+              }
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => lenged.effective,
+            () => {
+              this.update({
+                action: 'lenged',
+                options: this.getAllOptions(),
+                updatedLenged: model.getLenged(),
+                updatedPath: 'effective',
+              })
+            }
+          )
+        )
+      }
+      if (title) {
+        this.observerDisposers.push(
+          reaction(
+            () => title.options.updatedOptions,
+            () => {
+              if (title.effective) {
+                this.update({
+                  action: 'title',
+                  options: this.getAllOptions(),
+                  updatedTitle: title.options.updatedOptions,
+                  updatedPath: title.options.updatedPath,
+                })
+              }
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => title.effective,
+            () => {
+              this.update({
+                action: 'title',
+                options: this.getAllOptions(),
+                updatedTitle: model.getTitle(),
+                updatedPath: 'effective',
+              })
+            }
+          )
+        )
+      }
+
+      if (data) {
+        this.observerDisposers.push(
+          reaction(
+            () => model.data.value.toJSON(),
+            () => {
+              this.update({
+                action: 'data',
+                options: this.getAllOptions(),
+                updatedData: model.getData(),
+              })
+            }
+          )
+        )
+      }
+      if (dimension) {
+        this.observerDisposers.push(
+          reaction(
+            () => model.dimension.updatedOptions,
+            () => {
+              this.update({
+                action: 'dimension',
+                options: this.getAllOptions(),
+                updatedDimension: model.dimension.updatedOptions,
+              })
+            }
+          )
+        )
+      }
+      layers.map((layer) => {
+        this.observerDisposers.push(
+          reaction(
+            () => layer.effective,
+            () => {
+              const options = model.getLayers()
+
+              this.update({
+                action: 'layer',
+                options: this.getAllOptions(),
+                updatedLayer: {
+                  id: layer.id,
+                  options: options.find((o) => o.id === layer.id),
+                },
+                updatedPath: 'effective',
+              })
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => layer.options.updatedOptions,
+            () => {
+              if (layer.effective) {
+                this.update({
+                  action: 'layer',
+                  options: this.getAllOptions(),
+                  updatedLayer: {
+                    id: layer.id,
+                    options: layer.options.updatedOptions,
+                  },
+                  updatedPath: layer.options.updatedPath,
+                })
+              }
+            }
+          )
+        )
+        if (layer.data) {
+          this.observerDisposers.push(
+            reaction(
+              () => layer.data.value.toJSON(),
+              () => {
+                if (layer.effective) {
+                  this.update({
+                    action: 'layer',
+                    options: this.getAllOptions(),
+                    updatedLayer: {
+                      id: layer.id,
+                      options: {
+                        data: layer.getData(),
+                      },
+                    },
+                    updatedPath: 'data',
+                  })
+                }
+              }
+            )
+          )
+        }
+      })
+    }
+
+    stopObserverModel() {
+      this.observerDisposers.forEach((disposer) => disposer())
     }
 
     setRuleValue({ruleValue, lastUpdateTime}) {
@@ -99,20 +262,22 @@ const createExhibitAdapter = (hooks) =>
       // 停止配置项的监听
       // 清空适配器实例对象的事件
       this.event.clear()
+      this.stopObserverModel()
       // 调用原实例对象的销毁方法
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({tabId, layerId, option, value, schema, totalValue, action}) {
+    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle, updatedLenged}) {
       hooks.update.call(this, {
         instance: this.instance,
-        tabId,
-        layerId,
-        option,
-        value,
-        schema,
-        totalValue,
+        options,
+        updatedData,
+        updatedDimension,
+        updatedLayer: this.model.addOptionUtil(updatedLayer),
         action,
+        updatedPath,
+        updatedTitle,
+        updatedLenged,
       })
     }
 

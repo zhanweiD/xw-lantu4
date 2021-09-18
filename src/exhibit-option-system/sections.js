@@ -16,30 +16,25 @@ const text = {
     },
     {
       name: 'colorSingle',
-      // isAdvance: true,
+      //
     },
     {
       name: 'opacity',
     },
     {
       name: 'textDirection',
-      isAdvance: true,
     },
     {
       name: 'offset',
-      isAdvance: true,
     },
     {
       name: 'relativePosition',
-      isAdvance: true,
     },
     {
       name: 'anchor',
-      isAdvance: true,
     },
     {
       name: 'angle',
-      isAdvance: true,
     },
     {
       name: 'colorGradient',
@@ -73,11 +68,9 @@ const format = {
     },
     {
       name: 'percentage',
-      isAdvance: true,
     },
     {
       name: 'decimalPlaces',
-      isAdvance: true,
     },
   ],
 }
@@ -91,11 +84,9 @@ const label = {
     },
     {
       name: 'shadow',
-      isAdvance: true,
     },
     {
       name: 'format',
-      isAdvance: true,
     },
   ],
 }
@@ -130,7 +121,6 @@ const line = {
     },
     {
       name: 'lineCurve',
-      isAdvance: true,
     },
   ],
 }
@@ -178,6 +168,16 @@ const point = {
     },
     {
       name: 'stroke',
+    },
+  ],
+}
+
+// 标题基础
+const titleBase = {
+  name: 'titleBase',
+  fields: [
+    {
+      name: 'content',
     },
   ],
 }
@@ -249,6 +249,8 @@ export default {
   stroke,
   // 点
   point,
+  // 标题基础
+  titleBase,
   // 点坐标
   pointCoordinate,
   // 起点坐标

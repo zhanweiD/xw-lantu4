@@ -2,16 +2,14 @@ import {config} from './config'
 import makeAdapter from './adapter'
 import i18n from './i18n'
 
-const basicColumn = {
+export default {
   lib: 'wave',
-  id: 'cnbc',
+  id: 'd001',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'basic-column',
+  icon: 'demo-line',
   i18n,
   config,
   makeAdapter,
 }
-
-export default basicColumn
