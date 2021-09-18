@@ -88,7 +88,7 @@ export const config = (k) => ({
   dimension: {
     fields: [
       {
-        name: 'columnX',
+        name: 'xColumn',
         defaultValue: ['成员名称'],
       },
     ],

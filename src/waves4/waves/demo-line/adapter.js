@@ -19,7 +19,7 @@ const Adapter = () =>
           type: 'line',
           encode: {
             // // 可配维度
-            x: dimension.columnX[0],
+            x: dimension.xColumn[0],
             y: getOption('data.column'),
           },
           lineStyle: {
