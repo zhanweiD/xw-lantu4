@@ -107,6 +107,7 @@ const createExhibitAdapter = (hooks) =>
             dimension: 'updatedDimension',
             // layer: 'updatedLayer',
           }
+          console.log('🚗🚗')
           const action = () =>
             this.update({
               action: actionType,
@@ -114,6 +115,7 @@ const createExhibitAdapter = (hooks) =>
               [map[actionType]]: isGlobal
                 ? this.model[actionType].getData()
                 : this.model[actionType].options.updatedOptions,
+              updated: isGlobal ? this.model[actionType].getData() : this.model[actionType].options.updatedOptions,
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
             })
           if (!isGlobal) {
@@ -163,10 +165,12 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => model.data.value.toJSON(),
             () => {
+              const updated = model.getData()
               this.update({
                 action: 'data',
                 options: this.getAllOptions(),
-                updatedData: model.getData(),
+                updatedData: updated,
+                updated,
               })
             }
           )
@@ -178,15 +182,16 @@ const createExhibitAdapter = (hooks) =>
             () => layer.effective,
             () => {
               const options = model.getLayers()
-
+              const updated = {
+                id: layer.id,
+                type: layer.type,
+                options: options.find((o) => o.id === layer.id),
+              }
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
-                updatedLayer: {
-                  id: layer.id,
-                  type: layer.type,
-                  options: options.find((o) => o.id === layer.id),
-                },
+                updatedLayer: updated,
+                updated,
                 updatedPath: 'effective',
               })
             }
@@ -197,14 +202,16 @@ const createExhibitAdapter = (hooks) =>
             () => layer.options.updatedOptions,
             () => {
               if (layer.effective) {
+                const updated = {
+                  id: layer.id,
+                  type: layer.type,
+                  options: layer.options.updatedOptions,
+                }
                 this.update({
                   action: 'layer',
                   options: this.getAllOptions(),
-                  updatedLayer: {
-                    id: layer.id,
-                    type: layer.type,
-                    options: layer.options.updatedOptions,
-                  },
+                  updatedLayer: updated,
+                  updated,
                   updatedPath: layer.options.updatedPath,
                 })
               }
@@ -216,16 +223,18 @@ const createExhibitAdapter = (hooks) =>
             reaction(
               () => layer.data.value.toJSON(),
               () => {
+                const updated = {
+                  id: layer.id,
+                  options: {
+                    data: layer.getData(),
+                  },
+                }
                 if (layer.effective) {
                   this.update({
                     action: 'layer',
                     options: this.getAllOptions(),
-                    updatedLayer: {
-                      id: layer.id,
-                      options: {
-                        data: layer.getData(),
-                      },
-                    },
+                    updatedLayer: updated,
+                    updated,
                     updatedPath: 'data',
                   })
                 }
@@ -274,6 +283,7 @@ const createExhibitAdapter = (hooks) =>
       updatedDimension,
       updatedLayer,
       action,
+      updated,
       updatedPath,
       updatedTitle,
       updatedLenged,
@@ -287,6 +297,7 @@ const createExhibitAdapter = (hooks) =>
         updatedDimension,
         updatedLayer: this.model.addOptionUtil('updatedLayer', updatedLayer),
         action,
+        updated,
         updatedPath,
         updatedTitle: this.model.addOptionUtil('updatedTitle', updatedTitle),
         updatedLenged: this.model.addOptionUtil('updatedLenged', updatedLenged),
