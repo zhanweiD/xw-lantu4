@@ -288,10 +288,10 @@ const createExhibitAdapter = (hooks) =>
         updatedLayer: this.model.addOptionUtil('updatedLayer', updatedLayer),
         action,
         updatedPath,
-        updatedTitle,
-        updatedLegend,
-        updatedOther,
-        updatedAxis,
+        updatedTitle: this.model.addOptionUtil('updatedTitle', updatedTitle),
+        updatedLegend: this.model.addOptionUtil('updatedLegend', updatedLegend),
+        updatedOther: this.model.addOptionUtil('updatedOther', updatedOther),
+        updatedAxis: this.model.addOptionUtil('updatedAxis', updatedAxis),
       })
     }
 

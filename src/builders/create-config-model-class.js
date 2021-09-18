@@ -102,7 +102,7 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
     initProps.effective = config.effective
   }
 
-  initProps.updatedOptions = types.frozen()
+  // initProps.updatedOptions = types.frozen()
   initProps.updatedPath = types.optional(types.string, '')
 
   return types

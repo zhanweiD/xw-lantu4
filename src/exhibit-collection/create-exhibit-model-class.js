@@ -220,7 +220,7 @@ export const createExhibitModelClass = (exhibit) => {
       const addOptionUtil = (key, o) => {
         if (isPlainObject(o)) {
           if (!isDef(o.options)) {
-            o.options = o
+            o.options = Object.assign({}, o)
           }
           // storage化的options数据
           const storageOptions = onerStorage({
