@@ -162,7 +162,7 @@ export const config = (k) => ({
             name: 'size',
           },
           {
-            name: 'position',
+            name: 'layoutPosition',
           },
           {
             name: 'offset',
@@ -259,9 +259,7 @@ export const config = (k) => ({
           {
             name: 'size',
           },
-          {
-            name: 'position',
-          },
+
           {
             name: 'offset',
           },

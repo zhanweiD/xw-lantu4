@@ -3,6 +3,7 @@ import {reaction} from 'mobx'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
+import onerStorage from 'oner-storage'
 
 const log = createLog('@exhibit-adapter-creater')
 
@@ -58,12 +59,19 @@ const createExhibitAdapter = (hooks) =>
       })
       this.ruleValue = undefined
       this.ready = false
+
+      // 配置项的路径获取工具和对应的数据，输入到hooks方法内，方便对接者使用
+      this.pathable = onerStorage({
+        type: 'variable',
+        key: `exhibit-options-${this.model.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+      })
     }
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-      this.instance = hooks.init.call(this, {
+
+      this.instance = hooks.init.call(null, {
         options: instanceOption,
       })
       this.observerModel()
@@ -234,7 +242,7 @@ const createExhibitAdapter = (hooks) =>
     }
 
     draw() {
-      hooks.draw.call(this, {instance: this.instance})
+      hooks.draw.call(null, {instance: this.instance})
 
       // 触发首次加载完成事件，和交互规则的“加载后触发一次”相对应
       if (this.ready === false) {
@@ -250,7 +258,10 @@ const createExhibitAdapter = (hooks) =>
       this.event.clear()
       this.stopObserverModel()
       // 调用原实例对象的销毁方法
-      hooks.destroy.call(this, {instance: this.instance})
+      hooks.destroy.call(null, {instance: this.instance})
+
+      // 销毁配置项的路径获取工具和对应的数据
+      this.pathable.destroy()
     }
 
     update({
@@ -265,12 +276,12 @@ const createExhibitAdapter = (hooks) =>
       updatedOther,
       updatedAxis,
     }) {
-      hooks.update.call(this, {
+      hooks.update.call(null, {
         instance: this.instance,
         options,
         updatedData,
         updatedDimension,
-        updatedLayer: this.model.addOptionUtil(updatedLayer),
+        updatedLayer: this.model.addOptionUtil('updatedLayer', updatedLayer),
         action,
         updatedPath,
         updatedTitle,

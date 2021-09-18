@@ -98,6 +98,51 @@ const relativePosition = {
   ],
 }
 
+// NOTE: layoutPosition
+const layoutPosition = {
+  type: 'check',
+  label: 'position',
+  defaultValue: 'topLeft',
+  options: [
+    {
+      icon: 'relative-position-top-left',
+      value: 'topLeft',
+    },
+    {
+      icon: 'relative-position-top-center',
+      value: 'topCenter',
+    },
+    {
+      icon: 'relative-position-top-right',
+      value: 'topRight',
+    },
+    {
+      icon: 'relative-position-middle-left',
+      value: 'middleLeft',
+    },
+    {
+      icon: 'relative-position-middle-center',
+      value: 'middleCenter',
+    },
+    {
+      icon: 'relative-position-middle-right',
+      value: 'middleRight',
+    },
+    {
+      icon: 'relative-position-bottom-left',
+      value: 'bottomLeft',
+    },
+    {
+      icon: 'relative-position-bottom-center',
+      value: 'bottomCenter',
+    },
+    {
+      icon: 'relative-position-bottom-right',
+      value: 'bottomRight',
+    },
+  ],
+}
+
 // 坐标位置
 const xyPosition = {
   type: 'multiNumber',
@@ -650,6 +695,8 @@ export default {
   opacity,
   // 相对位置
   relativePosition,
+  // 局部位置
+  layoutPosition,
   // 坐标位置
   xyPosition,
   // 锚点
