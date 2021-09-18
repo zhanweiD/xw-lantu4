@@ -74,6 +74,7 @@ const createExhibitAdapter = (hooks) =>
         container: this.container,
         layers: this.model.getLayers(),
         title: this.model.getTitle(),
+        lenged: this.model.getLenged(),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -165,12 +166,12 @@ const createExhibitAdapter = (hooks) =>
       if (dimension) {
         this.observerDisposers.push(
           reaction(
-            () => model.dimension.updatedOptions,
+            () => dimension.options.updatedOptions,
             () => {
               this.update({
                 action: 'dimension',
                 options: this.getAllOptions(),
-                updatedDimension: model.dimension.updatedOptions,
+                updatedDimension: dimension.options.updatedOptions,
               })
             }
           )

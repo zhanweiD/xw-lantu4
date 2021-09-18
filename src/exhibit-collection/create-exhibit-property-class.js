@@ -1,6 +1,7 @@
 import {types} from 'mobx-state-tree'
 import isDef from '@utils/is-def'
 import commonAction from '@utils/common-action'
+import getObjectData from '@utils/get-object-data'
 import {transform} from './exhibit-config'
 
 export const createPropertyClass = (key, config, name = 'property') => {
@@ -23,10 +24,26 @@ export const createPropertyClass = (key, config, name = 'property') => {
       const toggleEffective = () => {
         self.effective = !self.effective
       }
+      const getData = () => {
+        let values = {}
+        const {options, effective} = self.getSchema()
+        if (isDef(effective)) {
+          values.effective = effective
+        }
+
+        if (!isDef(effective) || effective) {
+          values = {
+            ...values,
+            ...getObjectData(options),
+          }
+        }
+        return values
+      }
 
       return {
         afterCreate,
         toggleEffective,
+        getData,
       }
     })
   return MModel.create()
