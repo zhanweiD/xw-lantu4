@@ -128,7 +128,7 @@ const makeAdapter = ({k}) => {
       action,
       updatedPath,
       updatedTitle,
-      updatedLenged,
+      updatedLegend,
       updatedOther,
       updatedAxis,
     }) {
@@ -142,7 +142,7 @@ const makeAdapter = ({k}) => {
         action,
         updatedPath,
         updatedTitle,
-        updatedLenged,
+        updatedLegend,
         updatedOther,
         updatedAxis,
       })

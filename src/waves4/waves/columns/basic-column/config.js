@@ -69,7 +69,7 @@ export const config = (k) => ({
     ],
   },
   // 图例面板
-  lenged: {
+  legend: {
     sections: [
       {
         name: 'base',
