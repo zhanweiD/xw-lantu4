@@ -82,7 +82,7 @@ const createExhibitAdapter = (hooks) =>
         container: this.container,
         layers: this.model.getLayers(),
         title: this.model.getTitle(),
-        lenged: this.model.getLenged(),
+        legend: this.model.getLegend(),
         other: this.model.getOther(),
         axis: this.model.getAxis(),
         data: this.model.getData(),
@@ -100,7 +100,7 @@ const createExhibitAdapter = (hooks) =>
         () => (isGlobal ? this.model[actionType].effective : this.model[actionType].options.updatedOptions),
         () => {
           const map = {
-            lenged: 'updatedLenged',
+            legend: 'updatedLegend',
             title: 'updatedTitle',
             other: 'updatedOther',
             axis: 'updatedAxis',
@@ -131,11 +131,11 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, lenged, axis, other} = model
-      if (lenged) {
+      const {data, layers, dimension, title, legend, axis, other} = model
+      if (legend) {
         this.observerDisposers.push(
-          this.createObserverObject({actionType: 'lenged', isGlobal: true}),
-          this.createObserverObject({actionType: 'lenged'})
+          this.createObserverObject({actionType: 'legend', isGlobal: true}),
+          this.createObserverObject({actionType: 'legend'})
         )
       }
       if (title) {
@@ -286,7 +286,7 @@ const createExhibitAdapter = (hooks) =>
       updated,
       updatedPath,
       updatedTitle,
-      updatedLenged,
+      updatedLegend,
       updatedOther,
       updatedAxis,
     }) {
@@ -300,7 +300,7 @@ const createExhibitAdapter = (hooks) =>
         updated,
         updatedPath,
         updatedTitle: this.model.addOptionUtil('updatedTitle', updatedTitle),
-        updatedLenged: this.model.addOptionUtil('updatedLenged', updatedLenged),
+        updatedLegend: this.model.addOptionUtil('updatedLegend', updatedLegend),
         updatedOther: this.model.addOptionUtil('updatedOther', updatedOther),
         updatedAxis: this.model.addOptionUtil('updatedAxis', updatedAxis),
       })

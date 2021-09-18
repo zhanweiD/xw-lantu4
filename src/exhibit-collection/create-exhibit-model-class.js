@@ -22,7 +22,7 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
-      parts: types.optional(types.array(types.string), ['title', 'lenged', 'axis', 'polar', 'other']),
+      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen(['title', 'layers', 'data', 'dimension']),
     })
@@ -55,8 +55,8 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.title) {
           self.setTitle(config.title)
         }
-        if (config.lenged) {
-          self.setLenged(config.lenged)
+        if (config.legend) {
+          self.setLegend(config.legend)
         }
         if (config.axis) {
           self.setAxis(config.axis)
@@ -189,13 +189,13 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
-      const setLenged = (lenged) => {
-        self.lenged = createPropertyClass(config.key, lenged, 'lenged')
+      const setLegend = (legend) => {
+        self.legend = createPropertyClass(config.key, legend, 'legend')
       }
 
-      const getLenged = () => {
+      const getLegend = () => {
         if (self.title) {
-          return self.lenged.getData()
+          return self.legend.getData()
         }
       }
 
@@ -272,8 +272,8 @@ export const createExhibitModelClass = (exhibit) => {
         getDimension,
         setTitle,
         getTitle,
-        setLenged,
-        getLenged,
+        setLegend,
+        getLegend,
         setAxis,
         getAxis,
         setOther,

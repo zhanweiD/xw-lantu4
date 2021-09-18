@@ -152,7 +152,7 @@ export const config = (k) => ({
     ],
   },
   // 图例面板
-  lenged: {
+  legend: {
     effective: true,
     sections: [
       {
