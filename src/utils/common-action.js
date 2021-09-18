@@ -119,12 +119,6 @@ export const setModelSchema = (node, schema) => {
             log.warn("setSchema is not a function on object. Function: 'setModelSchema'", node[key])
           }
         }
-      } else {
-        if (schema[key]) {
-          console.log('here')
-        } else {
-          log.warn(`deepKey(${key}) property is not found on node(${typeName}). Function: 'setModelSchema'`)
-        }
       }
     })
   }

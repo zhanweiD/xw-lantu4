@@ -5,6 +5,7 @@ import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
+import isDef from '@utils/is-def'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
 
