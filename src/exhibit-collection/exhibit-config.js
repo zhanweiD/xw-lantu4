@@ -1,6 +1,5 @@
 import isArray from 'lodash/isArray'
 import mappingConfig from '../exhibit-option-system/fields'
-import allSections from '../exhibit-option-system/sections'
 import createConfigModelClass from '@builders/create-config-model-class'
 
 const getFields = (fields) => {
@@ -16,13 +15,10 @@ const getFields = (fields) => {
 const recusiveNode = (nodes) => {
   return nodes.map((node) => {
     let fields = node.fields
-    let subSections = node.sections
-    let section
+    let sections = node.sections
     const res = {}
-    section = allSections[node.name]
-    if (isArray(subSections)) {
-      subSections = subSections.filter((sSection) => section.sections?.some((v) => v.name === sSection.name))
-      res.sections = recusiveNode(subSections)
+    if (isArray(sections)) {
+      res.sections = recusiveNode(sections)
     }
 
     if (isArray(fields)) {

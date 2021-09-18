@@ -58,6 +58,12 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.lenged) {
           self.setLenged(config.lenged)
         }
+        if (config.axis) {
+          self.setAxis(config.axis)
+        }
+        if (config.other) {
+          self.setOther(config.other)
+        }
       }
       const setCachedData = (data) => {
         self.cachedData = data
@@ -192,6 +198,24 @@ export const createExhibitModelClass = (exhibit) => {
           return self.lenged.getData()
         }
       }
+
+      const setAxis = (axis) => {
+        self.axis = createPropertyClass(config.key, axis, 'axis')
+      }
+
+      const getAxis = () => {
+        if (self.axis) {
+          return self.axis.getData()
+        }
+      }
+      const setOther = (other) => {
+        self.other = createPropertyClass(config.key, other, 'other')
+      }
+      const getOther = () => {
+        if (self.other) {
+          return self.other.getData()
+        }
+      }
       // 在带有options属性的对象上, 添加getOption和mapOption方法
       const addOptionUtil = (obj) => {
         if (isPlainObject(obj) && isPlainObject(obj.options)) {
@@ -248,6 +272,10 @@ export const createExhibitModelClass = (exhibit) => {
         getTitle,
         setLenged,
         getLenged,
+        setAxis,
+        getAxis,
+        setOther,
+        getOther,
         addOptionUtil,
       }
     })
