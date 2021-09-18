@@ -1,36 +1,90 @@
 import {createWave} from '@waveview/wave'
+import {layerOptionMap, layerTypeMap} from './mapping'
 import translate from './translate'
 
+// 删除无效值，因为无效值有特殊含义（采用默认值）
+const filterInvalid = (object) => {
+  Object.keys(object).forEach((key) => {
+    if (typeof object[key] === 'object') {
+      object[key] = filterInvalid(object[key])
+    }
+    if (object[key] === undefined) {
+      delete object[key]
+    }
+  })
+  return object
+}
+
 // 初始化图表
-const reinitializeWave = (wave, schema) => {
-  while (wave.layer.length !== 0) {
-    wave.layer[0].instance.destroy()
+const reinitializeWave = (wave, options) => {
+  wave.destroy()
+  createWave(translate(options), wave)
+}
+
+// 根据配置更新一个图表
+const updateStyle = ({
+  action,
+  instance,
+  options,
+  updatedPath,
+  updatedLayer,
+  updatedAxis,
+  updatedLegend,
+  updatedTitle,
+  updatedOther,
+}) => {
+  // 层映射修改即数据修改，重绘
+  if (updatedPath === 'dataMap.column') {
+    reinitializeWave(instance, options)
   }
-  createWave(translate(schema), wave)
+  let target = null
+  // 层在图表库里的类型
+  let type = layerTypeMap.get(action) || action
+  if (action === 'layer') {
+    target = updatedLayer
+  } else if (action === 'axis') {
+    target = updatedAxis
+  } else if (action === 'legend') {
+    target = updatedLegend
+  } else if (action === 'title') {
+    target === updatedTitle
+  } else if (action === 'other') {
+    target === updatedOther
+  }
+  // 层实例
+  let layer = null
+  if (action === 'layer') {
+    const waveLayer = instance.layer.find((item) => item.id === target.id)
+    layer = waveLayer.instance
+    type = waveLayer.type
+  } else {
+    layer = instance.layer.find((item) => item.type === type).instance
+  }
+  const newOptions = filterInvalid(target.mapOption(layerOptionMap.get(type)))
+  // 层 options 影响全局，scale 影响数据，需要重绘
+  if (
+    (newOptions.scale && Object.keys(newOptions.scale).length) ||
+    (newOptions.options && Object.keys(newOptions.options).length)
+  ) {
+    reinitializeWave(instance, options)
+  } else {
+    layer.setStyle(newOptions.style)
+    layer.draw()
+  }
 }
 
 // 图表更新策略
-const updateWave = ({action, ...other}) => {
+const updateWave = (schema) => {
   try {
-    if (action === 'data') {
-      const {instance, schema} = other
-      reinitializeWave(instance, schema)
+    const {action, instance, options} = schema
+    if (action === 'data' || action === 'dimension') {
+      reinitializeWave(instance, options)
     } else {
-      updateStyle(other)
+      updateStyle(schema)
     }
   } catch (error) {
     console.error('图层配置解析错误，更新失败', error)
   }
-}
-
-// 根据配置更新一个图表
-const updateStyle = ({layerId, instance}) => {
-  const target = instance.layer.find(({id}) => id === layerId)
-  const layer = target.instance
-  // 由于覆盖问题所有图层都需要重新渲染
-  layer.setData()
-  layer.setStyle()
-  instance.draw()
 }
 
 export default updateWave

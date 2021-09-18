@@ -1,9 +1,9 @@
-import basicColumn from './waves/columns/basic-column'
+import basicLine from './waves/lines/basic-line'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
 const waves = {
-  basicColumn,
+  basicLine,
   demoLine,
 }
 
@@ -18,10 +18,10 @@ export default waves
 const categories = [
   {
     // 柱状图
-    name: 'classifyColumn',
-    icon: 'exhibit-rect',
+    name: 'classifyLine',
+    icon: 'exhibit-line',
     exhibits: [
-      basicColumn, // 基础柱状图
+      basicLine, // 基础柱状图
     ],
   },
   {

@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@babel/standalone": "^7.14.8",
-    "@waveview/wave": "0.2.9",
+    "@waveview/wave": "^0.4.7",
     "animejs": "^3.2.1",
     "autosize": "^5.0.1",
     "chroma-js": "^2.1.2",

@@ -40,70 +40,61 @@ export const mapColor = (fillColor) => {
 }
 
 export const layerTypeMap = new Map([
-  ['scatterLayer', 'scatter'],
-  ['pointLayer', 'line'],
+  ['axis', 'axis'],
+  ['title', 'text'],
+  ['legend', 'legend'],
+  ['line', 'line'],
 ])
 
-// 工具 schema 到图表 schema 的转换
-export const mapOption = (options, mapping) => {
-  const result = {
-    options: {},
-    scale: {},
-    style: {},
-  }
-  new Map(mapping).forEach((targetKey, sourceKey) => {
-    const source = sourceKey.split('.')
-    const target = targetKey.split('.')
-    // 取值
-    let value = options
-    for (let i = 0; i < source.length; i++) {
-      if (!value) {
-        break
-      } else {
-        value = value[source[i]]
-      }
-    }
-    // 设置值
-    let current = result
-    for (let i = 0; i < target.length; i++) {
-      if (i !== target.length - 1 && !current[target[i]]) {
-        current[target[i]] = {}
-      } else if (i === target.length - 1) {
-        current[target[i]] = value
-      }
-      current = current[target[i]]
-    }
-  })
-  return result
-}
-
-export const mapLayerOption = (options, layerType) => {
-  switch (layerType) {
-    case 'line':
-      return mapOption(options, [
-        // 点
-        ['point.fill.colorSingle', 'style.circle.fill'],
-        ['point.fill.opacity', 'style.circle.fillOpacity'],
-        ['point.stroke.colorSingle', 'style.circle.stroke'],
-        ['point.stroke.lineWidth', 'style.circle.strokeWidth'],
-        // 线
-        ['line.colorSingle', 'style.curve.stroke'],
-        ['line.lineWidth', 'style.curve.strokeWidth'],
-        ['line.opacity', 'style.curve.strokeOpacity'],
-        // 标签-文本
-        ['label.text.textSize', 'style.text.fontSize'],
-        ['label.text.textWeight', 'style.text.fontWeight'],
-        ['label.text.opacity', 'style.text.fillOpacity'],
-        ['label.text.colorSingle', 'style.text.fill'],
-        // 标签-阴影
-        ['label.shadow.colorSingle', 'style.text.shadow.color'],
-        ['label.shadow.blur', 'style.text.shadow.blur'],
-        ['label.shadow.offset', 'style.text.shadow.offset'],
-        ['label.shadow.opacity', 'style.text.shadow.opacity'],
-        // 标签-格式
-        ['label.format.thousandDiv', 'style.text.format.thousandth'],
-      ])
-    default:
-      return null
-  }
-}
+export const layerOptionMap = new Map([
+  [
+    'title',
+    {
+      // 内容
+      'base.content': 'data',
+      // 文本
+      'text.offset': 'style.offset',
+      'text.colorSingle': 'style.text.fill',
+      'text.opacity': 'style.text.fillOpacity',
+      'text.textSize': 'style.text.fontSize',
+      'text.textWeight': 'style.text.fontWeight',
+      // 阴影
+      'shadow.colorSingle': 'style.text.shadow.color',
+      'shadow.offset': 'style.text.shadow.offset',
+    },
+  ],
+  [
+    'legend',
+    {
+      'legend.base.size': 'style.shapeSize',
+      'legend.base.offset': 'style.offset',
+    },
+  ],
+  [
+    'axis',
+    {
+      // x轴
+      'xAxis.label.text.textSize': 'style.textX.fontSize',
+      'xAxisLine.colorSinle': 'style.lineAxisX.stroke',
+      'xAxisSplitLine.colorSingle': 'style.lineTickX.stroke',
+      'xAxisSplitLine.opacity': 'style.lineTickX.opacity',
+      // y轴
+      'yAxisLine.colorSinle': 'style.lineAxisY.stroke',
+      'yAxisSplitLine.colorSingle': 'style.lineTickY.stroke',
+      'yAxisSplitLine.opacity': 'style.lineTickY.opacity',
+    },
+  ],
+  [
+    'line',
+    {
+      // 点
+      'point.size': 'style.circleSize',
+      // 线
+      'line.lineWidth': 'style.curve.strokeWidth',
+      // 标签
+      'label.text.textSize': 'style.text.fontSize',
+      'label.effective': 'style.text.hide',
+      'label.shadow.effective': 'style.text.shadow.disable',
+    },
+  ],
+])
