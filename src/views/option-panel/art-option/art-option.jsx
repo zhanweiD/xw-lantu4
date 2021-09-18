@@ -42,8 +42,27 @@ const ArtOption = ({art}) => {
         >
           <Scroll className="h100p">
             {recusiveNode({
-              sections: exhibit.title.sections,
-              fields: exhibit.title.fields,
+              sections: exhibit.title.options.sections,
+              // fields: exhibit.title.fields,
+              level: 0,
+            })}
+          </Scroll>
+        </Tab.Item>
+      )}
+      {exhibit && exhibit.lenged && (
+        <Tab.Item
+          name="图例"
+          hasIcon={isDef(exhibit.lenged.effective)}
+          icon={exhibit.lenged.effective ? 'eye-open' : 'eye-close'}
+          onIconClick={(e) => {
+            e.stopPropagation()
+            exhibit.lenged.toggleEffective()
+          }}
+        >
+          <Scroll className="h100p">
+            {recusiveNode({
+              sections: exhibit.lenged.options.sections,
+              // fields: exhibit.title.fields,
               level: 0,
             })}
           </Scroll>

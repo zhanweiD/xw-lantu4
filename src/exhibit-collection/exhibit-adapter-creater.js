@@ -86,17 +86,62 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title} = model
+      const {data, layers, dimension, title, lenged} = model
+      if (lenged) {
+        this.observerDisposers.push(
+          reaction(
+            () => lenged.options.updatedOptions,
+            () => {
+              if (lenged.effective) {
+                this.update({
+                  action: 'lenged',
+                  options: this.getAllOptions(),
+                  updatedLenged: lenged.options.updatedOptions,
+                  updatedPath: lenged.options.updatedPath,
+                })
+              }
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => lenged.effective,
+            () => {
+              this.update({
+                action: 'lenged',
+                options: this.getAllOptions(),
+                updatedLenged: model.getLenged(),
+                updatedPath: 'effective',
+              })
+            }
+          )
+        )
+      }
       if (title) {
         this.observerDisposers.push(
           reaction(
-            () => title.updatedOptions,
+            () => title.options.updatedOptions,
+            () => {
+              if (title.effective) {
+                this.update({
+                  action: 'title',
+                  options: this.getAllOptions(),
+                  updatedTitle: title.options.updatedOptions,
+                  updatedPath: title.options.updatedPath,
+                })
+              }
+            }
+          )
+        )
+        this.observerDisposers.push(
+          reaction(
+            () => title.effective,
             () => {
               this.update({
                 action: 'title',
                 options: this.getAllOptions(),
-                updatedTitle: title.updatedOptions,
-                updatedPath: title.updatedPath,
+                updatedTitle: model.getTitle(),
+                updatedPath: 'effective',
               })
             }
           )
@@ -111,7 +156,7 @@ const createExhibitAdapter = (hooks) =>
               this.update({
                 action: 'data',
                 options: this.getAllOptions(),
-                updatedData: this.model.getData(),
+                updatedData: model.getData(),
               })
             }
           )
@@ -136,7 +181,7 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => layer.effective,
             () => {
-              const options = this.model.getLayers()
+              const options = model.getLayers()
 
               this.update({
                 action: 'layer',
@@ -222,7 +267,7 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle}) {
+    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle, updatedLenged}) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
@@ -232,6 +277,7 @@ const createExhibitAdapter = (hooks) =>
         action,
         updatedPath,
         updatedTitle,
+        updatedLenged,
       })
     }
 

@@ -18,6 +18,7 @@ import {
   MColumnSelectField,
 } from './fields'
 import isDef from '@utils/is-def'
+import getObjectData from '@utils/get-object-data'
 import commonAction from '@utils/common-action'
 
 const log = createLog('@builder/create-config-model-class')
@@ -122,45 +123,9 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
         }
       }
 
-      // 内部使用，仅仅是把数组变成对象
-      const getObjectData = (nodes) => {
-        const {sections, fields} = nodes
-        let values = {}
-        if (isDef(sections)) {
-          Object.values(sections).forEach((node) => {
-            if (!isDef(node.effective) || node.effective) {
-              values[node.name] = {
-                ...node.fields,
-              }
-
-              if (node.sections) {
-                values[node.name] = {...values[node.name], ...getObjectData(node)}
-              }
-            }
-          })
-        }
-        if (isDef(fields)) {
-          values = {
-            ...values,
-            ...nodes.fields,
-          }
-        }
-
-        return values
-      }
-
       const toggleEffective = () => {
         self.effective = !self.effective
-        let data = {}
-
-        if (self.effective) {
-          data = getObjectData(self.getSchema())
-        }
-
-        const updatedOptions = {
-          effective: self.effective,
-          ...data,
-        }
+        const updatedOptions = getObjectData(self.getSchema())
         self.update(updatedOptions, 'effective', true)
       }
 
