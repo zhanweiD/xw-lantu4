@@ -1,7 +1,9 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
-const Adapter = () =>
-  createExhibitAdapter({
+const makeAdapter = ({k}) => {
+  console.log(k)
+
+  return createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
       console.log('🚗 init', options)
@@ -155,5 +157,6 @@ const Adapter = () =>
       instance.warn(warn)
     },
   })
+}
 
-export default Adapter
+export default makeAdapter

@@ -1,5 +1,5 @@
 import {config} from './config'
-import Adapter from './adapter'
+import makeAdapter from './adapter'
 import i18n from './i18n'
 
 export default {
@@ -11,5 +11,5 @@ export default {
   icon: 'demo-line',
   i18n,
   config,
-  Adapter,
+  makeAdapter,
 }
