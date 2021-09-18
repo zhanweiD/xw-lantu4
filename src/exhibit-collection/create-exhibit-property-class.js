@@ -8,6 +8,7 @@ export const createPropertyClass = (key, config, name = 'property') => {
   const {effective, sections, fields} = config
   const MModel = types
     .model(`M${key}.${name}`, {
+      name: name,
       normalKeys: types.frozen(['effective']),
       deepKeys: types.frozen(['options']),
     })

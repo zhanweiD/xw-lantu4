@@ -65,7 +65,7 @@ const Head = () => {
             canUse={isSnap}
             canClick
             onClick={() => {
-              viewport.set('isSnap', !isSnap)
+              art.set('isSnap', !isSnap)
             }}
           />
           <IconGroupButton
