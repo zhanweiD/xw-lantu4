@@ -1,7 +1,7 @@
 import {reaction} from 'mobx'
-import onerStorage from 'oner-storage'
+
 import createLog from '@utils/create-log'
-import random from '@utils/random'
+import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
 
 const log = createLog('@exhibit-adapter-creater')
@@ -75,6 +75,8 @@ const createExhibitAdapter = (hooks) =>
         layers: this.model.getLayers(),
         title: this.model.getTitle(),
         lenged: this.model.getLenged(),
+        other: this.model.getOther(),
+        axis: this.model.getAxis(),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -85,67 +87,64 @@ const createExhibitAdapter = (hooks) =>
       return instanceOption
     }
 
+    createObserverObject({actionType, isGlobal = false}) {
+      return reaction(
+        () => (isGlobal ? this.model[actionType].effective : this.model[actionType].options.updatedOptions),
+        () => {
+          const map = {
+            lenged: 'updatedLenged',
+            title: 'updatedTitle',
+            other: 'updatedOther',
+            axis: 'updatedAxis',
+            dimension: 'updatedDimension',
+            // layer: 'updatedLayer',
+          }
+          const action = () =>
+            this.update({
+              action: actionType,
+              options: this.getAllOptions(),
+              [map[actionType]]: this.model[actionType].options.updatedOptions,
+              updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
+            })
+          if (!isGlobal) {
+            if (!isDef(this.model[actionType].effective) || this.model[actionType].effective) {
+              action()
+            }
+          } else {
+            action()
+          }
+        }
+      )
+    }
+
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, lenged} = model
+      const {data, layers, dimension, title, lenged, axis, other} = model
       if (lenged) {
         this.observerDisposers.push(
-          reaction(
-            () => lenged.options.updatedOptions,
-            () => {
-              if (lenged.effective) {
-                this.update({
-                  action: 'lenged',
-                  options: this.getAllOptions(),
-                  updatedLenged: lenged.options.updatedOptions,
-                  updatedPath: lenged.options.updatedPath,
-                })
-              }
-            }
-          )
-        )
-        this.observerDisposers.push(
-          reaction(
-            () => lenged.effective,
-            () => {
-              this.update({
-                action: 'lenged',
-                options: this.getAllOptions(),
-                updatedLenged: model.getLenged(),
-                updatedPath: 'effective',
-              })
-            }
-          )
+          this.createObserverObject({actionType: 'lenged', isGlobal: true}),
+          this.createObserverObject({actionType: 'lenged'})
         )
       }
       if (title) {
         this.observerDisposers.push(
-          reaction(
-            () => title.options.updatedOptions,
-            () => {
-              if (title.effective) {
-                this.update({
-                  action: 'title',
-                  options: this.getAllOptions(),
-                  updatedTitle: title.options.updatedOptions,
-                  updatedPath: title.options.updatedPath,
-                })
-              }
-            }
-          )
+          this.createObserverObject({actionType: 'title', isGlobal: true}),
+          this.createObserverObject({actionType: 'title'})
         )
+      }
+      if (dimension) {
+        this.observerDisposers.push(this.createObserverObject({actionType: 'dimension'}))
+      }
+      if (axis) {
         this.observerDisposers.push(
-          reaction(
-            () => title.effective,
-            () => {
-              this.update({
-                action: 'title',
-                options: this.getAllOptions(),
-                updatedTitle: model.getTitle(),
-                updatedPath: 'effective',
-              })
-            }
-          )
+          this.createObserverObject({actionType: 'axis', isGlobal: true}),
+          this.createObserverObject({actionType: 'axis'})
+        )
+      }
+      if (other) {
+        this.observerDisposers.push(
+          this.createObserverObject({actionType: 'other', isGlobal: true}),
+          this.createObserverObject({actionType: 'other'})
         )
       }
 
@@ -158,20 +157,6 @@ const createExhibitAdapter = (hooks) =>
                 action: 'data',
                 options: this.getAllOptions(),
                 updatedData: model.getData(),
-              })
-            }
-          )
-        )
-      }
-      if (dimension) {
-        this.observerDisposers.push(
-          reaction(
-            () => dimension.options.updatedOptions,
-            () => {
-              this.update({
-                action: 'dimension',
-                options: this.getAllOptions(),
-                updatedDimension: dimension.options.updatedOptions,
               })
             }
           )
@@ -268,7 +253,18 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(this, {instance: this.instance})
     }
 
-    update({options, updatedData, updatedDimension, updatedLayer, action, updatedPath, updatedTitle, updatedLenged}) {
+    update({
+      options,
+      updatedData,
+      updatedDimension,
+      updatedLayer,
+      action,
+      updatedPath,
+      updatedTitle,
+      updatedLenged,
+      updatedOther,
+      updatedAxis,
+    }) {
       hooks.update.call(this, {
         instance: this.instance,
         options,
@@ -279,6 +275,8 @@ const createExhibitAdapter = (hooks) =>
         updatedPath,
         updatedTitle,
         updatedLenged,
+        updatedOther,
+        updatedAxis,
       })
     }
 

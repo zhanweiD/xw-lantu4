@@ -129,6 +129,8 @@ const makeAdapter = ({k}) => {
       updatedPath,
       updatedTitle,
       updatedLenged,
+      updatedOther,
+      updatedAxis,
     }) {
       console.log('🚗 update')
       console.log({
@@ -141,6 +143,8 @@ const makeAdapter = ({k}) => {
         updatedPath,
         updatedTitle,
         updatedLenged,
+        updatedOther,
+        updatedAxis,
       })
       // updateWave(options)
     },

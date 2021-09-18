@@ -230,6 +230,20 @@ const cameraViewport = {
   ],
 }
 
+const base = {
+  name: 'base',
+  fields: [
+    {
+      name: 'size',
+    },
+    {
+      name: 'position',
+    },
+    {
+      name: 'offset',
+    },
+  ],
+}
 export default {
   // 文本
   text,
@@ -259,4 +273,5 @@ export default {
   endPointCoordinate,
   // 摄像机镜头
   cameraViewport,
+  base,
 }
