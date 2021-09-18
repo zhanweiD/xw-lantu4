@@ -3,7 +3,7 @@ import {reaction} from 'mobx'
 import minBy from 'lodash/minBy'
 import maxBy from 'lodash/maxBy'
 import isEmpty from 'lodash/isEmpty'
-import {MZoom} from '@utils/zoom'
+import {MZoom, viewport} from '@utils/zoom'
 import commonAction from '@utils/common-action'
 import {shortcut} from '@utils/create-event'
 import createLog from '@utils/create-log'
@@ -483,6 +483,11 @@ export const MArtViewport = types
       }
     }
 
+    // 当视窗改变时自动去改变可视化区域
+    const resizeViewport = () => {
+      viewport.update()
+    }
+
     const beforeDestroy = () => {
       removeShortcutDelete()
     }
@@ -507,5 +512,6 @@ export const MArtViewport = types
       // 缩放全部画布到可视区域 & 缩放选中画布到可视区域
       zoomAllToView,
       zoomSingleToView,
+      resizeViewport,
     }
   })

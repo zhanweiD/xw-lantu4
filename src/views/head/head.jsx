@@ -1,15 +1,15 @@
-import React, {Children} from "react"
-import {observer} from "mobx-react-lite"
-import {useTranslation} from "react-i18next"
-import c from "classnames"
-import w from "@models"
-import IconGroupButton from "@components/icon-group-button"
+import React, {Children} from 'react'
+import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
+import c from 'classnames'
+import w from '@models'
+import IconGroupButton from '@components/icon-group-button'
 
-import {Link} from "react-router-dom"
-import config from "@utils/config"
+import {Link} from 'react-router-dom'
+import config from '@utils/config'
 
-import s from "./head.module.styl"
-import PanelButton from "./panel-button"
+import s from './head.module.styl'
+import PanelButton from './panel-button'
 
 const Head = () => {
   const {t} = useTranslation()
@@ -32,10 +32,10 @@ const Head = () => {
   }
 
   return (
-    <div className={c("cf3 fbh fbac", s.head)}>
-      <div className={c("fb1 fbh fbac")}>
+    <div className={c('cf3 fbh fbac', s.head)}>
+      <div className={c('fb1 fbh fbac')}>
         <div>
-          <Link to="/" className={c(s.logo, "fbh fbac fbjc")}>
+          <Link to="/" className={c(s.logo, 'fbh fbac fbjc')}>
             <img src={config.logo} alt="logo" />
           </Link>
         </div>
@@ -46,13 +46,18 @@ const Head = () => {
               active={activePanelButton === panel}
               onClick={() => {
                 head.toggleActivePanel(panel)
+                if (art) {
+                  setTimeout(() => {
+                    art.viewport.resizeViewport()
+                  }, 60)
+                }
               }}
             />
           )
         )}
       </div>
 
-      {type === "art" && (
+      {type === 'art' && (
         <>
           <IconGroupButton
             icon="lodestone"
@@ -60,7 +65,7 @@ const Head = () => {
             canUse={isSnap}
             canClick
             onClick={() => {
-              viewport.set("isSnap", !isSnap)
+              viewport.set('isSnap', !isSnap)
             }}
           />
           <IconGroupButton
@@ -94,7 +99,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAverage("horizontal")
+              selectRange.updateAverage('horizontal')
             }}
             layout="start"
           />
@@ -105,7 +110,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAverage("vertical")
+              selectRange.updateAverage('vertical')
             }}
             layout="end"
           />
@@ -116,7 +121,7 @@ const Head = () => {
             canUse={size > 2}
             canClick={size > 2}
             onClick={() => {
-              selectRange.updateSpace("horizontal")
+              selectRange.updateSpace('horizontal')
             }}
             layout="start"
           />
@@ -127,7 +132,7 @@ const Head = () => {
             canUse={size > 2}
             canClick={size > 2}
             onClick={() => {
-              selectRange.updateSpace("vertical")
+              selectRange.updateSpace('vertical')
             }}
             layout="end"
           />
@@ -137,7 +142,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAlign("left")
+              selectRange.updateAlign('left')
             }}
             layout="start"
           />
@@ -147,7 +152,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAlign("center")
+              selectRange.updateAlign('center')
             }}
             layout="center"
           />
@@ -157,7 +162,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAlign("right")
+              selectRange.updateAlign('right')
             }}
             layout="center"
           />
@@ -167,7 +172,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAlign("top")
+              selectRange.updateAlign('top')
             }}
             layout="center"
           />
@@ -176,7 +181,7 @@ const Head = () => {
             title="垂直居中"
             canUse={size > 1}
             onClick={() => {
-              selectRange.updateAlign("middle")
+              selectRange.updateAlign('middle')
             }}
             layout="center"
           />
@@ -186,7 +191,7 @@ const Head = () => {
             canUse={size > 1}
             canClick={size > 1}
             onClick={() => {
-              selectRange.updateAlign("bottom")
+              selectRange.updateAlign('bottom')
             }}
             layout="end"
           />
@@ -197,7 +202,7 @@ const Head = () => {
             canClick
             onClick={() => {
               art.set({
-                isGridVisible: !isGridVisible
+                isGridVisible: !isGridVisible,
               })
             }}
             layout="start"
@@ -209,7 +214,7 @@ const Head = () => {
             canClick
             onClick={() => {
               art.set({
-                isBoxBackgroundVisible: !isBoxBackgroundVisible
+                isBoxBackgroundVisible: !isBoxBackgroundVisible,
               })
             }}
             layout="end"
@@ -231,7 +236,7 @@ const Head = () => {
             canClick
             onClick={() => {
               art.set({
-                isArtPublishInfoVisible: true
+                isArtPublishInfoVisible: true,
               })
             }}
             layout="end"
@@ -246,6 +251,11 @@ const Head = () => {
           canClick
           onClick={() => {
             optionPanel.toggle()
+            if (art) {
+              setTimeout(() => {
+                art.viewport.resizeViewport()
+              }, 60)
+            }
           }}
         />
       )}
