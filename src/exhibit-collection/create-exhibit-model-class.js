@@ -159,25 +159,18 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setDimension = (dimension) => {
-        const {id} = self
-        const {sections, fields} = dimension
-        const MDimension = transform({id, sections, fields})
-
-        self.dimension = MDimension.create()
+        self.dimension = createPropertyClass(config.key, dimension, 'dimension')
         const relationModels = [].concat(
           ...self.data.getRelationModels(),
-          ...self.dimension.getRelationFields('columnSelect')
+          ...self.dimension.options.getRelationFields('columnSelect')
         )
         self.data.setRelationModels(relationModels)
       }
 
       const getDimension = () => {
-        let dimension
         if (self.dimension) {
-          const schema = self.dimension.getSchema()
-          dimension = getObjectData(schema)
+          return self.dimension.getData()
         }
-        return dimension
       }
 
       const setTitle = (title) => {
@@ -185,22 +178,9 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const getTitle = () => {
-        let title
         if (self.title) {
-          const {options, effective} = self.title.getSchema()
-          title = {}
-          if (isDef(effective)) {
-            title.effective = effective
-          }
-
-          if (!isDef(effective) || effective) {
-            title = {
-              ...title,
-              ...getObjectData(options),
-            }
-          }
+          return self.title.getData()
         }
-        return title
       }
 
       const setLenged = (lenged) => {
@@ -208,22 +188,9 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const getLenged = () => {
-        let lenged
-        if (self.lenged) {
-          const {options, effective} = self.lenged.getSchema()
-          lenged = {}
-          if (isDef(effective)) {
-            lenged.effective = effective
-          }
-
-          if (!isDef(effective) || effective) {
-            lenged = {
-              ...lenged,
-              ...getObjectData(options),
-            }
-          }
+        if (self.title) {
+          return self.lenged.getData()
         }
-        return lenged
       }
       // 在带有options属性的对象上, 添加getOption和mapOption方法
       const addOptionUtil = (obj) => {

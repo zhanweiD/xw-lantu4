@@ -50,9 +50,12 @@ const Builder = ({layers, data, dimension, exhibit}) => {
       {data && <ModelToField model={data} />}
       {dimension && (
         <Section sessionId={`${exhibit.id}.dimension`} type={0} name={t('dimension')} key={t('dimension')}>
-          {recusiveNode({fields: dimension.fields, sections: dimension.sections, level: 0})}
+          {recusiveNode({
+            ...dimension.options,
+          })}
         </Section>
       )}
+
       {layers.map((layer) => {
         return (
           <div key={layer.id}>
