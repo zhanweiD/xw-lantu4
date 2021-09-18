@@ -7,9 +7,8 @@ import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
 import {transform} from './exhibit-config'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
-import {createTitleClass} from './create-exhibit-title-class'
 import isDef from '@utils/is-def'
-import {createLengedClass} from './create-exhibit-lenged-class'
+import {createPropertyClass} from './create-exhibit-property-class'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -182,7 +181,7 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setTitle = (title) => {
-        self.title = createTitleClass(config.key, title)
+        self.title = createPropertyClass(config.key, title, 'title')
       }
 
       const getTitle = () => {
@@ -205,7 +204,7 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setLenged = (lenged) => {
-        self.lenged = createLengedClass(config.key, lenged)
+        self.lenged = createPropertyClass(config.key, lenged, 'lenged')
       }
 
       const getLenged = () => {

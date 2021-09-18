@@ -3,11 +3,11 @@ import isDef from '@utils/is-def'
 import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
 
-export const createTitleClass = (key, title) => {
-  const {effective, sections, fields} = title
-  const MTitle = types
-    .model(`M${key}Title`, {
-      normalKeys: types.frozen(['name', 'effective']),
+export const createPropertyClass = (key, config, name = 'property') => {
+  const {effective, sections, fields} = config
+  const MModel = types
+    .model(`M${key}.${name}`, {
+      normalKeys: types.frozen(['effective']),
       deepKeys: types.frozen(['options']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
@@ -29,5 +29,5 @@ export const createTitleClass = (key, title) => {
         toggleEffective,
       }
     })
-  return MTitle.create()
+  return MModel.create()
 }
