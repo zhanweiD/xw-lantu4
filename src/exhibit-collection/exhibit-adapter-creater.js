@@ -103,7 +103,9 @@ const createExhibitAdapter = (hooks) =>
             this.update({
               action: actionType,
               options: this.getAllOptions(),
-              [map[actionType]]: this.model[actionType].options.updatedOptions,
+              [map[actionType]]: isGlobal
+                ? this.model[actionType].getData()
+                : this.model[actionType].options.updatedOptions,
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
             })
           if (!isGlobal) {

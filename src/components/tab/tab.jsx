@@ -17,7 +17,7 @@ const Tab = ({
   activeIndex = 0,
 }) => {
   // ! 当只有1个Tab的时候，需要转为数组，否则后续的map方法找不到
-  const items = [].concat(children.filter ? children.filter((child) => !!child) : children)
+  const items = [].concat(...children)
   if (allSessionIds[sessionId]) {
     console.warn(`'Tab'组件有重复的'sessionId(${sessionId})'出现，请检查`)
   }
