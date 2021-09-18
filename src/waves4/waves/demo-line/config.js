@@ -18,7 +18,7 @@ const lineLayer = (k) => ({
   type: 'line',
   sections: [
     {
-      name: 'dataEncode',
+      name: 'dataMap',
       fields: [
         {
           name: 'column',
@@ -249,8 +249,24 @@ export const config = (k) => ({
   },
   // // 极坐标系坐标轴
   // polarAxis: false,
-  // // 动画
-  // animation: false,
-  // // 高级
-  // advance: false,
+
+  // 其他
+  other: {
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'size',
+          },
+          {
+            name: 'position',
+          },
+          {
+            name: 'offset',
+          },
+        ],
+      },
+    ],
+  },
 })
