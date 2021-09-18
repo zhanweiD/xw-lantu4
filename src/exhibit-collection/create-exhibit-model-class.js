@@ -5,9 +5,7 @@ import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
-import {transform} from './exhibit-config'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
-import isDef from '@utils/is-def'
 import {createPropertyClass} from './create-exhibit-property-class'
 
 // 根据schema创建组件独有的模型
@@ -23,6 +21,7 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
+      parts: types.optional(types.array(types.string), ['title', 'lenged', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen(['title', 'layers', 'data', 'dimension']),
     })
@@ -228,8 +227,8 @@ export const createExhibitModelClass = (exhibit) => {
           storageOptions.data(obj.options)
 
           // 根据路径取得参数的便捷方式
-          obj.getOption = (path) => {
-            return storageOptions.get(path)
+          obj.getOption = (path, fallback) => {
+            return storageOptions.get(path, fallback)
           }
 
           // 三文的需求，实验性开放
