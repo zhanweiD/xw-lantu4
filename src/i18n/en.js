@@ -28,7 +28,9 @@ export default {
   },
   dataPanel: {
     project: 'Project Data',
+    createDataFold: 'Create Data Fold',
     datas: 'Datas',
+    space: 'Space Data',
     official: 'Official Data',
     dataCreate: 'Create Data',
     excel: 'Excel',

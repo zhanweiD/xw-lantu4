@@ -1,33 +1,56 @@
 import {flow} from 'mobx'
 import {types, getEnv, getRoot} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
-import uuid from '@utils/uuid'
-// import {createConfigModelClass} from '@components/field'
 import createLog from '@utils/create-log'
-// import io from '@utils/io'
 import {MDataToolbar} from './data-toolbar'
-import {MDataTab} from '../editor/editor-tab-data'
+import {MDataFolder} from './data-folder'
 
 const log = createLog('@models/data/data-panel')
 
-const MDataFolder = types
-  .model('MDataFolder', {
-    folderId: types.number,
-    folderName: types.string,
-    datas: types.optional(types.array(MDataTab), []),
-  })
-  .views((self) => ({
-    get env_() {
-      return getEnv(self)
-    },
-    get datas_() {
-      return self.datas
-    },
-  }))
+// const MDataFolders = types
+//   .model('MDataFolders', {
+//     type: types.string,
+//     projectId: types.maybeNull(types.number),
+//     folders: types.optional(types.array(MDataFolder), []),
+//     folderSort: types.optional(types.array(types.number), []),
+//   })
+//   .views(self => ({
+//     get env_() {
+//       return getEnv(self)
+//     },
+//   }))
+//   .actions(commonAction(['set']))
+//   .actions(self => {
+//     const {io, tip, event} = self.env_
+//     const afterCreate = () => {
+//       self.getFolders()
+//     }
+
+//     // 获取数据文件夹
+//     const getFolders = flow(function* getDataFolder() {
+//       try {
+//         const {list, folderSort} = yield io.data.getDataFolder()
+//         self.set({
+//           folders: list,
+//           folderSort: folderSort,
+//         })
+//       } catch (error) {
+//         // TODO error 统一替换
+//         console.log(error)
+//       }
+//     })
+
+//     return {
+//       afterCreate,
+//       getFolders
+//     }
+//   })
 
 export const MDataPanel = types
   .model({
     toolbar: types.optional(MDataToolbar, {}),
+    // space: types.optional(MDataFolders, {type: 'space'}),
+    // project: types.optional(MDataFolders, {type: 'project'}),
     // 空间数据
     spaceFolders: types.optional(types.array(MDataFolder), []),
     spaceFolderSort: types.optional(types.array(types.number), []),
@@ -138,32 +161,12 @@ export const MDataPanel = types
       }
     })
 
-    const openTabByData = ({folder, data, type}) => {
-      const {event} = self.env_
-      let defaultDataName = '未命名数据'
-      if (type === 'excel') {
-        defaultDataName = '新建Excel'
-      } else if (type === 'json') {
-        defaultDataName = '新建JSON'
-      } else if (type === 'database') {
-        defaultDataName = '新建SQL'
-      } else if (type === 'api') {
-        defaultDataName = '新建API'
-      }
-
-      event.fire('editor.openTab', {
-        id: data ? data.dataId : uuid(),
-        name: data?.dataName || defaultDataName,
-        type: 'data',
-        tabOptions: {
-          folderId: folder.folderId,
-          dataType: type,
-        },
-      })
-    }
-
     // 置顶文件夹
-    const stickyFolder = flow(function* stickyFolder(folder, isTop) {
+    const toggleFolderTop = flow(function* toggleFolderTop(folder) {
+      let isTop
+      if (self.dataPanelType_ === 'space') {
+        isTop = self.folderSort.includes(folder.folderId)
+      }
       if (isTop || self.topFoldersId.includes(folder.folderId)) {
         self.topFoldersId = self.topFoldersId.filter((sortId) => sortId !== folder.folderId)
       } else {
@@ -186,34 +189,24 @@ export const MDataPanel = types
 
     // 抽象的确认
     const confirm = (data, type) => {
-      let content = ''
-      let onConfirm = () => {}
       switch (type) {
-        case 'folder': {
+        case 'removeDataFolder': {
           const dataCount = data.datas.length
           if (!dataCount) {
             removeDataFolder(data)
             return
           } else {
-            content = `“${data.folderName}”下有${dataCount}个数据，您确定要删除吗？`
-            onConfirm = () => removeDataFolder(data)
+            self.root_.confirm({
+              content: `“${data.folderName}”下有${dataCount}个数据，您确定要删除吗？`,
+              onConfirm: () => removeDataFolder(data),
+              attachTo: false,
+            })
           }
-          break
-        }
-        case 'data': {
-          const {dataName, dataId} = data
-          content = `确认删除数据“${dataName}”么？删除后无法恢复！`
-          onConfirm = () => removeData({dataId})
           break
         }
         default:
           break
       }
-      self.root_.confirm({
-        content,
-        onConfirm,
-        attachTo: false,
-      })
     }
 
     // 删除文件夹
@@ -234,27 +227,11 @@ export const MDataPanel = types
       }
     })
 
-    // 删除数据
-    const removeData = flow(function* removeData({dataId}) {
-      const {event} = self.env_
-      try {
-        yield io.data.removeData({':dataId': dataId})
-        event.fire('dataPanel.getFolders')
-        event.fire('editor.closeTab', dataId)
-        tip.success({content: '删除数据成功'})
-      } catch (error) {
-        // TODO error 统一替换
-        tip.error({content: '删除数据失败'})
-        log.error(error)
-      }
-    })
-
     return {
       afterCreate,
       getFolders,
-      openTabByData,
       createFolder,
-      stickyFolder,
+      toggleFolderTop,
       confirm,
     }
   })

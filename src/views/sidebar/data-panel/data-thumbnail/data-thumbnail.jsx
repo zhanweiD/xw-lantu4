@@ -1,7 +1,3 @@
-/**
- * @author 南风
- * @description 数据展示列表
- */
 import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
@@ -10,13 +6,14 @@ import copy from '@utils/copy'
 import Icon from '@components/icon'
 import s from './data-thumbnail.module.styl'
 
-const DataThumbnail = ({data, dataPanel, folder}) => {
+const DataThumbnail = ({data}) => {
+  const {dataType, dataName} = data
   const icon = {
     json: 'data-json',
     excel: 'data-excel',
     mysql: 'data-mysql',
     api: 'data-api',
-  }[data.dataType]
+  }[dataType]
 
   return (
     <div
@@ -39,7 +36,7 @@ const DataThumbnail = ({data, dataPanel, folder}) => {
             {
               name: '删除',
               action: () => {
-                dataPanel.confirm(data, 'data')
+                data.confirm('removeData')
                 menu.hide()
               },
             },
@@ -51,10 +48,10 @@ const DataThumbnail = ({data, dataPanel, folder}) => {
       <div
         className="ml8 fb1 omit"
         onDoubleClick={() => {
-          dataPanel.openTabByData({folder, data})
+          data.showDetail(s)
         }}
       >
-        {data.dataName}
+        {dataName}
       </div>
     </div>
   )

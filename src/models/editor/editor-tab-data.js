@@ -254,13 +254,18 @@ export const MDataTab = types
         tip.success({content: '保存成功'})
       } catch (error) {
         log.error('Create Data error', error)
-        if (error && error.code === 'ERROR_PARAMS_ERROR') {
-          tip.error({
-            content: '自定义ID校验错误，请检查是否包含数字和字母外的字符',
-          })
-        } else {
-          tip.error({content: '数据保存失败'})
+        let content = '数据保存失败'
+        if (error && error.code) {
+          switch (error.code) {
+            case 'ERROR_PARAMS_ERROR':
+              content = '自定义ID校验错误，请检查是否包含数字和字母外的字符'
+              break
+            case 'ERROR_DATA_NAME_EXIST':
+              content = '数据名称已存在，请检查当前文件夹下是否有重名文件'
+              break
+          }
         }
+        tip.error({content})
       }
     })
 

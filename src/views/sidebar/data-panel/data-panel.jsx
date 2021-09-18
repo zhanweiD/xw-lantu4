@@ -1,38 +1,33 @@
 import React, {useState} from 'react'
+import DataFolder from './data-folder'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import w from '@models'
 import Tab from '@components/tab'
 import Scroll from '@components/scroll'
-import Section from '@components/section'
 import Icon from '@components/icon'
 import IconButton from '@components/icon-button'
 import Modal from '@components/modal'
 import {TextField} from '@components/field'
 import DataToolbar from './data-toolbar'
-import DataThumbnail from './data-thumbnail'
 import s from './data-panel.module.styl'
 import Loading from '@components/loading'
 
-const createMenu = (e, button, dataPanel, folder, isTop, isOnClickMore) => {
-  const {toggleFolderTop, confirm, openTabByData} = dataPanel
+const clickMore = (e, button, dataPanel, folder, isTop) => {
+  const {toggleFolderTop, confirm} = dataPanel
+  const {createData, folderId} = folder
   e.stopPropagation()
   const menu = w.overlayManager.get('menu')
-  const createList = [
-    {name: '新建Excel', action: () => (openTabByData({folder, type: 'excel'}), menu.hide())},
-    {name: '新建JSON', action: () => (openTabByData({folder, type: 'json'}), menu.hide())},
-    {name: '新建API', action: () => (openTabByData({folder, type: 'api'}), menu.hide())},
-    // {name: '新建SQL',action: () => (openTabByData({folder, type: 'database'}), menu.hide())},
-  ]
-  const list = [
-    {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
-    ...createList,
-    {name: '删除文件夹', action: () => (confirm(folder, 'folder'), menu.hide())},
-  ]
   menu.toggle({
     attachTo: button,
-    list: isOnClickMore ? list : createList,
+    list: [
+      {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
+      {name: '新建Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
+      {name: '新建JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
+      {name: '新建API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+      {name: '删除文件夹', action: () => (confirm(folder, 'folder'), menu.hide())},
+    ],
   })
 }
 
@@ -44,41 +39,12 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
         buttonSize={24}
         icon="more"
         onClick={(e, button) => {
-          createMenu(e, button, dataPanel, folder, isTop, true)
+          clickMore(e, button, dataPanel, folder, isTop)
         }}
       />
     </div>
   )
 }
-
-const DataFolders = observer(({dataPanel, folder, icon, onNoDataClick}) => {
-  const {datas_, folderName, section} = folder
-  return (
-    <Section
-      className="pl8 pr8 mt8"
-      childrenClassName="pt8"
-      icon={icon}
-      name={`${folderName} (${datas_.length})`}
-      props={section}
-      onFold={() => {
-        // session.set(section.sectionKey, fold)
-      }}
-    >
-      {datas_.length ? (
-        datas_.map((data) => <DataThumbnail data={data} dataPanel={dataPanel} folder={folder} key={data.dataId} />)
-      ) : (
-        <div className={c('mb16 emptyNote')}>
-          <div>
-            列表还是空空的，点击
-            <span className="ctSecend hand" onClick={onNoDataClick}>
-              新建
-            </span>
-          </div>
-        </div>
-      )}
-    </Section>
-  )
-})
 
 // 数据面板无项目时的 UI
 const DataPanelFallback = ({keyword, set, noProject}) =>
@@ -97,7 +63,7 @@ const DataPanelFallback = ({keyword, set, noProject}) =>
     <div className="fbv fbac fbjc mt30 pt30">
       <div className="p10 fbv fbac fs10 lh32">
         <Icon name="logo" fill="#fff5" size={42} />
-        <div className="ctw52">数据列表还是空空的，点击下面的按钮启程</div>
+        <div className="ctw52">空间数据还是空空的，点击下面的按钮启程</div>
         <div className="greenButton noselect" onClick={() => set({isVisible: true})}>
           新建数据文件夹
         </div>
@@ -121,26 +87,22 @@ const DataPanel = () => {
             <DataPanelFallback keyword={keyword} set={set} noProject={!projectId} />
           </Scroll>
         </Tab.Item>
-        <Tab.Item name={t('dataPanel.datas')}>
+        <Tab.Item name={t('dataPanel.space')}>
           <div className={c('h100p fbv')}>
             <DataToolbar useCreate />
             <Scroll>
               {folders_.topFolders.map((folder) => (
-                <DataFolders
+                <DataFolder
                   icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop />}
                   key={folder.folderId}
-                  dataPanel={dataPanel}
                   folder={folder}
-                  onNoDataClick={(e, button) => createMenu(e, button, dataPanel, folder, false, false)}
                 />
               ))}
               {folders_.basicFolders.map((folder) => (
-                <DataFolders
+                <DataFolder
                   icon={<MoreIcon dataPanel={dataPanel} folder={folder} />}
                   key={folder.folderId}
-                  dataPanel={dataPanel}
                   folder={folder}
-                  onNoDataClick={(e, button) => createMenu(e, button, dataPanel, folder, false, false)}
                 />
               ))}
 
