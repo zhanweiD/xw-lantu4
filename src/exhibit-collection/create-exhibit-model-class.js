@@ -227,8 +227,8 @@ export const createExhibitModelClass = (exhibit) => {
           storageOptions.data(obj.options)
 
           // 根据路径取得参数的便捷方式
-          obj.getOption = (path) => {
-            return storageOptions.get(path)
+          obj.getOption = (path, fallback) => {
+            return storageOptions.get(path, fallback)
           }
 
           // 三文的需求，实验性开放

@@ -570,6 +570,27 @@ const lineSmooth = {
   defaultValue: true,
 }
 
+// 线缺省
+const lineFallback = {
+  type: 'select',
+  label: 'lineFallback',
+  defaultValue: 'break',
+  options: [
+    {
+      key: 'Zero',
+      value: 'zero',
+    },
+    {
+      key: 'Continue',
+      value: 'continue',
+    },
+    {
+      key: 'Break',
+      value: 'break',
+    },
+  ],
+}
+
 /**
  * =====================================
  * range
@@ -699,6 +720,8 @@ export default {
   lineCurve,
   // 线光滑
   lineSmooth,
+  // 线缺省
+  lineFallback,
   // 数值范围
   numberRange,
   // 约束
