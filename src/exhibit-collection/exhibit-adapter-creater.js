@@ -176,6 +176,7 @@ const createExhibitAdapter = (hooks) =>
                 options: this.getAllOptions(),
                 updatedLayer: {
                   id: layer.id,
+                  type: layer.type,
                   options: options.find((o) => o.id === layer.id),
                 },
                 updatedPath: 'effective',
@@ -193,6 +194,7 @@ const createExhibitAdapter = (hooks) =>
                   options: this.getAllOptions(),
                   updatedLayer: {
                     id: layer.id,
+                    type: layer.type,
                     options: layer.options.updatedOptions,
                   },
                   updatedPath: layer.options.updatedPath,

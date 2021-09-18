@@ -6,9 +6,9 @@ import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import isDef from '@utils/is-def'
 
-const createPanel = (propertys, exhibit, t) => {
+const createPanel = (exhibit, t) => {
   const panels = []
-  propertys.forEach((prop) => {
+  exhibit.parts.forEach((prop) => {
     if (isDef(exhibit[prop])) {
       panels.push(
         <Tab.Item
@@ -31,7 +31,14 @@ const createPanel = (propertys, exhibit, t) => {
       )
     }
   })
-  return panels
+
+  return [
+    <Tab.Item name="数据呈现" key="data">
+      <Scroll className="h100p">
+        <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
+      </Scroll>
+    </Tab.Item>,
+  ].concat(...panels)
 }
 
 const ArtOption = ({art}) => {
@@ -53,14 +60,7 @@ const ArtOption = ({art}) => {
 
   return (
     <Tab sessionId="art-option" className="fb1">
-      {exhibit && (
-        <Tab.Item name="数据呈现">
-          <Scroll className="h100p">
-            <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
-          </Scroll>
-        </Tab.Item>
-      )}
-      {exhibit && createPanel(exhibit.parts, exhibit, t)}
+      {exhibit && createPanel(exhibit, t)}
     </Tab>
   )
 }
