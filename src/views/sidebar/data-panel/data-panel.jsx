@@ -14,34 +14,27 @@ import DataToolbar from './data-toolbar'
 import s from './data-panel.module.styl'
 import Loading from '@components/loading'
 
-const clickMore = (e, button, dataPanel, folder, isTop) => {
+const MoreIcon = ({dataPanel, folder, isTop}) => {
   const {toggleFolderTop, confirm} = dataPanel
   const {createData, folderId} = folder
-  e.stopPropagation()
   const menu = w.overlayManager.get('menu')
-  menu.toggle({
-    attachTo: button,
-    list: [
-      {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
-      {name: '新建Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
-      {name: '新建JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
-      {name: '新建API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
-      {name: '删除文件夹', action: () => (confirm(folder, 'folder'), menu.hide())},
-    ],
-  })
-}
-
-const MoreIcon = ({dataPanel, folder, isTop}) => {
+  const onClickMore = (e, button) => {
+    e.stopPropagation()
+    menu.toggle({
+      attachTo: button,
+      list: [
+        {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
+        {name: '新建Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
+        {name: '新建JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
+        {name: '新建API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+        {name: '删除文件夹', action: () => (confirm(folder, 'removeFolder'), menu.hide())},
+      ],
+    })
+  }
   return (
     <div className="pr oh">
       {isTop && <div className={s.delta} />}
-      <IconButton
-        buttonSize={24}
-        icon="more"
-        onClick={(e, button) => {
-          clickMore(e, button, dataPanel, folder, isTop)
-        }}
-      />
+      <IconButton buttonSize={24} icon="more" onClick={onClickMore} />
     </div>
   )
 }
@@ -76,29 +69,46 @@ const DataPanel = () => {
   const [name, setName] = useState('')
   const {sidebar} = w
   const {dataPanel} = sidebar
-  const {set, state, folders_, hasData_, keyword, projectId, isVisible, createFolder} = dataPanel
+  const {set, state, folders_, keyword, projectId, isVisible, createFolder} = dataPanel
+  const {basicSpaceFolders, topSpaceFolders, basicProjectFolders, topProjectFolders} = folders_
+  const hasSpaceData = !basicSpaceFolders.length && !topSpaceFolders.length
+  const hasProjectData = !basicProjectFolders.length && !topProjectFolders.length
 
   return (
     <Loading data={state}>
       <Tab sessionId="data-panel-tab" bodyClassName="fbv" className="wh100p">
         <Tab.Item name={t('dataPanel.project')}>
-          <DataToolbar useCreate={hasData_} />
+          <DataToolbar useCreate={projectId} />
           <Scroll className="h100p">
-            <DataPanelFallback keyword={keyword} set={set} noProject={!projectId} />
+            {topProjectFolders.map((folder) => (
+              <DataFolder
+                icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop />}
+                key={folder.folderId}
+                folder={folder}
+              />
+            ))}
+            {basicProjectFolders.map((folder) => (
+              <DataFolder
+                icon={<MoreIcon dataPanel={dataPanel} folder={folder} />}
+                key={folder.folderId}
+                folder={folder}
+              />
+            ))}
+            {hasProjectData && <DataPanelFallback keyword={keyword} set={set} noProject={!projectId} />}
           </Scroll>
         </Tab.Item>
         <Tab.Item name={t('dataPanel.space')}>
           <div className={c('h100p fbv')}>
             <DataToolbar useCreate />
             <Scroll>
-              {folders_.topFolders.map((folder) => (
+              {topSpaceFolders.map((folder) => (
                 <DataFolder
                   icon={<MoreIcon dataPanel={dataPanel} folder={folder} isTop />}
                   key={folder.folderId}
                   folder={folder}
                 />
               ))}
-              {folders_.basicFolders.map((folder) => (
+              {basicSpaceFolders.map((folder) => (
                 <DataFolder
                   icon={<MoreIcon dataPanel={dataPanel} folder={folder} />}
                   key={folder.folderId}
@@ -106,7 +116,7 @@ const DataPanel = () => {
                 />
               ))}
 
-              {hasData_ || <DataPanelFallback keyword={keyword} set={set} />}
+              {hasSpaceData && <DataPanelFallback keyword={keyword} set={set} />}
             </Scroll>
           </div>
         </Tab.Item>

@@ -32,7 +32,7 @@ export const MDataTab = types
     // 判断是否是组件面板创建的
     isExhibit: types.maybe(types.boolean, false),
     // 判断是否时项目面板
-    isProject: types.maybe(types.boolean, false),
+    // isProject: types.maybe(types.boolean, false),
     projectId: types.maybeNull(types.number),
   })
   .views((self) => ({
@@ -80,11 +80,11 @@ export const MDataTab = types
           id: self.dataId,
         }
         const {io} = self.env_
-        const dataIo = self.isProject ? io.project.data : io.data
+        const dataIo = self.projectId ? io.project.data : io.data
         try {
           const data = yield dataIo.getData({
             ':dataId': self.dataId,
-            ':projectId': self.isProject ? self.projectId : null,
+            ':projectId': self.projectId ? self.projectId : null,
           })
           self.setData(data)
         } catch (error) {
@@ -208,7 +208,7 @@ export const MDataTab = types
     const updateData = flow(function* createData(data) {
       const {io, tip, event} = self.env_
       let dataIo = io.data
-      if (self.isProject) {
+      if (self.projectId) {
         dataIo = io.project.data
         data = {...data, ':projectId': self.projectId}
       }
@@ -244,10 +244,10 @@ export const MDataTab = types
         })
 
         self.updateDataField()
-        if (self.isProject) {
-          event.fire('projectDetail.getData')
+        if (self.projectId) {
+          event.fire('dataPanel.getFolders', {type: 'project'})
         } else {
-          event.fire('dataPanel.getFolders')
+          event.fire('dataPanel.getFolders', {type: 'space'})
         }
 
         self.editor_.finishCreate({...self, type: 'data'})

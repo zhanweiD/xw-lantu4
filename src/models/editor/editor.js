@@ -1,16 +1,16 @@
-import {getEnv, types, applySnapshot} from "mobx-state-tree"
-import {reaction} from "mobx"
-import {viewport} from "@utils/zoom"
-import {shortcut} from "@utils/create-event"
-import {MEditorTab} from "./editor-tab"
-import commonAction from "@utils/common-action"
+import {getEnv, types, applySnapshot} from 'mobx-state-tree'
+import {reaction} from 'mobx'
+import {viewport} from '@utils/zoom'
+import {shortcut} from '@utils/create-event'
+import {MEditorTab} from './editor-tab'
+import commonAction from '@utils/common-action'
 
 export const MEditor = types
   .model({
     tabs: types.optional(types.array(MEditorTab), []),
     activeTabId: types.maybe(types.union(types.number, types.string)),
     activeNote: types.optional(types.array(types.union(types.number, types.string)), []),
-    isPointerEventsNone: types.optional(types.boolean, false)
+    isPointerEventsNone: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get env_() {
@@ -18,45 +18,45 @@ export const MEditor = types
     },
     get isOptionPanelVisible_() {
       const tab = self.tabs.find((item) => item.id === self.activeTabId)
-      return ["art", "material", "data"].includes(tab?.type)
-    }
+      return ['art', 'material', 'data'].includes(tab?.type)
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
       const {event} = self.env_
-      event.on("editor.openTab", ({type, name, id, tabOptions}) => {
+      event.on('editor.openTab', ({type, name, id, tabOptions}) => {
         self.openTab({type, name, id, tabOptions})
       })
-      event.on("editor.updateTabname", ({id, name}) => {
+      event.on('editor.updateTabname', ({id, name}) => {
         self.updateTabname({id, name})
       })
-      event.on("editor.finishCreate", (data) => {
+      event.on('editor.finishCreate', (data) => {
         self.finishCreate(data)
       })
-      event.on("editor.closeTab", (id) => {
+      event.on('editor.closeTab', (id) => {
         self.closeTab(id)
       })
-      event.on("editor.setProps", (value) => {
+      event.on('editor.setProps', (value) => {
         self.set(value)
       })
       self.init()
       shortcut.add({
-        keyName: "commandS",
+        keyName: 'commandS',
         keyDown: () => {
           if (self.activeTabId) {
             const tab = self.tabs.filter((item) => item.id === self.activeTabId)[0]
             tab.save()
           }
         },
-        remark: "Save"
+        remark: 'Save',
       })
     }
 
     const finishCreate = (data) => {
       const {event} = self.env_
       const tab = self.tabs.filter((item) => item.id === self.activeTabId)[0]
-      if (data.type === "art") {
+      if (data.type === 'art') {
         // art init
         const {projectId} = data
         tab.type = data.type
@@ -67,8 +67,8 @@ export const MEditor = types
         self.activeTabId = data.artId
         tab.tabOptions = {projectId}
         self.showTabDetail()
-        event.fire("project-panel.getProjects")
-      } else if (data.type === "data") {
+        event.fire('project-panel.getProjects')
+      } else if (data.type === 'data') {
         const {type, dataId, dataName, dataType, folderId, isProject, projectId} = data
         tab.type = type
         tab.id = dataId
@@ -87,7 +87,7 @@ export const MEditor = types
         () => {
           return {
             length: self.tabs.length,
-            activeTabId: self.activeTabId
+            activeTabId: self.activeTabId,
           }
         },
         ({length}) => {
@@ -99,7 +99,7 @@ export const MEditor = types
         },
         {
           fireImmediately: true,
-          delay: 300
+          delay: 300,
         }
       )
     }
@@ -109,32 +109,32 @@ export const MEditor = types
         // 是否需要鼠标的拖拽指针
         const hasPanZoom = () => {
           const activeTab = self.tabs.filter((tab) => tab.id === self.activeTabId)[0]
-          return activeTab && ["art", "material"].includes(activeTab.type)
+          return activeTab && ['art', 'material'].includes(activeTab.type)
         }
 
         // 绑定空格事件
         shortcut.add({
-          keyName: "space",
+          keyName: 'space',
           keyDown: () => {
             if (hasPanZoom()) {
-              viewportEl.classList.add("cursorGrab")
-              viewport.set("isSpaceKeyDown", true)
+              viewportEl.classList.add('cursorGrab')
+              viewport.set('isSpaceKeyDown', true)
             }
           },
           keyUp: () => {
             if (hasPanZoom()) {
-              viewportEl.classList.remove("cursorGrab")
-              viewport.set("isSpaceKeyDown", false)
+              viewportEl.classList.remove('cursorGrab')
+              viewport.set('isSpaceKeyDown', false)
             }
           },
-          remark: "Show changes of cursor to panzoom function(editor.js)"
+          remark: 'Show changes of cursor to panzoom function(editor.js)',
         })
       })
     }
 
     const applySession = () => {
       const {session} = self.env_
-      const sessionSchema = session.get("SKEditor")
+      const sessionSchema = session.get('SKEditor')
       sessionSchema && applySnapshot(self, sessionSchema)
       self.showTabDetail()
     }
@@ -144,28 +144,28 @@ export const MEditor = types
         id: tab.id,
         name: tab.name,
         type: tab.type,
-        tabOptions: tab.tabOptions
+        tabOptions: tab.tabOptions,
       }))
       const {session} = self.env_
-      session.set("SKEditor", {
+      session.set('SKEditor', {
         activeTabId: self.activeTabId,
         tabs: tabsNote,
-        activeNote: self.activeNote.toJSON()
+        activeNote: self.activeNote.toJSON(),
       })
     }
 
     const openTab = ({type, name, id, tabOptions}) => {
       const isOpened = self.tabs.some((tab) => tab.id === id)
       if (!isOpened) {
-        if (type === "art") {
+        if (type === 'art') {
           const {event} = self.env_
-          event.fire("head.toggleActivePanel", "NO_ACTIVE_PANEL")
+          event.fire('head.toggleActivePanel', 'NO_ACTIVE_PANEL')
         }
         self.tabs.push({
           id,
           name,
           type,
-          tabOptions
+          tabOptions,
         })
       }
       self.updateActiveNote(id)
@@ -177,6 +177,8 @@ export const MEditor = types
       self.activeNote.remove(id)
       if (!self.tabs.length) {
         self.activeTabId = undefined
+        const {event} = self.env_
+        event.fire('dataPanel.setProjectId', {projectId: null})
         self.saveSession()
         return
       }
@@ -217,7 +219,7 @@ export const MEditor = types
     const updateTabname = ({id, name}) => {
       const tab = self.tabs.filter((item) => item.id === id)[0]
       tab.set({
-        name
+        name,
       })
       self.saveSession()
     }
@@ -234,6 +236,6 @@ export const MEditor = types
       closeAllTabs,
       finishCreate,
       showTabDetail,
-      updateTabname
+      updateTabname,
     }
   })

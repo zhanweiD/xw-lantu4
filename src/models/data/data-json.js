@@ -18,19 +18,20 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
   id: types.identifier,
   sections: [
     'dataPanel.json',
-    {
-      section: 'optionPanel.dataProcessor',
-      fields: [
-        {
-          type: 'sectionConfig',
-          option: 'useDataProcessor',
-          defaultValue: true,
-          readOnly: false,
-          icon: 'checkbox',
-        },
-      ],
-    },
-    'dataPanel.dataField',
+    'optionPanel.dataProcessor',
+    // {
+    //   section: 'optionPanel.dataProcessor',
+    //   fields: [
+    //     {
+    //       type: 'sectionConfig',
+    //       option: 'useDataProcessor',
+    //       defaultValue: true,
+    //       readOnly: false,
+    //       icon: 'checkbox',
+    //     },
+    //   ],
+    // },
+    // 'dataPanel.dataField',
   ],
   fields: [
     {
@@ -52,6 +53,15 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
             },
           },
         ],
+      },
+    },
+    {
+      section: 'optionPanel.dataProcessor',
+      option: 'useDataProcessor',
+      field: {
+        type: 'switch',
+        label: 'optionPanel.dataProcessor',
+        defaultValue: false,
       },
     },
     {

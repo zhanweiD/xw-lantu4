@@ -1,4 +1,4 @@
-import {flow, getEnv, getRoot, types} from 'mobx-state-tree'
+import {flow, getEnv, getRoot, types, getParent} from 'mobx-state-tree'
 import createLog from '@utils/create-log'
 
 const log = createLog('@models/data/data-thumbnail')
@@ -25,12 +25,15 @@ export const MDataThumbnail = types
     get isActive_() {
       return getRoot(self).editor.activeTabId === self.dataId
     },
+    get dataPanel_() {
+      return getParent(self, 3)
+    },
   }))
   .actions((self) => {
     const {io, tip, event} = self.env_
     const showDetail = () => {
       const {event} = self.env_
-      const {dataId, dataName, folderId, dataType} = self
+      const {dataId, dataName, folderId, dataType, projectId} = self
       event.fire('editor.openTab', {
         id: dataId,
         name: dataName,
@@ -38,6 +41,7 @@ export const MDataThumbnail = types
         tabOptions: {
           folderId,
           dataType,
+          projectId,
         },
       })
     }
@@ -59,10 +63,11 @@ export const MDataThumbnail = types
     }
 
     const removeData = flow(function* removeData() {
-      const {dataId} = self
+      const {dataId, projectId} = self
       try {
-        yield io.data.removeData({':dataId': dataId})
-        event.fire('dataPanel.getFolders')
+        const dataIo = projectId ? io.project.data : io.data
+        yield dataIo.removeData({':dataId': dataId, ':projectId': projectId})
+        event.fire('dataPanel.getFolders', {type: projectId ? 'project' : 'space'})
         event.fire('editor.closeTab', dataId)
         tip.success({content: '删除数据成功'})
       } catch (error) {

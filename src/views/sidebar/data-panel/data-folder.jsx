@@ -20,20 +20,20 @@ const createMenu = (e, button, folder) => {
 }
 
 const DataFolder = ({folder, icon}) => {
-  const {dataList, folderName, section} = folder
+  const {dataList_, folderName, section} = folder
   return (
     <Section
       className="pl8 pr8 mt8"
       childrenClassName="pt8"
       icon={icon}
-      name={`${folderName} (${dataList.length})`}
+      name={`${folderName} (${dataList_.length})`}
       props={section}
       onFold={() => {
         // session.set(section.sectionKey, fold)
       }}
     >
-      {dataList.length ? (
-        dataList.map((data) => <DataThumbnail data={data} key={data.dataId} />)
+      {dataList_.length ? (
+        dataList_.map((data) => <DataThumbnail data={data} key={data.dataId} />)
       ) : (
         <div className={c('mb16 emptyNote')}>
           <div>

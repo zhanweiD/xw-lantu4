@@ -1,5 +1,5 @@
 import {flow} from 'mobx'
-import {types, getEnv, getRoot} from 'mobx-state-tree'
+import {types, getEnv, getRoot, getParent} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
 import uuid from '@utils/uuid'
 import createLog from '@utils/create-log'
@@ -20,11 +20,23 @@ export const MDataFolder = types
     get env_() {
       return getEnv(self)
     },
+    get dataPanel_() {
+      return getParent(self, 2)
+    },
+    get dataList_() {
+      const {keyword} = self.dataPanel_
+      return self.folderName.match(keyword)
+        ? self.dataList
+        : self.dataList.filter(({dataName}) => dataName.match(keyword))
+    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
     const {io, tip, event} = self.env_
+
     const createData = ({folderId, dataType}) => {
+      const {projectId} = self.dataPanel_
+      const type = self.dataPanel_.getDataType()
       let defaultDataName = '未命名数据'
       if (dataType === 'excel') {
         defaultDataName = '新建Excel'
@@ -43,6 +55,7 @@ export const MDataFolder = types
         tabOptions: {
           folderId,
           dataType,
+          projectId: type === 'project' ? projectId : null,
         },
       })
     }
