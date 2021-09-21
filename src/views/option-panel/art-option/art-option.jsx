@@ -1,10 +1,48 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
 import Tab from '@components/tab'
 import Scroll from '@components/scroll'
-import Builder from '../../../builders'
+import Builder, {recusiveNode} from '@builders'
+import isDef from '@utils/is-def'
+
+const createPanel = (exhibit, t) => {
+  const panels = []
+  exhibit.parts.forEach((prop) => {
+    if (isDef(exhibit[prop])) {
+      panels.push(
+        <Tab.Item
+          key={prop}
+          name={t(exhibit[prop].name)}
+          hasIcon={isDef(exhibit[prop].effective)}
+          icon={exhibit[prop].effective ? 'eye-open' : 'eye-close'}
+          onIconClick={(e) => {
+            e.stopPropagation()
+            exhibit[prop].toggleEffective()
+          }}
+        >
+          <Scroll className="h100p">
+            {recusiveNode({
+              ...exhibit[prop].options,
+              level: 0,
+            })}
+          </Scroll>
+        </Tab.Item>
+      )
+    }
+  })
+
+  return [
+    <Tab.Item name="数据呈现" key="data">
+      <Scroll className="h100p">
+        <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
+      </Scroll>
+    </Tab.Item>,
+  ].concat(...panels)
+}
 
 const ArtOption = ({art}) => {
+  const {t} = useTranslation()
   const {viewport} = art
   const {selectRange} = viewport
   let exhibit
@@ -21,14 +59,8 @@ const ArtOption = ({art}) => {
   }
 
   return (
-    <Tab sessionId="material-option" className="fb1">
-      <Tab.Item name="数据呈现">
-        <Scroll className="h100p">
-          {exhibit && (
-            <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
-          )}
-        </Scroll>
-      </Tab.Item>
+    <Tab sessionId="art-option" className="fb1">
+      {exhibit && createPanel(exhibit, t)}
     </Tab>
   )
 }

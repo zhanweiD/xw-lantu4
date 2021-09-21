@@ -13,7 +13,7 @@ export const MNumberField = types
     label: types.optional(types.string, ''),
     inputValue: types.frozen(),
     value: types.maybe(types.number),
-    defaultValue: types.maybe(types.union(types.number, types.string)),
+    defaultValue: types.optional(types.number, 0),
     min: types.maybe(types.number),
     max: types.maybe(types.number),
     step: types.optional(types.number, 1),

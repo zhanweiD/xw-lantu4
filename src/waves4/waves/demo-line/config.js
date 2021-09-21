@@ -18,7 +18,7 @@ const lineLayer = (k) => ({
   type: 'line',
   sections: [
     {
-      name: 'data',
+      name: 'dataMap',
       fields: [
         {
           name: 'column',
@@ -88,7 +88,7 @@ export const config = (k) => ({
   dimension: {
     fields: [
       {
-        name: 'columnX',
+        name: 'xColumn',
         defaultValue: ['成员名称'],
       },
     ],
@@ -152,7 +152,7 @@ export const config = (k) => ({
     ],
   },
   // 图例面板
-  lenged: {
+  legend: {
     effective: true,
     sections: [
       {
@@ -162,7 +162,7 @@ export const config = (k) => ({
             name: 'size',
           },
           {
-            name: 'position',
+            name: 'layoutPosition',
           },
           {
             name: 'offset',
@@ -249,8 +249,22 @@ export const config = (k) => ({
   },
   // // 极坐标系坐标轴
   // polarAxis: false,
-  // // 动画
-  // animation: false,
-  // // 高级
-  // advance: false,
+
+  // 其他
+  other: {
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'size',
+          },
+
+          {
+            name: 'offset',
+          },
+        ],
+      },
+    ],
+  },
 })

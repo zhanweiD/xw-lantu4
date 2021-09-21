@@ -97,6 +97,14 @@ export const MDataField = types
       })
     }
 
+    const setRelationModels = (models) => {
+      self.relationModels = models
+    }
+
+    const getRelationModels = () => {
+      return self.relationModels
+    }
+
     const addSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
       event.fire(`art.${art.artId}.addData`, {
@@ -128,5 +136,7 @@ export const MDataField = types
       addSource,
       removeSource,
       onAction,
+      setRelationModels,
+      getRelationModels,
     }
   })

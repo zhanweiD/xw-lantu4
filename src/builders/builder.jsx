@@ -6,7 +6,7 @@ import IconButton from '@components/icon-button'
 import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 
-const recusiveNode = ({sections, fields, level = 1}) => {
+export const recusiveNode = ({sections, fields, level = 1}) => {
   return (
     <>
       {fields && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}
@@ -24,8 +24,9 @@ const recusiveNode = ({sections, fields, level = 1}) => {
               headIcon={
                 isDef(node.effective) && (
                   <IconButton
-                    className="ml8"
+                    className="ml4"
                     icon={node.effective ? 'eye-open' : 'eye-close'}
+                    iconSize={14}
                     buttonSize={18}
                     onClick={node.toggleEffective}
                   />
@@ -49,9 +50,12 @@ const Builder = ({layers, data, dimension, exhibit}) => {
       {data && <ModelToField model={data} />}
       {dimension && (
         <Section sessionId={`${exhibit.id}.dimension`} type={0} name={t('dimension')} key={t('dimension')}>
-          {recusiveNode({fields: dimension.fields, sections: dimension.sections, level: 0})}
+          {recusiveNode({
+            ...dimension.options,
+          })}
         </Section>
       )}
+
       {layers.map((layer) => {
         return (
           <div key={layer.id}>
@@ -64,10 +68,11 @@ const Builder = ({layers, data, dimension, exhibit}) => {
                 <div className="fbh">
                   <IconButton
                     icon={layer.effective ? 'eye-open' : 'eye-close'}
+                    iconSize={14}
                     buttonSize={24}
                     onClick={layer.toggleEffective}
                   />
-                  <IconButton icon="more" buttonSize={24} onClick={exhibit.doSomething} />
+                  <IconButton icon="more" iconSize={14} buttonSize={24} onClick={exhibit.doSomething} />
                 </div>
               }
             >

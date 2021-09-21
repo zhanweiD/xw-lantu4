@@ -4,7 +4,6 @@ import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {themeConfigs} from '@utils/theme'
 import {createExhibitModelClass} from './create-exhibit-model-class'
-import {createExhibitLayersClass} from './create-exhibit-layer-class'
 
 const log = createLog('@exhibit-collection')
 
@@ -54,24 +53,13 @@ export const exhibitRegister = (exhibit) => {
             officialData,
           }
         )
-        const {layers} = config
-        model.setLayers(
-          createExhibitLayersClass(config.key, layers, {
-            exhibitId: model.id,
-            art,
-            event,
-            globalData,
-            projectData,
-            officialData,
-          })
-        )
-        if (config.dimension) {
-          model.setDimension(config.dimension)
+        // ! 这里这么麻烦写setLayers 其实是有原因的。
+        // 从config里拿到的layer配置实际上是初始化的，当用户添加层后，这里config.layers就不是期望的数据了，而应该由后端保存值获取对应的type再调用此type对应的配置
+        model.setLayers(config.layers)
+
+        if (schema) {
+          model.setSchema(schema)
         }
-        if (config.data) {
-          model.setData(config.data)
-        }
-        model.setSchema(schema)
 
         return model
       },
