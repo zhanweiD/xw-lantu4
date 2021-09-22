@@ -73,7 +73,7 @@ export default {
     space: 'Space Materials',
     official: 'Official Materials',
     collect: 'Collect Materials',
-    materialCreate: 'Create Material',
+    materialCreate: 'Create Material Folder',
     logInfo: 'Log Info',
     basicInfo: 'Base Info',
     creater: 'Creater',
@@ -364,7 +364,8 @@ export default {
     submit: 'Submit',
     slogan: 'slogan',
   },
-  namePlaceholder: '2-32 digits, Chinese and English, numerals, underlined',
+  namePlaceholder: '1~32 digits, Chinese and English, numerals, underlined',
+  descriptionPlaceholder: 'Description is within 200 words',
   organization: {
     personalSpace: 'PersonalSpace',
     organizationInfo: 'Organization Information',

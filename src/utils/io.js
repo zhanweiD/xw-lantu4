@@ -425,7 +425,11 @@ context.create('io.material', {
   },
   updateMaterial: {
     method: 'PUT',
-    url: 'material/:materialId',
+    url: 'folder/:folderId/material/:materialId',
+  },
+  updateProjectMaterial: {
+    method: 'PUT',
+    url: 'project/:projectId/folder/:folderId/material/:materialId',
   },
   getMaterials: {
     method: 'GET',
@@ -461,7 +465,7 @@ context.create('io.material', {
   },
   getProjectMaterialDetail: {
     method: 'GET',
-    url: '/project/:projectId/material/:materialId',
+    url: 'project/:projectId/material/:materialId',
   },
 })
 

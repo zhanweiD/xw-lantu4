@@ -3,6 +3,7 @@ import {types, getEnv, flow, getRoot} from 'mobx-state-tree'
 import createLog from '@utils/create-log'
 import config from '@utils/config'
 import {MFolder} from './material-folder'
+import check from '@utils/check'
 
 const log = createLog('@models/material-panel.js')
 
@@ -166,6 +167,10 @@ export const MMaterialPanel = types
       const tabIndex = session.get('tab-material-panel-tab', -1)
       if (!name) {
         tip.error({content: '文件夹名称不可为空'})
+        return
+      }
+      if (!check('folderName', name)) {
+        tip.error({content: '文件夹名称不符合规范，请输入1～32位中英文、数字、下划线'})
         return
       }
       try {
