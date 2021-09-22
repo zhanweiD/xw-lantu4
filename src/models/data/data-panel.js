@@ -62,6 +62,8 @@ export const MDataPanel = types
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
     keyword: types.optional(types.string, ''),
+    // 搜索关键字 单独拆出项目的 先快速这么实现，后面和前面的Folders一起优化
+    projectKeyword: types.optional(types.string, ''),
   })
   .views((self) => ({
     get env_() {
@@ -84,14 +86,20 @@ export const MDataPanel = types
           : basicProjectFolders.push(folder)
       )
       if (self.keyword) {
-        const folders = [topSpaceFolders, basicSpaceFolders, topProjectFolders, basicProjectFolders]
-        folders.forEach((folder, index) => {
-          folders[index] = folder.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        })
-        // topSpaceFolders = topSpaceFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // basicSpaceFolders = basicSpaceFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // topProjectFolders = topProjectFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // basicProjectFolders = basicProjectFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
+        topSpaceFolders = topSpaceFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.keyword)
+        )
+        basicSpaceFolders = basicSpaceFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.keyword)
+        )
+      }
+      if (self.projectKeyword) {
+        topProjectFolders = topProjectFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.projectKeyword)
+        )
+        basicProjectFolders = basicProjectFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.projectKeyword)
+        )
       }
       return {
         basicSpaceFolders,
