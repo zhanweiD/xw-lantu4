@@ -81,10 +81,10 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = {
         container: this.container,
         layers: this.model.getLayers(),
-        title: this.model.getTitle(),
-        legend: this.model.getLegend(),
-        other: this.model.getOther(),
-        axis: this.model.getAxis(),
+        title: this.model.addOptionUtil('title', this.model.getTitle()),
+        legend: this.model.addOptionUtil('legend', this.model.getLegend()),
+        other: this.model.addOptionUtil('other', this.model.getOther()),
+        axis: this.model.addOptionUtil('axis', this.model.getAxis()),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -92,6 +92,7 @@ const createExhibitAdapter = (hooks) =>
         ...this.size,
         isPreview: !this.isEdit,
       }
+
       return instanceOption
     }
 

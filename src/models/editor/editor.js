@@ -180,6 +180,8 @@ export const MEditor = types
         const {event} = self.env_
         event.fire('dataPanel.setProjectId', {projectId: null})
         self.saveSession()
+        // 取消项目素材绑定
+        event.fire('materialPanel.setProjectId', {projectId: null})
         return
       }
       if (self.activeTabId === id) {
@@ -223,6 +225,7 @@ export const MEditor = types
       })
       self.saveSession()
     }
+
     return {
       afterCreate,
       applySession,

@@ -3,6 +3,7 @@ import commonAction from '@utils/common-action'
 import {MProjectList} from './project-list'
 import {MArtThumbnail} from '../art/art-thumbnail'
 import createLog from '@utils/create-log'
+import check from '@utils/check'
 
 const log = createLog('@models/project/project-panel.js')
 
@@ -72,7 +73,6 @@ export const MProjectPanel = types
       event.on('project-panel.updateArt', self.updateArt)
       // 初始化调用一次获取数据
       self.getProjects()
-      self.getTemplates()
     }
 
     // 最近访问新增一个数据屏
@@ -168,13 +168,22 @@ export const MProjectPanel = types
     }
 
     // 创建新的项目
-    const createProject = flow(function* createProject({name, description}) {
+    const createProject = flow(function* createProject({name, description}, callback) {
       const {io, event, tip} = self.env_
+      if (!name) {
+        tip.error({content: '项目名称不可为空'})
+        return
+      }
+      if (!check('folderName', name)) {
+        tip.error({content: '项目名称不符合规范，请输入1～32位中英文、数字、下划线'})
+        return
+      }
       try {
         yield io.project.create({name, description})
         event.fire('editor.finishCreate', {type: 'project'})
-        event.fire('project-panel.getProjects')
         tip.success({content: '新建项目成功'})
+        self.getProjects()
+        callback()
       } catch (error) {
         log.error(error)
         tip.error({content: `新建项目失败：${error.message}`})
