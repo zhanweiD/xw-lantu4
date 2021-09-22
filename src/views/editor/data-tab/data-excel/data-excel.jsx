@@ -1,12 +1,8 @@
-/**
- * @author 南风
- * @description Excel类型数据
- */
-import React from "react"
-import {observer} from "mobx-react-lite"
-import TableList from "@components/table-list"
-import w from "@models"
-import UploadExcel from "./upload-excel"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import TableList from '@components/table-list'
+import w from '@models'
+import UploadExcel from './upload-excel'
 
 const ExcelData = ({data}) => {
   const {excel} = data
@@ -21,52 +17,48 @@ const ExcelData = ({data}) => {
       onExtraClick={(col, value) => excel.setAlias(col, value)}
       onClick={(col, e) => {
         e.stopPropagation()
-        const menu = w.overlayManager.get("menu")
+        const menu = w.overlayManager.get('menu')
         menu.show({
           attochTo: e,
           list: [
             {
-              name: "文本",
+              name: '文本',
               action: () => {
-                excel.setDataType(col, "string")
+                excel.setDataType(col, 'string')
                 menu.hide()
               },
-              iconName: "value-type-string"
+              iconName: 'value-type-string',
             },
             {
-              name: "数值",
+              name: '数值',
               action: () => {
-                excel.setDataType(col, "number")
+                excel.setDataType(col, 'number')
                 menu.hide()
               },
-              iconName: "value-type-number"
+              iconName: 'value-type-number',
             },
             {
-              name: "日期",
+              name: '日期',
               action: () => {
-                excel.setDataType(col, "date")
+                excel.setDataType(col, 'date')
                 menu.hide()
               },
-              iconName: "value-type-date"
+              iconName: 'value-type-date',
             },
             {
-              name: "布尔",
+              name: '布尔',
               action: () => {
-                excel.setDataType(col, "boolean")
+                excel.setDataType(col, 'boolean')
                 menu.hide()
               },
-              iconName: "value-type-boolean"
-            }
-          ]
+              iconName: 'value-type-boolean',
+            },
+          ],
         })
       }}
     />
   ) : (
-    <UploadExcel
-      onOk={(files) => excel.loadFiles(files)}
-      height={400}
-      name="点此上传Excel文件"
-    />
+    <UploadExcel onOk={(files) => excel.loadFiles(files)} height={400} name="点此上传Excel文件" />
   )
 }
 

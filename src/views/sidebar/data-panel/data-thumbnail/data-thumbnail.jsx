@@ -1,53 +1,46 @@
-/**
- * @author 南风
- * @description 数据展示列表
- */
-import React from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import w from "@models"
-import copy from "@utils/copy"
-import Icon from "@components/icon"
-import s from "./data-thumbnail.module.styl"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import w from '@models'
+import copy from '@utils/copy'
+import Icon from '@components/icon'
+import s from './data-thumbnail.module.styl'
 
-const DataThumbnail = ({data, dataPanel, folder}) => {
+const DataThumbnail = ({data}) => {
+  const {dataType, dataName} = data
   const icon = {
-    json: "data-json",
-    excel: "data-excel",
-    mysql: "data-mysql",
-    api: "data-api"
-  }[data.dataType]
+    json: 'data-json',
+    excel: 'data-excel',
+    mysql: 'data-mysql',
+    api: 'data-api',
+  }[dataType]
 
   return (
     <div
-      className={c(
-        "mb8 pl8 oh omit ctw52 lh24 fbh fbac",
-        s.data,
-        data.isActive_ && s.activeData
-      )}
+      className={c('mb8 pl8 oh omit ctw52 lh24 fbh fbac', s.data, data.isActive_ && s.activeData)}
       onDoubleClick={data.showDetail}
       onContextMenu={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        const menu = w.overlayManager.get("menu")
+        const menu = w.overlayManager.get('menu')
         menu.show({
           list: [
             {
-              name: "复制数据ID",
+              name: '复制数据ID',
               action: () => {
                 copy(data.dataId)
-                w.env_.tip.success({content: "复制成功"})
+                w.env_.tip.success({content: '复制成功'})
                 menu.hide()
-              }
+              },
             },
             {
-              name: "删除",
+              name: '删除',
               action: () => {
-                dataPanel.confirmDeleteData(data)
+                data.confirm('removeData')
                 menu.hide()
-              }
-            }
-          ]
+              },
+            },
+          ],
         })
       }}
     >
@@ -55,10 +48,10 @@ const DataThumbnail = ({data, dataPanel, folder}) => {
       <div
         className="ml8 fb1 omit"
         onDoubleClick={() => {
-          dataPanel.openTabByData({folder, data})
+          data.showDetail(s)
         }}
       >
-        {data.dataName}
+        {dataName}
       </div>
     </div>
   )
