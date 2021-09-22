@@ -26,7 +26,7 @@ export const MArtInit = types
       const {width, height, name} = self
       if (!name) {
         const {tip} = self.env_
-        tip.error({content: '大屏名称不能为空'})
+        tip.error({content: '数据屏名称不能为空'})
       }
       create({
         width,

@@ -74,7 +74,7 @@ export const MArtBasic = types
           }
         },
         (newContext) => {
-          // 取到当前大屏的所有组件
+          // 取到当前数据屏的所有组件
           const models = self.art_.exhibitManager._data
 
           if (models) {
