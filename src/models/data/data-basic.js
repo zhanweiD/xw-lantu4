@@ -1,87 +1,87 @@
-import {types} from "mobx-state-tree"
-import {createConfigModelClass} from "@components/field"
+import {types} from 'mobx-state-tree'
+import {createConfigModelClass} from '@components/field'
 
-export const MDataBasic = createConfigModelClass("MDataBasic", {
+export const MDataBasic = createConfigModelClass('MDataBasic', {
   id: types.identifier,
-  sections: ["optionPanel.logInfo", "optionPanel.basicInfo"],
+  sections: ['optionPanel.logInfo', 'optionPanel.basicInfo'],
   fields: [
     {
-      section: "optionPanel.logInfo",
-      option: "ctime",
+      section: 'optionPanel.logInfo',
+      option: 'ctime',
       when: {
-        key: "isCreate",
-        value: true
+        key: 'isCreate',
+        value: true,
       },
       field: {
-        type: "text",
-        label: "optionPanel.ctime",
-        defaultValue: "",
-        readOnly: true
-      }
+        type: 'text',
+        label: 'optionPanel.ctime',
+        defaultValue: '',
+        readOnly: true,
+      },
     },
     {
-      section: "optionPanel.logInfo",
-      option: "mtime",
+      section: 'optionPanel.logInfo',
+      option: 'mtime',
       when: {
-        key: "isCreate",
-        value: true
+        key: 'isCreate',
+        value: true,
       },
       field: {
-        type: "text",
-        label: "optionPanel.mtime",
-        defaultValue: "",
-        readOnly: true
-      }
+        type: 'text',
+        label: 'optionPanel.mtime',
+        defaultValue: '',
+        readOnly: true,
+      },
     },
     {
-      section: "optionPanel.logInfo",
-      option: "creator",
+      section: 'optionPanel.logInfo',
+      option: 'creator',
       when: {
-        key: "isCreate",
-        value: true
+        key: 'isCreate',
+        value: true,
       },
       field: {
-        type: "text",
-        label: "optionPanel.creator",
-        defaultValue: "",
-        readOnly: true
-      }
+        type: 'text',
+        label: 'optionPanel.creator',
+        defaultValue: '',
+        readOnly: true,
+      },
     },
     {
-      section: "optionPanel.basicInfo",
-      option: "dataName",
+      section: 'optionPanel.basicInfo',
+      option: 'dataName',
       field: {
-        type: "text",
-        label: "name",
-        defaultValue: "默认数据源"
-      }
+        type: 'text',
+        label: 'name',
+        defaultValue: '',
+      },
     },
     {
-      section: "optionPanel.basicInfo",
-      option: "remark",
+      section: 'optionPanel.basicInfo',
+      option: 'remark',
       field: {
-        type: "text",
-        label: "description.description",
-        defaultValue: ""
-      }
+        type: 'text',
+        label: 'description.description',
+        defaultValue: '',
+      },
     },
+    // {
+    //   section: 'optionPanel.basicInfo',
+    //   option: 'customId',
+    //   field: {
+    //     type: 'text',
+    //     label: 'dataPanel.customId',
+    //     value: '',
+    //   },
+    // },
     {
-      section: "optionPanel.basicInfo",
-      option: "customId",
+      section: '',
+      option: 'isCreate',
       field: {
-        type: "text",
-        label: "dataPanel.customId",
-        value: ""
-      }
+        type: 'switch',
+        label: '',
+        value: false,
+      },
     },
-    {
-      section: "",
-      option: "isCreate",
-      field: {
-        type: "switch",
-        label: "",
-        value: false
-      }
-    }
-  ]
+  ],
 })
