@@ -1,40 +1,40 @@
-import {types} from "mobx-state-tree"
-import panzoom from "panzoom"
-import isPlainObject from "lodash/isPlainObject"
-import isString from "lodash/isString"
-import round from "lodash/round"
-import createEvent from "./create-event"
+import {types} from 'mobx-state-tree'
+import panzoom from 'panzoom'
+import isPlainObject from 'lodash/isPlainObject'
+import isString from 'lodash/isString'
+import round from 'lodash/round'
+import createEvent from './create-event'
 
 /**
  * 全局共享的可视区域的尺寸数据
- * ! 多个大屏Tab在缩放内容的时候，都不需要重复计算
+ * ! 多个数据屏Tab在缩放内容的时候，都不需要重复计算
  * ! 当浏览器窗口有缩放的时候，该模型自身负责更新
  */
-// NOTE 目标：在大屏的运行时也可以独立运行
+// NOTE 目标：在数据屏的运行时也可以独立运行
 const MViewport = types
-  .model("MViewport", {
+  .model('MViewport', {
     width: types.maybe(types.number),
     height: types.maybe(types.number),
-    isSpaceKeyDown: types.optional(types.boolean, false)
+    isSpaceKeyDown: types.optional(types.boolean, false),
   })
   .views((self) => ({
     // 可视区域的宽高比
     get ratio() {
       return self.width / self.height
-    }
+    },
   }))
   .actions((self) => {
     let viewportEl
 
     // 全局仅初始化一次
-    // NOTE 目标：解耦大屏的运行时和编辑状态，enhance回调函数用于在编辑环境下的增强行为
+    // NOTE 目标：解耦数据屏的运行时和编辑状态，enhance回调函数用于在编辑环境下的增强行为
     const init = (el, enhance = () => {}) => {
       viewportEl = el
       self.update()
       enhance()
 
       let timer
-      window.addEventListener("resize", () => {
+      window.addEventListener('resize', () => {
         clearTimeout(timer)
         timer = setTimeout(() => {
           self.update()
@@ -58,16 +58,16 @@ const MViewport = types
         } else if (isPlainObject(key)) {
           Object.entries(key).forEach(([k, v]) => (self[k] = v))
         }
-      }
+      },
     }
   })
 
 export const viewport = MViewport.create()
 
-// NOTE 目标：解耦大屏的运行时和编辑状态
+// NOTE 目标：解耦数据屏的运行时和编辑状态
 // NOTE 因为缩放模型是Art模型的子节点，所以该模型不应该依赖任何上游模型
 export const MZoom = types
-  .model("MZoom", {
+  .model('MZoom', {
     /**
      * 原始数据
      */
@@ -88,7 +88,7 @@ export const MZoom = types
     // 缩放系数
     scaler: types.optional(types.number, 1),
     // panzoom的的缩放实例
-    zoom: types.frozen()
+    zoom: types.frozen(),
   })
   .views((self) => ({
     // NOTE 经验：
@@ -102,7 +102,7 @@ export const MZoom = types
     },
     get viewportRatio() {
       return self.viewportWidth / self.viewportHeight
-    }
+    },
   }))
   .actions((self) => {
     const zoomEvent = createEvent()
@@ -133,7 +133,7 @@ export const MZoom = types
         },
         beforeMouseDown() {
           return !viewport.isSpaceKeyDown
-        }
+        },
       })
 
       // 首次触发下面的zoomend和panend之前，要同步模型属性，供外部使用
@@ -142,59 +142,59 @@ export const MZoom = types
       self.set({
         scaler: round(initScale, 5),
         offsetX: round(initX, 3),
-        offsetY: round(initY, 3)
+        offsetY: round(initY, 3),
       })
 
-      zoomEvent.fire("transform")
+      zoomEvent.fire('transform')
 
       // 下面是基于panzoom缺陷而做的临时方案，panzoom自身的zoomend有bug，按照官方文档，并不触发
       // let zoomEndTimer
 
-      self.zoom.on("zoom", () => {
+      self.zoom.on('zoom', () => {
         const {scale, x, y} = self.zoom.getTransform()
 
         self.set({
           scaler: round(scale, 5),
           offsetX: round(x, 3),
-          offsetY: round(y, 3)
+          offsetY: round(y, 3),
         })
 
-        zoomEvent.fire("zoom")
-        zoomEvent.fire("transform")
+        zoomEvent.fire('zoom')
+        zoomEvent.fire('transform')
       })
 
-      self.zoom.on("panstart", () => {
-        document.body.classList.add("cursorGrabing")
-        zoomEvent.fire("panstart")
-        zoomEvent.fire("transform")
+      self.zoom.on('panstart', () => {
+        document.body.classList.add('cursorGrabing')
+        zoomEvent.fire('panstart')
+        zoomEvent.fire('transform')
       })
 
-      self.zoom.on("pan", () => {
+      self.zoom.on('pan', () => {
         const {x, y} = self.zoom.getTransform()
 
         self.set({
           offsetX: round(x, 3),
-          offsetY: round(y, 3)
+          offsetY: round(y, 3),
         })
-        zoomEvent.fire("pan")
-        zoomEvent.fire("transform")
+        zoomEvent.fire('pan')
+        zoomEvent.fire('transform')
       })
 
-      self.zoom.on("panend", () => {
-        document.body.classList.remove("cursorGrabing")
-        zoomEvent.fire("panend")
-        zoomEvent.fire("transform")
+      self.zoom.on('panend', () => {
+        document.body.classList.remove('cursorGrabing')
+        zoomEvent.fire('panend')
+        zoomEvent.fire('transform')
         // self.saveSession()
       })
     }
 
     const beforeDestroy = () => {
-      zoomEvent.off("zoomstart")
-      zoomEvent.off("zoom")
-      zoomEvent.off("zoomend")
-      zoomEvent.off("panstart")
-      zoomEvent.off("pan")
-      zoomEvent.off("panend")
+      zoomEvent.off('zoomstart')
+      zoomEvent.off('zoom')
+      zoomEvent.off('zoomend')
+      zoomEvent.off('panstart')
+      zoomEvent.off('pan')
+      zoomEvent.off('panend')
 
       if (self.zoom && self.zoom.dispose) {
         self.zoom.dispose()
@@ -228,6 +228,6 @@ export const MZoom = types
       set,
       on,
       off,
-      update
+      update,
     }
   })

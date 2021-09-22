@@ -301,6 +301,7 @@ const areaSize = {
 const colorType = {
   type: 'check',
   label: 'colorType',
+  defaultValue: 'single',
   options: [
     {
       key: 'singleColor',
@@ -311,10 +312,19 @@ const colorType = {
       value: 'gradient',
     },
     {
-      key: 'listColor',
-      value: 'list',
+      key: 'themeColor',
+      value: 'theme',
     },
+    // {
+    //   key: 'listColor',
+    //   value: 'list',
+    // },
   ],
+  defalltAction({parent, value}) {
+    parent.singleColor.setVisible(value === 'single')
+    parent.gradientColor.setVisible(value === 'gradient')
+    parent.themeColor.setVisible(value === 'theme')
+  },
 }
 
 // 单色
@@ -323,18 +333,26 @@ const colorSingle = {
   label: 'singleColor',
   defaultValue: '#ffffff',
 }
+const singleColor = {
+  type: 'color',
+  label: 'singleColor',
+  defaultValue: '#ffffff',
+}
 
 // 渐变
-// TODO
 const colorGradient = {
+  type: 'gradient',
+  label: 'gradientColor',
+  defaultValue: ['#00D8FF', '#007EFF'],
+}
+const gradientColor = {
   type: 'gradient',
   label: 'gradientColor',
   defaultValue: ['#00D8FF', '#007EFF'],
 }
 
 // 颜色列表
-// TODO
-const colorList = {
+const listColor = {
   type: 'colorList',
   label: 'listColor',
   defaultValue: ['#007EFF'],
@@ -719,10 +737,12 @@ export default {
   colorType,
   // 颜色单色
   colorSingle,
+  singleColor,
   // 颜色渐变
   colorGradient,
+  gradientColor,
   // 颜色列表
-  colorList,
+  listColor,
   // 普通字段
   column,
   // 经度

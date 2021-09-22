@@ -37,6 +37,19 @@ const lineLayer = (k) => ({
           name: 'lineSmooth',
           defaultValue: true,
         },
+        {
+          name: 'colorType',
+          // defaultValue: 'single',
+        },
+        {
+          name: 'singleColor',
+        },
+        {
+          name: 'gradientColor',
+        },
+        {
+          name: 'themeColor',
+        },
       ],
     },
     {
