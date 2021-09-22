@@ -1,18 +1,19 @@
-/**
- * @author 南风
- * @description 数据预览
- */
-import {flow, getEnv, getRoot, types} from "mobx-state-tree"
+import {flow, getEnv, getRoot, types, getParent} from 'mobx-state-tree'
+import createLog from '@utils/create-log'
+
+const log = createLog('@models/data/data-thumbnail')
 
 export const MDataThumbnail = types
   .model({
-    dataId: types.identifier,
-    name: types.string,
-    nickname: types.string,
+    dataId: types.number,
+    dataName: types.string,
     dataType: types.string,
-    isCreator: types.boolean,
-    userId: types.number,
-    organizationId: types.optional(types.frozen(), null)
+    folderId: types.number,
+    dataSourceId: types.maybeNull(types.number),
+    projectId: types.maybeNull(types.number),
+    // isCreator: types.boolean,
+    // userId: types.number,
+    // organizationId: types.optional(types.frozen(), null)
   })
   .views((self) => ({
     get root_() {
@@ -23,41 +24,62 @@ export const MDataThumbnail = types
     },
     get isActive_() {
       return getRoot(self).editor.activeTabId === self.dataId
-    }
+    },
+    get dataPanel_() {
+      return getParent(self, 3)
+    },
   }))
   .actions((self) => {
-    const removeConfirm = () => {
-      self.root_.confirm({
-        content: `确认删除"${self.name}"数据么? 删除之后无法恢复`,
-        onConfirm: self.remove
+    const {io, tip, event} = self.env_
+    const showDetail = () => {
+      const {event} = self.env_
+      const {dataId, dataName, folderId, dataType, projectId} = self
+      event.fire('editor.openTab', {
+        id: dataId,
+        name: dataName,
+        type: 'data',
+        tabOptions: {
+          folderId,
+          dataType,
+          projectId,
+        },
       })
     }
 
-    const remove = flow(function* remove() {
-      const {io, event} = self.env_
+    const confirm = (type) => {
+      switch (type) {
+        case 'removeData': {
+          const {dataName} = self
+          self.root_.confirm({
+            content: `确认删除数据“${dataName}”么？删除后无法恢复！`,
+            onConfirm: () => self.removeData(),
+            attachTo: false,
+          })
+          break
+        }
+        default:
+          break
+      }
+    }
+
+    const removeData = flow(function* removeData() {
+      const {dataId, projectId} = self
       try {
-        yield io.data.remove({
-          ":dataId": self.dataId
-        })
-        event.fire("dataPanel.getDatas")
+        const dataIo = projectId ? io.project.data : io.data
+        yield dataIo.removeData({':dataId': dataId, ':projectId': projectId})
+        event.fire('dataPanel.getFolders', {type: projectId ? 'project' : 'space'})
+        event.fire('editor.closeTab', dataId)
+        tip.success({content: '删除数据成功'})
       } catch (error) {
         // TODO error 统一替换
-        console.log(error)
+        tip.error({content: '删除数据失败'})
+        log.error(error)
       }
     })
 
-    const showDetail = () => {
-      const {event} = self.env_
-      event.fire("editor.openTab", {
-        id: self.dataId,
-        name: self.name || "未命名数据",
-        type: "data"
-      })
-    }
-
     return {
-      removeConfirm,
-      remove,
-      showDetail
+      confirm,
+      showDetail,
+      removeData,
     }
   })

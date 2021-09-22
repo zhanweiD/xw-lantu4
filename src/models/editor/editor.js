@@ -177,6 +177,8 @@ export const MEditor = types
       self.activeNote.remove(id)
       if (!self.tabs.length) {
         self.activeTabId = undefined
+        const {event} = self.env_
+        event.fire('dataPanel.setProjectId', {projectId: null})
         self.saveSession()
         return
       }
