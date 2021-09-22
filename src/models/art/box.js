@@ -1,12 +1,3 @@
-/*
- * @Author: 柿子
- * @Date: 2021-08-02 11:19:42
- * @LastEditTime: 2021-08-04 15:12:02
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /waveview-front4/src/models/new-art/box.js
- */
-
 import commonAction from '@utils/common-action'
 import {getEnv, types, getParent, flow, getRoot} from 'mobx-state-tree'
 import {MLayout} from '../common/layout'
@@ -14,6 +5,15 @@ import createLog from '@utils/create-log'
 import uuid from '@utils/uuid'
 
 const log = createLog('@models/art/box.js')
+
+const MBackground = types
+  .model('MBackground', {
+    color: types.maybe(types.string, 'transparent'),
+    opacity: types.optional(types.number, 1),
+    gradient: types.maybe(types.string),
+  })
+  .actions(commonAction(['set']))
+
 export const MBox = types
   .model({
     boxId: types.union(types.string, types.number),
@@ -22,7 +22,11 @@ export const MBox = types
     artId: types.number,
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
-    background: types.maybeNull(types.frozen()),
+    background: types.maybeNull(MBackground),
+
+    // 使用素材的索引id
+    materialIds: types.optional(types.array(types.string), []),
+    remark: types.maybeNull(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 
@@ -73,10 +77,8 @@ export const MBox = types
       }
     }
 
-    const updateBackground = (data) => {
-      self.background = {
-        path: data.material.materialId,
-      }
+    const updateMaterialId = (data) => {
+      self.materialIds.unshift(data.material.materialId)
       updateBox()
     }
 
@@ -164,7 +166,7 @@ export const MBox = types
     return {
       resize,
       recreateBox,
-      updateBackground,
+      updateMaterialId,
       updateExhibit,
     }
   })

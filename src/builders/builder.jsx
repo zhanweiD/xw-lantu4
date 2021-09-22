@@ -7,6 +7,7 @@ import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
+  if (level > 2) return
   return (
     <>
       {fields && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}

@@ -57,17 +57,6 @@ const material = {
   // 内容由选中的画布或容器决定
 }
 
-export default {
-  // 布局
-  layout,
-  // 背景色
-  backgroundColor,
-  // 素材
-  material,
-  // 描述
-  description,
-}
-
 // 描述
 const description = {
   name: 'description',
@@ -88,4 +77,15 @@ const description = {
       ],
     },
   ],
+}
+
+export default {
+  // 布局
+  layout,
+  // 背景色
+  backgroundColor,
+  // 素材
+  material,
+  // 描述
+  description,
 }

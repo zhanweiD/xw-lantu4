@@ -127,14 +127,14 @@ export const MArtFrame = types
       }
     }
 
-    // type 可以为exhibit|background|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰的空容器
+    // type 可以为exhibit|material作用分别为创建组件|创建带背景的空容器
     const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', material}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
       let exhibit
-      let background
+      let materialIds
       if (type === 'exhibit') {
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
@@ -148,8 +148,8 @@ export const MArtFrame = types
         })
         exhibit = model.getSchema()
       }
-      if (type === 'background') {
-        background = {path: material.materialId}
+      if (type === 'material') {
+        materialIds = [material.materialId]
       }
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
@@ -169,7 +169,7 @@ export const MArtFrame = types
         height: Math.round((type === 'exhibit' ? exhibit.initSize[1] : 9) * self.grid.unit_),
       }
       const boxId = uuid()
-      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, background}
+      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, materialIds}
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
         target: 'box',
@@ -185,7 +185,7 @@ export const MArtFrame = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          background,
+          materialIds,
           name: params.name,
           ':artId': params.artId,
           ':frameId': params.frameId,
