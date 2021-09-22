@@ -9,7 +9,7 @@ export default {
   create: '创建',
   cancel: '取消',
   update: '更新',
-  untitledArt: '未命名大屏',
+  untitledArt: '未命名数据屏',
   width: '宽度',
   height: '高度',
   remove: '删除',
@@ -593,7 +593,7 @@ export default {
     dangerousOperation: '危险操作',
     removeOrganization: '删除组织',
     removeTips:
-      '删除组织后，你将丢失组织中的所有数据，包括：项目及项目中的大屏，成员信息和数据信息，且删除后不可恢复，删除前请考虑是否需要备份数据。',
+      '删除组织后，你将丢失组织中的所有数据，包括：项目及项目中的数据屏，成员信息和数据信息，且删除后不可恢复，删除前请考虑是否需要备份数据。',
     removeOrganizationConfirm: '请确认您要删除的组织名称',
     mobilePlaceholder: '请输入手机号',
     verifyCode: '验证码',

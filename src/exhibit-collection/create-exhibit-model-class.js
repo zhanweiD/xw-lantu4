@@ -194,7 +194,7 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const getLegend = () => {
-        if (self.title) {
+        if (self.legend) {
           return self.legend.getData()
         }
       }

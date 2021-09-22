@@ -28,7 +28,7 @@ const ProjectFallback = ({keyword, set}) =>
     </div>
   )
 
-// 项目下无大屏时的 UI
+// 项目下无数据屏时的 UI
 const ProjectListFallback = ({project}) =>
   !project.arts_.length && (
     <div className={c('ml8 mr8 mb8 emptyNote')}>

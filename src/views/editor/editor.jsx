@@ -114,10 +114,10 @@ const Editor = () => {
             <div className="wh100p fbv fbjc fbac">
               <img className={s.logo} src={config[t('login.slogan')]} alt="logo" />
               <div className="mt30 pt16">
-                <div className={c(s.step, 'ctw10 fs18 bold lh40 mb16 center')}>三步轻松新建可视化大屏</div>
+                <div className={c(s.step, 'ctw10 fs18 bold lh40 mb16 center')}>三步轻松新建可视化数据屏</div>
                 <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP1: 新建项目，管理数据和素材(可选)</div>
-                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP2: 新建大屏，拖拽组件，制作图表</div>
-                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP3: 预览确认大屏效果，发布大屏</div>
+                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP2: 新建数据屏，拖拽组件，制作图表</div>
+                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP3: 预览确认数据屏效果，发布数据屏</div>
               </div>
             </div>
           ) : (

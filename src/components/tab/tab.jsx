@@ -16,14 +16,14 @@ const Tab = ({
   onSwitch = () => {},
   activeIndex = 0,
 }) => {
-  const items = [].concat(children)
+  const items = [].concat(children.filter ? children.filter((child) => !!child) : children)
 
   if (allSessionIds[sessionId]) {
     console.warn(`'Tab'组件有重复的'sessionId(${sessionId})'出现，请检查`)
   }
   const sessionKey = sessionId ? `tab-${sessionId}` : undefined
   const [currentIndex, setCurrentIndex] = useState(sessionKey ? session.get(sessionKey, activeIndex) : activeIndex)
-  items.length
+
   return (
     <div className={c('fbv', s.root, className)}>
       <div className={c('fbh cfb10', s.head, headClassName)}>
