@@ -57,9 +57,7 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
         <div key={art.artId} className={c('ml8 mr8', {['mb8']: isThumbnailVisible && index !== arts.length - 1})}>
           <DragSource
             key={art.artId}
-            onEnd={(dropResult, data) => {
-              dropResult.create({art: data, source: 'art'})
-            }}
+            onEnd={(dropResult, data) => dropResult.create({art: data, source: 'art'})}
             dragKey="CREATE_ART_DRAG_KEY"
             data={art}
           >

@@ -10,8 +10,8 @@ import s from './material-panel.module.styl'
 import isDev from '@utils/is-dev'
 
 const MaterialView = ({material, showType}) => {
-  const [onload, setOnload] = useState(false)
   let F
+  const [onload, setOnload] = useState(false)
   switch (material.type) {
     case 'image':
       F = (
@@ -70,7 +70,9 @@ const Material = ({material, showType}) => {
           <div className={c('fbh fbac lh24', {mb8: showType === 'thumbnail-list'})}>
             <div className={c('fb1 omit ctw60 fbh fbac pl4', {[s.activeMaterial]: material.isActive_})}>
               {showType === 'list' && <Icon fill="#fff5" name="drag" size={10} />}
-              <div className="fb1 omit">{material.name}</div>
+              <div title={material.name} className="omit hand">
+                {material.name}
+              </div>
             </div>
           </div>
         )}

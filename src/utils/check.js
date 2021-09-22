@@ -7,10 +7,12 @@ const rule = {
   username: /^[\u4e00-\u9fa5a-zA-Z0-9-_]{2,31}$/,
   // 数字，长度为5
   verify: /^[0-9]{5}$/,
-  range: (range) => RegExp(`/^{${range.join(",")}}$/`)
+  // 项目素材文件夹名
+  folderName: /^[a-zA-Z0-9\-\u4e00-\u9fa5][a-zA-Z0-9_ \-\u4e00-\u9fa5]{0,31}$/,
+  range: (range) => RegExp(`/^{${range.join(',')}}$/`),
 }
 export default (type, value, range = [2, 12]) => {
   // 如果类型为range 则运行对应方法
-  if (type === "range") return RegExp(`^.{${range}}.$`).test(value)
+  if (type === 'range') return RegExp(`^.{${range}}.$`).test(value)
   return rule[type] ? rule[type].test(value) : RegExp(type).test(value)
 }
