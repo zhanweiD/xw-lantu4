@@ -250,8 +250,13 @@ export const createExhibitModelClass = (exhibit) => {
 
             if (Array.isArray(list)) {
               list.forEach((item) => {
-                const [oldPath, newPath, valueMap = {}] = item
-                newStorageOptions.set(newPath, valueMap[storageOptions.get(oldPath)])
+                const [oldPath, newPath, valueMap] = item
+                newStorageOptions.set(
+                  newPath,
+                  isPlainObject(valueMap) && isDef(valueMap[storageOptions.get(oldPath)])
+                    ? valueMap[storageOptions.get(oldPath)]
+                    : storageOptions.get(oldPath)
+                )
               })
               // Object.entries(pairs).map(([oldPath, newPath]) => {
               //   newStorageOptions.set(newPath, storageOptions.get(oldPath))

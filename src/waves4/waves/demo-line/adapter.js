@@ -15,7 +15,16 @@ const makeAdapter = ({k}) => {
       })
 
       const series = layers.map((layer) => {
-        const {getOption} = layer
+        const {getOption, mapOption} = layer
+
+        const o = mapOption([
+          ['line.lineWidth', 'lineWidth'],
+          ['line.colorType', 'line.color.type', {single: 'singleA'}],
+        ])
+
+        o.get('line.color.type')
+
+        console.log('🤢', o.get(), o.get('line.color.type'))
 
         return {
           type: 'line',
