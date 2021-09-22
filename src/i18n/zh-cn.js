@@ -124,7 +124,7 @@ export default {
     other: '其他',
     inputData: '输入数据',
     outputData: '输出数据',
-    dataProcessor: '数据处理函数',
+    dataProcessor: '数据处理',
     storyAutoSwitch: '分镜自动切换',
     switchInterval: '切换间隔',
     dataMapping: '数据映射',

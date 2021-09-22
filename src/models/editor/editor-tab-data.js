@@ -3,7 +3,7 @@ import commonAction from '@utils/common-action'
 import moment from 'moment'
 import createLog from '@utils/create-log'
 import uuid from '@utils/uuid'
-import hJSON from 'hanson'
+import hJSON from 'hjson'
 import random from '@utils/random'
 import {MApi} from '../data/data-api'
 import {MJson} from '../data/data-json'
@@ -243,7 +243,7 @@ export const MDataTab = types
           dataName: self.basic.dataName.value,
         })
 
-        self.updateDataField()
+        // self.updateDataField()
         if (self.projectId) {
           event.fire('dataPanel.getFolders', {type: 'project'})
         } else {
