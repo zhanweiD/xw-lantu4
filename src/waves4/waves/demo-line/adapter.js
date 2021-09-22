@@ -5,7 +5,7 @@ const makeAdapter = ({k}) => {
 
   return createExhibitAdapter({
     // 初始化组件实例
-    init({options}) {
+    init({options, pathable}) {
       console.log('🚗 init', options)
 
       const {container, dimension, data, layers, themeColors} = options
@@ -122,13 +122,14 @@ const makeAdapter = ({k}) => {
     update({
       instance,
       options,
+      action,
+      updated,
       updatedData,
       updatedDimension,
       updatedLayer,
-      action,
       updatedPath,
       updatedTitle,
-      updatedLenged,
+      updatedLegend,
       updatedOther,
       updatedAxis,
     }) {
@@ -136,13 +137,14 @@ const makeAdapter = ({k}) => {
       console.log({
         instance,
         options,
+        action,
+        updated,
         updatedData,
         updatedDimension,
         updatedLayer,
-        action,
         updatedPath,
         updatedTitle,
-        updatedLenged,
+        updatedLegend,
         updatedOther,
         updatedAxis,
       })

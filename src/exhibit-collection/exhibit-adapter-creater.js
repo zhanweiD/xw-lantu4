@@ -3,6 +3,7 @@ import {reaction} from 'mobx'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
+import onerStorage from 'oner-storage'
 
 const log = createLog('@exhibit-adapter-creater')
 
@@ -58,12 +59,19 @@ const createExhibitAdapter = (hooks) =>
       })
       this.ruleValue = undefined
       this.ready = false
+
+      // 配置项的路径获取工具和对应的数据，输入到hooks方法内，方便对接者使用
+      this.pathable = onerStorage({
+        type: 'variable',
+        key: `exhibit-options-${this.model.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+      })
     }
 
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-      this.instance = hooks.init.call(this, {
+
+      this.instance = hooks.init.call(null, {
         options: instanceOption,
       })
       this.observerModel()
@@ -74,7 +82,7 @@ const createExhibitAdapter = (hooks) =>
         container: this.container,
         layers: this.model.getLayers(),
         title: this.model.getTitle(),
-        lenged: this.model.getLenged(),
+        legend: this.model.getLegend(),
         other: this.model.getOther(),
         axis: this.model.getAxis(),
         data: this.model.getData(),
@@ -92,13 +100,14 @@ const createExhibitAdapter = (hooks) =>
         () => (isGlobal ? this.model[actionType].effective : this.model[actionType].options.updatedOptions),
         () => {
           const map = {
-            lenged: 'updatedLenged',
+            legend: 'updatedLegend',
             title: 'updatedTitle',
             other: 'updatedOther',
             axis: 'updatedAxis',
             dimension: 'updatedDimension',
             // layer: 'updatedLayer',
           }
+          console.log('🚗🚗')
           const action = () =>
             this.update({
               action: actionType,
@@ -106,6 +115,7 @@ const createExhibitAdapter = (hooks) =>
               [map[actionType]]: isGlobal
                 ? this.model[actionType].getData()
                 : this.model[actionType].options.updatedOptions,
+              updated: isGlobal ? this.model[actionType].getData() : this.model[actionType].options.updatedOptions,
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
             })
           if (!isGlobal) {
@@ -121,11 +131,11 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, lenged, axis, other} = model
-      if (lenged) {
+      const {data, layers, dimension, title, legend, axis, other} = model
+      if (legend) {
         this.observerDisposers.push(
-          this.createObserverObject({actionType: 'lenged', isGlobal: true}),
-          this.createObserverObject({actionType: 'lenged'})
+          this.createObserverObject({actionType: 'legend', isGlobal: true}),
+          this.createObserverObject({actionType: 'legend'})
         )
       }
       if (title) {
@@ -155,10 +165,12 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => model.data.value.toJSON(),
             () => {
+              const updated = model.getData()
               this.update({
                 action: 'data',
                 options: this.getAllOptions(),
-                updatedData: model.getData(),
+                updatedData: updated,
+                updated,
               })
             }
           )
@@ -170,15 +182,16 @@ const createExhibitAdapter = (hooks) =>
             () => layer.effective,
             () => {
               const options = model.getLayers()
-
+              const updated = {
+                id: layer.id,
+                type: layer.type,
+                options: options.find((o) => o.id === layer.id),
+              }
               this.update({
                 action: 'layer',
                 options: this.getAllOptions(),
-                updatedLayer: {
-                  id: layer.id,
-                  type: layer.type,
-                  options: options.find((o) => o.id === layer.id),
-                },
+                updatedLayer: updated,
+                updated,
                 updatedPath: 'effective',
               })
             }
@@ -189,14 +202,16 @@ const createExhibitAdapter = (hooks) =>
             () => layer.options.updatedOptions,
             () => {
               if (layer.effective) {
+                const updated = {
+                  id: layer.id,
+                  type: layer.type,
+                  options: layer.options.updatedOptions,
+                }
                 this.update({
                   action: 'layer',
                   options: this.getAllOptions(),
-                  updatedLayer: {
-                    id: layer.id,
-                    type: layer.type,
-                    options: layer.options.updatedOptions,
-                  },
+                  updatedLayer: updated,
+                  updated,
                   updatedPath: layer.options.updatedPath,
                 })
               }
@@ -208,16 +223,18 @@ const createExhibitAdapter = (hooks) =>
             reaction(
               () => layer.data.value.toJSON(),
               () => {
+                const updated = {
+                  id: layer.id,
+                  options: {
+                    data: layer.getData(),
+                  },
+                }
                 if (layer.effective) {
                   this.update({
                     action: 'layer',
                     options: this.getAllOptions(),
-                    updatedLayer: {
-                      id: layer.id,
-                      options: {
-                        data: layer.getData(),
-                      },
-                    },
+                    updatedLayer: updated,
+                    updated,
                     updatedPath: 'data',
                   })
                 }
@@ -238,7 +255,7 @@ const createExhibitAdapter = (hooks) =>
     }
 
     draw() {
-      hooks.draw.call(this, {instance: this.instance})
+      hooks.draw.call(null, {instance: this.instance})
 
       // 触发首次加载完成事件，和交互规则的“加载后触发一次”相对应
       if (this.ready === false) {
@@ -254,7 +271,10 @@ const createExhibitAdapter = (hooks) =>
       this.event.clear()
       this.stopObserverModel()
       // 调用原实例对象的销毁方法
-      hooks.destroy.call(this, {instance: this.instance})
+      hooks.destroy.call(null, {instance: this.instance})
+
+      // 销毁配置项的路径获取工具和对应的数据
+      this.pathable.destroy()
     }
 
     update({
@@ -263,24 +283,26 @@ const createExhibitAdapter = (hooks) =>
       updatedDimension,
       updatedLayer,
       action,
+      updated,
       updatedPath,
       updatedTitle,
-      updatedLenged,
+      updatedLegend,
       updatedOther,
       updatedAxis,
     }) {
-      hooks.update.call(this, {
+      hooks.update.call(null, {
         instance: this.instance,
         options,
         updatedData,
         updatedDimension,
-        updatedLayer: this.model.addOptionUtil(updatedLayer),
+        updatedLayer: this.model.addOptionUtil('updatedLayer', updatedLayer),
         action,
+        updated,
         updatedPath,
-        updatedTitle,
-        updatedLenged,
-        updatedOther,
-        updatedAxis,
+        updatedTitle: this.model.addOptionUtil('updatedTitle', updatedTitle),
+        updatedLegend: this.model.addOptionUtil('updatedLegend', updatedLegend),
+        updatedOther: this.model.addOptionUtil('updatedOther', updatedOther),
+        updatedAxis: this.model.addOptionUtil('updatedAxis', updatedAxis),
       })
     }
 

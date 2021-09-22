@@ -5,6 +5,7 @@ import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
+import isDef from '@utils/is-def'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
 
@@ -21,7 +22,7 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
-      parts: types.optional(types.array(types.string), ['title', 'lenged', 'axis', 'polar', 'other']),
+      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen(['title', 'layers', 'data', 'dimension']),
     })
@@ -54,8 +55,8 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.title) {
           self.setTitle(config.title)
         }
-        if (config.lenged) {
-          self.setLenged(config.lenged)
+        if (config.legend) {
+          self.setLegend(config.legend)
         }
         if (config.axis) {
           self.setAxis(config.axis)
@@ -95,7 +96,7 @@ export const createExhibitModelClass = (exhibit) => {
             if (config.key !== 'demo') {
               values.data = layer.getData()
             }
-            self.addOptionUtil(values)
+            self.addOptionUtil('layer', values)
           }
 
           return values
@@ -188,13 +189,13 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
-      const setLenged = (lenged) => {
-        self.lenged = createPropertyClass(config.key, lenged, 'lenged')
+      const setLegend = (legend) => {
+        self.legend = createPropertyClass(config.key, legend, 'legend')
       }
 
-      const getLenged = () => {
+      const getLegend = () => {
         if (self.title) {
-          return self.lenged.getData()
+          return self.legend.getData()
         }
       }
 
@@ -216,28 +217,31 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
       // 在带有options属性的对象上, 添加getOption和mapOption方法
-      const addOptionUtil = (obj) => {
-        if (isPlainObject(obj) && isPlainObject(obj.options)) {
+      const addOptionUtil = (key, o) => {
+        if (isPlainObject(o)) {
+          if (!isDef(o.options)) {
+            o.options = Object.assign({}, o)
+          }
           // storage化的options数据
           const storageOptions = onerStorage({
             type: 'variable',
-            key: `exhibit-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+            key: `exhibit-${key}-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
           })
 
-          storageOptions.data(obj.options)
+          storageOptions.data(o.options)
 
           // 根据路径取得参数的便捷方式
-          obj.getOption = (path, fallback) => {
+          o.getOption = (path, fallback) => {
             return storageOptions.get(path, fallback)
           }
 
           // 三文的需求，实验性开放
-          obj.mapOption = (pairs = {}) => {
-            console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
+          o.mapOption = (pairs = {}) => {
+            // console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
             if (isPlainObject(pairs)) {
               const newStorageOptions = onerStorage({
                 type: 'variable',
-                key: `exhibit-new-options-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+                key: `exhibit-new-${key}-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
               })
               newStorageOptions.data({})
               Object.entries(pairs).map(([oldPath, newPath]) => {
@@ -248,10 +252,9 @@ export const createExhibitModelClass = (exhibit) => {
             return {}
           }
 
-          return obj
+          return o
         }
-        console.warn('obj不合法')
-        return obj
+        return o
       }
 
       return {
@@ -269,8 +272,8 @@ export const createExhibitModelClass = (exhibit) => {
         getDimension,
         setTitle,
         getTitle,
-        setLenged,
-        getLenged,
+        setLegend,
+        getLegend,
         setAxis,
         getAxis,
         setOther,
