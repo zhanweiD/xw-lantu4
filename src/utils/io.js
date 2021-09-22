@@ -176,6 +176,14 @@ context.create('io.data', {
 })
 
 context.create('io.project.data', {
+  getDataFolder: {
+    method: 'GET',
+    url: 'project/:projectId/data/folder',
+  },
+  createDataFolder: {
+    method: 'POST',
+    url: 'project/:projectId/data/folder',
+  },
   createData: {
     method: 'POST',
     url: 'project/:projectId/data',
@@ -191,6 +199,10 @@ context.create('io.project.data', {
   getDataSource: {
     method: 'GET',
     url: 'project/:projectId/data/source',
+  },
+  removeDataFolder: {
+    method: 'DELETE',
+    url: 'project/:projectId/data/folder/:folderId',
   },
   removeDataSource: {
     method: 'DELETE',

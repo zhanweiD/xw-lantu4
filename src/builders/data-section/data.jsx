@@ -48,7 +48,7 @@ const DataField = ({
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-      <div className="fbh fbjc mt8 ml24">
+      <div className="fbh fbjc mt8 ml24 mb8">
         <Check
           value={value.type}
           options={[
@@ -119,11 +119,11 @@ const DataField = ({
           <div className="ml24">
             <div className="mb8">字段预览</div>
             {value.private && (
-              <div>
+              <div className="fbh fbw">
                 {hJSON.parse(value.private)[0]?.map((v) => (
-                  <span className={c('mr8', s.fieldPreview)} key={v}>
+                  <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
                     {v}
-                  </span>
+                  </div>
                 ))}
               </div>
             )}
@@ -163,11 +163,11 @@ const DataField = ({
             <div>
               <div className="mb8">字段预览</div>
               {value.sourceData_ && (
-                <div>
+                <div className="fbh fbw">
                   {value.sourceData_[0].map((v) => (
-                    <span className={c('mr8', s.fieldPreview)} key={v}>
+                    <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
                       {v}
-                    </span>
+                    </div>
                   ))}
                 </div>
               )}

@@ -11,6 +11,8 @@ const MKeyValue = types.model('MKeyValue', {
 export const MColumnSelectField = types
   .model('MColumnSelectField', {
     type: types.enumeration(['columnSelect']),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.frozen(),
@@ -37,7 +39,7 @@ export const MColumnSelectField = types
     }
 
     const update = (table) => {
-      const options = hJSON.parse(table)[0].map((v) => ({
+      const options = hJSON.parse(table)[0]?.map((v) => ({
         key: `${v}`,
         value: v,
       }))

@@ -1,21 +1,21 @@
-import {destroy, isMapType, getType} from "mobx-state-tree"
-import isString from "lodash/isString"
-import isPlainObject from "lodash/isPlainObject"
-import isFunction from "lodash/isFunction"
-import isArray from "lodash/isArray"
-import isDef from "@utils/is-def"
-import createLog from "@utils/create-log"
+import {destroy, isMapType, getType} from 'mobx-state-tree'
+import isString from 'lodash/isString'
+import isPlainObject from 'lodash/isPlainObject'
+import isFunction from 'lodash/isFunction'
+import isArray from 'lodash/isArray'
+import isDef from '@utils/is-def'
+import createLog from '@utils/create-log'
 
-const log = createLog("@utils/common-action")
+const log = createLog('@utils/common-action')
 
 export const getModelSchema = (node, option = {}) => {
   const {normalKeys = node.normalKeys || [], deepKeys = node.deepKeys || []} = option
 
   const typeName = getType(node).name
   // NOTE 修改这个值，在对应type类使用断点调试
-  const debugTypeName = ""
+  const debugTypeName = ''
   if (debugTypeName) {
-    console.log("typeName", typeName)
+    console.log('typeName', typeName)
     if (typeName === debugTypeName) {
       // debugger
     }
@@ -50,7 +50,7 @@ export const getModelSchema = (node, option = {}) => {
             // NOTE: Map类型替换id时单独做处理，所以这里始终不替换id
             schema[key][id] = item.getSchema({
               ...option,
-              copy: false
+              copy: false,
             })
           } else {
             schema[key][id] = item
@@ -83,10 +83,10 @@ export const setModelSchema = (node, schema) => {
   const typeName = getType(node).name
 
   // NOTE 修改这个值，就可以查看对应type类的schema，或加入debugger断点
-  const debugTypeName = ""
+  const debugTypeName = ''
   if (debugTypeName) {
     if (typeName === debugTypeName) {
-      console.log(typeName, "schema", JSON.stringify(schema, null, 4))
+      console.log(typeName, 'schema', JSON.stringify(schema, null, 4))
     }
   }
 
@@ -119,8 +119,6 @@ export const setModelSchema = (node, schema) => {
             log.warn("setSchema is not a function on object. Function: 'setModelSchema'", node[key])
           }
         }
-      } else {
-        log.warn(`deepKey(${key}) property is not found on node(${typeName}). Function: 'setModelSchema'`)
       }
     })
   }
@@ -212,7 +210,7 @@ const commonAction =
 
       dumpSchema(option) {
         console.log(JSON.stringify(getModelSchema(self, option), null, 4))
-      }
+      },
     }
 
     // 待使用的

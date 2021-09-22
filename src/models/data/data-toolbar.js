@@ -1,16 +1,12 @@
-/**
- * @author 南风
- * @description 数据工具栏
- */
-import commonAction from "@utils/common-action"
-import {getEnv, getRoot, getParent, types} from "mobx-state-tree"
-import {MDataCreater} from "./data-creater"
+import commonAction from '@utils/common-action'
+import {getEnv, getRoot, getParent, types} from 'mobx-state-tree'
+// import {MDataCreater} from "./data-creater"
 
 export const MDataToolbar = types
   .model({
-    keyword: types.optional(types.string, ""),
-    type: types.optional(types.string, "all"),
-    creater: types.optional(MDataCreater, {})
+    keyword: types.optional(types.string, ''),
+    type: types.optional(types.string, 'all'),
+    // creater: types.optional(MDataCreater, {})
   })
   .views((self) => ({
     get env_() {
@@ -21,16 +17,16 @@ export const MDataToolbar = types
     },
     get dataPanel_() {
       return getParent(self, 1)
-    }
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
   .actions((self) => {
     let seachDataSource = []
     const searchDatas = () => {
       if (!self.keyword) {
         seachDataSource.length &&
           self.dataPanel_.set({
-            datas: seachDataSource
+            datas: seachDataSource,
           })
         seachDataSource = []
         return
@@ -53,26 +49,24 @@ export const MDataToolbar = types
       })
 
       searchData = searchData.sort((a, b) => {
-        return (
-          b.name.split(self.keyword).length - a.name.split(self.keyword).length
-        )
+        return b.name.split(self.keyword).length - a.name.split(self.keyword).length
       })
 
       self.dataPanel_.set({
-        datas: searchData
+        datas: searchData,
       })
     }
 
-    const createByType = (type) => {
-      if (type === "api") {
-        self.creater.createrApi()
-      } else {
-        self.creater.createrDatabase()
-      }
-    }
+    // const createByType = (type) => {
+    //   if (type === "api") {
+    //     self.creater.createrApi()
+    //   } else {
+    //     self.creater.createrDatabase()
+    //   }
+    // }
 
     return {
       searchDatas,
-      createByType
+      // createByType
     }
   })

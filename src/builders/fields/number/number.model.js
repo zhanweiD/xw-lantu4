@@ -8,10 +8,12 @@ import isNumeric from '@utils/is-numberic'
 export const MNumberField = types
   .model('MNumberField', {
     type: types.enumeration(['number']),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     inputValue: types.frozen(),
     value: types.maybe(types.number),
-    defaultValue: types.maybe(types.union(types.number, types.string)),
+    defaultValue: types.optional(types.number, 0),
     min: types.maybe(types.number),
     max: types.maybe(types.number),
     step: types.optional(types.number, 1),
@@ -24,7 +26,6 @@ export const MNumberField = types
       if (!isDef(self.value) && isNumber(self.defaultValue)) {
         self.value = self.defaultValue
       }
-
       // inputValue是纯前端逻辑字段，实例化模型的时候一定没有值
       self.inputValue = self.value
     }
@@ -36,7 +37,6 @@ export const MNumberField = types
       }
     }
 
-    // !所有field的取值都应该使用getValue方法，整合了when的逻辑
     const getValue = () => {
       return isDef(self.value) ? self.value : self.defaultValue
     }

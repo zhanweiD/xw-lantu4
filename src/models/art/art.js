@@ -97,7 +97,7 @@ export const MArt = types
       }
     })
 
-    // 获取大屏相关信息
+    // 获取数据屏相关信息
     const getArt = flow(function* getArt() {
       self.fetchState = 'loading'
       try {

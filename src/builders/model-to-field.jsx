@@ -83,12 +83,12 @@ const ModelToField = ({model}) => {
         <DataField
           className="ml24 mt8"
           value={model.value}
+          type={model.sectionStyleType}
           globalData={model.globalData_}
           projectData={model.projectData_}
           officialData={model.officialData_}
-          onAction={model.onAction}
           onChange={(v) => {
-            model.setValue(v)
+            model.setSchema(v)
           }}
           addSource={(v) => {
             model.addSource(v)

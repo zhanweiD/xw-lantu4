@@ -60,7 +60,6 @@ const Box = ({box}) => {
           })
         }}
       >
-        这里就是我们需要的组件啊！
         <Exhibit box={box} frame={frame_} />
       </div>
     </DropTarget>

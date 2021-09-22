@@ -39,7 +39,7 @@ const CodeField = ({
             mode={mode}
           />
         </div>
-        <div className="w100p fbh fbjsb mt4">
+        <div className="w100p fbh fbjsb mt8">
           <div className="fbh">
             {buttons
               .filter(({position}) => position === 'left')

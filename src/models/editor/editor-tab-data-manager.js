@@ -2,54 +2,54 @@
  * @author 溪风
  * @description 数据源管理
  */
-import {types, flow, getEnv, getSnapshot} from "mobx-state-tree"
-import commonAction from "@utils/common-action"
-import createLog from "@utils/create-log"
+import {types, flow, getEnv, getSnapshot} from 'mobx-state-tree'
+import commonAction from '@utils/common-action'
+import createLog from '@utils/create-log'
 
-const log = createLog("@models/editor-tab-data-manager")
+const log = createLog('@models/editor-tab-data-manager')
 let modalDafaultValue = {}
 const MDataSourceOption = types
-  .model("MDataSourceOption", {
-    type: types.optional(types.string, "MySQL"),
-    host: types.optional(types.string, ""),
-    username: types.optional(types.string, ""),
-    password: types.optional(types.string, ""),
+  .model('MDataSourceOption', {
+    type: types.optional(types.string, 'MySQL'),
+    host: types.optional(types.string, ''),
+    username: types.optional(types.string, ''),
+    password: types.optional(types.string, ''),
     port: types.optional(types.number, 3306),
-    database: types.optional(types.string, "")
+    database: types.optional(types.string, ''),
   })
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
 
 const MDataManagerModal = types
-  .model("MDataManagerModal", {
-    dataSourceName: types.optional(types.string, ""),
-    remark: types.optional(types.string, ""),
-    config: types.optional(MDataSourceOption, {})
+  .model('MDataManagerModal', {
+    dataSourceName: types.optional(types.string, ''),
+    remark: types.optional(types.string, ''),
+    config: types.optional(MDataSourceOption, {}),
   })
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
 
 export const MDataManager = types
-  .model("MDataManager", {
+  .model('MDataManager', {
     dataSourceId: types.maybe(types.number),
     dataSourceName: types.maybe(types.string),
 
     config: types.optional(MDataSourceOption, {}),
-    remark: types.optional(types.string, ""),
+    remark: types.optional(types.string, ''),
 
     nickName: types.maybe(types.string),
     userId: types.maybe(types.number),
     organizationId: types.optional(types.frozen(), null),
     mtime: types.maybe(types.frozen()),
-    ctime: types.maybe(types.frozen())
+    ctime: types.maybe(types.frozen()),
   })
-  .actions(commonAction(["set", "getSchema", "setSchema"]))
+  .actions(commonAction(['set', 'getSchema', 'setSchema']))
 
 export const MDataSourceManager = types
-  .model("MDataSourceManager", {
+  .model('MDataSourceManager', {
     id: types.union(types.number, types.string),
     dataSources: types.optional(types.array(MDataManager), []),
     modal: types.optional(MDataManagerModal, {}),
     databaseTypes: types.frozen(),
-    databaseList: types.optional(types.array(types.string), [])
+    databaseList: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get root_() {
@@ -57,28 +57,20 @@ export const MDataSourceManager = types
     },
     get env_() {
       return getEnv(self)
-    }
+    },
   }))
-  .actions(commonAction(["set", "getSchema", "setSchema"]))
+  .actions(commonAction(['set', 'getSchema', 'setSchema']))
   .actions((self) => {
     modalDafaultValue = getSnapshot(self.modal)
     const afterCreate = () => {
       const {event} = self.env_
       self.getDatabaseSource()
 
-      event.on("dataSourceManager.getDatabaseSource", self.getDatabaseSource)
+      event.on('dataSourceManager.getDatabaseSource', self.getDatabaseSource)
     }
 
     const getDatabaseTypes = () => {
-      const data = [
-        "Postgres",
-        "MySQL",
-        "MariaDB",
-        "SQLite",
-        "SQLServer",
-        "Oracle",
-        "ClickHouse"
-      ]
+      const data = ['Postgres', 'MySQL', 'MariaDB', 'SQLite', 'SQLServer', 'Oracle', 'ClickHouse']
       self.set({databaseTypes: data.map((val) => ({key: val, value: val}))})
     }
 
@@ -94,13 +86,13 @@ export const MDataSourceManager = types
             host,
             port,
             username,
-            password
-          }
+            password,
+          },
         })
         self.databaseList = res.map((v) => v.database)
-        tip.success({content: "获取数据库列表成功"})
+        tip.success({content: '获取数据库列表成功'})
       } catch (error) {
-        log.error("getDatabases.Error: ", error)
+        log.error('getDatabases.Error: ', error)
         tip.error({content: error.message})
       }
     })
@@ -115,14 +107,14 @@ export const MDataSourceManager = types
           dataSourceName,
           remark,
           config,
-          dataType: config.type.toLowerCase()
+          dataType: config.type.toLowerCase(),
         }
         yield io.data.createDataSource(data)
-        tip.success({content: "保存成功！"})
-        event.fire("dataSourceManager.getDatabaseSource")
+        tip.success({content: '保存成功！'})
+        event.fire('dataSourceManager.getDatabaseSource')
       } catch (error) {
-        console.log("SaveData error", error)
-        tip.error({content: "保存失败！"})
+        console.log('SaveData error', error)
+        tip.error({content: '保存失败！'})
       }
     })
 
@@ -142,8 +134,8 @@ export const MDataSourceManager = types
     const removeDataSource = flow(function* removeDataSource({dataSourceId}) {
       const {io, event} = self.env_
       try {
-        yield io.data.removeDataSource({":dataSourceId": dataSourceId})
-        event.fire("dataSourceManager.getDatabaseSource")
+        yield io.data.removeDataSource({':dataSourceId': dataSourceId})
+        event.fire('dataSourceManager.getDatabaseSource')
       } catch (error) {
         // TODO error 统一替换
         console.log(error)
@@ -166,7 +158,7 @@ export const MDataSourceManager = types
       const {io} = self.env_
       try {
         const {list} = yield io.data.getDataSource()
-        const databaseList = list.filter((data) => data.dataType === "mysql")
+        const databaseList = list.filter((data) => data.dataType === 'mysql')
         self.set({dataSources: databaseList})
       } catch (error) {
         // TODO error 统一替换
@@ -178,7 +170,7 @@ export const MDataSourceManager = types
     const applyModalValue = () => {
       console.log(modalDafaultValue)
       self.modal.set(modalDafaultValue)
-      self.set("databaseList", [])
+      self.set('databaseList', [])
     }
 
     return {
@@ -190,6 +182,6 @@ export const MDataSourceManager = types
       getDataList,
       removeDataSource,
       getDatabaseSource,
-      afterCreate
+      afterCreate,
     }
   })

@@ -68,20 +68,26 @@ export const MEditorTab = types
         }
       }
       // 设置项目素材的 projectId
-      if (type !== 'art' && type !== 'material') {
+      // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
+      if (type !== 'art' && type !== 'material' && type !== 'data') {
         event.fire('materialPanel.setProjectId', {projectId: null})
+        event.fire('dataPanel.setProjectId', {projectId: null})
       } else {
         const {projectId} = self.tabOptions
-        event.fire('materialPanel.setProjectId', {projectId})
+        event.fire('materialPanel.setProjectId', {
+          projectId,
+        })
+        event.fire('dataPanel.setProjectId', {
+          projectId,
+        })
       }
       if (type === 'data') {
         if (!self.data) {
-          const {dataType, folderId, isProject, projectId = 0} = tabOptions
+          const {dataType, folderId, projectId = null} = tabOptions
           self.data = {
             dataId: typeof id === 'number' ? id : 0,
             dataType,
             folderId,
-            isProject,
             projectId,
           }
           self.data.getData()

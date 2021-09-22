@@ -6,6 +6,8 @@ import isDef from '@utils/is-def'
 export const MGradientField = types
   .model('MGradientField', {
     type: types.enumeration(['gradient']),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.optional(types.frozen(), {

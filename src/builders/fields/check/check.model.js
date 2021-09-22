@@ -6,15 +6,17 @@ import commonAction from '@utils/common-action'
 const MKeyValue = types.model('MKeyValue', {
   key: types.maybe(types.string),
   icon: types.maybe(types.string),
-  value: types.string,
+  value: types.union(types.string, types.number),
 })
 
 export const MCheckField = types
   .model('MCheckField', {
     type: types.enumeration(['check']),
+    option: types.optional(types.string, ''),
+
     label: types.optional(types.string, ''),
     value: types.maybe(types.union(types.string, types.number)),
-    defaultValue: types.optional(types.string, ''),
+    defaultValue: types.optional(types.union(types.string, types.number), ''),
     options: types.optional(types.array(MKeyValue), []),
   })
   .actions(commonAction(['set']))

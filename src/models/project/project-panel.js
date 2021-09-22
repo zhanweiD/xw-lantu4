@@ -69,13 +69,13 @@ export const MProjectPanel = types
       event.on('project-panel.getTemplates', self.getTemplates)
       // 最近访问发生变化时更新
       event.on('project-panel.createRecentProject', self.createResentProject)
-      // 大屏发生变化时更新
+      // 数据屏发生变化时更新
       event.on('project-panel.updateArt', self.updateArt)
       // 初始化调用一次获取数据
       self.getProjects()
     }
 
-    // 最近访问新增一个大屏
+    // 最近访问新增一个数据屏
     const createResentProject = (id) => {
       const index = self.recentProjectIds.findIndex((projectId) => projectId === id)
       if (index === -1) {
@@ -87,7 +87,7 @@ export const MProjectPanel = types
       self.saveLocal()
     }
 
-    // 更新大屏数据
+    // 更新数据屏数据
     const updateArt = ({projectId, artId, ...params}) => {
       const project = self.projects.find((project) => project.projectId === projectId)
       project && project.arts.find((art) => art.artId === artId)?.set(params)
