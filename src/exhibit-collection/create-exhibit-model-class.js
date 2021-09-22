@@ -235,21 +235,29 @@ export const createExhibitModelClass = (exhibit) => {
             return storageOptions.get(path, fallback)
           }
 
-          // 三文的需求，实验性开放
-          o.mapOption = (pairs = {}) => {
+          // 实验性开放
+          // list = [
+          //   ['inner/path', 'my/path', {innerValue1: 'myValue1', innerValue2: 'myValue2'}],
+          //   ['inner/path', 'my/path', {innerValue: 'myValue'}],
+          // ]
+          o.mapOption = (list) => {
             // console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
-            if (isPlainObject(pairs)) {
-              const newStorageOptions = onerStorage({
-                type: 'variable',
-                key: `exhibit-new-${key}-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+            const newStorageOptions = onerStorage({
+              type: 'variable',
+              key: `exhibit-new-${key}-${self.id}`, // !!! 唯一必选的参数, 用于内部存储 !!!
+            })
+            newStorageOptions.data({})
+
+            if (Array.isArray(list)) {
+              list.forEach((item) => {
+                const [oldPath, newPath, valueMap = {}] = item
+                newStorageOptions.set(newPath, valueMap[storageOptions.get(oldPath)])
               })
-              newStorageOptions.data({})
-              Object.entries(pairs).map(([oldPath, newPath]) => {
-                newStorageOptions.set(newPath, storageOptions.get(oldPath))
-              })
-              return newStorageOptions.get()
+              // Object.entries(pairs).map(([oldPath, newPath]) => {
+              //   newStorageOptions.set(newPath, storageOptions.get(oldPath))
+              // })
             }
-            return {}
+            return newStorageOptions
           }
 
           return o
