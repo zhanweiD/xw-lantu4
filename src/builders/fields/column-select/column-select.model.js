@@ -31,7 +31,7 @@ export const MColumnSelectField = types
     }
 
     const setValue = (value) => {
-      self.value = value || self.defaultValue
+      self.value = value
     }
 
     const getValue = () => {

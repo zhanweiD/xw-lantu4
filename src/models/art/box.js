@@ -22,7 +22,7 @@ export const MBox = types
 
     // 使用素材的索引id
     materialIds: types.optional(types.array(types.string), []),
-    remark: types.maybeNull(types.string),
+    remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 

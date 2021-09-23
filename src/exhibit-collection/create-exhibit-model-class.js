@@ -42,6 +42,26 @@ export const createExhibitModelClass = (exhibit) => {
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
     .actions((self) => {
       const afterCreate = () => {
+        // if (config.data) {
+        //   self.setData(config.data)
+        // }
+        // if (config.dimension) {
+        //   self.setDimension(config.dimension)
+        // }
+        // if (config.title) {
+        //   self.setTitle(config.title)
+        // }
+        // if (config.legend) {
+        //   self.setLegend(config.legend)
+        // }
+        // if (config.axis) {
+        //   self.setAxis(config.axis)
+        // }
+        // if (config.other) {
+        //   self.setOther(config.other)
+        // }
+      }
+      const init = () => {
         if (config.data) {
           self.setData(config.data)
         }
@@ -139,6 +159,7 @@ export const createExhibitModelClass = (exhibit) => {
             },
           },
           {
+            exhibitId: self.id,
             art: self.art_,
             event: self.event_,
             data: self.data_,
@@ -148,9 +169,12 @@ export const createExhibitModelClass = (exhibit) => {
       const getData = () => {
         let data
         if (self.data) {
-          const {type, private: privateData} = self.data.getSchema()
+          const {type, private: privateData, source} = self.data.getSchema()
           if (type === 'private') {
             data = hJSON.parse(privateData)
+          } else {
+            const datas = self.art_.datas
+            data = datas?.find((v) => v.id === source)?.data
           }
         }
         return data
@@ -230,6 +254,7 @@ export const createExhibitModelClass = (exhibit) => {
         getAxis,
         setOther,
         getOther,
+        init,
       }
     })
 

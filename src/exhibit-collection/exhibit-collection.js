@@ -53,9 +53,12 @@ export const exhibitRegister = (exhibit) => {
         )
         // ! 这里这么麻烦写setLayers 其实是有原因的。
         // 从config里拿到的layer配置实际上是初始化的，当用户添加层后，这里config.layers就不是期望的数据了，而应该由后端保存值获取对应的type再调用此type对应的配置
-        model.setLayers(config.layers)
+        // model.setLayers(config.layers)
 
         if (schema) {
+          model.set({id: schema.id})
+          model.init()
+          model.setLayers(config.layers)
           model.setSchema(schema)
         }
 

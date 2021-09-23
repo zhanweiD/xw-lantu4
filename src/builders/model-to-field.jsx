@@ -84,11 +84,14 @@ const ModelToField = ({model}) => {
           className="ml24 mt8"
           value={model.value}
           type={model.sectionStyleType}
-          globalData={model.globalData_}
+          spaceData={model.spaceData_}
           projectData={model.projectData_}
           officialData={model.officialData_}
           onChange={(v) => {
-            model.setValue(v)
+            model.setSchema(v)
+          }}
+          toggleBak={() => {
+            model.toggleBak()
           }}
           addSource={(v) => {
             model.addSource(v)
