@@ -1,11 +1,11 @@
-import React, {useEffect, useRef} from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import {DropTarget} from "@components/drag-and-drop"
-import Grid from "@waves4/grid"
-import {themeConfigs} from "@utils/theme"
-import Box from "../box"
-import s from "./art-frame.module.styl"
+import React, {useEffect, useRef} from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import {DropTarget} from '@components/drag-and-drop'
+import Grid from '@waves4/grid'
+import {themeConfigs} from '@utils/theme'
+import Box from '../box'
+import s from './art-frame.module.styl'
 
 const ArtFrame = ({frame}) => {
   const {frameId, grid, viewLayout, isCreateFail, art_, boxes} = frame
@@ -19,7 +19,7 @@ const ArtFrame = ({frame}) => {
         autoScale: true,
         width: grid.width_,
         height: grid.height_,
-        unit: grid.unit_
+        unit: grid.unit_,
       }).draw()
     }
   }, [grid.width_, grid.height_, grid.unit_, isGridVisible])
@@ -34,7 +34,7 @@ const ArtFrame = ({frame}) => {
           left: `${grid.extendX_}px`,
           width: `${viewLayout.width}px`,
           height: `${viewLayout.height}px`,
-          background: `${themeConfigs[art_.basic.themeId].background}`
+          background: `${themeConfigs[art_.basic.themeId].background}`,
         }}
       >
         {isGridVisible && (
@@ -45,7 +45,7 @@ const ArtFrame = ({frame}) => {
               top: `${-grid.extendY_}px`,
               left: `${-grid.extendX_}px`,
               width: `${grid.width_}px`,
-              height: `${grid.height_}px`
+              height: `${grid.height_}px`,
             }}
           />
         )}
@@ -70,9 +70,9 @@ const ArtFrame = ({frame}) => {
             top: `${viewLayout.y - grid.extendY_}px`,
             left: `${viewLayout.x - grid.extendX_}px`,
             width: `${grid.width_}px`,
-            height: `${grid.height_}px`
+            height: `${grid.height_}px`,
           }}
-          className={c("pa art-frame", s.root)}
+          className={c('pa art-frame', s.root)}
         >
           {Frame}
         </div>
@@ -82,23 +82,23 @@ const ArtFrame = ({frame}) => {
             top: `${viewLayout.y - grid.extendY_}px`,
             left: `${viewLayout.x - grid.extendX_}px`,
             width: `${grid.width_}px`,
-            height: `${grid.height_}px`
+            height: `${grid.height_}px`,
           }}
-          className={c("pa art-frame", s.root)}
-          acceptKey={["CREATE_EXHIBIT_DRAG_KEY", "UPDATE_BOX_BACKGROUND_DRAGE_KEY"]}
+          className={c('pa art-frame', s.root)}
+          acceptKey={['CREATE_EXHIBIT_DRAG_KEY', 'UPDATE_BOX_BACKGROUND_DRAGE_KEY']}
           data={{
             create: (data) => {
               frame.createBox({
                 ...data,
-                type: "exhibit"
+                type: 'exhibit',
               })
             },
             createBackground: (data) => {
               frame.createBox({
                 ...data,
-                type: "background"
+                type: 'material',
               })
-            }
+            },
           }}
         >
           {Frame}

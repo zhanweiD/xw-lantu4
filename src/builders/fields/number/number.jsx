@@ -13,7 +13,7 @@ import s from './number.module.styl'
 const isSpecialString = (string, min) =>
   ['', (isNumber(min) && min < 0) || !isDef(min) ? '-' : '', '+', '.'].indexOf(string) > -1
 
-const NumberRange = ({min, max}) => {
+export const NumberRange = ({min, max}) => {
   let range
   if (isDef(min) && isDef(max)) {
     range = `${min}-${max}`

@@ -18,14 +18,10 @@ const offset = {
   items: [
     {
       key: 'X',
-      min: 0,
-      max: 50,
       step: 1,
     },
     {
       key: 'Y',
-      min: 0,
-      max: 50,
       step: 1,
     },
   ],
@@ -328,15 +324,10 @@ const colorType = {
 }
 
 // 单色
-const colorSingle = {
-  type: 'color',
-  label: 'singleColor',
-  defaultValue: '#ffffff',
-}
 const singleColor = {
   type: 'color',
   label: 'singleColor',
-  defaultValue: '#ffffff',
+  defaultValue: 'transparent',
 }
 
 // 渐变
@@ -736,7 +727,6 @@ export default {
   // 颜色类型
   colorType,
   // 颜色单色
-  colorSingle,
   singleColor,
   // 颜色渐变
   colorGradient,

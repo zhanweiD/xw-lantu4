@@ -4,7 +4,7 @@ import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
 import {transform} from './exhibit-config'
 
-export const createPropertyClass = (key, config, name = 'property') => {
+export const createPropertyModel = (key, config, name = 'property') => {
   const {effective, sections, fields} = config
   const MModel = types
     .model(`M${key}.${name}`, {
@@ -47,5 +47,10 @@ export const createPropertyClass = (key, config, name = 'property') => {
         getData,
       }
     })
+  return MModel
+}
+
+export const createPropertyClass = (key, config, name) => {
+  const MModel = createPropertyModel(key, config, name)
   return MModel.create()
 }
