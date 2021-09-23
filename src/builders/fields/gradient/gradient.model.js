@@ -21,7 +21,6 @@ export const MGradientField = types
     }
 
     const setValue = (value) => {
-      console.log(value, 'value')
       self.value = value
     }
 
