@@ -1,8 +1,5 @@
 import {types} from 'mobx-state-tree'
-
 import isNumber from 'lodash/isNumber'
-import isNumeric from '@utils/is-numberic'
-import fixRange from '@utils/fix-range'
 import isDef from '@utils/is-def'
 import commonAction from '@utils/common-action'
 
@@ -18,8 +15,7 @@ export const MMultiNumberField = types
     option: types.optional(types.string, ''),
 
     label: types.optional(types.string, ''),
-    inputValue: types.optional(types.array(types.union(types.number, types.string)), []),
-    // ! union很重要，数字输入框输入过程中清空的时候，是空字符串
+
     value: types.optional(types.array(types.union(types.number, types.string)), []),
     defaultValue: types.optional(types.array(types.number), []),
     items: types.optional(types.array(MItem), []),
@@ -36,21 +32,10 @@ export const MMultiNumberField = types
           self.value[index] = self.defaultValue[index]
         }
       })
-      // inputValue是纯前端逻辑字段
-      self.inputValue = [...self.value]
     }
 
     const setValue = (value) => {
-      self.inputValue = value
-      let isAllNumeric = true
-      const transformValue = self.inputValue.map((v) => {
-        if (isNumeric(v)) {
-          return fixRange(+v, self.min, self.max)
-        }
-        isAllNumeric = false
-        return undefined
-      })
-      isAllNumeric && (self.value = transformValue)
+      self.value = value
     }
 
     const getValue = () => {

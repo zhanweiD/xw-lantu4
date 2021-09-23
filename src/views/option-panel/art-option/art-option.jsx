@@ -5,6 +5,7 @@ import Tab from '@components/tab'
 import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import isDef from '@utils/is-def'
+import CommonTab from './common-tab'
 
 const createPanel = (exhibit, t) => {
   const panels = []
@@ -59,9 +60,12 @@ const ArtOption = ({art}) => {
   }
 
   return (
-    <Tab sessionId="art-option" className="fb1">
-      {exhibit && createPanel(exhibit, t)}
-    </Tab>
+    <>
+      <Tab sessionId="art-option" className="fb1">
+        {exhibit && createPanel(exhibit, t)}
+      </Tab>
+      <CommonTab box={box} range={selectRange} />
+    </>
   )
 }
 

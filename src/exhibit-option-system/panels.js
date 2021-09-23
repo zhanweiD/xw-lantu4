@@ -29,10 +29,11 @@ const backgroundColor = {
   name: 'backgroundColor',
   sections: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
+      effective: false,
       fields: [
         {
-          name: 'colorSingle',
+          name: 'singleColor',
         },
         {
           name: 'opacity',
@@ -42,6 +43,7 @@ const backgroundColor = {
     },
     {
       name: 'gradientColor',
+      effective: false,
       fields: [
         {
           name: 'gradientColor',

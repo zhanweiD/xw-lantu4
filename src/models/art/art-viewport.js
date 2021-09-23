@@ -1,5 +1,5 @@
 import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree'
-import {reaction} from 'mobx'
+// import {reaction} from 'mobx'
 import minBy from 'lodash/minBy'
 import maxBy from 'lodash/maxBy'
 import isEmpty from 'lodash/isEmpty'
@@ -83,39 +83,39 @@ export const MArtViewport = types
           }
         },
       })
-      reaction(
-        () => ({
-          selectRange: self.selectRange && self.selectRange.toJSON(),
-        }),
-        ({selectRange}) => {
-          if (selectRange) {
-            saveSession()
-          }
-        },
-        {
-          fireImmediately: true,
-          delay: 300,
-        }
-      )
+      // reaction(
+      //   () => ({
+      //     selectRange: self.selectRange && self.selectRange.toJSON(),
+      //   }),
+      //   ({selectRange}) => {
+      //     if (selectRange) {
+      //       saveSession()
+      //     }
+      //   },
+      //   {
+      //     fireImmediately: true,
+      //     delay: 300,
+      //   }
+      // )
     }
 
-    const applySession = () => {
-      const {session} = self.env_
-      const {artId} = self.art_
-      const sessionSchema = session.get(`SKViewport.${artId}`)
-      if (self.frames.length) {
-        sessionSchema && self.set(sessionSchema)
-      }
-    }
+    // const applySession = () => {
+    //   const {session} = self.env_
+    //   const {artId} = self.art_
+    //   const sessionSchema = session.get(`SKViewport.${artId}`)
+    //   if (self.frames.length) {
+    //     sessionSchema && self.set(sessionSchema)
+    //   }
+    // }
 
-    const saveSession = () => {
-      const {session} = self.env_
-      const {artId} = self.art_
-      session.set(`SKViewport.${artId}`, {
-        // 这个简直坑死人 一定要写toJSON.  血泪教训 否则当触发时它会找不到实例而报错TypeError: Cannot read property 'cache' of undefined
-        selectRange: self.selectRange.toJSON(),
-      })
-    }
+    // const saveSession = () => {
+    //   const {session} = self.env_
+    //   const {artId} = self.art_
+    //   session.set(`SKViewport.${artId}`, {
+    //     // 这个简直坑死人 一定要写toJSON.  血泪教训 否则当触发时它会找不到实例而报错TypeError: Cannot read property 'cache' of undefined
+    //     selectRange: self.selectRange.toJSON(),
+    //   })
+    // }
 
     // 初始化缩放系数、画布摆放位置等
     const initZoom = () => {
@@ -185,7 +185,7 @@ export const MArtViewport = types
         initFrame(frame)
       })
       initXY()
-      applySession()
+      // applySession()
     }
 
     // 可视化区域按住鼠标进行拖拽操作
@@ -340,9 +340,9 @@ export const MArtViewport = types
 
     // 删除框选状态
     const removeSelectRange = () => {
-      const {session} = self.env_
+      // const {session} = self.env_
       self.selectRange = undefined
-      session.set('SKViewport', undefined)
+      // session.set('SKViewport', undefined)
     }
 
     // 创建画布

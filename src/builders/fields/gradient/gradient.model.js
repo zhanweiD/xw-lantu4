@@ -1,6 +1,6 @@
 import {types} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
-
+import {colorArrayForm, colorObjectForm} from './gradient-util'
 import isDef from '@utils/is-def'
 
 export const MGradientField = types
@@ -16,7 +16,7 @@ export const MGradientField = types
   .actions((self) => {
     const afterCreate = () => {
       if (!isDef(self.value)) {
-        self.value = self.defaultValue
+        self.value = colorArrayForm(colorObjectForm(self.defaultValue))
       }
     }
 

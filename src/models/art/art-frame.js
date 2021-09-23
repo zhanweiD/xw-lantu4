@@ -1,12 +1,3 @@
-/*
- * @Author: 柿子
- * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-10 11:14:47
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
- */
-
 import {types, getParent, getEnv, getRoot, flow} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
 import uuid from '@utils/uuid'
@@ -14,7 +5,7 @@ import createLog from '@utils/create-log'
 import {MBox} from './box'
 import {MArtFrameGrid} from './art-frame-grid'
 import {MLayout} from '../common/layout'
-
+import {MBackgroundColor} from './art-ui-tab-property'
 const log = createLog('@models/art/art-frame.js')
 export const MArtFrame = types
   .model('MArtFrame', {
@@ -88,7 +79,7 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background}) => {
+    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
@@ -97,8 +88,10 @@ export const MArtFrame = types
         frameId,
         exhibit,
         layout,
-        background,
+        remark,
       })
+      box.background.setSchema(background)
+
       self.boxes.push(box)
       if (exhibit) {
         const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
@@ -168,8 +161,18 @@ export const MArtFrame = types
         width: Math.round((type === 'exhibit' ? exhibit.initSize[0] : 16) * self.grid.unit_),
         height: Math.round((type === 'exhibit' ? exhibit.initSize[1] : 9) * self.grid.unit_),
       }
+      const background = MBackgroundColor.create().getSchema()
+
       const boxId = uuid()
-      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, materialIds}
+      const params = {
+        artId,
+        name: `容器-${boxId.substring(0, 4)}`,
+        frameId,
+        exhibit,
+        layout,
+        materialIds,
+        background,
+      }
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
         target: 'box',
@@ -187,6 +190,7 @@ export const MArtFrame = types
           layout,
           materialIds,
           name: params.name,
+          background,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,

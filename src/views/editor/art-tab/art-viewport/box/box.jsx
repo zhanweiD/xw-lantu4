@@ -2,16 +2,29 @@ import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {DropTarget} from '@components/drag-and-drop'
-// import config from '@utils/config'
+
 import Exhibit from '@views/public/exhibit'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, background, exhibit, materialIds} = box
+  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_} = box
   const {isBoxBackgroundVisible} = art_
 
-  // const image = `${config.urlPrefix}material/download/${background?.path}`
-  console.log(background, materialIds)
+  const style = {
+    top: `${layout.y}px`,
+    left: `${layout.x}px`,
+    width: `${layout.width}px`,
+    height: `${layout.height}px`,
+    backgroundSize: '100% 100%',
+    backgroundRepeat: 'no-repeat',
+  }
+  if (backgroundImage_) {
+    style.backgroundImage = `linear-gradient(${backgroundImage_})`
+  }
+  if (backgroundColor_) {
+    style.backgroundColor = backgroundColor_
+  }
+
   return (
     <DropTarget
       className={c('pa box', {
@@ -38,16 +51,7 @@ const Box = ({box}) => {
     >
       <div
         id={`box-${box.boxId}`}
-        style={{
-          top: `${layout.y}px`,
-          left: `${layout.x}px`,
-          width: `${layout.width}px`,
-          height: `${layout.height}px`,
-          // backgroundImage: `url("${image}")`,
-
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
-        }}
+        style={style}
         onMouseDown={(e) => {
           e.stopPropagation()
           viewport_.toggleSelectRange({
