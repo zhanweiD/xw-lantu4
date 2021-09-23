@@ -331,12 +331,12 @@ const colorType = {
 const colorSingle = {
   type: 'color',
   label: 'singleColor',
-  defaultValue: '#ffffff',
+  defaultValue: 'transparent',
 }
 const singleColor = {
   type: 'color',
   label: 'singleColor',
-  defaultValue: '#ffffff',
+  defaultValue: 'transparent',
 }
 
 // 渐变

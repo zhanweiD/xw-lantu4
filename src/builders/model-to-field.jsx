@@ -104,9 +104,9 @@ const ModelToField = ({model}) => {
         <GradientField
           className="ml24"
           label={t(model.label)}
-          value={model.colorObjectForm}
+          value={model.value}
           defaultValue={model.defaultValue}
-          gradientColor={model.gradientColor}
+          // gradientColor={model.gradientColor}
           onChange={(v) => {
             model.setValue(v)
           }}

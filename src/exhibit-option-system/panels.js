@@ -29,7 +29,7 @@ const backgroundColor = {
   name: 'backgroundColor',
   sections: [
     {
-      name: 'singleColor',
+      name: 'colorSingle',
       fields: [
         {
           name: 'colorSingle',
