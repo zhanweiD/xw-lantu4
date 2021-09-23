@@ -4,10 +4,7 @@ import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import w from '@models'
 import IconGroupButton from '@components/icon-group-button'
-
-import {Link} from 'react-router-dom'
-import config from '@utils/config'
-
+import Icon from '@components/icon'
 import s from './head.module.styl'
 import PanelButton from './panel-button'
 
@@ -34,10 +31,8 @@ const Head = () => {
   return (
     <div className={c('cf3 fbh fbac', s.head)}>
       <div className={c('fb1 fbh fbac')}>
-        <div>
-          <Link to="/" className={c(s.logo, 'fbh fbac fbjc')}>
-            <img src={config.logo} alt="logo" />
-          </Link>
+        <div className="fbh fbac fbjc w40">
+          <Icon name="waveview" size={24} />
         </div>
         {panelButtons.map((panel) =>
           Children.toArray(
