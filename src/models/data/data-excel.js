@@ -97,12 +97,19 @@ export const MExcel = types
               self.data_.set({state: 'loadError'})
               return
             }
+            if (response.code === 'ERROR_EXCEL_IS_NULL') {
+              tip.error({content: '该excel文件为空'})
+              self.data_.set({state: 'loadError'})
+              return
+            }
             // 文件夹为空时不通过
             if (response.content.data.length === 0) {
               tip.error({content: 'excel为空或格式有误，请检查文件'})
               self.data_.set({state: 'loadError'})
               return
             }
+            const dataName = files[0].name.split('.')[0]
+            console.log('dataName', dataName)
             // 赋值给excel
             self.set({
               data: response.content.data,
@@ -112,6 +119,7 @@ export const MExcel = types
               })),
               hasExcel: true,
             })
+            self.data_.basic.setSchema({dataName})
             self.options.setSchema({
               row: response.content.data.length || 0,
             })

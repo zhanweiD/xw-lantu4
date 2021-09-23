@@ -83,7 +83,7 @@ const MApiCodeOptions = createConfigModelClass(
       'dataPanel.headers',
       'dataPanel.queries',
       'dataPanel.body',
-      'optionPanel.dataProcessor',
+      'dataPanel.dataProcessAndDataDisplay',
       // {
       //   section: 'optionPanel.dataProcessor',
       //   fields: [
@@ -142,7 +142,7 @@ const MApiCodeOptions = createConfigModelClass(
         },
       },
       {
-        section: 'optionPanel.dataProcessor',
+        section: 'dataPanel.dataProcessAndDataDisplay',
         option: 'useDataProcessor',
         field: {
           type: 'switch',
@@ -151,7 +151,7 @@ const MApiCodeOptions = createConfigModelClass(
         },
       },
       {
-        section: 'optionPanel.dataProcessor',
+        section: 'dataPanel.dataProcessAndDataDisplay',
         option: 'dataProcessor',
         field: {
           type: 'code',
@@ -172,7 +172,7 @@ const MApiCodeOptions = createConfigModelClass(
       },
 
       {
-        section: 'optionPanel.dataProcessor',
+        section: 'dataPanel.dataProcessAndDataDisplay',
         option: 'result',
         field: {
           type: 'code',

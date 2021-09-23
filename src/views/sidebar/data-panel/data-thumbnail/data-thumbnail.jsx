@@ -3,17 +3,19 @@ import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import w from '@models'
 import copy from '@utils/copy'
-import Icon from '@components/icon'
+// import Icon from '@components/icon'
 import s from './data-thumbnail.module.styl'
 
 const DataThumbnail = ({data}) => {
-  const {dataType, dataName} = data
-  const icon = {
-    json: 'data-json',
-    excel: 'data-excel',
-    mysql: 'data-mysql',
-    api: 'data-api',
-  }[dataType]
+  // const {dataType, dataName} = data
+  const {dataName} = data
+
+  // const icon = {
+  //   json: 'data-json',
+  //   excel: 'data-excel',
+  //   mysql: 'data-mysql',
+  //   api: 'data-api',
+  // }[dataType]
 
   return (
     <div
@@ -44,8 +46,9 @@ const DataThumbnail = ({data}) => {
         })
       }}
     >
-      <Icon name={icon} size={16} />
+      {/* <Icon name={icon} size={16} /> */}
       <div
+        title={dataName}
         className="ml8 fb1 omit"
         onDoubleClick={() => {
           data.showDetail(s)

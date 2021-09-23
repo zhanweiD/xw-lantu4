@@ -69,7 +69,7 @@ const DataPanel = () => {
   const [name, setName] = useState('')
   const {sidebar} = w
   const {dataPanel} = sidebar
-  const {set, state, folders_, keyword, projectId, isVisible, createFolder} = dataPanel
+  const {set, state, folders_, keyword, projectKeyword, projectId, isVisible, createFolder} = dataPanel
   const {basicSpaceFolders, topSpaceFolders, basicProjectFolders, topProjectFolders} = folders_
   const hasSpaceData = !basicSpaceFolders.length && !topSpaceFolders.length
   const hasProjectData = !basicProjectFolders.length && !topProjectFolders.length
@@ -94,7 +94,7 @@ const DataPanel = () => {
                 folder={folder}
               />
             ))}
-            {hasProjectData && <DataPanelFallback keyword={keyword} set={set} noProject={!projectId} />}
+            {hasProjectData && <DataPanelFallback keyword={projectKeyword} set={set} noProject={!projectId} />}
           </Scroll>
         </Tab.Item>
         <Tab.Item name={t('dataPanel.space')}>
