@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -22,7 +22,14 @@ const MultiNumberField = ({
   items = [],
 }) => {
   const {t} = useTranslation()
+
   const [inputValue, setInputValue] = useState(value)
+  useEffect(() => {
+    setInputValue(value)
+    return () => {
+      setInputValue(defaultValue)
+    }
+  }, [value])
   return (
     <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
       {items.map((item, index) => {
