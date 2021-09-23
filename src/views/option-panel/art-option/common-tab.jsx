@@ -71,7 +71,7 @@ const CommonTab = ({box}) => {
                 <TextareaField
                   className="ml24"
                   label={t('remark')}
-                  value={remark}
+                  value={remark || ''}
                   onChange={(value) => box.setRemark({remark: value})}
                 />
               </Section>
