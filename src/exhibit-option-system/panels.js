@@ -58,8 +58,8 @@ const material = {
 }
 
 // 描述
-const description = {
-  name: 'description',
+const remark = {
+  name: 'remark',
   sections: [
     {
       name: 'base',
@@ -79,7 +79,7 @@ const description = {
   ],
 }
 
-export default {
+export {
   // 布局
   layout,
   // 背景色
@@ -87,5 +87,5 @@ export default {
   // 素材
   material,
   // 描述
-  description,
+  remark,
 }
