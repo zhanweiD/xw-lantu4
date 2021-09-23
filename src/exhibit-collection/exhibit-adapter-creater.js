@@ -4,6 +4,7 @@ import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
 import onerStorage from 'oner-storage'
+import addOptionMethod from '@utils/add-option-method'
 
 const log = createLog('@exhibit-adapter-creater')
 
@@ -81,10 +82,10 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = {
         container: this.container,
         layers: this.model.getLayers(),
-        title: this.model.addOptionUtil('title', this.model.getTitle()),
-        legend: this.model.addOptionUtil('legend', this.model.getLegend()),
-        other: this.model.addOptionUtil('other', this.model.getOther()),
-        axis: this.model.addOptionUtil('axis', this.model.getAxis()),
+        title: addOptionMethod(this.model.getTitle()),
+        legend: addOptionMethod(this.model.getLegend()),
+        other: addOptionMethod(this.model.getOther()),
+        axis: addOptionMethod(this.model.getAxis()),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -296,14 +297,14 @@ const createExhibitAdapter = (hooks) =>
         options,
         updatedData,
         updatedDimension,
-        updatedLayer: this.model.addOptionUtil('updatedLayer', updatedLayer),
+        updatedLayer: addOptionMethod(updatedLayer),
         action,
         updated,
         updatedPath,
-        updatedTitle: this.model.addOptionUtil('updatedTitle', updatedTitle),
-        updatedLegend: this.model.addOptionUtil('updatedLegend', updatedLegend),
-        updatedOther: this.model.addOptionUtil('updatedOther', updatedOther),
-        updatedAxis: this.model.addOptionUtil('updatedAxis', updatedAxis),
+        updatedTitle: addOptionMethod(updatedTitle),
+        updatedLegend: addOptionMethod(updatedLegend),
+        updatedOther: addOptionMethod(updatedOther),
+        updatedAxis: addOptionMethod(updatedAxis),
       })
     }
 
