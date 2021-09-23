@@ -24,7 +24,7 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
-      deepKeys: types.frozen(['title', 'layers', 'data', 'dimension']),
+      deepKeys: types.frozen(['title', 'legend', 'axis', 'polar', 'other', 'layers', 'data', 'dimension']),
     })
     .views((self) => ({
       get art_() {
