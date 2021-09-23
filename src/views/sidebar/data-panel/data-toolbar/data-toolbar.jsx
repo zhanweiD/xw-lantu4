@@ -11,7 +11,7 @@ const DataToolbar = ({useCreate}) => {
   const {t} = useTranslation()
   const {sidebar} = w
   const {dataPanel} = sidebar
-  const {set} = dataPanel
+  const {set, getDataType} = dataPanel
 
   return (
     <div className={c('fbh fbac cfw2 pl8', s.toolbar)}>
@@ -24,7 +24,12 @@ const DataToolbar = ({useCreate}) => {
         />
       </div>
       {keyword && <IconButton icon="close" title={t('remove')} onClick={() => (setKeyword(''), set({keyword: ''}))} />}
-      <IconButton icon="search" title={t('search')} className="cfw8" onClick={() => set({keyword})} />
+      <IconButton
+        icon="search"
+        title={t('search')}
+        className="cfw8"
+        onClick={() => (getDataType() === 'project' ? set({projectKeyword: keyword}) : set({keyword}))}
+      />
       {useCreate && (
         <IconButton
           icon="create-data"

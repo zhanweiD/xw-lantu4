@@ -95,7 +95,7 @@ export const MDataPanel = types
       }
       if (self.projectKeyword) {
         topProjectFolders = topProjectFolders.filter(
-          (folder) => folder.dataList_.length || folder.folderName.match(self.projectKeyword)
+          (folder) => folder.length || folder.folderName.match(self.projectKeyword)
         )
         basicProjectFolders = basicProjectFolders.filter(
           (folder) => folder.dataList_.length || folder.folderName.match(self.projectKeyword)
@@ -151,19 +151,28 @@ export const MDataPanel = types
         tip.error({content: '文件夹名称不可为空'})
         return
       }
+      if (name.length > 32) {
+        tip.error({content: '文件夹名称过长'})
+        return
+      }
       try {
         const dataPanelType = getDataType()
 
         const dataIo = getDataIo()
         yield dataIo.createDataFolder({folderName: name, ':projectId': self.projectId})
-        console.log('self.dataPanelType_', dataPanelType, dataIo)
         self.getFolders({type: dataPanelType})
         self.set({isVisible: false})
         tip.success({content: `“${name.length > 10 ? name.slice(0, 10) : name}”文件夹新建成功`})
         callback()
       } catch (error) {
+        switch (error.code) {
+          case 'ERROR_FOLDER_NAME_EXIST':
+            tip.error({content: '文件夹名称已存在'})
+            break
+          default:
+            tip.error({content: '文件夹新建失败'})
+        }
         log.error({content: error.message})
-        tip.error({content: '文件夹新建失败'})
       }
     })
 
@@ -173,13 +182,13 @@ export const MDataPanel = types
         if (type === 'project') {
           const {list, folderSort} = yield io.project.data.getDataFolder({':projectId': self.projectId})
           self.set({
-            projectFolders: list,
+            projectFolders: list.map((item) => ({...item, type: 'project'})), //{...list, type: 'project'},
             projectFolderSort: folderSort,
           })
         } else {
           const {list, folderSort} = yield io.data.getDataFolder()
           self.set({
-            spaceFolders: list,
+            spaceFolders: list.map((item) => ({...item, type: 'space'})),
             spaceFolderSort: folderSort,
           })
         }

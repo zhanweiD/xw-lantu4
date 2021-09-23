@@ -27,6 +27,7 @@ export default {
     exhibits: '组件列表',
   },
   dataPanel: {
+    dataProcessAndDataDisplay: '数据处理和展示',
     project: '项目数据',
     createDataFold: '新建数据文件夹',
     datas: '数据列表',

@@ -313,11 +313,19 @@ export const MDataTab = types
       }
 
       const {dataFieldCode} = self.dataField.getSchema()
+      let customDataField = ''
+      let customDataFieldKey = []
+      let dataFieldKey = []
       // 自定义的数据字段
-      const customDataField = hJSON.parse(dataFieldCode)
-
-      const customDataFieldKey = customDataField.map((field) => field.key)
-      const dataFieldKey = dataField.map((field) => field.key)
+      try {
+        customDataField = hJSON.parse(dataFieldCode)
+        customDataFieldKey = customDataField.map((field) => field.key)
+        dataFieldKey = dataField.map((field) => field.key)
+      } catch (error) {
+        customDataField = []
+        customDataFieldKey = []
+        dataFieldKey = []
+      }
 
       // 真实的数据字段里额外的数据字段
       const extraDataField = dataField.filter((field) => !customDataFieldKey.includes(field.key))
@@ -360,6 +368,10 @@ export const MDataTab = types
       const {dataName} = basic.getSchema()
       if (!dataName) {
         tip.error({content: '数据名称未填写，请填写数据名称'})
+        return false
+      }
+      if (dataName.length > 32) {
+        tip.error({content: '数据名称过长'})
         return false
       }
       return true

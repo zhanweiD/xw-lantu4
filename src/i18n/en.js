@@ -27,6 +27,7 @@ export default {
     exhibits: 'Exhibits',
   },
   dataPanel: {
+    dataProcessAndDataDisplay: 'Data Process And Data Display',
     project: 'Project Data',
     createDataFold: 'Create Data Fold',
     datas: 'Datas',

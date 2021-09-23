@@ -9,6 +9,7 @@ const log = createLog('@models/data/data-folder')
 
 export const MDataFolder = types
   .model('MDataFolder', {
+    type: types.string,
     folderId: types.number,
     folderName: types.string,
     dataList: types.optional(types.array(MDataThumbnail), []),
@@ -24,10 +25,9 @@ export const MDataFolder = types
       return getParent(self, 2)
     },
     get dataList_() {
-      const {keyword} = self.dataPanel_
-      return self.folderName.match(keyword)
-        ? self.dataList
-        : self.dataList.filter(({dataName}) => dataName.match(keyword))
+      const {keyword, projectKeyword} = self.dataPanel_
+      const key = self.type === 'project' ? projectKeyword : keyword
+      return self.folderName.match(key) ? self.dataList : self.dataList.filter(({dataName}) => dataName.match(key))
     },
   }))
   .actions(commonAction(['set']))

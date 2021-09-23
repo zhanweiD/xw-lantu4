@@ -18,7 +18,7 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
   id: types.identifier,
   sections: [
     'dataPanel.json',
-    'optionPanel.dataProcessor',
+    'dataPanel.dataProcessAndDataDisplay',
     // {
     //   section: 'optionPanel.dataProcessor',
     //   fields: [
@@ -56,7 +56,7 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
       },
     },
     {
-      section: 'optionPanel.dataProcessor',
+      section: 'dataPanel.dataProcessAndDataDisplay',
       option: 'useDataProcessor',
       field: {
         type: 'switch',
@@ -65,7 +65,7 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
       },
     },
     {
-      section: 'optionPanel.dataProcessor',
+      section: 'dataPanel.dataProcessAndDataDisplay',
       option: 'dataProcessor',
       field: {
         type: 'code',
@@ -85,7 +85,7 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
       },
     },
     {
-      section: 'optionPanel.dataProcessor',
+      section: 'dataPanel.dataProcessAndDataDisplay',
       option: 'result',
       field: {
         type: 'code',
@@ -153,10 +153,16 @@ export const MJson = types
       try {
         const reader = new FileReader()
         reader.readAsText(files[0], 'utf-8')
+        const dataName = files[0].name.split('.')[0]
         reader.onload = () => {
           const {result} = reader
+          if (!result) {
+            tip.error({content: '数据不可为空'})
+            return
+          }
           const data = JSON.stringify(JSON.parse(result), null, 2)
           self.codeOptions.setValues({data})
+          self.data_.basic.setSchema({dataName})
         }
         tip.success({content: '数据加载成功'})
       } catch (error) {
