@@ -36,7 +36,7 @@ export const exhibitRegister = (exhibit) => {
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
-      initModel({art, schema, themeId, event, globalData, projectData, officialData}) {
+      initModel({art, schema, themeId, event, data}) {
         // 创建组件的模型实例
         const model = Model.create(
           {
@@ -48,9 +48,7 @@ export const exhibitRegister = (exhibit) => {
           {
             art,
             event,
-            globalData,
-            projectData,
-            officialData,
+            data,
           }
         )
         // ! 这里这么麻烦写setLayers 其实是有原因的。

@@ -108,12 +108,7 @@ export const MBox = types
       const model = exhibitCollection.get(`${lib}.${key}`)
       if (model) {
         const art = self.art_
-        const {dataPanel, projectPanel} = self.root_.sidebar
-        const {projects} = projectPanel
-        let dataList
-        if (projects.length) {
-          dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
-        }
+        const {dataPanel} = self.root_.sidebar
         const exhibitModel = model.initModel({
           art,
           themeId: art.basic.themeId,
@@ -131,8 +126,7 @@ export const MBox = types
             themeId: art.basic.themeId,
             schema: exhibit,
             event,
-            globalData: dataPanel,
-            projectData: dataList,
+            data: dataPanel,
           })
         )
         self.exhibit = exhibit

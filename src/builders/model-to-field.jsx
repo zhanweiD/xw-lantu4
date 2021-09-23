@@ -88,7 +88,7 @@ const ModelToField = ({model}) => {
           projectData={model.projectData_}
           officialData={model.officialData_}
           onChange={(v) => {
-            model.setSchema(v)
+            model.setValue(v)
           }}
           addSource={(v) => {
             model.addSource(v)

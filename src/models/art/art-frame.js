@@ -95,12 +95,7 @@ export const MArtFrame = types
       self.boxes.push(box)
       if (exhibit) {
         const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
-        const {dataPanel, projectPanel} = self.root_.sidebar
-        const {projects} = projectPanel
-        let dataList
-        if (projects.length) {
-          dataList = projects.find((o) => o.projectId === self.art_.projectId)?.dataList
-        }
+        const {dataPanel} = self.root_.sidebar
 
         if (model) {
           const art = self.art_
@@ -112,8 +107,7 @@ export const MArtFrame = types
               themeId: art.basic.themeId,
               schema: exhibit,
               event,
-              globalData: dataPanel,
-              projectData: dataList,
+              data: dataPanel,
             })
           )
         }

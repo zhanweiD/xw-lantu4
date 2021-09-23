@@ -1,10 +1,10 @@
-import {types} from "mobx-state-tree"
-import isArray from "lodash/isArray"
-import isFunction from "lodash/isFunction"
-import isString from "lodash/isString"
-import isPlainObject from "lodash/isPlainObject"
-import createLog from "@utils/create-log"
-import isDef from "@utils/is-def"
+import {types} from 'mobx-state-tree'
+import isArray from 'lodash/isArray'
+import isFunction from 'lodash/isFunction'
+import isString from 'lodash/isString'
+import isPlainObject from 'lodash/isPlainObject'
+import createLog from '@utils/create-log'
+import isDef from '@utils/is-def'
 import {
   defaultDataProcessor,
   getProcessorFunction,
@@ -12,27 +12,26 @@ import {
   getProcessorCode,
   getUseProcessor,
   valueIsFunction,
-  getHasSaveCode
-} from "@utils/field-processor"
-import {MTextField} from "./text.model"
-import {MNumberField} from "./number.model"
-import {MMultiNumberField} from "./multi-number.model"
-import {MCheckField} from "./check.model"
-import {MCodeField} from "./code.model"
-import {MSelectField} from "./select.model"
-import {MSwitchField} from "./switch.model"
-import {MColorField} from "./color.model"
-import {MRangeColorField} from "./range-color.model"
-import {MGradientColorField} from "./gradient-color.model"
-import {MRangeNumberField} from "./range-number.model"
-import {MTextareaField} from "./textarea.model"
-import {MConstraintsField} from "./constraints.model"
-import {MImageField} from "./image.model"
-import {MAlignmentField} from "./alignment.model"
-import {MOffsetField} from "./offset.model"
-import {MDataField} from "./data.model"
+  getHasSaveCode,
+} from '@utils/field-processor'
+import {MTextField} from './text.model'
+import {MNumberField} from './number.model'
+import {MMultiNumberField} from './multi-number.model'
+import {MCheckField} from './check.model'
+import {MCodeField} from './code.model'
+import {MSelectField} from './select.model'
+import {MSwitchField} from './switch.model'
+import {MColorField} from './color.model'
+import {MRangeColorField} from './range-color.model'
+import {MGradientColorField} from './gradient-color.model'
+import {MRangeNumberField} from './range-number.model'
+import {MTextareaField} from './textarea.model'
+import {MConstraintsField} from './constraints.model'
+import {MImageField} from './image.model'
+import {MAlignmentField} from './alignment.model'
+import {MOffsetField} from './offset.model'
 
-const log = createLog("@components/field/create-config-model-class")
+const log = createLog('@components/field/create-config-model-class')
 
 const fieldModel = {
   text: MTextField,
@@ -56,23 +55,22 @@ const fieldModel = {
   image: MImageField,
   alignment: MAlignmentField,
   offset: MOffsetField,
-  data: MDataField
 }
 
-const MSectionField = types.model("MSectionField", {
+const MSectionField = types.model('MSectionField', {
   section: types.string,
-  fields: types.frozen()
+  fields: types.frozen(),
 })
 
 const isValidModelProp = (field) => {
-  return ["id", "key", "sections"].indexOf(field.option) === -1 && "field" in field && field.field.type
+  return ['id', 'key', 'sections'].indexOf(field.option) === -1 && 'field' in field && field.field.type
 }
 
 const createConfigModelClass = (modelName, config, initProps = {}) => {
   if (isArray(config.fields)) {
     // section可配置,将section自定义field置于config.fields集合内，自定义field不设置option则保存时会被过滤
     config.sections.forEach((section, index) => {
-      if (typeof section === "object") {
+      if (typeof section === 'object') {
         section.fields.forEach((sectionField) => {
           config.fields.push({
             section: section.section,
@@ -82,8 +80,8 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
             field: {
               ...sectionField,
               sectionOption: section.option,
-              action: sectionField.action?.toString()
-            }
+              action: sectionField.action?.toString(),
+            },
           })
         })
       }
@@ -104,23 +102,23 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
               // const dataProcessor = overlayManager.get('dataProcessor')
 
               switch (target) {
-                case "status":
+                case 'status':
                   // 更新启用/禁用状态
-                  self.set("useProcessor", !self.useProcessor)
-                  overlayManager.get("menu").hide()
+                  self.set('useProcessor', !self.useProcessor)
+                  overlayManager.get('menu').hide()
                   break
-                case "code":
+                case 'code':
                   // 打开悬浮层初始化
                   dataProcessor.reset()
-                  dataProcessor.set("processorCode", self.processorCode || defaultDataProcessor)
+                  dataProcessor.set('processorCode', self.processorCode || defaultDataProcessor)
                   // 保存时更新代码
-                  dataProcessor.event.on("save", ({processorCode}) => {
-                    self.set("processorCode", processorCode)
-                    self.set("hasSaveCode", true)
+                  dataProcessor.event.on('save', ({processorCode}) => {
+                    self.set('processorCode', processorCode)
+                    self.set('hasSaveCode', true)
                   })
                   break
                 default:
-                  console.warn("no operatation")
+                  console.warn('no operatation')
               }
             }
 
@@ -129,7 +127,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
               if (isPlainObject(attrs)) {
                 Object.entries(attrs).forEach(([key, value]) => {
                   self.set(key, value)
-                  if (key === "defaultValue") {
+                  if (key === 'defaultValue') {
                     self.setValue(value)
                   }
                 })
@@ -154,7 +152,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
               updateProcessor,
               setConfig,
               getConfig,
-              getSchema
+              getSchema,
             }
           })
           // 高级处理：field统一加上计算属性
@@ -162,13 +160,13 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
             // 获取处理函数字符串
             get processorFunction() {
               return getProcessorFunction(self.useProcessor, self.value, self.processorCode, self.hasSaveCode)
-            }
+            },
           }))
           // 组件本身模型option键值对
           MFieldModel = MFieldModel.views((self) => ({
             get fieldOption() {
               return {[item.option]: self.getValue()}
-            }
+            },
           }))
           // 如果有views，重新创建模型
           if (isFunction(field.views)) {
@@ -181,13 +179,13 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
             ...field,
             section: item.section,
             when: isFunction(item.when) ? item.when.toString() : item.when,
-            useReaction: isFunction(item.action)
+            useReaction: isFunction(item.action),
           })
         } else {
           log.warn(`Field for '${field.type}' is NOT supported yet!`)
         }
       } else {
-        log.warn("Field config is invalid, pleas check", item)
+        log.warn('Field config is invalid, pleas check', item)
       }
     })
 
@@ -211,15 +209,15 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
             if (self[key].supportProcessor) {
               if (valueIsFunction(value)) {
                 // 解构schema中函数字符串value
-                self[key].set("useProcessor", getUseProcessor(value))
-                self[key].set("processorCode", getProcessorCode(value))
+                self[key].set('useProcessor', getUseProcessor(value))
+                self[key].set('processorCode', getProcessorCode(value))
                 self[key].setValue(getDefaultValue(value, self[key].type))
-                self[key].set("hasSaveCode", getHasSaveCode(value))
+                self[key].set('hasSaveCode', getHasSaveCode(value))
               } else {
                 // 支持数据处理却从未开启
-                self[key].set("useProcessor", false)
+                self[key].set('useProcessor', false)
                 // 赋值默认函数
-                self[key].set("processorCode", defaultDataProcessor)
+                self[key].set('processorCode', defaultDataProcessor)
                 self[key].setValue(value)
               }
             } else {
@@ -271,7 +269,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
 
     // 从模型中提取样式配置
     const getValues = () => {
-      const fields = self.__fields.toJSON().filter((field) => field.indexOf("_unsaveWithoutOption_") === -1)
+      const fields = self.__fields.toJSON().filter((field) => field.indexOf('_unsaveWithoutOption_') === -1)
       const values = {}
       fields.forEach((field) => {
         if (self[field]) {
@@ -324,7 +322,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       self.setValues(
         isString(keyOrObject)
           ? {
-              [keyOrObject]: value
+              [keyOrObject]: value,
             }
           : keyOrObject
       )
@@ -343,7 +341,7 @@ const createConfigModelClass = (modelName, config, initProps = {}) => {
       update,
       setConfigs,
       getConfigs,
-      getChangeOption
+      getChangeOption,
     }
   })
 }

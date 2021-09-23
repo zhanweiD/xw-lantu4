@@ -42,21 +42,23 @@ export const MDataField = types
   }))
   .views((self) => ({
     get globalData_() {
-      if (self.env_.globalData) {
-        const {folders = []} = self.env_.globalData
-        const datas = [].concat(...folders.map((folder) => folder.datas))
-        return datas
+      if (self.env_) {
+        console.log(self.env_)
+        // const {folders = []} = self.env_.data
+        // console.log(folders)
+        // const datas = [].concat(...folders.map((folder) => folder.datas))
+        return []
       }
       return []
     },
-    get officialData_() {
-      if (self.env_.officialData) {
-        const {folders = []} = self.env_.officialData
-        const datas = [].concat(...folders.map((folder) => folder.datas))
-        return datas
-      }
-      return []
-    },
+    // get officialData_() {
+    //   if (self.env_.officialData) {
+    //     const {folders = []} = self.env_.officialData
+    //     const datas = [].concat(...folders.map((folder) => folder.datas))
+    //     return datas
+    //   }
+    //   return []
+    // },
     get projectData_() {
       if (self.env_.projectData_) {
         const datas = [].concat(...self.env_.projectData)

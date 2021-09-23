@@ -34,14 +34,9 @@ export const createExhibitModelClass = (exhibit) => {
       get event_() {
         return getEnv(self).event
       },
-      get globalData_() {
-        return getEnv(self).globalData
-      },
-      get projectData_() {
-        return getEnv(self).projectData
-      },
-      get officialData_() {
-        return getEnv(self).officialData
+      // 这里的data和上面的data可不一样，这里的data_是指数据源里的真实数据，上面的data是指普通图表的data配置项
+      get data_() {
+        return getEnv(self).data
       },
     }))
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
@@ -111,9 +106,7 @@ export const createExhibitModelClass = (exhibit) => {
           exhibitId: self.id,
           art: self.art_,
           event: self.event_,
-          globalData: self.globalData_,
-          projectData: self.projectData_,
-          officialData: self.officialData_,
+          data: self.data_,
         })
         if (self.data) {
           const models = []
@@ -148,9 +141,7 @@ export const createExhibitModelClass = (exhibit) => {
           {
             art: self.art_,
             event: self.event_,
-            globalData: self.globalData_,
-            projectData: self.projectData_,
-            officialData: self.officialData_,
+            data: self.data_,
           }
         )
       }
