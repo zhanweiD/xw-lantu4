@@ -16,27 +16,27 @@ function translate(schema) {
   const {
     width, // 容器宽
     height, // 容器高
-    padding = [60, 40, 40, 40], // 内边距
     container, // 容器必传
     themeColors, // 主题颜色
-    coordinate, // 坐标轴类型
-    isPreview, // 是否预览
-    data, // 列表数据
     dimension, // 数据维度
+    data, // 列表数据
     layers, // 图层配置
     legend, // 图例图层配置
     title, // 标题配置
+    axis, // 坐标轴配置
+    padding = [60, 40, 40, 40], // 内边距
   } = schema
 
   let layerConfig = []
 
   // 处理图层配置
-  layers.forEach(({id, options, mapOption, type, effective}) => {
+  layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
     if (effective || effective === undefined) {
       const layerType = layerTypeMap.get(type)
       const keys = [...dimension.xColumn, ...options.dataMap.column]
+      const config = layerOptionMap.get(layerType)({getOption, mapOption})
       layerConfig.push(
-        merge(mapOption(layerOptionMap.get(layerType)), {
+        merge(config, {
           type: layerType,
           data: getRealData(data, keys),
           options: {id, axis: 'main', layout: 'main'},
@@ -46,48 +46,55 @@ function translate(schema) {
   })
 
   // 手动追加标题层
-  layerConfig.push(
-    merge({
-      type: 'text',
-      options: {
-        id: uuid(),
-        layout: 'title',
-      },
-    })
-  )
+  if (title) {
+    const {getOption, mapOption} = title
+    const config = layerOptionMap.get('text')({getOption, mapOption})
+    layerConfig.push(
+      merge(config, {
+        type: 'text',
+        options: {
+          id: uuid(),
+          layout: 'title',
+        },
+      })
+    )
+  }
 
   // 手动追加图例层
-  layerConfig.push(
-    merge({
-      type: 'legend',
-      options: {
-        id: uuid(),
-        layout: 'legend',
-      },
-    })
-  )
+  if (legend) {
+    const {getOption, mapOption} = legend
+    const config = layerOptionMap.get('legend')({getOption, mapOption})
+    layerConfig.push(
+      merge(config, {
+        type: 'legend',
+        options: {
+          id: uuid(),
+          layout: 'legend',
+        },
+      })
+    )
+  }
 
   // 手动追加坐标轴层
-  layerConfig.push(
-    merge({
-      type: 'axis',
-      options: {
-        id: uuid(),
-        layout: 'main',
-      },
-      scale: {
-        zero: true,
-        count: 5,
-      },
-    })
-  )
+  if (axis) {
+    const {getOption, mapOption} = axis
+    const config = layerOptionMap.get('axis')({getOption, mapOption})
+    layerConfig.push(
+      merge(config, {
+        type: 'axis',
+        options: {
+          id: uuid(),
+          layout: 'main',
+        },
+      })
+    )
+  }
 
   return {
     width,
     height,
     padding,
     container,
-    coordinate,
     theme: themeColors,
     tooltip: {position: 'relative'},
     layers: layerConfig.reverse(),

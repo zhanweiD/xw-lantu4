@@ -17,11 +17,11 @@ export default waves
 
 const categories = [
   {
-    // 柱状图
+    // 折线图
     name: 'classifyLine',
     icon: 'exhibit-line',
     exhibits: [
-      basicLine, // 基础柱状图
+      basicLine, // 基础折线图
     ],
   },
   {

@@ -36,6 +36,7 @@ const updateStyle = ({
   // 层映射修改即数据修改，重绘
   if (updatedPath === 'dataMap.column') {
     reinitializeWave(instance, options)
+    return
   }
   let target = null
   // 层在图表库里的类型
@@ -47,9 +48,9 @@ const updateStyle = ({
   } else if (action === 'legend') {
     target = updatedLegend
   } else if (action === 'title') {
-    target === updatedTitle
+    target = updatedTitle
   } else if (action === 'other') {
-    target === updatedOther
+    target = updatedOther
   }
   // 层实例
   let layer = null
@@ -60,7 +61,9 @@ const updateStyle = ({
   } else {
     layer = instance.layer.find((item) => item.type === type).instance
   }
-  const newOptions = filterInvalid(target.mapOption(layerOptionMap.get(type)))
+  const {mapOption, getOption} = target
+  const config = layerOptionMap.get(type)({mapOption, getOption})
+  const newOptions = filterInvalid(config)
   // 层 options 影响全局，scale 影响数据，需要重绘
   if (
     (newOptions.scale && Object.keys(newOptions.scale).length) ||
@@ -68,6 +71,9 @@ const updateStyle = ({
   ) {
     reinitializeWave(instance, options)
   } else {
+    if (newOptions.data) {
+      layer.setData(newOptions.data, {})
+    }
     layer.setStyle(newOptions.style)
     layer.draw()
   }

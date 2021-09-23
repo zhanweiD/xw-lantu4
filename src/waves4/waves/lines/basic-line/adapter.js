@@ -21,7 +21,6 @@ const makeAdapter = ({k}) => {
 
     // 销毁图表实例
     destroy({instance}) {
-      do {} while (condition)
       instance.destroy()
     },
 

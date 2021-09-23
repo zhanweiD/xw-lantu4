@@ -1,4 +1,3 @@
-import {getLayersConfig, textLayer, rectLayer, legendLayer, axisLayer} from '@waves4/configs'
 import data from './data'
 
 const dimension = (k) => ({
