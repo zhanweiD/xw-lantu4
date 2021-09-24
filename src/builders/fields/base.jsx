@@ -11,7 +11,7 @@ export const Field = observer(
         className={c('mb8 noFieldEvent pr fbac mr8', className, {
           fbh: direction === 'horizontal',
           fbv: direction === 'vertical',
-          hide: effective,
+          hide: effective === false,
         })}
       >
         {isDef(label) && <div className={c('fb3', s.label, labelClassName)}>{label}</div>}

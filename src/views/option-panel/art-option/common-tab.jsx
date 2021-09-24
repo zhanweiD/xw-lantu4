@@ -6,6 +6,7 @@ import Scroll from '@components/scroll'
 import {recusiveNode} from '@builders'
 import fields from '@builders/fields'
 import Section from '@builders/section'
+import s from './common-tab.module.styl'
 
 const {TextField, TextareaField, MultiNumberField} = fields
 const CommonTab = ({box}) => {
@@ -14,7 +15,7 @@ const CommonTab = ({box}) => {
   return (
     <>
       {box && (
-        <Tab sessionId="art-option-common" className="fb1">
+        <Tab sessionId="art-option-common" className={s.commonTab}>
           <Tab.Item name={t('layout')}>
             <Scroll className="h100p">
               <Section name={t('base')}>
