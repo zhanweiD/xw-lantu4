@@ -55,7 +55,7 @@ export const MDataPanel = types
     spaceFolders: types.optional(types.array(MDataFolder), []),
     spaceFolderSort: types.optional(types.array(types.number), []),
     // 项目数据
-    projectId: types.maybeNull(types.number),
+    projectId: types.maybe(types.number),
     projectFolders: types.optional(types.array(MDataFolder), []),
     projectFolderSort: types.optional(types.array(types.number), []),
     // 前端使用的属性：创建文件夹弹窗是否展示

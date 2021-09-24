@@ -9,8 +9,8 @@ export const MDataThumbnail = types
     dataName: types.string,
     dataType: types.string,
     folderId: types.number,
-    dataSourceId: types.maybeNull(types.number),
-    projectId: types.maybeNull(types.number),
+    // dataSourceId: types.maybeNull(types.number),
+    projectId: types.maybe(types.number),
     // isCreator: types.boolean,
     // userId: types.number,
     // organizationId: types.optional(types.frozen(), null)

@@ -17,7 +17,7 @@ export const MDataTab = types
   .model('MDataTab', {
     dataId: types.maybe(types.number),
     dataName: types.maybe(types.string),
-    folderId: types.maybeNull(types.number),
+    folderId: types.maybe(types.number),
     dataType: types.maybe(types.string),
     basic: types.optional(MDataBasic, {}),
     excel: types.optional(MExcel, {}),
@@ -33,7 +33,7 @@ export const MDataTab = types
     isExhibit: types.maybe(types.boolean, false),
     // 判断是否时项目面板
     // isProject: types.maybe(types.boolean, false),
-    projectId: types.maybeNull(types.number),
+    projectId: types.maybe(types.number),
   })
   .views((self) => ({
     get env_() {
@@ -84,7 +84,7 @@ export const MDataTab = types
         try {
           const data = yield dataIo.getData({
             ':dataId': self.dataId,
-            ':projectId': self.projectId ? self.projectId : null,
+            ':projectId': self.projectId ? self.projectId : undefined,
           })
           self.setData(data)
         } catch (error) {
