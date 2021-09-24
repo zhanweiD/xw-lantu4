@@ -1,163 +1,85 @@
-import {createChildren, createOther} from "./create-config"
-
-// 子图层的配置结构
-const children = [
-  {
-    tabId: "text",
-    name: "文本",
-    option: "text",
-    text: {
-      fontFamily: {
-        defaultValue: "Arial"
+export default (k) => {
+  return {
+    effective: true,
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'direction',
+            defaultValue: 'horizontal',
+          },
+          {
+            name: 'layoutPosition',
+            defaultValue: 'topRight',
+          },
+          {
+            name: 'offset',
+            defaultValue: [0, 0],
+          },
+          {
+            name: 'gap',
+            defaultValue: [0, 5],
+          },
+        ],
       },
-      fontSize: {
-        defaultValue: 10,
-        min: 0,
-        step: 0.1
+      {
+        name: 'shape',
+        fields: [
+          {
+            name: 'size',
+            defaultValue: 10,
+          },
+          {
+            name: 'opacity',
+            defaultValue: 1,
+          },
+        ],
       },
-      fontWeight: {
-        defaultValue: 200,
-        min: 100,
-        max: 900,
-        step: 100
+      {
+        name: 'label',
+        sections: [
+          {
+            name: 'text',
+            fields: [
+              {
+                name: 'textSize',
+                defaultValue: 12,
+              },
+              {
+                name: 'textWeight',
+                defaultValue: 400,
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgb(255,255,255)',
+              },
+              {
+                name: 'opacity',
+                defaultValue: 1,
+              },
+            ],
+          },
+          {
+            name: 'shadow',
+            effective: false,
+            fields: [
+              {
+                name: 'offset',
+                defaultValue: [0, 0],
+              },
+              {
+                name: 'blur',
+                defaultValue: 2,
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgb(0,0,0)',
+              },
+            ],
+          },
+        ],
       },
-      fillColor: {
-        defaultValue: "rgb(255,255,255)"
-      },
-      fillOpacity: {
-        defaultValue: 1,
-        hasSlider: true,
-        min: 0,
-        max: 1,
-        step: 0.01
-      },
-      useShadow: {
-        defaultValue: false
-      },
-      shadowConfig: {
-        defaultValue: [0, 0, 5]
-      },
-      shadowColor: {
-        defaultValue: "rgb(0,0,0)"
-      },
-      shadowOpacity: {
-        defaultValue: 1,
-        hasSlider: true,
-        min: 0,
-        max: 1,
-        step: 0.01
-      },
-      useFormat: {
-        defaultValue: false
-      },
-      usePercentage: {
-        defaultValue: false
-      },
-      useThousandth: {
-        defaultValue: false
-      },
-      decimalPlace: {
-        defaultValue: 2,
-        min: 0,
-        max: 8,
-        step: 1
-      },
-      rotation: {
-        defaultValue: 0,
-        min: 0,
-        max: 360,
-        step: 1
-      },
-      writingMode: {
-        defaultValue: "horizontal"
-      },
-      offset: {
-        defaultValue: [0, 0]
-      }
-    }
+    ],
   }
-]
-
-// 其他的配置属性
-const other = {
-  sections: ["optionPanel.basic"],
-  fields: [
-    {
-      section: "optionPanel.basic",
-      option: "shapeSize",
-      field: {
-        type: "number",
-        label: "legend.size",
-        defaultValue: 10,
-        min: 0
-      }
-    },
-    {
-      section: "optionPanel.basic",
-      option: "alignment",
-      field: {
-        type: "alignment",
-        label: "legend.align",
-        defaultValue: "right-top"
-      }
-    },
-    {
-      section: "optionPanel.basic",
-      option: "direction",
-      field: {
-        type: "check",
-        label: "style.direction",
-        defaultValue: "horizontal",
-        options: [
-          {
-            key: "style.horizontal",
-            value: "horizontal"
-          },
-          {
-            key: "style.vertical",
-            value: "vertical"
-          }
-        ]
-      }
-    },
-    {
-      section: "optionPanel.basic",
-      option: "gap",
-      field: {
-        type: "multiNumber",
-        label: "legend.gap",
-        defaultValue: [5, 10],
-        items: [
-          {
-            key: "legend.padding"
-          },
-          {
-            key: "legend.margin"
-          }
-        ]
-      }
-    },
-    {
-      section: "optionPanel.basic",
-      option: "offset",
-      field: {
-        type: "multiNumber",
-        label: "legend.offset",
-        defaultValue: [0, 0],
-        items: [
-          {
-            key: "X"
-          },
-          {
-            key: "Y"
-          }
-        ]
-      }
-    }
-  ]
-}
-
-export default {
-  children: (defaultValues) => createChildren(children, defaultValues),
-  other: (defaultValues) => createOther(other, defaultValues)
 }

@@ -43,7 +43,7 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
 const DataPanelFallback = ({keyword, set, noProject}) =>
   keyword ? (
     <div className={c('m8 emptyNote')}>
-      <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的素材`}</div>
+      <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的数据`}</div>
     </div>
   ) : noProject ? (
     <div className="fbv fbac fbjc mt30 pt30">
@@ -56,7 +56,7 @@ const DataPanelFallback = ({keyword, set, noProject}) =>
     <div className="fbv fbac fbjc mt30 pt30">
       <div className="p10 fbv fbac fs10 lh32">
         <Icon name="logo" fill="#fff5" size={42} />
-        <div className="ctw52">空间数据还是空空的，点击下面的按钮启程</div>
+        <div className="ctw52">数据列表还是空空的，点击下面的按钮启程</div>
         <div className="greenButton noselect" onClick={() => set({isVisible: true})}>
           新建数据文件夹
         </div>

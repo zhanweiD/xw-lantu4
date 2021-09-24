@@ -172,14 +172,13 @@ export const MEditor = types
     }
 
     const closeTab = (id) => {
-      const {event} = self.env_
       // const tab = self.tabs.filter(item => item.id === id)[0]
       self.tabs = self.tabs.filter((item) => item.id !== id)
       self.activeNote.remove(id)
       if (!self.tabs.length) {
         self.activeTabId = undefined
-        const {event} = self.env_
-        event.fire('dataPanel.setProjectId', {projectId: null})
+        // const {event} = self.env_
+        event.fire('dataPanel.setProjectId', {projectId: undefined})
         self.saveSession()
         // 取消项目素材绑定
         event.fire('materialPanel.setProjectId', {projectId: null})
