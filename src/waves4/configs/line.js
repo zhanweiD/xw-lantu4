@@ -22,6 +22,9 @@ export default (k) => {
           {
             name: 'lineCurve',
           },
+          {
+            name: 'lineFallback',
+          },
         ],
         // sections: [
         //   {
@@ -33,7 +36,7 @@ export default (k) => {
         //         defaultValue: 'single',
         //       },
         //       {
-        //         name: 'colorSingle',
+        //         name: 'singleColor',
         //       },
         //       {
         //         name: 'colorGradient',
@@ -53,7 +56,7 @@ export default (k) => {
             defaultValue: 4,
           },
           {
-            name: 'colorSingle',
+            name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
           },
           {
@@ -84,6 +87,18 @@ export default (k) => {
             name: 'relativePosition',
             defaultValue: 'top',
           },
+          {
+            name: 'decimalPlaces',
+            defaultValue: 2,
+          },
+          {
+            name: 'thousandDiv',
+            defaultValue: false,
+          },
+          {
+            name: 'percentage',
+            defaultValue: false,
+          },
         ],
         sections: [
           {
@@ -98,7 +113,7 @@ export default (k) => {
                 defaultValue: 400,
               },
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: 'rgb(255,255,255)',
               },
               {
@@ -120,7 +135,7 @@ export default (k) => {
                 defaultValue: 2,
               },
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: 'rgb(0,0,0)',
               },
             ],

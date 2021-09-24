@@ -30,6 +30,10 @@ export default (k) => {
             name: 'size',
             defaultValue: 10,
           },
+          {
+            name: 'opacity',
+            defaultValue: 1,
+          },
         ],
       },
       {
@@ -47,7 +51,7 @@ export default (k) => {
                 defaultValue: 400,
               },
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: 'rgb(255,255,255)',
               },
               {
@@ -69,7 +73,7 @@ export default (k) => {
                 defaultValue: 2,
               },
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: 'rgb(0,0,0)',
               },
             ],

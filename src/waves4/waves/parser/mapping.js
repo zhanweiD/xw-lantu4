@@ -65,12 +65,12 @@ export const layerOptionMap = new Map([
         // 文本
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
-        ['text.colorSingle', 'style.text.fill'],
+        ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
         // 阴影
         ['shadow.offset', 'style.text.shadow.offset'],
         ['shadow.blur', 'style.text.shadow.blur'],
-        ['shadow.colorSingle', 'style.text.shadow.color'],
+        ['shadow.singleColor', 'style.text.shadow.color'],
       ]
       const storage = mapOption(mapping)
       if (getOption('effective') !== undefined) {
@@ -93,37 +93,39 @@ export const layerOptionMap = new Map([
         ['xAxis.label.offset', 'style.textX.offset'],
         ['xAxis.label.text.textSize', 'style.textX.fontSize'],
         ['xAxis.label.text.textWeight', 'style.textX.fontWeight'],
-        ['xAxis.label.text.colorSingle', 'style.textX.fill'],
+        ['xAxis.label.text.singleColor', 'style.textX.fill'],
         ['xAxis.label.text.opacity', 'style.textX.fillOpacity'],
         // x文本阴影
         ['xAxis.label.shadow.offset', 'style.textX.shadow.offset'],
         ['xAxis.label.shadow.blur', 'style.textX.shadow.blur'],
-        ['xAxis.label.shadow.colorSingle', 'style.textX.shadow.color'],
+        ['xAxis.label.shadow.singleColor', 'style.textX.shadow.color'],
         // x轴线
         ['xAxis.xAxisLine.lineWidth', 'style.lineAxisX.strokeWidth'],
-        ['xAxis.xAxisLine.colorSingle', 'style.lineAxisX.stroke'],
+        ['xAxis.xAxisLine.singleColor', 'style.lineAxisX.stroke'],
         ['xAxis.xAxisLine.opacity', 'style.lineAxisX.strokeOpacity'],
         // x刻度线
         ['xAxis.xAxisSplitLine.lineWidth', 'style.lineTickX.strokeWidth'],
-        ['xAxis.xAxisSplitLine.colorSingle', 'style.lineTickX.stroke'],
+        ['xAxis.xAxisSplitLine.singleColor', 'style.lineTickX.stroke'],
         ['xAxis.xAxisSplitLine.opacity', 'style.lineTickX.strokeOpacity'],
         // y文本
         ['yAxis.label.offset', 'style.textY.offset'],
+        ['yAxis.label.thousandDiv', 'style.textY.format.thousandth'],
+        ['yAxis.label.percentage', 'style.textY.format.percentage'],
         ['yAxis.label.text.textSize', 'style.textY.fontSize'],
         ['yAxis.label.text.textWeight', 'style.textY.fontWeight'],
-        ['yAxis.label.text.colorSingle', 'style.textY.fill'],
+        ['yAxis.label.text.singleColor', 'style.textY.fill'],
         ['yAxis.label.text.opacity', 'style.textY.fillOpacity'],
         // y文本阴影
         ['yAxis.label.shadow.offset', 'style.textY.shadow.offset'],
         ['yAxis.label.shadow.blur', 'style.textY.shadow.blur'],
-        ['yAxis.label.shadow.colorSingle', 'style.textY.shadow.color'],
+        ['yAxis.label.shadow.singleColor', 'style.textY.shadow.color'],
         // y轴线
         ['yAxis.yAxisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
-        ['yAxis.yAxisLine.colorSingle', 'style.lineAxisY.stroke'],
+        ['yAxis.yAxisLine.singleColor', 'style.lineAxisY.stroke'],
         ['yAxis.yAxisLine.opacity', 'style.lineAxisY.strokeOpacity'],
         // y刻度线
         ['yAxis.yAxisSplitLine.lineWidth', 'style.lineTickY.strokeWidth'],
-        ['yAxis.yAxisSplitLine.colorSingle', 'style.lineTickY.stroke'],
+        ['yAxis.yAxisSplitLine.singleColor', 'style.lineTickY.stroke'],
         ['yAxis.yAxisSplitLine.opacity', 'style.lineTickY.strokeOpacity'],
       ]
       const storage = mapOption(mapping)
@@ -168,15 +170,17 @@ export const layerOptionMap = new Map([
         ['base.gap', 'style.gap'],
         // 形状
         ['shape.size', 'style.shapeSize'],
+        ['shape.opacity', 'style.shape.fillOpacity'],
+        ['shape.opacity', 'style.shape.strokeOpacity'],
         // 文本
         ['label.text.textSize', 'style.text.fontSize'],
         ['label.text.textWeight', 'style.text.fontWeight'],
-        ['label.text.colorSingle', 'style.text.fill'],
+        ['label.text.singleColor', 'style.text.fill'],
         ['label.text.opacity', 'style.text.fillOpacity'],
         // 阴影
         ['label.shadow.offset', 'style.text.shadow.offset'],
         ['label.shadow.blur', 'style.text.shadow.blur'],
-        ['label.shadow.colorSingle', 'style.text.shadow.color'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
       ]
       const storage = mapOption(mapping)
       if (getOption('effective') !== undefined) {
@@ -195,24 +199,28 @@ export const layerOptionMap = new Map([
       const mapping = [
         // 点
         ['point.size', 'style.pointSize'],
-        ['point.colorSingle', 'style.point.fill'],
+        ['point.singleColor', 'style.point.fill'],
         ['point.opacity', 'style.point.fillOpacity'],
         // 线
         ['line.lineWidth', 'style.curve.strokeWidth'],
         ['line.lineCurve', 'style.curve.curve'],
+        ['line.lineFallback', 'options.fallback'],
         // 面
         ['area.opacity', 'style.area.fillOpacity'],
         // 标签
-        ['label.relativePosition', 'style.labelPosition'],
         ['label.offset', 'style.text.offset'],
+        ['label.relativePosition', 'style.labelPosition'],
+        ['label.decimalPlaces', 'style.text.format.decimalPlace'],
+        ['label.thousandDiv', 'style.text.format.thousandth'],
+        ['label.percentage', 'style.text.format.percentage'],
         ['label.text.textSize', 'style.text.fontSize'],
         ['label.text.textWeight', 'style.text.fontWeight'],
-        ['label.text.colorSingle', 'style.text.fill'],
+        ['label.text.singleColor', 'style.text.fill'],
         ['label.text.opacity', 'style.text.fillOpacity'],
         // 标签阴影
         ['label.shadow.offset', 'style.text.shadow.offset'],
         ['label.shadow.blur', 'style.text.shadow.blur'],
-        ['label.shadow.colorSingle', 'style.text.shadow.color'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
       ]
       const storage = mapOption(mapping)
       if (getOption('area.effective') !== undefined) {

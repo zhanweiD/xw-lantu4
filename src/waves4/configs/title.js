@@ -31,7 +31,7 @@ export default (k, {content}) => {
             defaultValue: 400,
           },
           {
-            name: 'colorSingle',
+            name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
           },
           {
@@ -53,7 +53,7 @@ export default (k, {content}) => {
             defaultValue: 2,
           },
           {
-            name: 'colorSingle',
+            name: 'singleColor',
             defaultValue: 'rgb(0,0,0)',
           },
         ],

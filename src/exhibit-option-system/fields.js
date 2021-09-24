@@ -555,6 +555,10 @@ const decimalPlaces = {
   defaultValue: 0,
   options: [
     {
+      key: '0',
+      value: 0,
+    },
+    {
       key: '1',
       value: 1,
     },
@@ -723,7 +727,7 @@ const tickCount = {
   type: 'number',
   label: 'tickCount',
   defaultValue: 5,
-  min: 2,
+  min: 1,
   max: 10,
   step: 1,
   hasSlider: true,
