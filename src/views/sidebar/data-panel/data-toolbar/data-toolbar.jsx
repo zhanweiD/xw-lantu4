@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -12,7 +12,10 @@ const DataToolbar = ({useCreate}) => {
   const {sidebar} = w
   const {dataPanel} = sidebar
   const {set, getDataType} = dataPanel
-
+  useEffect(() => {
+    set({projectKeyword: ''})
+    set({keyword: ''})
+  }, [])
   return (
     <div className={c('fbh fbac cfw2 pl8', s.toolbar)}>
       <div className="fb1">
@@ -23,7 +26,13 @@ const DataToolbar = ({useCreate}) => {
           onChange={(e) => setKeyword(e.target.value)}
         />
       </div>
-      {keyword && <IconButton icon="close" title={t('remove')} onClick={() => (setKeyword(''), set({keyword: ''}))} />}
+      {keyword && (
+        <IconButton
+          icon="close"
+          title={t('remove')}
+          onClick={() => (setKeyword(''), getDataType() === 'project' ? set({projectKeyword: ''}) : set({keyword: ''}))}
+        />
+      )}
       <IconButton
         icon="search"
         title={t('search')}

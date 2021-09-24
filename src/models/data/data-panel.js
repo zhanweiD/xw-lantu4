@@ -55,7 +55,7 @@ export const MDataPanel = types
     spaceFolders: types.optional(types.array(MDataFolder), []),
     spaceFolderSort: types.optional(types.array(types.number), []),
     // 项目数据
-    projectId: types.maybeNull(types.number),
+    projectId: types.maybe(types.number),
     projectFolders: types.optional(types.array(MDataFolder), []),
     projectFolderSort: types.optional(types.array(types.number), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
@@ -73,18 +73,14 @@ export const MDataPanel = types
       return getRoot(self)
     },
     get folders_() {
-      let basicSpaceFolders = []
-      let topSpaceFolders = []
-      let basicProjectFolders = []
-      let topProjectFolders = []
-      self.spaceFolders.forEach((folder) =>
-        self.spaceFolderSort.includes(folder.folderId) ? topSpaceFolders.push(folder) : basicSpaceFolders.push(folder)
-      )
-      self.projectFolders.forEach((folder) =>
-        self.projectFolderSort.includes(folder.folderId)
-          ? topProjectFolders.push(folder)
-          : basicProjectFolders.push(folder)
-      )
+      let topSpaceFolders = self.spaceFolderSort
+        .map((id) => self.spaceFolders.find(({folderId}) => folderId === id))
+        .filter(Boolean)
+      let basicSpaceFolders = self.spaceFolders.filter(({folderId}) => !self.spaceFolderSort.includes(folderId))
+      let topProjectFolders = self.projectFolderSort
+        .map((id) => self.projectFolders.find(({folderId}) => folderId === id))
+        .filter(Boolean)
+      let basicProjectFolders = self.projectFolders.filter(({folderId}) => !self.projectFolderSort.includes(folderId))
       if (self.keyword) {
         topSpaceFolders = topSpaceFolders.filter(
           (folder) => folder.dataList_.length || folder.folderName.match(self.keyword)

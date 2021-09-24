@@ -55,7 +55,7 @@ export const MDataFolder = types
         tabOptions: {
           folderId,
           dataType,
-          projectId: type === 'project' ? projectId : null,
+          projectId: type === 'project' ? projectId : undefined,
         },
       })
     }
