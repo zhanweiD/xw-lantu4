@@ -31,6 +31,18 @@ const MaterialView = ({material, showType}) => {
     case 'GeoJSON':
       F = <Geo path={`${config.urlPrefix}material/download/${material.materialId}`} />
       break
+    case 'decoration':
+      F = (
+        <Icon
+          className={c('hand', {
+            [s.grid]: showType === 'grid-layout',
+            [s.thumbnail]: showType !== 'grid-layout',
+          })}
+          name={material.icon}
+          size={50}
+        />
+      )
+      break
     default:
       null
   }
@@ -51,13 +63,14 @@ const Material = ({material, showType}) => {
     >
       <div
         className={c('oh mr8 ml8')}
-        onDoubleClick={material.showDetail}
+        onDoubleClick={material.type !== 'decoration' ? material.showDetail : null}
         onContextMenu={(e) => {
           e.preventDefault()
           e.stopPropagation()
           const menu = w.overlayManager.get('menu')
-          const list = [{name: '删除', action: () => (material.remove(), menu.hide())}]
-          isDev && list.unshift({name: '复制素材ID', action: () => (material.copyId(), menu.hide())})
+          const list = []
+          isDev && list.push({name: '复制素材ID', action: () => (material.copyId(), menu.hide())})
+          !material.isOfficial && list.push({name: '删除', action: () => (material.remove(), menu.hide())})
           menu.show({list})
         }}
       >

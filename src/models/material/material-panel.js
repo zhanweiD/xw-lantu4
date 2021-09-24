@@ -4,6 +4,7 @@ import createLog from '@utils/create-log'
 import config from '@utils/config'
 import {MFolder} from './material-folder'
 import check from '@utils/check'
+import decorations from '@materials'
 
 const log = createLog('@models/material-panel.js')
 
@@ -13,9 +14,11 @@ export const MMaterialPanel = types
     folders: types.optional(types.array(MFolder), []),
     folderSort: types.optional(types.array(types.number), []),
     // 项目素材
-    projectId: types.maybeNull(types.number),
+    projectId: types.maybe(types.number),
     projectFolders: types.optional(types.array(MFolder), []),
     projectFolderSort: types.optional(types.array(types.number), []),
+    // 官方素材
+    officialFolders: types.optional(types.array(MFolder), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
@@ -60,6 +63,15 @@ export const MMaterialPanel = types
       }
       return {basicProjectFolders, topProjectFolders}
     },
+    get officialFolders_() {
+      let officialFolders = self.officialFolders
+      if (self.keyword) {
+        officialFolders = officialFolders.filter(
+          (folder) => folder.materials_.length || folder.folderName.match(self.keyword)
+        )
+      }
+      return officialFolders
+    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
@@ -69,6 +81,7 @@ export const MMaterialPanel = types
       event.on('materialPanel.getProjectFolders', self.getProjectFolders)
       event.on('materialPanel.setProjectId', self.setProjectId)
       self.getFolders()
+      self.getOfficialFolders()
     }
 
     // 切换展示方式
@@ -119,6 +132,41 @@ export const MMaterialPanel = types
         })
       } catch (error) {
         log.error('getProjectFolders Error: ', error)
+      }
+    })
+
+    const getOfficialFolders = flow(function* getFolders() {
+      try {
+        const materials = yield io.material.getOfficialMaterials()
+        self.officialFolders = [
+          {
+            folderId: -1,
+            folderName: '装饰素材',
+            isOfficial: true,
+            materials: Object.values(decorations).map(({id, name, icon}) => ({
+              folderId: -1,
+              isOfficial: true,
+              materialId: id,
+              name,
+              icon,
+              type: 'decoration',
+              width: 10,
+              height: 10,
+            })),
+          },
+          {
+            folderId: -2,
+            folderName: '图片素材',
+            isOfficial: true,
+            materials: materials.map((item) => ({
+              folderId: -2,
+              isOfficial: true,
+              ...item,
+            })),
+          },
+        ]
+      } catch (error) {
+        log.error('getOfficialFolders Error: ', error)
       }
     })
 
@@ -238,6 +286,7 @@ export const MMaterialPanel = types
       afterCreate,
       getFolders,
       getProjectFolders,
+      getOfficialFolders,
       setProjectId,
       createFolder,
       removeFolder,

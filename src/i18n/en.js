@@ -13,6 +13,7 @@ export default {
   width: 'Width',
   height: 'Height',
   remove: 'Remove',
+  description: 'Description',
   loading: {
     error: 'Failed to load',
     retry: 'Reload',

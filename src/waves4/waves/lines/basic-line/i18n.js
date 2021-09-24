@@ -1,3 +1,3 @@
 export default {
-  basicColumn: ['基础折线', 'Basic Line'],
+  basicLine: ['基础折线', 'Basic Line'],
 }
