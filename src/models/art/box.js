@@ -1,19 +1,15 @@
-/*
- * @Author: 柿子
- * @Date: 2021-08-02 11:19:42
- * @LastEditTime: 2021-08-04 15:12:02
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /waveview-front4/src/models/new-art/box.js
- */
-
 import commonAction from '@utils/common-action'
 import {getEnv, types, getParent, flow, getRoot} from 'mobx-state-tree'
-import {MLayout} from '../common/layout'
+import debounce from 'lodash/debounce'
+
 import createLog from '@utils/create-log'
+import isDef from '@utils/is-def'
 import uuid from '@utils/uuid'
+import {MLayout} from '../common/layout'
+import {MBackgroundColor} from './art-ui-tab-property'
 
 const log = createLog('@models/art/box.js')
+
 export const MBox = types
   .model({
     boxId: types.union(types.string, types.number),
@@ -22,13 +18,17 @@ export const MBox = types
     artId: types.number,
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
-    background: types.maybeNull(types.frozen()),
+    background: types.optional(MBackgroundColor, {}),
+
+    // 使用素材的索引id
+    materialIds: types.optional(types.array(types.string), []),
+    remark: types.maybeNull(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'background', 'name']),
-    deepKeys: types.frozen(['layout']),
+    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'name', 'remark']),
+    deepKeys: types.frozen(['layout', 'background']),
   })
   .views((self) => ({
     get root_() {
@@ -59,6 +59,31 @@ export const MBox = types
       return getParent(self, 2)
     },
   }))
+  .views((self) => ({
+    get backgroundImage_() {
+      if (self.background.options.sections.gradientColor.effective) {
+        return self.background.options.sections.gradientColor.fields.gradientColor.value.reduce((total, current) => {
+          total += `${current[0]} ${current[1] * 100}%`
+          if (current[1] !== 1) {
+            total += `,`
+          }
+          return total
+        }, '')
+      }
+      return undefined
+    },
+    get backgroundColor_() {
+      if (self.background.options.sections.singleColor.effective) {
+        const rgb = self.background.options.sections.singleColor.fields.singleColor.value.match(/[\d.]+/g)
+        const opatity = self.background.options.sections.singleColor.fields.opacity.value
+        if (rgb && rgb.length >= 3) {
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opatity})`
+        }
+        return self.background.options.sections.singleColor.fields.singleColor.value
+      }
+      return undefined
+    },
+  }))
   .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     const resize = () => {
@@ -73,11 +98,9 @@ export const MBox = types
       }
     }
 
-    const updateBackground = (data) => {
-      self.background = {
-        path: data.material.materialId,
-      }
-      updateBox()
+    const updateMaterialId = (data) => {
+      self.materialIds.unshift(data.material.materialId)
+      debounceUpdate()
     }
 
     const updateExhibit = ({lib, key}) => {
@@ -113,14 +136,14 @@ export const MBox = types
           })
         )
         self.exhibit = exhibit
-        updateBox()
+        debounceUpdate()
       }
     }
 
     const updateBox = flow(function* updateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
-      const {layout, name, frameId, exhibit, background, boxId} = self
+      const {layout, name, frameId, exhibit, background, boxId, remark} = self
       try {
         yield io.art.updateBox({
           ':boxId': boxId,
@@ -131,6 +154,7 @@ export const MBox = types
           layout,
           exhibit,
           background,
+          remark,
         })
       } catch (error) {
         log.error('update Error: ', error)
@@ -140,12 +164,13 @@ export const MBox = types
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
-      const {layout, name, frameId, exhibit} = self
+      const {layout, name, frameId, exhibit, background} = self
       try {
         const box = yield io.art.createBox({
           exhibit,
           layout,
           name,
+          background,
           ':artId': artId,
           ':frameId': frameId,
           ':projectId': projectId,
@@ -161,10 +186,43 @@ export const MBox = types
       }
     })
 
+    const setLayout = ({x, y, height, width}) => {
+      const {event} = self.env_
+      self.layout.set({
+        x: isDef(x) ? +x : self.layout.x,
+        y: isDef(y) ? +y : self.layout.y,
+        height: isDef(height) ? +height : self.layout.height,
+        width: isDef(width) ? +width : self.layout.width,
+      })
+      const {x: x1, y: y1, height: h, width: w} = self.layout
+      event.fire(`art.${self.artId}.select-range.setLayout`, {
+        x1,
+        y1,
+        x2: x1 + w,
+        y2: y1 + h,
+      })
+      debounceUpdate()
+    }
+
+    const debounceUpdate = debounce(() => {
+      self.updateBox()
+    }, 2000)
+
+    const setRemark = ({name = self.name, remark = self.remark}) => {
+      self.set({
+        name,
+        remark,
+      })
+      debounceUpdate()
+    }
+
     return {
       resize,
       recreateBox,
-      updateBackground,
+      updateMaterialId,
       updateExhibit,
+      setRemark,
+      setLayout,
+      updateBox,
     }
   })

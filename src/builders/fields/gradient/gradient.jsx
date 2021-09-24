@@ -7,7 +7,7 @@ import isNumberic from '@utils/is-numberic'
 import uuid from '@utils/uuid'
 import s from './gradient.module.styl'
 import {Field} from '../base'
-import {colorObjectForm, getGradientColor} from './gradient-util'
+import {colorArrayForm, colorObjectForm, getGradientColor} from './gradient-util'
 
 const GradientField = ({
   label,
@@ -105,7 +105,7 @@ const GradientField = ({
         const copyList = JSON.parse(JSON.stringify(gradientListInit))
         copyList.find((item) => item.key === key).position = position
         const colors = {gradientList: copyList}
-        onChange(colors)
+        onChange(colorArrayForm(colors))
       }
       // 鼠标的抬起事件,终止拖动
       document.onmouseup = (e) => {
@@ -207,7 +207,7 @@ const GradientField = ({
                 gradientType: 'linear',
               })
               const colors = {gradientList: copyList}
-              onChange(colors)
+              onChange(colorArrayForm(colors))
             }
             // log.info('doubleClick')
           }}
@@ -270,7 +270,7 @@ const GradientField = ({
                       const colors = {
                         gradientList: gradientListInit.filter((o) => o.key !== key),
                       }
-                      onChange(colors)
+                      onChange(colorArrayForm(colors))
                       setCanShowPicker(false)
                     }
                   }}
@@ -305,11 +305,8 @@ const GradientField = ({
             color={rgba2objMap(activeKey)}
             disableAlpha
             onChange={(color) => {
-              const rgba =
-                color.rgb.a !== 1
-                  ? `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
-                  : `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`
-              onChange(changeColorMap(activeKey, rgba))
+              const rgba = `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`
+              onChange(colorArrayForm(changeColorMap(activeKey, rgba)))
             }}
           />
         </div>

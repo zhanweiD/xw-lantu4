@@ -62,6 +62,8 @@ export const MDataPanel = types
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
     keyword: types.optional(types.string, ''),
+    // 搜索关键字 单独拆出项目的 先快速这么实现，后面和前面的Folders一起优化
+    projectKeyword: types.optional(types.string, ''),
   })
   .views((self) => ({
     get env_() {
@@ -84,14 +86,20 @@ export const MDataPanel = types
           : basicProjectFolders.push(folder)
       )
       if (self.keyword) {
-        const folders = [topSpaceFolders, basicSpaceFolders, topProjectFolders, basicProjectFolders]
-        folders.forEach((folder, index) => {
-          folders[index] = folder.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        })
-        // topSpaceFolders = topSpaceFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // basicSpaceFolders = basicSpaceFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // topProjectFolders = topProjectFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
-        // basicProjectFolders = basicProjectFolders.filter((folder) => folder.dataList_.length || folder.folderName.match(self.keyword))
+        topSpaceFolders = topSpaceFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.keyword)
+        )
+        basicSpaceFolders = basicSpaceFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.keyword)
+        )
+      }
+      if (self.projectKeyword) {
+        topProjectFolders = topProjectFolders.filter(
+          (folder) => folder.length || folder.folderName.match(self.projectKeyword)
+        )
+        basicProjectFolders = basicProjectFolders.filter(
+          (folder) => folder.dataList_.length || folder.folderName.match(self.projectKeyword)
+        )
       }
       return {
         basicSpaceFolders,
@@ -143,19 +151,28 @@ export const MDataPanel = types
         tip.error({content: '文件夹名称不可为空'})
         return
       }
+      if (name.length > 32) {
+        tip.error({content: '文件夹名称过长'})
+        return
+      }
       try {
         const dataPanelType = getDataType()
 
         const dataIo = getDataIo()
         yield dataIo.createDataFolder({folderName: name, ':projectId': self.projectId})
-        console.log('self.dataPanelType_', dataPanelType, dataIo)
         self.getFolders({type: dataPanelType})
         self.set({isVisible: false})
         tip.success({content: `“${name.length > 10 ? name.slice(0, 10) : name}”文件夹新建成功`})
         callback()
       } catch (error) {
+        switch (error.code) {
+          case 'ERROR_FOLDER_NAME_EXIST':
+            tip.error({content: '文件夹名称已存在'})
+            break
+          default:
+            tip.error({content: '文件夹新建失败'})
+        }
         log.error({content: error.message})
-        tip.error({content: '文件夹新建失败'})
       }
     })
 
@@ -165,13 +182,13 @@ export const MDataPanel = types
         if (type === 'project') {
           const {list, folderSort} = yield io.project.data.getDataFolder({':projectId': self.projectId})
           self.set({
-            projectFolders: list,
+            projectFolders: list.map((item) => ({...item, type: 'project'})), //{...list, type: 'project'},
             projectFolderSort: folderSort,
           })
         } else {
           const {list, folderSort} = yield io.data.getDataFolder()
           self.set({
-            spaceFolders: list,
+            spaceFolders: list.map((item) => ({...item, type: 'space'})),
             spaceFolderSort: folderSort,
           })
         }

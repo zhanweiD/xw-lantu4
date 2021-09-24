@@ -1,5 +1,18 @@
 import isPlainObject from 'lodash/isPlainObject'
 
+const colorArrayForm = (value) => {
+  if (Array.isArray(value)) {
+    if (Array.isArray(value[0])) {
+      return value
+    }
+    return [...Array.from(value, (color, i) => [color, i / (value.length - 1)])]
+  }
+  const {gradientList = []} = value
+  const copyList = JSON.parse(JSON.stringify(gradientList))
+  copyList.sort((a, b) => a.position - b.position)
+  return [...copyList.map(({color, position}) => [color, position])]
+}
+
 // 渐变颜色对象格式转换
 const colorObjectForm = (value) => {
   if (Array.isArray(value)) {
@@ -44,4 +57,4 @@ const getGradientColor = (gradientList) => {
   return `linear-gradient(90deg, ${colorList})`
 }
 
-export {colorObjectForm, getGradientColor}
+export {colorArrayForm, colorObjectForm, getGradientColor}

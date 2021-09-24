@@ -61,7 +61,7 @@ export const MDataBasic = createConfigModelClass('MDataBasic', {
       option: 'remark',
       field: {
         type: 'text',
-        label: 'description.description',
+        label: 'organization.description',
         defaultValue: '',
       },
     },

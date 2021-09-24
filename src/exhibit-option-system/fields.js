@@ -18,14 +18,10 @@ const offset = {
   items: [
     {
       key: 'X',
-      min: -Infinity,
-      max: Infinity,
       step: 1,
     },
     {
       key: 'Y',
-      min: -Infinity,
-      max: Infinity,
       step: 1,
     },
   ],
@@ -39,14 +35,10 @@ const gap = {
   items: [
     {
       key: 'IN',
-      min: -Infinity,
-      max: Infinity,
       step: 1,
     },
     {
       key: 'OUT',
-      min: -Infinity,
-      max: Infinity,
       step: 1,
     },
   ],
@@ -349,15 +341,10 @@ const colorType = {
 }
 
 // 单色
-const colorSingle = {
-  type: 'color',
-  label: 'singleColor',
-  defaultValue: '#ffffff',
-}
 const singleColor = {
   type: 'color',
   label: 'singleColor',
-  defaultValue: '#ffffff',
+  defaultValue: 'transparent',
 }
 
 // 渐变
@@ -783,7 +770,6 @@ export default {
   // 颜色类型
   colorType,
   // 颜色单色
-  colorSingle,
   singleColor,
   // 颜色渐变
   colorGradient,

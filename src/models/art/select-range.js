@@ -24,10 +24,10 @@ export const MSelectRange = types
   .model('MSelectRange', {
     target: types.enumeration(['frame', 'box']),
     range: types.maybe(types.array(MRange)),
-    x1: types.number,
-    x2: types.number,
-    y1: types.number,
-    y2: types.number,
+    x1: types.union(types.number, types.string),
+    x2: types.union(types.number, types.string),
+    y1: types.union(types.number, types.string),
+    y2: types.union(types.number, types.string),
   })
   .views((self) => ({
     get env_() {
@@ -51,9 +51,13 @@ export const MSelectRange = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const {io} = self.env_
+    const {io, event} = self.env_
     let origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
-    const afterCreate = () => {}
+    const afterCreate = () => {
+      event.on(`art.${self.art_.artId}.select-range.setLayout`, ({x1, y1, x2, y2}) => {
+        self.setLayout({x1, y1, x2, y2})
+      })
+    }
     const staff = {
       northwest: ['x1', 'y1'],
       north: ['y1'],
@@ -722,6 +726,21 @@ export const MSelectRange = types
       }
     }
 
+    const setLayout = ({x1, y1, x2, y2}) => {
+      console.log(x1, y1, x2, y2)
+      const [box] = self.boxes_
+      self.set({
+        x1: x1 + box.frame_.x1_,
+        y1: y1 + box.frame_.y1_,
+        x2: x2 + box.frame_.x1_,
+        y2: y2 + box.frame_.y1_,
+      })
+    }
+
+    const beforeDestroy = () => {
+      event.off(`art.${self.art_.artId}.select-range.setLayout`)
+    }
+
     return {
       afterCreate,
       onMove,
@@ -731,5 +750,7 @@ export const MSelectRange = types
       updateAlign,
       updateBoxes,
       remove,
+      setLayout,
+      beforeDestroy,
     }
   })

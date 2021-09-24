@@ -136,7 +136,7 @@ export const config = (k) => ({
             defaultValue: 400,
           },
           {
-            name: 'colorSingle',
+            name: 'singleColor',
             defaultValue: '#ffffff',
           },
           {
@@ -154,7 +154,7 @@ export const config = (k) => ({
         effective: false,
         fields: [
           {
-            name: 'colorSingle',
+            name: 'singleColor',
           },
           {
             name: 'offset',
@@ -207,7 +207,7 @@ export const config = (k) => ({
             name: 'xAxisLine',
             fields: [
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: '#cccccc',
               },
             ],
@@ -217,7 +217,7 @@ export const config = (k) => ({
             effective: true,
             fields: [
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: '#cccccc',
               },
               {
@@ -236,7 +236,7 @@ export const config = (k) => ({
             name: 'yAxisLine',
             fields: [
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: '#cccccc',
               },
             ],
@@ -246,7 +246,7 @@ export const config = (k) => ({
             effective: true,
             fields: [
               {
-                name: 'colorSingle',
+                name: 'singleColor',
                 defaultValue: '#cccccc',
               },
               {
