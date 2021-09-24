@@ -60,7 +60,7 @@ const Toolbar = ({useCreateButton}) => {
           value={description}
           onChange={(value) => setDescription(value)}
           className="pt8 pb8"
-          label={t('description.description')}
+          label={t('description')}
           placeholder={t('descriptionPlaceholder')}
         />
       </Modal>
