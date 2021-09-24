@@ -30,9 +30,10 @@ const backgroundColor = {
   sections: [
     {
       name: 'singleColor',
+      effective: false,
       fields: [
         {
-          name: 'colorSingle',
+          name: 'singleColor',
         },
         {
           name: 'opacity',
@@ -42,6 +43,7 @@ const backgroundColor = {
     },
     {
       name: 'gradientColor',
+      effective: false,
       fields: [
         {
           name: 'gradientColor',
@@ -57,20 +59,9 @@ const material = {
   // 内容由选中的画布或容器决定
 }
 
-export default {
-  // 布局
-  layout,
-  // 背景色
-  backgroundColor,
-  // 素材
-  material,
-  // 描述
-  description,
-}
-
 // 描述
-const description = {
-  name: 'description',
+const remark = {
+  name: 'remark',
   sections: [
     {
       name: 'base',
@@ -88,4 +79,15 @@ const description = {
       ],
     },
   ],
+}
+
+export {
+  // 布局
+  layout,
+  // 背景色
+  backgroundColor,
+  // 素材
+  material,
+  // 描述
+  remark,
 }

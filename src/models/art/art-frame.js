@@ -1,12 +1,3 @@
-/*
- * @Author: 柿子
- * @Date: 2021-07-30 16:25:21
- * @LastEditTime: 2021-08-10 11:14:47
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /waveview-front4/src/models/new-art/art-frame.js
- */
-
 import {types, getParent, getEnv, getRoot, flow} from 'mobx-state-tree'
 import commonAction from '@utils/common-action'
 import uuid from '@utils/uuid'
@@ -14,7 +5,7 @@ import createLog from '@utils/create-log'
 import {MBox} from './box'
 import {MArtFrameGrid} from './art-frame-grid'
 import {MLayout} from '../common/layout'
-
+import {MBackgroundColor} from './art-ui-tab-property'
 const log = createLog('@models/art/art-frame.js')
 export const MArtFrame = types
   .model('MArtFrame', {
@@ -88,7 +79,7 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background}) => {
+    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
@@ -97,8 +88,10 @@ export const MArtFrame = types
         frameId,
         exhibit,
         layout,
-        background,
+        remark,
       })
+      box.background.setSchema(background)
+
       self.boxes.push(box)
       if (exhibit) {
         const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
@@ -127,14 +120,14 @@ export const MArtFrame = types
       }
     }
 
-    // type 可以为exhibit|background|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰的空容器
+    // type 可以为exhibit|material作用分别为创建组件|创建带背景的空容器
     const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', material}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
       let exhibit
-      let background
+      let materialIds
       if (type === 'exhibit') {
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
@@ -148,8 +141,8 @@ export const MArtFrame = types
         })
         exhibit = model.getSchema()
       }
-      if (type === 'background') {
-        background = {path: material.materialId}
+      if (type === 'material') {
+        materialIds = [material.materialId]
       }
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
@@ -168,8 +161,18 @@ export const MArtFrame = types
         width: Math.round((type === 'exhibit' ? exhibit.initSize[0] : 16) * self.grid.unit_),
         height: Math.round((type === 'exhibit' ? exhibit.initSize[1] : 9) * self.grid.unit_),
       }
+      const background = MBackgroundColor.create().getSchema()
+
       const boxId = uuid()
-      const params = {artId, name: `容器-${boxId.substring(0, 4)}`, frameId, exhibit, layout, background}
+      const params = {
+        artId,
+        name: `容器-${boxId.substring(0, 4)}`,
+        frameId,
+        exhibit,
+        layout,
+        materialIds,
+        background,
+      }
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
         target: 'box',
@@ -185,8 +188,9 @@ export const MArtFrame = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          background,
+          materialIds,
           name: params.name,
+          background,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,

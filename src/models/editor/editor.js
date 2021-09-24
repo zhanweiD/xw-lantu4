@@ -172,7 +172,6 @@ export const MEditor = types
     }
 
     const closeTab = (id) => {
-      const {event} = self.env_
       // const tab = self.tabs.filter(item => item.id === id)[0]
       self.tabs = self.tabs.filter((item) => item.id !== id)
       self.activeNote.remove(id)

@@ -15,7 +15,7 @@ const text = {
       name: 'textWeight',
     },
     {
-      name: 'colorSingle',
+      name: 'singleColor',
       //
     },
     {
@@ -46,7 +46,7 @@ const text = {
 const shadow = {
   fields: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
     },
     {
       name: 'opacity',
@@ -98,7 +98,7 @@ const area = {
   effective: false,
   fields: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
     },
     {
       name: 'opacity',
@@ -111,7 +111,7 @@ const line = {
   name: 'line',
   fields: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
     },
     {
       name: 'opacity',
@@ -130,7 +130,7 @@ const fill = {
   name: 'fill',
   fields: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
     },
     {
       name: 'opacity',
@@ -143,7 +143,7 @@ const stroke = {
   name: 'stroke',
   fields: [
     {
-      name: 'colorSingle',
+      name: 'singleColor',
     },
     {
       name: 'lineWidth',

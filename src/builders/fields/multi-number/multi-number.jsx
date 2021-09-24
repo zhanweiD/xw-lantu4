@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import isDef from '@utils/is-def'
+import fixRange from '@utils/fix-range'
+import isNumberic from '@utils/is-numberic'
 import Caption from '@components/caption'
 import getTextWidth from '@utils/get-text-width'
-import {NumberInput} from '../number'
+import {NumberInput, NumberRange} from '../number'
 import {Field} from '../base'
 import s from './multi-number.module.styl'
 
@@ -21,6 +23,13 @@ const MultiNumberField = ({
 }) => {
   const {t} = useTranslation()
 
+  const [inputValue, setInputValue] = useState(value)
+  useEffect(() => {
+    setInputValue(value)
+    return () => {
+      setInputValue(defaultValue)
+    }
+  }, [value])
   return (
     <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
       {items.map((item, index) => {
@@ -41,19 +50,29 @@ const MultiNumberField = ({
             ) : (
               labelDiv
             )}
-            <div className="fb1">
+            <div className="fb1 pr">
               <NumberInput
-                value={isDef(value[index]) ? value[index] : defaultValue[index]}
+                value={isDef(inputValue[index]) ? inputValue[index] : defaultValue[index]}
                 defaultValue={defaultValue[index]}
                 onChange={(v) => {
-                  const clonedValue = [].concat(value)
+                  const clonedValue = [].concat(inputValue)
                   clonedValue.splice(index, 1, v)
-                  onChange(clonedValue)
+                  setInputValue(clonedValue)
+                  let isAllNumeric = true
+                  const transformValue = clonedValue.map((v) => {
+                    if (isNumberic(v)) {
+                      return fixRange(+v, self.min, self.max)
+                    }
+                    isAllNumeric = false
+                    return undefined
+                  })
+                  isAllNumeric && onChange(transformValue)
                 }}
                 min={item.min}
                 max={item.max}
                 step={item.step}
               />
+              <NumberRange min={item.min} max={item.max} />
             </div>
           </div>
         )

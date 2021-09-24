@@ -18,14 +18,27 @@ const offset = {
   items: [
     {
       key: 'X',
-      min: 0,
-      max: 50,
       step: 1,
     },
     {
       key: 'Y',
-      min: 0,
-      max: 50,
+      step: 1,
+    },
+  ],
+}
+
+// 间隔
+const gap = {
+  type: 'multiNumber',
+  label: 'gap',
+  defaultValue: [0, 0],
+  items: [
+    {
+      key: 'IN',
+      step: 1,
+    },
+    {
+      key: 'OUT',
       step: 1,
     },
   ],
@@ -56,7 +69,7 @@ const opacity = {
 const relativePosition = {
   type: 'check',
   label: 'position',
-  defaultValue: 'topCenter',
+  defaultValue: 'top',
   // TODO
   options: [
     // {
@@ -65,7 +78,7 @@ const relativePosition = {
     // },
     {
       icon: 'relative-position-top-center',
-      value: 'topCenter',
+      value: 'top',
     },
     // {
     //   icon: 'relative-position-top-right',
@@ -73,15 +86,15 @@ const relativePosition = {
     // },
     {
       icon: 'relative-position-middle-left',
-      value: 'middleLeft',
+      value: 'left',
     },
     {
       icon: 'relative-position-middle-center',
-      value: 'middleCenter',
+      value: 'center',
     },
     {
       icon: 'relative-position-middle-right',
-      value: 'middleRight',
+      value: 'right',
     },
     // {
     //   icon: 'relative-position-bottom-left',
@@ -89,7 +102,7 @@ const relativePosition = {
     // },
     {
       icon: 'relative-position-bottom-center',
-      value: 'bottomCenter',
+      value: 'bottom',
     },
     // {
     //   icon: 'relative-position-bottom-right',
@@ -328,15 +341,10 @@ const colorType = {
 }
 
 // 单色
-const colorSingle = {
-  type: 'color',
-  label: 'singleColor',
-  defaultValue: '#ffffff',
-}
 const singleColor = {
   type: 'color',
   label: 'singleColor',
-  defaultValue: '#ffffff',
+  defaultValue: 'transparent',
 }
 
 // 渐变
@@ -504,10 +512,10 @@ const textWeight = {
 }
 
 // 文字方向
-const textDirection = {
+const direction = {
   type: 'check',
-  label: 'textextDirection',
-  defaultValue: 1,
+  label: 'direction',
+  defaultValue: 'horizontal',
   options: [
     {
       key: 'horizontal',
@@ -546,6 +554,10 @@ const decimalPlaces = {
   label: 'decimalPlaces',
   defaultValue: 0,
   options: [
+    {
+      key: '0',
+      value: 0,
+    },
     {
       key: '1',
       value: 1,
@@ -704,9 +716,35 @@ const fillType = {
   ],
 }
 
+/**
+ * =====================================
+ * 比例尺类配置
+ * =====================================
+ */
+
+// 刻度数量
+const tickCount = {
+  type: 'number',
+  label: 'tickCount',
+  defaultValue: 5,
+  min: 1,
+  max: 10,
+  step: 1,
+  hasSlider: true,
+}
+
+// 刻度是否包含0
+const tickZero = {
+  type: 'switch',
+  label: 'tickZero',
+  defaultValue: false,
+}
+
 export default {
   // 偏移
   offset,
+  // 间隔,
+  gap,
   // 模糊
   blur,
   // 透明度
@@ -736,7 +774,6 @@ export default {
   // 颜色类型
   colorType,
   // 颜色单色
-  colorSingle,
   singleColor,
   // 颜色渐变
   colorGradient,
@@ -774,7 +811,7 @@ export default {
   // 字重
   textWeight,
   // 文字方向
-  textDirection,
+  direction,
   // 千分位
   thousandDiv,
   // 百分比
@@ -795,4 +832,8 @@ export default {
   constraint,
   // 填充方式
   fillType,
+  // 刻度线数量
+  tickCount,
+  // 包含零刻度
+  tickZero,
 }
