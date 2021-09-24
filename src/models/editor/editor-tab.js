@@ -71,7 +71,7 @@ export const MEditorTab = types
       // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
       if (type !== 'art' && type !== 'material' && type !== 'data') {
         event.fire('materialPanel.setProjectId', {projectId: null})
-        event.fire('dataPanel.setProjectId', {projectId: null})
+        event.fire('dataPanel.setProjectId', {projectId: undefined})
       } else {
         const {projectId} = self.tabOptions
         event.fire('materialPanel.setProjectId', {
@@ -83,7 +83,7 @@ export const MEditorTab = types
       }
       if (type === 'data') {
         if (!self.data) {
-          const {dataType, folderId, projectId = null} = tabOptions
+          const {dataType, folderId, projectId = undefined} = tabOptions
           self.data = {
             dataId: typeof id === 'number' ? id : 0,
             dataType,
