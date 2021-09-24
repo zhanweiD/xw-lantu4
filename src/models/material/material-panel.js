@@ -196,7 +196,7 @@ export const MMaterialPanel = types
           ':type': 'material-folder',
           action: isTop ? 'cancel' : 'top',
           id: folder.folderId,
-          projectId: self.projectId || null,
+          projectId: tabIndex === 0 ? self.projectId : undefined,
         })
         tip.success({content: isTop ? '取消置顶成功' : '置顶成功'})
         if (tabIndex === 0 && self.projectId) {
