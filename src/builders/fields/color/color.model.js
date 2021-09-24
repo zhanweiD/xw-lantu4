@@ -7,7 +7,7 @@ export const MColorField = types
   .model('MColorField', {
     type: types.enumeration(['color']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.frozen(),
@@ -25,12 +25,17 @@ export const MColorField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })

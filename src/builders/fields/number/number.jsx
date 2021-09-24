@@ -85,6 +85,7 @@ export const NumberInput = observer(
 
 const NumberField = ({
   label,
+  effective,
   value,
   defaultValue,
   onChange = () => {},
@@ -100,7 +101,13 @@ const NumberField = ({
   const [isFocus, setIsFocus] = useState(false)
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field
+      className={className}
+      childrenClassName={childrenClassName}
+      lebelClassName={labelClassName}
+      label={label}
+      effective={effective}
+    >
       <div className="fb1 pr">
         <NumberInput
           className={c({[s.sliderFocus]: hasSlider && isFocus})}

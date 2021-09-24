@@ -13,7 +13,7 @@ export const MCheckField = types
   .model('MCheckField', {
     type: types.enumeration(['check']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.maybe(types.union(types.string, types.number)),
     defaultValue: types.optional(types.union(types.string, types.number), ''),
@@ -32,13 +32,17 @@ export const MCheckField = types
     }
 
     const getValue = () => {
-      // 只要是启用状态，就返回value值
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })

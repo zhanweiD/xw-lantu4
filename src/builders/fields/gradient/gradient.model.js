@@ -7,7 +7,7 @@ export const MGradientField = types
   .model('MGradientField', {
     type: types.enumeration(['gradient']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.optional(types.frozen(), ['rgb(74,144,226)', 'rgb(80,227,194)']),
@@ -25,12 +25,17 @@ export const MGradientField = types
     }
 
     const getValue = () => {
-      return self.value
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })

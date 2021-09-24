@@ -6,7 +6,7 @@ export const MCodeField = types
   .model('MCodeField', {
     type: types.enumeration(['code']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
     defaultValue: types.optional(types.string, ''),
@@ -30,12 +30,17 @@ export const MCodeField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })

@@ -10,7 +10,7 @@ export const MSwitchField = types
   .model('MSwitchField', {
     type: types.enumeration(['switch']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.maybe(types.boolean),
     defaultValue: types.optional(types.boolean, false),
@@ -33,12 +33,17 @@ export const MSwitchField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })
