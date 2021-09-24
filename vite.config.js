@@ -20,7 +20,11 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     viteSvgIcons({
-      iconDirs: [path.resolve(process.cwd(), 'src/icons'), path.resolve(process.cwd(), 'src/waves4/icons')],
+      iconDirs: [
+        path.resolve(process.cwd(), 'src/icons'),
+        path.resolve(process.cwd(), 'src/waves4/icons'),
+        path.resolve(process.cwd(), 'src/materials/icons'),
+      ],
       symbolId: '[name]',
     }),
   ],
@@ -36,6 +40,7 @@ export default defineConfig({
       '@waves4': resolve('src/waves4'),
       '@exhibit-collection': resolve('src/exhibit-collection'),
       '@builders': resolve('src/builders'),
+      '@materials': resolve('src/materials'),
     },
   },
   server: {

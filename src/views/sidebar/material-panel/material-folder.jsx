@@ -13,7 +13,7 @@ import Material from './material-thumbnail'
 import s from './material-panel.module.styl'
 
 const MaterialFolder = ({folder, showType, icon}) => {
-  const {materials_, files} = folder
+  const {materials_, isOfficial, files} = folder
   const thumbs = files.map((file, index) => {
     let F
     switch (file.fileType) {
@@ -38,6 +38,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
       </div>
     )
   })
+
   return (
     <Section
       icon={icon}
@@ -46,16 +47,19 @@ const MaterialFolder = ({folder, showType, icon}) => {
       sessionId={`material-folder-${folder.folderId}`}
       updateKey={showType}
     >
-      {materials_.length === 0 ? (
+      {materials_.length === 0 && (
         <div className={c('mb16 emptyNote mr8 ml8')}>
-          <div>
-            列表还是空空的，点击
-            <span className="ctSecend hand" onClick={() => folder.set({isVisible: true})}>
-              上传
+          <span>素材列表还是空空的</span>
+          {!isOfficial && (
+            <span>
+              ，点击
+              <span className="ctSecend hand" onClick={() => folder.set({isVisible: true})}>
+                上传
+              </span>
             </span>
-          </div>
+          )}
         </div>
-      ) : null}
+      )}
       {showType === 'grid-layout' ? (
         <Grid column={4} className="mr8 ml8">
           {materials_.map((material) => (

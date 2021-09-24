@@ -6,14 +6,18 @@ const log = createLog('@models/material-thumbnail.js')
 
 export const MMaterial = types
   .model(' MMaterial', {
-    folderId: types.number,
+    folderId: types.union(types.string, types.number),
     materialId: types.string,
-    type: types.optional(types.enumeration(['GeoJSON', 'image']), 'image'),
+    type: types.optional(types.enumeration(['GeoJSON', 'decoration', 'image']), 'image'),
     name: types.optional(types.string, ''),
     width: types.optional(types.number, 0),
     height: types.optional(types.number, 0),
     // 区分是否是项目素材
     projectId: types.maybe(types.number),
+    // 区分是否为官方素材
+    isOfficial: types.optional(types.boolean, false),
+    // 装饰组件的 icon
+    icon: types.maybe(types.string),
   })
   .views((self) => ({
     get root_() {
@@ -45,6 +49,7 @@ export const MMaterial = types
           projectId: self.projectId,
           folderId: self.folderId,
           materialType: self.type,
+          isOfficial: self.isOfficial,
         },
       })
     }

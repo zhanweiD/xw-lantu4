@@ -27,6 +27,8 @@ export const MFolder = types
     materials: types.optional(types.array(MMaterial), []),
     // 前端存储上传file
     files: types.optional(types.array(types.frozen()), []),
+    // 区分是否为官方素材文件夹
+    isOfficial: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get env_() {
