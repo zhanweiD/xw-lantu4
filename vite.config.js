@@ -20,7 +20,11 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     viteSvgIcons({
-      iconDirs: [path.resolve(process.cwd(), 'src/icons'), path.resolve(process.cwd(), 'src/waves4/icons')],
+      iconDirs: [
+        path.resolve(process.cwd(), 'src/icons'),
+        path.resolve(process.cwd(), 'src/waves4/icons'),
+        path.resolve(process.cwd(), 'src/materials/icons'),
+      ],
       symbolId: '[name]',
     }),
   ],

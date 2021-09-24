@@ -1,5 +1,5 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import {createWave, updateWave, translate} from '@waves4/waves/parser'
+import {createWave, translate} from '@waves4/waves/parser'
 
 const makeAdapter = () => {
   // k 组件私有化多语言方法
@@ -13,10 +13,10 @@ const makeAdapter = () => {
     },
 
     // 处理包括数据、样式等变更
-    update(config) {
+    update({options, instance}) {
       console.log('update')
-      console.log(config)
-      updateWave(config)
+      console.log(options)
+      createWave(translate(options), instance)
     },
 
     // 销毁图表实例

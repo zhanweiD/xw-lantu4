@@ -1,3 +1,5 @@
+import chroma from 'chroma-js'
+
 // 工具对齐字段到图表对齐字段的映射
 export const positionMap = new Map([
   [
@@ -32,7 +34,7 @@ export const positionMap = new Map([
 
 // 多色二维数组到一维数组的转换
 export const mapColor = (fillColor) => {
-  if (isArray(fillColor)) {
+  if (Array.isArray(fillColor)) {
     const result = []
     fillColor.reduce(([prevColor, prevOffset], [curColor, curOffset]) => {
       const number = Number((curOffset - prevOffset) / 0.01).toFixed(2)
