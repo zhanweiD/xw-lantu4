@@ -1,8 +1,13 @@
 export const layerOptionMap = new Map([
   [
-    'cornor',
+    'borderA',
     ({mapOption}) => {
-      const mapping = []
+      const mapping = [
+        ['base.size', 'style.shapeSize'],
+        ['base.lineWidth', 'style.shape.strokeWidth'],
+        ['base.singleColor', 'style.shape.stroke'],
+        ['base.opacity', 'style.shape.strokeOpacity'],
+      ]
       const storage = mapOption(mapping)
       return storage.get()
     },

@@ -1,11 +1,11 @@
 export const config = (k) => ({
-  key: 'corner',
-  name: k('corner'),
+  key: 'brackect',
+  name: k('brackect'),
   layout: () => [5, 5],
   layers: [
     {
       type: 'borderA',
-      name: 'corner',
+      name: 'brackect',
       sections: [
         {
           name: 'base',

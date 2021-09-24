@@ -439,6 +439,10 @@ context.create('io.material', {
     method: 'GET',
     url: 'project/:projectId/material',
   },
+  getOfficialMaterials: {
+    method: 'GET',
+    url: 'conf/materials',
+  },
   createFolder: {
     method: 'POST',
     url: 'material/folder',
@@ -466,6 +470,10 @@ context.create('io.material', {
   getProjectMaterialDetail: {
     method: 'GET',
     url: 'project/:projectId/material/:materialId',
+  },
+  getOfficialMaterialDetail: {
+    method: 'GET',
+    url: 'conf/material/:materialId',
   },
 })
 

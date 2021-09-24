@@ -58,11 +58,12 @@ export const MEditorTab = types
       }
       if (type === 'material') {
         if (!self.material) {
-          const {projectId, folderId} = self.tabOptions
+          const {projectId, folderId, isOfficial} = self.tabOptions
           self.material = {
             materialId: self.id,
             projectId,
             folderId,
+            isOfficial,
           }
           self.material.getMaterialDetail()
         }
@@ -70,7 +71,7 @@ export const MEditorTab = types
       // 设置项目素材的 projectId
       // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
       if (type !== 'art' && type !== 'material' && type !== 'data') {
-        event.fire('materialPanel.setProjectId', {projectId: null})
+        event.fire('materialPanel.setProjectId', {projectId: undefined})
         event.fire('dataPanel.setProjectId', {projectId: undefined})
       } else {
         const {projectId} = self.tabOptions

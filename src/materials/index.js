@@ -1,8 +1,10 @@
 import corner from './decoration/corner'
+import brackect from './decoration/brackect'
 import i18n from '@i18n'
 
 const decorations = {
   corner,
+  brackect,
 }
 
 Object.values(decorations).forEach((decoration) => {

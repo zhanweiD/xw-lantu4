@@ -40,6 +40,7 @@ export default defineConfig({
       '@waves4': resolve('src/waves4'),
       '@exhibit-collection': resolve('src/exhibit-collection'),
       '@builders': resolve('src/builders'),
+      '@materials': resolve('src/materials'),
     },
   },
   server: {

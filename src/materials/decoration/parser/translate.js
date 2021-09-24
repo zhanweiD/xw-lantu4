@@ -1,5 +1,5 @@
 import {merge} from 'lodash'
-import {layerOptionMap, layerTypeMap} from './mapping'
+import {layerOptionMap} from './mapping'
 
 // 工具配置到图表配置的映射函数
 function translate(schema) {
@@ -17,14 +17,8 @@ function translate(schema) {
   // 处理图层配置
   layers.forEach(({id, getOption, mapOption, type, effective}) => {
     if (effective || effective === undefined) {
-      const layerType = layerTypeMap.get(type)
-      const config = layerOptionMap.get(layerType)({getOption, mapOption})
-      layerConfig.push(
-        merge(config, {
-          type: layerType,
-          options: {id, axis: 'main', layout: 'main'},
-        })
-      )
+      const config = layerOptionMap.get(type)({getOption, mapOption})
+      layerConfig.push(merge(config, {type, options: {id, layout: 'main'}}))
     }
   })
 
@@ -34,7 +28,7 @@ function translate(schema) {
     padding,
     container,
     theme: themeColors,
-    layers: [],
+    layers: layerConfig,
     adjust: false,
   }
 }
@@ -43,7 +37,7 @@ export default (...parameter) => {
   try {
     return translate(...parameter)
   } catch (error) {
-    console.error('图表解析失败', error)
+    console.error('装饰素材组件解析失败', error)
     return null
   }
 }
