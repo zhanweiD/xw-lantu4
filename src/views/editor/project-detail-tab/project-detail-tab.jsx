@@ -29,7 +29,7 @@ const ProjectDetailTab = ({project}) => {
                 onBlur={project.update}
               />
               <TextareaField
-                label={t('description.description')}
+                label={t('description')}
                 value={project.description}
                 onChange={(value) => project.set('description', value)}
                 onBlur={project.update}

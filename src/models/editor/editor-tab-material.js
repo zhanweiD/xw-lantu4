@@ -18,7 +18,10 @@ export const MMaterial = types
     ctime: types.maybe(types.number),
     path: types.optional(types.string, ''),
     user: types.frozen(),
+    // 标注项目素材
     projectId: types.maybe(types.number),
+    // 标注官方素材
+    isOfficial: types.optional(types.boolean, false),
     folderId: types.maybe(types.number),
     fetchState: types.optional(
       types.enumeration('MMaterialTab.fetchState', ['loading', 'success', 'error']),
@@ -37,7 +40,11 @@ export const MMaterial = types
       self.fetchState = 'loading'
       try {
         let material
-        if (self.projectId) {
+        if (self.isOfficial) {
+          material = yield io.material.getOfficialMaterialDetail({
+            ':materialId': self.materialId,
+          })
+        } else if (self.projectId) {
           material = yield io.material.getProjectMaterialDetail({
             ':projectId': self.projectId,
             ':materialId': self.materialId,

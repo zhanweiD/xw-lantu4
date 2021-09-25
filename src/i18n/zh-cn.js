@@ -13,6 +13,7 @@ export default {
   width: '宽度',
   height: '高度',
   remove: '删除',
+  description: '描述',
   loading: {
     error: '加载失败',
     retry: '重新加载',

@@ -2,8 +2,8 @@ import {title, legend, cartesian, line} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
-  key: 'demo',
-  name: k('line'),
+  key: 'basicLine',
+  name: k('basicLine'),
   data,
   dimension: {
     fields: [
