@@ -9,12 +9,12 @@ import Section from '@builders/section'
 import s from './common-tab.module.styl'
 
 const {TextField, TextareaField, MultiNumberField} = fields
-const CommonTab = ({box}) => {
+const CommonTab = ({box, frame}) => {
   const {t} = useTranslation()
-  const {background, name, remark, layout} = box || {}
+  const {background, name, remark, layout, setLayout, setRemark} = box || frame || {}
   return (
     <>
-      {box && (
+      {(box || frame) && (
         <Tab sessionId="art-option-common" className={s.commonTab}>
           <Tab.Item name={t('layout')}>
             <Scroll className="h100p">
@@ -28,7 +28,7 @@ const CommonTab = ({box}) => {
                   label={t('xyPosition')}
                   value={[layout.x, layout.y]}
                   onChange={(value) => {
-                    box.setLayout({
+                    setLayout({
                       x: value[0],
                       y: value[1],
                     })
@@ -43,7 +43,7 @@ const CommonTab = ({box}) => {
                   label={t('areaSize')}
                   value={[layout.width, layout.height]}
                   onChange={(value) => {
-                    box.setLayout({
+                    setLayout({
                       width: value[0],
                       height: value[1],
                     })
@@ -67,13 +67,13 @@ const CommonTab = ({box}) => {
                   className="ml24"
                   label={t('name')}
                   value={name}
-                  onChange={(value) => box.setRemark({name: value})}
+                  onChange={(value) => setRemark({name: value})}
                 />
                 <TextareaField
                   className="ml24"
                   label={t('remark')}
                   value={remark || ''}
-                  onChange={(value) => box.setRemark({remark: value})}
+                  onChange={(value) => setRemark({remark: value})}
                 />
               </Section>
             </Scroll>

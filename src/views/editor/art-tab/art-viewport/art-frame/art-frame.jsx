@@ -8,10 +8,10 @@ import Box from '../box'
 import s from './art-frame.module.styl'
 
 const ArtFrame = ({frame}) => {
-  const {frameId, grid, viewLayout, isCreateFail, art_, boxes} = frame
+  const {frameId, grid, viewLayout, isCreateFail, art_, boxes, backgroundImage_, backgroundColor_} = frame
   const {isGridVisible} = art_
   const gridRef = useRef(null)
-
+  console.log(viewLayout, 'viewlayout')
   useEffect(() => {
     if (isGridVisible) {
       new Grid({
@@ -24,19 +24,24 @@ const ArtFrame = ({frame}) => {
     }
   }, [grid.width_, grid.height_, grid.unit_, isGridVisible])
 
+  const style = {
+    top: `${grid.extendY_}px`,
+    left: `${grid.extendX_}px`,
+    width: `${viewLayout.width}px`,
+    height: `${viewLayout.height}px`,
+    backgroundImage: `${themeConfigs[art_.basic.themeId].background}`,
+  }
+
+  if (backgroundImage_) {
+    style.backgroundImage = `linear-gradient(${backgroundImage_})`
+  }
+  if (backgroundColor_) {
+    style.backgroundColor = backgroundColor_
+  }
+
   const Frame = (
     <div id={`artFramegrid-${frameId}`}>
-      <div
-        id={`artFrame-${frameId}`}
-        className="pa"
-        style={{
-          top: `${grid.extendY_}px`,
-          left: `${grid.extendX_}px`,
-          width: `${viewLayout.width}px`,
-          height: `${viewLayout.height}px`,
-          background: `${themeConfigs[art_.basic.themeId].background}`,
-        }}
-      >
+      <div id={`artFrame-${frameId}`} className="pa" style={style}>
         {isGridVisible && (
           <div
             ref={gridRef}
