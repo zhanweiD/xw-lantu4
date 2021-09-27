@@ -10,6 +10,34 @@ import {MBackgroundColor} from './art-ui-tab-property'
 
 const log = createLog('@models/art/box.js')
 
+const MConstraints = types
+  .model('MConstraints', {
+    top: types.optional(types.boolean, true),
+    left: types.optional(types.boolean, true),
+    bottom: types.optional(types.boolean, false),
+    right: types.optional(types.boolean, false),
+    height: types.optional(types.boolean, true),
+    width: types.optional(types.boolean, true),
+    normalKeys: types.frozen(['top', 'right', 'bottom', 'left', 'height', 'width']),
+  })
+  .views((self) => ({
+    get canCheckLine_() {
+      let value = []
+      if (['top', 'height', 'bottom'].filter((v) => self[v]).length < 2) {
+        value.push(...['top', 'height', 'bottom'])
+      } else {
+        value.push(...['top', 'height', 'bottom'].filter((v) => self[v]))
+      }
+      if (['left', 'width', 'right'].filter((v) => self[v]).length < 2) {
+        value.push(...['left', 'width', 'right'])
+      } else {
+        value.push(...['left', 'width', 'right'].filter((v) => self[v]))
+      }
+      return value
+    },
+  }))
+  .actions(commonAction(['getSchema', 'set', 'setSchema']))
+
 export const MBox = types
   .model({
     boxId: types.union(types.string, types.number),
@@ -19,16 +47,15 @@ export const MBox = types
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
     background: types.optional(MBackgroundColor, {}),
-
-    // 使用素材的索引id
-    materialIds: types.optional(types.array(types.string), []),
+    constraints: types.optional(MConstraints, {}),
+    materials: types.frozen(),
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
 
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'name', 'remark']),
-    deepKeys: types.frozen(['layout', 'background']),
+    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    deepKeys: types.frozen(['layout', 'background', 'constraints']),
   })
   .views((self) => ({
     get root_() {
@@ -98,10 +125,30 @@ export const MBox = types
       }
     }
 
-    const updateMaterialId = (data) => {
-      self.materialIds.unshift(data.material.materialId)
-      debounceUpdate()
-    }
+    const updateBox = flow(function* updateBox() {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {layout, name, frameId, exhibit, background, boxId, remark} = self
+      try {
+        yield io.art.updateBox({
+          ':boxId': boxId,
+          ':artId': artId,
+          ':frameId': frameId,
+          ':projectId': projectId,
+          name,
+          layout,
+          exhibit,
+          background,
+          remark,
+        })
+      } catch (error) {
+        log.error('update Error: ', error)
+      }
+    })
+
+    const debounceUpdate = debounce(() => {
+      self.updateBox()
+    }, 2000)
 
     const updateExhibit = ({lib, key}) => {
       const {exhibitCollection, event} = self.env_
@@ -133,28 +180,6 @@ export const MBox = types
         debounceUpdate()
       }
     }
-
-    const updateBox = flow(function* updateBox() {
-      const {io} = self.env_
-      const {artId, projectId} = self.art_
-      const {layout, name, frameId, exhibit, background, boxId, remark} = self
-      try {
-        yield io.art.updateBox({
-          ':boxId': boxId,
-          ':artId': artId,
-          ':frameId': frameId,
-          ':projectId': projectId,
-          name,
-          layout,
-          exhibit,
-          background,
-          remark,
-        })
-      } catch (error) {
-        log.error('update Error: ', error)
-      }
-    })
-
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -198,10 +223,6 @@ export const MBox = types
       debounceUpdate()
     }
 
-    const debounceUpdate = debounce(() => {
-      self.updateBox()
-    }, 2000)
-
     const setRemark = ({name = self.name, remark = self.remark}) => {
       self.set({
         name,
@@ -210,13 +231,19 @@ export const MBox = types
       debounceUpdate()
     }
 
+    const setConstraints = (value) => {
+      self.set({
+        constraints: value,
+      })
+      debounceUpdate()
+    }
     return {
       resize,
       recreateBox,
-      updateMaterialId,
       updateExhibit,
       setRemark,
       setLayout,
+      setConstraints,
       updateBox,
     }
   })

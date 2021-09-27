@@ -1,5 +1,6 @@
 import onerStorage from 'oner-storage'
 import waves from '@waves4'
+import materials from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {themeConfigs} from '@utils/theme'
@@ -12,19 +13,38 @@ const exhibitCollection = onerStorage({
   key: 'waveview-exhibit-adapter',
 })
 
-export const draw = ({exhibit, container, height, width, frame}) => {
-  const model = frame.art_.exhibitManager.get(exhibit.id)
-  if (model) {
-    const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
-    Adapter.draw({
-      container,
-      height,
-      width,
-      model,
-      isEdit,
-    })
-  } else {
-    log.warn('组件模型未找到', exhibit.id)
+export const draw = ({exhibit, container, height, width, frame, material}) => {
+  console.log('here')
+  if (exhibit) {
+    const model = frame.art_.exhibitManager.get(exhibit.id)
+    if (model) {
+      const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
+      Adapter.draw({
+        container,
+        height,
+        width,
+        model,
+        isEdit,
+      })
+    } else {
+      log.warn('组件模型未找到', exhibit.id)
+    }
+  }
+  if (material) {
+    console.log('here')
+    const model = frame.art_.exhibitManager.get(material.id)
+    if (model) {
+      const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
+      Adapter.draw({
+        container,
+        height,
+        width,
+        model,
+        isEdit,
+      })
+    } else {
+      log.warn('组件模型未找到', material.id)
+    }
   }
 }
 
@@ -84,6 +104,7 @@ const addModal = (exhibits) =>
 // 编辑状态下需要初始化注册所有组件，预览发布状态下不需要
 if (isEdit) {
   addModal(waves, 'wave')
+  addModal(materials, 'materials')
 }
 
 export default exhibitCollection

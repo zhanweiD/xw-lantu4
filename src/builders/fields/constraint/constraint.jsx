@@ -14,7 +14,6 @@ const ConstraintField = ({
   childrenClassName,
   className,
 }) => {
-  console.log(value, 'value')
   return (
     <Field
       className={className}

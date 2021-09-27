@@ -55,7 +55,19 @@ const Material = ({material, showType}) => {
       key={material.materialId}
       onEnd={(dropResult, data, position) => {
         w.env_.event.fire('editor.setProps', {isPointerEventsNone: false})
-        dropResult.createBackground({material: data, position})
+        const {type, lib, key, materialId} = data
+        const params = {
+          type,
+          lib,
+          key,
+        }
+        if (type !== 'decoration') {
+          params.materialId = materialId
+        }
+        dropResult.createBackground({
+          ...params,
+          position,
+        })
       }}
       onBegin={() => w.env_.event.fire('editor.setProps', {isPointerEventsNone: true})}
       dragKey="UPDATE_BOX_BACKGROUND_DRAGE_KEY"

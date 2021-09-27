@@ -106,7 +106,7 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark}) => {
+    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark, materials}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
@@ -116,6 +116,7 @@ export const MArtFrame = types
         exhibit,
         layout,
         remark,
+        materials,
       })
       box.background.setSchema(background)
 
@@ -139,17 +140,43 @@ export const MArtFrame = types
           )
         }
       }
+      if (materials) {
+        materials.map((material) => {
+          const model = exhibitCollection.get(`${material.lib}.${material.key}`)
+          if (model) {
+            const art = self.art_
+            art.exhibitManager.set(
+              material.id,
+              model.initModel({
+                art,
+                themeId: art.basic.themeId,
+                schema: material,
+                event,
+              })
+            )
+          }
+        })
+      }
     }
 
-    // type 可以为exhibit|material作用分别为创建组件|创建带背景的空容器
-    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', material}) {
+    // type 可以为exhibit|image|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰空组件
+    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', materialId}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
       let exhibit
-      let materialIds
-      if (type === 'exhibit') {
+      let materials
+
+      if (type === 'image') {
+        materials = [
+          {
+            id: materialId,
+            type,
+          },
+        ]
+      } else {
+        // if (type === 'exhibit') {
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
           art,
@@ -160,11 +187,24 @@ export const MArtFrame = types
             id: uuid(),
           },
         })
-        exhibit = model.getSchema()
+        if (type === 'exhibit') {
+          exhibit = model.getSchema()
+        }
+        if (type === 'decoration') {
+          materials = [model.getSchema()]
+        }
+        // }
       }
-      if (type === 'material') {
-        materialIds = [material.materialId]
-      }
+
+      // if (type === 'decoration') {
+      //   materials = [
+      //     {
+      //       id: materialId,
+      //       type,
+      //     },
+      //   ]
+      // }
+
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {
@@ -190,7 +230,7 @@ export const MArtFrame = types
         frameId,
         exhibit,
         layout,
-        materialIds,
+        materials,
       }
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
@@ -207,7 +247,7 @@ export const MArtFrame = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          materialIds,
+          materials,
           name: params.name,
           ':artId': params.artId,
           ':frameId': params.frameId,

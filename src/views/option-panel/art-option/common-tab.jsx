@@ -8,7 +8,7 @@ import fields from '@builders/fields'
 import Section from '@builders/section'
 import s from './common-tab.module.styl'
 
-const {TextField, TextareaField, MultiNumberField} = fields
+const {TextField, TextareaField, MultiNumberField, ConstraintField} = fields
 const CommonTab = ({box, frame}) => {
   const {t} = useTranslation()
   const {background, name, remark, layout, setLayout, setRemark} = box || frame || {}
@@ -50,6 +50,16 @@ const CommonTab = ({box, frame}) => {
                   }}
                 />
               </Section>
+              {box && (
+                <Section name={t('constraints')}>
+                  <ConstraintField
+                    className="ml24"
+                    value={box.constraints.getSchema()}
+                    canCheckLine={box.constraints.canCheckLine_}
+                    onChange={box.setConstraints}
+                  />
+                </Section>
+              )}
             </Scroll>
           </Tab.Item>
           <Tab.Item name={t(background.name)}>

@@ -11,7 +11,6 @@ const ArtFrame = ({frame}) => {
   const {frameId, grid, viewLayout, isCreateFail, art_, boxes, backgroundImage_, backgroundColor_} = frame
   const {isGridVisible} = art_
   const gridRef = useRef(null)
-  console.log(viewLayout, 'viewlayout')
   useEffect(() => {
     if (isGridVisible) {
       new Grid({
@@ -95,13 +94,11 @@ const ArtFrame = ({frame}) => {
             create: (data) => {
               frame.createBox({
                 ...data,
-                type: 'exhibit',
               })
             },
             createBackground: (data) => {
               frame.createBox({
                 ...data,
-                type: 'material',
               })
             },
           }}
