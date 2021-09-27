@@ -7,7 +7,7 @@
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
  */
 import commonAction from '@utils/common-action'
-import {getEnv, getParent, types, flow} from 'mobx-state-tree'
+import {getEnv, getParent, types, flow, isAlive} from 'mobx-state-tree'
 import createLog from '@utils/create-log'
 import {shortcut} from '@utils/create-event'
 import sortBy from 'lodash/sortBy'
@@ -192,15 +192,13 @@ export const MSelectRange = types
               width: Math.round(x2 - x1),
               height: Math.round(y2 - y1),
             })
-            const params = {
-              layout: {
-                x: Math.round(layout.x + x1 - origin.x1),
-                y: Math.round(layout.y + y1 - origin.y1),
-                height: Math.round(y2 - y1),
-                width: Math.round(x2 - x1),
-              },
-            }
-            frame.updateFrame(params)
+            layout.set({
+              x: Math.round(layout.x + x1 - origin.x1),
+              y: Math.round(layout.y + y1 - origin.y1),
+              height: Math.round(y2 - y1),
+              width: Math.round(x2 - x1),
+            })
+            frame.updateFrame()
           } else if (target === 'box' && updated) {
             const rangeWidth = Math.round(x2 - x1)
             const rangeHeight = Math.round(y2 - y1)
@@ -393,15 +391,13 @@ export const MSelectRange = types
               width: Math.round(x2 - x1),
               height: Math.round(y2 - y1),
             })
-            const params = {
-              layout: {
-                x: Math.round(layout.x + x1 - origin.x1),
-                y: Math.round(layout.y + y1 - origin.y1),
-                height: Math.round(y2 - y1),
-                width: Math.round(x2 - x1),
-              },
-            }
-            frame.updateFrame(params)
+            layout.set({
+              x: Math.round(layout.x + x1 - origin.x1),
+              y: Math.round(layout.y + y1 - origin.y1),
+              height: Math.round(y2 - y1),
+              width: Math.round(x2 - x1),
+            })
+            frame.updateFrame()
           } else if (target === 'box' && updated) {
             const rangeWidth = Math.round(x2 - x1)
             const rangeHeight = Math.round(y2 - y1)
@@ -727,14 +723,20 @@ export const MSelectRange = types
     }
 
     const setLayout = ({x1, y1, x2, y2}) => {
-      console.log(x1, y1, x2, y2)
-      const [box] = self.boxes_
-      self.set({
-        x1: x1 + box.frame_.x1_,
-        y1: y1 + box.frame_.y1_,
-        x2: x2 + box.frame_.x1_,
-        y2: y2 + box.frame_.y1_,
-      })
+      if (self.target === 'frame') {
+        self.set({x1, y1, x2, y2})
+      } else {
+        const [box] = self.boxes_
+        self.set({
+          x1: x1 + box.frame_.x1_,
+          y1: y1 + box.frame_.y1_,
+          x2: x2 + box.frame_.x1_,
+          y2: y2 + box.frame_.y1_,
+        })
+      }
+      if (isAlive(self)) {
+        origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
+      }
     }
 
     const beforeDestroy = () => {

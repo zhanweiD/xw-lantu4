@@ -1,5 +1,6 @@
 import onerStorage from 'oner-storage'
 import waves from '@waves4'
+import materials from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {themeConfigs} from '@utils/theme'
@@ -12,19 +13,36 @@ const exhibitCollection = onerStorage({
   key: 'waveview-exhibit-adapter',
 })
 
-export const draw = ({exhibit, container, height, width, frame}) => {
-  const model = frame.art_.exhibitManager.get(exhibit.id)
-  if (model) {
-    const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
-    Adapter.draw({
-      container,
-      height,
-      width,
-      model,
-      isEdit,
-    })
-  } else {
-    log.warn('组件模型未找到', exhibit.id)
+export const draw = ({exhibit, container, height, width, frame, material}) => {
+  if (exhibit) {
+    const model = frame.art_.exhibitManager.get(exhibit.id)
+    if (model) {
+      const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
+      Adapter.draw({
+        container,
+        height,
+        width,
+        model,
+        isEdit,
+      })
+    } else {
+      log.warn('组件模型未找到', exhibit.id)
+    }
+  }
+  if (material) {
+    const model = frame.art_.exhibitManager.get(material.id)
+    if (model) {
+      const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
+      Adapter.draw({
+        container,
+        height,
+        width,
+        model,
+        isEdit,
+      })
+    } else {
+      log.warn('组件模型未找到', material.id)
+    }
   }
 }
 
@@ -36,7 +54,7 @@ export const exhibitRegister = (exhibit) => {
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
-      initModel({art, schema, themeId, event, globalData, projectData, officialData}) {
+      initModel({art, schema, themeId, event, data}) {
         // 创建组件的模型实例
         const model = Model.create(
           {
@@ -48,16 +66,17 @@ export const exhibitRegister = (exhibit) => {
           {
             art,
             event,
-            globalData,
-            projectData,
-            officialData,
+            data,
           }
         )
         // ! 这里这么麻烦写setLayers 其实是有原因的。
         // 从config里拿到的layer配置实际上是初始化的，当用户添加层后，这里config.layers就不是期望的数据了，而应该由后端保存值获取对应的type再调用此type对应的配置
-        model.setLayers(config.layers)
+        // model.setLayers(config.layers)
 
         if (schema) {
+          model.set({id: schema.id})
+          model.init()
+          model.setLayers(config.layers)
           model.setSchema(schema)
         }
 
@@ -70,7 +89,7 @@ export const exhibitRegister = (exhibit) => {
 
 // 预览发布状态下只注册用到的组件类型
 export const registerExhibit = (key) => {
-  const exhibit = waves[key]
+  const exhibit = waves[key] || materials[key]
   exhibitRegister(exhibit)
   return exhibitCollection.get(`${exhibit.lib}.${key}`)
 }
@@ -83,6 +102,7 @@ const addModal = (exhibits) =>
 // 编辑状态下需要初始化注册所有组件，预览发布状态下不需要
 if (isEdit) {
   addModal(waves, 'wave')
+  addModal(materials, 'materials')
 }
 
 export default exhibitCollection

@@ -10,6 +10,7 @@ const TextareaField = ({
   placeholder,
   onChange = () => {},
   label,
+  effective,
   labelClassName,
   childrenClassName,
   className,
@@ -23,7 +24,13 @@ const TextareaField = ({
   })
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
+    <Field
+      className={className}
+      childrenClassName={childrenClassName}
+      labelClassName={labelClassName}
+      label={label}
+      effective={effective}
+    >
       <textarea
         ref={textRef}
         value={isDef(value) ? value : defaultValue}

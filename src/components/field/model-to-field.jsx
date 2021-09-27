@@ -1,34 +1,33 @@
-import React from "react"
-import {observer} from "mobx-react-lite"
-import {useTranslation} from "react-i18next"
-import c from "classnames"
-import {TextField} from "./text"
-import {TextareaField} from "./textarea"
-import {CheckField} from "./check"
-import {NumberField} from "./number"
-import {MultiNumberField} from "./multi-number"
-import {SelectField} from "./select"
-import {SelectFilterField} from "./select-filter"
-import {SelectGradientColorField} from "./select-gradient-color"
-import {SelectWithThumbnailField} from "./select-with-thumbnail"
-import {SelectThemeColorField} from "./select-theme-color"
-import {SwitchField} from "./switch"
-import {ColorField} from "./color"
-import {RangeColorField} from "./range-color"
-import {CodeField} from "./code"
-import {ConstraintsField} from "./constraints"
-import {GradientColorField} from "./gradient-color"
-import {ImageField} from "./image"
-import {AlignmentField} from "./alignment"
-import {OffsetField} from "./offset"
-import {DataField} from "./data"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
+import c from 'classnames'
+import {TextField} from './text'
+import {TextareaField} from './textarea'
+import {CheckField} from './check'
+import {NumberField} from './number'
+import {MultiNumberField} from './multi-number'
+import {SelectField} from './select'
+import {SelectFilterField} from './select-filter'
+import {SelectGradientColorField} from './select-gradient-color'
+import {SelectWithThumbnailField} from './select-with-thumbnail'
+import {SelectThemeColorField} from './select-theme-color'
+import {SwitchField} from './switch'
+import {ColorField} from './color'
+import {RangeColorField} from './range-color'
+import {CodeField} from './code'
+import {ConstraintsField} from './constraints'
+import {GradientColorField} from './gradient-color'
+import {ImageField} from './image'
+import {AlignmentField} from './alignment'
+import {OffsetField} from './offset'
 // import {ExhibitDataField} from "./exhibit-data"
 
 const ModelToField = observer(({model, onAction}) => {
   const {t} = useTranslation()
   let F
   switch (model.type) {
-    case "text":
+    case 'text':
       F = (
         <TextField
           className={c({hide: !model.whenIsSatisfied})}
@@ -45,7 +44,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "password":
+    case 'password':
       F = (
         <TextField
           className={c({hide: !model.whenIsSatisfied})}
@@ -63,7 +62,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "textarea":
+    case 'textarea':
       F = (
         <TextareaField
           className={c({hide: !model.whenIsSatisfied})}
@@ -82,7 +81,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "select":
+    case 'select':
       F = (
         <SelectField
           className={c({hide: !model.whenIsSatisfied})}
@@ -93,7 +92,7 @@ const ModelToField = observer(({model, onAction}) => {
             key: t(option.key),
             value: option.value,
             data: option.data,
-            remark: option.remark
+            remark: option.remark,
           }))}
           value={model.value}
           readOnly={model.readOnly}
@@ -110,7 +109,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "selectFilter":
+    case 'selectFilter':
       F = (
         <SelectFilterField
           className={c({hide: !model.whenIsSatisfied})}
@@ -121,7 +120,7 @@ const ModelToField = observer(({model, onAction}) => {
             key: t(option.key),
             value: option.value,
             data: option.data,
-            remark: option.remark
+            remark: option.remark,
           }))}
           value={model.value}
           readOnly={model.readOnly}
@@ -139,7 +138,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "selectWithThumbnail":
+    case 'selectWithThumbnail':
       F = (
         <SelectWithThumbnailField
           className={c({hide: !model.whenIsSatisfied})}
@@ -150,7 +149,7 @@ const ModelToField = observer(({model, onAction}) => {
             key: t(option.key),
             value: option.value,
             data: option.data,
-            thumbnail: option.thumbnail
+            thumbnail: option.thumbnail,
           }))}
           value={model.value}
           readOnly={model.readOnly}
@@ -166,7 +165,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "selectGradientColor":
+    case 'selectGradientColor':
       F = (
         <SelectGradientColorField
           className={c({hide: !model.whenIsSatisfied})}
@@ -176,7 +175,7 @@ const ModelToField = observer(({model, onAction}) => {
           options={model.options.toJSON().map((option) => ({
             key: t(option.key),
             value: option.value,
-            data: option.data
+            data: option.data,
           }))}
           value={model.value}
           readOnly={model.readOnly}
@@ -192,7 +191,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "selectThemeColor":
+    case 'selectThemeColor':
       F = (
         <SelectThemeColorField
           className={c({hide: !model.whenIsSatisfied})}
@@ -202,7 +201,7 @@ const ModelToField = observer(({model, onAction}) => {
           options={model.options.toJSON().map((option) => ({
             key: t(option.key),
             value: option.value,
-            data: option.colors
+            data: option.colors,
           }))}
           value={model.value}
           readOnly={model.readOnly}
@@ -218,7 +217,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "check":
+    case 'check':
       F = (
         <CheckField
           className={c({hide: !model.whenIsSatisfied})}
@@ -234,7 +233,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "alignment":
+    case 'alignment':
       F = (
         <AlignmentField
           className={c({hide: !model.whenIsSatisfied})}
@@ -248,7 +247,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "number":
+    case 'number':
       F = (
         <NumberField
           className={c({hide: !model.whenIsSatisfied})}
@@ -274,7 +273,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "multiNumber":
+    case 'multiNumber':
       F = (
         <MultiNumberField
           className={c({hide: !model.whenIsSatisfied})}
@@ -292,7 +291,7 @@ const ModelToField = observer(({model, onAction}) => {
       )
       break
 
-    case "switch":
+    case 'switch':
       F = (
         <SwitchField
           className={c({hide: !model.whenIsSatisfied})}
@@ -307,7 +306,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "color":
+    case 'color':
       F = (
         <ColorField
           className={c({hide: !model.whenIsSatisfied})}
@@ -331,7 +330,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "rangeColor":
+    case 'rangeColor':
       F = (
         <RangeColorField
           className={c({hide: !model.whenIsSatisfied})}
@@ -348,7 +347,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "code":
+    case 'code':
       F = (
         <CodeField
           className={c({hide: !model.whenIsSatisfied})}
@@ -368,7 +367,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "image":
+    case 'image':
       F = (
         <ImageField
           className={c({hide: !model.whenIsSatisfied})}
@@ -385,7 +384,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "constraints":
+    case 'constraints':
       F = (
         <ConstraintsField
           className={c({hide: !model.whenIsSatisfied})}
@@ -400,7 +399,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "gradientColor":
+    case 'gradientColor':
       F = (
         <GradientColorField
           className={c({hide: !model.whenIsSatisfied})}
@@ -417,7 +416,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "offset":
+    case 'offset':
       F = (
         <OffsetField
           className={c({hide: !model.whenIsSatisfied})}
@@ -430,29 +429,9 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case "data":
-      F = (
-        <DataField
-          label={t(model.label)}
-          value={model.value}
-          globalData={model.globalData_}
-          projectData={model.projectData_}
-          officialData={model.officialData_}
-          onChange={(v) => {
-            model.setValue(v)
-          }}
-          addSource={(v) => {
-            model.addSource(v)
-          }}
-          removeSource={(v) => {
-            model.removeSource(v)
-          }}
-        />
-      )
-      break
     default:
       F = <div>缺失的Field: {model.type}</div>
-      console.warn("Field is not existed. ", model)
+      console.warn('Field is not existed. ', model)
       break
   }
   return F

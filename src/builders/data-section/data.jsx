@@ -36,13 +36,13 @@ const Check = ({value, onChange, options}) => {
 const DataField = ({
   value,
   onChange = () => {},
-  globalData = [],
+  spaceData = [],
   projectData = [],
-  officialData = [],
+  // officialData = [],
   addSource = () => {},
   removeSource = () => {},
   type = 1,
-  onAction = () => {},
+  toggleBak = () => {},
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
@@ -61,9 +61,12 @@ const DataField = ({
               value: 'source',
             },
           ]}
-          onChange={(value) => {
+          onChange={(v) => {
+            if (value.type !== v) {
+              toggleBak()
+            }
             onChange({
-              type: value,
+              type: v,
             })
           }}
         />
@@ -107,7 +110,6 @@ const DataField = ({
                     onChange({
                       private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
                     })
-                    onAction()
                   } catch (error) {
                     tip.error({content: '保存失败,请检查JSON是否合法'})
                   }
@@ -201,7 +203,7 @@ const DataField = ({
                 })}
               </Tab.Item>
               <Tab.Item name="全局数据">
-                {globalData.map((data) => {
+                {spaceData.map((data) => {
                   return (
                     <div
                       key={data.dataId}
@@ -217,7 +219,7 @@ const DataField = ({
                   )
                 })}
               </Tab.Item>
-              <Tab.Item name="官方数据">
+              {/* <Tab.Item name="官方数据">
                 {officialData.map((data) => {
                   return (
                     <div
@@ -233,7 +235,7 @@ const DataField = ({
                     </div>
                   )
                 })}
-              </Tab.Item>
+              </Tab.Item> */}
             </Tab>
           </Modal>
         </>

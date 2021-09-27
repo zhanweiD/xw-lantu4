@@ -1,16 +1,16 @@
-import React, {Children} from "react"
-import {observer} from "mobx-react-lite"
-import {useTranslation} from "react-i18next"
-import c from "classnames"
-import w from "@models"
-import Tab from "@components/tab"
-import Section from "@components/section"
-import Caption from "@components/caption"
-import Scroll from "@components/scroll"
-import Grid from "@components/grid"
-import {DragSource} from "@components/drag-and-drop"
-import Icon from "@components/icon"
-import s from "./exhibit-panel.module.styl"
+import React, {Children} from 'react'
+import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
+import c from 'classnames'
+import w from '@models'
+import Tab from '@components/tab'
+import Section from '@components/section'
+import Caption from '@components/caption'
+import Scroll from '@components/scroll'
+import Grid from '@components/grid'
+import {DragSource} from '@components/drag-and-drop'
+import Icon from '@components/icon'
+import s from './exhibit-panel.module.styl'
 
 const Category = ({category}) => {
   const {t} = useTranslation()
@@ -31,15 +31,16 @@ const Category = ({category}) => {
                 <DragSource
                   key={exhibit.key}
                   onEnd={(dropResult, data, position) => {
-                    w.env_.event.fire("editor.setProps", {isPointerEventsNone: false})
+                    w.env_.event.fire('editor.setProps', {isPointerEventsNone: false})
                     dropResult.create({
                       lib: data.lib,
                       key: data.key,
-                      position
+                      type: data.type,
+                      position,
                     })
                   }}
                   onBegin={() => {
-                    w.env_.event.fire("editor.setProps", {isPointerEventsNone: true})
+                    w.env_.event.fire('editor.setProps', {isPointerEventsNone: true})
                   }}
                   dragKey="CREATE_EXHIBIT_DRAG_KEY"
                   data={exhibit}
@@ -63,7 +64,7 @@ const ExhibitPanel = () => {
   return (
     <>
       <Tab sessionId="exhibit-panel" className="fb1">
-        <Tab.Item name={t("exhibitPanel.exhibits")}>
+        <Tab.Item name={t('exhibitPanel.exhibits')}>
           <div className="fbh h100p">
             <div className="pb8">
               {Object.entries(categories).map(([id, category]) => (
@@ -72,7 +73,7 @@ const ExhibitPanel = () => {
                     onClick={() => {
                       scrollToFn(`#category-${category.name}`)
                     }}
-                    className={c("hand fbv fbac fbjc", s.naviIcon)}
+                    className={c('hand fbv fbac fbjc', s.naviIcon)}
                   >
                     {category.icon ? (
                       <Icon name={category.icon} fill="white" size={16} />

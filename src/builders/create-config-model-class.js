@@ -16,6 +16,7 @@ import {
   MCodeField,
   MGradientField,
   MColumnSelectField,
+  MConstraintField,
 } from './fields'
 import isDef from '@utils/is-def'
 import getObjectData from '@utils/get-object-data'
@@ -35,11 +36,14 @@ const fieldModel = {
   code: MCodeField,
   gradient: MGradientField,
   columnSelect: MColumnSelectField,
+  constraint: MConstraintField,
 }
 
 const createFieldsClass = (fields) => {
   const initProps = {}
+
   fields.forEach((field) => {
+    // console.log('🦊', field.name, field)
     if (fieldModel[field.type]) {
       let MFieldModel = fieldModel[field.type].actions((self) => ({
         getSchema() {
@@ -56,10 +60,25 @@ const createFieldsClass = (fields) => {
               }
             },
             () => {
-              const value = {
-                [self.option]: self.getValue(),
+              const value = self.getValue()
+
+              const parent = getParent(self, 2)
+              console.log('🦁 parent', parent.fields.singleColor)
+
+              getParent(self, 2).update(
+                {
+                  [self.option]: value,
+                },
+                self.option,
+                false
+              )
+
+              if (isFunction(field.updateAction)) {
+                field.updateAction.call(null, {
+                  siblings: getParent(self, 2).fields,
+                  value,
+                })
               }
-              getParent(self, 2).update(value, self.option, false)
             },
             {
               delay: 300,

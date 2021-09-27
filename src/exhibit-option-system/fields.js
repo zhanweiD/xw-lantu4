@@ -314,34 +314,46 @@ const areaSize = {
 const colorType = {
   type: 'check',
   label: 'colorType',
-  defaultValue: 'single',
+  defaultValue: 'singleColor',
   options: [
     {
       key: 'singleColor',
-      value: 'single',
+      value: 'singleColor',
     },
     {
       key: 'gradientColor',
-      value: 'gradient',
+      value: 'gradientColor',
     },
-    {
-      key: 'themeColor',
-      value: 'theme',
-    },
+    // {
+    //   key: 'themeColor',
+    //   value: 'theme',
+    // },
     // {
     //   key: 'listColor',
     //   value: 'list',
     // },
   ],
-  defalltAction({parent, value}) {
-    parent.singleColor.setVisible(value === 'single')
-    parent.gradientColor.setVisible(value === 'gradient')
-    parent.themeColor.setVisible(value === 'theme')
+  initAction({siblings, value}) {
+    siblings.singleColor.setEffective(value === 'singleColor')
+    siblings.gradientColor.setEffective(value === 'gradientColor')
+    // siblings.themeColor.setEffective(value === 'themeColor')
+  },
+  updateAction({siblings, value}) {
+    console.log('updateAction', siblings, value)
+    siblings.singleColor.setEffective(value === 'singleColor')
+    siblings.gradientColor.setEffective(value === 'gradientColor')
+    // siblings.themeColor.setEffective(value === 'themeColor')
   },
 }
 
 // 单色
 const singleColor = {
+  type: 'color',
+  label: 'singleColor',
+  defaultValue: 'transparent',
+}
+
+const colorSingle = {
   type: 'color',
   label: 'singleColor',
   defaultValue: 'transparent',
@@ -775,6 +787,7 @@ export default {
   colorType,
   // 颜色单色
   singleColor,
+  colorSingle,
   // 颜色渐变
   colorGradient,
   gradientColor,

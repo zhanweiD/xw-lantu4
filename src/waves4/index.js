@@ -4,7 +4,7 @@ import i18n from '@i18n'
 
 const waves = {
   basicLine,
-  demoLine,
+  demo: demoLine,
 }
 
 Object.values(waves).forEach((wave) => {

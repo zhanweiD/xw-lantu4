@@ -13,7 +13,7 @@ export const MMultiNumberField = types
   .model('MMultiNumberField', {
     type: types.enumeration(['multiNumber']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
 
     value: types.optional(types.array(types.union(types.number, types.string)), []),
@@ -39,16 +39,23 @@ export const MMultiNumberField = types
     }
 
     const getValue = () => {
-      return self.items.map((item, index) => {
-        return !isDef(self.value.toJSON()[index]) && isNumber(self.defaultValue[index])
-          ? self.defaultValue[index]
-          : self.value[index]
-      })
+      return self.effective
+        ? self.items.map((item, index) => {
+            return !isDef(self.value.toJSON()[index]) && isNumber(self.defaultValue[index])
+              ? self.defaultValue[index]
+              : self.value[index]
+          })
+        : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })
