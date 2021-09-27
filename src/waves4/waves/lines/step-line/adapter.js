@@ -1,10 +1,10 @@
 import {createWave, updateWave, translate} from '@waves4/waves/parser'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
-const Adapter = () =>
-  createExhibitAdapter({
+const Adapter = () => {
+  return createExhibitAdapter({
     // 初始化组件实例
-    init(options) {
+    init({options}) {
       const instance = createWave(translate(options))
       return instance
     },
@@ -24,5 +24,6 @@ const Adapter = () =>
       instance.warn(warn)
     },
   })
+}
 
 export default Adapter

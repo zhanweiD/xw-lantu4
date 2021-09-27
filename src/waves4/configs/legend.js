@@ -1,4 +1,4 @@
-export default ({direction = 'horizontal'}) => {
+export default ({direction = 'horizontal', position = 'topRight'}) => {
   return {
     effective: true,
     sections: [
@@ -11,7 +11,7 @@ export default ({direction = 'horizontal'}) => {
           },
           {
             name: 'layoutPosition',
-            defaultValue: 'topRight',
+            defaultValue: position,
           },
           {
             name: 'offset',

@@ -4,7 +4,7 @@ import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
-    init(options) {
+    init({options}) {
       const instance = createWave(translate(options))
       return instance
     },

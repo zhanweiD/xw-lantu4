@@ -1,11 +1,22 @@
 import basicLine from './waves/lines/basic-line'
+import areaLine from './waves/lines/area-line'
+import groupLine from './waves/lines/group-line'
+import stackAreaLine from './waves/lines/stack-area-line'
+import stepLine from './waves/lines/step-line'
 import basicColumn from './waves/columns/basic-column'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
 const waves = {
+  // 折线
   basicLine,
+  areaLine,
+  groupLine,
+  stackAreaLine,
+  stepLine,
+  // 柱状
   basicColumn,
+  // echarts
   demoLine,
 }
 
@@ -24,6 +35,10 @@ const categories = [
     icon: 'exhibit-line',
     exhibits: [
       basicLine, // 基础折线图
+      groupLine,
+      areaLine,
+      stackAreaLine,
+      stepLine,
     ],
   },
   {

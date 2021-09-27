@@ -18,7 +18,7 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 折线图层
-  layers: [line({k, lineCurve: 'curveLinear', column: ['CPI']})],
+  layers: [line({k, lineCurve: 'curveMonotoneX', column: ['CPI']})],
   // 标题面板
   title: title({k, content: '2018上半年CPI走势'}),
   // 图例面板

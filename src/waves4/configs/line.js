@@ -1,4 +1,4 @@
-export default ({lineCurve = 'curveLinear', column = []}) => {
+export default ({lineCurve = 'curveLinear', hasArea = false, column = []}) => {
   return {
     name: '折线层',
     type: 'line',
@@ -21,7 +21,7 @@ export default ({lineCurve = 'curveLinear', column = []}) => {
           },
           {
             name: 'lineCurve',
-            default: lineCurve,
+            defaultValue: lineCurve,
           },
           {
             name: 'lineFallback',
@@ -68,7 +68,7 @@ export default ({lineCurve = 'curveLinear', column = []}) => {
       },
       {
         name: 'area',
-        effective: false,
+        effective: hasArea,
         fields: [
           {
             name: 'opacity',

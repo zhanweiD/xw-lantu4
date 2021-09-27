@@ -11,8 +11,8 @@ const makeAdapter = () => {
     },
 
     // 处理包括数据、样式等变更
-    update(config) {
-      updateWave(config)
+    update(options) {
+      updateWave(options)
     },
 
     // 销毁图表实例
