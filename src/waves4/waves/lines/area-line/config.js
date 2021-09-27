@@ -24,5 +24,5 @@ export const config = (k) => ({
   // 图例面板
   legend: legend({k}),
   // 直角坐标系坐标轴
-  axis: cartesian({k}),
+  axis: cartesian({k, tickZero: true}),
 })

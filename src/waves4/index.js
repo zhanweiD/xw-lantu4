@@ -4,6 +4,10 @@ import groupLine from './waves/lines/group-line'
 import stackAreaLine from './waves/lines/stack-area-line'
 import stepLine from './waves/lines/step-line'
 import basicColumn from './waves/columns/basic-column'
+import groupColumn from './waves/columns/group-column'
+import stackColumn from './waves/columns/stack-column'
+import intervalColumn from './waves/columns/interval-column'
+import waterfallColumn from './waves/columns/waterfall-column'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
@@ -16,6 +20,10 @@ const waves = {
   stepLine,
   // 柱状
   basicColumn,
+  groupColumn,
+  stackColumn,
+  intervalColumn,
+  waterfallColumn,
   // echarts
   demoLine,
 }
@@ -47,6 +55,10 @@ const categories = [
     icon: 'exhibit-column',
     exhibits: [
       basicColumn, // 基础柱状图
+      groupColumn,
+      stackColumn,
+      intervalColumn,
+      waterfallColumn,
     ],
   },
   {
