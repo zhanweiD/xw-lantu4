@@ -47,12 +47,7 @@ export const mapColor = (fillColor) => {
   return fillColor
 }
 
-export const layerTypeMap = new Map([
-  ['axis', 'axis'],
-  ['title', 'text'],
-  ['legend', 'legend'],
-  ['line', 'line'],
-])
+export const layerTypeMap = new Map([['title', 'text']])
 
 export const layerOptionMap = new Map([
   [
@@ -91,6 +86,7 @@ export const layerOptionMap = new Map([
         // 比例尺
         ['base.tickCount', 'scale.count'],
         ['base.tickZero', 'scale.zero'],
+        ['base.paddingInner', 'scale.paddingInner'],
         // x文本
         ['xAxis.label.offset', 'style.textX.offset'],
         ['xAxis.label.text.textSize', 'style.textX.fontSize'],
@@ -230,6 +226,44 @@ export const layerOptionMap = new Map([
       }
       if (getOption('label.effective') !== undefined) {
         storage.set('style.text.hide', !getOption('label.effective'))
+      }
+      if (getOption('label.shadow.effective') !== undefined) {
+        storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
+      }
+      return storage.get()
+    },
+  ],
+  [
+    'rect',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        // 背景
+        ['background.singleColor', 'style.background.fill'],
+        ['background.opacity', 'style.background.fillOpacity'],
+        // 标签
+        ['label.offset', 'style.text.offset'],
+        ['label.relativePosition', 'style.labelPosition'],
+        ['label.decimalPlaces', 'style.text.format.decimalPlace'],
+        ['label.thousandDiv', 'style.text.format.thousandth'],
+        ['label.percentage', 'style.text.format.percentage'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('background.effective') !== undefined) {
+        storage.set('style.background.hide', !getOption('background.effective'))
+      }
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+      if (getOption('label.shadow.effective') !== undefined) {
+        storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
       }
       return storage.get()
     },

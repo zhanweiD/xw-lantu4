@@ -1,9 +1,11 @@
 import basicLine from './waves/lines/basic-line'
+import basicColumn from './waves/columns/basic-column'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
 const waves = {
   basicLine,
+  basicColumn,
   demoLine,
 }
 
@@ -22,6 +24,14 @@ const categories = [
     icon: 'exhibit-line',
     exhibits: [
       basicLine, // 基础折线图
+    ],
+  },
+  {
+    // 折线图
+    name: 'classifyColumn',
+    icon: 'exhibit-column',
+    exhibits: [
+      basicColumn, // 基础柱状图
     ],
   },
   {
@@ -46,18 +56,5 @@ categories.forEach((category) => {
     }
   })
 })
-// categories.forEach((category) => {
-//   category.exhibits.forEach((exhibit, i) => {
-//     if (exhibit.completed) {
-//       const k = i18n.sandbox(exhibit.i18n, exhibit.id || exhibit.icon)
-//       exhibit.config = exhibit.config(k)
-//       category.exhibits[i] = {
-//         ...exhibit,
-//         key: exhibit.config.key,
-//         name: exhibit.config.name
-//       }
-//     }
-//   })
-// })
 
 export {categories}

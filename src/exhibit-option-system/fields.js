@@ -740,6 +740,17 @@ const tickZero = {
   defaultValue: false,
 }
 
+// 比例尺内边距
+const paddingInner = {
+  type: 'number',
+  label: 'tickCount',
+  defaultValue: 0.3,
+  min: 0,
+  max: 1,
+  step: 0.1,
+  hasSlider: true,
+}
+
 export default {
   // 偏移
   offset,
@@ -836,4 +847,6 @@ export default {
   tickCount,
   // 包含零刻度
   tickZero,
+  // 比例尺内边距
+  paddingInner,
 }

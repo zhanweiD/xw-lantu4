@@ -1,7 +1,7 @@
-export default ({lineCurve = 'curveLinear'}) => {
+export default () => {
   return {
-    name: '折线层',
-    type: 'line',
+    name: '矩形层',
+    type: 'rect',
     sections: [
       {
         name: 'dataMap',
@@ -13,20 +13,8 @@ export default ({lineCurve = 'curveLinear'}) => {
         ],
       },
       {
-        name: 'line',
-        fields: [
-          {
-            name: 'lineWidth',
-            defaultValue: 2,
-          },
-          {
-            name: 'lineCurve',
-            default: lineCurve,
-          },
-          {
-            name: 'lineFallback',
-          },
-        ],
+        name: 'rect',
+        fields: [],
         // sections: [
         //   {
         //     name: 'color',
@@ -50,29 +38,16 @@ export default ({lineCurve = 'curveLinear'}) => {
         // ],
       },
       {
-        name: 'point',
+        name: 'background',
+        effective: false,
         fields: [
-          {
-            name: 'size',
-            defaultValue: 4,
-          },
           {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
           },
           {
             name: 'opacity',
-            defaultValue: 1,
-          },
-        ],
-      },
-      {
-        name: 'area',
-        effective: false,
-        fields: [
-          {
-            name: 'opacity',
-            defaultValue: 0.4,
+            defaultValue: 0.3,
           },
         ],
       },

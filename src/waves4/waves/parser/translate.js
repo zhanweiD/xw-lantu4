@@ -32,7 +32,7 @@ function translate(schema) {
   // 处理图层配置
   layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
     if (effective || effective === undefined) {
-      const layerType = layerTypeMap.get(type)
+      const layerType = layerTypeMap.get(type) || type
       const keys = [...dimension.xColumn, ...options.dataMap.column]
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
       layerConfig.push(

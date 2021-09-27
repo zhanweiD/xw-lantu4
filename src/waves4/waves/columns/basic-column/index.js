@@ -2,16 +2,16 @@ import {config} from './config'
 import makeAdapter from './adapter'
 import i18n from './i18n'
 
-const brackect = {
-  lib: 'decoration',
-  id: 'brackect',
+const basicColumn = {
+  lib: 'wave',
+  id: 'cnbc',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'material-brackect',
+  icon: 'basic-column',
   i18n,
   config,
   makeAdapter,
 }
 
-export default brackect
+export default basicColumn

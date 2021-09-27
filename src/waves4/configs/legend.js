@@ -1,4 +1,4 @@
-export default (k) => {
+export default ({direction = 'horizontal'}) => {
   return {
     effective: true,
     sections: [
@@ -7,7 +7,7 @@ export default (k) => {
         fields: [
           {
             name: 'direction',
-            defaultValue: 'horizontal',
+            defaultValue: direction,
           },
           {
             name: 'layoutPosition',
@@ -19,7 +19,7 @@ export default (k) => {
           },
           {
             name: 'gap',
-            defaultValue: [0, 5],
+            defaultValue: [2, 5],
           },
         ],
       },

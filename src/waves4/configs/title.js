@@ -1,4 +1,4 @@
-export default (k, {content}) => {
+export default ({content}) => {
   return {
     effective: true,
     sections: [

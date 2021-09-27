@@ -1,4 +1,4 @@
-export default (k) => {
+export default ({tickZero = false}) => {
   return {
     sections: [
       {
@@ -10,7 +10,10 @@ export default (k) => {
           },
           {
             name: 'tickZero',
-            defaultValue: false,
+            defaultValue: tickZero,
+          },
+          {
+            name: 'paddingInner',
           },
         ],
       },

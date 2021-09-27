@@ -3,7 +3,7 @@ import makeAdapter from './adapter'
 import i18n from './i18n'
 
 const corner = {
-  lib: 'wave',
+  lib: 'decoration',
   id: 'corner',
   version: '1.0.0',
   completed: true,
