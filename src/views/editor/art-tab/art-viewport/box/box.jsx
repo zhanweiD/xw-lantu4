@@ -7,7 +7,7 @@ import Material from '@views/public/material'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_, materials} = box
+  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_, materials = []} = box
   const {isBoxBackgroundVisible} = art_
 
   const style = {

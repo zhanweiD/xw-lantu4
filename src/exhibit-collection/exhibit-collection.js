@@ -89,7 +89,7 @@ export const exhibitRegister = (exhibit) => {
 
 // 预览发布状态下只注册用到的组件类型
 export const registerExhibit = (key) => {
-  const exhibit = waves[key]
+  const exhibit = waves[key] || materials[key]
   exhibitRegister(exhibit)
   return exhibitCollection.get(`${exhibit.lib}.${key}`)
 }
