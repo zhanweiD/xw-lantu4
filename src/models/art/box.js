@@ -128,7 +128,7 @@ export const MBox = types
     const updateBox = flow(function* updateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
-      const {layout, name, frameId, exhibit, background, boxId, remark} = self
+      const {layout, name, frameId, exhibit, background, boxId, remark, materials} = self
       try {
         yield io.art.updateBox({
           ':boxId': boxId,
@@ -139,6 +139,7 @@ export const MBox = types
           layout,
           exhibit,
           background,
+          materials,
           remark,
         })
       } catch (error) {
@@ -180,6 +181,38 @@ export const MBox = types
         debounceUpdate()
       }
     }
+
+    const addBackground = ({key, lib}) => {
+      const {exhibitCollection, event} = self.env_
+      const model = exhibitCollection.get(`${lib}.${key}`)
+      if (model) {
+        const art = self.art_
+        const materialModel = model.initModel({
+          art,
+          themeId: art.basic.themeId,
+          schema: {
+            lib,
+            key,
+            id: uuid(),
+          },
+        })
+        const material = materialModel.getSchema()
+        art.exhibitManager.set(
+          material.id,
+          model.initModel({
+            art,
+            themeId: art.basic.themeId,
+            schema: material,
+            event,
+          })
+        )
+        const materials = self.materials.map((material) => art.exhibitManager.get(material.id).getSchema())
+
+        self.materials = [].concat(material).concat(...materials)
+        debounceUpdate()
+      }
+    }
+
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -241,6 +274,7 @@ export const MBox = types
       resize,
       recreateBox,
       updateExhibit,
+      addBackground,
       setRemark,
       setLayout,
       setConstraints,

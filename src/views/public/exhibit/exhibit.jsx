@@ -21,7 +21,7 @@ const Exhibit = ({box, frame}) => {
   }, [id])
 
   return (
-    <div className="wh100p pr">
+    <div className="wh100p pa" style={{top: 0}}>
       <div ref={el} className="wh100p exhibit" />
     </div>
   )

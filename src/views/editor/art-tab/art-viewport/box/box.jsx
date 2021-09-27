@@ -24,7 +24,7 @@ const Box = ({box}) => {
   if (backgroundColor_) {
     style.backgroundColor = backgroundColor_
   }
-  console.log(materials)
+
   return (
     <DropTarget
       className={c('pa box', {
@@ -42,8 +42,7 @@ const Box = ({box}) => {
       }
       data={{
         createBackground: (data) => {
-          console.log(data, 'box')
-          // box.updateMaterialId(data)
+          box.addBackground(data)
         },
         create: (data) => {
           box.updateExhibit(data)

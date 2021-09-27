@@ -8,8 +8,6 @@ const Material = ({material, box, frame}) => {
   const {height, width} = layout
   const {id} = material || {}
   useEffect(() => {
-    console.log('sss')
-    console.log(material)
     if (material) {
       draw({
         material,
@@ -22,7 +20,7 @@ const Material = ({material, box, frame}) => {
   }, [id])
 
   return (
-    <div className="wh100p pr">
+    <div className="wh100p pa" style={{top: 0}}>
       <div ref={el} className="wh100p material" />
     </div>
   )

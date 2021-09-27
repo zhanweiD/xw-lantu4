@@ -14,7 +14,6 @@ const exhibitCollection = onerStorage({
 })
 
 export const draw = ({exhibit, container, height, width, frame, material}) => {
-  console.log('here')
   if (exhibit) {
     const model = frame.art_.exhibitManager.get(exhibit.id)
     if (model) {
@@ -31,7 +30,6 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
     }
   }
   if (material) {
-    console.log('here')
     const model = frame.art_.exhibitManager.get(material.id)
     if (model) {
       const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
