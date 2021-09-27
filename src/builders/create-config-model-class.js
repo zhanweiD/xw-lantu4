@@ -16,6 +16,7 @@ import {
   MCodeField,
   MGradientField,
   MColumnSelectField,
+  MConstraintField,
 } from './fields'
 import isDef from '@utils/is-def'
 import getObjectData from '@utils/get-object-data'
@@ -35,6 +36,7 @@ const fieldModel = {
   code: MCodeField,
   gradient: MGradientField,
   columnSelect: MColumnSelectField,
+  constraint: MConstraintField,
 }
 
 const createFieldsClass = (fields) => {

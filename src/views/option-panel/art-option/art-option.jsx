@@ -49,8 +49,11 @@ const ArtOption = ({art}) => {
   let exhibit
   let exhibitId
   let box
+  let frame
   if (selectRange) {
-    if (selectRange.target === 'box' && selectRange.boxes_.length === 1) {
+    if (selectRange.target === 'frame') {
+      frame = viewport.frames.find((o) => o.frameId === selectRange.range[0].frameId)
+    } else if (selectRange.target === 'box' && selectRange.boxes_.length === 1) {
       box = selectRange.boxes_[0]
       exhibitId = box.exhibit?.id
       if (exhibitId) {
@@ -64,7 +67,7 @@ const ArtOption = ({art}) => {
       <Tab sessionId="art-option" className="fb1">
         {exhibit && createPanel(exhibit, t)}
       </Tab>
-      <CommonTab box={box} range={selectRange} />
+      <CommonTab box={box} frame={frame} />
     </>
   )
 }

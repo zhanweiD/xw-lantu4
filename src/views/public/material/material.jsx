@@ -2,16 +2,15 @@ import React, {useEffect, useRef} from 'react'
 import {observer} from 'mobx-react-lite'
 import {draw} from '@exhibit-collection'
 
-const Exhibit = ({box, frame}) => {
+const Material = ({material, box, frame}) => {
   const el = useRef(null)
-  // 这里不能直接exhibit = {}
-  const {exhibit, layout} = box
+  const {layout} = box
   const {height, width} = layout
-  const {id} = exhibit || {}
+  const {id} = material || {}
   useEffect(() => {
-    if (exhibit) {
+    if (material) {
       draw({
-        exhibit,
+        material,
         container: el.current,
         height,
         width,
@@ -22,9 +21,9 @@ const Exhibit = ({box, frame}) => {
 
   return (
     <div className="wh100p pa" style={{top: 0}}>
-      <div ref={el} className="wh100p exhibit" />
+      <div ref={el} className="wh100p material" />
     </div>
   )
 }
 
-export default observer(Exhibit)
+export default observer(Material)

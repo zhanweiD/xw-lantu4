@@ -9,6 +9,8 @@ export const MMaterial = types
     folderId: types.union(types.string, types.number),
     materialId: types.string,
     type: types.optional(types.enumeration(['GeoJSON', 'decoration', 'image']), 'image'),
+    lib: types.maybe(types.string),
+    key: types.maybe(types.string),
     name: types.optional(types.string, ''),
     width: types.optional(types.number, 0),
     height: types.optional(types.number, 0),
