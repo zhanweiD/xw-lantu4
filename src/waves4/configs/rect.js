@@ -1,4 +1,4 @@
-export default () => {
+export default ({column = []}) => {
   return {
     name: '矩形层',
     type: 'rect',
@@ -8,7 +8,7 @@ export default () => {
         fields: [
           {
             name: 'column',
-            defaultValue: ['项目交付'],
+            defaultValue: column,
           },
         ],
       },
@@ -86,7 +86,7 @@ export default () => {
               },
               {
                 name: 'textWeight',
-                defaultValue: 400,
+                defaultValue: 200,
               },
               {
                 name: 'singleColor',

@@ -1,4 +1,4 @@
-import {title, legend, cartesian, rect} from '@waves4/configs'
+import {cartesian, legend, rect, title} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -9,7 +9,7 @@ export const config = (k) => ({
     fields: [
       {
         name: 'xColumn',
-        defaultValue: ['成员名称'],
+        defaultValue: ['年龄段'],
       },
     ],
   },
@@ -18,9 +18,9 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 矩形图层
-  layers: [rect({k})],
+  layers: [rect({k, column: ['人数']})],
   // 标题面板
-  title: title({k, content: '基础柱状'}),
+  title: title({k, content: '某APP活跃用户年龄分布'}),
   // 图例面板
   legend: legend({k}),
   // 直角坐标系坐标轴

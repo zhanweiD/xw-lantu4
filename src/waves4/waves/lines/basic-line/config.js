@@ -9,7 +9,7 @@ export const config = (k) => ({
     fields: [
       {
         name: 'xColumn',
-        defaultValue: ['成员名称'],
+        defaultValue: ['日期'],
       },
     ],
   },
@@ -18,9 +18,9 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 折线图层
-  layers: [line({k, lineCurve: 'curveLinear'})],
+  layers: [line({k, lineCurve: 'curveLinear', column: ['CPI']})],
   // 标题面板
-  title: title({k, content: '基础折线'}),
+  title: title({k, content: '2018上半年CPI走势'}),
   // 图例面板
   legend: legend({k}),
   // 直角坐标系坐标轴

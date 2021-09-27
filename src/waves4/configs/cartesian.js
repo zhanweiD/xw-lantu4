@@ -39,7 +39,7 @@ export default ({tickZero = false}) => {
                   },
                   {
                     name: 'textWeight',
-                    defaultValue: 400,
+                    defaultValue: 200,
                   },
                   {
                     name: 'singleColor',
@@ -103,7 +103,7 @@ export default ({tickZero = false}) => {
                   },
                   {
                     name: 'textWeight',
-                    defaultValue: 400,
+                    defaultValue: 200,
                   },
                   {
                     name: 'singleColor',

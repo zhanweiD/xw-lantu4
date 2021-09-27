@@ -1,4 +1,4 @@
-export default ({lineCurve = 'curveLinear'}) => {
+export default ({lineCurve = 'curveLinear', column = []}) => {
   return {
     name: '折线层',
     type: 'line',
@@ -8,7 +8,7 @@ export default ({lineCurve = 'curveLinear'}) => {
         fields: [
           {
             name: 'column',
-            defaultValue: ['项目交付'],
+            defaultValue: column,
           },
         ],
       },
@@ -111,7 +111,7 @@ export default ({lineCurve = 'curveLinear'}) => {
               },
               {
                 name: 'textWeight',
-                defaultValue: 400,
+                defaultValue: 200,
               },
               {
                 name: 'singleColor',

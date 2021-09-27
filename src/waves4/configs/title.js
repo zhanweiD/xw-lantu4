@@ -28,7 +28,7 @@ export default ({content}) => {
           },
           {
             name: 'textWeight',
-            defaultValue: 400,
+            defaultValue: 200,
           },
           {
             name: 'singleColor',
