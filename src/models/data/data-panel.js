@@ -211,7 +211,7 @@ export const MDataPanel = types
           ':type': 'data-folder',
           action: isTop ? 'cancel' : 'top',
           id: folderId,
-          projectId: self.projectId || null,
+          projectId: dataPanelType === 'project' ? self.projectId : undefined,
         })
         isTop ? self.changeFolderSort({folderId, type: 'remove'}) : self.changeFolderSort({folderId, type: 'add'})
 
