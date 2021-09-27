@@ -1,4 +1,4 @@
-export default ({column = []}) => {
+export default ({column = [], axis = 'main'}) => {
   return {
     name: '矩形层',
     type: 'rect',
@@ -14,7 +14,12 @@ export default ({column = []}) => {
       },
       {
         name: 'rect',
-        fields: [],
+        fields: [
+          {
+            name: 'axisBinding',
+            defaultValue: axis,
+          },
+        ],
         // sections: [
         //   {
         //     name: 'color',
@@ -61,7 +66,7 @@ export default ({column = []}) => {
           },
           {
             name: 'relativePosition',
-            defaultValue: 'top',
+            defaultValue: 'center',
           },
           {
             name: 'decimalPlaces',

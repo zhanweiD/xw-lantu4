@@ -718,9 +718,26 @@ const fillType = {
 
 /**
  * =====================================
- * 比例尺类配置
+ * 坐标轴和比例尺类配置
  * =====================================
  */
+
+// 绑定主轴或副轴
+const axisBinding = {
+  type: 'check',
+  label: 'axisBinding',
+  defaultValue: 'main',
+  options: [
+    {
+      key: 'main',
+      value: 'main',
+    },
+    {
+      key: 'minor',
+      value: 'minor',
+    },
+  ],
+}
 
 // 刻度数量
 const tickCount = {
@@ -740,7 +757,7 @@ const tickZero = {
   defaultValue: false,
 }
 
-// 比例尺内边距
+// 比例尺内边距比值
 const paddingInner = {
   type: 'number',
   label: 'tickCount',
@@ -843,6 +860,8 @@ export default {
   constraint,
   // 填充方式
   fillType,
+  // 绑定主轴或副轴
+  axisBinding,
   // 刻度线数量
   tickCount,
   // 包含零刻度

@@ -8,6 +8,9 @@ import groupColumn from './waves/columns/group-column'
 import stackColumn from './waves/columns/stack-column'
 import intervalColumn from './waves/columns/interval-column'
 import waterfallColumn from './waves/columns/waterfall-column'
+import basicLineColumn from './waves/line-columns/basic-line-column'
+import groupLineColumn from './waves/line-columns/group-line-column'
+import stackLineColumn from './waves/line-columns/stack-line-column'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
@@ -24,6 +27,10 @@ const waves = {
   stackColumn,
   intervalColumn,
   waterfallColumn,
+  // 折柱
+  basicLineColumn,
+  groupLineColumn,
+  stackLineColumn,
   // echarts
   demoLine,
 }
@@ -50,7 +57,7 @@ const categories = [
     ],
   },
   {
-    // 折线图
+    // 柱状图
     name: 'classifyColumn',
     icon: 'exhibit-column',
     exhibits: [
@@ -59,6 +66,9 @@ const categories = [
       stackColumn,
       intervalColumn,
       waterfallColumn,
+      basicLineColumn,
+      groupLineColumn,
+      stackLineColumn,
     ],
   },
   {

@@ -1,4 +1,4 @@
-export default ({lineCurve = 'curveLinear', hasArea = false, column = []}) => {
+export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', column = []}) => {
   return {
     name: '折线层',
     type: 'line',
@@ -15,6 +15,10 @@ export default ({lineCurve = 'curveLinear', hasArea = false, column = []}) => {
       {
         name: 'line',
         fields: [
+          {
+            name: 'axisBinding',
+            defaultValue: axis,
+          },
           {
             name: 'lineWidth',
             defaultValue: 2,

@@ -203,6 +203,7 @@ export const layerOptionMap = new Map([
         ['line.lineWidth', 'style.curve.strokeWidth'],
         ['line.lineCurve', 'style.curve.curve'],
         ['line.lineFallback', 'options.fallback'],
+        ['line.axisBinding', 'options.axis'],
         // 面
         ['area.opacity', 'style.area.fillOpacity'],
         // 标签
@@ -237,6 +238,7 @@ export const layerOptionMap = new Map([
     'rect',
     ({mapOption, getOption}) => {
       const mapping = [
+        ['rect.axisBinding', 'options.axis'],
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],
