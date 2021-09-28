@@ -72,27 +72,21 @@ export const createExhibitModelClass = (exhibit) => {
       const getLayers = () => {
         const layers = self.layers.map((layer) => {
           const {id, type, name, options, effective} = layer.getSchema()
-          let values = {
+          const values = {
             id,
             name,
             type,
             effective,
           }
+
           if (effective) {
-            values = {
-              id,
-              name,
-              type,
-              effective,
-              options: getObjectData(options),
-            }
-            if (config.key !== 'demo') {
-              values.data = layer.getData()
-            }
-            addOptionMethod(values)
+            values.data = layer.getData()
+            values.options = getObjectData(options)
           }
 
-          return values
+          // console.log(effective ? '++++++++++' : '---------')
+
+          return addOptionMethod(values, 'init')
         })
 
         return layers
