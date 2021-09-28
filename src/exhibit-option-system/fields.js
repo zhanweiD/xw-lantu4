@@ -772,7 +772,7 @@ const tickZero = {
 // 比例尺内边距比值
 const paddingInner = {
   type: 'number',
-  label: 'tickCount',
+  label: 'paddingInner',
   defaultValue: 0.3,
   min: 0,
   max: 1,

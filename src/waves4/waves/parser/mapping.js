@@ -89,6 +89,8 @@ export const layerOptionMap = new Map([
         ['base.paddingInner', 'scale.paddingInner'],
         // x文本
         ['xAxis.label.offset', 'style.textX.offset'],
+        ['xAxis.label.thousandDiv', 'style.textX.format.thousandth'],
+        ['xAxis.label.percentage', 'style.textX.format.percentage'],
         ['xAxis.label.text.textSize', 'style.textX.fontSize'],
         ['xAxis.label.text.textWeight', 'style.textX.fontWeight'],
         ['xAxis.label.text.singleColor', 'style.textX.fill'],
@@ -152,6 +154,14 @@ export const layerOptionMap = new Map([
       }
       if (getOption('yAxis.yAxisSplitLine.effective') !== undefined) {
         storage.set('style.lineTickY.hide', !getOption('yAxis.yAxisSplitLine.effective'))
+      }
+      // x禁用格式化
+      if (!storage.get('style.textX.format.thousandth') && !storage.get('style.textX.format.percentage')) {
+        storage.set('style.textX.format', false)
+      }
+      // y禁用格式化
+      if (!storage.get('style.textY.format.thousandth') && !storage.get('style.textY.format.percentage')) {
+        storage.set('style.textY.format', false)
       }
       return storage.get()
     },

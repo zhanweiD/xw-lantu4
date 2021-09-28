@@ -12,6 +12,12 @@ import basicLineColumn from './waves/line-columns/basic-line-column'
 import groupLineColumn from './waves/line-columns/group-line-column'
 import stackLineColumn from './waves/line-columns/stack-line-column'
 import percentageColumn from './waves/columns/percentage-column'
+import basicBar from './waves/bars/basic-bar'
+import groupBar from './waves/bars/group-bar'
+import stackBar from './waves/bars/stack-bar'
+import percentageBar from './waves/bars/percentage-bar'
+import intervalBar from './waves/bars/interval-bar'
+import waterfallBar from './waves/bars/waterfall-bar'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
@@ -33,6 +39,13 @@ const waves = {
   basicLineColumn,
   groupLineColumn,
   stackLineColumn,
+  // 条形
+  basicBar,
+  groupBar,
+  stackBar,
+  percentageBar,
+  intervalBar,
+  waterfallBar,
   // echarts
   demoLine,
 }
@@ -63,7 +76,7 @@ const categories = [
     name: 'classifyColumn',
     icon: 'exhibit-column',
     exhibits: [
-      basicColumn, // 基础柱状图
+      basicColumn,
       groupColumn,
       stackColumn,
       percentageColumn,
@@ -73,6 +86,12 @@ const categories = [
       groupLineColumn,
       stackLineColumn,
     ],
+  },
+  {
+    // 条形图
+    name: 'classifyBar',
+    icon: 'exhibit-bar',
+    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
   },
   {
     // 演示对接
