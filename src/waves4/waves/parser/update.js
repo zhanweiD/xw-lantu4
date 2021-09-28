@@ -55,11 +55,11 @@ const updateStyle = ({
   // 层实例
   let layer = null
   if (action === 'layer') {
-    const waveLayer = instance.layer.find((item) => item.id === target.id)
+    const waveLayer = instance.layers.find((item) => item.id === target.id)
     layer = waveLayer.instance
     type = waveLayer.type
   } else {
-    layer = instance.layer.find((item) => item.type === type).instance
+    layer = instance.layers.find((item) => item.type === type).instance
   }
   const {mapOption, getOption} = target
   const config = layerOptionMap.get(type)({mapOption, getOption})

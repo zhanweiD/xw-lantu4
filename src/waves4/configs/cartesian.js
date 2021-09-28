@@ -1,16 +1,19 @@
-export default (k) => {
+export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) => {
   return {
     sections: [
       {
         name: 'base',
         fields: [
           {
+            name: 'tickZero',
+            defaultValue: tickZero,
+          },
+          {
             name: 'tickCount',
             defaultValue: 5,
           },
           {
-            name: 'tickZero',
-            defaultValue: false,
+            name: 'paddingInner',
           },
         ],
       },
@@ -20,23 +23,39 @@ export default (k) => {
           {
             name: 'label',
             effective: true,
-            fields: [
-              {
-                name: 'offset',
-                defaultValue: [0, 0],
-              },
-            ],
+            fields:
+              type === 'linearX-bandY'
+                ? [
+                    {
+                      name: 'offset',
+                      defaultValue: [0, 0],
+                    },
+                    {
+                      name: 'thousandDiv',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'percentage',
+                      defaultValue: percentage,
+                    },
+                  ]
+                : [
+                    {
+                      name: 'offset',
+                      defaultValue: [0, 0],
+                    },
+                  ],
             sections: [
               {
                 name: 'text',
                 fields: [
                   {
                     name: 'textSize',
-                    defaultValue: 12,
+                    defaultValue: 10,
                   },
                   {
                     name: 'textWeight',
-                    defaultValue: 400,
+                    defaultValue: 200,
                   },
                   {
                     name: 'singleColor',
@@ -68,7 +87,43 @@ export default (k) => {
               },
             ],
           },
-        ],
+          type === 'linearX-bandY' && {
+            name: 'xAxisLine',
+            effective: true,
+            fields: [
+              {
+                name: 'lineWidth',
+                defaultValue: 1,
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgb(200,200,200)',
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.5,
+              },
+            ],
+          },
+          type === 'linearX-bandY' && {
+            name: 'xAxisSplitLine',
+            effective: true,
+            fields: [
+              {
+                name: 'lineWidth',
+                defaultValue: 1,
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgb(200,200,200)',
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.3,
+              },
+            ],
+          },
+        ].filter(Boolean),
       },
       {
         name: 'yAxis',
@@ -76,31 +131,39 @@ export default (k) => {
           {
             name: 'label',
             effective: true,
-            fields: [
-              {
-                name: 'offset',
-                defaultValue: [0, -2],
-              },
-              {
-                name: 'thousandDiv',
-                defaultValue: false,
-              },
-              {
-                name: 'percentage',
-                defaultValue: false,
-              },
-            ],
+            fields:
+              type === 'bandX-linearY'
+                ? [
+                    {
+                      name: 'offset',
+                      defaultValue: [0, -2],
+                    },
+                    {
+                      name: 'thousandDiv',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'percentage',
+                      defaultValue: percentage,
+                    },
+                  ]
+                : [
+                    {
+                      name: 'offset',
+                      defaultValue: [0, 0],
+                    },
+                  ],
             sections: [
               {
                 name: 'text',
                 fields: [
                   {
                     name: 'textSize',
-                    defaultValue: 12,
+                    defaultValue: 10,
                   },
                   {
                     name: 'textWeight',
-                    defaultValue: 400,
+                    defaultValue: 200,
                   },
                   {
                     name: 'singleColor',
@@ -132,7 +195,7 @@ export default (k) => {
               },
             ],
           },
-          {
+          type === 'bandX-linearY' && {
             name: 'yAxisLine',
             effective: true,
             fields: [
@@ -150,7 +213,7 @@ export default (k) => {
               },
             ],
           },
-          {
+          type === 'bandX-linearY' && {
             name: 'yAxisSplitLine',
             effective: true,
             fields: [
@@ -168,7 +231,7 @@ export default (k) => {
               },
             ],
           },
-        ],
+        ].filter(Boolean),
       },
     ],
   }

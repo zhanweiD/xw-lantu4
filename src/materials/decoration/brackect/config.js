@@ -6,27 +6,35 @@ export const config = (k) => ({
     {
       type: 'borderA',
       name: 'brackect',
-      sections: [
+      fields: [
         {
-          name: 'base',
-          fields: [
+          name: 'custom',
+          option: 'mode',
+          label: 'mode',
+          defaultValue: 'bracket',
+          type: 'select',
+          options: [
             {
-              name: 'size',
-              defaultValue: 10,
-            },
-            {
-              name: 'lineWidth',
-              defaultValue: 2,
-            },
-            {
-              name: 'singleColor',
-              defaultValue: 'rgb(255,255,255)',
-            },
-            {
-              name: 'opacity',
-              defaultValue: 1,
+              key: 'bracket',
+              value: 'bracket',
             },
           ],
+        },
+        {
+          name: 'size',
+          defaultValue: 20,
+        },
+        {
+          name: 'lineWidth',
+          defaultValue: 2,
+        },
+        {
+          name: 'singleColor',
+          defaultValue: 'rgb(255,255,255)',
+        },
+        {
+          name: 'opacity',
+          defaultValue: 1,
         },
       ],
     },

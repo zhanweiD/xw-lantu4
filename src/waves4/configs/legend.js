@@ -1,4 +1,4 @@
-export default (k) => {
+export default ({direction = 'horizontal', position = 'topRight'}) => {
   return {
     effective: true,
     sections: [
@@ -7,11 +7,11 @@ export default (k) => {
         fields: [
           {
             name: 'direction',
-            defaultValue: 'horizontal',
+            defaultValue: direction,
           },
           {
             name: 'layoutPosition',
-            defaultValue: 'topRight',
+            defaultValue: position,
           },
           {
             name: 'offset',
@@ -19,7 +19,7 @@ export default (k) => {
           },
           {
             name: 'gap',
-            defaultValue: [0, 5],
+            defaultValue: [2, 5],
           },
         ],
       },
@@ -44,11 +44,11 @@ export default (k) => {
             fields: [
               {
                 name: 'textSize',
-                defaultValue: 12,
+                defaultValue: 10,
               },
               {
                 name: 'textWeight',
-                defaultValue: 400,
+                defaultValue: 200,
               },
               {
                 name: 'singleColor',
