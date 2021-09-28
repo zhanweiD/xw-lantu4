@@ -5,12 +5,12 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) 
         name: 'base',
         fields: [
           {
-            name: 'tickCount',
-            defaultValue: 5,
-          },
-          {
             name: 'tickZero',
             defaultValue: tickZero,
+          },
+          {
+            name: 'tickCount',
+            defaultValue: 5,
           },
           {
             name: 'paddingInner',
