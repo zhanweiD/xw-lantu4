@@ -1,18 +1,6 @@
 import data from './data'
 
-const dimension = (k) => ({
-  name: '维度',
-  type: 'dimension',
-  fields: [
-    {
-      name: 'xAxisDimension',
-      defaultValue: ['成员名称'],
-      range: [1, 1],
-    },
-  ],
-})
-
-const lineLayer = (k) => ({
+const lineLayer = () => ({
   name: '线层',
   type: 'line',
   sections: [
@@ -31,6 +19,14 @@ const lineLayer = (k) => ({
         {
           name: 'lineWidth',
           defaultValue: 4,
+          type: 'select',
+        },
+        {
+          name: 'custom',
+          option: 'customOption',
+          label: 'customLabel',
+          defaultValue: '4',
+          type: 'text',
         },
         {
           name: 'lineSmooth',
@@ -114,6 +110,13 @@ export const config = (k) => ({
       {
         name: 'text',
         fields: [
+          {
+            name: 'custom',
+            option: 'customOption',
+            label: 'customLabel',
+            defaultValue: '4',
+            type: 'text',
+          },
           {
             name: 'textSize',
 

@@ -43,7 +43,7 @@ const createFieldsClass = (fields) => {
   const initProps = {}
 
   fields.forEach((field) => {
-    // console.log('🦊', field.name, field)
+    // console.log(field.name === 'custom' ? '🦁' : '🦄', field)
     if (fieldModel[field.type]) {
       let MFieldModel = fieldModel[field.type].actions((self) => ({
         getSchema() {
@@ -62,8 +62,8 @@ const createFieldsClass = (fields) => {
             () => {
               const value = self.getValue()
 
-              const parent = getParent(self, 2)
-              console.log('🦁 parent', parent.fields.singleColor)
+              // const parent = getParent(self, 2)
+              // console.log('🦁 parent', parent.fields.singleColor)
 
               getParent(self, 2).update(
                 {
@@ -87,10 +87,14 @@ const createFieldsClass = (fields) => {
         },
       }))
 
-      initProps[field.name] = types.optional(MFieldModel, {
-        ...field,
-        option: field.name,
-      })
+      if (field.name !== 'custom') {
+        initProps[field.name] = types.optional(MFieldModel, {
+          ...field,
+          option: field.name,
+        })
+      } else {
+        initProps[field.option] = types.optional(MFieldModel, field)
+      }
     } else {
       log.warn(`Field for '${field.type}' is NOT supported yet!`)
     }
