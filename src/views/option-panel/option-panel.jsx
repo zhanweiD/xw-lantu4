@@ -15,7 +15,7 @@ const OptionPanel = () => {
   const activeTab = tabs.find((tab) => tab.id === activeTabId)
   return isOptionPanelVisible_ ? (
     <div
-      className={c('cf2a fbv fbn', s.optionPanel, {
+      className={c('cf2a fbv fbn pr', s.optionPanel, {
         hide: !optionPanel.isActive,
       })}
     >
