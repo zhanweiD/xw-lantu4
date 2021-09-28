@@ -2,11 +2,13 @@ import {types, flow, getParent} from 'mobx-state-tree'
 import onerStorage from 'oner-storage'
 import io from '@utils/io'
 import createEvent from '@utils/create-event'
+import createLog from '@utils/create-log'
 import commonAction from '@utils/common-action'
 import tip from '@components/tip'
 import {MZoom} from '@utils/zoom'
 import {registerExhibit} from '@exhibit-collection'
 
+const log = createLog('@models/art/art-preview.js')
 const event = createEvent()
 const MWatermark = types.model('MWatermark', {
   isEnable: types.optional(types.boolean, false),
@@ -24,6 +26,7 @@ const MBox = types.model('MBoxPreview', {
   boxId: types.number,
   exhibit: types.frozen(),
   layout: types.frozen(),
+  materials: types.frozen(),
 })
 
 const MFrame = types
@@ -40,25 +43,45 @@ const MFrame = types
     },
   }))
   .actions((self) => {
-    const initBox = ({boxId, exhibit, layout}) => {
+    const initBox = ({boxId, exhibit, layout, materials}) => {
       const box = MBox.create({
         boxId,
         exhibit,
         layout,
+        materials,
       })
       self.boxes.push(box)
-      const model = registerExhibit(exhibit.key)
-      if (model) {
-        const art = self.art_
-        art.exhibitManager.set(
-          exhibit.id,
-          model.initModel({
-            art,
-            themeId: art.themeId,
-            schema: exhibit,
-            event,
-          })
-        )
+      if (exhibit) {
+        const model = registerExhibit(exhibit.key)
+        if (model) {
+          const art = self.art_
+          art.exhibitManager.set(
+            exhibit.id,
+            model.initModel({
+              art,
+              themeId: art.themeId,
+              schema: exhibit,
+              event,
+            })
+          )
+        }
+      }
+      if (materials) {
+        materials.forEach((material) => {
+          const model = registerExhibit(material.key)
+          if (model) {
+            const art = self.art_
+            art.exhibitManager.set(
+              material.id,
+              model.initModel({
+                art,
+                themeId: art.themeId,
+                schema: material,
+                event,
+              })
+            )
+          }
+        })
       }
     }
     return {
@@ -96,7 +119,7 @@ const MArtPreview = types
   })
   .views((self) => ({
     get mainFrame_() {
-      return self.frames.filter((v) => v.isMain)[0]
+      return self.frames.find((v) => v.isMain)
     },
   }))
   .actions(commonAction(['set']))
@@ -143,6 +166,8 @@ const MArtPreview = types
         self.fetchState = 'success'
       } catch (error) {
         self.fetchState = 'error'
+        tip.error({content: error.message})
+        log.error('preview error', error)
       }
     })
 
@@ -168,6 +193,7 @@ const MArtPreview = types
       } catch (error) {
         self.fetchState = 'error'
         tip.error({content: error.message})
+        log.error('preview error', error)
       }
     })
     const initFrame = ({boxes, layout, isMain, frameId, background}) => {

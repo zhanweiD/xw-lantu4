@@ -6,7 +6,7 @@ export const MTextField = types
   .model('MTextField', {
     type: types.optional(types.enumeration(['text', 'password']), 'text'),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
     defaultValue: types.maybe(types.string),
@@ -23,11 +23,16 @@ export const MTextField = types
       self.value = value
     }
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
     return {
       afterCreate,
       getValue,
       setValue,
+      setEffective,
     }
   })

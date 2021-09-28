@@ -18,7 +18,6 @@ const log = createLog('@models/art/art-publish-info.js')
 const PublishVersion = types.model('PublishVersion', {
   versionId: types.number,
   ctime: types.number,
-  remark: types.string,
   isOnline: types.boolean,
 })
 
@@ -28,7 +27,6 @@ export const MPublishInfo = types
     projectId: types.number,
     artId: types.number,
     list: types.optional(types.array(PublishVersion), []),
-    remark: types.optional(types.string, ''),
   })
   .views((self) => ({
     get env_() {

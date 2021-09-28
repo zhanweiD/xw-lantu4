@@ -143,12 +143,14 @@ export const MMaterialPanel = types
             folderId: -1,
             folderName: '装饰素材',
             isOfficial: true,
-            materials: Object.values(decorations).map(({id, name, icon}) => ({
+            materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
               folderId: -1,
               isOfficial: true,
               materialId: id,
               name,
               icon,
+              lib,
+              key,
               type: 'decoration',
               width: 10,
               height: 10,

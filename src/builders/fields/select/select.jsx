@@ -9,6 +9,7 @@ import s from './select.module.styl'
 
 const SelectField = ({
   label,
+  effective,
   value,
   defaultValue,
   onChange = () => {},
@@ -47,7 +48,13 @@ const SelectField = ({
   }
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field
+      className={className}
+      childrenClassName={childrenClassName}
+      lebelClassName={labelClassName}
+      label={label}
+      effective={effective}
+    >
       <div
         ref={selectRef}
         className={c('w100p h100p fbh fbac fbjc pr')}

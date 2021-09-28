@@ -2,12 +2,12 @@ import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {DropTarget} from '@components/drag-and-drop'
-
 import Exhibit from '@views/public/exhibit'
+import Material from '@views/public/material'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_} = box
+  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_, materials = []} = box
   const {isBoxBackgroundVisible} = art_
 
   const style = {
@@ -42,7 +42,7 @@ const Box = ({box}) => {
       }
       data={{
         createBackground: (data) => {
-          box.updateMaterialId(data)
+          box.addBackground(data)
         },
         create: (data) => {
           box.updateExhibit(data)
@@ -65,6 +65,9 @@ const Box = ({box}) => {
           })
         }}
       >
+        {materials.map((material) => (
+          <Material material={material} key={material.id} box={box} frame={frame_} />
+        ))}
         <Exhibit box={box} frame={frame_} />
       </div>
     </DropTarget>

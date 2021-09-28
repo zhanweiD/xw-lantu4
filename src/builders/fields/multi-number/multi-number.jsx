@@ -13,6 +13,7 @@ import s from './multi-number.module.styl'
 
 const MultiNumberField = ({
   label,
+  effective,
   value = [],
   defaultValue = [],
   onChange = () => {},
@@ -31,7 +32,13 @@ const MultiNumberField = ({
     }
   }, [value])
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field
+      className={className}
+      childrenClassName={childrenClassName}
+      lebelClassName={labelClassName}
+      label={label}
+      effective={effective}
+    >
       {items.map((item, index) => {
         const labelDiv = (
           <div

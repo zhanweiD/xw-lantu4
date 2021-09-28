@@ -11,12 +11,19 @@ const TextField = ({
   onChange = () => {},
   type = 'text',
   label,
+  effective,
   labelClassName,
   childrenClassName,
   className,
 }) => {
   return (
-    <Field className={className} childrenClassName={childrenClassName} labelClassName={labelClassName} label={label}>
+    <Field
+      className={className}
+      childrenClassName={childrenClassName}
+      labelClassName={labelClassName}
+      label={label}
+      effective={effective}
+    >
       <input
         type={type}
         value={isDef(value) ? value : defaultValue}

@@ -1,18 +1,6 @@
 import data from './data'
 
-const dimension = (k) => ({
-  name: '维度',
-  type: 'dimension',
-  fields: [
-    {
-      name: 'xAxisDimension',
-      defaultValue: ['成员名称'],
-      range: [1, 1],
-    },
-  ],
-})
-
-const lineLayer = (k) => ({
+const lineLayer = () => ({
   name: '线层',
   type: 'line',
   sections: [
@@ -31,23 +19,18 @@ const lineLayer = (k) => ({
         {
           name: 'lineWidth',
           defaultValue: 4,
+          type: 'select',
+        },
+        {
+          name: 'custom',
+          option: 'customOption',
+          label: 'customLabel',
+          defaultValue: '4',
+          type: 'text',
         },
         {
           name: 'lineSmooth',
           defaultValue: true,
-        },
-        {
-          name: 'colorType',
-          // defaultValue: 'single',
-        },
-        {
-          name: 'singleColor',
-        },
-        {
-          name: 'gradientColor',
-        },
-        {
-          name: 'themeColor',
         },
       ],
     },
@@ -128,7 +111,15 @@ export const config = (k) => ({
         name: 'text',
         fields: [
           {
+            name: 'custom',
+            option: 'customOption',
+            label: 'customLabel',
+            defaultValue: '4',
+            type: 'text',
+          },
+          {
             name: 'textSize',
+
             defaultValue: 16,
           },
           {
@@ -136,8 +127,20 @@ export const config = (k) => ({
             defaultValue: 400,
           },
           {
+            name: 'colorType',
+            defaultValue: 'singleColor',
+          },
+          {
             name: 'singleColor',
             defaultValue: '#ffffff',
+          },
+          {
+            name: 'gradientColor',
+            effective: false,
+            defaultValue: [
+              ['#79b7ff', 0],
+              ['#007eff', 1],
+            ],
           },
           {
             name: 'opacity',

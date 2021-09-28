@@ -9,7 +9,7 @@ export const MNumberField = types
   .model('MNumberField', {
     type: types.enumeration(['number']),
     option: types.optional(types.string, ''),
-
+    effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     inputValue: types.frozen(),
     value: types.maybe(types.number),
@@ -38,12 +38,17 @@ export const MNumberField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
+    }
+
+    const setEffective = (b) => {
+      self.effective = b
     }
 
     return {
       afterCreate,
       setValue,
       getValue,
+      setEffective,
     }
   })
