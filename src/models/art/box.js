@@ -206,7 +206,7 @@ export const MBox = types
             event,
           })
         )
-        const materials = self.materials.map((material) => art.exhibitManager.get(material.id).getSchema())
+        const materials = self.materials?.map((material) => art.exhibitManager.get(material.id).getSchema())
 
         self.materials = [].concat(material).concat(...materials)
         debounceUpdate()

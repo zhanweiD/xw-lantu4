@@ -9,7 +9,7 @@ const Preview = ({match}) => {
   useEffect(() => {
     art.getArt(artId)
   }, [artId])
-  console.log(art, 'art1')
+
   return (
     <div className={s.preview}>
       <div className="wh100p">{art.fetchState === 'success' && <ArtPreview art={art} />}</div>

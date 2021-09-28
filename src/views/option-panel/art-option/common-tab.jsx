@@ -15,7 +15,6 @@ const CommonTab = ({box, frame}) => {
   let materialModels = []
   if (materials) {
     materialModels = materials.map((material) => box.frame_.art_.exhibitManager.get(material.id))
-    console.log(materialModels)
   }
   return (
     <>

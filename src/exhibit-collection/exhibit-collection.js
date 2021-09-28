@@ -1,6 +1,6 @@
 import onerStorage from 'oner-storage'
 import waves from '@waves4'
-import materials from '@materials'
+import materials, {alldecorations} from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {themeConfigs} from '@utils/theme'
@@ -101,8 +101,8 @@ const addModal = (exhibits) =>
 
 // 编辑状态下需要初始化注册所有组件，预览发布状态下不需要
 if (isEdit) {
-  addModal(waves, 'wave')
-  addModal(materials, 'materials')
+  addModal(waves)
+  addModal(alldecorations)
 }
 
 export default exhibitCollection

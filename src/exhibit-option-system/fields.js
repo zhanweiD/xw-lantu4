@@ -722,8 +722,8 @@ const fillType = {
       value: 'longEdgeFill',
     },
     {
-      key: 'StretchFill',
-      value: 'StretchFill',
+      key: 'stretchFill',
+      value: 'stretchFill',
     },
   ],
 }
