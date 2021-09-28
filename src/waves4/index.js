@@ -11,6 +11,7 @@ import waterfallColumn from './waves/columns/waterfall-column'
 import basicLineColumn from './waves/line-columns/basic-line-column'
 import groupLineColumn from './waves/line-columns/group-line-column'
 import stackLineColumn from './waves/line-columns/stack-line-column'
+import percentageColumn from './waves/columns/percentage-column'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 
@@ -27,6 +28,7 @@ const waves = {
   stackColumn,
   intervalColumn,
   waterfallColumn,
+  percentageColumn,
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -64,6 +66,7 @@ const categories = [
       basicColumn, // 基础柱状图
       groupColumn,
       stackColumn,
+      percentageColumn,
       intervalColumn,
       waterfallColumn,
       basicLineColumn,

@@ -1,4 +1,10 @@
-export default ({column = [], axis = 'main'}) => {
+export default ({
+  column = [],
+  axis = 'main',
+  type = 'column',
+  mode = 'group',
+  labelPosition = ['center', 'center'],
+}) => {
   return {
     name: '矩形层',
     type: 'rect',
@@ -13,11 +19,57 @@ export default ({column = [], axis = 'main'}) => {
         ],
       },
       {
-        name: 'rect',
+        name: 'base',
         fields: [
           {
             name: 'axisBinding',
             defaultValue: axis,
+          },
+          {
+            name: 'custom',
+            option: 'type',
+            label: 'type',
+            defaultValue: type,
+            type: 'check',
+            options: [
+              {
+                key: 'column',
+                value: 'column',
+              },
+              {
+                key: 'bar',
+                value: 'bar',
+              },
+            ],
+          },
+          {
+            name: 'custom',
+            option: 'mode',
+            label: 'mode',
+            defaultValue: mode,
+            type: 'select',
+            options: [
+              {
+                key: 'group',
+                value: 'group',
+              },
+              {
+                key: 'stack',
+                value: 'stack',
+              },
+              {
+                key: 'interval',
+                value: 'interval',
+              },
+              {
+                key: 'waterfall',
+                value: 'waterfall',
+              },
+              {
+                key: 'percentage',
+                value: 'percentage',
+              },
+            ],
           },
         ],
         // sections: [
@@ -61,12 +113,98 @@ export default ({column = [], axis = 'main'}) => {
         effective: true,
         fields: [
           {
-            name: 'offset',
-            defaultValue: [0, 0],
+            name: 'custom',
+            type: 'select',
+            label: 'maxPosition',
+            option: 'maxLabelPosition',
+            defaultValue: Array.isArray(labelPosition) ? labelPosition[1] : labelPosition,
+            options: [
+              {
+                key: 'wave.center',
+                value: 'center',
+              },
+              {
+                key: 'wave.topInner',
+                value: 'top-inner',
+              },
+              {
+                key: 'wave.topOuter',
+                value: 'top-outer',
+              },
+              {
+                key: 'wave.rightInner',
+                value: 'right-inner',
+              },
+              {
+                key: 'wave.rightOuter',
+                value: 'right-outer',
+              },
+              {
+                key: 'wave.bottomInner',
+                value: 'bottom-inner',
+              },
+              {
+                key: 'wave.bottomOuter',
+                value: 'bottom-outer',
+              },
+              {
+                key: 'wave.leftInner',
+                value: 'left-inner',
+              },
+              {
+                key: 'wave.leftOuter',
+                value: 'left-outer',
+              },
+            ],
           },
           {
-            name: 'relativePosition',
-            defaultValue: 'center',
+            name: 'custom',
+            type: 'select',
+            label: 'minPosition',
+            option: 'minLabelPosition',
+            defaultValue: Array.isArray(labelPosition) ? labelPosition[0] : labelPosition,
+            options: [
+              {
+                key: 'wave.center',
+                value: 'center',
+              },
+              {
+                key: 'wave.topInner',
+                value: 'top-inner',
+              },
+              {
+                key: 'wave.topOuter',
+                value: 'top-outer',
+              },
+              {
+                key: 'wave.rightInner',
+                value: 'right-inner',
+              },
+              {
+                key: 'wave.rightOuter',
+                value: 'right-outer',
+              },
+              {
+                key: 'wave.bottomInner',
+                value: 'bottom-inner',
+              },
+              {
+                key: 'wave.bottomOuter',
+                value: 'bottom-outer',
+              },
+              {
+                key: 'wave.leftInner',
+                value: 'left-inner',
+              },
+              {
+                key: 'wave.leftOuter',
+                value: 'left-outer',
+              },
+            ],
+          },
+          {
+            name: 'offset',
+            defaultValue: [0, 0],
           },
           {
             name: 'decimalPlaces',
@@ -78,7 +216,7 @@ export default ({column = [], axis = 'main'}) => {
           },
           {
             name: 'percentage',
-            defaultValue: false,
+            defaultValue: mode === 'percentage',
           },
         ],
         sections: [
@@ -87,7 +225,7 @@ export default ({column = [], axis = 'main'}) => {
             fields: [
               {
                 name: 'textSize',
-                defaultValue: 12,
+                defaultValue: 10,
               },
               {
                 name: 'textWeight',

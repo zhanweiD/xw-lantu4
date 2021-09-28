@@ -21,6 +21,7 @@ export const config = (k) => ({
   layers: [
     line({
       k,
+      mode: 'stack',
       hasArea: true,
       lineCurve: 'curveMonotoneX',
       column: ['管理费用（亿元）', '销售费用（亿元）', '财务费用（亿元）'],

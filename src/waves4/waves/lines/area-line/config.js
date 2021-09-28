@@ -18,7 +18,7 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 折线图层
-  layers: [line({k, lineCurve: 'curveMonotoneX', hasArea: true, column: ['销量']})],
+  layers: [line({k, lineCurve: 'curveMonotoneX', mode: 'group', hasArea: true, column: ['销量']})],
   // 标题面板
   title: title({k, content: '2014年-2018年中国母婴市场规模'}),
   // 图例面板

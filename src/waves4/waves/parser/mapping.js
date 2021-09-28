@@ -195,6 +195,9 @@ export const layerOptionMap = new Map([
     'line',
     ({mapOption, getOption}) => {
       const mapping = [
+        // 基础
+        ['base.axisBinding', 'options.axis'],
+        ['base.mode', 'options.mode'],
         // 点
         ['point.size', 'style.pointSize'],
         ['point.singleColor', 'style.point.fill'],
@@ -203,7 +206,6 @@ export const layerOptionMap = new Map([
         ['line.lineWidth', 'style.curve.strokeWidth'],
         ['line.lineCurve', 'style.curve.curve'],
         ['line.lineFallback', 'options.fallback'],
-        ['line.axisBinding', 'options.axis'],
         // 面
         ['area.opacity', 'style.area.fillOpacity'],
         // 标签
@@ -238,13 +240,14 @@ export const layerOptionMap = new Map([
     'rect',
     ({mapOption, getOption}) => {
       const mapping = [
-        ['rect.axisBinding', 'options.axis'],
+        ['base.axisBinding', 'options.axis'],
+        ['base.type', 'options.type'],
+        ['base.mode', 'options.mode'],
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],
         // 标签
         ['label.offset', 'style.text.offset'],
-        ['label.relativePosition', 'style.labelPosition'],
         ['label.decimalPlaces', 'style.text.format.decimalPlace'],
         ['label.thousandDiv', 'style.text.format.thousandth'],
         ['label.percentage', 'style.text.format.percentage'],
@@ -267,6 +270,7 @@ export const layerOptionMap = new Map([
       if (getOption('label.shadow.effective') !== undefined) {
         storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
       }
+      storage.set('style.labelPosition', [getOption('label.minLabelPosition'), getOption('label.maxLabelPosition')])
       return storage.get()
     },
   ],

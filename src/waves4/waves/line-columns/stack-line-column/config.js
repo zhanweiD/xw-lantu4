@@ -19,8 +19,8 @@ export const config = (k) => ({
   padding: [0, 0, 0, 0],
   // 矩形图层
   layers: [
-    line({k, axis: 'minor', column: ['GDP增长']}),
-    rect({k, column: ['第一产业累计值', '第二产业累计值', '第三产业累计值']}),
+    line({k, axis: 'minor', mode: 'group', column: ['GDP增长']}),
+    rect({k, type: 'column', mode: 'stack', column: ['第一产业累计值', '第二产业累计值', '第三产业累计值']}),
   ],
   // 标题面板
   title: title({k, content: '2018-2019季度GDP概况'}),

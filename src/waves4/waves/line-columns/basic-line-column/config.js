@@ -18,7 +18,10 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 矩形图层
-  layers: [line({k, column: ['GDP增速'], axis: 'minor'}), rect({k, column: ['GDP总量']})],
+  layers: [
+    line({k, column: ['GDP增速'], mode: 'group', axis: 'minor'}),
+    rect({k, type: 'column', mode: 'group', column: ['GDP总量'], labelPosition: ['bottom-outer', 'top-outer']}),
+  ],
   // 标题面板
   title: title({k, content: '中国近十年GDP总量与增速'}),
   // 图例面板

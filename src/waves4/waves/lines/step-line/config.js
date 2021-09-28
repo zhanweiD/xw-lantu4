@@ -21,6 +21,7 @@ export const config = (k) => ({
   layers: [
     line({
       k,
+      mode: 'group',
       lineCurve: 'curveStep',
       column: ['猪肉CPI'],
     }),

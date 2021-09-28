@@ -2,16 +2,16 @@ import {config} from './config'
 import makeAdapter from './adapter'
 import i18n from './i18n'
 
-const bulletBar = {
+const percentageColumn = {
   lib: 'wave',
-  id: 'brbt',
+  id: 'cnpe',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'bullet',
+  icon: 'percentage-column',
   i18n,
   config,
   makeAdapter,
 }
 
-export default bulletBar
+export default percentageColumn

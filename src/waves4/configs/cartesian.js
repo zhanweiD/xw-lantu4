@@ -1,4 +1,4 @@
-export default ({tickZero = false}) => {
+export default ({tickZero = false, percentage = false}) => {
   return {
     sections: [
       {
@@ -35,7 +35,7 @@ export default ({tickZero = false}) => {
                 fields: [
                   {
                     name: 'textSize',
-                    defaultValue: 12,
+                    defaultValue: 10,
                   },
                   {
                     name: 'textWeight',
@@ -90,7 +90,7 @@ export default ({tickZero = false}) => {
               },
               {
                 name: 'percentage',
-                defaultValue: false,
+                defaultValue: percentage,
               },
             ],
             sections: [
@@ -99,7 +99,7 @@ export default ({tickZero = false}) => {
                 fields: [
                   {
                     name: 'textSize',
-                    defaultValue: 12,
+                    defaultValue: 10,
                   },
                   {
                     name: 'textWeight',

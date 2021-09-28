@@ -44,7 +44,7 @@ export default ({direction = 'horizontal', position = 'topRight'}) => {
             fields: [
               {
                 name: 'textSize',
-                defaultValue: 12,
+                defaultValue: 10,
               },
               {
                 name: 'textWeight',
