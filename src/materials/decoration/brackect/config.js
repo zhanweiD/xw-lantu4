@@ -12,8 +12,8 @@ export const config = (k) => ({
           fields: [
             {
               name: 'custom',
-              option: 'type',
-              label: 'type',
+              option: 'mode',
+              label: 'mode',
               defaultValue: 'bracket',
               type: 'select',
               options: [

@@ -11,6 +11,19 @@ export const config = (k) => ({
           name: 'base',
           fields: [
             {
+              name: 'custom',
+              option: 'mode',
+              label: 'mode',
+              defaultValue: 'knuckle',
+              type: 'select',
+              options: [
+                {
+                  key: 'knuckle',
+                  value: 'knuckle',
+                },
+              ],
+            },
+            {
               name: 'size',
               defaultValue: 10,
             },
