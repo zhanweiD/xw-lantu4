@@ -197,7 +197,7 @@ export const createExhibitModelClass = (exhibit) => {
 
       const setTitle = (title) => {
         self.title = createPropertyClass(config.key, title, 'title')
-        console.log('⛑', self.title, self.title.toJSON())
+        // console.log('⛑', self.title, self.title.toJSON())
       }
 
       const getTitle = () => {
