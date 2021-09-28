@@ -12,7 +12,7 @@ const ArtPreview = ({art}) => {
     // 将整个art缩放到可视区域之内
     art.initZoom()
   }, [art.artId])
-  console.log(art)
+
   return (
     <>
       <div

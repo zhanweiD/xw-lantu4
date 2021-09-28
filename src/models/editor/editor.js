@@ -219,7 +219,6 @@ export const MEditor = types
     }
 
     const updateTabname = ({id, name}) => {
-      console.log(self.tabs, 'self.tabs')
       const tab = self.tabs.filter((item) => item.id === id)[0]
       tab &&
         tab.set({

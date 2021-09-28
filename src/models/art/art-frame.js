@@ -160,7 +160,7 @@ export const MArtFrame = types
     }
 
     // type 可以为exhibit|image|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰空组件
-    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', materialId}) {
+    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', materialId, name}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
@@ -169,14 +169,25 @@ export const MArtFrame = types
       let materials
 
       if (type === 'image') {
-        materials = [
-          {
+        const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+        const model = findAdapter.value.initModel({
+          art,
+          themeId: art.basic.themeId,
+          schema: {
+            lib,
+            key,
             id: materialId,
-            type,
+            layers: [
+              {
+                id: materialId,
+                name,
+              },
+            ],
           },
-        ]
+        })
+
+        materials = [model.getSchema()]
       } else {
-        // if (type === 'exhibit') {
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
           art,
@@ -193,18 +204,7 @@ export const MArtFrame = types
         if (type === 'decoration') {
           materials = [model.getSchema()]
         }
-        // }
       }
-
-      // if (type === 'decoration') {
-      //   materials = [
-      //     {
-      //       id: materialId,
-      //       type,
-      //     },
-      //   ]
-      // }
-
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {

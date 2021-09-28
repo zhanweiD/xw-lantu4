@@ -80,6 +80,7 @@ const Builder = ({layers, data, dimension, exhibit}) => {
               {layer.data && <ModelToField model={layer.data} />}
               {recusiveNode({
                 sections: layer.options.sections,
+                fields: layer.options.fields,
               })}
             </Section>
           </div>

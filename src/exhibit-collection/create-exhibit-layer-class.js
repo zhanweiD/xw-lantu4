@@ -6,7 +6,7 @@ import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
 
 export const createLayer = (key, layer, env) => {
-  const {name, type, id = uuid(), sections} = layer
+  const {name, type, id = uuid(), sections, fields} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
       id: types.optional(types.string, id),
@@ -20,7 +20,7 @@ export const createLayer = (key, layer, env) => {
     .actions((self) => {
       const afterCreate = () => {
         // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
-        const MConfig = transform({id, sections})
+        const MConfig = transform({id, sections, fields})
         self.options = MConfig.create()
         if (layer.data) {
           self.data = MDataField.create(
