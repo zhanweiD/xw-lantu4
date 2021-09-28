@@ -55,7 +55,7 @@ const Material = ({material, showType}) => {
       key={material.materialId}
       onEnd={(dropResult, data, position) => {
         w.env_.event.fire('editor.setProps', {isPointerEventsNone: false})
-        const {type, lib, key, materialId} = data
+        const {type, lib, key, materialId, name} = data
         const params = {
           type,
           lib,
@@ -63,6 +63,7 @@ const Material = ({material, showType}) => {
         }
         if (type !== 'decoration') {
           params.materialId = materialId
+          params.name = name
         }
         dropResult.createBackground({
           ...params,

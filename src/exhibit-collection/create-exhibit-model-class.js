@@ -1,11 +1,8 @@
 import {types, getEnv} from 'mobx-state-tree'
-import isPlainObject from 'lodash/isPlainObject'
-import onerStorage from 'oner-storage'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import getObjectData from '@utils/get-object-data'
-import isDef from '@utils/is-def'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
@@ -41,26 +38,6 @@ export const createExhibitModelClass = (exhibit) => {
     }))
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
     .actions((self) => {
-      const afterCreate = () => {
-        // if (config.data) {
-        //   self.setData(config.data)
-        // }
-        // if (config.dimension) {
-        //   self.setDimension(config.dimension)
-        // }
-        // if (config.title) {
-        //   self.setTitle(config.title)
-        // }
-        // if (config.legend) {
-        //   self.setLegend(config.legend)
-        // }
-        // if (config.axis) {
-        //   self.setAxis(config.axis)
-        // }
-        // if (config.other) {
-        //   self.setOther(config.other)
-        // }
-      }
       const init = () => {
         if (config.data) {
           self.setData(config.data)
@@ -235,7 +212,6 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       return {
-        afterCreate,
         setCachedData,
         setContext,
         setAdapter,

@@ -158,10 +158,23 @@ export const MArt = types
         frames.forEach((frame) => {
           const {boxes} = frame
           boxes.forEach((box) => {
-            const exhibitModel = self.exhibitManager.get(box.exhibit.id)
-            if (exhibitModel) {
-              const schema = exhibitModel.getSchema()
-              box.exhibit = schema
+            if (box.exhibit) {
+              const exhibitModel = self.exhibitManager.get(box.exhibit.id)
+              if (exhibitModel) {
+                const schema = exhibitModel.getSchema()
+                box.exhibit = schema
+              }
+            }
+            if (box.materials) {
+              const materials = []
+              box.materials.forEach((m) => {
+                const materialModel = self.exhibitManager.get(m.id)
+                if (materialModel) {
+                  const schema = materialModel.getSchema()
+                  materials.push(schema)
+                }
+              })
+              box.materials = materials
             }
           })
         })
