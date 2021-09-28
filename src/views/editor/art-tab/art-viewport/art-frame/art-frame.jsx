@@ -97,7 +97,6 @@ const ArtFrame = ({frame}) => {
               })
             },
             createBackground: (data) => {
-              console.log(data)
               frame.createBox({
                 ...data,
               })
