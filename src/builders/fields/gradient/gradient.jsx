@@ -71,8 +71,7 @@ const GradientField = ({
   useEffect(() => {
     const {key, x, y} = circle
     const circleNode = document.querySelector(`.${key}`)
-
-    if (circleNode) {
+    if (circleNode && key) {
       // 用于保存小的div拖拽前的坐标
       circleNode.startX = x - circleNode.offsetLeft
       circleNode.startY = y
