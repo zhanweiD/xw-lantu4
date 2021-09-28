@@ -173,15 +173,10 @@ const createExhibitAdapter = (hooks) =>
             () => layer.effective,
             () => {
               const options = this.getAllOptions()
-              const updated = {
-                id: layer.id,
-                type: layer.type,
-                options: options.layers.find((o) => o.id === layer.id),
-              }
               this.update({
                 action: 'layer',
                 options,
-                updated,
+                updated: options.layers.find((o) => o.id === layer.id),
                 updatedPath: 'effective',
                 flag: 'layer',
               })
