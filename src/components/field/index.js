@@ -19,7 +19,7 @@ import {MultiNumberField} from './multi-number'
 import {ConstraintsField} from './constraints'
 import {AlignmentField} from './alignment'
 import {OffsetField} from './offset'
-import {ImageField} from './image'
+
 import createConfigModelClass from './create-config-model-class'
 import ModelToField from './model-to-field'
 
@@ -44,7 +44,6 @@ export {
   MultiNumberField,
   RangeNumberField,
   ConstraintsField,
-  ImageField,
   OffsetField,
   createConfigModelClass,
   ModelToField,
