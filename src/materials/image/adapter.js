@@ -28,8 +28,6 @@ const makeAdapter = () => {
 
     // 处理包括数据、样式等变更
     update({updated, instance}) {
-      console.log(updated, 'updated')
-      console.log(updated.getOption('base.fillType'))
       instance.update({
         fillType: updated.getOption('base.fillType'),
         opacity: updated.getOption('base.opacity'),

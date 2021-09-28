@@ -1,5 +1,6 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
+import cloneDeep from 'lodash/cloneDeep'
 import c from 'classnames'
 import {DropTarget} from '@components/drag-and-drop'
 import Exhibit from '@views/public/exhibit'
@@ -8,6 +9,8 @@ import s from './box.module.styl'
 
 const Box = ({box}) => {
   const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_, materials = []} = box
+  const reverseMaterials = cloneDeep(materials)
+  reverseMaterials.reverse()
   const {isBoxBackgroundVisible} = art_
 
   const style = {
@@ -65,7 +68,7 @@ const Box = ({box}) => {
           })
         }}
       >
-        {materials.map((material) => (
+        {reverseMaterials.map((material) => (
           <Material material={material} key={material.id} box={box} frame={frame_} />
         ))}
         <Exhibit box={box} frame={frame_} />
