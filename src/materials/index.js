@@ -1,5 +1,5 @@
-import corner from './decoration/corner'
-import brackect from './decoration/brackect'
+import corner from './decorations/corner'
+import brackect from './decorations/brackect'
 import image from './image'
 import i18n from '@i18n'
 

@@ -1,5 +1,5 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import {createWave, translate} from '@materials/decoration/parser'
+import {createWave, translate} from '@materials/decorations/parser'
 
 const makeAdapter = () => {
   // k 组件私有化多语言方法
