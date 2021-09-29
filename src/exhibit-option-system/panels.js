@@ -104,6 +104,7 @@ const global = {
     },
     {
       name: 'watermark',
+      effective: false,
       fields: [
         {
           name: 'content',
@@ -118,6 +119,7 @@ const global = {
     },
     {
       name: 'auth',
+      effective: false,
       fields: [
         {
           name: 'password',
