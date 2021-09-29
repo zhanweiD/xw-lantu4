@@ -81,6 +81,65 @@ const remark = {
   ],
 }
 
+// 全局
+const global = {
+  name: 'global',
+  sections: [
+    // TODO 主题待开放
+    // {
+    //   name: 'theme',
+    //   fields: [
+    //     {
+    //       name: 'themeSelect',
+    //     },
+    //   ],
+    // },
+    {
+      name: 'grid',
+      fields: [
+        {
+          name: 'size',
+        },
+      ],
+    },
+    {
+      name: 'watermark',
+      effective: false,
+      fields: [
+        {
+          name: 'content',
+        },
+        {
+          name: 'angle',
+        },
+        {
+          name: 'opacity',
+        },
+      ],
+    },
+    {
+      name: 'auth',
+      effective: false,
+      fields: [
+        {
+          name: 'password',
+        },
+      ],
+    },
+    {
+      name: 'other',
+      fields: [
+        {
+          name: 'thousandDiv',
+        },
+        {
+          name: 'decimalPlaces',
+        },
+      ],
+    },
+  ],
+}
+
 export {
   // 布局
   layout,
@@ -90,4 +149,6 @@ export {
   material,
   // 描述
   remark,
+  // 全局
+  global,
 }

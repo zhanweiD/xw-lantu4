@@ -32,15 +32,18 @@ function translate(schema) {
   // 处理图层配置
   layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
     if (effective || effective === undefined) {
-      const layerType = layerTypeMap.get(type)
+      const layerType = layerTypeMap.get(type) || type
       const keys = [...dimension.xColumn, ...options.dataMap.column]
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
       layerConfig.push(
-        merge(config, {
-          type: layerType,
-          data: getRealData(data, keys),
-          options: {id, axis: 'main', layout: 'main'},
-        })
+        merge(
+          {
+            type: layerType,
+            data: getRealData(data, keys),
+            options: {id, layout: 'main'},
+          },
+          config
+        )
       )
     }
   })
@@ -50,13 +53,16 @@ function translate(schema) {
     const {getOption, mapOption} = title
     const config = layerOptionMap.get('text')({getOption, mapOption})
     layerConfig.push(
-      merge(config, {
-        type: 'text',
-        options: {
-          id: uuid(),
-          layout: 'title',
+      merge(
+        {
+          type: 'text',
+          options: {
+            id: uuid(),
+            layout: 'title',
+          },
         },
-      })
+        config
+      )
     )
   }
 
@@ -65,13 +71,16 @@ function translate(schema) {
     const {getOption, mapOption} = legend
     const config = layerOptionMap.get('legend')({getOption, mapOption})
     layerConfig.push(
-      merge(config, {
-        type: 'legend',
-        options: {
-          id: uuid(),
-          layout: 'legend',
+      merge(
+        {
+          type: 'legend',
+          options: {
+            id: uuid(),
+            layout: 'legend',
+          },
         },
-      })
+        config
+      )
     )
   }
 
@@ -80,13 +89,16 @@ function translate(schema) {
     const {getOption, mapOption} = axis
     const config = layerOptionMap.get('axis')({getOption, mapOption})
     layerConfig.push(
-      merge(config, {
-        type: 'axis',
-        options: {
-          id: uuid(),
-          layout: 'main',
+      merge(
+        {
+          type: 'axis',
+          options: {
+            id: uuid(),
+            layout: 'main',
+          },
         },
-      })
+        config
+      )
     )
   }
 

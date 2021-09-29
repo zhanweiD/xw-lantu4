@@ -1,6 +1,6 @@
-export default (k) => {
+export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axis = 'main', column = []}) => {
   return {
-    name: '线层',
+    name: '折线层',
     type: 'line',
     sections: [
       {
@@ -8,7 +8,33 @@ export default (k) => {
         fields: [
           {
             name: 'column',
-            defaultValue: ['项目交付'],
+            defaultValue: column,
+          },
+        ],
+      },
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'axisBinding',
+            defaultValue: axis,
+          },
+          {
+            name: 'custom',
+            option: 'mode',
+            label: 'mode',
+            defaultValue: mode,
+            type: 'select',
+            options: [
+              {
+                key: 'group',
+                value: 'group',
+              },
+              {
+                key: 'stack',
+                value: 'stack',
+              },
+            ],
           },
         ],
       },
@@ -21,6 +47,7 @@ export default (k) => {
           },
           {
             name: 'lineCurve',
+            defaultValue: lineCurve,
           },
           {
             name: 'lineFallback',
@@ -67,7 +94,7 @@ export default (k) => {
       },
       {
         name: 'area',
-        effective: false,
+        effective: hasArea,
         fields: [
           {
             name: 'opacity',
@@ -106,11 +133,11 @@ export default (k) => {
             fields: [
               {
                 name: 'textSize',
-                defaultValue: 12,
+                defaultValue: 10,
               },
               {
                 name: 'textWeight',
-                defaultValue: 400,
+                defaultValue: 200,
               },
               {
                 name: 'singleColor',
