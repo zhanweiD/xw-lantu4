@@ -6,7 +6,7 @@ const makeAdapter = ({k}) => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options, pathable}) {
-      console.log('🚗 init', options)
+      console.log('🚗 init', options, pathable)
 
       const {container, dimension, data, layers, themeColors} = options
 
@@ -15,16 +15,16 @@ const makeAdapter = ({k}) => {
       })
 
       const series = layers.map((layer) => {
-        const {getOption, mapOption} = layer
+        const {getOption} = layer
 
-        const o = mapOption([
-          ['line.lineWidth', 'lineWidth'],
-          ['line.colorType', 'line.color.type', {single: 'singleA'}],
-        ])
+        // const o = mapOption([
+        //   ['line.lineWidth', 'lineWidth'],
+        //   ['line.colorType', 'line.color.type', {single: 'singleA'}],
+        // ])
 
-        o.get('line.color.type')
+        // o.get('line.color.type')
 
-        console.log('🤢', o.get(), o.get('line.color.type'))
+        // console.log('🤢', o.get(), o.get('line.color.type'))
 
         return {
           type: 'line',
@@ -128,36 +128,13 @@ const makeAdapter = ({k}) => {
     },
 
     // 处理包括数据、样式等变更
-    update({
-      instance,
-      options,
-      action,
-      updated,
-      updatedData,
-      updatedDimension,
-      updatedLayer,
-      updatedPath,
-      updatedTitle,
-      updatedLegend,
-      updatedOther,
-      updatedAxis,
-    }) {
-      console.log('🚗 update')
-      console.log({
+    update({instance, options, action, updated}) {
+      console.log('🚗 update', {
         instance,
         options,
         action,
         updated,
-        updatedData,
-        updatedDimension,
-        updatedLayer,
-        updatedPath,
-        updatedTitle,
-        updatedLegend,
-        updatedOther,
-        updatedAxis,
       })
-      // updateWave(options)
     },
 
     // 销毁图表实例
