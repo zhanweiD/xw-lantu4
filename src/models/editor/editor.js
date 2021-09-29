@@ -1,5 +1,6 @@
 import {getEnv, types, applySnapshot} from 'mobx-state-tree'
 import {reaction} from 'mobx'
+import hJSON from 'hjson'
 import {viewport} from '@utils/zoom'
 import {shortcut} from '@utils/create-event'
 import {MEditorTab} from './editor-tab'
@@ -39,6 +40,9 @@ export const MEditor = types
       })
       event.on('editor.setProps', (value) => {
         self.set(value)
+      })
+      event.on('editor.updateDataForArt', (data) => {
+        self.fanoutData(data)
       })
       self.init()
       shortcut.add({
@@ -227,6 +231,29 @@ export const MEditor = types
       self.saveSession()
     }
 
+    const fanoutData = (data) => {
+      // 找到打开的数据屏
+      const tabs = self.tabs.filter((item) => item.type === 'art')
+      tabs.length &&
+        tabs.forEach((tab) => {
+          const {art} = tab
+          if (art && art.datas) {
+            art.datas = art.datas.map((d) => {
+              if (d.id === data.dataId) {
+                d = {
+                  config: data.config,
+                  dataType: data.dataType,
+                  id: data.dataId,
+                  processorFunction: data.processorFunction,
+                  data: hJSON.parse(data.fileData),
+                }
+              }
+              return d
+            })
+          }
+        })
+    }
+
     return {
       afterCreate,
       applySession,
@@ -241,5 +268,6 @@ export const MEditor = types
       finishCreate,
       showTabDetail,
       updateTabname,
+      fanoutData,
     }
   })

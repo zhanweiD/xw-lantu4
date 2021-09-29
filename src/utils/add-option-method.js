@@ -4,7 +4,7 @@ import isDef from '@utils/is-def'
 import random from '@utils/random'
 
 // 在带有options属性的对象上, 添加getOption和mapOption方法
-export default (o, flag) => {
+export default (o) => {
   const v = Object.assign({}, o)
   if (isPlainObject(o)) {
     if (!isDef(v.options)) {
@@ -18,7 +18,7 @@ export default (o, flag) => {
 
     storageOptions.data(v.options)
 
-    console.log('🦀', flag, 'o', o, 'v', v)
+    // console.log('🦀', flag, 'o', o, 'v', v)
 
     // 根据路径取得参数的便捷方式
     v.getOption = (path, fallback) => {

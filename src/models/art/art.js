@@ -65,6 +65,7 @@ export const MArt = types
         if (self.dataManager.get(dataId)) {
           const mData = self.dataManager.get(dataId)
           mData.addExhibit(exhibitId)
+          callback()
         } else {
           self.dataManager.create({
             id: dataId,
@@ -78,9 +79,10 @@ export const MArt = types
           self.addData(dataId, callback)
         }
       })
-      event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId}) => {
+      event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId, callback}) => {
         const data = self.dataManager.get(dataId)
         data.removeExhibit(exhibitId)
+        callback()
       })
     }
 

@@ -106,7 +106,7 @@ export const createExhibitModelClass = (exhibit) => {
           })
 
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
-          self.data.setRelationModels(relationModels)
+          self.data.bindRelationModels(relationModels)
         }
       }
 
@@ -157,7 +157,7 @@ export const createExhibitModelClass = (exhibit) => {
           ...self.data.getRelationModels(),
           ...self.dimension.options.getRelationFields('columnSelect')
         )
-        self.data.setRelationModels(relationModels)
+        self.data.bindRelationModels(relationModels)
       }
 
       const getDimension = () => {

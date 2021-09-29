@@ -3,6 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import {reaction} from 'mobx'
 
 const MValue = types
   .model('MValue', {
@@ -75,6 +76,16 @@ export const MDataField = types
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
+      reaction(
+        () => {
+          return {
+            data: self.env_.art.datas,
+          }
+        },
+        () => {
+          self.onAction()
+        }
+      )
     }
 
     const setValue = (value) => {
@@ -96,15 +107,19 @@ export const MDataField = types
 
     const onAction = () => {
       self.relationModels.map((model) => {
-        const {type, source, sourceData_, private: privateData} = self.value
+        const {type, sourceData_ = [], private: privateData} = self.value
         if (type === 'private') {
           model.update(privateData)
         }
         if (type === 'source') {
-          if (source && sourceData_) {
-            model.update(hJSON.stringify(sourceData_, {space: 2, quotes: 'strings', separator: true}))
-          }
+          model.update(hJSON.stringify(sourceData_, {space: 2, quotes: 'strings', separator: true}))
         }
+      })
+    }
+
+    const clearRelationModelValue = () => {
+      self.relationModels.map((model) => {
+        model.setValue(undefined)
       })
     }
 
@@ -127,7 +142,7 @@ export const MDataField = types
       }
     }
 
-    const setRelationModels = (models) => {
+    const bindRelationModels = (models) => {
       self.relationModels = models
     }
 
@@ -137,25 +152,27 @@ export const MDataField = types
 
     const addSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
+      self.setValue({
+        source: dataId,
+      })
+      clearRelationModelValue()
       event.fire(`art.${art.artId}.addData`, {
         dataId,
         exhibitId,
         callback: self.onAction,
       })
-      self.setValue({
-        source: dataId,
-      })
     }
 
     const removeSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
+      self.setValue({
+        source: undefined,
+      })
+      clearRelationModelValue()
       event.fire(`art.${art.artId}.removeData`, {
         dataId,
         exhibitId,
         callback: self.onAction,
-      })
-      self.setValue({
-        source: undefined,
       })
     }
 
@@ -169,7 +186,7 @@ export const MDataField = types
       removeSource,
       onAction,
       toggleBak,
-      setRelationModels,
+      bindRelationModels,
       getRelationModels,
     }
   })

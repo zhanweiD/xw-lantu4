@@ -35,7 +35,7 @@ export const MColumnSelectField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.value
     }
 
     const update = (table) => {
@@ -43,7 +43,6 @@ export const MColumnSelectField = types
         key: `${v}`,
         value: v,
       }))
-
       self.setOptions(options)
     }
 
