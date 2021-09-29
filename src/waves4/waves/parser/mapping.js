@@ -47,12 +47,7 @@ export const mapColor = (fillColor) => {
   return fillColor
 }
 
-export const layerTypeMap = new Map([
-  ['axis', 'axis'],
-  ['title', 'text'],
-  ['legend', 'legend'],
-  ['line', 'line'],
-])
+export const layerTypeMap = new Map([['title', 'text']])
 
 export const layerOptionMap = new Map([
   [
@@ -91,8 +86,11 @@ export const layerOptionMap = new Map([
         // 比例尺
         ['base.tickCount', 'scale.count'],
         ['base.tickZero', 'scale.zero'],
+        ['base.paddingInner', 'scale.paddingInner'],
         // x文本
         ['xAxis.label.offset', 'style.textX.offset'],
+        ['xAxis.label.thousandDiv', 'style.textX.format.thousandth'],
+        ['xAxis.label.percentage', 'style.textX.format.percentage'],
         ['xAxis.label.text.textSize', 'style.textX.fontSize'],
         ['xAxis.label.text.textWeight', 'style.textX.fontWeight'],
         ['xAxis.label.text.singleColor', 'style.textX.fill'],
@@ -157,6 +155,14 @@ export const layerOptionMap = new Map([
       if (getOption('yAxis.yAxisSplitLine.effective') !== undefined) {
         storage.set('style.lineTickY.hide', !getOption('yAxis.yAxisSplitLine.effective'))
       }
+      // x禁用格式化
+      if (!storage.get('style.textX.format.thousandth') && !storage.get('style.textX.format.percentage')) {
+        storage.set('style.textX.format', false)
+      }
+      // y禁用格式化
+      if (!storage.get('style.textY.format.thousandth') && !storage.get('style.textY.format.percentage')) {
+        storage.set('style.textY.format', false)
+      }
       return storage.get()
     },
   ],
@@ -199,6 +205,9 @@ export const layerOptionMap = new Map([
     'line',
     ({mapOption, getOption}) => {
       const mapping = [
+        // 基础
+        ['base.axisBinding', 'options.axis'],
+        ['base.mode', 'options.mode'],
         // 点
         ['point.size', 'style.pointSize'],
         ['point.singleColor', 'style.point.fill'],
@@ -231,6 +240,47 @@ export const layerOptionMap = new Map([
       if (getOption('label.effective') !== undefined) {
         storage.set('style.text.hide', !getOption('label.effective'))
       }
+      if (getOption('label.shadow.effective') !== undefined) {
+        storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
+      }
+      return storage.get()
+    },
+  ],
+  [
+    'rect',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.axisBinding', 'options.axis'],
+        ['base.type', 'options.type'],
+        ['base.mode', 'options.mode'],
+        // 背景
+        ['background.singleColor', 'style.background.fill'],
+        ['background.opacity', 'style.background.fillOpacity'],
+        // 标签
+        ['label.offset', 'style.text.offset'],
+        ['label.decimalPlaces', 'style.text.format.decimalPlace'],
+        ['label.thousandDiv', 'style.text.format.thousandth'],
+        ['label.percentage', 'style.text.format.percentage'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('background.effective') !== undefined) {
+        storage.set('style.background.hide', !getOption('background.effective'))
+      }
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+      if (getOption('label.shadow.effective') !== undefined) {
+        storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
+      }
+      storage.set('style.labelPosition', [getOption('label.minLabelPosition'), getOption('label.maxLabelPosition')])
       return storage.get()
     },
   ],

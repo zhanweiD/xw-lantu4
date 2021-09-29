@@ -6,17 +6,14 @@ const makeAdapter = () => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      console.log('adapter init')
       console.log(options)
       const instance = createWave(translate(options))
       return instance
     },
 
     // 处理包括数据、样式等变更
-    update(config) {
-      console.log('update')
-      console.log(config)
-      updateWave(config)
+    update(options) {
+      updateWave(options)
     },
 
     // 销毁图表实例

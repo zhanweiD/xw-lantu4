@@ -1,4 +1,4 @@
-export default (k, {content}) => {
+export default ({content}) => {
   return {
     effective: true,
     sections: [
@@ -28,7 +28,7 @@ export default (k, {content}) => {
           },
           {
             name: 'textWeight',
-            defaultValue: 400,
+            defaultValue: 200,
           },
           {
             name: 'singleColor',
