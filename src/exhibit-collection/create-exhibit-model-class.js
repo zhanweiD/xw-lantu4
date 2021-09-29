@@ -2,6 +2,7 @@ import {types, getEnv} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
+import makeFunction from '@utils/make-function'
 import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
@@ -143,9 +144,37 @@ export const createExhibitModelClass = (exhibit) => {
           const {type, private: privateData, source} = self.data.getSchema()
           if (type === 'private') {
             data = hJSON.parse(privateData)
-          } else {
-            const datas = self.art_.datas
-            data = datas?.find((v) => v.id === source)?.data
+          }
+          if (type === 'source') {
+            const {datas = []} = self.art_
+            const sourceData = datas.find((v) => v.id === source)
+            if (sourceData) {
+              let value = []
+              let result = sourceData.data
+              if (sourceData.config.useDataProcessor) {
+                result = makeFunction(sourceData.processorFunction)({data: sourceData.data})
+              }
+
+              switch (sourceData.dataType) {
+                case 'json':
+                  value = result
+                  break
+                case 'excel':
+                  let head = result.columns.map((col) => col.name)
+                  const list = result.data.map((res) => {
+                    const target = []
+                    head.map((col) => {
+                      target.push(res[col])
+                    })
+                    return target
+                  })
+                  value = [].concat(head).concat(list)
+                  break
+                default:
+                  value = result
+              }
+              data = value
+            }
           }
         }
         return data

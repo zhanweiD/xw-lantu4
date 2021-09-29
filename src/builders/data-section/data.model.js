@@ -1,9 +1,10 @@
 import {types, getParent, getEnv} from 'mobx-state-tree'
 import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
+import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
-import {reaction} from 'mobx'
+import makeFunction from '@utils/make-function'
 
 const MValue = types
   .model('MValue', {
@@ -13,10 +14,34 @@ const MValue = types
     sourceProcessor: types.maybe(types.string),
   })
   .views((self) => ({
-    get sourceData_() {
-      const datas = getEnv(self).art.datas
-      const data = datas?.find((v) => v.id === self.source)?.data
-      return data
+    get sourceColumn_() {
+      if (self.type === 'private') {
+        const value = hJSON.parse(self.private)[0]
+        return value
+      }
+      if (self.type === 'source') {
+        const {datas = []} = getEnv(self).art
+        const sourceData = datas.find((v) => v.id === self.source)
+        if (sourceData) {
+          let value = []
+          let result = sourceData.data
+          if (sourceData.config.useDataProcessor) {
+            result = makeFunction(sourceData.processorFunction)({data: sourceData.data})
+          }
+          switch (sourceData.dataType) {
+            case 'json':
+              value = result[0]
+              break
+            case 'excel':
+              value = result.columns.map((col) => col.name)
+              break
+            default:
+              value = result[0]
+          }
+          return value
+        }
+      }
+      return []
     },
     get sourceName_() {
       const name = [
@@ -107,13 +132,8 @@ export const MDataField = types
 
     const onAction = () => {
       self.relationModels.map((model) => {
-        const {type, sourceData_ = [], private: privateData} = self.value
-        if (type === 'private') {
-          model.update(privateData)
-        }
-        if (type === 'source') {
-          model.update(hJSON.stringify(sourceData_, {space: 2, quotes: 'strings', separator: true}))
-        }
+        const {sourceColumn_} = self.value
+        model.update(sourceColumn_)
       })
     }
 
