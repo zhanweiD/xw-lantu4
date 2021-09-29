@@ -230,6 +230,22 @@ const ModelToField = ({model}) => {
         />
       )
       break
+    case 'password':
+      F = (
+        <TextField
+          type="password"
+          className="ml24"
+          label={t(model.label)}
+          effective={model.effective}
+          value={model.value}
+          defaultValue={model.defaultValue}
+          placeholder={t(model.placeholder)}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+        />
+      )
+      break
 
     default:
       F = <div>缺失的Field: {model.type}</div>
