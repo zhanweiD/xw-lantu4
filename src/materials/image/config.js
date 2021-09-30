@@ -16,6 +16,9 @@ export const config = (k) => ({
             {
               name: 'opacity',
             },
+            {
+              name: 'blendMode',
+            },
           ],
         },
       ],

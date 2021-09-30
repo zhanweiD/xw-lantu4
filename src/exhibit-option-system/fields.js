@@ -734,6 +734,79 @@ const password = {
   label: 'password',
 }
 
+// 图片混合模式
+const blendMode = {
+  type: 'select',
+  label: 'blendMode',
+  defaultValue: 'normal',
+  options: [
+    {
+      key: 'normal',
+      value: 'normal',
+    },
+    {
+      key: 'multiply',
+      value: 'multiply',
+    },
+    {
+      key: 'screen',
+      value: 'screen',
+    },
+    {
+      key: 'overlay',
+      value: 'overlay',
+    },
+    {
+      key: 'darken',
+      value: 'darken',
+    },
+    {
+      key: 'lighten',
+      value: 'lighten',
+    },
+    {
+      key: 'color-dodge',
+      value: 'color-dodge',
+    },
+    {
+      key: 'color-burn',
+      value: 'color-burn',
+    },
+    {
+      key: 'hard-light',
+      value: 'hard-light',
+    },
+    {
+      key: 'soft-light',
+      value: 'soft-light',
+    },
+    {
+      key: 'difference',
+      value: 'difference',
+    },
+    {
+      key: 'exclusion',
+      value: 'exclusion',
+    },
+    {
+      key: 'hue',
+      value: 'hue',
+    },
+    {
+      key: 'saturation',
+      value: 'saturation',
+    },
+    {
+      key: 'color',
+      value: 'color',
+    },
+    {
+      key: 'luminosity',
+      value: 'luminosity',
+    },
+  ],
+}
+
 /**
  * =====================================
  * 坐标轴和比例尺类配置
@@ -881,6 +954,8 @@ export default {
   fillType,
   // 密码
   password,
+  // 图片混合模式
+  blendMode,
   // 绑定主轴或副轴
   axisBinding,
   // 刻度线数量
