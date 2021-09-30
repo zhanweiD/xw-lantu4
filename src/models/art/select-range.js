@@ -72,7 +72,8 @@ export const MSelectRange = types
     let xy
     let snapXY
     const onMove = (e) => {
-      const {gridUnit} = self.art_.basic
+      const {grid} = self.art_.global.getData()
+      const gridUnit = grid.size
       const {isSnap} = self.art_
       if (shortcut.space) {
         return
@@ -237,7 +238,8 @@ export const MSelectRange = types
     }
 
     const onScale = (e, direct) => {
-      const {gridUnit} = self.art_.basic
+      const {grid} = self.art_.global.getData()
+      const gridUnit = grid.size
       const {isSnap} = self.art_
       if (shortcut.space) {
         return
@@ -475,7 +477,8 @@ export const MSelectRange = types
       const {x1, y1, x2, y2} = self
       const gridCount = self.boxes_.length - 1
       const params = []
-      const {gridUnit} = self.art_.basic
+      const {grid} = self.art_.global.getData()
+      const gridUnit = grid.size
       if (direction === 'horizontal') {
         const averageTotalWidth = x2 - x1 - gridCount * gridUnit
         const averageWidth = averageTotalWidth / self.boxes_.length

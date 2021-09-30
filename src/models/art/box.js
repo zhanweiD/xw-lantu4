@@ -158,7 +158,6 @@ export const MBox = types
         const {dataPanel} = self.root_.sidebar
         const exhibitModel = model.initModel({
           art,
-          themeId: art.basic.themeId,
           schema: {
             lib,
             key,
@@ -170,7 +169,6 @@ export const MBox = types
           exhibit.id,
           model.initModel({
             art,
-            themeId: art.basic.themeId,
             schema: exhibit,
             event,
             data: dataPanel,
@@ -204,7 +202,6 @@ export const MBox = types
         }
         const materialModel = model.initModel({
           art,
-          themeId: art.basic.themeId,
           schema,
         })
         const material = materialModel.getSchema()
@@ -212,7 +209,6 @@ export const MBox = types
           material.id,
           model.initModel({
             art,
-            themeId: art.basic.themeId,
             schema: material,
             event,
           })

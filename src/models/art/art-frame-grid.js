@@ -7,11 +7,12 @@
  * @FilePath: /waveview-front4/src/models/new-art/art-frame-grid.js
  */
 
-import {getParent, types} from "mobx-state-tree"
+import {getParent, types} from 'mobx-state-tree'
 
 export const MArtFrameGrid = types.model().views((self) => ({
   get unit_() {
-    return Math.max(getParent(self, 4).basic.gridUnit, 16)
+    const gridUnit = getParent(self, 4).global.options.sections.grid.fields.size.value
+    return Math.max(gridUnit, 40)
   },
 
   get originWidth_() {
@@ -41,5 +42,5 @@ export const MArtFrameGrid = types.model().views((self) => ({
   // 两个方向上各自需要向外延伸的距离
   get extendY_() {
     return (self.height_ - self.originHeight_) / 2
-  }
+  },
 }))

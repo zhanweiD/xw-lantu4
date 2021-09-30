@@ -3,13 +3,16 @@ import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {DropTarget} from '@components/drag-and-drop'
 import Grid from '@waves4/grid'
-import {themeConfigs} from '@utils/theme'
+import WaterMark from '@components/watermark'
 import Box from '../box'
 import s from './art-frame.module.styl'
 
 const ArtFrame = ({frame}) => {
   const {frameId, grid, viewLayout, isCreateFail, art_, boxes, backgroundImage_, backgroundColor_} = frame
-  const {isGridVisible} = art_
+  const {isGridVisible, global} = art_
+  const {getData} = global
+  const {watermark} = getData()
+
   const gridRef = useRef(null)
   useEffect(() => {
     if (isGridVisible) {
@@ -28,7 +31,6 @@ const ArtFrame = ({frame}) => {
     left: `${grid.extendX_}px`,
     width: `${viewLayout.width}px`,
     height: `${viewLayout.height}px`,
-    backgroundImage: `${themeConfigs[art_.basic.themeId].background}`,
   }
 
   if (backgroundImage_) {
@@ -53,12 +55,9 @@ const ArtFrame = ({frame}) => {
             }}
           />
         )}
-        {/* <WaterMark
-    text={option.basic['watermark.value'].value}
-    opacity={option.basic['watermark.opacity'].value}
-    rotation={option.basic['watermark.rotation'].value}
-    zIndex={0}
-  /> */}
+        {watermark.effective && (
+          <WaterMark text={watermark.content} opacity={watermark.opacity} rotation={watermark.angle} zIndex={0} />
+        )}
 
         {boxes.map((box) => (
           <Box key={box.boxId} box={box} />

@@ -79,7 +79,10 @@ const ArtOption = ({art}) => {
       </div>
       <CommonTab box={box} frame={frame} />
       <Drawer visible={visible} title="这是全局" onClose={() => setVisible(false)}>
-        1
+        {recusiveNode({
+          ...art.global.options,
+          level: 0,
+        })}
       </Drawer>
     </>
   )

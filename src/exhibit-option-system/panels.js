@@ -102,6 +102,7 @@ const global = {
           min: 40,
           max: 200,
           step: 10,
+          defaultValue: 40,
         },
       ],
     },
