@@ -1,12 +1,13 @@
 import isDef from '@utils/is-def'
 
 class Image {
-  constructor({container, url, fillType, opacity, effective}) {
+  constructor({container, url, blendMode, fillType, opacity, effective}) {
     this.container = container
     this.url = url
     this.fillType = fillType
     this.opacity = opacity
     this.effective = effective
+    this.blendMode = blendMode
   }
 
   draw() {
@@ -18,6 +19,7 @@ class Image {
         this.div.style.backgroundImage = `url(${this.url})`
         this.div.style.backgroundRepeat = 'no-repeat'
         this.div.style.backgroundPosition = 'center'
+        this.div.style.isolation = 'isolate'
       }
       this.setStyle()
       this.container.appendChild(this.div)
@@ -40,13 +42,16 @@ class Image {
       default:
         this.div.style.backgroundSize = 'cover'
     }
+    this.div.style.mixBlendMode = this.blendMode
     this.div.style.opacity = this.opacity
   }
 
-  update({fillType = this.fillType, opacity = this.opacity, effective = this.effective}) {
+  update({fillType = this.fillType, blendMode = this.blendMode, opacity = this.opacity, effective = this.effective}) {
+    console.log(blendMode)
     this.opacity = opacity
     this.fillType = fillType
     this.effective = effective
+    this.blendMode = blendMode
     this.draw()
   }
 }

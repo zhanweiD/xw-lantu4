@@ -12,6 +12,7 @@ const makeAdapter = () => {
       const o = layer.mapOption([
         ['base.opacity', 'opacity'],
         ['base.fillType', 'fillType'],
+        ['base.blendMode', 'blendMode'],
         ['effective', 'effective'],
       ])
 
@@ -21,6 +22,7 @@ const makeAdapter = () => {
         fillType: o.get('fillType'),
         opacity: o.get('opacity'),
         effective: o.get('effective'),
+        blendMode: o.get('blendMode'),
       })
       instance.draw()
       return instance
@@ -31,6 +33,7 @@ const makeAdapter = () => {
       instance.update({
         fillType: updated.getOption('base.fillType'),
         opacity: updated.getOption('base.opacity'),
+        blendMode: updated.getOption('base.blendMode'),
         effective: updated.effective,
       })
     },
