@@ -1,7 +1,7 @@
-import React from "react"
-import {useDrop} from "react-dnd"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
+import React from 'react'
+import {useDrop} from 'react-dnd'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
 
 /**
  * 接受放置拖拽源
@@ -19,28 +19,28 @@ const DropTarget = ({acceptKey, children, style, data, className, disabled, hove
       }
       return {
         position,
-        data
+        data,
       }
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop() && !disabled
-    })
+      canDrop: monitor.canDrop() && !disabled,
+    }),
   })
   const isActive = canDrop && isOver
-  let outline = ""
-  let cursor = ""
+  let outline = ''
+  let cursor = ''
   if (isActive) {
-    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.8)"
+    outline = !hideOutLine && '1px dashed rgba(0,255,0,0.8)'
   } else if (canDrop) {
-    outline = !hideOutLine && "1px dashed rgba(0,255,0,0.4)"
-    cursor = "copy"
+    outline = !hideOutLine && '1px dashed rgba(0,255,0,0.4)'
+    cursor = 'copy'
   }
 
   // 父节点可能会设置 pointerEvent:none ，所以当容器为可放置状态，设置 pointerEvent: auto
   const pointerEvents = {}
   if (canDrop) {
-    pointerEvents.pointerEvents = "auto"
+    pointerEvents.pointerEvents = 'auto'
   }
   return (
     <div ref={drop} className={c(className)} style={{...style, outline, cursor, ...pointerEvents}}>

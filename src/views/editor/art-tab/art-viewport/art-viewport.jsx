@@ -1,9 +1,9 @@
-import React, {useEffect, useRef} from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import w from "@models"
-import {ArtFrame, ArtFrameName} from "./art-frame"
-import SelectRange from "./art-select-range"
+import React, {useEffect, useRef} from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import w from '@models'
+import {ArtFrame, ArtFrameName} from './art-frame'
+import SelectRange from './art-select-range'
 
 const ArtViewport = ({art}) => {
   const {editor} = w
@@ -19,10 +19,10 @@ const ArtViewport = ({art}) => {
     viewport.initZoom()
   }, [artId])
   return (
-    <div className={c("fb1 oh pr p24 fbh")}>
+    <div className={c('fb1 oh pr p24 fbh')}>
       <div
-        className={c("fb1 pr artViewport", {
-          cursorCross: art.activeTool === "createFrame"
+        className={c('fb1 pr artViewport', {
+          cursorCross: art.activeTool === 'createFrame',
         })}
         ref={viewRef}
         onMouseDown={(e) => {
@@ -34,26 +34,32 @@ const ArtViewport = ({art}) => {
           className="pa noChartEvent"
           style={{
             width: `${totalWidth}px`,
-            height: `${totalHeight}px`
+            height: `${totalHeight}px`,
           }}
         >
-          {isInit && frames.map((frame) => <ArtFrame key={frame.frameId} frame={frame} />)}
+          {isInit && frames.map((frame) => <ArtFrame art={art} key={frame.frameId} frame={frame} />)}
         </div>
-        {selectRange && <SelectRange baseOffsetX={baseOffsetX} baseOffsetY={baseOffsetY} scaler={scaler} range={selectRange} />}
+        {selectRange && (
+          <SelectRange baseOffsetX={baseOffsetX} baseOffsetY={baseOffsetY} scaler={scaler} range={selectRange} />
+        )}
         {isInit &&
           frames.map((frame) => (
             <ArtFrameName
               frame={frame}
               key={frame.frameId}
-              isSelected={viewport.selectRange && viewport.selectRange.target === "frame" && viewport.selectRange.range[0].frameId === frame.frameId}
+              isSelected={
+                viewport.selectRange &&
+                viewport.selectRange.target === 'frame' &&
+                viewport.selectRange.range[0].frameId === frame.frameId
+              }
               onMouseDown={(e) => {
                 viewport.toggleSelectRange({
-                  target: "frame",
+                  target: 'frame',
                   selectRange: [
                     {
-                      frameId: frame.frameId
-                    }
-                  ]
+                      frameId: frame.frameId,
+                    },
+                  ],
                 })
                 viewport.selectRange.onMove(e)
               }}

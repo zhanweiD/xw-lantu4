@@ -1,9 +1,9 @@
-import React from "react"
-import {useDrag} from "react-dnd"
+import React from 'react'
+import {useDrag} from 'react-dnd'
 
 const DragSource = ({data, dragKey, onBegin, onEnd, children, className}) => {
   const style = {
-    cursor: "move"
+    cursor: 'move',
   }
   const [{isDragging}, drag] = useDrag({
     item: () => {
@@ -18,11 +18,11 @@ const DragSource = ({data, dragKey, onBegin, onEnd, children, className}) => {
       }
     },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging()
+      isDragging: monitor.isDragging(),
     }),
     options: {
-      dropEffect: "copy"
-    }
+      dropEffect: 'copy',
+    },
   })
   const opacity = isDragging ? 0.4 : 1
   return (

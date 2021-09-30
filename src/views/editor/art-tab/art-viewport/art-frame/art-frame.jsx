@@ -10,10 +10,11 @@ import s from './art-frame.module.styl'
 const ArtFrame = ({frame}) => {
   const {frameId, grid, viewLayout, isCreateFail, art_, boxes, backgroundImage_, backgroundColor_} = frame
   const {isGridVisible, global} = art_
-  const {getData} = global
-  const {watermark} = getData()
+
+  const {effective, fields} = global.options.sections.watermark
 
   const gridRef = useRef(null)
+
   useEffect(() => {
     if (isGridVisible) {
       new Grid({
@@ -55,8 +56,13 @@ const ArtFrame = ({frame}) => {
             }}
           />
         )}
-        {watermark.effective && (
-          <WaterMark text={watermark.content} opacity={watermark.opacity} rotation={watermark.angle} zIndex={0} />
+        {effective && (
+          <WaterMark
+            text={fields.content.value}
+            opacity={fields.opacity.value}
+            rotation={fields.angle.value}
+            zIndex={0}
+          />
         )}
 
         {boxes.map((box) => (
