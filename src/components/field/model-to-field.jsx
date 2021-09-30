@@ -18,7 +18,6 @@ import {RangeColorField} from './range-color'
 import {CodeField} from './code'
 import {ConstraintsField} from './constraints'
 import {GradientColorField} from './gradient-color'
-import {ImageField} from './image'
 import {AlignmentField} from './alignment'
 import {OffsetField} from './offset'
 // import {ExhibitDataField} from "./exhibit-data"
@@ -367,23 +366,7 @@ const ModelToField = observer(({model, onAction}) => {
         />
       )
       break
-    case 'image':
-      F = (
-        <ImageField
-          className={c({hide: !model.whenIsSatisfied})}
-          label={t(model.label)}
-          tip={t(model.tip)}
-          value={model.value}
-          defaultValue={model.defaultValue}
-          options={model.options.toJSON()}
-          opacity={model.opacity}
-          readOnly={model.readOnly}
-          onChange={(v) => {
-            model.setValue(v)
-          }}
-        />
-      )
-      break
+
     case 'constraints':
       F = (
         <ConstraintsField

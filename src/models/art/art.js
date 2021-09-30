@@ -1,21 +1,13 @@
-/*
- * @Author: 柿子
- * @Date: 2021-07-29 15:02:53
- * @LastEditTime: 2021-08-09 17:13:10
- * @LastEditors: Please set LastEditors
- * @Description: 数据屏的数据模型根目录
- * @FilePath: /waveview-front4/src/models/new-art/art.js
- */
 import onerStorage from 'oner-storage'
 import {getEnv, types, flow} from 'mobx-state-tree'
 import io from '@utils/io'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
 import {MDataManager} from './art-data-manager'
-import {MArtBasic} from './art-basic'
 import {MArtViewport} from './art-viewport'
 import {MPublishInfo} from './art-publish-info'
 import config from '@utils/config'
+import {MGlobal} from './art-ui-tab-property'
 
 const log = createLog('@models/art.js')
 
@@ -25,7 +17,7 @@ export const MArt = types
     projectId: types.maybe(types.number),
     publishId: types.maybe(types.string),
     // 数据屏全局信息
-    basic: types.optional(MArtBasic, {}),
+    global: types.optional(MGlobal, {}),
     // 数据屏可视化区域
     viewport: types.optional(MArtViewport, {}),
     // 数据屏的发布版本信息
@@ -42,7 +34,7 @@ export const MArt = types
     activeTool: types.optional(types.enumeration('MArtToolbar.activeTool', ['select', 'createFrame']), 'select'),
     fetchState: types.optional(types.enumeration('MArtTab.fetchState', ['loading', 'success', 'error']), 'loading'),
     normalKeys: types.frozen(['artId', 'projectId']),
-    deepKeys: types.frozen(['viewport', 'dataManager', 'basic']),
+    deepKeys: types.frozen(['viewport', 'dataManager', 'global']),
   })
   .views((self) => ({
     get env_() {
@@ -65,6 +57,7 @@ export const MArt = types
         if (self.dataManager.get(dataId)) {
           const mData = self.dataManager.get(dataId)
           mData.addExhibit(exhibitId)
+          callback()
         } else {
           self.dataManager.create({
             id: dataId,
@@ -78,9 +71,10 @@ export const MArt = types
           self.addData(dataId, callback)
         }
       })
-      event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId}) => {
+      event.on(`art.${self.artId}.removeData`, ({exhibitId, dataId, callback}) => {
         const data = self.dataManager.get(dataId)
         data.removeExhibit(exhibitId)
+        callback()
       })
     }
 
@@ -106,7 +100,7 @@ export const MArt = types
           ':artId': self.artId,
           hasBoxes: true,
         })
-        const {publishId, projectId, themeId, gridUnit, watermark, password, frames} = art
+        const {publishId, projectId, frames, global} = art
         self.set({
           projectId,
           publishId,
@@ -125,12 +119,7 @@ export const MArt = types
         }
 
         self.datas = data
-        self.basic.setSchema({
-          themeId: themeId || 'glaze',
-          gridUnit,
-          watermark,
-          password,
-        })
+        self.global.setSchema(global)
         self.viewport.setSchema({
           frames,
         })
@@ -153,7 +142,7 @@ export const MArt = types
 
     const save = flow(function* save() {
       try {
-        const {basic, viewport, artId, projectId, dataManager} = self.getSchema()
+        const {global, viewport, artId, projectId, dataManager} = self.getSchema()
         const {frames} = viewport
         frames.forEach((frame) => {
           const {boxes} = frame
@@ -182,7 +171,7 @@ export const MArt = types
           ':projectId': projectId,
           ':artId': artId,
           dataManager,
-          ...basic,
+          global,
           frames,
         }
         yield io.art.update(params)

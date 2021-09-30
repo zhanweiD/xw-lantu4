@@ -1,5 +1,4 @@
 import {types} from 'mobx-state-tree'
-import hJSON from 'hjson'
 import isDef from '@utils/is-def'
 import commonAction from '@utils/common-action'
 
@@ -35,15 +34,14 @@ export const MColumnSelectField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value : self.defaultValue
+      return self.value
     }
 
-    const update = (table) => {
-      const options = hJSON.parse(table)[0]?.map((v) => ({
+    const update = (columns) => {
+      const options = columns.map((v) => ({
         key: `${v}`,
         value: v,
       }))
-
       self.setOptions(options)
     }
 

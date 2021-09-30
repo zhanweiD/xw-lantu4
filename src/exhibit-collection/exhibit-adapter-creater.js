@@ -82,10 +82,10 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = {
         container: this.container,
         layers: this.model.getLayers(),
-        title: addOptionMethod(this.model.getTitle()),
-        legend: addOptionMethod(this.model.getLegend()),
-        other: addOptionMethod(this.model.getOther()),
-        axis: addOptionMethod(this.model.getAxis()),
+        title: addOptionMethod(this.model.getTitle(), 'title'),
+        legend: addOptionMethod(this.model.getLegend(), 'legend'),
+        other: addOptionMethod(this.model.getOther(), 'other'),
+        axis: addOptionMethod(this.model.getAxis(), 'axis'),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -101,24 +101,13 @@ const createExhibitAdapter = (hooks) =>
       return reaction(
         () => (isGlobal ? this.model[actionType].effective : this.model[actionType].options.updatedOptions),
         () => {
-          const map = {
-            legend: 'updatedLegend',
-            title: 'updatedTitle',
-            other: 'updatedOther',
-            axis: 'updatedAxis',
-            dimension: 'updatedDimension',
-            // layer: 'updatedLayer',
-          }
-          console.log('🚗🚗')
           const action = () =>
             this.update({
               action: actionType,
               options: this.getAllOptions(),
-              [map[actionType]]: isGlobal
-                ? this.model[actionType].getData()
-                : this.model[actionType].options.updatedOptions,
               updated: isGlobal ? this.model[actionType].getData() : this.model[actionType].options.updatedOptions,
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
+              flag: `actionType: ${actionType}, global: ${isGlobal}`,
             })
           if (!isGlobal) {
             if (!isDef(this.model[actionType].effective) || this.model[actionType].effective) {
@@ -171,8 +160,8 @@ const createExhibitAdapter = (hooks) =>
               this.update({
                 action: 'data',
                 options: this.getAllOptions(),
-                updatedData: updated,
                 updated,
+                flag: 'data',
               })
             }
           )
@@ -183,18 +172,13 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => layer.effective,
             () => {
-              const options = model.getLayers()
-              const updated = {
-                id: layer.id,
-                type: layer.type,
-                options: options.find((o) => o.id === layer.id),
-              }
+              const options = this.getAllOptions()
               this.update({
                 action: 'layer',
-                options: this.getAllOptions(),
-                updatedLayer: updated,
-                updated,
+                options,
+                updated: options.layers.find((o) => o.id === layer.id),
                 updatedPath: 'effective',
+                flag: 'layer',
               })
             }
           )
@@ -212,9 +196,9 @@ const createExhibitAdapter = (hooks) =>
                 this.update({
                   action: 'layer',
                   options: this.getAllOptions(),
-                  updatedLayer: updated,
                   updated,
                   updatedPath: layer.options.updatedPath,
+                  flag: 'layer',
                 })
               }
             }
@@ -235,9 +219,9 @@ const createExhibitAdapter = (hooks) =>
                   this.update({
                     action: 'layer',
                     options: this.getAllOptions(),
-                    updatedLayer: updated,
                     updated,
                     updatedPath: 'data',
+                    flag: 'layer data',
                   })
                 }
               }
@@ -279,32 +263,13 @@ const createExhibitAdapter = (hooks) =>
       this.pathable.destroy()
     }
 
-    update({
-      options,
-      updatedData,
-      updatedDimension,
-      updatedLayer,
-      action,
-      updated,
-      updatedPath,
-      updatedTitle,
-      updatedLegend,
-      updatedOther,
-      updatedAxis,
-    }) {
+    update({options, action, updated, updatedPath, flag}) {
       hooks.update.call(null, {
         instance: this.instance,
         options,
-        updatedData,
-        updatedDimension,
-        updatedLayer: addOptionMethod(updatedLayer),
         action,
-        updated,
+        updated: addOptionMethod(updated, flag),
         updatedPath,
-        updatedTitle: addOptionMethod(updatedTitle),
-        updatedLegend: addOptionMethod(updatedLegend),
-        updatedOther: addOptionMethod(updatedOther),
-        updatedAxis: addOptionMethod(updatedAxis),
       })
     }
 

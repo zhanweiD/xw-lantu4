@@ -26,6 +26,7 @@ const log = createLog('@builder/create-config-model-class')
 
 const fieldModel = {
   text: MTextField,
+  password: MTextField,
   number: MNumberField,
   check: MCheckField,
   switch: MSwitchField,

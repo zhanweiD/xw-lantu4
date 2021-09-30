@@ -59,7 +59,6 @@ const MFrame = types
             exhibit.id,
             model.initModel({
               art,
-              themeId: art.themeId,
               schema: exhibit,
               event,
             })
@@ -75,7 +74,6 @@ const MFrame = types
               material.id,
               model.initModel({
                 art,
-                themeId: art.themeId,
                 schema: material,
                 event,
               })
@@ -93,21 +91,6 @@ const MArtPreview = types
   .model('MArtPreview', {
     artId: types.maybe(types.number),
     publishId: types.maybe(types.string),
-    themeId: types.optional(
-      types.enumeration([
-        'fairyLand',
-        'emeraldGreen',
-        'duskUniverse',
-        'glaze',
-        'exquisite',
-        'blueGreen',
-        'greenRed',
-        'blueRed',
-        'orangePurple',
-        'brownGreen',
-      ]),
-      'glaze'
-    ),
     gridUnit: types.optional(types.number, 40),
     watermark: types.optional(MWatermark, {}),
     password: types.optional(MPassword, {}),
@@ -154,7 +137,6 @@ const MArtPreview = types
         self.datas = data
         self.set({
           artId: art.artId,
-          themeId: art.themeId || 'glaze',
           gridUnit: art.gridUnit,
           watermark: art.watermark,
           password: art.password,
@@ -180,7 +162,6 @@ const MArtPreview = types
         self.set({
           artId: art.artId,
           publishId: art.publishId,
-          themeId: art.themeId || 'glaze',
           gridUnit: art.gridUnit,
           watermark: art.watermark,
           password: art.password,

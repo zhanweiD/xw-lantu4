@@ -31,7 +31,7 @@ const makeAdapter = () => {
       instance.update({
         fillType: updated.getOption('base.fillType'),
         opacity: updated.getOption('base.opacity'),
-        effective: updated.getOption('effective'),
+        effective: updated.effective,
       })
     },
 

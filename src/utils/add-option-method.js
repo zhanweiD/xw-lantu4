@@ -5,9 +5,10 @@ import random from '@utils/random'
 
 // 在带有options属性的对象上, 添加getOption和mapOption方法
 export default (o) => {
+  const v = Object.assign({}, o)
   if (isPlainObject(o)) {
-    if (!isDef(o.options)) {
-      o.options = Object.assign({}, o)
+    if (!isDef(v.options)) {
+      v.options = Object.assign({}, v)
     }
     // storage化的options数据
     const storageOptions = onerStorage({
@@ -15,10 +16,12 @@ export default (o) => {
       key: `v-${random()}`, // !!! 唯一必选的参数, 用于内部存储 !!!
     })
 
-    storageOptions.data(o.options)
+    storageOptions.data(v.options)
+
+    // console.log('🦀', flag, 'o', o, 'v', v)
 
     // 根据路径取得参数的便捷方式
-    o.getOption = (path, fallback) => {
+    v.getOption = (path, fallback) => {
       return storageOptions.get(path, fallback)
     }
 
@@ -27,7 +30,7 @@ export default (o) => {
     //   ['inner/path', 'my/path', {innerValue1: 'myValue1', innerValue2: 'myValue2'}],
     //   ['inner/path', 'my/path', {innerValue: 'myValue'}],
     // ]
-    o.mapOption = (list) => {
+    v.mapOption = (list) => {
       // console.info('!!! 收集什么时候使用这个方法？`getOption()`就应该可以满足 !!!')
       const newStorageOptions = onerStorage({
         type: 'variable',
@@ -49,5 +52,5 @@ export default (o) => {
       return newStorageOptions
     }
   }
-  return o
+  return v
 }

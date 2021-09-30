@@ -9,7 +9,7 @@ export const MTextField = types
     effective: types.optional(types.boolean, true),
     label: types.optional(types.string, ''),
     value: types.maybe(types.string),
-    defaultValue: types.maybe(types.string),
+    defaultValue: types.optional(types.string, ''),
     placeholder: types.optional(types.string, ''),
   })
   .actions(commonAction(['set']))

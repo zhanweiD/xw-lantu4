@@ -223,6 +223,7 @@ export const MDataTab = types
           self.basic.setSchema({
             mtime: moment(mtime).format('YYYY-MM-DD HH:mm:ss'),
           })
+          event.fire('editor.updateDataForArt', result)
         } else {
           const result = yield dataIo.createData(data)
           self.isCreate = true

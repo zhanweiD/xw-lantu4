@@ -38,31 +38,31 @@ svg
   // background-color rgba(255,255,255,0.04)
 // 滚动条里面小方块
 ::-webkit-scrollbar-thumb
-  // border-left 4px solid #444
-  background-color: #444
+  // border-left 4px solid #000
+  background-color:rgba(181,222,255,0.3)
 
 .scrollbar
   overflow auto
 // 在有滚动条的元素上加上该classname，只有鼠标进入元素区域内，滚动条才会有颜色
 .scrollbar:hover::-webkit-scrollbar-thumb
-  background-color: #ddd
+  background-color:rgba(181,222,255,0.53)
 
 ::-webkit-scrollbar-thumb:window-inactive
   // border-left 4px solid #444
   background-color: #444
 
-.topScrollBar
-  overflow-x auto
+// .topScrollBar
+//   overflow-x auto
 
-.topScrollBar:hover::-webkit-scrollbar-thumb
-  background-color #ddd
+// .topScrollBar:hover::-webkit-scrollbar-thumb
+//   background-color #ddd
 
-.topScrollBar::-webkit-scrollbar-thumb
-  background-color #3330
-  height 2px
+// .topScrollBar::-webkit-scrollbar-thumb
+//   background-color #3330
+//   height 2px
 
-.topScrollBar::-webkit-scrollbar
-  display: none
+// .topScrollBar::-webkit-scrollbar
+//   display: none
 
 
 .bold

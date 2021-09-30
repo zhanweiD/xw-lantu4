@@ -2,6 +2,7 @@ import {types, getEnv} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
+import makeFunction from '@utils/make-function'
 import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
@@ -72,27 +73,21 @@ export const createExhibitModelClass = (exhibit) => {
       const getLayers = () => {
         const layers = self.layers.map((layer) => {
           const {id, type, name, options, effective} = layer.getSchema()
-          let values = {
+          const values = {
             id,
             name,
             type,
             effective,
           }
+
           if (effective) {
-            values = {
-              id,
-              name,
-              type,
-              effective,
-              options: getObjectData(options),
-            }
-            if (config.key !== 'demo') {
-              values.data = layer.getData()
-            }
-            addOptionMethod(values)
+            values.data = layer.getData()
+            values.options = getObjectData(options)
           }
 
-          return values
+          // console.log(effective ? '++++++++++' : '---------')
+
+          return addOptionMethod(values, 'init')
         })
 
         return layers
@@ -112,7 +107,7 @@ export const createExhibitModelClass = (exhibit) => {
           })
 
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
-          self.data.setRelationModels(relationModels)
+          self.data.bindRelationModels(relationModels)
         }
       }
 
@@ -149,9 +144,37 @@ export const createExhibitModelClass = (exhibit) => {
           const {type, private: privateData, source} = self.data.getSchema()
           if (type === 'private') {
             data = hJSON.parse(privateData)
-          } else {
-            const datas = self.art_.datas
-            data = datas?.find((v) => v.id === source)?.data
+          }
+          if (type === 'source') {
+            const {datas = []} = self.art_
+            const sourceData = datas.find((v) => v.id === source)
+            if (sourceData) {
+              let value = []
+              let result = sourceData.data
+              if (sourceData.config.useDataProcessor) {
+                result = makeFunction(sourceData.processorFunction)({data: sourceData.data})
+              }
+
+              switch (sourceData.dataType) {
+                case 'json':
+                  value = result
+                  break
+                case 'excel':
+                  let head = result.columns.map((col) => col.name)
+                  const list = result.data.map((res) => {
+                    const target = []
+                    head.map((col) => {
+                      target.push(res[col])
+                    })
+                    return target
+                  })
+                  value = [].concat(head).concat(list)
+                  break
+                default:
+                  value = result
+              }
+              data = value
+            }
           }
         }
         return data
@@ -163,7 +186,7 @@ export const createExhibitModelClass = (exhibit) => {
           ...self.data.getRelationModels(),
           ...self.dimension.options.getRelationFields('columnSelect')
         )
-        self.data.setRelationModels(relationModels)
+        self.data.bindRelationModels(relationModels)
       }
 
       const getDimension = () => {

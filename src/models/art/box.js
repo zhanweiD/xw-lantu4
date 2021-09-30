@@ -118,7 +118,6 @@ export const MBox = types
       const {width, height} = layout
       if (self.exhibit) {
         const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
-        //   //这里if是因为exhibit组件根本没对接进来 暂时保证正确性
         if (exhibitModel.adapter) {
           exhibitModel.adapter.refresh(width, height)
         }
@@ -159,7 +158,6 @@ export const MBox = types
         const {dataPanel} = self.root_.sidebar
         const exhibitModel = model.initModel({
           art,
-          themeId: art.basic.themeId,
           schema: {
             lib,
             key,
@@ -171,7 +169,6 @@ export const MBox = types
           exhibit.id,
           model.initModel({
             art,
-            themeId: art.basic.themeId,
             schema: exhibit,
             event,
             data: dataPanel,
@@ -182,26 +179,36 @@ export const MBox = types
       }
     }
 
-    const addBackground = ({key, lib}) => {
+    const addBackground = ({key, lib, name, materialId, type}) => {
       const {exhibitCollection, event} = self.env_
       const model = exhibitCollection.get(`${lib}.${key}`)
       if (model) {
         const art = self.art_
+        const schema = {
+          lib,
+          key,
+        }
+        if (type === 'image') {
+          schema.id = materialId
+
+          schema.layers = [
+            {
+              id: materialId,
+              name,
+            },
+          ]
+        } else {
+          schema.id = uuid()
+        }
         const materialModel = model.initModel({
           art,
-          themeId: art.basic.themeId,
-          schema: {
-            lib,
-            key,
-            id: uuid(),
-          },
+          schema,
         })
         const material = materialModel.getSchema()
         art.exhibitManager.set(
           material.id,
           model.initModel({
             art,
-            themeId: art.basic.themeId,
             schema: material,
             event,
           })

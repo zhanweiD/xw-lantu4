@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import Tab from '@components/tab'
@@ -6,6 +6,8 @@ import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import isDef from '@utils/is-def'
 import CommonTab from './common-tab'
+import Drawer from '@components/drawer'
+import IconButton from '@components/icon-button'
 
 const createPanel = (exhibit, t) => {
   const panels = []
@@ -61,13 +63,27 @@ const ArtOption = ({art}) => {
       }
     }
   }
-
+  const [visible, setVisible] = useState(false)
   return (
     <>
       <Tab sessionId="art-option" className="fb1">
         {exhibit && createPanel(exhibit, t)}
       </Tab>
+      <div className="pa" style={{right: 8}}>
+        <IconButton
+          icon="more"
+          onClick={() => {
+            setVisible(true)
+          }}
+        />
+      </div>
       <CommonTab box={box} frame={frame} />
+      <Drawer visible={visible} title="这是全局" onClose={() => setVisible(false)}>
+        {recusiveNode({
+          ...art.global.options,
+          level: 0,
+        })}
+      </Drawer>
     </>
   )
 }

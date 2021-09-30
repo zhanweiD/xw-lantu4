@@ -132,7 +132,7 @@ export const MArtFrame = types
             exhibit.id,
             model.initModel({
               art,
-              themeId: art.basic.themeId,
+
               schema: exhibit,
               event,
               data: dataPanel,
@@ -149,7 +149,7 @@ export const MArtFrame = types
               material.id,
               model.initModel({
                 art,
-                themeId: art.basic.themeId,
+
                 schema: material,
                 event,
               })
@@ -172,7 +172,7 @@ export const MArtFrame = types
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
           art,
-          themeId: art.basic.themeId,
+
           schema: {
             lib,
             key,
@@ -191,7 +191,6 @@ export const MArtFrame = types
         const findAdapter = exhibitCollection.has(`${lib}.${key}`)
         const model = findAdapter.value.initModel({
           art,
-          themeId: art.basic.themeId,
           schema: {
             lib,
             key,

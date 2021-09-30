@@ -1,8 +1,10 @@
 import {types, getParent, getEnv} from 'mobx-state-tree'
 import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
+import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import makeFunction from '@utils/make-function'
 
 const MValue = types
   .model('MValue', {
@@ -12,10 +14,34 @@ const MValue = types
     sourceProcessor: types.maybe(types.string),
   })
   .views((self) => ({
-    get sourceData_() {
-      const datas = getEnv(self).art.datas
-      const data = datas?.find((v) => v.id === self.source)?.data
-      return data
+    get sourceColumn_() {
+      if (self.type === 'private') {
+        const value = hJSON.parse(self.private)[0]
+        return value
+      }
+      if (self.type === 'source') {
+        const {datas = []} = getEnv(self).art
+        const sourceData = datas.find((v) => v.id === self.source)
+        if (sourceData) {
+          let value = []
+          let result = sourceData.data
+          if (sourceData.config.useDataProcessor) {
+            result = makeFunction(sourceData.processorFunction)({data: sourceData.data})
+          }
+          switch (sourceData.dataType) {
+            case 'json':
+              value = result[0]
+              break
+            case 'excel':
+              value = result.columns.map((col) => col.name)
+              break
+            default:
+              value = result[0]
+          }
+          return value
+        }
+      }
+      return []
     },
     get sourceName_() {
       const name = [
@@ -75,6 +101,16 @@ export const MDataField = types
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
+      reaction(
+        () => {
+          return {
+            data: self.env_.art.datas,
+          }
+        },
+        () => {
+          self.onAction()
+        }
+      )
     }
 
     const setValue = (value) => {
@@ -96,15 +132,14 @@ export const MDataField = types
 
     const onAction = () => {
       self.relationModels.map((model) => {
-        const {type, source, sourceData_, private: privateData} = self.value
-        if (type === 'private') {
-          model.update(privateData)
-        }
-        if (type === 'source') {
-          if (source && sourceData_) {
-            model.update(hJSON.stringify(sourceData_, {space: 2, quotes: 'strings', separator: true}))
-          }
-        }
+        const {sourceColumn_} = self.value
+        model.update(sourceColumn_)
+      })
+    }
+
+    const clearRelationModelValue = () => {
+      self.relationModels.map((model) => {
+        model.setValue(undefined)
       })
     }
 
@@ -127,7 +162,7 @@ export const MDataField = types
       }
     }
 
-    const setRelationModels = (models) => {
+    const bindRelationModels = (models) => {
       self.relationModels = models
     }
 
@@ -137,25 +172,27 @@ export const MDataField = types
 
     const addSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
+      self.setValue({
+        source: dataId,
+      })
+      clearRelationModelValue()
       event.fire(`art.${art.artId}.addData`, {
         dataId,
         exhibitId,
         callback: self.onAction,
       })
-      self.setValue({
-        source: dataId,
-      })
     }
 
     const removeSource = (dataId) => {
       const {event, art, exhibitId} = self.env_
+      self.setValue({
+        source: undefined,
+      })
+      clearRelationModelValue()
       event.fire(`art.${art.artId}.removeData`, {
         dataId,
         exhibitId,
         callback: self.onAction,
-      })
-      self.setValue({
-        source: undefined,
       })
     }
 
@@ -169,7 +206,7 @@ export const MDataField = types
       removeSource,
       onAction,
       toggleBak,
-      setRelationModels,
+      bindRelationModels,
       getRelationModels,
     }
   })

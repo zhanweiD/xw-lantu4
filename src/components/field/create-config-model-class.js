@@ -27,7 +27,6 @@ import {MGradientColorField} from './gradient-color.model'
 import {MRangeNumberField} from './range-number.model'
 import {MTextareaField} from './textarea.model'
 import {MConstraintsField} from './constraints.model'
-import {MImageField} from './image.model'
 import {MAlignmentField} from './alignment.model'
 import {MOffsetField} from './offset.model'
 
@@ -52,7 +51,6 @@ const fieldModel = {
   gradientColor: MGradientColorField,
   rangeNumber: MRangeNumberField,
   constraints: MConstraintsField,
-  image: MImageField,
   alignment: MAlignmentField,
   offset: MOffsetField,
 }

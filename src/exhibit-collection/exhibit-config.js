@@ -8,19 +8,21 @@ const getFields = (fields) => {
     const config = mappingConfig[field.name]
 
     if (config) {
+      // 白名单之内的field，不能更改label和type
+      const {label, type, ...other} = field
       const ret = {
         ...config,
-        name: field.name,
+        ...other,
       }
 
       // 白名单之内的配置项，来自对接层的配置，当前只有以下两项生效
-      if (isDef(field.effective)) {
-        ret.effective = field.effective
-      }
+      // if (isDef(field.effective)) {
+      //   ret.effective = field.effective
+      // }
 
-      if (isDef(field.defaultValue)) {
-        ret.defaultValue = field.defaultValue
-      }
+      // if (isDef(field.defaultValue)) {
+      //   ret.defaultValue = field.defaultValue
+      // }
       // console.log('🎒', ret)
       return ret
     } else if (field.name === 'custom') {

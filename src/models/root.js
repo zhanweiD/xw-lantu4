@@ -42,13 +42,6 @@ export const MRoot = types
       })
 
       self.overlayManager.create({
-        id: 'modal',
-        hasMask: true,
-        width: 800,
-        height: 600,
-      })
-
-      self.overlayManager.create({
         id: 'confirm',
         hasMask: true,
         width: 300,
@@ -67,12 +60,6 @@ export const MRoot = types
         width: 800,
         height: 600,
         canDrag: true,
-      })
-
-      self.overlayManager.create({
-        id: 'materialModal',
-        width: 800,
-        height: 500,
       })
 
       self.overlayManager.create({

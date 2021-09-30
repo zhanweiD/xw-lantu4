@@ -46,6 +46,7 @@ const DataField = ({
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
+  console.log(value.sourceColumn_, '啊哈')
   return (
     <>
       <div className="fbh fbjc mt8 ml24 mb8">
@@ -164,15 +165,13 @@ const DataField = ({
             )}
             <div>
               <div className="mb8">字段预览</div>
-              {value.sourceData_ && (
-                <div className="fbh fbw">
-                  {value.sourceData_[0].map((v) => (
-                    <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
-                      {v}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="fbh fbw">
+                {value.sourceColumn_.map((v) => (
+                  <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
+                    {v}
+                  </div>
+                ))}
+              </div>
             </div>
           </Section>
           <Modal

@@ -54,13 +54,12 @@ export const exhibitRegister = (exhibit) => {
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
-      initModel({art, schema, themeId, event, data}) {
+      initModel({art, schema, event, data}) {
         // 创建组件的模型实例
         const model = Model.create(
           {
             context: {
               baseFontSize: (1080 / 1050).toFixed(2) - 0,
-              themeColors: themeConfigs[themeId].colors,
             },
           },
           {
