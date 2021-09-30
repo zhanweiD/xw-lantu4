@@ -99,6 +99,9 @@ const global = {
       fields: [
         {
           name: 'size',
+          min: 40,
+          max: 200,
+          step: 10,
         },
       ],
     },

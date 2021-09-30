@@ -728,6 +728,12 @@ const fillType = {
   ],
 }
 
+// 密码
+const password = {
+  type: 'password',
+  label: 'password',
+}
+
 /**
  * =====================================
  * 坐标轴和比例尺类配置
@@ -873,6 +879,8 @@ export default {
   constraint,
   // 填充方式
   fillType,
+  // 密码
+  password,
   // 绑定主轴或副轴
   axisBinding,
   // 刻度线数量
