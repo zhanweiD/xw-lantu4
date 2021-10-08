@@ -31,7 +31,7 @@ export const MData = types
       }
     }
 
-    const getDataFrame = async ({headers = {}, queries = {}, body = {}}) => {
+    const getDataFrame = ({headers = {}, queries = {}, body = {}}) => {
       const data = hJSON.parse(self.fileData || '')
       const {useDataProcessor = false} = self.config
       switch (self.dataType) {
