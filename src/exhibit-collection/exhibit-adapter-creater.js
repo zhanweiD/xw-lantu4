@@ -1,5 +1,5 @@
 import {reaction} from 'mobx'
-
+import capitalize from 'lodash/capitalize'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
@@ -82,10 +82,6 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = {
         container: this.container,
         layers: this.model.getLayers(),
-        title: addOptionMethod(this.model.getTitle(), 'title'),
-        legend: addOptionMethod(this.model.getLegend(), 'legend'),
-        other: addOptionMethod(this.model.getOther(), 'other'),
-        axis: addOptionMethod(this.model.getAxis(), 'axis'),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
         ...this.model.context,
@@ -93,6 +89,15 @@ const createExhibitAdapter = (hooks) =>
         ...this.size,
         isPreview: !this.isEdit,
       }
+
+      // 定义才添加的数据
+      const liveProps = ['title', 'legend', 'axis', 'other']
+      liveProps.forEach((prop) => {
+        const propConfig = this.model[`get${capitalize(prop)}`]()
+        if (isDef(propConfig)) {
+          instanceOption[prop] = addOptionMethod(propConfig, prop)
+        }
+      })
 
       return instanceOption
     }
