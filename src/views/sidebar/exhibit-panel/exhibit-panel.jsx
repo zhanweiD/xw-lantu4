@@ -20,7 +20,7 @@ const Category = ({category}) => {
       id={`category-${category.name}`}
       sessionId={`category-${category.name}`}
       headIcon={icon}
-      childrenClassName="pt8 pb8"
+      childrenClassName="p4"
       name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
     >
       <Grid column={4}>
@@ -66,7 +66,8 @@ const ExhibitPanel = () => {
       <Tab sessionId="exhibit-panel" className="fb1">
         <Tab.Item name={t('exhibitPanel.exhibits')}>
           <div className="fbh h100p">
-            <div className="pb8">
+            {/* 临时隐藏掉 */}
+            <div className="pb8 hide">
               {Object.entries(categories).map(([id, category]) => (
                 <Caption content={t(`exhibit.${category.name}`)} key={id}>
                   <div
@@ -84,7 +85,7 @@ const ExhibitPanel = () => {
                 </Caption>
               ))}
             </div>
-            <Scroll className="fb1 pb8 pl8">
+            <Scroll className="fb1 pb8">
               {({scrollTo}) => {
                 scrollToFn = scrollTo
                 return categories.map((category) => Children.toArray(<Category category={category} />))

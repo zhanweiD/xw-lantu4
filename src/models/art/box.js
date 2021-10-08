@@ -189,7 +189,7 @@ export const MBox = types
           key,
         }
         if (type === 'image') {
-          schema.id = materialId
+          schema.id = `${materialId}.${uuid()}`
 
           schema.layers = [
             {

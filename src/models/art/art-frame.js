@@ -176,7 +176,7 @@ export const MArtFrame = types
           schema: {
             lib,
             key,
-            id: materialId,
+            id: `${materialId}.${uuid()}`,
             layers: [
               {
                 id: materialId,

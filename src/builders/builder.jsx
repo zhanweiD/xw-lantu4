@@ -73,14 +73,13 @@ const Builder = ({layers, data, dimension, exhibit}) => {
                     buttonSize={24}
                     onClick={layer.toggleEffective}
                   />
-                  <IconButton icon="more" iconSize={14} buttonSize={24} onClick={exhibit.doSomething} />
+                  <IconButton icon="more" iconSize={14} buttonSize={24} />
                 </div>
               }
             >
               {layer.data && <ModelToField model={layer.data} />}
               {recusiveNode({
-                sections: layer.options.sections,
-                fields: layer.options.fields,
+                ...layer.options,
               })}
             </Section>
           </div>

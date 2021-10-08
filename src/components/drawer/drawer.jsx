@@ -18,7 +18,6 @@ const Drawer = ({children, className, title, visible, onClose = () => {}}) => {
       <div className={c('fbh fbac fbjsb pr', s.title)}>
         <div className="fbn pl8">{title}</div>
         <IconButton
-          className="mr8"
           icon="close"
           iconSize={14}
           title="关闭"
@@ -27,7 +26,7 @@ const Drawer = ({children, className, title, visible, onClose = () => {}}) => {
           }}
         />
       </div>
-      <div className="mt8 mb8">{children}</div>
+      <div>{children}</div>
     </div>
   )
 }
