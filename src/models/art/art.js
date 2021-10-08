@@ -3,7 +3,7 @@ import {getEnv, types, flow} from 'mobx-state-tree'
 import io from '@utils/io'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
-import {MDataManager} from './art-data-manager'
+import {MDataManager, MMaterialManager} from './art-manager'
 import {MArtViewport} from './art-viewport'
 import {MPublishInfo} from './art-publish-info'
 import config from '@utils/config'
@@ -24,6 +24,7 @@ export const MArt = types
     artPublishInfo: types.maybe(MPublishInfo),
     // 数据屏使用的数据id及其映射组件的关系
     dataManager: types.optional(MDataManager, {}),
+    materialManager: types.optional(MMaterialManager, {}),
     // 数据屏使用的数据，每次打开或更新均需要重新获取，不必保存
     datas: types.frozen(),
     // 前端工具属性 不必保存
@@ -34,7 +35,7 @@ export const MArt = types
     activeTool: types.optional(types.enumeration('MArtToolbar.activeTool', ['select', 'createFrame']), 'select'),
     fetchState: types.optional(types.enumeration('MArtTab.fetchState', ['loading', 'success', 'error']), 'loading'),
     normalKeys: types.frozen(['artId', 'projectId']),
-    deepKeys: types.frozen(['viewport', 'dataManager', 'global']),
+    deepKeys: types.frozen(['viewport', 'dataManager', 'materialManager', 'global']),
   })
   .views((self) => ({
     get env_() {
@@ -76,6 +77,23 @@ export const MArt = types
         data.removeExhibit(exhibitId)
         callback()
       })
+
+      event.on(`art.${self.artId}.addMaterial`, ({id, materialId}) => {
+        if (self.materialManager.get(materialId)) {
+          const material = self.materialManager.get(materialId)
+          material.add(id)
+        } else {
+          self.materialManager.create({
+            id: materialId,
+            used: [id],
+          })
+        }
+      })
+
+      event.on(`art.${self.artId}.removeMaterial`, ({id, materialId}) => {
+        const material = self.materialManager.get(materialId)
+        material.remove(id)
+      })
     }
 
     const addData = flow(function* addData(dataId, callback) {
@@ -108,6 +126,7 @@ export const MArt = types
         const ids = []
         let data
         self.dataManager = art.dataManager
+        self.materialManager = art.materialManager
         self.dataManager.map.forEach((value, key) => {
           ids.push(key)
         })
@@ -142,7 +161,7 @@ export const MArt = types
 
     const save = flow(function* save() {
       try {
-        const {global, viewport, artId, projectId, dataManager} = self.getSchema()
+        const {global, viewport, artId, projectId, dataManager, materialManager} = self.getSchema()
         const {frames} = viewport
         frames.forEach((frame) => {
           const {boxes} = frame
@@ -171,6 +190,7 @@ export const MArt = types
           ':projectId': projectId,
           ':artId': artId,
           dataManager,
+          materialManager,
           global,
           frames,
         }

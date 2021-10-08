@@ -161,7 +161,7 @@ export const MArtFrame = types
 
     // type 可以为exhibit|image|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰空组件
     const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', materialId, name}) {
-      const {io, exhibitCollection} = self.env_
+      const {io, exhibitCollection, event} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
@@ -255,11 +255,20 @@ export const MArtFrame = types
         realBox.set({
           boxId: box.boxId,
         })
+        if (realBox.materials) {
+          realBox.materials.forEach((m) => {
+            event.fire(`art.${art.artId}.addMaterial`, {
+              materialId: m.id,
+              id: realBox.boxId,
+            })
+          })
+        }
+
         self.viewport_.selectRange.set({
           range: [
             {
               frameId,
-              boxIds: [box.boxId],
+              boxIds: [realBox.boxId],
             },
           ],
         })
