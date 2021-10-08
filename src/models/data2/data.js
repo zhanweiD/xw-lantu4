@@ -3,6 +3,7 @@ import makeFunction from '@utils/make-function'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
 import hJSON from 'hjson'
+import DataFrame from '@utils/dataFrame'
 
 const log = createLog('@models/data2/data')
 
@@ -31,23 +32,27 @@ export const MData = types
       }
     }
 
-    const getDataFrame = ({headers = {}, queries = {}, body = {}}) => {
+    const getDataFrame = (options) => {
       const data = hJSON.parse(self.fileData || '')
       const {useDataProcessor = false} = self.config
+      // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
         case 'excel':
-          return data
+          return new DataFrame({source: data})
         case 'json':
-          return useDataProcessor ? makeFunction(self.processorFunction)({data}) : data
+          return useDataProcessor
+            ? new DataFrame({source: makeFunction(self.processorFunction)({data})})
+            : new DataFrame({source: data})
         case 'api':
-          return fetch({headers, queries, body})
+          return fetch(options)
       }
     }
 
-    const fetch = flow(function* getResult({headers, queries, body}) {
+    const fetch = flow(function* getResult(options = {}) {
       const {io} = self.env_
       const {processorFunction, config} = self
       const {useDataProcessor = false, method, url} = config
+      const {headers, queries, body} = options
 
       if (!url) {
         log.error({content: 'url不能为空'})
@@ -102,13 +107,13 @@ export const MData = types
         })
         if (useDataProcessor) {
           try {
-            return makeFunction(processorFunction)({content: response})
+            return new DataFrame({source: makeFunction(processorFunction)({content: response})})
           } catch (error) {
             log.error({content: '数据处理函数失败'})
             return {error}
           }
         } else {
-          return response
+          return new DataFrame({source: response})
         }
       } catch (error) {
         log.error({content: '请求发起失败', error})
