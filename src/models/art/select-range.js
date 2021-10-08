@@ -688,12 +688,14 @@ export const MSelectRange = types
         boxId: box.boxId,
       }))
       self.boxes_.forEach((box) => {
-        box.materials.forEach((material) => {
-          event.fire(`art.${artId}.removeMaterial`, {
-            materialId: material.id,
-            id: box.boxId,
+        if (box.materials) {
+          box.materials.forEach((material) => {
+            event.fire(`art.${artId}.removeMaterial`, {
+              materialId: material.id,
+              id: box.boxId,
+            })
           })
-        })
+        }
       })
       try {
         yield io.art.removeBoxes({
