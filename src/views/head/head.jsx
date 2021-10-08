@@ -29,7 +29,7 @@ const Head = () => {
   }
 
   return (
-    <div className={c('cf3 fbh fbac', s.head)}>
+    <div className={c('cf3 fbh fbac pr8', s.head)}>
       <div className={c('fb1 fbh fbac')}>
         <div className="fbh fbac fbjc w40">
           <Icon name="waveview" size={24} />

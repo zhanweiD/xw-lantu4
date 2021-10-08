@@ -69,9 +69,9 @@ const ArtOption = ({art}) => {
       <Tab sessionId="art-option" className="fb1">
         {exhibit && createPanel(exhibit, t)}
       </Tab>
-      <div className="pa" style={{right: 8}}>
+      <div className="pa" style={{right: 0}}>
         <IconButton
-          icon="more"
+          icon="global-set"
           onClick={() => {
             setVisible(true)
           }}
