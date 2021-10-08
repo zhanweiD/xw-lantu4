@@ -47,7 +47,6 @@ class Image {
   }
 
   update({fillType = this.fillType, blendMode = this.blendMode, opacity = this.opacity, effective = this.effective}) {
-    console.log(blendMode)
     this.opacity = opacity
     this.fillType = fillType
     this.effective = effective
