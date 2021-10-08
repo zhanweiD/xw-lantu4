@@ -46,7 +46,7 @@ const DataField = ({
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
-  console.log(value.sourceColumn_, '啊哈')
+
   return (
     <>
       <div className="fbh fbjc mt8 ml24 mb8">
@@ -73,65 +73,55 @@ const DataField = ({
         />
       </div>
       {value.type === 'private' && (
-        <Section name="私有JSON" type={type} childrenClassName="pt8 pb8">
-          <CodeField
-            childrenClassName="ml24"
-            className="block"
-            value={json}
-            height={200}
-            onChange={(value) => {
-              setJson(value)
-            }}
-            buttons={[
-              {
-                name: '复制',
-                action: () => {
-                  copy(json)
-                  tip.success({content: '复制成功'})
+        <>
+          <Section name="私有JSON" type={type} childrenClassName="pt8 pb8">
+            <CodeField
+              childrenClassName="ml24"
+              className="block"
+              value={json}
+              height={200}
+              onChange={(value) => {
+                setJson(value)
+              }}
+              buttons={[
+                {
+                  name: '复制',
+                  action: () => {
+                    copy(json)
+                    tip.success({content: '复制成功'})
+                  },
+                  position: 'left',
                 },
-                position: 'left',
-              },
-              {
-                name: '格式化',
-                action: () => {
-                  try {
-                    const hjson = hJSON.parse(json)
-                    setJson(hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}))
-                  } catch (error) {
-                    tip.error({content: '格式化失败,请检查JSON是否合法'})
-                  }
+                {
+                  name: '格式化',
+                  action: () => {
+                    try {
+                      const hjson = hJSON.parse(json)
+                      setJson(hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}))
+                    } catch (error) {
+                      tip.error({content: '格式化失败,请检查JSON是否合法'})
+                    }
+                  },
+                  position: 'left',
                 },
-                position: 'left',
-              },
-              {
-                name: '保存',
-                action: () => {
-                  try {
-                    const hjson = hJSON.parse(json)
-                    onChange({
-                      private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
-                    })
-                  } catch (error) {
-                    tip.error({content: '保存失败,请检查JSON是否合法'})
-                  }
+                {
+                  name: '保存',
+                  action: () => {
+                    try {
+                      const hjson = hJSON.parse(json)
+                      onChange({
+                        private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
+                      })
+                    } catch (error) {
+                      tip.error({content: '保存失败,请检查JSON是否合法'})
+                    }
+                  },
+                  position: 'right',
                 },
-                position: 'right',
-              },
-            ]}
-          />
-          <div className="ml24">
-            <div className="mb8">字段预览</div>
-            {value.private && (
-              <div className="fbh fbw">
-                {hJSON.parse(value.private)[0]?.map((v) => (
-                  <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
-                    {v}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </Section>
+              ]}
+            />
+          </Section>
+        </>
       )}
       {value.type === 'source' && (
         <>
@@ -155,7 +145,7 @@ const DataField = ({
               </div>
             ) : (
               <div
-                className={c('hand fbh fbac fbjsb mb8 lh24 mr16 ctw20', s.name)}
+                className={c('hand fbh fbac fbjsb mb8 lh24 mr8 ctw20', s.name)}
                 onClick={() => {
                   setIsVisible(true)
                 }}
@@ -163,16 +153,6 @@ const DataField = ({
                 请选择数据源
               </div>
             )}
-            <div>
-              <div className="mb8">字段预览</div>
-              <div className="fbh fbw">
-                {value.sourceColumn_.map((v) => (
-                  <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
-                    {v}
-                  </div>
-                ))}
-              </div>
-            </div>
           </Section>
           <Modal
             width={270}
@@ -239,6 +219,19 @@ const DataField = ({
           </Modal>
         </>
       )}
+      <Section name="字段预览" type={type} childrenClassName="pt8 pb8 fbh fbw ml24">
+        {value.sourceColumn_.length > 0 ? (
+          value.sourceColumn_.map((v) => (
+            <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
+              {v}
+            </div>
+          ))
+        ) : (
+          <div className={c('emptyNote mr8 fb1')}>
+            <span>请选择合法的数据</span>
+          </div>
+        )}
+      </Section>
     </>
   )
 }

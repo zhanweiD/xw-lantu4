@@ -124,7 +124,7 @@ export const createExhibitModelClass = (exhibit) => {
         self.data = MDataField.create(
           {
             type: 'data',
-            sectionStyleType: 0,
+            sectionStyleType: 1,
             value: {
               type: 'private',
               private: hJSON.stringify(data, {space: 2, quotes: 'strings', separator: true}),
