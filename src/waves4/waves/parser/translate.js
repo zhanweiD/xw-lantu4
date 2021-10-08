@@ -1,5 +1,5 @@
 import uuid from '@utils/uuid'
-import {merge} from 'lodash'
+import {merge, isObject} from 'lodash'
 import {layerOptionMap, layerTypeMap} from './mapping'
 
 const getRealData = (dataSource, keys) => {
@@ -17,13 +17,13 @@ function translate(schema) {
     width, // 容器宽
     height, // 容器高
     container, // 容器必传
-    themeColors, // 主题颜色
     dimension, // 数据维度
     data, // 列表数据
     layers, // 图层配置
     legend, // 图例图层配置
     title, // 标题配置
     axis, // 坐标轴配置
+    themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
     padding = [60, 40, 40, 40], // 内边距
   } = schema
 
@@ -49,7 +49,7 @@ function translate(schema) {
   })
 
   // 手动追加标题层
-  if (title) {
+  if (title && isObject(title) && Object.keys(title).length) {
     const {getOption, mapOption} = title
     const config = layerOptionMap.get('text')({getOption, mapOption})
     layerConfig.push(
@@ -67,7 +67,7 @@ function translate(schema) {
   }
 
   // 手动追加图例层
-  if (legend) {
+  if (legend && isObject(legend) && Object.keys(legend).length) {
     const {getOption, mapOption} = legend
     const config = layerOptionMap.get('legend')({getOption, mapOption})
     layerConfig.push(
@@ -85,7 +85,7 @@ function translate(schema) {
   }
 
   // 手动追加坐标轴层
-  if (axis) {
+  if (axis && isObject(axis) && Object.keys(axis).length) {
     const {getOption, mapOption} = axis
     const config = layerOptionMap.get('axis')({getOption, mapOption})
     layerConfig.push(
@@ -105,8 +105,8 @@ function translate(schema) {
   return {
     width,
     height,
-    padding,
     container,
+    padding,
     theme: themeColors,
     tooltip: {position: 'relative'},
     layers: layerConfig.reverse(),
