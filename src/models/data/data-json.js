@@ -192,7 +192,7 @@ export const MJson = types
       const {config} = data
       const {useDataProcessor} = config
       const codeOptions = {
-        data: data.fileData,
+        data: data.data,
         useDataProcessor: typeof useDataProcessor === 'boolean' ? useDataProcessor : true,
       }
       self.codeOptions.setValues(codeOptions)

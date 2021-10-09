@@ -3,7 +3,7 @@ import makeFunction from '@utils/make-function'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
 import hJSON from 'hjson'
-import DataFrame from '@utils/dataFrame'
+import DataFrame from '@utils/data-frame'
 
 const log = createLog('@models/data2/data')
 
@@ -13,7 +13,7 @@ export const MData = types
     dataName: types.maybe(types.string, ''),
     dataType: types.maybe(types.string, ''),
     processorFunction: types.maybe(types.string, ''),
-    fileData: types.maybe(types.string, ''),
+    data: types.maybe(types.string, ''),
     config: types.frozen(),
   })
   .views((self) => ({
@@ -33,7 +33,7 @@ export const MData = types
     }
 
     const getDataFrame = (options) => {
-      const data = hJSON.parse(self.fileData || '')
+      const data = hJSON.parse(self.data || '')
       const {useDataProcessor = false} = self.config
       // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
