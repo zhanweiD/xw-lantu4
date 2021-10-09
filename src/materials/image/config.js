@@ -6,20 +6,15 @@ export const config = (k) => ({
     {
       type: 'image',
       name: '',
-      sections: [
+      fields: [
         {
-          name: 'base',
-          fields: [
-            {
-              name: 'fillType',
-            },
-            {
-              name: 'opacity',
-            },
-            {
-              name: 'blendMode',
-            },
-          ],
+          name: 'fillType',
+        },
+        {
+          name: 'opacity',
+        },
+        {
+          name: 'blendMode',
         },
       ],
     },
