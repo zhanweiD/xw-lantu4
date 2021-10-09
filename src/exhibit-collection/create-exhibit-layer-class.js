@@ -4,16 +4,19 @@ import uuid from '@utils/uuid'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
+import isDef from '@utils/is-def'
 
-export const createLayer = (key, layer, env) => {
+export const createLayer = (category, key, layer, env) => {
   const {name, type, id = uuid(), sections, fields} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
+      // NOTE 装饰类组件还没有category，有undefined的情况，其实都应该有
+      category: types.maybe(types.string, category),
       effective: types.optional(types.boolean, true),
-      normalKeys: types.frozen(['id', 'type', 'name', 'effective']),
+      normalKeys: types.frozen(['id', 'type', 'name', 'effective', 'category']),
       deepKeys: types.frozen(['options', 'data']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
@@ -90,6 +93,6 @@ export const createLayer = (key, layer, env) => {
   return MLayer.create(layer)
 }
 
-export const createExhibitLayersClass = (key, layers, env) => {
-  return layers.map((layer) => createLayer(key, layer, env))
+export const createExhibitLayersClass = (category, key, layers, env) => {
+  return layers.map((layer) => createLayer(category, key, layer, env))
 }

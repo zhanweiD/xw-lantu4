@@ -93,10 +93,11 @@ export const registerExhibit = (key) => {
   return exhibitCollection.get(`${exhibit.lib}.${key}`)
 }
 
-const addModal = (exhibits) =>
+const addModal = (exhibits) => {
   Object.values(exhibits).forEach((exhibit) => {
     exhibitRegister(exhibit)
   })
+}
 
 // 编辑状态下需要初始化注册所有组件，预览发布状态下不需要
 if (isEdit) {
