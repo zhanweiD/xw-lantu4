@@ -63,9 +63,11 @@ export const getModelSchema = (node, option = {}) => {
           log.warn("getSchema is not a function on object. Function: 'getModelSchema'", node[key])
         }
       }
-    } else {
-      log.warn(`${key} is not found on node(${typeName}). Function: 'getModelSchema'`, node)
     }
+    // 下面的警告确实没啥用
+    // else {
+    //   log.warn(`${key} is not found on node(${typeName}). Function: 'getModelSchema'`, node)
+    // }
   })
 
   if (debugTypeName) {
