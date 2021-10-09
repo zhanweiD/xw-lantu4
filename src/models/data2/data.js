@@ -1,4 +1,5 @@
-import {types, flow, getEnv} from 'mobx-state-tree'
+import {types, flow} from 'mobx-state-tree'
+import io from '@utils/io'
 import makeFunction from '@utils/make-function'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
@@ -19,9 +20,6 @@ export const MData = types
   .views((self) => ({
     get displayName_() {
       return `${self.dataType}: ${self.dataName}`
-    },
-    get env_() {
-      return getEnv(self)
     },
   }))
   .actions(commonAction(['set']))
@@ -58,7 +56,6 @@ export const MData = types
     }
 
     const fetch = flow(function* getResult(options = {}) {
-      const {io} = self.env_
       const {processorFunction, config} = self
       const {useDataProcessor = false, method, url} = config
       const {headers, queries, body} = options

@@ -8,6 +8,7 @@ import {MArtViewport} from './art-viewport'
 import {MPublishInfo} from './art-publish-info'
 import config from '@utils/config'
 import {MGlobal} from './art-ui-tab-property'
+import {MData} from '../data2/data'
 
 const log = createLog('@models/art.js')
 
@@ -98,11 +99,20 @@ export const MArt = types
 
     const addData = flow(function* addData(dataId, callback) {
       try {
-        const data = yield io.data.getDatasInfo({
+        const datas = yield io.data.getDatasInfo({
           ids: dataId,
         })
+        const dataModel = []
+        datas.forEach((data) => {
+          dataModel.push(
+            MData.create({
+              ...data,
+            })
+          )
+        })
+
         self.set({
-          datas: self.datas.concat(data),
+          datas: self.datas.concat(...dataModel),
         })
         callback()
       } catch (error) {
@@ -137,7 +147,11 @@ export const MArt = types
           })
         }
 
-        self.datas = data
+        self.datas = data.map((v) => {
+          return MData.create({
+            ...v,
+          })
+        })
         self.global.setSchema(global)
         self.viewport.setSchema({
           frames,
