@@ -13,6 +13,8 @@ export const createLayer = (category, key, layer, env) => {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
+      // NOTE 装饰类组件还没有category，有undefined的情况，其实都应该有
+      category: types.maybe(types.string, category),
       effective: types.optional(types.boolean, true),
       normalKeys: types.frozen(['id', 'type', 'name', 'effective', 'category']),
       deepKeys: types.frozen(['options', 'data']),
@@ -33,10 +35,6 @@ export const createLayer = (category, key, layer, env) => {
               ...env,
             }
           )
-        }
-
-        if (isDef(category)) {
-          self.category = category
         }
       }
 

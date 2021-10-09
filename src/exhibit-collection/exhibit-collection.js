@@ -94,10 +94,7 @@ export const registerExhibit = (key) => {
 }
 
 const addModal = (exhibits) => {
-  console.log('exhibits', exhibits)
   Object.values(exhibits).forEach((exhibit) => {
-    debugger
-    console.log('c2', exhibit.category, exhibit)
     exhibitRegister(exhibit)
   })
 }
