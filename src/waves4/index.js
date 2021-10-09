@@ -123,8 +123,19 @@ categories.forEach((category) => {
         name: config.name,
         category: category.name,
       }
+
+      if (waves[config.key]) {
+        waves[config.key].category = category.name
+      }
+      // else {
+      //   console.log(category.name, 'xxx')
+      // }
+
+      console.log('c1', category.exhibits[i].category, category)
     }
   })
 })
+
+console.log('-----------', categories)
 
 export {categories}

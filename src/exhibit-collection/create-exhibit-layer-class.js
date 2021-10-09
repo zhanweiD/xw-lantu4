@@ -4,6 +4,7 @@ import uuid from '@utils/uuid'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
 import {transform} from './exhibit-config'
+import isDef from '@utils/is-def'
 
 export const createLayer = (category, key, layer, env) => {
   const {name, type, id = uuid(), sections, fields} = layer
@@ -12,9 +13,8 @@ export const createLayer = (category, key, layer, env) => {
       id: types.optional(types.string, id),
       type: types.optional(types.string, type),
       name: types.optional(types.string, name),
-      category,
       effective: types.optional(types.boolean, true),
-      normalKeys: types.frozen(['id', 'type', 'name', 'effective']),
+      normalKeys: types.frozen(['id', 'type', 'name', 'effective', 'category']),
       deepKeys: types.frozen(['options', 'data']),
     })
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
@@ -33,6 +33,10 @@ export const createLayer = (category, key, layer, env) => {
               ...env,
             }
           )
+        }
+
+        if (isDef(category)) {
+          self.category = category
         }
       }
 

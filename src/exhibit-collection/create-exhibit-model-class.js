@@ -94,6 +94,7 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const setLayers = (layers) => {
+        console.log(config.category, config.key)
         self.layers = createExhibitLayersClass(config.category, config.key, layers, {
           exhibitId: self.id,
           art: self.art_,
