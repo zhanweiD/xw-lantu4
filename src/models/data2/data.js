@@ -37,8 +37,17 @@ export const MData = types
       const {useDataProcessor = false} = self.config
       // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
-        case 'excel':
-          return new DataFrame({source: data})
+        case 'excel': {
+          const keys = data.columns.map((columns) => {
+            return columns.name
+          })
+          const result = [keys]
+          data.data.forEach((item) => {
+            const row = keys.map((key) => item[key])
+            result.push(row)
+          })
+          return new DataFrame({source: result})
+        }
         case 'json':
           return useDataProcessor
             ? new DataFrame({source: makeFunction(self.processorFunction)({data})})
