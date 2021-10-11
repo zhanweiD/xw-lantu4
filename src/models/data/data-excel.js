@@ -142,10 +142,10 @@ export const MExcel = types
     // 给表格赋值，现在的表格逻辑：加载仅是加载，保存通过json保存（待优化）
     const setData = (data) => {
       const {tip} = self.env_
-      const {config, fileData} = data
+      const {config} = data
       try {
         self.options.setSchema({...config})
-        const excelData = JSON.parse(fileData)
+        const excelData = JSON.parse(data.data)
         self.set({
           data: excelData.data,
           columns: excelData.columns,

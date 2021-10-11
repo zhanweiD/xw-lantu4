@@ -38,10 +38,12 @@ export const MColumnSelectField = types
     }
 
     const update = (columns) => {
-      const options = columns.map((v) => ({
-        key: `${v}`,
-        value: v,
-      }))
+      const options = columns.map((v) => {
+        return {
+          key: `${v.alias}`,
+          value: `${v.alias}`,
+        }
+      })
       self.setOptions(options)
     }
 

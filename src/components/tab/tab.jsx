@@ -45,16 +45,15 @@ const Tab = ({
               }}
             >
               <span>{name}</span>
-              <span className="ml4">
-                {hasIcon && (
-                  <IconButton
-                    iconFill={index === currentIndex ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.4)'}
-                    icon={icon}
-                    buttonSize={14}
-                    onClick={onIconClick}
-                  />
-                )}
-              </span>
+              {hasIcon && (
+                <IconButton
+                  className="ml4"
+                  iconFill={index === currentIndex ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.4)'}
+                  icon={icon}
+                  buttonSize={14}
+                  onClick={onIconClick}
+                />
+              )}
             </div>
           )
         })}

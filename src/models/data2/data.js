@@ -1,9 +1,10 @@
-import {types, flow, getEnv} from 'mobx-state-tree'
+import {types, flow} from 'mobx-state-tree'
+import io from '@utils/io'
 import makeFunction from '@utils/make-function'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
 import hJSON from 'hjson'
-import DataFrame from '@utils/dataFrame'
+import DataFrame from '@utils/data-frame'
 
 const log = createLog('@models/data2/data')
 
@@ -13,43 +14,57 @@ export const MData = types
     dataName: types.maybe(types.string, ''),
     dataType: types.maybe(types.string, ''),
     processorFunction: types.maybe(types.string, ''),
-    fileData: types.maybe(types.string, ''),
+    data: types.maybe(types.string, ''),
     config: types.frozen(),
   })
   .views((self) => ({
     get displayName_() {
       return `${self.dataType}: ${self.dataName}`
     },
-    get env_() {
-      return getEnv(self)
-    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
-      if (!self.dataName) {
-        // TODO 根据dataId发起数据请求
-      }
+      // TODO
     }
 
+    // 得到DataFrame对象
     const getDataFrame = (options) => {
-      const data = hJSON.parse(self.fileData || '')
+      const data = hJSON.parse(self.data || '')
       const {useDataProcessor = false} = self.config
+
       // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
-        case 'excel':
-          return new DataFrame({source: data})
-        case 'json':
-          return useDataProcessor
-            ? new DataFrame({source: makeFunction(self.processorFunction)({data})})
-            : new DataFrame({source: data})
+        case 'excel': {
+          const keys = data.columns.map((columns) => {
+            return columns.name
+          })
+          const result = [keys]
+          data.data.forEach((item) => {
+            const row = keys.map((key) => item[key])
+            result.push(row)
+          })
+
+          return Promise.resolve(new DataFrame({source: result}))
+        }
+        case 'json': {
+          let source = data
+          if (useDataProcessor) {
+            try {
+              source = makeFunction(self.processorFunction)({data})
+            } catch (error) {
+              return throwError(error)
+            }
+          }
+          return Promise.resolve(new DataFrame({source}))
+        }
         case 'api':
           return fetch(options)
       }
     }
 
+    // 请求接口
     const fetch = flow(function* getResult(options = {}) {
-      const {io} = self.env_
       const {processorFunction, config} = self
       const {useDataProcessor = false, method, url} = config
       const {headers, queries, body} = options
@@ -70,7 +85,7 @@ export const MData = types
       } catch (error) {
         realHeaders = {}
         log.error({content: '请求头解析出错，请检查代码', error})
-        return {error}
+        return throwError(error)
       }
 
       try {
@@ -81,7 +96,7 @@ export const MData = types
       } catch (error) {
         realQueries = {}
         log.error({content: '请求头解析出错，请检查代码', error})
-        return {error}
+        return throwError(error)
       }
 
       if (method === 'POST') {
@@ -93,7 +108,7 @@ export const MData = types
         } catch (error) {
           realBody = {}
           log.error({content: '请求头解析出错，请检查代码', error})
-          return {error}
+          return throwError(error)
         }
       }
 
@@ -110,16 +125,23 @@ export const MData = types
             return new DataFrame({source: makeFunction(processorFunction)({content: response})})
           } catch (error) {
             log.error({content: '数据处理函数失败'})
-            return {error}
+            return throwError(error)
           }
         } else {
           return new DataFrame({source: response})
         }
       } catch (error) {
         log.error({content: '请求发起失败', error})
-        return {error}
+        return throwError(error)
       }
     })
+
+    const throwError = (error) => {
+      // TODO 错误分类
+      const result = new DataFrame({source: []})
+      result.error = error
+      return result
+    }
 
     return {
       afterCreate,

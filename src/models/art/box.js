@@ -218,7 +218,7 @@ export const MBox = types
         self.materials = [].concat(material).concat(...materials)
         debounceUpdate()
         event.fire(`art.${art.artId}.addMaterial`, {
-          materialId,
+          materialId: material.id,
           id: self.boxId,
         })
       }

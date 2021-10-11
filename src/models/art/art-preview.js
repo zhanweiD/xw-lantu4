@@ -124,9 +124,11 @@ const MArtPreview = types
         })
         const ids = []
         self.dataManager = art.dataManager
-        Object.keys(art.dataManager.map).forEach((key) => {
-          ids.push(key)
-        })
+
+        art.dataManager.map &&
+          Object.keys(art.dataManager.map).forEach((key) => {
+            ids.push(key)
+          })
         let data
         if (ids.length > 0) {
           data = yield io.data.getDatasInfo({

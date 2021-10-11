@@ -1,9 +1,8 @@
 import onerStorage from 'oner-storage'
 import waves from '@waves4'
-import materials, {alldecorations} from '@materials'
+import {alldecorations} from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
-import {themeConfigs} from '@utils/theme'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 
 const log = createLog('@exhibit-collection')
@@ -88,7 +87,7 @@ export const exhibitRegister = (exhibit) => {
 
 // 预览发布状态下只注册用到的组件类型
 export const registerExhibit = (key) => {
-  const exhibit = waves[key] || materials[key]
+  const exhibit = waves[key] || alldecorations[key]
   exhibitRegister(exhibit)
   return exhibitCollection.get(`${exhibit.lib}.${key}`)
 }

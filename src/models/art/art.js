@@ -8,6 +8,7 @@ import {MArtViewport} from './art-viewport'
 import {MPublishInfo} from './art-publish-info'
 import config from '@utils/config'
 import {MGlobal} from './art-ui-tab-property'
+import {MData} from '../data2/data'
 
 const log = createLog('@models/art.js')
 
@@ -69,6 +70,7 @@ export const MArt = types
               datas: [],
             })
           }
+          self.save()
           self.addData(dataId, callback)
         }
       })
@@ -76,6 +78,7 @@ export const MArt = types
         const data = self.dataManager.get(dataId)
         data.removeExhibit(exhibitId)
         callback()
+        self.save()
       })
 
       event.on(`art.${self.artId}.addMaterial`, ({id, materialId}) => {
@@ -88,21 +91,32 @@ export const MArt = types
             used: [id],
           })
         }
+        self.save()
       })
 
       event.on(`art.${self.artId}.removeMaterial`, ({id, materialId}) => {
         const material = self.materialManager.get(materialId)
         material.remove(id)
+        self.save()
       })
     }
 
     const addData = flow(function* addData(dataId, callback) {
       try {
-        const data = yield io.data.getDatasInfo({
+        const datas = yield io.data.getDatasInfo({
           ids: dataId,
         })
+        const dataModel = []
+        datas.forEach((data) => {
+          dataModel.push(
+            MData.create({
+              ...data,
+            })
+          )
+        })
+
         self.set({
-          datas: self.datas.concat(data),
+          datas: self.datas.concat(...dataModel),
         })
         callback()
       } catch (error) {
@@ -124,7 +138,7 @@ export const MArt = types
           publishId,
         })
         const ids = []
-        let data
+        let data = []
         self.dataManager = art.dataManager
         self.materialManager = art.materialManager
         self.dataManager.map.forEach((value, key) => {
@@ -137,7 +151,11 @@ export const MArt = types
           })
         }
 
-        self.datas = data
+        self.datas = data.map((v) => {
+          return MData.create({
+            ...v,
+          })
+        })
         self.global.setSchema(global)
         self.viewport.setSchema({
           frames,
@@ -195,7 +213,7 @@ export const MArt = types
           frames,
         }
         yield io.art.update(params)
-        self.env_.tip.success({content: '保存成功'})
+        // self.env_.tip.success({content: '保存成功'})
       } catch (error) {
         log.error('save Error: ', error)
         self.env_.tip.error({content: '保存失败'})
