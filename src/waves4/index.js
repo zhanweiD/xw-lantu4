@@ -47,7 +47,7 @@ const waves = {
   intervalBar,
   waterfallBar,
   // echarts
-  demoLine,
+  demo: demoLine,
 }
 
 Object.values(waves).forEach((wave) => {
