@@ -20,7 +20,7 @@ const Category = ({category}) => {
       id={`category-${category.name}`}
       sessionId={`category-${category.name}`}
       headIcon={icon}
-      childrenClassName="p4"
+      childrenClassName=""
       name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
     >
       <Grid column={4}>

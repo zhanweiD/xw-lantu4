@@ -1,13 +1,24 @@
-import React, {Children} from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import s from "./grid.module.styl"
+import React, {Children} from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import s from './grid.module.styl'
 
 const Item = observer(({children}) => (
-  <div className={c({"fb1 fbh fbac fbjc pr": true, hand: !!children}, s.item, children && s.itemHover)}>{children}</div>
+  <div
+    className={c(
+      {
+        'fb1 fbh fbac fbjc pr': true,
+        hand: !!children,
+      },
+      s.item,
+      children && s.itemHover
+    )}
+  >
+    {children}
+  </div>
 ))
 
-const Row = ({children, className}) => <div className={c("fbh", s.row, className)}>{children}</div>
+const Row = ({children, className}) => <div className={c('fbh', s.row, className)}>{children}</div>
 
 const Grid = ({column = 4, children, className}) => {
   const rows = []
