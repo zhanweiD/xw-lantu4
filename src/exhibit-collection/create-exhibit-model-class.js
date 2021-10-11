@@ -146,35 +146,8 @@ export const createExhibitModelClass = (exhibit) => {
             data = hJSON.parse(privateData)
           }
           if (type === 'source') {
-            const {datas = []} = self.art_
-            const sourceData = datas.find((v) => v.id === source)
-            if (sourceData) {
-              let value = []
-              let result = sourceData.data
-              if (sourceData.config.useDataProcessor) {
-                result = makeFunction(sourceData.processorFunction)({data: sourceData.data})
-              }
-
-              switch (sourceData.dataType) {
-                case 'json':
-                  value = result
-                  break
-                case 'excel':
-                  let head = result.columns.map((col) => col.name)
-                  const list = result.data.map((res) => {
-                    const target = []
-                    head.map((col) => {
-                      target.push(res[col])
-                    })
-                    return target
-                  })
-                  value = [].concat(head).concat(list)
-                  break
-                default:
-                  value = result
-              }
-              data = value
-            }
+            console.log(self.data)
+            data = hJSON.parse(privateData)
           }
         }
         return data

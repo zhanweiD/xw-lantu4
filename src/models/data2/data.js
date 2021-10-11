@@ -1,4 +1,5 @@
-import {types, flow, getEnv} from 'mobx-state-tree'
+import {types, flow} from 'mobx-state-tree'
+import io from '@utils/io'
 import makeFunction from '@utils/make-function'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
@@ -20,9 +21,6 @@ export const MData = types
     get displayName_() {
       return `${self.dataType}: ${self.dataName}`
     },
-    get env_() {
-      return getEnv(self)
-    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
@@ -37,8 +35,17 @@ export const MData = types
       const {useDataProcessor = false} = self.config
       // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
-        case 'excel':
-          return new DataFrame({source: data})
+        case 'excel': {
+          const keys = data.columns.map((columns) => {
+            return columns.name
+          })
+          const result = [keys]
+          data.data.forEach((item) => {
+            const row = keys.map((key) => item[key])
+            result.push(row)
+          })
+          return new DataFrame({source: result})
+        }
         case 'json':
           return useDataProcessor
             ? new DataFrame({source: makeFunction(self.processorFunction)({data})})
@@ -49,7 +56,6 @@ export const MData = types
     }
 
     const fetch = flow(function* getResult(options = {}) {
-      const {io} = self.env_
       const {processorFunction, config} = self
       const {useDataProcessor = false, method, url} = config
       const {headers, queries, body} = options

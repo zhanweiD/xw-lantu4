@@ -133,7 +133,7 @@ const DataField = ({
                   setIsVisible(true)
                 }}
               >
-                <div className={c('fb1 lh24', s.name)}>{value.sourceName_}</div>
+                <div className={c('fb1 lh24', s.name)}>{value.displayName}</div>
                 <IconButton
                   icon="remove"
                   buttonSize={24}
@@ -220,10 +220,10 @@ const DataField = ({
         </>
       )}
       <Section name="字段预览" type={type} childrenClassName="pt8 pb8 fbh fbw ml24">
-        {value.sourceColumn_.length > 0 ? (
-          value.sourceColumn_.map((v) => (
-            <div className={c('mr4 mb4', s.fieldPreview)} key={v}>
-              {v}
+        {value.columns.length > 0 ? (
+          value.columns.map((v) => (
+            <div className={c('mr4 mb4', s.fieldPreview)} key={v.alias}>
+              {v.alias}
             </div>
           ))
         ) : (
