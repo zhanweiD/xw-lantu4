@@ -29,7 +29,7 @@ const ConstraintField = ({
   canCheckLine = ['top', 'right', 'bottom', 'left', 'height', 'width'],
   onChange = () => {},
   label,
-  effective,
+  visible,
   labelClassName,
   childrenClassName,
   className,
@@ -40,7 +40,7 @@ const ConstraintField = ({
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <div className={c('pr fbh fbac fbjc', s.box)}>
         {Object.entries(value).map(([key, v]) => {

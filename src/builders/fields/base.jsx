@@ -5,13 +5,13 @@ import isDef from '@utils/is-def'
 import s from './base.module.styl'
 
 export const Field = observer(
-  ({className, direction = 'horizontal', label, effective, labelClassName, childrenClassName, children}) => {
+  ({className, direction = 'horizontal', label, visible, labelClassName, childrenClassName, children}) => {
     return (
       <div
         className={c('mb8 noFieldEvent pr fbac mr8', className, {
           fbh: direction === 'horizontal',
           fbv: direction === 'vertical',
-          hide: effective === false,
+          hide: visible === false,
         })}
       >
         {isDef(label) && <div className={c('fb3', s.label, labelClassName)}>{label}</div>}

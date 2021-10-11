@@ -1,7 +1,5 @@
 import {types} from 'mobx-state-tree'
-
-import isDef from '@utils/is-def'
-import commonAction from '@utils/common-action'
+import MBase from '../base.model'
 
 const MKeyValue = types.model('MKeyValue', {
   key: types.maybe(types.string),
@@ -9,40 +7,10 @@ const MKeyValue = types.model('MKeyValue', {
   value: types.union(types.string, types.number),
 })
 
-export const MCheckField = types
-  .model('MCheckField', {
-    type: types.enumeration(['check']),
-    option: types.optional(types.string, ''),
-    effective: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
-    value: types.maybe(types.union(types.string, types.number)),
-    defaultValue: types.optional(types.union(types.string, types.number), ''),
-    options: types.optional(types.array(MKeyValue), []),
-  })
-  .actions(commonAction(['set']))
-  .actions((self) => {
-    const afterCreate = () => {
-      if (!isDef(self.value)) {
-        self.value = self.defaultValue
-      }
-    }
-
-    const setValue = (value) => {
-      self.value = value
-    }
-
-    const getValue = () => {
-      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
-    }
-
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
-    return {
-      afterCreate,
-      setValue,
-      getValue,
-      setEffective,
-    }
-  })
+export const MCheckField = MBase.named('MCheckField').props({
+  type: types.enumeration(['check']),
+  option: types.optional(types.string, ''),
+  value: types.maybe(types.union(types.string, types.number)),
+  defaultValue: types.optional(types.union(types.string, types.number), ''),
+  options: types.optional(types.array(MKeyValue), []),
+})

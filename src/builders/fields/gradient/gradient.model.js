@@ -1,18 +1,15 @@
 import {types} from 'mobx-state-tree'
-import commonAction from '@utils/common-action'
 import {colorArrayForm, colorObjectForm} from './gradient-util'
 import isDef from '@utils/is-def'
+import MBase from '../base.model'
 
-export const MGradientField = types
-  .model('MGradientField', {
+export const MGradientField = MBase.named('MGradientField')
+  .props({
     type: types.enumeration(['gradient']),
     option: types.optional(types.string, ''),
-    effective: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.optional(types.frozen(), ['rgb(74,144,226)', 'rgb(80,227,194)']),
   })
-  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
       if (!isDef(self.value)) {
@@ -20,22 +17,7 @@ export const MGradientField = types
       }
     }
 
-    const setValue = (value) => {
-      self.value = value
-    }
-
-    const getValue = () => {
-      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
-    }
-
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
     return {
       afterCreate,
-      setValue,
-      getValue,
-      setEffective,
     }
   })

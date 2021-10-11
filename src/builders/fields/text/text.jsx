@@ -11,7 +11,7 @@ const TextField = ({
   onChange = () => {},
   type = 'text',
   label,
-  effective,
+  visible,
   labelClassName,
   childrenClassName,
   className,
@@ -22,7 +22,7 @@ const TextField = ({
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <input
         type={type}

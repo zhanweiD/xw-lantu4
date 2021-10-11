@@ -6,14 +6,14 @@ import Icon from '@components/icon'
 import s from './check.module.styl'
 
 // 点选
-const CheckField = ({label, effective, value, onChange, labelClassName, childrenClassName, className, options}) => {
+const CheckField = ({label, visible, value, onChange, labelClassName, childrenClassName, className, options}) => {
   return (
     <Field
       className={className}
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       {options.map((option) => (
         <div

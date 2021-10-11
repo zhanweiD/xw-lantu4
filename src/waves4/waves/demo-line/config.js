@@ -30,7 +30,19 @@ const lineLayer = () => ({
         },
         {
           name: 'lineSmooth',
-          defaultValue: true,
+          defaultValue: false,
+          action({value, siblings}) {
+            console.log('lineSmooth', value, siblings)
+            siblings.optionA.setEffective(value)
+          },
+        },
+        {
+          name: 'custom',
+          option: 'optionA',
+          effective: false,
+          label: 'optionALabel',
+          defaultValue: '4',
+          type: 'text',
         },
       ],
     },

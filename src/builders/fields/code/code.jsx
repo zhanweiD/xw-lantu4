@@ -8,7 +8,7 @@ import {Field} from '../base'
 
 const CodeField = ({
   label,
-  effective,
+  visible,
   value,
   height,
   onChange,
@@ -26,7 +26,7 @@ const CodeField = ({
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
       direction="vertical"
     >
       <div className={c('w100p fbv mb8')}>

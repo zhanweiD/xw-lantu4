@@ -1,6 +1,5 @@
 import {types} from 'mobx-state-tree'
-import isDef from '@utils/is-def'
-import commonAction from '@utils/common-action'
+import MBase from '../base.model'
 
 const MValue = types.model('MValue', {
   top: types.optional(types.boolean, true),
@@ -11,10 +10,9 @@ const MValue = types.model('MValue', {
   width: types.optional(types.boolean, true),
 })
 
-export const MConstraintField = types
-  .model('MConstraintField', {
+export const MConstraintField = MBase.named('MConstraintField')
+  .props({
     type: types.enumeration(['constraint']),
-    label: types.optional(types.string, ''),
     value: types.optional(MValue, {}),
     defaultValue: types.optional(MValue, {}),
   })
@@ -34,30 +32,3 @@ export const MConstraintField = types
       return value
     },
   }))
-  .actions(commonAction(['set']))
-  .actions((self) => {
-    const afterCreate = () => {
-      if (!isDef(self.value)) {
-        self.value = self.defaultValue
-      }
-    }
-
-    const setValue = (value) => {
-      self.value = value
-    }
-
-    const getValue = () => {
-      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
-    }
-
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
-    return {
-      afterCreate,
-      setValue,
-      getValue,
-      setEffective,
-    }
-  })

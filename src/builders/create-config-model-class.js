@@ -74,8 +74,8 @@ const createFieldsClass = (fields) => {
                 false
               )
 
-              if (isFunction(field.updateAction)) {
-                field.updateAction.call(null, {
+              if (isFunction(field.action)) {
+                field.action.call(null, {
                   siblings: getParent(self, 2).fields,
                   value,
                 })

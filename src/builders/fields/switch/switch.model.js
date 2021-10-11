@@ -1,28 +1,18 @@
 import {types} from 'mobx-state-tree'
 import isBoolean from 'lodash/isBoolean'
 import createLog from '@utils/create-log'
-import isDef from '@utils/is-def'
-import commonAction from '@utils/common-action'
+import MBase from '../base.model'
 
 const log = createLog('@components/field/switch.model')
 
-export const MSwitchField = types
-  .model('MSwitchField', {
+export const MSwitchField = MBase.named('MSwitchField')
+  .props({
     type: types.enumeration(['switch']),
     option: types.optional(types.string, ''),
-    effective: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
     value: types.maybe(types.boolean),
     defaultValue: types.optional(types.boolean, false),
   })
-  .actions(commonAction(['set']))
   .actions((self) => {
-    const afterCreate = () => {
-      if (!isDef(self.value)) {
-        self.value = self.defaultValue
-      }
-    }
-
     const setValue = (value) => {
       if (isBoolean(value)) {
         self.value = value
@@ -32,18 +22,7 @@ export const MSwitchField = types
       }
     }
 
-    const getValue = () => {
-      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
-    }
-
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
     return {
-      afterCreate,
       setValue,
-      getValue,
-      setEffective,
     }
   })

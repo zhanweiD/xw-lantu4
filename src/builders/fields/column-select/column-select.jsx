@@ -18,6 +18,7 @@ import s from './column-select.module.styl'
 const ColumnSelectField = ({
   label,
   value,
+  visible,
   defaultValue,
   onChange = () => {},
   labelClassName,
@@ -89,7 +90,13 @@ const ColumnSelectField = ({
   }
 
   return (
-    <Field className={className} childrenClassName={childrenClassName} lebelClassName={labelClassName} label={label}>
+    <Field
+      visible={visible}
+      className={className}
+      childrenClassName={childrenClassName}
+      lebelClassName={labelClassName}
+      label={label}
+    >
       <div
         ref={selectRef}
         className={c('w100p h100p fbh fbac fbjc pr', s.filter)}
