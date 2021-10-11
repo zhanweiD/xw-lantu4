@@ -1,11 +1,14 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
+import cloneDeep from 'lodash/cloneDeep'
 import c from 'classnames'
 import Exhibit from '../exhibit'
 import Material from '../material'
 
 const Box = ({box, frame}) => {
   const {layout, materials = []} = box
+  const reverseMaterials = cloneDeep(materials)
+  reverseMaterials.reverse()
   return (
     <div
       id={`box-${box.boxId}`}
@@ -17,7 +20,7 @@ const Box = ({box, frame}) => {
         height: `${layout.height}px`,
       }}
     >
-      {materials.map((material) => (
+      {reverseMaterials.map((material) => (
         <Material material={material} key={material.id} box={box} frame={frame} />
       ))}
       <Exhibit box={box} frame={frame} />
