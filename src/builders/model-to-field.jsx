@@ -16,7 +16,6 @@ const {
   CodeField,
   GradientField,
   ColumnSelectField,
-  ConstraintField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
@@ -83,21 +82,7 @@ const ModelToField = ({model}) => {
         />
       )
       break
-    case 'constraint':
-      F = (
-        <ConstraintField
-          className="ml24"
-          label={t(model.label)}
-          effective={model.effective}
-          value={model.value}
-          defaultValue={model.defaultValue}
-          canCheckLine={model.canCheckLine}
-          onChange={(v) => {
-            model.setValue(v)
-          }}
-        />
-      )
-      break
+
     case 'data':
       F = (
         <DataField

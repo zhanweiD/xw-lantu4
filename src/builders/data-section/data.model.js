@@ -1,7 +1,7 @@
 import {types, getEnv, flow} from 'mobx-state-tree'
 import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
-import {reaction} from 'mobx'
+// import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 // import makeFunction from '@utils/make-function'
@@ -26,6 +26,7 @@ const MValue = types
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
+    data: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get art_() {
@@ -34,19 +35,21 @@ const MValue = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const afterCreate = () => {
-      // self.formatData()
-    }
-
     const formatData = flow(function* format() {
       if (self.type === 'private') {
-        self.columns = hJSON.parse(self.private)[0]
+        self.columns = hJSON.parse(self.private)[0].map((column) => ({
+          column,
+          alias: column,
+          type: 'string',
+        }))
+        self.data = hJSON.parse(self.private)
       } else {
         const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
         if (sourceData) {
           self.displayName = sourceData.displayName_
-          const {columns} = yield sourceData.getDataFrame()
-          self.columns = columns
+          const dataFrame = yield sourceData.getDataFrame()
+          self.columns = dataFrame.columns
+          self.data = dataFrame.getData()
         }
       }
     })
@@ -57,7 +60,6 @@ const MValue = types
     }
 
     return {
-      afterCreate,
       formatData,
       setValue,
     }
@@ -110,16 +112,18 @@ export const MDataField = types
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
-      reaction(
-        () => {
-          return {
-            columns: self.value.columns.toJSON(),
-          }
-        },
-        () => {
-          self.onAction()
-        }
-      )
+      // reaction(
+      //   () => {
+      //     return {
+      //       data: self.env_.art.datas.length && self.env_.art.datas.map((data) => data.toJSON()),
+      //     }
+      //   },
+      //   () => {
+      //     // self.value.formatData()
+      //     console.log(self.value, 'xxx')
+      //     self.onAction()
+      //   }
+      // )
     }
 
     const setValue = (value) => {
@@ -136,13 +140,17 @@ export const MDataField = types
 
     const setSchema = (schema) => {
       self.setValue(schema)
+      // self.onAction()
     }
 
     const onAction = () => {
-      self.relationModels.map((model) => {
-        const {columns} = self.value
-        model.update(columns)
-      })
+      // self.relationModels.map((model) => {
+      //   // const {columns} = self.value
+      //   self.value.formatData()
+      //   const {columns} = self.value
+      //   console.log(self.value)
+      //   model.update(columns)
+      // })
     }
 
     const clearRelationModelValue = () => {

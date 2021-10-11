@@ -699,14 +699,6 @@ const numberRange = {
  * =====================================
  */
 
-// 约束
-const constraint = {
-  type: 'constraint',
-  label: 'constraint',
-  // 上右下左宽高
-  default: [false, false, false, false, true, true],
-}
-
 // 填充方式
 const fillType = {
   type: 'check',
@@ -948,8 +940,7 @@ export default {
   lineFallback,
   // 数值范围
   numberRange,
-  // 约束
-  constraint,
+
   // 填充方式
   fillType,
   // 密码

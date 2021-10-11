@@ -13,14 +13,6 @@ const layout = {
         },
       ],
     },
-    {
-      name: 'constraint',
-      fields: [
-        {
-          name: 'constraint',
-        },
-      ],
-    },
   ],
 }
 
