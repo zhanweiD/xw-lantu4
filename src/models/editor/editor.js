@@ -1,6 +1,5 @@
 import {getEnv, types, applySnapshot} from 'mobx-state-tree'
 import {reaction} from 'mobx'
-import hJSON from 'hjson'
 import {viewport} from '@utils/zoom'
 import {shortcut} from '@utils/create-event'
 import {MEditorTab} from './editor-tab'
@@ -239,14 +238,14 @@ export const MEditor = types
           const {art} = tab
           if (art && art.datas) {
             art.datas = art.datas.map((d) => {
-              if (d.id === data.dataId) {
-                d = {
+              if (d.dataId === data.dataId) {
+                d.set({
                   config: data.config,
                   dataType: data.dataType,
-                  id: data.dataId,
+                  dataName: data.dataName,
                   processorFunction: data.processorFunction,
-                  data: hJSON.parse(data.fileData),
-                }
+                  data: data.data,
+                })
               }
               return d
             })

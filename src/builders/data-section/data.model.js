@@ -1,7 +1,7 @@
-import {types, getEnv, flow} from 'mobx-state-tree'
+import {types, getEnv, flow, getParent} from 'mobx-state-tree'
 import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
-// import {reaction} from 'mobx'
+import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 // import makeFunction from '@utils/make-function'
@@ -35,6 +35,19 @@ const MValue = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
+    const afterCreate = () => {
+      reaction(
+        () => {
+          return {
+            data: self.art_.datas.length && self.art_.datas.map((data) => data.toJSON()),
+          }
+        },
+        () => {
+          self.formatData()
+        }
+      )
+    }
+
     const formatData = flow(function* format() {
       if (self.type === 'private') {
         self.columns = hJSON.parse(self.private)[0].map((column) => ({
@@ -52,6 +65,7 @@ const MValue = types
           self.data = dataFrame.getData()
         }
       }
+      getParent(self).onAction()
     })
 
     const setValue = (values) => {
@@ -60,6 +74,7 @@ const MValue = types
     }
 
     return {
+      afterCreate,
       formatData,
       setValue,
     }
@@ -112,18 +127,6 @@ export const MDataField = types
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
-      // reaction(
-      //   () => {
-      //     return {
-      //       data: self.env_.art.datas.length && self.env_.art.datas.map((data) => data.toJSON()),
-      //     }
-      //   },
-      //   () => {
-      //     // self.value.formatData()
-      //     console.log(self.value, 'xxx')
-      //     self.onAction()
-      //   }
-      // )
     }
 
     const setValue = (value) => {
@@ -140,17 +143,14 @@ export const MDataField = types
 
     const setSchema = (schema) => {
       self.setValue(schema)
-      // self.onAction()
     }
 
     const onAction = () => {
-      // self.relationModels.map((model) => {
-      //   // const {columns} = self.value
-      //   self.value.formatData()
-      //   const {columns} = self.value
-      //   console.log(self.value)
-      //   model.update(columns)
-      // })
+      // 修正关联的column
+      self.relationModels.map((model) => {
+        const {columns} = self.value
+        model.update(columns)
+      })
     }
 
     const clearRelationModelValue = () => {
