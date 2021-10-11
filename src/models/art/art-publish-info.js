@@ -35,6 +35,7 @@ export const MPublishInfo = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
+    const {tip} = self.env_
     const afterCreate = () => {
       self.getVersions()
     }
@@ -74,6 +75,7 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(true)
       } catch (error) {
+        tip.error({content: error.message})
         log.error('online Error: ', error)
       }
     })
@@ -89,6 +91,7 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(false)
       } catch (error) {
+        tip.error({content: error.message})
         log.error('offline Error: ', error)
       }
     })
