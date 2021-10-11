@@ -195,6 +195,7 @@ const Form = () => {
                 >
                   《澜图用户协议》
                 </span>
+                <span className={c('fs12 lh32 ctb50')}>和</span>
                 <span
                   className={c('fs12 lh32 hand')}
                   onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/privacy-policy.html')}
