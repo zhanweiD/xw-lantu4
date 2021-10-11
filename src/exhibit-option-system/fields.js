@@ -333,13 +333,13 @@ const colorType = {
     //   value: 'list',
     // },
   ],
-  initAction({siblings, value}) {
-    siblings.singleColor.setEffective(value === 'singleColor')
-    siblings.gradientColor.setEffective(value === 'gradientColor')
-    // siblings.themeColor.setEffective(value === 'themeColor')
-  },
-  updateAction({siblings, value}) {
-    console.log('updateAction', siblings, value)
+  // Action({siblings, value}) {
+  //   siblings.singleColor.setEffective(value === 'singleColor')
+  //   siblings.gradientColor.setEffective(value === 'gradientColor')
+  //   // siblings.themeColor.setEffective(value === 'themeColor')
+  // },
+  action({siblings, value}) {
+    // console.log('field action', siblings, value)
     siblings.singleColor.setEffective(value === 'singleColor')
     siblings.gradientColor.setEffective(value === 'gradientColor')
     // siblings.themeColor.setEffective(value === 'themeColor')
@@ -353,6 +353,7 @@ const singleColor = {
   defaultValue: 'transparent',
 }
 
+// NOTE 将删除
 const colorSingle = {
   type: 'color',
   label: 'singleColor',
@@ -360,12 +361,14 @@ const colorSingle = {
 }
 
 // 渐变
-const colorGradient = {
+const gradientColor = {
   type: 'gradient',
   label: 'gradientColor',
   defaultValue: ['#00D8FF', '#007EFF'],
 }
-const gradientColor = {
+
+// NOTE 将删除
+const colorGradient = {
   type: 'gradient',
   label: 'gradientColor',
   defaultValue: ['#00D8FF', '#007EFF'],

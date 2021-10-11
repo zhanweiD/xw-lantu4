@@ -15,7 +15,7 @@ export const Switch = observer(({value, onChange}) => (
 
 const SwitchField = ({
   label,
-  effective,
+  visible,
   value = false,
   onChange = () => {},
   className,
@@ -28,7 +28,7 @@ const SwitchField = ({
       childrenClassName={childrenClassName}
       lebelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <Switch value={value} onChange={(v) => onChange(v)} />
     </Field>

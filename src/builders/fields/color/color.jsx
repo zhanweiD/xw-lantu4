@@ -8,7 +8,7 @@ import s from './color.module.styl'
 
 const ColorField = ({
   label,
-  effective,
+  visible,
   value,
   defaultValue,
   onChange = () => {},
@@ -27,7 +27,7 @@ const ColorField = ({
       childrenClassName={childrenClassName}
       lebelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <div
         className={c('mr8', s.colorBox)}

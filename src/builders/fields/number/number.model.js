@@ -1,16 +1,15 @@
 import {types} from 'mobx-state-tree'
-import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 import isNumber from 'lodash/isNumber'
 import fixRange from '@utils/fix-range'
 import isNumeric from '@utils/is-numberic'
+import MBase from '../base.model'
 
-export const MNumberField = types
-  .model('MNumberField', {
+export const MNumberField = MBase.named('MNumberField')
+  .props({
     type: types.enumeration(['number']),
     option: types.optional(types.string, ''),
     effective: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
     inputValue: types.frozen(),
     value: types.maybe(types.number),
     defaultValue: types.optional(types.number, 0),
@@ -20,7 +19,6 @@ export const MNumberField = types
     hasSlider: types.optional(types.boolean, false),
     placeholder: types.optional(types.string, ''),
   })
-  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
       if (!isDef(self.value) && isNumber(self.defaultValue)) {
@@ -37,18 +35,8 @@ export const MNumberField = types
       }
     }
 
-    const getValue = () => {
-      return self.effective ? (isDef(self.value) ? self.value : self.defaultValue) : undefined
-    }
-
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
     return {
       afterCreate,
       setValue,
-      getValue,
-      setEffective,
     }
   })

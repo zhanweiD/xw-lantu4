@@ -85,7 +85,7 @@ export const NumberInput = observer(
 
 const NumberField = ({
   label,
-  effective,
+  visible,
   value,
   defaultValue,
   onChange = () => {},
@@ -106,7 +106,7 @@ const NumberField = ({
       childrenClassName={childrenClassName}
       lebelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <div className="fb1 pr">
         <NumberInput
