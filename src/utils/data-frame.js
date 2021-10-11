@@ -3,17 +3,24 @@ class DataFrame {
   // _columns
   // error
 
-  constructor({source, columns}) {
+  constructor({source = [], columns = []}) {
     this._data = source
     this._columns = columns
     this.error = ''
     this._getColumns()
   }
 
+  get columns() {
+    return this._columns
+  }
+
+  // 获取数据
+  // TODO 增加type,columns字段
   getData() {
     return this._data
   }
 
+  // 内部融合columns的方法
   _getColumns() {
     try {
       const columnList = this._data[0]
@@ -30,6 +37,7 @@ class DataFrame {
     }
   }
 
+  // 获取数据类型
   _getDataType(value) {
     switch (typeof value) {
       case 'string':
@@ -41,10 +49,6 @@ class DataFrame {
       default:
         return 'undefined'
     }
-  }
-
-  get columns() {
-    return this._columns
   }
 
   // get error() {
