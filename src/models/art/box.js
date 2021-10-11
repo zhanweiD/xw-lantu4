@@ -10,34 +10,6 @@ import {MBackgroundColor} from './art-ui-tab-property'
 
 const log = createLog('@models/art/box.js')
 
-const MConstraints = types
-  .model('MConstraints', {
-    top: types.optional(types.boolean, true),
-    left: types.optional(types.boolean, true),
-    bottom: types.optional(types.boolean, false),
-    right: types.optional(types.boolean, false),
-    height: types.optional(types.boolean, true),
-    width: types.optional(types.boolean, true),
-    normalKeys: types.frozen(['top', 'right', 'bottom', 'left', 'height', 'width']),
-  })
-  .views((self) => ({
-    get canCheckLine_() {
-      let value = []
-      if (['top', 'height', 'bottom'].filter((v) => self[v]).length < 2) {
-        value.push(...['top', 'height', 'bottom'])
-      } else {
-        value.push(...['top', 'height', 'bottom'].filter((v) => self[v]))
-      }
-      if (['left', 'width', 'right'].filter((v) => self[v]).length < 2) {
-        value.push(...['left', 'width', 'right'])
-      } else {
-        value.push(...['left', 'width', 'right'].filter((v) => self[v]))
-      }
-      return value
-    },
-  }))
-  .actions(commonAction(['getSchema', 'set', 'setSchema']))
-
 export const MBox = types
   .model({
     boxId: types.union(types.string, types.number),
@@ -47,7 +19,7 @@ export const MBox = types
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
     background: types.optional(MBackgroundColor, {}),
-    constraints: types.optional(MConstraints, {}),
+
     materials: types.frozen(),
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
@@ -55,7 +27,7 @@ export const MBox = types
 
     isSelected: types.optional(types.boolean, false),
     normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
-    deepKeys: types.frozen(['layout', 'background', 'constraints']),
+    deepKeys: types.frozen(['layout', 'background']),
   })
   .views((self) => ({
     get root_() {
@@ -275,12 +247,6 @@ export const MBox = types
       debounceUpdate()
     }
 
-    const setConstraints = (value) => {
-      self.set({
-        constraints: value,
-      })
-      debounceUpdate()
-    }
     return {
       resize,
       recreateBox,
@@ -288,7 +254,6 @@ export const MBox = types
       addBackground,
       setRemark,
       setLayout,
-      setConstraints,
       updateBox,
     }
   })

@@ -139,18 +139,10 @@ export const createExhibitModelClass = (exhibit) => {
         )
       }
       const getData = () => {
-        let data
         if (self.data) {
-          const {type, private: privateData, source} = self.data.getSchema()
-          if (type === 'private') {
-            data = hJSON.parse(privateData)
-          }
-          if (type === 'source') {
-            console.log(self.data)
-            data = hJSON.parse(privateData)
-          }
+          const {data} = self.data.getSchema()
+          return data
         }
-        return data
       }
 
       const setDimension = (dimension) => {
@@ -170,7 +162,6 @@ export const createExhibitModelClass = (exhibit) => {
 
       const setTitle = (title) => {
         self.title = createPropertyClass(config.key, title, 'title')
-        // console.log('⛑', self.title, self.title.toJSON())
       }
 
       const getTitle = () => {

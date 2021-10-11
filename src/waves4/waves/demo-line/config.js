@@ -19,7 +19,7 @@ const lineLayer = () => ({
         {
           name: 'lineWidth',
           defaultValue: 4,
-          type: 'select',
+          visible: false,
         },
         {
           name: 'custom',
@@ -34,6 +34,7 @@ const lineLayer = () => ({
           action({value, siblings}) {
             console.log('lineSmooth', value, siblings)
             siblings.optionA.setEffective(value)
+            siblings.lineWidth.setValue(9)
           },
         },
         {
