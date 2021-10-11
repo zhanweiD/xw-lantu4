@@ -13,6 +13,7 @@ const makeAdapter = () => {
 
     // 处理包括数据、样式等变更
     update(options) {
+      console.log(options)
       updateWave(options)
     },
 

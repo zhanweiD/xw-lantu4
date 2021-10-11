@@ -16,7 +16,6 @@ const {
   CodeField,
   GradientField,
   ColumnSelectField,
-  ConstraintField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
@@ -27,7 +26,7 @@ const ModelToField = ({model}) => {
         <CheckField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           options={model.options.map((option) => option.toJSON())}
           value={model.value}
           onChange={(v) => {
@@ -41,7 +40,7 @@ const ModelToField = ({model}) => {
         <CodeField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           height={model.height}
           mode={model.mode}
@@ -57,7 +56,7 @@ const ModelToField = ({model}) => {
         <ColumnSelectField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           options={model.options.toJSON().map((option) => ({
             key: t(option.key),
             value: option.value,
@@ -74,24 +73,9 @@ const ModelToField = ({model}) => {
         <ColorField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           defaultValue={model.defaultValue}
-          onChange={(v) => {
-            model.setValue(v)
-          }}
-        />
-      )
-      break
-    case 'constraint':
-      F = (
-        <ConstraintField
-          className="ml24"
-          label={t(model.label)}
-          effective={model.effective}
-          value={model.value}
-          defaultValue={model.defaultValue}
-          canCheckLine={model.canCheckLine}
           onChange={(v) => {
             model.setValue(v)
           }}
@@ -127,7 +111,7 @@ const ModelToField = ({model}) => {
         <GradientField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           defaultValue={model.defaultValue}
           onChange={(v) => {
@@ -141,7 +125,7 @@ const ModelToField = ({model}) => {
         <MultiNumberField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value.toJSON()}
           defaultValue={model.defaultValue.toJSON()}
           items={model.items}
@@ -156,7 +140,7 @@ const ModelToField = ({model}) => {
         <NumberField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.inputValue}
           defaultValue={model.defaultValue}
           min={model.min}
@@ -175,7 +159,7 @@ const ModelToField = ({model}) => {
         <SelectField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           options={model.options.toJSON().map((option) => ({
             key: t(option.key),
             value: option.value,
@@ -192,7 +176,7 @@ const ModelToField = ({model}) => {
         <SwitchField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           onChange={(v) => {
             model.setValue(v)
@@ -205,7 +189,7 @@ const ModelToField = ({model}) => {
         <TextareaField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           placeholder={t(model.placeholder)}
           defaultValue={model.defaultValue}
@@ -220,7 +204,7 @@ const ModelToField = ({model}) => {
         <TextField
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           defaultValue={model.defaultValue}
           placeholder={t(model.placeholder)}
@@ -236,7 +220,7 @@ const ModelToField = ({model}) => {
           type="password"
           className="ml24"
           label={t(model.label)}
-          effective={model.effective}
+          visible={model.visible_}
           value={model.value}
           defaultValue={model.defaultValue}
           placeholder={t(model.placeholder)}

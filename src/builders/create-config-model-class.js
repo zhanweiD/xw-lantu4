@@ -16,7 +16,6 @@ import {
   MCodeField,
   MGradientField,
   MColumnSelectField,
-  MConstraintField,
 } from './fields'
 import isDef from '@utils/is-def'
 import getObjectData from '@utils/get-object-data'
@@ -37,7 +36,6 @@ const fieldModel = {
   code: MCodeField,
   gradient: MGradientField,
   columnSelect: MColumnSelectField,
-  constraint: MConstraintField,
 }
 
 const createFieldsClass = (fields) => {
@@ -74,8 +72,8 @@ const createFieldsClass = (fields) => {
                 false
               )
 
-              if (isFunction(field.updateAction)) {
-                field.updateAction.call(null, {
+              if (isFunction(field.action)) {
+                field.action.call(null, {
                   siblings: getParent(self, 2).fields,
                   value,
                 })

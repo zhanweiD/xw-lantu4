@@ -11,7 +11,7 @@ import {colorArrayForm, colorObjectForm, getGradientColor} from './gradient-util
 
 const GradientField = ({
   label,
-  effective,
+  visible,
   value,
   defaultValue = ['rgb(74,144,226)', 'rgb(80,227,194)'],
   onChange = () => {},
@@ -180,7 +180,7 @@ const GradientField = ({
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <div className="pr w100p cfw10 h24">
         {/* 用一个fixed的div放在下面，点击这个div时，触发关闭退出编辑状态 */}

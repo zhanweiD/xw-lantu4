@@ -10,7 +10,7 @@ const TextareaField = ({
   placeholder,
   onChange = () => {},
   label,
-  effective,
+  visible,
   labelClassName,
   childrenClassName,
   className,
@@ -29,7 +29,7 @@ const TextareaField = ({
       childrenClassName={childrenClassName}
       labelClassName={labelClassName}
       label={label}
-      effective={effective}
+      visible={visible}
     >
       <textarea
         ref={textRef}

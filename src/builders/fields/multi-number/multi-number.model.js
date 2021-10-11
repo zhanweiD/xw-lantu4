@@ -1,7 +1,7 @@
 import {types} from 'mobx-state-tree'
 import isNumber from 'lodash/isNumber'
 import isDef from '@utils/is-def'
-import commonAction from '@utils/common-action'
+import MBase from '../base.model'
 
 const MItem = types.model('MItem', {
   key: types.string,
@@ -9,19 +9,14 @@ const MItem = types.model('MItem', {
   max: types.maybe(types.number),
   step: types.optional(types.number, 1),
 })
-export const MMultiNumberField = types
-  .model('MMultiNumberField', {
+export const MMultiNumberField = MBase.named('MMultiNumberField')
+  .props({
     type: types.enumeration(['multiNumber']),
     option: types.optional(types.string, ''),
-    effective: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
-
     value: types.optional(types.array(types.union(types.number, types.string)), []),
     defaultValue: types.optional(types.array(types.number), []),
     items: types.optional(types.array(MItem), []),
   })
-
-  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
       if (self.items.length !== self.defaultValue.length) {
@@ -34,10 +29,6 @@ export const MMultiNumberField = types
       })
     }
 
-    const setValue = (value) => {
-      self.value = value
-    }
-
     const getValue = () => {
       return self.effective
         ? self.items.map((item, index) => {
@@ -48,14 +39,8 @@ export const MMultiNumberField = types
         : undefined
     }
 
-    const setEffective = (b) => {
-      self.effective = b
-    }
-
     return {
       afterCreate,
-      setValue,
       getValue,
-      setEffective,
     }
   })
