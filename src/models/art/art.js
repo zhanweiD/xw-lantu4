@@ -70,6 +70,7 @@ export const MArt = types
               datas: [],
             })
           }
+          self.save()
           self.addData(dataId, callback)
         }
       })
@@ -77,6 +78,7 @@ export const MArt = types
         const data = self.dataManager.get(dataId)
         data.removeExhibit(exhibitId)
         callback()
+        self.save()
       })
 
       event.on(`art.${self.artId}.addMaterial`, ({id, materialId}) => {
@@ -89,11 +91,13 @@ export const MArt = types
             used: [id],
           })
         }
+        self.save()
       })
 
       event.on(`art.${self.artId}.removeMaterial`, ({id, materialId}) => {
         const material = self.materialManager.get(materialId)
         material.remove(id)
+        self.save()
       })
     }
 
@@ -134,7 +138,7 @@ export const MArt = types
           publishId,
         })
         const ids = []
-        let data
+        let data = []
         self.dataManager = art.dataManager
         self.materialManager = art.materialManager
         self.dataManager.map.forEach((value, key) => {
@@ -209,7 +213,7 @@ export const MArt = types
           frames,
         }
         yield io.art.update(params)
-        self.env_.tip.success({content: '保存成功'})
+        // self.env_.tip.success({content: '保存成功'})
       } catch (error) {
         log.error('save Error: ', error)
         self.env_.tip.error({content: '保存失败'})
