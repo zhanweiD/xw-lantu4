@@ -23,14 +23,11 @@ const DataFolder = ({folder, icon}) => {
   const {dataList_, folderName, section} = folder
   return (
     <Section
-      className="pl8 pr8 mt8"
-      childrenClassName="pt8"
+      childrenClassName="pt8 pb8"
       icon={icon}
       name={`${folderName} (${dataList_.length})`}
       props={section}
-      onFold={() => {
-        // session.set(section.sectionKey, fold)
-      }}
+      sessionId={`data-folder-${folder.folderId}`}
     >
       {dataList_.length ? (
         dataList_.map((data) => <DataThumbnail data={data} key={data.dataId} />)
