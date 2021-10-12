@@ -11,18 +11,69 @@ const MValue = types
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
     private: types.optional(types.string, ''),
     source: types.maybe(types.number),
+
     sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'sql'])),
+
     // api系列
     useApiHeader: types.optional(types.boolean, false),
-    apiHeader: types.optional(types.string, ''),
+    apiHeader: types.optional(
+      types.string,
+      `return function ({context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
     useApiQueries: types.optional(types.boolean, false),
-    apiQueries: types.optional(types.string, ''),
+    apiQueries: types.optional(
+      types.string,
+      `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
     useApiBody: types.optional(types.boolean, false),
-    apiBody: types.optional(types.string, ''),
+    apiBody: types.optional(
+      types.string,
+      `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
     useApiProcessor: types.optional(types.boolean, false),
-    apiProcessor: types.optional(types.string, ''),
+    apiProcessor: types.optional(
+      types.string,
+      `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`
+    ),
     // json系列
-
+    useJsonProcessor: types.optional(types.boolean, false),
+    jsonProcessor: types.optional(
+      types.string,
+      `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`
+    ),
+    // excel系列
+    useExcelProcessor: types.optional(types.boolean, false),
+    excelProcessor: types.optional(
+      types.string,
+      `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`
+    ),
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
@@ -59,10 +110,17 @@ const MValue = types
       } else {
         const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
         if (sourceData) {
+          self.sourceType = sourceData.dataType
           self.displayName = sourceData.displayName_
           const dataFrame = yield sourceData.getDataFrame()
           self.columns = dataFrame.columns
+          // 这里又要写一大堆的数据处理逻辑了  好痛苦
           self.data = dataFrame.getData()
+        } else {
+          self.displayName = ''
+          self.columns = []
+          self.data = []
+          self.sourceType = undefined
         }
       }
       getParent(self).onAction()
@@ -73,10 +131,64 @@ const MValue = types
       self.formatData()
     }
 
+    const getValue = () => {
+      let values = {}
+      const {
+        type,
+        private: privateData,
+        source,
+        sourceType,
+        useApiHeader,
+        apiHeader,
+        useApiQueries,
+        apiQueries,
+        useApiBody,
+        apiBody,
+        useApiProcessor,
+        apiProcessor,
+        useJsonProcessor,
+        jsonProcessor,
+        useExcelProcessor,
+        excelProcessor,
+      } = self
+      if (self.type === 'private') {
+        values = {
+          type,
+          private: privateData,
+        }
+      }
+      if (self.type === 'source') {
+        values = {
+          type,
+          source,
+        }
+        if (sourceType === 'api') {
+          values.useApiHeader = useApiHeader
+          values.apiHeader = apiHeader
+          values.useApiQueries = useApiQueries
+          values.apiQueries = apiQueries
+          values.useApiBody = useApiBody
+          values.apiBody = apiBody
+          values.useApiProcessor = useApiProcessor
+          values.apiProcessor = apiProcessor
+        }
+        if (sourceType === 'json') {
+          values.useJsonProcessor = useJsonProcessor
+          values.jsonProcessor = jsonProcessor
+        }
+        if (sourceType === 'excel') {
+          values.useExcelProcessor = useExcelProcessor
+          values.excelProcessor = excelProcessor
+        }
+      }
+      return values
+    }
+
     return {
       afterCreate,
       formatData,
       setValue,
+      getValue,
     }
   })
 
@@ -134,13 +246,15 @@ export const MDataField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value.toJSON() : self.defaultValue.toJSON()
+      return isDef(self.value) ? self.value.getValue() : self.defaultValue.getValue()
     }
 
     const getSchema = () => {
       return self.getValue()
     }
-
+    const getData = () => {
+      return self.value.data.toJSON()
+    }
     const setSchema = (schema) => {
       self.setValue(schema)
     }
@@ -221,6 +335,7 @@ export const MDataField = types
       getValue,
       setSchema,
       getSchema,
+      getData,
       addSource,
       removeSource,
       onAction,

@@ -1,29 +1,25 @@
-import React, {useState, useEffect, useRef, useLayoutEffect} from "react"
-import {observer} from "mobx-react-lite"
-import c from "classnames"
-import {SketchPicker} from "react-color"
-import isDef from "@utils/is-def"
-import isNumberic from "@utils/is-numberic"
-import uuid from "@utils/uuid"
-import s from "./gradient-color.module.styl"
-import {Field} from "./base"
-import {
-  colorArrayForm,
-  colorObjectForm,
-  getGradientColor
-} from "./gradient-color-util"
+import React, {useState, useEffect, useRef, useLayoutEffect} from 'react'
+import {observer} from 'mobx-react-lite'
+import c from 'classnames'
+import {SketchPicker} from 'react-color'
+import isDef from '@utils/is-def'
+import isNumberic from '@utils/is-numberic'
+import uuid from '@utils/uuid'
+import s from './gradient-color.module.styl'
+import {Field} from './base'
+import {colorArrayForm, colorObjectForm, getGradientColor} from './gradient-color-util'
 
 export const GradientColorField = observer(
   ({
     label,
     tip,
     value,
-    defaultValue = ["rgb(74,144,226)", "rgb(80,227,194)"],
+    defaultValue = ['rgb(74,144,226)', 'rgb(80,227,194)'],
     readOnly,
-    gradientColorType = "linear",
+    gradientColorType = 'linear',
     isExternal = true,
     onChange = () => {},
-    className
+    className,
   }) => {
     const [rect, setRect] = useState({})
     const [circle, setCircle] = useState({})
@@ -36,9 +32,7 @@ export const GradientColorField = observer(
     const rectRef = useRef()
     const colorPickerBoxRef = useRef()
 
-    const {gradientColorList = []} = isDef(value)
-      ? colorObjectForm(value)
-      : colorObjectForm(defaultValue)
+    const {gradientColorList = []} = isDef(value) ? colorObjectForm(value) : colorObjectForm(defaultValue)
 
     /**
      * 渐变项初始化
@@ -50,11 +44,11 @@ export const GradientColorField = observer(
       const listCopy = JSON.parse(JSON.stringify(gradientColorList))
       listCopy.forEach((item, index) => {
         if (index === 0 && !item.key) {
-          item.key = "g0"
+          item.key = 'g0'
           item.position = 0
           item.stop = 50
         } else if (index === listCopy.length - 1 && !item.key) {
-          item.key = "g1"
+          item.key = 'g1'
           item.position = 1
           item.stop = 50
         }
@@ -69,7 +63,7 @@ export const GradientColorField = observer(
       const boundingClientRect = {
         x: rectRef.current.getBoundingClientRect().x,
         y: rectRef.current.getBoundingClientRect().y,
-        width: rectRef.current.getBoundingClientRect().width
+        width: rectRef.current.getBoundingClientRect().width,
       }
       // if (JSON.stringify(rect) !== JSON.stringify(boundingClientRect)) {
       setRect(boundingClientRect)
@@ -158,13 +152,13 @@ export const GradientColorField = observer(
     const rgba2objMap = (key) => {
       const rgb = gradientColorListInit.find((o) => o.key === key)
         ? gradientColorListInit.find((o) => o.key === key).color
-        : "rgba(0, 119, 255, 1)"
+        : 'rgba(0, 119, 255, 1)'
 
       const color = rgb
-        .replace(/rgba\(/i, "")
-        .replace(/rgb\(/i, "")
-        .replace(")", "")
-        .split(",")
+        .replace(/rgba\(/i, '')
+        .replace(/rgb\(/i, '')
+        .replace(')', '')
+        .split(',')
       const inspectColor =
         rgb.search(/rgb/i) === 0 && color.length > 2
           ? color.map((item) => (isNumberic(item) ? Number(item) : 0))
@@ -173,7 +167,7 @@ export const GradientColorField = observer(
         r: inspectColor[0],
         g: inspectColor[1],
         b: inspectColor[2],
-        a: inspectColor[3]
+        a: inspectColor[3],
       }
     }
 
@@ -199,7 +193,7 @@ export const GradientColorField = observer(
           )}
           <div
             ref={rectRef}
-            className={c("fbh fbac fbjc pa", s.rect, {noEvent: readOnly})}
+            className={c('fbh fbac fbjc pa', s.rect, {noEvent: readOnly})}
             style={{background: rectBackgroundColor}}
             onDoubleClick={(e) => {
               // 阻止事件冒泡
@@ -212,9 +206,9 @@ export const GradientColorField = observer(
                 copyList.push({
                   key: `g${uuid()}`,
                   position,
-                  color: "rgb(0, 119, 255)",
+                  color: 'rgb(0, 119, 255)',
                   stop: 50,
-                  gradientType: "linear"
+                  gradientType: 'linear',
                 })
                 const colors = {gradientColorType, gradientColorList: copyList}
                 onChange(isExternal ? colorArrayForm(colors) : colors)
@@ -236,42 +230,31 @@ export const GradientColorField = observer(
             onBlur={(e) => {
               // 阻止事件冒泡
               e.stopPropagation()
-              // console.log(e.relatedTarget)
-              if (
-                !canShowPicker &&
-                e.relatedTarget &&
-                e.relatedTarget.className.indexOf("nodeFocus") === -1
-              ) {
+              if (!canShowPicker && e.relatedTarget && e.relatedTarget.className.indexOf('nodeFocus') === -1) {
                 setIsEdit(false)
               }
             }}
           >
-            <div className={c("pr w100p", s.baseLine, {hide: !isEdit})}>
+            <div className={c('pr w100p', s.baseLine, {hide: !isEdit})}>
               {gradientColorListInit.map((item) => {
                 const {key, position, color} = item
                 // TODO 解决onClick与onMouseDown, onMouseUp的冲突
                 return (
                   <div
                     key={key}
-                    className={c("pa nodeFocus", key, s.circle, {
-                      [s.activeCircle]: activeKey === key
+                    className={c('pa nodeFocus', key, s.circle, {
+                      [s.activeCircle]: activeKey === key,
                     })}
                     tabIndex={-1}
                     style={{
                       background: color,
-                      left: rect.width
-                        ? Math.min(rect.width * position - 4, rect.width - 4)
-                        : 0
+                      left: rect.width ? Math.min(rect.width * position - 4, rect.width - 4) : 0,
                     }}
                     draggable={false}
                     onClick={(e) => {
                       // 阻止事件冒泡
                       e.stopPropagation()
-                      if (
-                        isClick ||
-                        item.position === 0 ||
-                        item.position === 1
-                      ) {
+                      if (isClick || item.position === 0 || item.position === 1) {
                         // 聚焦
                         e.target.focus()
                         setActiveKey(key)
@@ -286,15 +269,10 @@ export const GradientColorField = observer(
                         return
                       }
                       // 删除按键
-                      if (
-                        e.key === "Backspace" &&
-                        gradientColorListInit.length > 2
-                      ) {
+                      if (e.key === 'Backspace' && gradientColorListInit.length > 2) {
                         const colors = {
                           gradientColorType,
-                          gradientColorList: gradientColorListInit.filter(
-                            (o) => o.key !== key
-                          )
+                          gradientColorList: gradientColorListInit.filter((o) => o.key !== key),
                         }
                         onChange(isExternal ? colorArrayForm(colors) : colors)
                         setCanShowPicker(false)

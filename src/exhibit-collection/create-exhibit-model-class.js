@@ -84,9 +84,6 @@ export const createExhibitModelClass = (exhibit) => {
             values.data = layer.getData()
             values.options = getObjectData(options)
           }
-
-          // console.log(effective ? '++++++++++' : '---------')
-
           return addOptionMethod(values, 'init')
         })
 
@@ -111,14 +108,10 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
-      const addLayer = () => {
-        console.log('addLayer')
-      }
+      const addLayer = () => {}
 
       // 这里是每一个层需要做的事情，暂时未实现，先占位
-      const doSomething = () => {
-        console.log('open menu')
-      }
+      const doSomething = () => {}
 
       const setData = (data) => {
         self.data = MDataField.create(
@@ -140,8 +133,7 @@ export const createExhibitModelClass = (exhibit) => {
       }
       const getData = () => {
         if (self.data) {
-          const {data} = self.data.getSchema()
-          return data
+          return self.data.getData()
         }
       }
 
