@@ -69,7 +69,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
           </div>
           {useButtons && (
             <div className={c('fbh')}>
-              {art.isPublished && (
+              {art.isOnline && (
                 <IconButton
                   buttonSize={24}
                   className={s.toolIconHighlight}
