@@ -90,7 +90,7 @@ export const MData = types
 
       try {
         realQueries = makeFunction(self.config.qs)()
-        if (headers) {
+        if (queries) {
           realQueries = {...realQueries, ...queries}
         }
       } catch (error) {
@@ -102,7 +102,7 @@ export const MData = types
       if (method === 'POST') {
         try {
           realBody = makeFunction(self.config.body)()
-          if (headers) {
+          if (body) {
             realBody = {...realBody, ...body}
           }
         } catch (error) {
