@@ -71,7 +71,7 @@ const createExhibitAdapter = (hooks) =>
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-
+      console.log(instanceOption, 'instanceOption')
       this.instance = hooks.init.call(null, {
         options: instanceOption,
       })

@@ -4,7 +4,7 @@ import hJSON from 'hjson'
 import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
-// import makeFunction from '@utils/make-function'
+import makeFunction from '@utils/make-function'
 
 const MValue = types
   .model('MValue', {
@@ -42,8 +42,9 @@ const MValue = types
   }
 }`
     ),
-    useApiProcessor: types.optional(types.boolean, false),
-    apiProcessor: types.optional(
+    // common系列
+    useProcessor: types.optional(types.boolean, false),
+    processor: types.optional(
       types.string,
       `return function ({data, rule, context, instance, queries}) {
   // 对data进行处理后返回即可
@@ -52,28 +53,7 @@ const MValue = types
   return data
 }`
     ),
-    // json系列
-    useJsonProcessor: types.optional(types.boolean, false),
-    jsonProcessor: types.optional(
-      types.string,
-      `return function ({data, rule, context, instance, queries}) {
-  // 对data进行处理后返回即可
-  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
-  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
-  return data
-}`
-    ),
-    // excel系列
-    useExcelProcessor: types.optional(types.boolean, false),
-    excelProcessor: types.optional(
-      types.string,
-      `return function ({data, rule, context, instance, queries}) {
-  // 对data进行处理后返回即可
-  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
-  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
-  return data
-}`
-    ),
+
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
@@ -112,10 +92,20 @@ const MValue = types
         if (sourceData) {
           self.sourceType = sourceData.dataType
           self.displayName = sourceData.displayName_
-          const dataFrame = yield sourceData.getDataFrame()
-          self.columns = dataFrame.columns
-          // 这里又要写一大堆的数据处理逻辑了  好痛苦
-          self.data = dataFrame.getData()
+          const params = {}
+          if (self.useApiHeader) {
+            params.headers = makeFunction(self.apiHeader)({})
+          }
+          if (self.useApiQueries) {
+            params.queries = makeFunction(self.apiQueries)({})
+          }
+          if (self.useApiBody) {
+            params.body = makeFunction(self.apiBody)({})
+          }
+          const dataFrame = yield sourceData.getDataFrame(params)
+          const datas = self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+          self.columns = datas.columns
+          self.data = datas.getData()
         } else {
           self.displayName = ''
           self.columns = []
@@ -306,9 +296,11 @@ export const MDataField = types
         dataId,
         exhibitId,
         callback: () => {
+          self.initValue()
           self.setValue({
             source: dataId,
           })
+
           clearRelationModelValue()
         },
       })
@@ -321,6 +313,7 @@ export const MDataField = types
         dataId,
         exhibitId,
         callback: () => {
+          self.initValue()
           self.setValue({
             source: undefined,
           })
@@ -329,8 +322,41 @@ export const MDataField = types
       })
     }
 
+    const initValue = () => {
+      self.value.set({
+        // api系列
+        useApiHeader: false,
+        apiHeader: `return function ({context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        useApiQueries: false,
+        apiQueries: `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        useApiBody: false,
+        apiBody: `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        // common系列
+        useProcessor: false,
+        processor: `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`,
+      })
+    }
+
     return {
       afterCreate,
+      initValue,
       setValue,
       getValue,
       setSchema,

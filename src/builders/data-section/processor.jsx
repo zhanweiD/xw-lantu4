@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import copy from '@utils/copy'
 import tip from '@components/tip'
@@ -8,6 +8,9 @@ import {CodeField} from '../fields/code'
 
 const Processor = ({name, type, effective = false, value, onIconClick = () => {}, onChange = () => {}}) => {
   const [code, setCode] = useState(value)
+  useEffect(() => {
+    setCode(value)
+  }, [value])
   return (
     <Section
       name={name}

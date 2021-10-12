@@ -46,11 +46,6 @@ const DataField = ({
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
-  // const [apiHeader, setApiHeader] = useState(value.apiHeader)
-  // const [apiQueries, setApiQueries] = useState(value.apiQueries)
-  // const [apiBody, setApiBody] = useState(value.apiBody)
-  // const [apiProcessor, setApiProcessor] = useState(value.apiProcessor)
-
   return (
     <>
       <div className="fbh fbjc mt8 ml24 mb8">
@@ -158,42 +153,6 @@ const DataField = ({
               </div>
             )}
           </Section>
-          {value.sourceType === 'json' && (
-            <Processor
-              name="数据处理"
-              type={type}
-              value={value.jsonProcessor}
-              effective={value.useJsonProcessor}
-              onChange={(data) => {
-                onChange({
-                  jsonProcessor: data,
-                })
-              }}
-              onIconClick={(data) => {
-                onChange({
-                  useJsonProcessor: data,
-                })
-              }}
-            />
-          )}
-          {value.sourceType === 'excel' && (
-            <Processor
-              name="数据处理"
-              type={type}
-              value={value.excelProcessor}
-              effective={value.useExcelProcessor}
-              onChange={(data) => {
-                onChange({
-                  excelProcessor: data,
-                })
-              }}
-              onIconClick={(data) => {
-                onChange({
-                  useExcelProcessor: data,
-                })
-              }}
-            />
-          )}
           {value.sourceType === 'api' && (
             <>
               <Processor
@@ -244,24 +203,24 @@ const DataField = ({
                   })
                 }}
               />
-              <Processor
-                name="数据处理"
-                type={type}
-                value={value.excelProcessor}
-                effective={value.useExcelProcessor}
-                onChange={(data) => {
-                  onChange({
-                    excelProcessor: data,
-                  })
-                }}
-                onIconClick={(data) => {
-                  onChange({
-                    useExcelProcessor: data,
-                  })
-                }}
-              />
             </>
           )}
+          <Processor
+            name="数据处理"
+            type={type}
+            value={value.processor}
+            effective={value.useProcessor}
+            onChange={(data) => {
+              onChange({
+                processor: data,
+              })
+            }}
+            onIconClick={(data) => {
+              onChange({
+                useProcessor: data,
+              })
+            }}
+          />
           <Modal
             width={270}
             height={400}
