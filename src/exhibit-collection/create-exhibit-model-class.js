@@ -1,8 +1,7 @@
-import {types, getEnv} from 'mobx-state-tree'
+import {types, getEnv, flow} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
-import makeFunction from '@utils/make-function'
 import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
@@ -21,6 +20,8 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
+      padding: types.frozen(config.padding),
+      state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
       parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen(['title', 'legend', 'axis', 'polar', 'other', 'layers', 'data', 'dimension']),
@@ -125,15 +126,17 @@ export const createExhibitModelClass = (exhibit) => {
           },
           {
             exhibitId: self.id,
+            exhibit: self,
             art: self.art_,
             event: self.event_,
             data: self.data_,
           }
         )
       }
+
       const getData = () => {
         if (self.data) {
-          return self.data.getData()
+          return self.data.value.data
         }
       }
 

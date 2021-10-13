@@ -5,7 +5,9 @@ import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
 import makeFunction from '@utils/make-function'
+import createLog from '@utils/create-log'
 
+const log = createLog('@data-section')
 const MValue = types
   .model('MValue', {
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
@@ -57,11 +59,13 @@ const MValue = types
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
-    data: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get art_() {
       return getEnv(self).art
+    },
+    get exhibit_() {
+      return getEnv(self).exhibit
     },
   }))
   .actions(commonAction(['set']))
@@ -80,42 +84,49 @@ const MValue = types
     }
 
     const formatData = flow(function* format() {
-      if (self.type === 'private') {
-        self.columns = hJSON.parse(self.private)[0].map((column) => ({
-          column,
-          alias: column,
-          type: 'string',
-        }))
-        self.data = hJSON.parse(self.private)
-      } else {
-        const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
-        if (sourceData) {
-          self.sourceType = sourceData.dataType
-          self.displayName = sourceData.displayName_
-          const params = {}
-          if (self.useApiHeader) {
-            params.headers = makeFunction(self.apiHeader)({})
-          }
-          if (self.useApiQueries) {
-            params.queries = makeFunction(self.apiQueries)({})
-          }
-          if (self.useApiBody) {
-            params.body = makeFunction(self.apiBody)({})
-          }
-          const dataFrame = yield sourceData.getDataFrame(params)
-          const datas = self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
-          self.columns = datas.columns
-          self.data = datas.getData()
+      try {
+        if (self.type === 'private') {
+          self.columns = hJSON.parse(self.private)[0].map((column) => ({
+            column,
+            alias: column,
+            type: 'string',
+          }))
+          self.data = hJSON.parse(self.private)
         } else {
-          self.displayName = ''
-          self.columns = []
-          self.data = []
-          self.sourceType = undefined
-        }
-      }
-      getParent(self).onAction()
-    })
+          const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
+          if (sourceData) {
+            self.sourceType = sourceData.dataType
+            self.displayName = sourceData.displayName_
+            const params = {}
+            if (self.useApiHeader) {
+              params.headers = makeFunction(self.apiHeader)({})
+            }
+            if (self.useApiQueries) {
+              params.queries = makeFunction(self.apiQueries)({})
+            }
+            if (self.useApiBody) {
+              params.body = makeFunction(self.apiBody)({})
+            }
+            const dataFrame = yield sourceData.getDataFrame(params)
+            const datas = self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+            self.columns = datas.columns
 
+            self.data = datas.getData()
+          } else {
+            self.displayName = ''
+            self.columns = []
+            self.data = []
+            self.sourceType = undefined
+          }
+        }
+        self.exhibit_.set({
+          state: 'success',
+        })
+        getParent(self).onAction()
+      } catch (error) {
+        log.error('format error: ', error)
+      }
+    })
     const setValue = (values) => {
       self.set(values)
       self.formatData()
@@ -242,9 +253,7 @@ export const MDataField = types
     const getSchema = () => {
       return self.getValue()
     }
-    const getData = () => {
-      return self.value.data.toJSON()
-    }
+
     const setSchema = (schema) => {
       self.setValue(schema)
     }
@@ -361,7 +370,6 @@ export const MDataField = types
       getValue,
       setSchema,
       getSchema,
-      getData,
       addSource,
       removeSource,
       onAction,
