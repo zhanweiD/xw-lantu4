@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import hJSON from 'hjson'
@@ -46,6 +46,9 @@ const DataField = ({
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
+  useEffect(() => {
+    setJson(value.private)
+  }, [value.private])
   return (
     <>
       <div className="fbh fbjc mt8 ml24 mb8">
