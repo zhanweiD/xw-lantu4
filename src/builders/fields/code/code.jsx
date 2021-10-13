@@ -19,6 +19,7 @@ const CodeField = ({
   mode,
   buttons = [],
   parent,
+  readOnly = false,
 }) => {
   return (
     <Field
@@ -29,7 +30,7 @@ const CodeField = ({
       visible={visible}
       direction="vertical"
     >
-      <div className={c('w100p fbv mb8')}>
+      <div className={c('w100p fbv')}>
         <div style={{height: `${height}px`, width: '100%'}} className={c('stopDrag')}>
           <CodeBoard
             placeholder={placeholder}
@@ -37,6 +38,7 @@ const CodeField = ({
             onChange={(v) => {
               onChange(v)
             }}
+            readOnly={readOnly}
             showPrintMargin={false}
             mode={mode}
           />
@@ -52,6 +54,7 @@ const CodeField = ({
                     name={button.name}
                     className="mr8"
                     lineHeight={20}
+                    disabled={readOnly}
                     onClick={(e) => {
                       e.stopPropagation()
                       button.action(parent)
@@ -70,6 +73,7 @@ const CodeField = ({
                     name={button.name}
                     className="ml8"
                     lineHeight={20}
+                    disabled={readOnly}
                     onClick={(e) => {
                       e.stopPropagation()
                       button.action(parent)

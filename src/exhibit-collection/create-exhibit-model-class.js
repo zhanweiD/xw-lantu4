@@ -1,8 +1,7 @@
-import {types, getEnv} from 'mobx-state-tree'
+import {types, getEnv, flow} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
-import makeFunction from '@utils/make-function'
 import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
@@ -21,6 +20,8 @@ export const createExhibitModelClass = (exhibit) => {
       name: types.optional(types.string, config.name),
       initSize: types.frozen(config.layout()),
       context: types.frozen(),
+      padding: types.frozen(config.padding),
+      state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
       parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen(['title', 'legend', 'axis', 'polar', 'other', 'layers', 'data', 'dimension']),
@@ -84,9 +85,6 @@ export const createExhibitModelClass = (exhibit) => {
             values.data = layer.getData()
             values.options = getObjectData(options)
           }
-
-          // console.log(effective ? '++++++++++' : '---------')
-
           return addOptionMethod(values, 'init')
         })
 
@@ -111,14 +109,10 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
-      const addLayer = () => {
-        console.log('addLayer')
-      }
+      const addLayer = () => {}
 
       // 这里是每一个层需要做的事情，暂时未实现，先占位
-      const doSomething = () => {
-        console.log('open menu')
-      }
+      const doSomething = () => {}
 
       const setData = (data) => {
         self.data = MDataField.create(
@@ -132,16 +126,17 @@ export const createExhibitModelClass = (exhibit) => {
           },
           {
             exhibitId: self.id,
+            exhibit: self,
             art: self.art_,
             event: self.event_,
             data: self.data_,
           }
         )
       }
+
       const getData = () => {
         if (self.data) {
-          const {data} = self.data.getSchema()
-          return data
+          return self.data.value.data
         }
       }
 

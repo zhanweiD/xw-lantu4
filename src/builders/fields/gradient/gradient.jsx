@@ -232,7 +232,6 @@ const GradientField = ({
           onBlur={(e) => {
             // 阻止事件冒泡
             e.stopPropagation()
-            // console.log(e.relatedTarget)
             if (!canShowPicker && e.relatedTarget && e.relatedTarget.className.indexOf('nodeFocus') === -1) {
               setIsEdit(false)
             }

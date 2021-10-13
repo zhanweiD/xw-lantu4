@@ -3,12 +3,17 @@ import {merge, isObject} from 'lodash'
 import {layerOptionMap, layerTypeMap} from './mapping'
 
 const getRealData = (dataSource, keys) => {
-  if (!dataSource || !keys) {
-    return null
+  try {
+    if (!dataSource || !keys) {
+      return null
+    }
+    const headers = dataSource[0]
+    const indexs = keys.map((key) => headers.findIndex((value) => value === key))
+    return dataSource.map((row) => indexs.map((index) => row[index]))
+  } catch (e) {
+    console.error('数据解析失败', {dataSource, keys})
+    return []
   }
-  const headers = dataSource[0]
-  const indexs = keys.map((key) => headers.findIndex((value) => value === key))
-  return dataSource.map((row) => indexs.map((index) => row[index]))
 }
 
 // 工具配置到图表配置的映射函数

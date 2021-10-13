@@ -29,8 +29,13 @@ export const MColumnSelectField = MBase.named('MColumnSelectField')
       self.setOptions(options)
     }
 
+    const getValue = () => {
+      return self.effective ? self.value : undefined
+    }
+
     return {
       setOptions,
       update,
+      getValue,
     }
   })

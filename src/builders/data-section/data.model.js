@@ -1,67 +1,195 @@
-import {types, getEnv, flow} from 'mobx-state-tree'
+import {types, getEnv, flow, getParent} from 'mobx-state-tree'
 import cloneDeep from 'lodash/cloneDeep'
 import hJSON from 'hjson'
-// import {reaction} from 'mobx'
+import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
-// import makeFunction from '@utils/make-function'
+import makeFunction from '@utils/make-function'
+import createLog from '@utils/create-log'
 
+const log = createLog('@data-section')
 const MValue = types
   .model('MValue', {
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
     private: types.optional(types.string, ''),
     source: types.maybe(types.number),
+
     sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'sql'])),
+
     // api系列
     useApiHeader: types.optional(types.boolean, false),
-    apiHeader: types.optional(types.string, ''),
+    apiHeader: types.optional(
+      types.string,
+      `return function ({context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
     useApiQueries: types.optional(types.boolean, false),
-    apiQueries: types.optional(types.string, ''),
+    apiQueries: types.optional(
+      types.string,
+      `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
     useApiBody: types.optional(types.boolean, false),
-    apiBody: types.optional(types.string, ''),
-    useApiProcessor: types.optional(types.boolean, false),
-    apiProcessor: types.optional(types.string, ''),
-    // json系列
+    apiBody: types.optional(
+      types.string,
+      `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`
+    ),
+    // common系列
+    useProcessor: types.optional(types.boolean, false),
+    processor: types.optional(
+      types.string,
+      `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`
+    ),
 
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
-    data: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get art_() {
       return getEnv(self).art
     },
+    get exhibit_() {
+      return getEnv(self).exhibit
+    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const formatData = flow(function* format() {
-      if (self.type === 'private') {
-        self.columns = hJSON.parse(self.private)[0].map((column) => ({
-          column,
-          alias: column,
-          type: 'string',
-        }))
-        self.data = hJSON.parse(self.private)
-      } else {
-        const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
-        if (sourceData) {
-          self.displayName = sourceData.displayName_
-          const dataFrame = yield sourceData.getDataFrame()
-          self.columns = dataFrame.columns
-          self.data = dataFrame.getData()
+    const afterCreate = () => {
+      reaction(
+        () => {
+          return {
+            data: self.art_.datas.length && self.art_.datas.map((data) => data.toJSON()),
+          }
+        },
+        () => {
+          self.formatData()
         }
+      )
+    }
+
+    const formatData = flow(function* format() {
+      try {
+        if (self.type === 'private') {
+          self.columns = hJSON.parse(self.private)[0].map((column) => ({
+            column,
+            alias: column,
+            type: 'string',
+          }))
+          self.data = hJSON.parse(self.private)
+        } else {
+          const sourceData = self.art_.datas?.find((v) => v.dataId === self.source)
+          if (sourceData) {
+            self.sourceType = sourceData.dataType
+            self.displayName = sourceData.displayName_
+            const params = {}
+            if (self.useApiHeader) {
+              params.headers = makeFunction(self.apiHeader)({})
+            }
+            if (self.useApiQueries) {
+              params.queries = makeFunction(self.apiQueries)({})
+            }
+            if (self.useApiBody) {
+              params.body = makeFunction(self.apiBody)({})
+            }
+            const dataFrame = yield sourceData.getDataFrame(params)
+            const datas = self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+            self.columns = datas.columns
+
+            self.data = datas.getData()
+          } else {
+            self.displayName = ''
+            self.columns = []
+            self.data = []
+            self.sourceType = undefined
+          }
+        }
+        self.exhibit_.set({
+          state: 'success',
+        })
+        getParent(self).onAction()
+      } catch (error) {
+        log.error('format error: ', error)
       }
     })
-
     const setValue = (values) => {
       self.set(values)
       self.formatData()
     }
 
+    const getValue = () => {
+      let values = {}
+      const {
+        type,
+        private: privateData,
+        source,
+        sourceType,
+        useApiHeader,
+        apiHeader,
+        useApiQueries,
+        apiQueries,
+        useApiBody,
+        apiBody,
+        useApiProcessor,
+        apiProcessor,
+        useJsonProcessor,
+        jsonProcessor,
+        useExcelProcessor,
+        excelProcessor,
+      } = self
+      if (self.type === 'private') {
+        values = {
+          type,
+          private: privateData,
+        }
+      }
+      if (self.type === 'source') {
+        values = {
+          type,
+          source,
+        }
+        if (sourceType === 'api') {
+          values.useApiHeader = useApiHeader
+          values.apiHeader = apiHeader
+          values.useApiQueries = useApiQueries
+          values.apiQueries = apiQueries
+          values.useApiBody = useApiBody
+          values.apiBody = apiBody
+          values.useApiProcessor = useApiProcessor
+          values.apiProcessor = apiProcessor
+        }
+        if (sourceType === 'json') {
+          values.useJsonProcessor = useJsonProcessor
+          values.jsonProcessor = jsonProcessor
+        }
+        if (sourceType === 'excel') {
+          values.useExcelProcessor = useExcelProcessor
+          values.excelProcessor = excelProcessor
+        }
+      }
+      return values
+    }
+
     return {
+      afterCreate,
       formatData,
       setValue,
+      getValue,
     }
   })
 
@@ -112,18 +240,6 @@ export const MDataField = types
       if (!isDef(self.value)) {
         self.value = cloneDeep(self.defaultValue.toJSON())
       }
-      // reaction(
-      //   () => {
-      //     return {
-      //       data: self.env_.art.datas.length && self.env_.art.datas.map((data) => data.toJSON()),
-      //     }
-      //   },
-      //   () => {
-      //     // self.value.formatData()
-      //     console.log(self.value, 'xxx')
-      //     self.onAction()
-      //   }
-      // )
     }
 
     const setValue = (value) => {
@@ -131,7 +247,7 @@ export const MDataField = types
     }
 
     const getValue = () => {
-      return isDef(self.value) ? self.value.toJSON() : self.defaultValue.toJSON()
+      return isDef(self.value) ? self.value.getValue() : self.defaultValue.getValue()
     }
 
     const getSchema = () => {
@@ -140,17 +256,14 @@ export const MDataField = types
 
     const setSchema = (schema) => {
       self.setValue(schema)
-      // self.onAction()
     }
 
     const onAction = () => {
-      // self.relationModels.map((model) => {
-      //   // const {columns} = self.value
-      //   self.value.formatData()
-      //   const {columns} = self.value
-      //   console.log(self.value)
-      //   model.update(columns)
-      // })
+      // 修正关联的column
+      self.relationModels.map((model) => {
+        const {columns} = self.value
+        model.update(columns)
+      })
     }
 
     const clearRelationModelValue = () => {
@@ -192,9 +305,11 @@ export const MDataField = types
         dataId,
         exhibitId,
         callback: () => {
+          self.initValue()
           self.setValue({
             source: dataId,
           })
+
           clearRelationModelValue()
         },
       })
@@ -207,6 +322,7 @@ export const MDataField = types
         dataId,
         exhibitId,
         callback: () => {
+          self.initValue()
           self.setValue({
             source: undefined,
           })
@@ -215,8 +331,41 @@ export const MDataField = types
       })
     }
 
+    const initValue = () => {
+      self.value.set({
+        // api系列
+        useApiHeader: false,
+        apiHeader: `return function ({context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        useApiQueries: false,
+        apiQueries: `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        useApiBody: false,
+        apiBody: `return function ({rule, context}) {
+  return {
+    // key1: value1
+  }
+}`,
+        // common系列
+        useProcessor: false,
+        processor: `return function ({data, rule, context, instance, queries}) {
+  // 对data进行处理后返回即可
+  // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
+  return data
+}`,
+      })
+    }
+
     return {
       afterCreate,
+      initValue,
       setValue,
       getValue,
       setSchema,

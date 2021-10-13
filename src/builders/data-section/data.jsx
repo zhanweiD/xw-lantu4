@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import hJSON from 'hjson'
@@ -6,10 +6,10 @@ import tip from '@components/tip'
 import copy from '@utils/copy'
 import Modal from '@components/modal'
 import Tab from '@components/tab'
-import Icon from '@components/icon'
 import IconButton from '@components/icon-button'
 import {CodeField} from '../fields/code'
 import Section from '../section'
+import Processor from './processor'
 import s from './data.module.styl'
 
 const Check = ({value, onChange, options}) => {
@@ -46,7 +46,9 @@ const DataField = ({
 }) => {
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
-
+  useEffect(() => {
+    setJson(value.private)
+  }, [value.private])
   return (
     <>
       <div className="fbh fbjc mt8 ml24 mb8">
@@ -74,7 +76,7 @@ const DataField = ({
       </div>
       {value.type === 'private' && (
         <>
-          <Section name="私有JSON" type={type} childrenClassName="pt8 pb8">
+          <Section name="私有JSON" type={type} titleClassName="pr8">
             <CodeField
               childrenClassName="ml24"
               className="block"
@@ -125,10 +127,10 @@ const DataField = ({
       )}
       {value.type === 'source' && (
         <>
-          <Section name="数据源" dashed childrenClassName="ml24">
+          <Section name="数据源" type={type} titleClassName="pr8">
             {value.source ? (
               <div
-                className="hand fbh fbac fbjsb mb8"
+                className="hand fbh fbac fbjsb mb8 ml24"
                 onClick={() => {
                   setIsVisible(true)
                 }}
@@ -145,7 +147,7 @@ const DataField = ({
               </div>
             ) : (
               <div
-                className={c('hand fbh fbac fbjsb mb8 lh24 mr8 ctw20', s.name)}
+                className={c('hand fbh fbac fbjsb mb8 ml24 lh24 mr8 ctw20', s.name)}
                 onClick={() => {
                   setIsVisible(true)
                 }}
@@ -154,6 +156,74 @@ const DataField = ({
               </div>
             )}
           </Section>
+          {value.sourceType === 'api' && (
+            <>
+              <Processor
+                type={type}
+                name="请求头"
+                value={value.apiHeader}
+                effective={value.useApiHeader}
+                onChange={(data) => {
+                  onChange({
+                    apiHeader: data,
+                  })
+                }}
+                onIconClick={(data) => {
+                  onChange({
+                    useApiHeader: data,
+                  })
+                }}
+              />
+              <Processor
+                type={type}
+                name="请求参数"
+                value={value.apiQueries}
+                effective={value.useApiQueries}
+                onChange={(data) => {
+                  onChange({
+                    apiQueries: data,
+                  })
+                }}
+                onIconClick={(data) => {
+                  onChange({
+                    useApiQueries: data,
+                  })
+                }}
+              />
+              <Processor
+                type={type}
+                name="请求体"
+                value={value.apiBody}
+                effective={value.useApiBody}
+                onChange={(data) => {
+                  onChange({
+                    apiBody: data,
+                  })
+                }}
+                onIconClick={(data) => {
+                  onChange({
+                    useApiBody: data,
+                  })
+                }}
+              />
+            </>
+          )}
+          <Processor
+            name="数据处理"
+            type={type}
+            value={value.processor}
+            effective={value.useProcessor}
+            onChange={(data) => {
+              onChange({
+                processor: data,
+              })
+            }}
+            onIconClick={(data) => {
+              onChange({
+                useProcessor: data,
+              })
+            }}
+          />
           <Modal
             width={270}
             height={400}
@@ -175,7 +245,6 @@ const DataField = ({
                         setIsVisible(false)
                       }}
                     >
-                      <Icon name={data.icon_} fill="#ffffff" />
                       {data.dataName}
                     </div>
                   )
@@ -192,7 +261,6 @@ const DataField = ({
                         setIsVisible(false)
                       }}
                     >
-                      <Icon name={data.icon_} fill="#ffffff" />
                       {data.dataName}
                     </div>
                   )
@@ -209,7 +277,6 @@ const DataField = ({
                         setIsVisible(false)
                       }}
                     >
-                      <Icon name={data.icon_} fill="#ffffff" />
                       {data.dataName}
                     </div>
                   )
@@ -219,7 +286,7 @@ const DataField = ({
           </Modal>
         </>
       )}
-      <Section name="字段预览" type={type} childrenClassName="pt8 pb8 fbh fbw ml24">
+      <Section name="字段预览" type={type} titleClassName="pr8" childrenClassName="pt8 pb8 fbh fbw ml24">
         {value.columns.length > 0 ? (
           value.columns.map((v) => (
             <div className={c('mr4 mb4', s.fieldPreview)} key={v.alias}>

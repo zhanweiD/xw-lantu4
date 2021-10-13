@@ -43,7 +43,7 @@ const ArtFrame = ({frame}) => {
 
   const Frame = (
     <div id={`artFramegrid-${frameId}`}>
-      <div id={`artFrame-${frameId}`} className="pa" style={style}>
+      <div id={`artFrame-${frameId}`} className={c('pa', s.origin)} style={style}>
         {isGridVisible && (
           <div
             ref={gridRef}

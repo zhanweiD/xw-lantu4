@@ -90,6 +90,7 @@ const MFrame = types
 const MArtPreview = types
   .model('MArtPreview', {
     artId: types.maybe(types.number),
+    name: types.maybe(types.string),
     publishId: types.maybe(types.string),
     gridUnit: types.optional(types.number, 40),
     watermark: types.optional(MWatermark, {}),
@@ -139,6 +140,7 @@ const MArtPreview = types
         self.datas = data
         self.set({
           artId: art.artId,
+          name: art.name,
           gridUnit: art.gridUnit,
           watermark: art.watermark,
           password: art.password,

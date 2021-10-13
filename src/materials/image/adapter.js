@@ -15,7 +15,6 @@ const makeAdapter = () => {
         ['blendMode', 'blendMode'],
         ['effective', 'effective'],
       ])
-      console.log(o)
       const instance = new WaveImage({
         container,
         url: `${config.urlPrefix}material/download/${layer.id}`,
@@ -30,8 +29,6 @@ const makeAdapter = () => {
 
     // 处理包括数据、样式等变更
     update({updated, instance}) {
-      console.log(updated, 'up')
-      console.log(instance)
       instance.update({
         fillType: updated.getOption('fillType'),
         opacity: updated.getOption('opacity'),

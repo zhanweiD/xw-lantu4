@@ -42,7 +42,6 @@ const createFieldsClass = (fields) => {
   const initProps = {}
 
   fields.forEach((field) => {
-    // console.log(field.name === 'custom' ? '🦁' : '🦄', field)
     if (fieldModel[field.type]) {
       let MFieldModel = fieldModel[field.type].actions((self) => ({
         getSchema() {
@@ -60,10 +59,6 @@ const createFieldsClass = (fields) => {
             },
             () => {
               const value = self.getValue()
-
-              // const parent = getParent(self, 2)
-              // console.log('🦁 parent', parent.fields.singleColor)
-
               getParent(self, 2).update(
                 {
                   [self.option]: value,

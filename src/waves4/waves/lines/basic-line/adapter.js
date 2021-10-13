@@ -6,14 +6,12 @@ const makeAdapter = () => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      console.log(options)
       const instance = createWave(translate(options))
       return instance
     },
 
     // 处理包括数据、样式等变更
     update(options) {
-      console.log(options)
       updateWave(options)
     },
 

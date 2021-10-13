@@ -37,7 +37,18 @@ const createExhibitAdapter = (hooks) =>
         })
       )
 
-      model.adapter.init()
+      reaction(
+        () => {
+          return {
+            state: model.state,
+          }
+        },
+        ({state}) => {
+          if (state === 'success') {
+            model.adapter.init()
+          }
+        }
+      )
     }
 
     constructor({container, height, width, model, isEdit, staticDrawOptions}) {
@@ -71,7 +82,7 @@ const createExhibitAdapter = (hooks) =>
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-
+      console.log('instanceOption: ', instanceOption)
       this.instance = hooks.init.call(null, {
         options: instanceOption,
       })
@@ -114,6 +125,7 @@ const createExhibitAdapter = (hooks) =>
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
               flag: `actionType: ${actionType}, global: ${isGlobal}`,
             })
+          console.log('this.model[actionType].options.updatedOptions,', this.model[actionType].options.updatedOptions)
           if (!isGlobal) {
             if (!isDef(this.model[actionType].effective) || this.model[actionType].effective) {
               action()
@@ -269,6 +281,7 @@ const createExhibitAdapter = (hooks) =>
     }
 
     update({options, action, updated, updatedPath, flag}) {
+      console.log(options, action, updated, updatedPath, flag, 'updated')
       hooks.update.call(null, {
         instance: this.instance,
         options,
