@@ -3,11 +3,9 @@ import {observer} from 'mobx-react-lite'
 import ArtFrame from './frame-preview'
 
 const ArtPreview = ({art}) => {
-  // useEffect(() => {
-  //   window.addEventListener('resize', () => {
-  //     art.initZoom()
-  //   })
-  // }, [])
+  useEffect(() => {
+    document.title = art.name
+  }, [])
   useEffect(() => {
     // 将整个art缩放到可视区域之内
     art.initZoom()
