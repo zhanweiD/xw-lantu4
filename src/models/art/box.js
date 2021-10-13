@@ -94,6 +94,14 @@ export const MBox = types
           exhibitModel.adapter.refresh(width, height)
         }
       }
+      if (self.materials) {
+        self.materials.forEach((material) => {
+          const materialModel = self.art_.exhibitManager.get(material.id)
+          if (materialModel.adapter) {
+            materialModel.adapter.refresh(width, height)
+          }
+        })
+      }
     }
 
     const updateBox = flow(function* updateBox() {

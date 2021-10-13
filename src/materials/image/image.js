@@ -53,6 +53,11 @@ class Image {
     this.blendMode = blendMode
     this.draw()
   }
+
+  destroy() {
+    this.container.removeChild(this.div)
+    this.div = undefined
+  }
 }
 
 export default Image
