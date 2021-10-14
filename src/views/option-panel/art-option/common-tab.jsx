@@ -6,23 +6,20 @@ import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import fields from '@builders/fields'
 import Section from '@builders/section'
+import IconButton from '@components/icon-button'
 import s from './common-tab.module.styl'
 
 const {TextField, TextareaField, MultiNumberField} = fields
-const CommonTab = ({box, frame}) => {
+const CommonTab = ({target}) => {
   const {t} = useTranslation()
-  const {background, name, remark, layout, setLayout, setRemark, materials} = box || frame || {}
+  const {background, name, remark, layout, setLayout, setRemark, materials} = target || {}
   let materialModels = []
   if (materials) {
-    if (box) {
-      materialModels = materials.map((material) => box.frame_.art_.exhibitManager.get(material.id))
-    } else {
-      materialModels = materials.map((material) => frame.art_.exhibitManager.get(material.id))
-    }
+    materialModels = materials.map((material) => target.art_.exhibitManager.get(material.id))
   }
   return (
     <>
-      {(box || frame) && (
+      {target && (
         <Tab sessionId="art-option-common" className={s.commonTab}>
           <Tab.Item name={t('layout')}>
             <Scroll className="h100p">
@@ -95,6 +92,42 @@ const CommonTab = ({box, frame}) => {
                   dimension={model.dimension}
                   layers={model.layers}
                   exhibit={model}
+                  extra={
+                    <IconButton
+                      icon="more"
+                      iconSize={14}
+                      buttonSize={24}
+                      onClick={(e, button) => {
+                        const menu = target.root_.overlayManager.get('menu')
+                        menu.toggle({
+                          attachTo: button,
+                          list: [
+                            {
+                              name: '删除',
+                              action: () => {
+                                target.removeBackground(model.id)
+                                menu.hide()
+                              },
+                            },
+                            {
+                              name: '上移一层',
+                              action: () => {
+                                target.sortBackground(model.id, 'up')
+                                menu.hide()
+                              },
+                            },
+                            {
+                              name: '下移一层',
+                              action: () => {
+                                target.sortBackground(model.id, 'down')
+                                menu.hide()
+                              },
+                            },
+                          ],
+                        })
+                      }}
+                    />
+                  }
                 />
               ))}
             </Scroll>

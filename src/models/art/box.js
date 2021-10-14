@@ -168,13 +168,49 @@ export const MBox = types
 
         self.materials = [].concat(material).concat(...materials)
         debounceUpdate()
-        event.fire(`art.${art.artId}.addMaterial`, {
-          materialId: material.id,
-          id: self.boxId,
-        })
+        if (type === 'image') {
+          event.fire(`art.${art.artId}.addMaterial`, {
+            materialId,
+            id: self.boxId,
+          })
+        }
       }
     }
 
+    const removeBackground = (materialId) => {
+      const {event} = self.env_
+      const materials = self.materials.map((material) => self.art_.exhibitManager.get(material.id).getSchema())
+      self.materials = materials.filter((material) => material.id !== materialId)
+      debounceUpdate()
+      self.art_.exhibitManager.remove(materialId)
+      event.fire(`art.${self.art_.artId}.removeMaterial`, {
+        materialId: materialId.split('.')[0],
+        id: self.boxId,
+      })
+    }
+
+    const sortBackground = (materialId, direction) => {
+      const index = self.materials.findIndex((material) => material.id === materialId)
+      if (direction === 'up') {
+        if (index !== 0) {
+          self.materials = []
+            .concat(self.materials.slice(0, index - 1))
+            .concat(self.materials[index])
+            .concat(self.materials[index - 1])
+            .concat(self.materials.slice(index + 1))
+        }
+      }
+
+      if (direction === 'down') {
+        if (index !== self.materials.length - 1) {
+          self.materials = []
+            .concat(self.materials.slice(0, index))
+            .concat(self.materials[index + 1])
+            .concat(self.materials[index])
+            .concat(self.materials.slice(index + 2))
+        }
+      }
+    }
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -230,6 +266,8 @@ export const MBox = types
       resize,
       recreateBox,
       addBackground,
+      removeBackground,
+      sortBackground,
       setRemark,
       setLayout,
       updateBox,

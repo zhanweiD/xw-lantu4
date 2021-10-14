@@ -116,9 +116,6 @@ export const createExhibitModelClass = (exhibit) => {
 
       const addLayer = () => {}
 
-      // 这里是每一个层需要做的事情，暂时未实现，先占位
-      const doSomething = () => {}
-
       const setData = (data) => {
         self.data = MDataField.create(
           {
@@ -205,7 +202,6 @@ export const createExhibitModelClass = (exhibit) => {
         addLayer,
         setLayers,
         getLayers,
-        doSomething,
         setData,
         getData,
         setDimension,

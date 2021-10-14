@@ -132,7 +132,6 @@ export const MArtViewport = types
 
     // 初始化画布
     const initFrame = ({frameId, name, isMain, layout, boxes, materials}) => {
-      console.log(materials)
       const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
