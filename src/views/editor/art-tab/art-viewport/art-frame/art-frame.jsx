@@ -57,18 +57,6 @@ const ArtFrame = ({frame}) => {
   const Frame = (
     <div id={`artFramegrid-${frameId}`}>
       <div id={`artFrame-${frameId}`} className={c('pa', s.origin)} style={style}>
-        {isGridVisible && (
-          <div
-            ref={gridRef}
-            className={c(s.grid)}
-            style={{
-              top: `${-grid.extendY_}px`,
-              left: `${-grid.extendX_}px`,
-              width: `${grid.width_}px`,
-              height: `${grid.height_}px`,
-            }}
-          />
-        )}
         {effective && (
           <WaterMark
             text={fields.content.value}
@@ -83,6 +71,18 @@ const ArtFrame = ({frame}) => {
         {boxes.map((box) => (
           <Box key={box.boxId} box={box} />
         ))}
+        {isGridVisible && (
+          <div
+            ref={gridRef}
+            className={c(s.grid)}
+            style={{
+              top: `${-grid.extendY_}px`,
+              left: `${-grid.extendX_}px`,
+              width: `${grid.width_}px`,
+              height: `${grid.height_}px`,
+            }}
+          />
+        )}
       </div>
     </div>
   )
