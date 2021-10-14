@@ -21,7 +21,7 @@ const Box = ({box, frame}) => {
       }}
     >
       {reverseMaterials.map((material) => (
-        <Material material={material} key={material.id} box={box} frame={frame} />
+        <Material material={material} key={material.id} target={box} frame={frame} />
       ))}
       <Exhibit box={box} frame={frame} />
     </div>

@@ -1,16 +1,29 @@
 import React, {useEffect, useRef} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
+import cloneDeep from 'lodash/cloneDeep'
 import {DropTarget} from '@components/drag-and-drop'
 import Grid from '@waves4/grid'
 import WaterMark from '@components/watermark'
+import Material from '@views/public/material'
 import Box from '../box'
 import s from './art-frame.module.styl'
 
 const ArtFrame = ({frame}) => {
-  const {frameId, grid, viewLayout, isCreateFail, art_, boxes, backgroundImage_, backgroundColor_} = frame
+  const {
+    frameId,
+    grid,
+    viewLayout,
+    isCreateFail,
+    art_,
+    boxes,
+    backgroundImage_,
+    backgroundColor_,
+    materials = [],
+  } = frame
   const {isGridVisible, global} = art_
-
+  const reverseMaterials = cloneDeep(materials)
+  reverseMaterials.reverse()
   const {effective, fields} = global.options.sections.watermark
 
   const gridRef = useRef(null)
@@ -64,7 +77,9 @@ const ArtFrame = ({frame}) => {
             zIndex={0}
           />
         )}
-
+        {reverseMaterials.map((material) => (
+          <Material material={material} key={material.id} target={frame} frame={frame} />
+        ))}
         {boxes.map((box) => (
           <Box key={box.boxId} box={box} />
         ))}
@@ -94,15 +109,15 @@ const ArtFrame = ({frame}) => {
             height: `${grid.height_}px`,
           }}
           className={c('pa art-frame', s.root)}
-          acceptKey={['CREATE_EXHIBIT_DRAG_KEY', 'UPDATE_BOX_BACKGROUND_DRAGE_KEY']}
+          acceptKey={['CREATE_EXHIBIT_DRAG_KEY', 'UPDATE_BACKGROUND_DRAGE_KEY']}
           data={{
             create: (data) => {
               frame.createBox({
                 ...data,
               })
             },
-            createBackground: (data) => {
-              frame.createBox({
+            addBackground: (data) => {
+              frame.addBackground({
                 ...data,
               })
             },

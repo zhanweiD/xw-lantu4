@@ -8,7 +8,7 @@ import Material from '@views/public/material'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, exhibit, backgroundImage_, backgroundColor_, materials = []} = box
+  const {layout, isSelected, art_, viewport_, frame_, backgroundImage_, backgroundColor_, materials = []} = box
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const {isBoxBackgroundVisible} = art_
@@ -40,15 +40,10 @@ const Box = ({box}) => {
         width: `${layout.width}px`,
         height: `${layout.height}px`,
       }}
-      acceptKey={
-        exhibit ? ['UPDATE_BOX_BACKGROUND_DRAGE_KEY'] : ['CREATE_EXHIBIT_DRAG_KEY', 'UPDATE_BOX_BACKGROUND_DRAGE_KEY']
-      }
+      acceptKey="UPDATE_BACKGROUND_DRAGE_KEY"
       data={{
-        createBackground: (data) => {
+        addBackground: (data) => {
           box.addBackground(data)
-        },
-        create: (data) => {
-          box.updateExhibit(data)
         },
       }}
     >
@@ -69,7 +64,7 @@ const Box = ({box}) => {
         }}
       >
         {reverseMaterials.map((material) => (
-          <Material material={material} key={material.id} box={box} frame={frame_} />
+          <Material material={material} key={material.id} target={box} frame={frame_} />
         ))}
         <Exhibit box={box} frame={frame_} />
       </div>

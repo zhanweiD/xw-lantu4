@@ -21,12 +21,14 @@ export const MArtFrame = types
     boxes: types.optional(types.array(MBox), []),
     background: types.optional(MBackgroundColor, {}),
     remark: types.maybe(types.string),
+    materials: types.frozen(),
+
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
     // 动态展示的位置信息，原点不定，可视区域中最小的左上角计算得出
     viewLayout: types.maybe(MLayout),
     grid: types.optional(MArtFrameGrid, {}),
-    normalKeys: types.frozen(['frameId', 'artId', 'name', 'isMain', 'remark']),
+    normalKeys: types.frozen(['frameId', 'artId', 'name', 'isMain', 'materials', 'remark']),
     deepKeys: types.frozen(['boxes', 'layout', 'background']),
   })
   .views((self) => ({
@@ -141,7 +143,7 @@ export const MArtFrame = types
         }
       }
       if (materials) {
-        materials.map((material) => {
+        materials.forEach((material) => {
           const model = exhibitCollection.get(`${material.lib}.${material.key}`)
           if (model) {
             const art = self.art_
@@ -149,7 +151,6 @@ export const MArtFrame = types
               material.id,
               model.initModel({
                 art,
-
                 schema: material,
                 event,
               })
@@ -159,51 +160,22 @@ export const MArtFrame = types
       }
     }
 
-    // type 可以为exhibit|image|decoration 作用分别为创建组件|创建带背景的空容器|创建带装饰空组件
-    const createBox = flow(function* createBox({position, lib, key, type = 'exhibit', materialId, name}) {
-      const {io, exhibitCollection, event} = self.env_
+    const createBox = flow(function* createBox({position, lib, key}) {
+      const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
       const art = self.art_
-      let exhibit
-      let materials
+      const findAdapter = exhibitCollection.has(`${lib}.${key}`)
+      const model = findAdapter.value.initModel({
+        art,
+        schema: {
+          lib,
+          key,
+          id: uuid(),
+        },
+      })
 
-      if (type === 'image') {
-        const findAdapter = exhibitCollection.has(`${lib}.${key}`)
-        const model = findAdapter.value.initModel({
-          art,
-
-          schema: {
-            lib,
-            key,
-            id: `${materialId}.${uuid()}`,
-            layers: [
-              {
-                id: materialId,
-                name,
-              },
-            ],
-          },
-        })
-
-        materials = [model.getSchema()]
-      } else {
-        const findAdapter = exhibitCollection.has(`${lib}.${key}`)
-        const model = findAdapter.value.initModel({
-          art,
-          schema: {
-            lib,
-            key,
-            id: uuid(),
-          },
-        })
-        if (type === 'exhibit') {
-          exhibit = model.getSchema()
-        }
-        if (type === 'decoration') {
-          materials = [model.getSchema()]
-        }
-      }
+      const exhibit = model.getSchema()
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {
@@ -218,8 +190,8 @@ export const MArtFrame = types
       const layout = {
         x: Math.round(targetPosition.x / self.scaler_),
         y: Math.round(targetPosition.y / self.scaler_),
-        width: Math.round((type === 'exhibit' ? exhibit.initSize[0] : 16) * self.grid.unit_),
-        height: Math.round((type === 'exhibit' ? exhibit.initSize[1] : 9) * self.grid.unit_),
+        width: Math.round(exhibit.initSize[0] * self.grid.unit_),
+        height: Math.round(exhibit.initSize[1] * self.grid.unit_),
       }
 
       const boxId = uuid()
@@ -229,7 +201,6 @@ export const MArtFrame = types
         frameId,
         exhibit,
         layout,
-        materials,
       }
       self.initBox({boxId, ...params})
       self.viewport_.toggleSelectRange({
@@ -246,7 +217,6 @@ export const MArtFrame = types
         const box = yield io.art.createBox({
           exhibit,
           layout,
-          materials,
           name: params.name,
           ':artId': params.artId,
           ':frameId': params.frameId,
@@ -255,14 +225,6 @@ export const MArtFrame = types
         realBox.set({
           boxId: box.boxId,
         })
-        if (realBox.materials) {
-          realBox.materials.forEach((m) => {
-            event.fire(`art.${art.artId}.addMaterial`, {
-              materialId: m.id,
-              id: realBox.boxId,
-            })
-          })
-        }
 
         self.viewport_.selectRange.set({
           range: [
@@ -305,13 +267,14 @@ export const MArtFrame = types
     const updateFrame = flow(function* updateFrame() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
-      const {frameId, layout, background, remark, name} = self
+      const {frameId, layout, background, remark, name, materials} = self
       try {
         yield io.art.updateFrame({
           layout,
           background,
           remark,
           name,
+          materials,
           ':artId': artId,
           ':projectId': projectId,
           ':frameId': frameId,
@@ -366,6 +329,50 @@ export const MArtFrame = types
       }
     }
 
+    const addBackground = ({key, lib, name, materialId, type}) => {
+      const {exhibitCollection, event} = self.env_
+      const model = exhibitCollection.get(`${lib}.${key}`)
+      if (model) {
+        const art = self.art_
+        const schema = {
+          lib,
+          key,
+        }
+        if (type === 'image') {
+          schema.id = `${materialId}.${uuid()}`
+
+          schema.layers = [
+            {
+              id: materialId,
+              name,
+            },
+          ]
+        } else {
+          schema.id = uuid()
+        }
+        const materialModel = model.initModel({
+          art,
+          schema,
+        })
+        const material = materialModel.getSchema()
+        art.exhibitManager.set(
+          material.id,
+          model.initModel({
+            art,
+            schema: material,
+            event,
+          })
+        )
+        const materials = self.materials?.map((material) => art.exhibitManager.get(material.id).getSchema()) || []
+
+        self.materials = [].concat(material).concat(...materials)
+        debounceUpdate()
+        event.fire(`art.${art.artId}.addMaterial`, {
+          materialId: material.id,
+          id: self.frameId,
+        })
+      }
+    }
     return {
       initBox,
       createBox,
@@ -373,6 +380,7 @@ export const MArtFrame = types
       setRemark,
       setLayout,
       updateFrame,
+      addBackground,
       recreateFrame,
     }
   })

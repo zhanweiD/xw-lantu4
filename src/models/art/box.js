@@ -130,35 +130,6 @@ export const MBox = types
       self.updateBox()
     }, 2000)
 
-    const updateExhibit = ({lib, key}) => {
-      const {exhibitCollection, event} = self.env_
-      const model = exhibitCollection.get(`${lib}.${key}`)
-      if (model) {
-        const art = self.art_
-        const {dataPanel} = self.root_.sidebar
-        const exhibitModel = model.initModel({
-          art,
-          schema: {
-            lib,
-            key,
-            id: uuid(),
-          },
-        })
-        const exhibit = exhibitModel.getSchema()
-        art.exhibitManager.set(
-          exhibit.id,
-          model.initModel({
-            art,
-            schema: exhibit,
-            event,
-            data: dataPanel,
-          })
-        )
-        self.exhibit = exhibit
-        debounceUpdate()
-      }
-    }
-
     const addBackground = ({key, lib, name, materialId, type}) => {
       const {exhibitCollection, event} = self.env_
       const model = exhibitCollection.get(`${lib}.${key}`)
@@ -258,7 +229,6 @@ export const MBox = types
     return {
       resize,
       recreateBox,
-      updateExhibit,
       addBackground,
       setRemark,
       setLayout,
