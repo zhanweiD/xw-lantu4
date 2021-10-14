@@ -10,9 +10,30 @@
 import {getParent, types} from 'mobx-state-tree'
 
 export const MArtFrameGrid = types.model().views((self) => ({
+  get grid_() {
+    return getParent(self, 4).global.options.sections.grid
+  },
   get unit_() {
-    const gridUnit = getParent(self, 4).global.options.sections.grid.fields.size.value
-    return Math.max(gridUnit, 40)
+    const size = self.grid_.fields.size
+    return size.value
+  },
+  get lineOpacity_() {
+    const lineOpacity = self.grid_.fields.opacity.value
+    return lineOpacity
+  },
+  get lineColor_() {
+    const lineColor = self.grid_.fields.singleColor.value
+    return lineColor
+  },
+  get guideLineOpacity_() {
+    const guideLineOpacity = self.grid_.sections.divisionLine.fields.opacity.value
+
+    return guideLineOpacity
+  },
+  get guideLineColor_() {
+    const guideLineColor = self.grid_.sections.divisionLine.fields.singleColor.value
+
+    return guideLineColor
   },
 
   get originWidth_() {

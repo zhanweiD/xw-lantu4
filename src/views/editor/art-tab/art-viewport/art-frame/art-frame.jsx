@@ -36,9 +36,22 @@ const ArtFrame = ({frame}) => {
         width: grid.width_,
         height: grid.height_,
         unit: grid.unit_,
+        lineOpacity: grid.lineOpacity_,
+        lineColor: grid.lineColor_,
+        guideLineColor: grid.guideLineColor_,
+        guideLineOpacity: grid.guideLineOpacity_,
       }).draw()
     }
-  }, [grid.width_, grid.height_, grid.unit_, isGridVisible])
+  }, [
+    grid.width_,
+    grid.height_,
+    grid.unit_,
+    grid.lineOpacity_,
+    grid.lineColor_,
+    grid.guideLineOpacity_,
+    grid.guideLineColor_,
+    isGridVisible,
+  ])
 
   const style = {
     top: `${grid.extendY_}px`,

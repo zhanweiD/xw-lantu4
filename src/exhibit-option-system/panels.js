@@ -102,7 +102,7 @@ const global = {
         },
         {
           name: 'opacity',
-          defaultValue: 0.4,
+          defaultValue: 0.2,
         },
       ],
       sections: [
@@ -115,7 +115,7 @@ const global = {
             },
             {
               name: 'opacity',
-              defaultValue: 0.4,
+              defaultValue: 0.5,
             },
           ],
         },
