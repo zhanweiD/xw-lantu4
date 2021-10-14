@@ -7,6 +7,7 @@ import commonAction from '@utils/common-action'
 import tip from '@components/tip'
 import {MZoom} from '@utils/zoom'
 import {registerExhibit} from '@exhibit-collection'
+import {MData} from '../data2/data'
 
 const log = createLog('@models/art/art-preview.js')
 const event = createEvent()
@@ -36,6 +37,7 @@ const MFrame = types
     isMain: types.optional(types.boolean, false),
     background: types.frozen(),
     boxes: types.optional(types.array(MBox), []),
+    materials: types.frozen(),
   })
   .views((self) => ({
     get art_() {
@@ -137,7 +139,11 @@ const MArtPreview = types
           })
         }
 
-        self.datas = data
+        self.datas = data.map((v) => {
+          return MData.create({
+            ...v,
+          })
+        })
         self.set({
           artId: art.artId,
           name: art.name,
@@ -181,17 +187,34 @@ const MArtPreview = types
         log.error('preview error', error)
       }
     })
-    const initFrame = ({boxes, layout, isMain, frameId, background}) => {
+    const initFrame = ({boxes, layout, isMain, frameId, background, materials}) => {
       const frame = MFrame.create({
         frameId,
         isMain,
         layout,
         background,
+        materials,
       })
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
       })
+      if (materials) {
+        materials.forEach((material) => {
+          // const model = exhibitCollection.get(`${material.lib}.${material.key}`)
+          const model = registerExhibit(material.key)
+          if (model) {
+            self.exhibitManager.set(
+              material.id,
+              model.initModel({
+                art: self,
+                schema: material,
+                event,
+              })
+            )
+          }
+        })
+      }
     }
 
     const initXY = () => {
