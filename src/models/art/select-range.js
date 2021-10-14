@@ -687,21 +687,21 @@ export const MSelectRange = types
         frameId: box.frameId,
         boxId: box.boxId,
       }))
-      self.boxes_.forEach((box) => {
-        if (box.materials) {
-          box.materials.forEach((material) => {
-            event.fire(`art.${artId}.removeMaterial`, {
-              materialId: material.id,
-              id: box.boxId,
-            })
-          })
-        }
-      })
       try {
         yield io.art.removeBoxes({
           ':projectId': projectId,
           ':artId': artId,
           boxIds,
+        })
+        self.boxes_.forEach((box) => {
+          if (box.materials) {
+            box.materials.forEach((material) => {
+              event.fire(`art.${artId}.removeMaterial`, {
+                materialId: material.id,
+                id: box.boxId,
+              })
+            })
+          }
         })
         self.viewport_.removeBoxes()
       } catch (error) {

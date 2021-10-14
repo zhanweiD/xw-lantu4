@@ -43,7 +43,7 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
   )
 }
 
-const Builder = ({layers, data, dimension, exhibit}) => {
+const Builder = ({layers, data, dimension, exhibit, extra}) => {
   const {t} = useTranslation()
 
   return (
@@ -73,7 +73,7 @@ const Builder = ({layers, data, dimension, exhibit}) => {
                     buttonSize={24}
                     onClick={layer.toggleEffective}
                   />
-                  <IconButton icon="more" iconSize={14} buttonSize={24} />
+                  {extra}
                 </div>
               }
             >

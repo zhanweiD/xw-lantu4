@@ -77,7 +77,7 @@ const ArtOption = ({art}) => {
           }}
         />
       </div>
-      <CommonTab box={box} frame={frame} />
+      <CommonTab target={box || frame} />
       <Drawer visible={visible} title="全局配置" onClose={() => setVisible(false)}>
         {recusiveNode({
           ...art.global.options,
