@@ -183,6 +183,17 @@ export const MArt = types
         const {frames} = viewport
         frames.forEach((frame) => {
           const {boxes} = frame
+          if (frame.materials) {
+            const materials = []
+            frame.materials.forEach((m) => {
+              const materialModel = self.exhibitManager.get(m.id)
+              if (materialModel) {
+                const schema = materialModel.getSchema()
+                materials.push(schema)
+              }
+            })
+            frame.materials = materials
+          }
           boxes.forEach((box) => {
             if (box.exhibit) {
               const exhibitModel = self.exhibitManager.get(box.exhibit.id)

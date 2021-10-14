@@ -14,7 +14,11 @@ const CommonTab = ({box, frame}) => {
   const {background, name, remark, layout, setLayout, setRemark, materials} = box || frame || {}
   let materialModels = []
   if (materials) {
-    materialModels = materials.map((material) => box.frame_.art_.exhibitManager.get(material.id))
+    if (box) {
+      materialModels = materials.map((material) => box.frame_.art_.exhibitManager.get(material.id))
+    } else {
+      materialModels = materials.map((material) => frame.art_.exhibitManager.get(material.id))
+    }
   }
   return (
     <>
@@ -82,21 +86,19 @@ const CommonTab = ({box, frame}) => {
               </Section>
             </Scroll>
           </Tab.Item>
-          {materials && (
-            <Tab.Item name={t('materials')}>
-              <Scroll className="h100p">
-                {materialModels.map((model) => (
-                  <Builder
-                    key={model.id}
-                    data={model.data}
-                    dimension={model.dimension}
-                    layers={model.layers}
-                    exhibit={model}
-                  />
-                ))}
-              </Scroll>
-            </Tab.Item>
-          )}
+          <Tab.Item name={t('materials')}>
+            <Scroll className="h100p">
+              {materialModels.map((model) => (
+                <Builder
+                  key={model.id}
+                  data={model.data}
+                  dimension={model.dimension}
+                  layers={model.layers}
+                  exhibit={model}
+                />
+              ))}
+            </Scroll>
+          </Tab.Item>
         </Tab>
       )}
     </>

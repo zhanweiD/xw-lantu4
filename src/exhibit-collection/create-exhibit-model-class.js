@@ -10,7 +10,6 @@ import {createPropertyClass} from './create-exhibit-property-class'
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
   const {config} = exhibit
-
   const MExhibit = types
     .model(`MExhibit${config.key}`, {
       id: types.optional(types.string, ''),
@@ -41,6 +40,12 @@ export const createExhibitModelClass = (exhibit) => {
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
     .actions((self) => {
       const init = () => {
+        // !! NOTE 素材也需要有category 暂时没有categgory的都是素材
+        if (!exhibit.category) {
+          self.set({
+            state: 'success',
+          })
+        }
         if (config.data) {
           self.setData(config.data)
         }

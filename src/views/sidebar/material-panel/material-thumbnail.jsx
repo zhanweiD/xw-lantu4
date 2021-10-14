@@ -65,13 +65,13 @@ const Material = ({material, showType}) => {
           params.materialId = materialId
           params.name = name
         }
-        dropResult.createBackground({
+        dropResult.addBackground({
           ...params,
           position,
         })
       }}
       onBegin={() => w.env_.event.fire('editor.setProps', {isPointerEventsNone: true})}
-      dragKey="UPDATE_BOX_BACKGROUND_DRAGE_KEY"
+      dragKey="UPDATE_BACKGROUND_DRAGE_KEY"
       data={material}
     >
       <div

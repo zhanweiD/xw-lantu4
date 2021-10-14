@@ -83,39 +83,7 @@ export const MArtViewport = types
           }
         },
       })
-      // reaction(
-      //   () => ({
-      //     selectRange: self.selectRange && self.selectRange.toJSON(),
-      //   }),
-      //   ({selectRange}) => {
-      //     if (selectRange) {
-      //       saveSession()
-      //     }
-      //   },
-      //   {
-      //     fireImmediately: true,
-      //     delay: 300,
-      //   }
-      // )
     }
-
-    // const applySession = () => {
-    //   const {session} = self.env_
-    //   const {artId} = self.art_
-    //   const sessionSchema = session.get(`SKViewport.${artId}`)
-    //   if (self.frames.length) {
-    //     sessionSchema && self.set(sessionSchema)
-    //   }
-    // }
-
-    // const saveSession = () => {
-    //   const {session} = self.env_
-    //   const {artId} = self.art_
-    //   session.set(`SKViewport.${artId}`, {
-    //     // 这个简直坑死人 一定要写toJSON.  血泪教训 否则当触发时它会找不到实例而报错TypeError: Cannot read property 'cache' of undefined
-    //     selectRange: self.selectRange.toJSON(),
-    //   })
-    // }
 
     // 初始化缩放系数、画布摆放位置等
     const initZoom = () => {
@@ -163,7 +131,9 @@ export const MArtViewport = types
     }
 
     // 初始化画布
-    const initFrame = ({frameId, name, isMain, layout, boxes}) => {
+    const initFrame = ({frameId, name, isMain, layout, boxes, materials}) => {
+      console.log(materials)
+      const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
         frameId,
@@ -172,11 +142,28 @@ export const MArtViewport = types
         isMain,
         layout,
         viewLayout: layout,
+        materials,
       })
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
       })
+      if (materials) {
+        materials.forEach((material) => {
+          const model = exhibitCollection.get(`${material.lib}.${material.key}`)
+          if (model) {
+            const art = self.art_
+            art.exhibitManager.set(
+              material.id,
+              model.initModel({
+                art,
+                schema: material,
+                event,
+              })
+            )
+          }
+        })
+      }
     }
 
     // 循环调用初始化画布，并调整布局
@@ -185,7 +172,6 @@ export const MArtViewport = types
         initFrame(frame)
       })
       initXY()
-      // applySession()
     }
 
     // 可视化区域按住鼠标进行拖拽操作

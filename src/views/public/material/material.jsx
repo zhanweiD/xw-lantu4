@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from 'react'
 import {observer} from 'mobx-react-lite'
 import {draw} from '@exhibit-collection'
 
-const Material = ({material, box, frame}) => {
+const Material = ({material, target, frame}) => {
   const el = useRef(null)
-  const {layout} = box
+  const {layout} = target
   const {height, width} = layout
   const {id} = material || {}
   useEffect(() => {

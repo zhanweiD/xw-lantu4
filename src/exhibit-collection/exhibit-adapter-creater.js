@@ -47,6 +47,10 @@ const createExhibitAdapter = (hooks) =>
           if (state === 'success') {
             model.adapter.init()
           }
+        },
+        {
+          fireImmediately: true,
+          delay: 300,
         }
       )
     }
