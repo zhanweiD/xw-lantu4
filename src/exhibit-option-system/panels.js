@@ -102,7 +102,7 @@ const global = {
         },
         {
           name: 'opacity',
-          defaultValue: 0.2,
+          defaultValue: 0.4,
         },
       ],
       sections: [
@@ -111,11 +111,11 @@ const global = {
           fields: [
             {
               name: 'singleColor',
-              defaultValue: '#ffffff',
+              defaultValue: 'red',
             },
             {
               name: 'opacity',
-              defaultValue: 0.5,
+              defaultValue: 1,
             },
           ],
         },
