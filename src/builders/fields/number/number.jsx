@@ -26,7 +26,7 @@ export const NumberRange = ({min, max}) => {
 }
 
 export const NumberInput = observer(
-  ({value, defaultValue = 0, onChange, min, max, step, placeholder, className, toggleFocus = () => {}}) => {
+  ({value, defaultValue = 0, onChange, min, max, step = 1, placeholder, className, toggleFocus = () => {}}) => {
     const numberRef = useRef(null)
     useEffect(() => {
       numberRef.current.addEventListener('keyup', (e) => {

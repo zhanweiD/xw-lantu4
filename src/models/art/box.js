@@ -24,7 +24,7 @@ export const MBox = types
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
-    padding: types.optional(types.array(types.number), [10, 10, 10, 10]),
+    padding: types.optional(types.array(types.number), [0, 0, 0, 0]),
     isSelected: types.optional(types.boolean, false),
     normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'paddding', 'name', 'remark']),
     deepKeys: types.frozen(['layout', 'background']),
@@ -254,6 +254,19 @@ export const MBox = types
       debounceUpdate()
     }
 
+    const setPadding = (padding) => {
+      self.padding = padding
+      const {layout} = self
+      const {width, height} = layout
+      if (self.exhibit) {
+        const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+        if (exhibitModel.adapter) {
+          exhibitModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
+        }
+      }
+      debounceUpdate()
+    }
+
     const setRemark = ({name = self.name, remark = self.remark}) => {
       self.set({
         name,
@@ -270,6 +283,7 @@ export const MBox = types
       sortBackground,
       setRemark,
       setLayout,
+      setPadding,
       updateBox,
     }
   })

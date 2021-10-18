@@ -9,6 +9,7 @@ import {MSelectField, SelectField} from './select'
 import {MCodeField, CodeField} from './code'
 import {MGradientField, GradientField} from './gradient'
 import {MColumnSelectField, ColumnSelectField} from './column-select'
+import {OffsetField} from './offset'
 
 const fields = {
   TextField,
@@ -22,6 +23,7 @@ const fields = {
   CodeField,
   GradientField,
   ColumnSelectField,
+  OffsetField,
 }
 
 export {

@@ -30,10 +30,11 @@ const MBox = types
     layout: types.frozen(),
     materials: types.frozen(),
     background: types.frozen(),
-    padding: types.optional(types.array(types.number), [10, 10, 10, 10]),
+    padding: types.optional(types.array(types.number), [0, 0, 0, 0]),
   })
   .views((self) => ({
     get backgroundImage_() {
+      console.log(self.background)
       if (self.background.options.sections.gradientColor.effective) {
         return self.background.options.sections.gradientColor.fields.gradientColor.reduce((total, current) => {
           total += `${current[0]} ${current[1] * 100}%`
@@ -83,6 +84,7 @@ const MFrame = types
         background,
         padding,
       })
+      console.log(background)
       self.boxes.push(box)
       if (exhibit) {
         const model = registerExhibit(exhibit.key)
