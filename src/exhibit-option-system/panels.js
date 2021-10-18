@@ -96,6 +96,29 @@ const global = {
           step: 10,
           defaultValue: 40,
         },
+        {
+          name: 'singleColor',
+          defaultValue: '#ffffff',
+        },
+        {
+          name: 'opacity',
+          defaultValue: 0.4,
+        },
+      ],
+      sections: [
+        {
+          name: 'divisionLine',
+          fields: [
+            {
+              name: 'singleColor',
+              defaultValue: 'lightgreen',
+            },
+            {
+              name: 'opacity',
+              defaultValue: 1,
+            },
+          ],
+        },
       ],
     },
     {

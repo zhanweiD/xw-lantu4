@@ -8,7 +8,7 @@ import Material from '@views/public/material'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, backgroundImage_, backgroundColor_, materials = []} = box
+  const {layout, isSelected, art_, viewport_, frame_, backgroundImage_, backgroundColor_, materials = [], padding} = box
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const {isBoxBackgroundVisible} = art_
@@ -18,6 +18,7 @@ const Box = ({box}) => {
     left: `${layout.x}px`,
     width: `${layout.width}px`,
     height: `${layout.height}px`,
+    padding: `${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px`,
     backgroundSize: '100% 100%',
     backgroundRepeat: 'no-repeat',
   }
@@ -30,10 +31,7 @@ const Box = ({box}) => {
 
   return (
     <DropTarget
-      className={c('pa box', {
-        [s.boxBackgroundColor]: isBoxBackgroundVisible,
-        [s.outline]: isSelected,
-      })}
+      className={c('pa box')}
       style={{
         top: `${layout.y}px`,
         left: `${layout.x}px`,
@@ -49,6 +47,10 @@ const Box = ({box}) => {
     >
       <div
         id={`box-${box.boxId}`}
+        className={c({
+          [s.boxBackgroundColor]: isBoxBackgroundVisible,
+          [s.outline]: isSelected,
+        })}
         style={style}
         onMouseDown={(e) => {
           e.stopPropagation()

@@ -47,7 +47,7 @@ const MaterialFallback = ({keyword, set, noProject}) =>
     <div className="fbv fbac fbjc mt30 pt30">
       <div className="p10 fbv fbac fs10 lh32">
         <Icon name="logo" fill="#fff5" size={42} />
-        <div className="ctw52">当前无关联的数据屏</div>
+        <div className="ctw52">当前无关联的项目</div>
       </div>
     </div>
   ) : (

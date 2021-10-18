@@ -9,10 +9,10 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import s from './common-tab.module.styl'
 
-const {TextField, TextareaField, MultiNumberField} = fields
+const {TextField, TextareaField, MultiNumberField, OffsetField} = fields
 const CommonTab = ({target}) => {
   const {t} = useTranslation()
-  const {background, name, remark, layout, setLayout, setRemark, materials} = target || {}
+  const {background, name, remark, layout, setLayout, setRemark, materials, padding} = target || {}
   let materialModels = []
   if (materials) {
     materialModels = materials.map((material) => target.art_.exhibitManager.get(material.id))
@@ -55,6 +55,11 @@ const CommonTab = ({target}) => {
                   }}
                 />
               </Section>
+              {padding && (
+                <Section name={t('offset')}>
+                  <OffsetField className="ml24" value={padding} onChange={(data) => target.setPadding(data)} />
+                </Section>
+              )}
             </Scroll>
           </Tab.Item>
           <Tab.Item name={t(background.name)}>

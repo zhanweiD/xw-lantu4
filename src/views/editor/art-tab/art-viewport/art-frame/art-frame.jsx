@@ -36,9 +36,22 @@ const ArtFrame = ({frame}) => {
         width: grid.width_,
         height: grid.height_,
         unit: grid.unit_,
+        lineOpacity: grid.lineOpacity_,
+        lineColor: grid.lineColor_,
+        guideLineColor: grid.guideLineColor_,
+        guideLineOpacity: grid.guideLineOpacity_,
       }).draw()
     }
-  }, [grid.width_, grid.height_, grid.unit_, isGridVisible])
+  }, [
+    grid.width_,
+    grid.height_,
+    grid.unit_,
+    grid.lineOpacity_,
+    grid.lineColor_,
+    grid.guideLineOpacity_,
+    grid.guideLineColor_,
+    isGridVisible,
+  ])
 
   const style = {
     top: `${grid.extendY_}px`,
@@ -57,18 +70,6 @@ const ArtFrame = ({frame}) => {
   const Frame = (
     <div id={`artFramegrid-${frameId}`}>
       <div id={`artFrame-${frameId}`} className={c('pa', s.origin)} style={style}>
-        {isGridVisible && (
-          <div
-            ref={gridRef}
-            className={c(s.grid)}
-            style={{
-              top: `${-grid.extendY_}px`,
-              left: `${-grid.extendX_}px`,
-              width: `${grid.width_}px`,
-              height: `${grid.height_}px`,
-            }}
-          />
-        )}
         {effective && (
           <WaterMark
             text={fields.content.value}
@@ -83,6 +84,18 @@ const ArtFrame = ({frame}) => {
         {boxes.map((box) => (
           <Box key={box.boxId} box={box} />
         ))}
+        {isGridVisible && (
+          <div
+            ref={gridRef}
+            className={c(s.grid)}
+            style={{
+              top: `${-grid.extendY_}px`,
+              left: `${-grid.extendX_}px`,
+              width: `${grid.width_}px`,
+              height: `${grid.height_}px`,
+            }}
+          />
+        )}
       </div>
     </div>
   )

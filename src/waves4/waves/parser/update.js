@@ -26,12 +26,13 @@ const updateStyle = ({
   action,
   instance,
   options,
+  updated,
   updatedPath,
-  updatedLayer,
-  updatedAxis,
-  updatedLegend,
-  updatedTitle,
-  updatedOther,
+  // updatedLayer,
+  // updatedAxis,
+  // updatedLegend,
+  // updatedTitle,
+  // updatedOther,
 }) => {
   // 层映射修改即数据修改，重绘
   if (updatedPath === 'dataMap.column') {
@@ -41,17 +42,18 @@ const updateStyle = ({
   let target = null
   // 层在图表库里的类型
   let type = layerTypeMap.get(action) || action
-  if (action === 'layer') {
-    target = updatedLayer
-  } else if (action === 'axis') {
-    target = updatedAxis
-  } else if (action === 'legend') {
-    target = updatedLegend
-  } else if (action === 'title') {
-    target = updatedTitle
-  } else if (action === 'other') {
-    target = updatedOther
-  }
+  // if (action === 'layer') {
+  //   target = updatedLayer
+  // } else if (action === 'axis') {
+  //   target = updatedAxis
+  // } else if (action === 'legend') {
+  //   target = updatedLegend
+  // } else if (action === 'title') {
+  //   target = updatedTitle
+  // } else if (action === 'other') {
+  //   target = updatedOther
+  // }
+  target = updated
   // 层实例
   let layer = null
   if (action === 'layer') {

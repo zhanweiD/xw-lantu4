@@ -108,7 +108,7 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark, materials}) => {
+    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark, materials, padding}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         artId,
@@ -119,6 +119,7 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
+        padding,
       })
       box.background.setSchema(background)
 

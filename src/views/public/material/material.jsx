@@ -19,11 +19,7 @@ const Material = ({material, target, frame}) => {
     }
   }, [id])
 
-  return (
-    <div className="wh100p pa" style={{top: 0}}>
-      <div ref={el} className="wh100p material" />
-    </div>
-  )
+  return <div ref={el} className="material wh100p pa" style={{top: 0, left: 0}} />
 }
 
 export default observer(Material)

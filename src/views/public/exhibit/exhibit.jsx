@@ -5,7 +5,7 @@ import {draw} from '@exhibit-collection'
 const Exhibit = ({box, frame}) => {
   const el = useRef(null)
   // 这里不能直接exhibit = {}
-  const {exhibit, layout} = box
+  const {exhibit, layout, padding} = box
   const {height, width} = layout
   const {id} = exhibit || {}
   useEffect(() => {
@@ -13,16 +13,16 @@ const Exhibit = ({box, frame}) => {
       draw({
         exhibit,
         container: el.current,
-        height,
-        width,
+        height: height - padding[0] - padding[2],
+        width: width - padding[1] - padding[3],
         frame,
       })
     }
   }, [id])
 
   return (
-    <div className="wh100p pa" style={{top: 0}}>
-      <div ref={el} className="wh100p exhibit" />
+    <div className="pa">
+      <div ref={el} className="exhibit" />
     </div>
   )
 }
