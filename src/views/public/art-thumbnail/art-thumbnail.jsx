@@ -6,7 +6,7 @@ import Icon from '@components/icon'
 import {DragSource, DropTarget} from '@components/drag-and-drop'
 import w from '@models'
 import s from './art-thumbnail.module.styl'
-import thumbnail from './thumbnail.png'
+import thumbnailFallback from './empty.png'
 
 const Sortable = observer(({art, index, project, children, enable}) => {
   return enable ? (
@@ -40,7 +40,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
   const {sidebar} = w
   const {projectPanel} = sidebar
   const {isThumbnailVisible} = projectPanel
-  const mThumbnail = art.thumbnail || thumbnail
+  const thumbnail = art.thumbnail || thumbnailFallback
   const menu = w.overlayManager.get('menu')
   const list = [
     {name: '编辑', action: () => (art.editArt(), menu.hide())},
@@ -59,7 +59,14 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
         onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
         onDoubleClick={art.editArt}
       >
-        {isThumbnailVisible && <img src={mThumbnail} alt={art.name} className={c('hand w100p', s.thumbnail)} />}
+        {isThumbnailVisible && (
+          <div
+            className={c(s.thumbnailContainer)}
+            style={{
+              backgroundImage: `url(${thumbnail})`,
+            }}
+          />
+        )}
         <div className="fbh fbac">
           <div className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4', art.isActive_ && s.activeArt)}>
             {!isThumbnailVisible && <Icon fill="#fff5" name="drag" size={10} />}
