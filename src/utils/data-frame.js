@@ -22,6 +22,28 @@ class DataFrame {
     return this.#data
   }
 
+  // 加载数据
+  setData(data) {
+    // 根据传入的数据解析出来的列头信息
+    let tempColumns = []
+    try {
+      // 判断第一层是否是数组
+      if (this.#getDataType(data) === 'Array') {
+        // 二维数组，将其打成数组对象，储存进#data
+        if (this.#getDataType(data[0]) === 'Array') {
+        }
+        // 数组对象
+        if (this.#getDataType(data[0]) === 'Object') {
+        }
+      } else {
+        this.error = 'dataFrame-setData失败，请检查传入数据是否合法'
+        tempColumns = []
+      }
+    } catch (error) {
+      this.error = `dataFrame-setData失败,失败原因如下:${error}`
+    }
+  }
+
   // 内部融合columns的方法
   #getColumns() {
     try {
@@ -36,25 +58,6 @@ class DataFrame {
       })
     } catch (error) {
       this.error = error
-    }
-  }
-
-  // 加载数据
-  setData(data) {
-    try {
-      // 判断第一层是否是数组
-      if (this.#getDataType(data) === 'Array') {
-        // 二维数组
-        if (this.#getDataType(data[0]) === 'Array') {
-        }
-        // 数组对象
-        if (this.#getDataType(data[0]) === 'Object') {
-        }
-      } else {
-        this.error = 'dataFrame-setData失败，请检查传入数据是否合法'
-      }
-    } catch (error) {
-      this.error = `dataFrame-setData失败,失败原因如下:${error}`
     }
   }
 

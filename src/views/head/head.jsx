@@ -53,7 +53,6 @@ const Head = () => {
                   {
                     name: '退出登录',
                     action: () => {
-                      // 清空所有session，退出登陆
                       session.remove()
                       logout()
                       window.location.reload()
