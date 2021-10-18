@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import Tab from '@components/tab'
 import Scroll from '@components/scroll'
-import Section from '@components/section'
+import Section from '@builders/section'
 import Overlay from '@components/overlay'
 import w from '@models'
 import SectionFields from '@components/section-fields'
@@ -41,7 +41,7 @@ const DataOption = ({data}) => {
           )}
           {dataType === 'database' && <SectionFields model={data.database.options} />}
           {dataType === 'database' && (
-            <Section name="选择数据源" canIconFold className="fb1" isFold={false}>
+            <Section name="选择数据源" className="fb1" isFold={false}>
               <SelectData list={data.dataSources} data={data} />
             </Section>
           )}

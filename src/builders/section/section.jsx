@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {session} from '@utils/storage'
@@ -60,13 +60,18 @@ const Section = ({
   className,
   titleClassName,
   childrenClassName,
+  updateKey,
 }) => {
   if (allSessionIds[sessionId]) {
     console.warn(`'Section'组件有重复的'sessionId(${sessionId})'出现，请检查`)
   }
   const sessionKey = sessionId ? `section-${sessionId}` : undefined
   const [fold, setFold] = useState(sessionKey ? session.get(sessionKey, isFold) : isFold)
-
+  useEffect(() => {
+    if (updateKey) {
+      setFold(sessionKey ? session.get(sessionKey, isFold) : isFold)
+    }
+  }, [updateKey])
   return (
     <div className={c(className)} id={id}>
       <Title

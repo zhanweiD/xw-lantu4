@@ -1,7 +1,7 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
-import Section from '@components/section'
+import Section from '@builders/section'
 import Grid from '@components/grid'
 import Modal from '@components/modal'
 import Scroll from '@components/scroll'
@@ -41,7 +41,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
 
   return (
     <Section
-      icon={icon}
+      extra={icon}
       childrenClassName="pt8 pb8"
       name={`${folder.folderName}(${folder.materials.length})`}
       sessionId={`material-folder-${folder.folderId}`}

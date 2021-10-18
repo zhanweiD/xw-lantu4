@@ -3,7 +3,7 @@ import React, {useRef} from 'react'
 import c from 'classnames'
 import ArtThumbnail from '@views/public/art-thumbnail'
 import IconButton from '@components/icon-button'
-import Section from '@components/section'
+import Section from '@builders/section'
 import Upload from '@components/upload'
 import {DragSource} from '@components/drag-and-drop'
 import w from '@models'
@@ -51,7 +51,7 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
       sessionId={`SKProject-${id}`}
       name={`${name} (${arts.length})`}
       childrenClassName="pt8 pb8"
-      icon={icon}
+      extra={icon}
     >
       {arts.map((art, index) => (
         <div key={art.artId} className={c('ml8 mr8', {['mb8']: isThumbnailVisible && index !== arts.length - 1})}>
