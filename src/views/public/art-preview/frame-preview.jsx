@@ -7,7 +7,7 @@ import Material from '../material'
 
 const ArtFrame = ({art, frame}) => {
   const {watermark} = art
-  const {frameId, layout, boxes, materials} = frame
+  const {frameId, layout, boxes, materials = []} = frame
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   return (

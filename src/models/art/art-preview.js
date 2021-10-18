@@ -23,12 +23,41 @@ const MPassword = types.model('MPassword', {
   value: types.optional(types.string, ''),
 })
 
-const MBox = types.model('MBoxPreview', {
-  boxId: types.number,
-  exhibit: types.frozen(),
-  layout: types.frozen(),
-  materials: types.frozen(),
-})
+const MBox = types
+  .model('MBoxPreview', {
+    boxId: types.number,
+    exhibit: types.frozen(),
+    layout: types.frozen(),
+    materials: types.frozen(),
+    background: types.frozen(),
+    padding: types.optional(types.array(types.number), [10, 10, 10, 10]),
+  })
+  .views((self) => ({
+    get backgroundImage_() {
+      if (self.background.options.sections.gradientColor.effective) {
+        return self.background.options.sections.gradientColor.fields.gradientColor.reduce((total, current) => {
+          total += `${current[0]} ${current[1] * 100}%`
+          if (current[1] !== 1) {
+            total += `,`
+          }
+          return total
+        }, '')
+      }
+      return undefined
+    },
+    get backgroundColor_() {
+      if (self.background.options.sections.singleColor.effective) {
+        console.log(self.background.options.sections.singleColor.fields.singleColor)
+        const rgb = self.background.options.sections.singleColor.fields.singleColor.match(/[\d.]+/g)
+        const opatity = self.background.options.sections.singleColor.fields.opacity
+        if (rgb && rgb.length >= 3) {
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opatity})`
+        }
+        return self.background.options.sections.singleColor.fields.singleColor
+      }
+      return undefined
+    },
+  }))
 
 const MFrame = types
   .model('MFramePreview', {
@@ -45,12 +74,14 @@ const MFrame = types
     },
   }))
   .actions((self) => {
-    const initBox = ({boxId, exhibit, layout, materials}) => {
+    const initBox = ({boxId, exhibit, layout, materials, background, padding}) => {
       const box = MBox.create({
         boxId,
         exhibit,
         layout,
         materials,
+        background,
+        padding,
       })
       self.boxes.push(box)
       if (exhibit) {
@@ -132,7 +163,7 @@ const MArtPreview = types
           Object.keys(art.dataManager.map).forEach((key) => {
             ids.push(key)
           })
-        let data
+        let data = []
         if (ids.length > 0) {
           data = yield io.data.getDatasInfo({
             ids: ids.join(','),

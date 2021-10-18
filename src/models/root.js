@@ -6,7 +6,6 @@ import {MEditor} from './editor/editor'
 import {MOptionPanel} from './option-panel'
 import {MOverlayManager} from './common/overlay'
 import {MColorPickerBox} from './common/color-picker-box'
-import {MDataProcessor} from './common/data-processor'
 import {MUser} from './user/user'
 
 export const MRoot = types
@@ -18,7 +17,6 @@ export const MRoot = types
     optionPanel: types.optional(MOptionPanel, {}),
     overlayManager: types.optional(MOverlayManager, {}),
     colorPickerBox: types.optional(MColorPickerBox, {}),
-    dataProcessor: types.optional(MDataProcessor, {}),
   })
   .views((self) => ({
     get env_() {
@@ -46,13 +44,6 @@ export const MRoot = types
         hasMask: true,
         width: 300,
         canDrag: false,
-      })
-      self.overlayManager.create({
-        id: 'dataProcessor',
-        title: '数据处理',
-        width: 800,
-        height: 700,
-        canDrag: true,
       })
 
       self.overlayManager.create({

@@ -24,9 +24,9 @@ export const MBox = types
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
-
+    padding: types.optional(types.array(types.number), [10, 10, 10, 10]),
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'paddding', 'name', 'remark']),
     deepKeys: types.frozen(['layout', 'background']),
   })
   .views((self) => ({
@@ -86,19 +86,19 @@ export const MBox = types
   .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
     const resize = () => {
-      const {layout} = self
+      const {layout, padding} = self
       const {width, height} = layout
       if (self.exhibit) {
         const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
         if (exhibitModel.adapter) {
-          exhibitModel.adapter.refresh(width, height)
+          exhibitModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
         }
       }
       if (self.materials) {
         self.materials.forEach((material) => {
           const materialModel = self.art_.exhibitManager.get(material.id)
           if (materialModel.adapter) {
-            materialModel.adapter.refresh(width, height)
+            materialModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
           }
         })
       }
