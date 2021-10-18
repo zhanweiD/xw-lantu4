@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 
 const defaultOption = {
-  lineDash: '2 3', // 2px线 + 3px间隙
+  lineDash: '3 3', // 2px线 + 3px间隙
   lineWidth: 1,
   lineOpacity: 0.2,
   guideLineOpacity: 0.5,
