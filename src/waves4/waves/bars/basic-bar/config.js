@@ -25,4 +25,17 @@ export const config = (k) => ({
   legend: legend({k}),
   // 直角坐标系坐标轴
   axis: cartesian({k, tickZero: true, type: 'linearX-bandY'}),
+  other: {
+    sections: [
+      {
+        name: 'layout',
+        fields: [
+          {
+            name: 'areaOffset',
+            defaultValue: [10, 10, 10, 10],
+          },
+        ],
+      },
+    ],
+  },
 })

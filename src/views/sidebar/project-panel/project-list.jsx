@@ -35,7 +35,7 @@ const MoreIcon = ({project, isTop, isRecent}) => {
       <Upload accept=".json" multiple={false} onOk={onUpload}>
         <div ref={uploadRef} />
       </Upload>
-      <IconButton icon="more" buttonSize={24} onClick={onClickMore} />
+      <IconButton icon="more" iconSize={14} buttonSize={24} onClick={onClickMore} />
     </div>
   )
 }
