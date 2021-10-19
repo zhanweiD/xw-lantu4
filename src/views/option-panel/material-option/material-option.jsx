@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import {TextField, TextareaField, NumberField} from '@components/field'
 import Tab from '@components/tab'
-import Section from '@components/section'
+import Section from '@builders/section'
 import Scroll from '@components/scroll'
 
 const MaterialOption = ({material}) => {

@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react-lite'
-import Section from '@components/section'
+import Section from '@builders/section'
 import React from 'react'
 import DataThumbnail from './data-thumbnail'
 import c from 'classnames'
@@ -20,13 +20,12 @@ const createMenu = (e, button, folder) => {
 }
 
 const DataFolder = ({folder, icon}) => {
-  const {dataList_, folderName, section} = folder
+  const {dataList_, folderName} = folder
   return (
     <Section
       childrenClassName="pt8 pb8"
-      icon={icon}
+      extra={icon}
       name={`${folderName} (${dataList_.length})`}
-      props={section}
       sessionId={`data-folder-${folder.folderId}`}
     >
       {dataList_.length ? (

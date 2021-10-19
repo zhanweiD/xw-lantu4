@@ -7,7 +7,7 @@ import fixRange from '@utils/fix-range'
 import isNumberic from '@utils/is-numberic'
 import Caption from '@components/caption'
 import getTextWidth from '@utils/get-text-width'
-import {NumberInput, NumberRange} from '../number'
+import {NumberInput} from '../number'
 import {Field} from '../base'
 import s from './multi-number.module.styl'
 
@@ -42,9 +42,9 @@ const MultiNumberField = ({
       {items.map((item, index) => {
         const labelDiv = (
           <div
-            className={c('lh24 oh w32 mr8', s.label, {
+            className={c('lh24 oh mr8', s.label, {
               ml8: index !== 0,
-              [s.w24]: items.length > 3,
+              // [s.w24]: items.length > 3,
             })}
           >
             {t(item.key)}
@@ -79,7 +79,7 @@ const MultiNumberField = ({
                 max={item.max}
                 step={item.step}
               />
-              <NumberRange min={item.min} max={item.max} />
+              {/* <NumberRange min={item.min} max={item.max} /> */}
             </div>
           </div>
         )
