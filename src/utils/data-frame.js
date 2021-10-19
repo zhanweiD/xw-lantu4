@@ -17,20 +17,41 @@ class DataFrame {
   }
 
   // 获取数据
-  getData(type, columns = false) {
-    // const {type, columns=false} = options
-    if (!type) {
-      const keys = this.#columns.map((item) => item.alias)
-      const data = this.#data.map((row) => {
-        return keys.map((key) => row[key])
-      })
-      if (columns) {
-        return data.unshift(keys)
-      } else {
+  getData(options) {
+    const {type, columns = true} = options || {}
+    const keys = this.#columns.map((item) => item.column)
+    switch (type) {
+      case 'dict': {
+        return this.#data
+      }
+      case 'column': {
+        const data = keys.map((key) => {
+          return this.#data.map((row) => row[key])
+        })
+        if (columns) {
+          return data.map((d, i) => [keys[i], ...d])
+        } else {
+          return data
+        }
+      }
+      case 'keyValue': {
+        const data = {}
+        keys.forEach((key) => {
+          data[key] = this.#data.map((row) => row[key])
+        })
         return data
       }
+      default: {
+        const data = this.#data.map((row) => {
+          return keys.map((key) => row[key])
+        })
+        if (columns) {
+          return [this.#columns.map((item) => item.alias), ...data]
+        } else {
+          return data
+        }
+      }
     }
-    return this.#data
   }
 
   // 赋值数据
@@ -56,7 +77,6 @@ class DataFrame {
           this.error = 'dataFrame-setData失败，请检查传入数据是否合法'
           return
         }
-
         // 根据传入的数据解析出来的列头信息
         tempColumns = Object.keys(tempData[0]).map((key) => {
           return {
@@ -67,6 +87,7 @@ class DataFrame {
         })
         this.#data = tempData
         this.#dataColumns = tempColumns
+        this.#mergeColumns()
       } else {
         this.error = 'dataFrame-setData失败，请检查传入数据是否合法'
         tempColumns = []
@@ -78,61 +99,71 @@ class DataFrame {
 
   // 设置列头
   setColumns(columns) {
-    if (this.#getDataType(columns) === 'Array' && columns.length === 0) {
-      this.#columns = this.#dataColumns
-    }
     if (this.#checkColumns(columns)) {
       // 通过校验，自定义列头即为传入的列头信息
-      this.#customColumns = columns
+      this.#customColumns = columns.map(({column, alias, type}) => ({
+        column: column.toString(),
+        alias: alias.toString(),
+        type,
+      }))
       // 根据数据列头和自定义列头融合成真正的列头
-      try {
-      } catch (error) {}
-    } else {
-      this.error = 'setColumns-error, columns不合法，请检查'
     }
+    this.#mergeColumns()
   }
+
+  // 强制校验数据类型
 
   // 校验列头信息
   #checkColumns(columns) {
     try {
       const allDataType = ['Number', 'String', 'Boolean', 'Function', 'Object', 'Array', 'Undefined']
-      const ketDataType = ['Number', 'String']
+      const columnDataType = ['Number', 'String']
       if (this.#getDataType(columns) === 'Array') {
+        // 位图排序
+        const flagArray = {}
         columns.forEach((item) => {
+          // 校验字段
           ;['column', 'alias'].forEach((key) => {
-            if (!item[key] || ketDataType.indexOf(item[key]) === -1) {
-              return false
+            if (!item[key] || columnDataType.indexOf(this.#getDataType(item[key])) === -1) {
+              throw new Error('column,alias字段校验失败')
             }
           })
           if (!item.type || allDataType.indexOf(item.type) === -1) {
-            return false
+            throw new Error('type字段校验失败')
+          }
+
+          // alias是否重复
+          if (flagArray[item.alias]) {
+            throw new Error('alias字段重复')
+          } else {
+            flagArray[item.alias] = true
           }
         })
       } else {
-        return false
+        throw new Error('columns格式错误')
       }
       return true
     } catch (error) {
+      this.error = error
       return false
     }
   }
 
-  // // 内部融合columns的方法
-  // #getColumns() {
-  //   try {
-  //     const columnList = this.#data[0]
-  //     const valueList = this.#data[1]
-  //     this.#columns = columnList.map((column, i) => {
-  //       return {
-  //         column: column,
-  //         alias: column,
-  //         type: this.getDataType(valueList[i]),
-  //       }
-  //     })
-  //   } catch (error) {
-  //     this.error = error
-  //   }
-  // }
+  // 融合表头
+  #mergeColumns() {
+    try {
+      this.#columns = this.#dataColumns.map((dataColumns) => {
+        const realColumns = this.#customColumns.find((customColumns) => customColumns.column === dataColumns.column)
+        if (realColumns) {
+          return realColumns
+        } else {
+          return dataColumns
+        }
+      })
+    } catch (error) {
+      this.error = `dataFrame-mergeColumns失败,失败原因如下:${error}`
+    }
+  }
 
   // 获取数据类型
   #getDataType(value) {
