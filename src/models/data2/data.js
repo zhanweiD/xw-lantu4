@@ -36,16 +36,16 @@ export const MData = types
       // const {headers = {}, queries = {}, body = {}} = options
       switch (self.dataType) {
         case 'excel': {
-          const keys = data.columns.map((columns) => {
-            return columns.name
-          })
-          const result = [keys]
-          data.data.forEach((item) => {
-            const row = keys.map((key) => item[key])
-            result.push(row)
-          })
+          // const keys = data.columns.map((columns) => {
+          //   return columns.name
+          // })
+          // const result = [keys]
+          // data.data.forEach((item) => {
+          //   const row = keys.map((key) => item[key])
+          //   result.push(row)
+          // })
 
-          return Promise.resolve(new DataFrame({source: result}))
+          return Promise.resolve(new DataFrame({source: data.data}))
         }
         case 'json': {
           let source = data
