@@ -119,8 +119,8 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
-        padding,
       })
+      box.padding.setSchema(padding)
       box.background.setSchema(background)
 
       self.boxes.push(box)

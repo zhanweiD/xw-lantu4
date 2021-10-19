@@ -16,6 +16,7 @@ const {
   CodeField,
   GradientField,
   ColumnSelectField,
+  OffsetField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
@@ -153,7 +154,20 @@ const ModelToField = ({model}) => {
         />
       )
       break
-
+    case 'offset':
+      F = (
+        <OffsetField
+          className="ml24"
+          label={t(model.label)}
+          visible={model.visible_}
+          value={model.value.toJSON()}
+          step={model.step}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+        />
+      )
+      break
     case 'select':
       F = (
         <SelectField

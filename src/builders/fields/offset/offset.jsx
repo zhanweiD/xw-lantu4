@@ -1,19 +1,12 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
+
 import {Field} from '../base'
 import {NumberInput} from '../number'
 import s from './offset.module.styl'
 
-const OffsetField = ({
-  label,
-  visible,
-  value = [0, 0, 0, 0],
-  onChange = () => {},
-  labelClassName,
-  childrenClassName,
-  className,
-}) => {
+const OffsetField = ({label, visible, value, onChange = () => {}, labelClassName, childrenClassName, className}) => {
   const [top, right, bottom, left] = value
   const offset = {
     top,
@@ -21,7 +14,7 @@ const OffsetField = ({
     bottom,
     left,
   }
-  console.log(offset)
+
   return (
     <Field
       className={className}
