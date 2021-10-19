@@ -14,6 +14,8 @@ export const MGradientField = MBase.named('MGradientField')
     const afterCreate = () => {
       if (!isDef(self.value)) {
         self.value = colorArrayForm(colorObjectForm(self.defaultValue))
+      } else {
+        self.value = colorArrayForm(colorObjectForm(self.value))
       }
     }
 
