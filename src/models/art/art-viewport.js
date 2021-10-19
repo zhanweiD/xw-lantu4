@@ -143,7 +143,22 @@ export const MArtViewport = types
         viewLayout: layout,
         materials,
       })
-      frame.background.setSchema(background)
+      const defaultBackground = {
+        options: {
+          sections: {
+            gradientColor: {
+              effective: true,
+              fields: {
+                gradientColor: [
+                  ['rgb(0,56,144)', 0],
+                  ['rgb(0,24,61)', 1],
+                ],
+              },
+            },
+          },
+        },
+      }
+      frame.background.setSchema(background || defaultBackground)
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
