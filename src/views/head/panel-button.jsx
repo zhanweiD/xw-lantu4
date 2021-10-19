@@ -4,12 +4,13 @@ import c from 'classnames'
 import Icon from '@components/icon'
 import s from './head.module.styl'
 
-const PanelButton = ({name, active, className, onClick, connerMark}) => {
+const PanelButton = ({name, active, className, onClick, connerMark, style}) => {
   return (
     <div
       className={c(s.panelButton, className, {
         [s.panelButton_active]: active,
       })}
+      style={style}
       onClick={onClick}
     >
       {name}
