@@ -19,7 +19,21 @@ export const MArtFrame = types
     // 实际上的位置信息，基于主画布的左上角坐标构建
     layout: types.maybe(MLayout),
     boxes: types.optional(types.array(MBox), []),
-    background: types.optional(MBackgroundColor, {}),
+    background: types.optional(MBackgroundColor, {
+      options: {
+        sections: {
+          gradientColor: {
+            effective: true,
+            fields: {
+              gradientColor: [
+                ['rgb(0,56,144)', 0],
+                ['rgb(0,24,61)', 1],
+              ],
+            },
+          },
+        },
+      },
+    }),
     remark: types.maybe(types.string),
     materials: types.frozen(),
 
@@ -407,6 +421,10 @@ export const MArtFrame = types
         }
       }
     }
+
+    const afterCreate = () => {
+      console.log('artframe', self.background.getSchema())
+    }
     return {
       initBox,
       createBox,
@@ -418,5 +436,6 @@ export const MArtFrame = types
       removeBackground,
       sortBackground,
       recreateFrame,
+      afterCreate,
     }
   })
