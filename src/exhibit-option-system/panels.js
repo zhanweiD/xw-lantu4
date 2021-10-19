@@ -35,10 +35,14 @@ const backgroundColor = {
     },
     {
       name: 'gradientColor',
-      effective: false,
+      effective: true,
       fields: [
         {
           name: 'gradientColor',
+          defaultValue: [
+            ['rgb(0,56,144)', 0],
+            ['rgb(0,24,61)', 1],
+          ],
         },
       ],
     },
