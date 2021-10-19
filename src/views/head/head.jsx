@@ -1,4 +1,4 @@
-import React, {Children} from 'react'
+import React, {Children, useRef} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
@@ -7,16 +7,19 @@ import IconGroupButton from '@components/icon-group-button'
 import Icon from '@components/icon'
 import s from './head.module.styl'
 import PanelButton from './panel-button'
+import {session} from '@utils/storage'
 
 const Head = () => {
   const {t} = useTranslation()
-  const {head, editor, optionPanel} = w
+  const {head, editor, optionPanel, user} = w
+  const {logout} = user
   const {panelButtons, activePanelButton} = head
   const {activeTabId, tabs, isOptionPanelVisible_} = editor
   const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
   const {type, art} = activeTab
   const {viewport, isGridVisible, isBoxBackgroundVisible, isSnap} = art || {}
   const {selectRange} = viewport || {}
+  const buttonRef = useRef(null)
   let size = 0
   if (selectRange) {
     if (selectRange.range.length > 1) {
@@ -31,9 +34,36 @@ const Head = () => {
   return (
     <div className={c('cf3 fbh fbac pr8', s.head)}>
       <div className={c('fb1 fbh fbac')}>
-        <div className="fbh fbac fbjc w40">
-          <Icon name="waveview" size={24} />
+        <div className={c('fbh fbac', s.maxWidth)} ref={buttonRef}>
+          <PanelButton
+            name={
+              <div className="fbh fbac fbjc h40 w40">
+                <Icon name="waveview" size={24} />
+              </div>
+            }
+            className={c('omit')}
+            style={{padding: 0}}
+            connerMark="canner-mark"
+            onClick={(e) => {
+              e.stopPropagation()
+              const menu = w.overlayManager.get('menu')
+              menu.toggle({
+                attachTo: buttonRef.current,
+                list: [
+                  {
+                    name: '退出登录',
+                    action: () => {
+                      session.remove()
+                      logout()
+                      window.location.reload()
+                    },
+                  },
+                ],
+              })
+            }}
+          />
         </div>
+
         {panelButtons.map((panel) =>
           Children.toArray(
             <PanelButton
