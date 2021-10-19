@@ -85,7 +85,7 @@ const updateStyle = ({
 const updateWave = (schema) => {
   try {
     const {action, instance, options} = schema
-    if (action === 'data' || action === 'dimension') {
+    if (action === 'data' || action === 'dimension' || action === 'other') {
       reinitializeWave(instance, options)
     } else {
       updateStyle(schema)
