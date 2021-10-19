@@ -1,7 +1,7 @@
 import commonAction from '@utils/common-action'
 import {getEnv, types, getParent, flow, getRoot} from 'mobx-state-tree'
 import debounce from 'lodash/debounce'
-
+import {reaction} from 'mobx'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import uuid from '@utils/uuid'
@@ -85,6 +85,28 @@ export const MBox = types
   }))
   .actions(commonAction(['set', 'getSchema']))
   .actions((self) => {
+    const afterCreate = () => {
+      reaction(
+        () => {
+          return {
+            padding: self.padding.options.updatedOptions,
+          }
+        },
+        () => {
+          const {layout, padding} = self
+          const {areaOffset} = padding.getData()
+          const [top, right, bottom, left] = areaOffset
+          const {width, height} = layout
+          if (self.exhibit) {
+            const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+            if (exhibitModel.adapter) {
+              exhibitModel.adapter.refresh(width - left - right, height - top - bottom)
+            }
+          }
+          debounceUpdate()
+        }
+      )
+    }
     const resize = () => {
       const {layout, padding} = self
       const {width, height} = layout
@@ -265,6 +287,7 @@ export const MBox = types
     }
 
     return {
+      afterCreate,
       resize,
       recreateBox,
       addBackground,
