@@ -364,6 +364,21 @@ export const MArtViewport = types
         viewLayout: {},
         projectId,
       })
+      frame.background.setSchema({
+        options: {
+          sections: {
+            gradientColor: {
+              effective: true,
+              fields: {
+                gradientColor: [
+                  ['rgb(0,56,144)', 0],
+                  ['rgb(0,24,61)', 1],
+                ],
+              },
+            },
+          },
+        },
+      })
       frame.viewLayout.set({
         x: x - self.initMinX,
         y: y - self.initMinY,
