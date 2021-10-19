@@ -110,7 +110,7 @@ export const MArtFrame = types
       return undefined
     },
   }))
-  .actions(commonAction(['set', 'getSchema']))
+  .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
     const getNearlyOrigin = (origin, target) => {
       const grid = self.grid.unit_ * self.scaler_

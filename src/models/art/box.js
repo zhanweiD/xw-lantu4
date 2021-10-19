@@ -83,7 +83,7 @@ export const MBox = types
       return undefined
     },
   }))
-  .actions(commonAction(['set', 'getSchema']))
+  .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
     const afterCreate = () => {
       reaction(
