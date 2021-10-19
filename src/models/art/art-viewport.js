@@ -131,7 +131,7 @@ export const MArtViewport = types
     }
 
     // 初始化画布
-    const initFrame = ({frameId, name, isMain, layout, boxes, materials}) => {
+    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background}) => {
       const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
@@ -143,6 +143,7 @@ export const MArtViewport = types
         viewLayout: layout,
         materials,
       })
+      frame.background.setSchema(background)
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
