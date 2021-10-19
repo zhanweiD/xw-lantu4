@@ -7,6 +7,9 @@ import Material from '../material'
 
 const Box = ({box, frame}) => {
   const {layout, materials = [], padding, backgroundImage_, backgroundColor_} = box
+
+  const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
+  const [top, right, bottom, left] = areaOffset
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const style = {
@@ -14,7 +17,7 @@ const Box = ({box, frame}) => {
     left: `${layout.x}px`,
     width: `${layout.width}px`,
     height: `${layout.height}px`,
-    padding: `${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px`,
+    padding: `${top}px ${right}px ${bottom}px ${left}px`,
     backgroundSize: '100% 100%',
     backgroundRepeat: 'no-repeat',
   }
