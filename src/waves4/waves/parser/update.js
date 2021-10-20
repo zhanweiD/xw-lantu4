@@ -84,8 +84,11 @@ const updateStyle = ({
 // 图表更新策略
 const updateWave = (schema) => {
   try {
-    const {action, instance, options} = schema
+    const {action, instance, options, updated} = schema
     if (action === 'data' || action === 'dimension' || action === 'other') {
+      if (action === 'other') {
+        instance.setPadding(updated.getOption('layout.areaOffset'))
+      }
       reinitializeWave(instance, options)
     } else {
       updateStyle(schema)
