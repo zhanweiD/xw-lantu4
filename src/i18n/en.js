@@ -55,6 +55,7 @@ export default {
   background: 'Background',
   backgroundColor: 'Background',
   singleColor: 'Color',
+  gradientColor: 'Gradient',
   opacity: 'Opacity',
   offset: 'Offset',
   decimalPlaces: 'Decimals',
@@ -105,6 +106,8 @@ export default {
   auth: 'Auth',
   password: 'Password',
   other: 'Other',
+  privateJSON: 'Private JSON',
+  dataSource: 'Data Source',
   dataPanel: {
     dataProcessAndDataDisplay: 'Data Process And Data Display',
     project: 'Project Data',

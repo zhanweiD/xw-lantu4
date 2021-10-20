@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import hJSON from 'hjson'
 import tip from '@components/tip'
@@ -13,12 +14,13 @@ import Processor from './processor'
 import s from './data.module.styl'
 
 const Check = ({value, onChange, options}) => {
+  const {t} = useTranslation()
   return (
     <div className={c('fbh', s.wrap)}>
       {options.map((option) => (
         <div
           key={option.key}
-          className={c('fb1', s.checkOption, {
+          className={c(s.checkOption, {
             [s.checkOption_checked]: value === option.value,
           })}
           value={option.value}
@@ -26,7 +28,7 @@ const Check = ({value, onChange, options}) => {
             onChange(option.value, option)
           }}
         >
-          {option.key}
+          {t(option.key)}
         </div>
       ))}
     </div>
@@ -51,16 +53,16 @@ const DataField = ({
   }, [value.private])
   return (
     <>
-      <div className="fbh fbjc mt8 ml24 mb8">
+      <div className="fbh fbac fbjc cfw2 h32">
         <Check
           value={value.type}
           options={[
             {
-              key: '私有JSON',
+              key: 'privateJSON',
               value: 'private',
             },
             {
-              key: '数据源',
+              key: 'dataSource',
               value: 'source',
             },
           ]}
