@@ -150,8 +150,9 @@ export const MArtViewport = types
               effective: true,
               fields: {
                 gradientColor: [
-                  ['rgb(0,56,144)', 0],
-                  ['rgb(0,24,61)', 1],
+                  ['rgb(0,62,158)', 0],
+                  ['rgb(0,46,95)', 0.4],
+                  ['rgb(0,14,34)', 1],
                 ],
               },
             },

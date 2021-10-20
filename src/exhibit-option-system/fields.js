@@ -30,26 +30,7 @@ const offset = {
 // 区域偏移
 const areaOffset = {
   type: 'offset',
-  // label: 'areaOffset',
   defaultValue: [0, 0, 0, 0],
-  // items: [
-  //   {
-  //     key: 'T',
-  //     step: 1,
-  //   },
-  //   {
-  //     key: 'R',
-  //     step: 1,
-  //   },
-  //   {
-  //     key: 'B',
-  //     step: 1,
-  //   },
-  //   {
-  //     key: 'L',
-  //     step: 1,
-  //   },
-  // ],
 }
 
 // 间隔
@@ -415,7 +396,7 @@ const listColor = {
 // 普通字段
 const column = {
   type: 'columnSelect',
-  label: 'column',
+  label: 'dataColumn',
 }
 
 // 经度字段
@@ -840,11 +821,11 @@ const axisBinding = {
   defaultValue: 'main',
   options: [
     {
-      key: 'main',
+      key: 'mainAxis',
       value: 'main',
     },
     {
-      key: 'minor',
+      key: 'minorAxis',
       value: 'minor',
     },
   ],
