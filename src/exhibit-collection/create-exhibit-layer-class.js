@@ -23,7 +23,7 @@ export const createLayer = (category, key, layer, env) => {
     .actions((self) => {
       const afterCreate = () => {
         // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
-        const MConfig = transform({id, sections, fields})
+        const MConfig = transform({id, name, sections, fields})
         self.options = MConfig.create()
         if (layer.data) {
           self.data = MDataField.create(

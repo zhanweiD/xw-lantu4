@@ -1,3 +1,4 @@
+import {getParent, getEnv} from 'mobx-state-tree'
 import {reaction} from 'mobx'
 import capitalize from 'lodash/capitalize'
 import createLog from '@utils/create-log'
@@ -61,6 +62,7 @@ const createExhibitAdapter = (hooks) =>
         width,
         height,
       }
+      this.div = document.createElement('div')
       this.model = model
       this.isEdit = isEdit
       this.staticDrawOptions = staticDrawOptions
@@ -115,6 +117,17 @@ const createExhibitAdapter = (hooks) =>
       })
 
       return instanceOption
+    }
+
+    getNecessary() {
+      let necessary = true
+      this.model.data.relationModels.forEach((model) => {
+        const data = model.getValue()
+        if (!data || !data.length) {
+          necessary = false
+        }
+      })
+      return necessary
     }
 
     createObserverObject({actionType, isGlobal = false}) {
@@ -286,13 +299,34 @@ const createExhibitAdapter = (hooks) =>
 
     update({options, action, updated, updatedPath, flag}) {
       console.log(options, action, updated, updatedPath, flag, 'updated')
-      hooks.update.call(null, {
-        instance: this.instance,
-        options,
-        action,
-        updated: addOptionMethod(updated, flag),
-        updatedPath,
-      })
+      if (this.getNecessary()) {
+        if (this.container.contains(this.div)) {
+          this.container.removeChild(this.div)
+        }
+        hooks.update.call(null, {
+          instance: this.instance,
+          options,
+          action,
+          updated: addOptionMethod(updated, flag),
+          updatedPath,
+        })
+      } else {
+        this.warn()
+      }
+    }
+
+    warn() {
+      let text = ''
+      for (let model of this.model.data.relationModels) {
+        const data = model.getValue()
+        if (!data || !data.length) {
+          text = `${getParent(model, 2).name}.${model.label}未配置`
+          break
+        }
+      }
+      hooks.destroy.call(null, {instance: this.instance})
+      this.div.innerText = text
+      this.container.appendChild(this.div)
     }
 
     refresh(width, height) {
