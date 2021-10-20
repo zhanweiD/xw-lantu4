@@ -1,5 +1,6 @@
 import {getParent, getEnv} from 'mobx-state-tree'
 import {reaction} from 'mobx'
+import i18n from '@i18n'
 import capitalize from 'lodash/capitalize'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
@@ -320,7 +321,7 @@ const createExhibitAdapter = (hooks) =>
       for (let model of this.model.data.relationModels) {
         const data = model.getValue()
         if (!data || !data.length) {
-          text = `${getParent(model, 2).name}.${model.label}未配置`
+          text = `${i18n.t(getParent(model, 2).name)}: ${i18n.t(model.label)}未配置`
           break
         }
       }
