@@ -1,11 +1,14 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
+import {useTranslation} from 'react-i18next'
+
 import isDev from '@utils/is-dev'
 import w from '@models'
 import s from './footer.module.styl'
 
 const Footer = () => {
+  const {i18n} = useTranslation()
   return (
     <footer className={c('fbh fbje', s.footer)}>
       {isDev && (
@@ -109,6 +112,14 @@ const Footer = () => {
           Exhibit
         </div>
       )}
+      <div
+        className="hand ctw mr16 fbh fbac"
+        onClick={() => {
+          i18n.changeLanguage(i18n.language === 'en' ? 'zh-CN' : 'en')
+        }}
+      >
+        {i18n.language === 'en' ? 'ZH' : 'EN'}
+      </div>
     </footer>
   )
 }
