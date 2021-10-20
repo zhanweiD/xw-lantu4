@@ -96,7 +96,7 @@ export const MArtFrame = types
       return undefined
     },
   }))
-  .actions(commonAction(['set', 'getSchema']))
+  .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
     const getNearlyOrigin = (origin, target) => {
       const grid = self.grid.unit_ * self.scaler_
@@ -119,8 +119,8 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
-        padding,
       })
+      box.padding.setSchema(padding)
       box.background.setSchema(background)
 
       self.boxes.push(box)
@@ -407,6 +407,10 @@ export const MArtFrame = types
         }
       }
     }
+
+    const afterCreate = () => {
+      console.log('artframe', self.background.getSchema())
+    }
     return {
       initBox,
       createBox,
@@ -418,5 +422,6 @@ export const MArtFrame = types
       removeBackground,
       sortBackground,
       recreateFrame,
+      afterCreate,
     }
   })

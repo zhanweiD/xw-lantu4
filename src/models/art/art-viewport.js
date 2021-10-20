@@ -131,7 +131,7 @@ export const MArtViewport = types
     }
 
     // 初始化画布
-    const initFrame = ({frameId, name, isMain, layout, boxes, materials}) => {
+    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background}) => {
       const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
@@ -143,6 +143,23 @@ export const MArtViewport = types
         viewLayout: layout,
         materials,
       })
+      const defaultBackground = {
+        options: {
+          sections: {
+            gradientColor: {
+              effective: true,
+              fields: {
+                gradientColor: [
+                  ['rgb(0,62,158)', 0],
+                  ['rgb(0,46,95)', 0.4],
+                  ['rgb(0,14,34)', 1],
+                ],
+              },
+            },
+          },
+        },
+      }
+      frame.background.setSchema(background || defaultBackground)
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
@@ -347,6 +364,21 @@ export const MArtViewport = types
         ...params,
         viewLayout: {},
         projectId,
+      })
+      frame.background.setSchema({
+        options: {
+          sections: {
+            gradientColor: {
+              effective: true,
+              fields: {
+                gradientColor: [
+                  ['rgb(0,56,144)', 0],
+                  ['rgb(0,24,61)', 1],
+                ],
+              },
+            },
+          },
+        },
       })
       frame.viewLayout.set({
         x: x - self.initMinX,

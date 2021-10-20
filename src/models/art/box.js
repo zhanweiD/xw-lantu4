@@ -1,12 +1,12 @@
 import commonAction from '@utils/common-action'
 import {getEnv, types, getParent, flow, getRoot} from 'mobx-state-tree'
 import debounce from 'lodash/debounce'
-
+import {reaction} from 'mobx'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
 import uuid from '@utils/uuid'
 import {MLayout} from '../common/layout'
-import {MBackgroundColor} from './art-ui-tab-property'
+import {MBackgroundColor, MOffset} from './art-ui-tab-property'
 
 const log = createLog('@models/art/box.js')
 
@@ -24,10 +24,10 @@ export const MBox = types
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),
-    padding: types.optional(types.array(types.number), [0, 0, 0, 0]),
+    padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'paddding', 'name', 'remark']),
-    deepKeys: types.frozen(['layout', 'background']),
+    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    deepKeys: types.frozen(['layout', 'paddding', 'background']),
   })
   .views((self) => ({
     get root_() {
@@ -83,22 +83,46 @@ export const MBox = types
       return undefined
     },
   }))
-  .actions(commonAction(['set', 'getSchema']))
+  .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
+    const afterCreate = () => {
+      reaction(
+        () => {
+          return {
+            padding: self.padding.options.updatedOptions,
+          }
+        },
+        () => {
+          const {layout, padding} = self
+          const {areaOffset} = padding.getData()
+          const [top, right, bottom, left] = areaOffset
+          const {width, height} = layout
+          if (self.exhibit) {
+            const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+            if (exhibitModel.adapter) {
+              exhibitModel.adapter.refresh(width - left - right, height - top - bottom)
+            }
+          }
+          debounceUpdate()
+        }
+      )
+    }
     const resize = () => {
       const {layout, padding} = self
       const {width, height} = layout
+      const {areaOffset} = padding.getData()
+      const [top, right, bottom, left] = areaOffset
       if (self.exhibit) {
         const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
         if (exhibitModel.adapter) {
-          exhibitModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
+          exhibitModel.adapter.refresh(width - left - right, height - top - bottom)
         }
       }
       if (self.materials) {
         self.materials.forEach((material) => {
           const materialModel = self.art_.exhibitManager.get(material.id)
           if (materialModel.adapter) {
-            materialModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
+            materialModel.adapter.refresh(width - left - right, height - top - bottom)
           }
         })
       }
@@ -254,19 +278,6 @@ export const MBox = types
       debounceUpdate()
     }
 
-    const setPadding = (padding) => {
-      self.padding = padding
-      const {layout} = self
-      const {width, height} = layout
-      if (self.exhibit) {
-        const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
-        if (exhibitModel.adapter) {
-          exhibitModel.adapter.refresh(width - padding[1] - padding[3], height - padding[0] - padding[2])
-        }
-      }
-      debounceUpdate()
-    }
-
     const setRemark = ({name = self.name, remark = self.remark}) => {
       self.set({
         name,
@@ -276,6 +287,7 @@ export const MBox = types
     }
 
     return {
+      afterCreate,
       resize,
       recreateBox,
       addBackground,
@@ -283,7 +295,6 @@ export const MBox = types
       sortBackground,
       setRemark,
       setLayout,
-      setPadding,
       updateBox,
     }
   })

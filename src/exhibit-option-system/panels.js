@@ -16,6 +16,17 @@ const layout = {
   ],
 }
 
+// 偏移
+const offset = {
+  name: 'offset',
+
+  fields: [
+    {
+      name: 'areaOffset',
+    },
+  ],
+}
+
 // 背景色
 const backgroundColor = {
   name: 'backgroundColor',
@@ -162,6 +173,8 @@ const global = {
 export {
   // 布局
   layout,
+  // 偏移
+  offset,
   // 背景色
   backgroundColor,
   // 素材

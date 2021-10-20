@@ -174,7 +174,11 @@ export const MArt = types
 
     // 预览数据屏
     const preview = () => {
-      window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, 'previewWindow')
+      self.save()
+      setTimeout(() => {
+        window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, 'previewWindow')
+      }, 10)
+      // window.open(`${window.location.origin}${config.pathPrefix}/preview/${self.artId}`, 'previewWindow')
     }
 
     const save = flow(function* save() {
@@ -224,7 +228,7 @@ export const MArt = types
           frames,
         }
         yield io.art.update(params)
-        // self.env_.tip.success({content: '保存成功'})
+        self.env_.tip.success({content: '保存成功'})
       } catch (error) {
         log.error('save Error: ', error)
         self.env_.tip.error({content: '保存失败'})

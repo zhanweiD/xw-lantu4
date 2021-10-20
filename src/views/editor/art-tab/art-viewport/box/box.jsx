@@ -9,6 +9,9 @@ import s from './box.module.styl'
 
 const Box = ({box}) => {
   const {layout, isSelected, art_, viewport_, frame_, backgroundImage_, backgroundColor_, materials = [], padding} = box
+
+  const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
+  const [top, right, bottom, left] = areaOffset
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const {isBoxBackgroundVisible} = art_
@@ -18,7 +21,7 @@ const Box = ({box}) => {
     left: `${layout.x}px`,
     width: `${layout.width}px`,
     height: `${layout.height}px`,
-    padding: `${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px`,
+    padding: `${top}px ${right}px ${bottom}px ${left}px`,
     backgroundSize: '100% 100%',
     backgroundRepeat: 'no-repeat',
   }

@@ -7,19 +7,24 @@ import Material from '../material'
 
 const ArtFrame = ({art, frame}) => {
   const {watermark} = art
-  const {frameId, layout, boxes, materials = []} = frame
+  const {frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
+  const style = {
+    width: `${layout.width}px`,
+    height: `${layout.height}px`,
+  }
+
+  if (backgroundImage_) {
+    style.backgroundImage = `linear-gradient(${backgroundImage_})`
+  }
+  if (backgroundColor_) {
+    style.backgroundColor = backgroundColor_
+  }
+
   return (
     <>
-      <div
-        id={`artFrame-${frameId}`}
-        className="pa"
-        style={{
-          width: `${layout.width}px`,
-          height: `${layout.height}px`,
-        }}
-      >
+      <div id={`artFrame-${frameId}`} className="pa" style={style}>
         {reverseMaterials.map((material) => (
           <Material material={material} key={material.id} target={frame} frame={frame} />
         ))}

@@ -8,6 +8,7 @@ import tip from '@components/tip'
 import {MZoom} from '@utils/zoom'
 import {registerExhibit} from '@exhibit-collection'
 import {MData} from '../data2/data'
+import {MOffset} from './art-ui-tab-property'
 
 const log = createLog('@models/art/art-preview.js')
 const event = createEvent()
@@ -30,11 +31,10 @@ const MBox = types
     layout: types.frozen(),
     materials: types.frozen(),
     background: types.frozen(),
-    padding: types.optional(types.array(types.number), [0, 0, 0, 0]),
+    padding: types.optional(MOffset, {}),
   })
   .views((self) => ({
     get backgroundImage_() {
-      console.log(self.background)
       if (self.background.options.sections.gradientColor.effective) {
         return self.background.options.sections.gradientColor.fields.gradientColor.reduce((total, current) => {
           total += `${current[0]} ${current[1] * 100}%`
@@ -48,7 +48,6 @@ const MBox = types
     },
     get backgroundColor_() {
       if (self.background.options.sections.singleColor.effective) {
-        console.log(self.background.options.sections.singleColor.fields.singleColor)
         const rgb = self.background.options.sections.singleColor.fields.singleColor.match(/[\d.]+/g)
         const opatity = self.background.options.sections.singleColor.fields.opacity
         if (rgb && rgb.length >= 3) {
@@ -73,7 +72,32 @@ const MFrame = types
     get art_() {
       return getParent(self, 2)
     },
+
+    get backgroundImage_() {
+      if (self.background.options.sections.gradientColor.effective) {
+        return self.background.options.sections.gradientColor.fields.gradientColor.reduce((total, current) => {
+          total += `${current[0]} ${current[1] * 100}%`
+          if (current[1] !== 1) {
+            total += `,`
+          }
+          return total
+        }, '')
+      }
+      return undefined
+    },
+    get backgroundColor_() {
+      if (self.background.options.sections.singleColor.effective) {
+        const rgb = self.background.options.sections.singleColor.fields.singleColor.match(/[\d.]+/g)
+        const opatity = self.background.options.sections.singleColor.fields.opacity
+        if (rgb && rgb.length >= 3) {
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opatity})`
+        }
+        return self.background.options.sections.singleColor.fields.singleColor
+      }
+      return undefined
+    },
   }))
+
   .actions((self) => {
     const initBox = ({boxId, exhibit, layout, materials, background, padding}) => {
       const box = MBox.create({
@@ -84,7 +108,7 @@ const MFrame = types
         background,
         padding,
       })
-      console.log(background)
+      box.padding.setSchema(padding)
       self.boxes.push(box)
       if (exhibit) {
         const model = registerExhibit(exhibit.key)
@@ -228,6 +252,7 @@ const MArtPreview = types
         background,
         materials,
       })
+
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
