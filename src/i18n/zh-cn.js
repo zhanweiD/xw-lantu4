@@ -55,6 +55,7 @@ export default {
   background: '背景',
   backgroundColor: '背景',
   singleColor: '颜色',
+  gradientColor: '渐变',
   opacity: '透明度',
   offset: '偏移',
   decimalPlaces: '小数位数',
@@ -105,6 +106,8 @@ export default {
   auth: '授权',
   password: '密码',
   other: '其他',
+  privateJSON: '私有JSON',
+  dataSource: '数据源',
   dataPanel: {
     dataProcessAndDataDisplay: '数据处理和展示',
     project: '项目数据',
