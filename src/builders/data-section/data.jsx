@@ -46,6 +46,7 @@ const DataField = ({
   type = 1,
   toggleBak = () => {},
 }) => {
+  const {t} = useTranslation()
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
@@ -78,7 +79,7 @@ const DataField = ({
       </div>
       {value.type === 'private' && (
         <>
-          <Section name="私有JSON" type={type} titleClassName="pr8">
+          <Section name={t('privateJSON')} type={type} titleClassName="pr8">
             <CodeField
               childrenClassName="ml24"
               className="block"
@@ -129,7 +130,7 @@ const DataField = ({
       )}
       {value.type === 'source' && (
         <>
-          <Section name="数据源" type={type} titleClassName="pr8">
+          <Section name={t('dataSource')} type={type} titleClassName="pr8">
             {value.source ? (
               <div
                 className="hand fbh fbac fbjsb mb8 ml24"
@@ -162,7 +163,7 @@ const DataField = ({
             <>
               <Processor
                 type={type}
-                name="请求头"
+                name={t('headers')}
                 value={value.apiHeader}
                 effective={value.useApiHeader}
                 onChange={(data) => {
@@ -178,7 +179,7 @@ const DataField = ({
               />
               <Processor
                 type={type}
-                name="请求参数"
+                name={t('queries')}
                 value={value.apiQueries}
                 effective={value.useApiQueries}
                 onChange={(data) => {
@@ -194,7 +195,7 @@ const DataField = ({
               />
               <Processor
                 type={type}
-                name="请求体"
+                name={t('body')}
                 value={value.apiBody}
                 effective={value.useApiBody}
                 onChange={(data) => {

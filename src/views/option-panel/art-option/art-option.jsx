@@ -36,7 +36,7 @@ const createPanel = (exhibit, t) => {
   })
 
   return [
-    <Tab.Item name="数据呈现" key="data">
+    <Tab.Item name={t('dataEncode')} key="data">
       <Scroll className="h100p">
         <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
       </Scroll>

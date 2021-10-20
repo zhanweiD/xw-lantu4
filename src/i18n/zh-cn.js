@@ -108,6 +108,10 @@ export default {
   other: '其他',
   privateJSON: '私有JSON',
   dataSource: '数据源',
+  dataEncode: '数据呈现',
+  body: '请求体(Body)',
+  queries: '请求参数(Queries)',
+  headers: '请求头(Headers)',
   dataPanel: {
     dataProcessAndDataDisplay: '数据处理和展示',
     project: '项目数据',

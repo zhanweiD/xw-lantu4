@@ -108,6 +108,10 @@ export default {
   other: 'Other',
   privateJSON: 'Private JSON',
   dataSource: 'Data Source',
+  dataEncode: 'Data Encode',
+  body: 'Request Body',
+  queries: 'Request Queries',
+  headers: 'Request Headers',
   dataPanel: {
     dataProcessAndDataDisplay: 'Data Process And Data Display',
     project: 'Project Data',
