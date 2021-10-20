@@ -50,10 +50,6 @@ const backgroundColor = {
       fields: [
         {
           name: 'gradientColor',
-          // defaultValue: [
-          //   ['rgb(0,56,144)', 0],
-          //   ['rgb(0,24,61)', 1],
-          // ],
         },
       ],
     },
@@ -126,7 +122,7 @@ const global = {
           fields: [
             {
               name: 'singleColor',
-              defaultValue: 'lightgreen',
+              defaultValue: 'rgb(0,255,0)',
             },
             {
               name: 'opacity',

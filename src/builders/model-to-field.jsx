@@ -28,7 +28,12 @@ const ModelToField = ({model}) => {
           className="ml24"
           label={t(model.label)}
           visible={model.visible_}
-          options={model.options.map((option) => option.toJSON())}
+          options={model.options.map((option) => {
+            const origin = option.toJSON()
+            return Object.assign({}, origin, {
+              key: t(origin.key),
+            })
+          })}
           value={model.value}
           onChange={(v) => {
             model.setValue(v)
