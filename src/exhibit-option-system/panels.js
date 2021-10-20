@@ -122,7 +122,7 @@ const global = {
           fields: [
             {
               name: 'singleColor',
-              defaultValue: 'lightgreen',
+              defaultValue: 'rgb(0,255,0)',
             },
             {
               name: 'opacity',

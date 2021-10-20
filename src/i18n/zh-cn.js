@@ -36,7 +36,7 @@ export default {
   xAxis: 'X轴',
   yAxis: 'Y轴',
   axisLine: '轴线',
-  axisSplitLine: '分割',
+  axisSplitLine: '分割线',
   dataMap: '数据映射',
   dataColumn: '数据列',
   base: '基础',
@@ -98,6 +98,13 @@ export default {
   tickCount: '刻度数',
   // TODO 待优化
   paddingInner: '间隔',
+  grid: '网格',
+  divisionLine: '分区线',
+  watermark: '水印',
+  angle: '角度',
+  auth: '授权',
+  password: '密码',
+  other: '其他',
   dataPanel: {
     dataProcessAndDataDisplay: '数据处理和展示',
     project: '项目数据',

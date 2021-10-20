@@ -98,6 +98,13 @@ export default {
   tickCount: 'Tick Count',
   // TODO 待优化
   paddingInner: 'Space',
+  grid: 'Grid',
+  divisionLine: 'Division Line',
+  watermark: 'Watermark',
+  angle: 'Angle',
+  auth: 'Auth',
+  password: 'Password',
+  other: 'Other',
   dataPanel: {
     dataProcessAndDataDisplay: 'Data Process And Data Display',
     project: 'Project Data',
