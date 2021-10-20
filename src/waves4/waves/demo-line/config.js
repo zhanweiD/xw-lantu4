@@ -249,7 +249,7 @@ export const config = (k) => ({
         effective: true,
         sections: [
           {
-            name: 'yAxisLine',
+            name: 'axisLine',
             fields: [
               {
                 name: 'singleColor',
@@ -258,7 +258,7 @@ export const config = (k) => ({
             ],
           },
           {
-            name: 'yAxisSplitLine',
+            name: 'axisSplitLine',
             effective: true,
             fields: [
               {

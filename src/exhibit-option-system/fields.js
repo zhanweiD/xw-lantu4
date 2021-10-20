@@ -35,16 +35,24 @@ const areaOffset = {
 
 // 间隔
 const gap = {
+  type: 'number',
+  label: 'gap',
+  defaultValue: 0,
+}
+
+// 内外间隔
+// TODO 不通用
+const gap2 = {
   type: 'multiNumber',
   label: 'gap',
   defaultValue: [0, 0],
   items: [
     {
-      key: 'IN',
+      key: 'in',
       step: 1,
     },
     {
-      key: 'OUT',
+      key: 'out',
       step: 1,
     },
   ],
@@ -673,15 +681,15 @@ const lineFallback = {
   defaultValue: 'break',
   options: [
     {
-      key: 'Zero',
+      key: 'zeroFallback',
       value: 'zero',
     },
     {
-      key: 'Continue',
+      key: 'continueFallback',
       value: 'continue',
     },
     {
-      key: 'Break',
+      key: 'breakFallback',
       value: 'break',
     },
   ],
@@ -709,9 +717,9 @@ const numberRange = {
  */
 
 // 填充方式
-const fillType = {
+const fillMode = {
   type: 'check',
-  label: 'fillType',
+  label: 'fillMode',
   defaultValue: 'shortEdgeFill',
   options: [
     {
@@ -866,6 +874,8 @@ export default {
   areaOffset,
   // 间隔,
   gap,
+  // 内外间隔
+  gap2,
   // 模糊
   blur,
   // 透明度
@@ -950,9 +960,8 @@ export default {
   lineFallback,
   // 数值范围
   numberRange,
-
-  // 填充方式
-  fillType,
+  // 填充模式
+  fillMode,
   // 密码
   password,
   // 图片混合模式

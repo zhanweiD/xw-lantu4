@@ -90,7 +90,7 @@ const Section = ({
         }}
       />
       <div
-        className={c('pt8 pb8', childrenClassName, {
+        className={c('pt8', childrenClassName, {
           hide: fold,
         })}
       >
