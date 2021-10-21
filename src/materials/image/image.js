@@ -1,10 +1,10 @@
 import isDef from '@utils/is-def'
 
 class Image {
-  constructor({container, url, blendMode, fillType, opacity, effective}) {
+  constructor({container, url, blendMode, fillMode, opacity, effective}) {
     this.container = container
     this.url = url
-    this.fillType = fillType
+    this.fillMode = fillMode
     this.opacity = opacity
     this.effective = effective
     this.blendMode = blendMode
@@ -29,7 +29,7 @@ class Image {
   }
 
   setStyle() {
-    switch (this.fillType) {
+    switch (this.fillMode) {
       case 'shortEdgeFill':
         this.div.style.backgroundSize = 'cover'
         break
@@ -46,9 +46,9 @@ class Image {
     this.div.style.opacity = this.opacity
   }
 
-  update({fillType = this.fillType, blendMode = this.blendMode, opacity = this.opacity, effective = this.effective}) {
+  update({fillMode = this.fillMode, blendMode = this.blendMode, opacity = this.opacity, effective = this.effective}) {
     this.opacity = opacity
-    this.fillType = fillType
+    this.fillMode = fillMode
     this.effective = effective
     this.blendMode = blendMode
     this.draw()

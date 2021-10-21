@@ -9,7 +9,7 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import s from './common-tab.module.styl'
 
-const {TextField, TextareaField, MultiNumberField, OffsetField} = fields
+const {TextField, TextareaField, MultiNumberField} = fields
 const CommonTab = ({target}) => {
   const {t} = useTranslation()
   const {background, name, remark, layout, setLayout, setRemark, materials, padding} = target || {}
@@ -57,7 +57,11 @@ const CommonTab = ({target}) => {
               </Section>
               {padding && (
                 <Section name={t('offset')}>
-                  <OffsetField className="ml24" value={padding} onChange={(data) => target.setPadding(data)} />
+                  {/* <OffsetField className="ml24" value={padding} onChange={(data) => target.setPadding(data)} /> */}
+                  {recusiveNode({
+                    ...padding.options,
+                    level: 0,
+                  })}
                 </Section>
               )}
             </Scroll>

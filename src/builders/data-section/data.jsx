@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import hJSON from 'hjson'
 import tip from '@components/tip'
@@ -13,12 +14,13 @@ import Processor from './processor'
 import s from './data.module.styl'
 
 const Check = ({value, onChange, options}) => {
+  const {t} = useTranslation()
   return (
     <div className={c('fbh', s.wrap)}>
       {options.map((option) => (
         <div
           key={option.key}
-          className={c('fb1', s.checkOption, {
+          className={c(s.checkOption, {
             [s.checkOption_checked]: value === option.value,
           })}
           value={option.value}
@@ -26,7 +28,7 @@ const Check = ({value, onChange, options}) => {
             onChange(option.value, option)
           }}
         >
-          {option.key}
+          {t(option.key)}
         </div>
       ))}
     </div>
@@ -44,6 +46,7 @@ const DataField = ({
   type = 1,
   toggleBak = () => {},
 }) => {
+  const {t} = useTranslation()
   const [json, setJson] = useState(value.private)
   const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
@@ -51,16 +54,16 @@ const DataField = ({
   }, [value.private])
   return (
     <>
-      <div className="fbh fbjc mt8 ml24 mb8">
+      <div className="fbh fbac fbjc cfw2 h32">
         <Check
           value={value.type}
           options={[
             {
-              key: '私有JSON',
+              key: 'privateJSON',
               value: 'private',
             },
             {
-              key: '数据源',
+              key: 'dataSource',
               value: 'source',
             },
           ]}
@@ -76,7 +79,7 @@ const DataField = ({
       </div>
       {value.type === 'private' && (
         <>
-          <Section name="私有JSON" type={type} titleClassName="pr8">
+          <Section name={t('privateJSON')} type={type} titleClassName="pr8">
             <CodeField
               childrenClassName="ml24"
               className="block"
@@ -127,7 +130,7 @@ const DataField = ({
       )}
       {value.type === 'source' && (
         <>
-          <Section name="数据源" type={type} titleClassName="pr8">
+          <Section name={t('dataSource')} type={type} titleClassName="pr8">
             {value.source ? (
               <div
                 className="hand fbh fbac fbjsb mb8 ml24"
@@ -160,7 +163,7 @@ const DataField = ({
             <>
               <Processor
                 type={type}
-                name="请求头"
+                name={t('headers')}
                 value={value.apiHeader}
                 effective={value.useApiHeader}
                 onChange={(data) => {
@@ -176,7 +179,7 @@ const DataField = ({
               />
               <Processor
                 type={type}
-                name="请求参数"
+                name={t('queries')}
                 value={value.apiQueries}
                 effective={value.useApiQueries}
                 onChange={(data) => {
@@ -192,7 +195,7 @@ const DataField = ({
               />
               <Processor
                 type={type}
-                name="请求体"
+                name={t('body')}
                 value={value.apiBody}
                 effective={value.useApiBody}
                 onChange={(data) => {
