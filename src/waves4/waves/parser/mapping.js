@@ -115,10 +115,22 @@ export const layerOptionMap = new Map([
         ['yAxis.label.text.textWeight', 'style.textY.fontWeight'],
         ['yAxis.label.text.singleColor', 'style.textY.fill'],
         ['yAxis.label.text.opacity', 'style.textY.fillOpacity'],
+        // y副轴文本
+        ['yAxis.label.offset', 'style.textYR.offset'],
+        ['yAxis.label.thousandDiv', 'style.textYR.format.thousandth'],
+        ['yAxis.label.percentage', 'style.textYR.format.percentage'],
+        ['yAxis.label.text.textSize', 'style.textYR.fontSize'],
+        ['yAxis.label.text.textWeight', 'style.textYR.fontWeight'],
+        ['yAxis.label.text.singleColor', 'style.textYR.fill'],
+        ['yAxis.label.text.opacity', 'style.textYR.fillOpacity'],
         // y文本阴影
         ['yAxis.label.shadow.offset', 'style.textY.shadow.offset'],
         ['yAxis.label.shadow.blur', 'style.textY.shadow.blur'],
         ['yAxis.label.shadow.singleColor', 'style.textY.shadow.color'],
+        // y副轴文本阴影
+        ['yAxis.label.shadow.offset', 'style.textYR.shadow.offset'],
+        ['yAxis.label.shadow.blur', 'style.textYR.shadow.blur'],
+        ['yAxis.label.shadow.singleColor', 'style.textYR.shadow.color'],
         // y轴线
         ['yAxis.axisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
         ['yAxis.axisLine.singleColor', 'style.lineAxisY.stroke'],
@@ -145,9 +157,11 @@ export const layerOptionMap = new Map([
       // y显隐
       if (getOption('yAxis.label.effective') !== undefined) {
         storage.set('style.textY.hide', !getOption('yAxis.label.effective'))
+        storage.set('style.textYR.hide', !getOption('yAxis.label.effective'))
       }
       if (getOption('yAxis.label.shadow.effective') !== undefined) {
         storage.set('style.textY.shadow.hide', !getOption('yAxis.label.shadow.effective'))
+        storage.set('style.textYR.shadow.hide', !getOption('yAxis.label.shadow.effective'))
       }
       if (getOption('yAxis.axisLine.effective') !== undefined) {
         storage.set('style.lineAxisY.hide', !getOption('yAxis.axisLine.effective'))
@@ -257,6 +271,7 @@ export const layerOptionMap = new Map([
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],
         // 标签
+        ['label.labelPosition', 'style.labelPosition'],
         ['label.offset', 'style.text.offset'],
         ['label.decimalPlaces', 'style.text.format.decimalPlace'],
         ['label.thousandDiv', 'style.text.format.thousandth'],
@@ -280,7 +295,6 @@ export const layerOptionMap = new Map([
       if (getOption('label.shadow.effective') !== undefined) {
         storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
       }
-      storage.set('style.labelPosition', [getOption('label.minLabelPosition'), getOption('label.maxLabelPosition')])
       return storage.get()
     },
   ],

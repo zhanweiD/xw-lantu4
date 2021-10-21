@@ -183,21 +183,21 @@ const Form = () => {
                   value={isKeepLogin}
                   onChange={(e) => setKeepLogin(e.target.checked)}
                 />
-                <span className={c('pl8 fs12 lh32')}>记住登录状态</span>
+                <span className={c('pl8 fs16 lh32')}>记住登录状态</span>
               </label>
             )}
             {page === 'register' && (
               <div>
-                <span className={c('fs12 lh32 ctb50')}>注册即代表同意</span>
+                <span className={c('fs16 lh32 ctb50')}>注册即代表同意</span>
                 <span
-                  className={c('fs12 lh32 hand')}
+                  className={c('fs16 lh32 hand')}
                   onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/user-agreement.html')}
                 >
                   《澜图用户协议》
                 </span>
-                <span className={c('fs12 lh32 ctb50')}>和</span>
+                <span className={c('fs16 lh32 ctb50')}>和</span>
                 <span
-                  className={c('fs12 lh32 hand')}
+                  className={c('fs16 lh32 hand')}
                   onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/privacy-policy.html')}
                 >
                   《澜图隐私政策》
