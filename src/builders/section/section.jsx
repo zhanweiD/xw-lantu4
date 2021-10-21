@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
+import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import {session} from '@utils/storage'
 import IconButton from '@components/icon-button'
@@ -8,6 +9,7 @@ import s from './section.module.styl'
 const allSessionIds = {}
 
 const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) => {
+  const {t} = useTranslation()
   // type 仅仅有0, 1, 2这三个值 对应三种不同的section头
   return (
     <div
@@ -24,7 +26,7 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
       )}
       <div className="fb1 fbh fbac lh24">
         <div className="omit" title={name}>
-          {name}
+          {t(name)}
         </div>
         <div
           className="fbn"
@@ -88,7 +90,7 @@ const Section = ({
         }}
       />
       <div
-        className={c('pt8 pb8', childrenClassName, {
+        className={c('pt8', childrenClassName, {
           hide: fold,
         })}
       >

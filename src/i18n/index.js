@@ -1,34 +1,34 @@
-import i18n from "i18next"
-import {initReactI18next} from "react-i18next"
-import {local} from "@utils/storage"
-import uuid from "@utils/uuid"
-import en from "./en"
-import zh from "./zh-cn"
+import i18n from 'i18next'
+import {initReactI18next} from 'react-i18next'
+import {local} from '@utils/storage'
+import uuid from '@utils/uuid'
+import en from './en'
+import zh from './zh-cn'
 
 // 默认语言
 // TODO: 后续对接到配置面板
-const defaultLanguage = "zh-CN"
+const defaultLanguage = 'zh-CN'
 // 初始化
 // https://react.i18next.com/latest/using-with-hooks
 i18n.use(initReactI18next).init({
   resources: {
     en: {
-      translation: en
+      translation: en,
     },
-    "zh-CN": {
-      translation: zh
-    }
+    'zh-CN': {
+      translation: zh,
+    },
   },
-  lng: local.get("lang"),
+  lng: local.get('lang'),
   fallbackLng: defaultLanguage,
   debug: false,
   interpolation: {
-    escapeValue: false // not needed for react as it escapes by default
-  }
+    escapeValue: false, // not needed for react as it escapes by default
+  },
 })
 // 当用户切换语言时，同步到缓存中
-i18n.on("languageChanged", (lang) => {
-  local.set("lang", lang)
+i18n.on('languageChanged', (lang) => {
+  local.set('lang', lang)
 })
 
 // 多语言沙盒
@@ -54,12 +54,12 @@ i18n.sandbox = (lang, id) => {
   Object.entries(lang).forEach((item) => {
     const [key, l] = item
 
-    i18n.addResources("zh-CN", ns, {
-      [key]: l[0]
+    i18n.addResources('zh-CN', ns, {
+      [key]: l[0],
     })
 
-    i18n.addResources("en", ns, {
-      [key]: l[1]
+    i18n.addResources('en', ns, {
+      [key]: l[1],
     })
   })
 
@@ -77,6 +77,7 @@ i18n.sandbox = (lang, id) => {
 // })
 
 // 普通js上下文的使用方法
+// import w from '@models'
 // const {i18n} = w
 // i18n.t('xxx')
 

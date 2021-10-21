@@ -15,7 +15,7 @@ export const createPropertyModel = (key, config, name = 'property') => {
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {
       const afterCreate = () => {
-        const MConfig = transform({sections, fields})
+        const MConfig = transform({name, sections, fields})
         if (isDef(effective)) {
           self.effective = effective
         }

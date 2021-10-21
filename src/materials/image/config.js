@@ -8,7 +8,7 @@ export const config = (k) => ({
       name: '',
       fields: [
         {
-          name: 'fillType',
+          name: 'fillMode',
         },
         {
           name: 'opacity',

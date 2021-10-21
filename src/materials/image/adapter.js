@@ -11,14 +11,14 @@ const makeAdapter = () => {
       const layer = layers[0]
       const o = layer.mapOption([
         ['opacity', 'opacity'],
-        ['fillType', 'fillType'],
+        ['fillMode', 'fillMode'],
         ['blendMode', 'blendMode'],
         ['effective', 'effective'],
       ])
       const instance = new WaveImage({
         container,
         url: `${config.urlPrefix}material/download/${layer.id}`,
-        fillType: o.get('fillType'),
+        fillMode: o.get('fillMode'),
         opacity: o.get('opacity'),
         effective: o.get('effective'),
         blendMode: o.get('blendMode'),
@@ -30,7 +30,7 @@ const makeAdapter = () => {
     // 处理包括数据、样式等变更
     update({updated, instance}) {
       instance.update({
-        fillType: updated.getOption('fillType'),
+        fillMode: updated.getOption('fillMode'),
         opacity: updated.getOption('opacity'),
         blendMode: updated.getOption('blendMode'),
         effective: updated.effective,

@@ -48,11 +48,8 @@ const MValue = types
     useProcessor: types.optional(types.boolean, false),
     processor: types.optional(
       types.string,
-      `return function ({data, rule, context, instance, queries}) {
-  // 对data进行处理后返回即可
+      `return function ({dataFrame, rule, context, instance, queries}) {
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
-  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
-  return data
 }`
     ),
 
@@ -108,10 +105,10 @@ const MValue = types
               params.body = makeFunction(self.apiBody)({})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
-            const datas = self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
-            self.columns = datas.columns
+            self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+            self.columns = dataFrame.columns
 
-            self.data = datas.getData()
+            self.data = dataFrame.getData()
           } else {
             self.displayName = ''
             self.columns = []
@@ -354,7 +351,7 @@ export const MDataField = types
 }`,
         // common系列
         useProcessor: false,
-        processor: `return function ({data, rule, context, instance, queries}) {
+        processor: `return function ({dataFrame, rule, context, instance, queries}) {
   // 对data进行处理后返回即可
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
   // 如果改函数没有返回值，内部会直接使用原始data，保证不中断

@@ -196,7 +196,7 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) 
             ],
           },
           type === 'bandX-linearY' && {
-            name: 'yAxisLine',
+            name: 'axisLine',
             effective: true,
             fields: [
               {
@@ -214,7 +214,7 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) 
             ],
           },
           type === 'bandX-linearY' && {
-            name: 'yAxisSplitLine',
+            name: 'axisSplitLine',
             effective: true,
             fields: [
               {

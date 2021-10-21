@@ -18,7 +18,7 @@ export default ({direction = 'horizontal', position = 'topRight'}) => {
             defaultValue: [0, 0],
           },
           {
-            name: 'gap',
+            name: 'gap2',
             defaultValue: [2, 5],
           },
         ],

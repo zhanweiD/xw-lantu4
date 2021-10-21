@@ -120,13 +120,13 @@ export const layerOptionMap = new Map([
         ['yAxis.label.shadow.blur', 'style.textY.shadow.blur'],
         ['yAxis.label.shadow.singleColor', 'style.textY.shadow.color'],
         // y轴线
-        ['yAxis.yAxisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
-        ['yAxis.yAxisLine.singleColor', 'style.lineAxisY.stroke'],
-        ['yAxis.yAxisLine.opacity', 'style.lineAxisY.strokeOpacity'],
+        ['yAxis.axisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
+        ['yAxis.axisLine.singleColor', 'style.lineAxisY.stroke'],
+        ['yAxis.axisLine.opacity', 'style.lineAxisY.strokeOpacity'],
         // y刻度线
-        ['yAxis.yAxisSplitLine.lineWidth', 'style.lineTickY.strokeWidth'],
-        ['yAxis.yAxisSplitLine.singleColor', 'style.lineTickY.stroke'],
-        ['yAxis.yAxisSplitLine.opacity', 'style.lineTickY.strokeOpacity'],
+        ['yAxis.axisSplitLine.lineWidth', 'style.lineTickY.strokeWidth'],
+        ['yAxis.axisSplitLine.singleColor', 'style.lineTickY.stroke'],
+        ['yAxis.axisSplitLine.opacity', 'style.lineTickY.strokeOpacity'],
       ]
       const storage = mapOption(mapping)
       // x显隐
@@ -149,11 +149,11 @@ export const layerOptionMap = new Map([
       if (getOption('yAxis.label.shadow.effective') !== undefined) {
         storage.set('style.textY.shadow.hide', !getOption('yAxis.label.shadow.effective'))
       }
-      if (getOption('yAxis.yAxisLine.effective') !== undefined) {
-        storage.set('style.lineAxisY.hide', !getOption('yAxis.yAxisLine.effective'))
+      if (getOption('yAxis.axisLine.effective') !== undefined) {
+        storage.set('style.lineAxisY.hide', !getOption('yAxis.axisLine.effective'))
       }
-      if (getOption('yAxis.yAxisSplitLine.effective') !== undefined) {
-        storage.set('style.lineTickY.hide', !getOption('yAxis.yAxisSplitLine.effective'))
+      if (getOption('yAxis.axisSplitLine.effective') !== undefined) {
+        storage.set('style.lineTickY.hide', !getOption('yAxis.axisSplitLine.effective'))
       }
       // x禁用格式化
       if (!storage.get('style.textX.format.thousandth') && !storage.get('style.textX.format.percentage')) {
@@ -175,7 +175,7 @@ export const layerOptionMap = new Map([
         ['base.layoutPosition', 'style.align', positionMap.get('align')],
         ['base.layoutPosition', 'style.verticalAlign', positionMap.get('verticalAlign')],
         ['base.offset', 'style.offset'],
-        ['base.gap', 'style.gap'],
+        ['base.gap2', 'style.gap'],
         // 形状
         ['shape.size', 'style.shapeSize'],
         ['shape.opacity', 'style.shape.fillOpacity'],
