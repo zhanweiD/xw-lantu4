@@ -357,6 +357,26 @@ export const MDataField = types
       })
     }
 
+    const previewSource = () => {
+      const {art, event} = self.env_
+      const {projectData_, spaceData_} = self
+      const sourceData = art.datas?.find((v) => v.dataId === self.value.source)
+
+      const data = [...projectData_, ...spaceData_].find((o) => o.dataId === sourceData.dataId)
+
+      const {dataId, dataName, dataType, folderId, projectId} = data
+      event.fire('editor.openTab', {
+        id: dataId,
+        name: dataName,
+        type: 'data',
+        tabOptions: {
+          folderId,
+          dataType,
+          projectId,
+        },
+      })
+    }
+
     return {
       afterCreate,
       initValue,
@@ -370,5 +390,6 @@ export const MDataField = types
       toggleBak,
       bindRelationModels,
       getRelationModels,
+      previewSource,
     }
   })

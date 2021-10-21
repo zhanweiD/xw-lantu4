@@ -41,8 +41,8 @@ const CommonTab = ({target}) => {
                 />
                 <MultiNumberField
                   items={[
-                    {key: 'width', step: 1},
-                    {key: 'height', step: 1},
+                    {key: 'W', step: 1},
+                    {key: 'H', step: 1},
                   ]}
                   className="ml24"
                   label={t('areaSize')}

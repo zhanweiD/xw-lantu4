@@ -109,6 +109,9 @@ const ModelToField = ({model}) => {
           removeSource={(v) => {
             model.removeSource(v)
           }}
+          previewSource={() => {
+            model.previewSource()
+          }}
         />
       )
       break

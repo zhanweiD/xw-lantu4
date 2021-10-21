@@ -45,6 +45,7 @@ const DataField = ({
   removeSource = () => {},
   type = 1,
   toggleBak = () => {},
+  previewSource = () => {},
 }) => {
   const {t} = useTranslation()
   const [json, setJson] = useState(value.private)
@@ -140,6 +141,13 @@ const DataField = ({
               >
                 <div className={c('fb1 lh24', s.name)}>{value.displayName}</div>
                 <IconButton
+                  icon="open-in-tab"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    previewSource()
+                  }}
+                />
+                <IconButton
                   icon="remove"
                   buttonSize={24}
                   onClick={(e) => {
@@ -211,22 +219,24 @@ const DataField = ({
               />
             </>
           )}
-          <Processor
-            name="数据处理"
-            type={type}
-            value={value.processor}
-            effective={value.useProcessor}
-            onChange={(data) => {
-              onChange({
-                processor: data,
-              })
-            }}
-            onIconClick={(data) => {
-              onChange({
-                useProcessor: data,
-              })
-            }}
-          />
+          {value.source && (
+            <Processor
+              name="数据处理"
+              type={type}
+              value={value.processor}
+              effective={value.useProcessor}
+              onChange={(data) => {
+                onChange({
+                  processor: data,
+                })
+              }}
+              onIconClick={(data) => {
+                onChange({
+                  useProcessor: data,
+                })
+              }}
+            />
+          )}
           <Modal
             width={270}
             height={400}
