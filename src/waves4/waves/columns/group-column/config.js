@@ -24,7 +24,7 @@ export const config = (k) => ({
       column: ['本科院校', '高职院校'],
       type: 'column',
       mode: 'group',
-      labelPosition: ['bottom-outer', 'top-outer'],
+      labelPosition: 'top-outer',
     }),
   ],
   // 标题面板
