@@ -122,12 +122,14 @@ const createExhibitAdapter = (hooks) =>
 
     getNecessary() {
       let necessary = true
-      this.model.data.relationModels.forEach((model) => {
-        const data = model.getValue()
-        if (!data || !data.length) {
-          necessary = false
-        }
-      })
+      if (this.model.data) {
+        this.model.data.relationModels.forEach((model) => {
+          const data = model.getValue()
+          if (!data || !data.length) {
+            necessary = false
+          }
+        })
+      }
       return necessary
     }
 

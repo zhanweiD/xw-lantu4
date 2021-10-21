@@ -352,10 +352,7 @@ export const MDataField = types
         // common系列
         useProcessor: false,
         processor: `return function ({dataFrame, rule, context, instance, queries}) {
-  // 对data进行处理后返回即可
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
-  // 如果改函数没有返回值，内部会直接使用原始data，保证不中断
-  return data
 }`,
       })
     }
