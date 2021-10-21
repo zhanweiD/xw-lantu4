@@ -18,7 +18,7 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 矩形图层
-  layers: [rect({k, column: ['人数'], type: 'bar', mode: 'group', labelPosition: ['left-outer', 'right-outer']})],
+  layers: [rect({k, column: ['人数'], type: 'bar', mode: 'group', labelPosition: 'right-outer'})],
   // 标题面板
   title: title({k, content: '某APP活跃用户年龄分布'}),
   // 图例面板

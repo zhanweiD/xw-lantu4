@@ -115,54 +115,9 @@ export default ({
           {
             name: 'custom',
             type: 'select',
-            label: 'maxPosition',
-            option: 'maxLabelPosition',
-            defaultValue: Array.isArray(labelPosition) ? labelPosition[1] : labelPosition,
-            options: [
-              {
-                key: 'wave.center',
-                value: 'center',
-              },
-              {
-                key: 'wave.topInner',
-                value: 'top-inner',
-              },
-              {
-                key: 'wave.topOuter',
-                value: 'top-outer',
-              },
-              {
-                key: 'wave.rightInner',
-                value: 'right-inner',
-              },
-              {
-                key: 'wave.rightOuter',
-                value: 'right-outer',
-              },
-              {
-                key: 'wave.bottomInner',
-                value: 'bottom-inner',
-              },
-              {
-                key: 'wave.bottomOuter',
-                value: 'bottom-outer',
-              },
-              {
-                key: 'wave.leftInner',
-                value: 'left-inner',
-              },
-              {
-                key: 'wave.leftOuter',
-                value: 'left-outer',
-              },
-            ],
-          },
-          {
-            name: 'custom',
-            type: 'select',
-            label: 'minPosition',
-            option: 'minLabelPosition',
-            defaultValue: Array.isArray(labelPosition) ? labelPosition[0] : labelPosition,
+            label: 'position',
+            option: 'labelPosition',
+            defaultValue: labelPosition,
             options: [
               {
                 key: 'wave.center',

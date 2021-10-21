@@ -20,7 +20,7 @@ export const config = (k) => ({
   // 矩形图层
   layers: [
     line({k, column: ['GDP增速'], mode: 'group', axis: 'minor'}),
-    rect({k, type: 'column', mode: 'group', column: ['GDP总量'], labelPosition: ['bottom-outer', 'top-outer']}),
+    rect({k, type: 'column', mode: 'group', column: ['GDP总量'], labelPosition: 'top-outer'}),
   ],
   // 标题面板
   title: title({k, content: '中国近十年GDP总量与增速'}),

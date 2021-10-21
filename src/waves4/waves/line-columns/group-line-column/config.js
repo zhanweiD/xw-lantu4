@@ -25,7 +25,7 @@ export const config = (k) => ({
       type: 'column',
       mode: 'group',
       column: ['第一产业累计值', '第二产业累计值', '第三产业累计值'],
-      labelPosition: ['bottom-outer', 'top-outer'],
+      labelPosition: 'top-outer',
     }),
   ],
   // 标题面板

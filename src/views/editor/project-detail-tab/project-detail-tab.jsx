@@ -8,9 +8,6 @@ import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import Section from '@builders/section'
 // import DataTable from '@components/data-table'
-import IconButton from '@components/icon-button'
-import ProjectMember from '@views/public/project-member'
-import ProjectData from '@views/public/project-data'
 import {TextField, TextareaField} from '@components/field'
 import s from './project-detail-tab.module.styl'
 
@@ -40,22 +37,14 @@ const ProjectDetailTab = ({project}) => {
         </Section>
 
         {/* TODO 成员管理 */}
-        <Section
+        {/* <Section
           props={project.section}
           name="成员管理"
           childrenClassName="pt8 pb8"
           icon={<IconButton icon="add" onClick={project.addMemberConfirm} />}
         >
           <ProjectMember project={project} />
-        </Section>
-        <Section
-          props={project.section}
-          name="数据管理"
-          childrenClassName="pt8 pb8"
-          icon={<IconButton icon="add" onClick={project.createMenu} />}
-        >
-          <ProjectData project={project} />
-        </Section>
+        </Section> */}
 
         <Section props={project.section} name="危险操作" childrenClassName="pt8 pb8" tipColor="#fa0">
           <div className="fbh">
