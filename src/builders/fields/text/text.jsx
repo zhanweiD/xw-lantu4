@@ -24,6 +24,7 @@ const TextField = ({
       label={label}
       visible={visible}
     >
+      <input type={type} style="display:none" />
       <input
         type={type}
         value={isDef(value) ? value : defaultValue}
