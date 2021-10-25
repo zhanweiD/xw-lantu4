@@ -24,19 +24,20 @@ const TextField = ({
       label={label}
       visible={visible}
     >
-      <input type={type} style="display:none" />
-      <input
-        type={type}
-        value={isDef(value) ? value : defaultValue}
-        placeholder={placeholder}
-        autoComplete="off"
-        onChange={(e) => {
-          if (e.target.value.indexOf('\\n') > -1) {
-            console.warn("禁止输入'\\n'特殊字符")
-          }
-          onChange(trim(e.target.value.replace(/\\n/g, '')))
-        }}
-      />
+      <form className="fb1">
+        <input
+          type={type}
+          value={isDef(value) ? value : defaultValue}
+          placeholder={placeholder}
+          autoComplete="off"
+          onChange={(e) => {
+            if (e.target.value.indexOf('\\n') > -1) {
+              console.warn("禁止输入'\\n'特殊字符")
+            }
+            onChange(trim(e.target.value.replace(/\\n/g, '')))
+          }}
+        />
+      </form>
     </Field>
   )
 }
