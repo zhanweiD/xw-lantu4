@@ -1,4 +1,4 @@
-import {getParent, getEnv} from 'mobx-state-tree'
+import {getRoot} from 'mobx-state-tree'
 import {reaction} from 'mobx'
 import i18n from '@i18n'
 import capitalize from 'lodash/capitalize'
@@ -89,7 +89,6 @@ const createExhibitAdapter = (hooks) =>
     init() {
       log.info(`组件(${this.model.lib}.${this.model.key})适配器实例执行了初始化init`)
       const instanceOption = this.getAllOptions()
-      console.log('instanceOption: ', instanceOption)
       this.instance = hooks.init.call(null, {
         options: instanceOption,
       })
@@ -122,15 +121,27 @@ const createExhibitAdapter = (hooks) =>
 
     getNecessary() {
       let necessary = true
+      const map = {}
       if (this.model.data) {
         this.model.data.relationModels.forEach((model) => {
+          const {id} = getRoot(model)
           const data = model.getValue()
-          if (!data || !data.length) {
-            necessary = false
+          if (id) {
+            if (!data || !data.length) {
+              map[id] = false
+            } else {
+              map[id] = true
+            }
+          } else {
+            if (!data || !data.length) {
+              necessary = false
+            }
           }
         })
       }
-      return necessary
+      const layersNecessary = Object.values(map).some((v) => v)
+
+      return necessary && layersNecessary
     }
 
     createObserverObject({actionType, isGlobal = false}) {
@@ -301,7 +312,6 @@ const createExhibitAdapter = (hooks) =>
     }
 
     update({options, action, updated, updatedPath, flag}) {
-      console.log(options, action, updated, updatedPath, flag, 'updated')
       if (this.getNecessary()) {
         if (this.container.contains(this.div)) {
           this.container.removeChild(this.div)
@@ -323,7 +333,7 @@ const createExhibitAdapter = (hooks) =>
       for (let model of this.model.data.relationModels) {
         const data = model.getValue()
         if (!data || !data.length) {
-          text = `${i18n.t(getParent(model, 2).name)}: ${i18n.t(model.label)}未配置`
+          text = `${i18n.t(getRoot(model).name)}: ${i18n.t(model.label)}未配置`
           break
         }
       }
