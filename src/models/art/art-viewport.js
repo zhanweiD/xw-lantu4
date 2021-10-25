@@ -432,7 +432,7 @@ export const MArtViewport = types
       } else {
         const layouts = selectRange.map((value) => {
           const frame = self.frames.find((v) => v.frameId === value.frameId)
-          const boxes = frame.boxes.filter((v) => value.boxIds.includes(v.boxId))
+          const boxes = frame.boxes.filter((v) => value.boxIds.includes(v.boxId || v.uid))
           const {x1, y1, x2, y2} = getCoordinate(boxes)
           return {
             x1_: frame.x1_ + x1,

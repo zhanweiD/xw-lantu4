@@ -108,9 +108,10 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({artId, boxId, name, frameId, exhibit, layout, background, remark, materials, padding}) => {
+    const initBox = ({uid, artId, boxId, name, frameId, exhibit, layout, background, remark, materials, padding}) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
+        uid,
         artId,
         boxId,
         name,
@@ -120,6 +121,7 @@ export const MArtFrame = types
         remark,
         materials,
       })
+
       box.padding.setSchema(padding)
       box.background.setSchema(background)
 
@@ -195,27 +197,28 @@ export const MArtFrame = types
         height: Math.round(exhibit.initSize[1] * self.grid.unit_),
       }
 
-      const boxId = uuid()
+      const uid = uuid()
       const params = {
         artId,
-        name: `容器-${boxId.substring(0, 4)}`,
+        name: `容器-${uid.substring(0, 4)}`,
         frameId,
         exhibit,
         layout,
       }
-      self.initBox({boxId, ...params})
+      self.initBox({uid, ...params})
       self.viewport_.toggleSelectRange({
         target: 'box',
         selectRange: [
           {
             frameId,
-            boxIds: [boxId],
+            boxIds: [uid],
           },
         ],
       })
-      const realBox = self.boxes.find((o) => o.boxId === boxId)
+      const realBox = self.boxes.find((o) => o.uid === uid)
       try {
         const box = yield io.art.createBox({
+          uid,
           exhibit,
           layout,
           name: params.name,
@@ -408,9 +411,6 @@ export const MArtFrame = types
       }
     }
 
-    const afterCreate = () => {
-      console.log('artframe', self.background.getSchema())
-    }
     return {
       initBox,
       createBox,
@@ -422,6 +422,5 @@ export const MArtFrame = types
       removeBackground,
       sortBackground,
       recreateFrame,
-      afterCreate,
     }
   })
