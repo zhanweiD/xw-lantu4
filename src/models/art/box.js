@@ -12,7 +12,8 @@ const log = createLog('@models/art/box.js')
 
 export const MBox = types
   .model({
-    boxId: types.union(types.string, types.number),
+    uid: types.optional(types.string, ''),
+    boxId: types.maybe(types.number),
     name: types.string,
     frameId: types.number,
     artId: types.number,
@@ -26,7 +27,7 @@ export const MBox = types
     isCreateFail: types.maybe(types.boolean),
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    normalKeys: types.frozen(['uid', 'frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
     deepKeys: types.frozen(['layout', 'paddding', 'background']),
   })
   .views((self) => ({
@@ -238,9 +239,10 @@ export const MBox = types
     const recreateBox = flow(function* recreateBox() {
       const {io} = self.env_
       const {artId, projectId} = self.art_
-      const {layout, name, frameId, exhibit, background} = self
+      const {uid, layout, name, frameId, exhibit, background} = self
       try {
         const box = yield io.art.createBox({
+          uid,
           exhibit,
           layout,
           name,

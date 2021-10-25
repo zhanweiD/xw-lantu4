@@ -49,7 +49,7 @@ const Box = ({box}) => {
       }}
     >
       <div
-        id={`box-${box.boxId}`}
+        id={`box-${box.uId}`}
         className={c({
           [s.boxBackgroundColor]: isBoxBackgroundVisible,
           [s.outline]: isSelected,

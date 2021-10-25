@@ -82,7 +82,7 @@ const ArtFrame = ({frame}) => {
           <Material material={material} key={material.id} target={frame} frame={frame} />
         ))}
         {boxes.map((box) => (
-          <Box key={box.boxId} box={box} />
+          <Box key={box.uid} box={box} />
         ))}
         {isGridVisible && (
           <div
