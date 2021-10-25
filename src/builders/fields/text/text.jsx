@@ -1,8 +1,10 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
+import c from 'classnames'
 import trim from 'lodash/trim'
 import isDef from '@utils/is-def'
 import {Field} from '../base'
+import s from './text.module.styl'
 
 const TextField = ({
   value,
@@ -24,20 +26,21 @@ const TextField = ({
       label={label}
       visible={visible}
     >
-      <form className="fb1">
-        <input
-          type={type}
-          value={isDef(value) ? value : defaultValue}
-          placeholder={placeholder}
-          autoComplete="off"
-          onChange={(e) => {
-            if (e.target.value.indexOf('\\n') > -1) {
-              console.warn("禁止输入'\\n'特殊字符")
-            }
-            onChange(trim(e.target.value.replace(/\\n/g, '')))
-          }}
-        />
-      </form>
+      <input
+        type="text"
+        className={c({
+          [s.password]: type === 'password',
+        })}
+        value={isDef(value) ? value : defaultValue}
+        placeholder={placeholder}
+        autoComplete="off"
+        onChange={(e) => {
+          if (e.target.value.indexOf('\\n') > -1) {
+            console.warn("禁止输入'\\n'特殊字符")
+          }
+          onChange(trim(e.target.value.replace(/\\n/g, '')))
+        }}
+      />
     </Field>
   )
 }
