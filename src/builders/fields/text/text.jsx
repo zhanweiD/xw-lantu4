@@ -1,8 +1,10 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
+import c from 'classnames'
 import trim from 'lodash/trim'
 import isDef from '@utils/is-def'
 import {Field} from '../base'
+import s from './text.module.styl'
 
 const TextField = ({
   value,
@@ -25,7 +27,10 @@ const TextField = ({
       visible={visible}
     >
       <input
-        type={type}
+        type="text"
+        className={c({
+          [s.password]: type === 'password',
+        })}
         value={isDef(value) ? value : defaultValue}
         placeholder={placeholder}
         autoComplete="off"

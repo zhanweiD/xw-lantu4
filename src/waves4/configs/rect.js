@@ -1,10 +1,4 @@
-export default ({
-  column = [],
-  axis = 'main',
-  type = 'column',
-  mode = 'group',
-  labelPosition = ['center', 'center'],
-}) => {
+export default ({column = [], axis = 'main', type = 'column', mode = 'group', labelPosition = 'center'}) => {
   return {
     name: '矩形层',
     type: 'rect',
