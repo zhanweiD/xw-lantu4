@@ -9,10 +9,22 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import s from './common-tab.module.styl'
 
-const {TextField, TextareaField, MultiNumberField} = fields
+const {TextField, TextareaField, MultiNumberField, ConstraintField} = fields
 const CommonTab = ({target}) => {
   const {t} = useTranslation()
-  const {background, name, remark, layout, setLayout, setRemark, materials, padding} = target || {}
+  const {
+    background,
+    name,
+    remark,
+    constraints,
+    layout,
+    setLayout,
+    setRemark,
+    materials,
+    padding,
+    isMain,
+    setConstraints,
+  } = target || {}
   let materialModels = []
   if (materials) {
     materialModels = materials.map((material) => target.art_.exhibitManager.get(material.id))
@@ -23,41 +35,40 @@ const CommonTab = ({target}) => {
         <Tab sessionId="art-option-common" className={s.commonTab}>
           <Tab.Item name={t('layout')}>
             <Scroll className="h100p">
-              <Section name={t('base')}>
-                <MultiNumberField
-                  items={[
-                    {key: 'X', step: 1},
-                    {key: 'Y', step: 1},
-                  ]}
-                  className="ml24"
-                  label={t('xyPosition')}
-                  value={[layout.x, layout.y]}
-                  onChange={(value) => {
-                    setLayout({
-                      x: value[0],
-                      y: value[1],
-                    })
-                  }}
-                />
-                <MultiNumberField
-                  items={[
-                    {key: 'W', step: 1},
-                    {key: 'H', step: 1},
-                  ]}
-                  className="ml24"
-                  label={t('areaSize')}
-                  value={[layout.width, layout.height]}
-                  onChange={(value) => {
-                    setLayout({
-                      width: value[0],
-                      height: value[1],
-                    })
-                  }}
-                />
-              </Section>
+              {isMain ? (
+                <Section name={t('base')}>
+                  <MultiNumberField
+                    items={[
+                      {key: 'W', step: 1},
+                      {key: 'H', step: 1},
+                    ]}
+                    className="ml24"
+                    label={t('areaSize')}
+                    value={[layout.width, layout.height]}
+                    onChange={(value) => {
+                      setLayout({
+                        width: value[0],
+                        height: value[1],
+                      })
+                    }}
+                  />
+                </Section>
+              ) : (
+                <Section name={t('constraint')}>
+                  <ConstraintField
+                    className="ml24"
+                    value={{
+                      layout: layout,
+                      constraints: constraints,
+                    }}
+                    onClick={(value) => {
+                      setConstraints(value)
+                    }}
+                  />
+                </Section>
+              )}
               {padding && (
                 <Section name={t('offset')}>
-                  {/* <OffsetField className="ml24" value={padding} onChange={(data) => target.setPadding(data)} /> */}
                   {recusiveNode({
                     ...padding.options,
                     level: 0,
