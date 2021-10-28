@@ -1,6 +1,6 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
-// import {useTranslation} from 'react-i18next'
+import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import IconButton from '@components/icon-button'
 import {Field} from '../base'
@@ -14,6 +14,7 @@ import vverticalLine from './images/ct-unfixed-v.svg'
 import vwidthLine from './images/ct-unfixed-width.svg'
 import vheightLine from './images/ct-unfixed-height.svg'
 import s from './constraint.module.styl'
+import {NumberInput} from '../number'
 
 const getLine = (type) => {
   const line = {
@@ -29,7 +30,8 @@ const getLine = (type) => {
 
 const ConstraintField = ({
   value,
-  // onChange = () => {},
+  container,
+  onChange = () => {},
   onClick = () => {},
   label,
   visible,
@@ -37,10 +39,14 @@ const ConstraintField = ({
   childrenClassName,
   className,
 }) => {
-  // const {t} = useTranslation()
-
+  const {t} = useTranslation()
   const line = getLine(value.constraints)
-  const {ctString} = value.constraints
+
+  console.log(value)
+  const {constraints, layout} = value
+  const {ctString, top, right, bottom, left, height, width} = constraints
+  // const {x, y, height, width} = value.layout
+  console.log(container)
   return (
     <Field
       className={className}
@@ -49,7 +55,7 @@ const ConstraintField = ({
       label={label}
       visible={visible}
     >
-      <div className="fbh fb1">
+      <div className="fbv fb1">
         <div className={c('fbh fb1', s.box)}>
           <img className={s.left} src={line.left} alt="" />
           <div className={c('fbv fb1', s.center)}>
@@ -60,234 +66,335 @@ const ConstraintField = ({
             </div>
             <img src={line.bottom} className={c('fb1', s.bottom)} alt="" />
           </div>
-          <img src={line.right} className={s.right} alt="" />
+          <div className="fbh fbn ml8">
+            <div className="fbv fbac fbjc">
+              <IconButton
+                buttonSize={24}
+                icon="ct-01"
+                className={c({
+                  [s.isActive]: ctString === 'tlwh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: false,
+                    bottom: false,
+                    left: true,
+                    width: true,
+                    height: true,
+                    ctString: 'tlwh',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                icon="ct-04"
+                className={c({
+                  [s.isActive]: ctString === 'tblw',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: false,
+                    bottom: true,
+                    left: true,
+                    width: true,
+                    height: false,
+                    ctString: 'tblw',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                icon="ct-09"
+                className={c({
+                  [s.isActive]: ctString === 'blwh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: false,
+                    right: false,
+                    bottom: true,
+                    left: true,
+                    width: true,
+                    height: true,
+                    ctString: 'blwh',
+                  }
+                  onClick(value)
+                }}
+              />
+            </div>
+            <div className="fbv fbac fbjc">
+              <IconButton
+                buttonSize={24}
+                icon="ct-02"
+                className={c({
+                  [s.isActive]: ctString === 'trlh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: true,
+                    bottom: false,
+                    left: true,
+                    width: false,
+                    height: true,
+                    ctString: 'trlh',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                className={c({
+                  [s.isActive]: ctString === 'trbl',
+                })}
+                icon="ct-06"
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: true,
+                    bottom: true,
+                    left: true,
+                    width: false,
+                    height: false,
+                    ctString: 'trbl',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                icon="ct-10"
+                className={c({
+                  [s.isActive]: ctString === 'rblh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: false,
+                    right: true,
+                    bottom: true,
+                    left: true,
+                    width: false,
+                    height: true,
+                    ctString: 'rblh',
+                  }
+                  onClick(value)
+                }}
+              />
+            </div>
+
+            <div className="fbv fbac fbjc">
+              <IconButton
+                buttonSize={24}
+                icon="ct-03"
+                className={c({
+                  [s.isActive]: ctString === 'trwh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: true,
+                    bottom: false,
+                    left: false,
+                    width: true,
+                    height: true,
+                    ctString: 'trwh',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                icon="ct-08"
+                className={c({
+                  [s.isActive]: ctString === 'trbw',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: true,
+                    right: true,
+                    bottom: true,
+                    left: false,
+                    width: true,
+                    height: false,
+                    ctString: 'trbw',
+                  }
+                  onClick(value)
+                }}
+              />
+              <IconButton
+                buttonSize={24}
+                icon="ct-11"
+                className={c({
+                  [s.isActive]: ctString === 'rbwh',
+                })}
+                onClick={() => {
+                  const value = {
+                    top: false,
+                    right: true,
+                    bottom: true,
+                    left: false,
+                    width: true,
+                    height: true,
+                    ctString: 'rbwh',
+                  }
+                  onClick(value)
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="fbh fbn ml8">
-          <div className="fbv fbac fbjc">
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-01"
-              className={c(s.item, s.lineR, s.lineB, {
-                [s.isActive]: ctString === 'tlwh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: false,
-                  bottom: false,
-                  left: true,
-                  width: true,
-                  height: true,
-                  ctString: 'tlwh',
+        <div className="fbh">
+          <div className="fbh fbac">
+            <div>{t('T')}</div>
+            <NumberInput
+              value={top ? layout.y : 'auto'}
+              readOnly={!top}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: layout.x,
+                  y: v,
+                  height: layout.height,
+                  width: layout.width,
                 }
-                onClick(value)
-              }}
-            />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-04"
-              className={c(s.item, s.lineR, s.lineB, {
-                [s.isActive]: ctString === 'tblw',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: false,
-                  bottom: true,
-                  left: true,
-                  width: true,
-                  height: false,
-                  ctString: 'tblw',
+                if (bottom) {
+                  data = {
+                    x: layout.x,
+                    y: v,
+                    height: layout.height + layout.y - v,
+                    width: layout.width,
+                  }
                 }
-                onClick(value)
-              }}
-            />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-09"
-              className={c(s.item, s.lineR, {
-                [s.isActive]: ctString === 'blwh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: false,
-                  right: false,
-                  bottom: true,
-                  left: true,
-                  width: true,
-                  height: true,
-                  ctString: 'blwh',
-                }
-                onClick(value)
+                onChange(data)
               }}
             />
           </div>
-          {/* <div className="fbv fbac fbjc">
-            <IconButton
-              buttonSize={24}
-              icon="ct-05"
-              className={c({
-                [s.isActive]: ctString === 'rlh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: false,
-                  right: true,
-                  bottom: false,
-                  left: true,
-                  width: false,
-                  height: true,
-                  ctString: 'rlh',
+          <div className="fbh fbac">
+            <div>{t('R')}</div>
+            <NumberInput
+              value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
+              readOnly={!right}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: container.width + container.x - v - layout.width,
+                  y: layout.y,
+                  height: layout.height,
+                  width: layout.width,
                 }
-                onClick(value)
-              }}
-            />
-          </div> */}
-          <div className="fbv fbac fbjc">
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-02"
-              className={c(s.item, s.lineR, s.lineB, {
-                [s.isActive]: ctString === 'trlh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: true,
-                  bottom: false,
-                  left: true,
-                  width: false,
-                  height: true,
-                  ctString: 'trlh',
+                if (left) {
+                  data = {
+                    x: layout.x,
+                    y: layout.y,
+                    height: layout.height,
+                    width: container.width + container.x - v - layout.x,
+                  }
                 }
-                onClick(value)
-              }}
-            />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              className={c(s.item, s.lineR, s.lineB, {
-                [s.isActive]: ctString === 'trbl',
-              })}
-              icon="ct-06"
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: true,
-                  bottom: true,
-                  left: true,
-                  width: false,
-                  height: false,
-                  ctString: 'trbl',
-                }
-                onClick(value)
-              }}
-            />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-10"
-              className={c(s.item, s.lineR, {
-                [s.isActive]: ctString === 'rblh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: false,
-                  right: true,
-                  bottom: true,
-                  left: true,
-                  width: false,
-                  height: true,
-                  ctString: 'rblh',
-                }
-                onClick(value)
+                onChange(data)
               }}
             />
           </div>
-          {/* <div className="fbv fbac fbjc">
-            <IconButton
-              buttonSize={24}
-              icon="ct-07"
-              className={c({
-                [s.isActive]: ctString === 'tbw',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: false,
-                  bottom: true,
-                  left: false,
-                  width: true,
-                  height: false,
-                  ctString: 'tbw',
+          <div className="fbh fbac">
+            <div>{t('B')}</div>
+            <NumberInput
+              value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
+              readOnly={!bottom}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: layout.x,
+                  y: container.height + container.y - layout.height - v,
+                  height: layout.height,
+                  width: layout.width,
                 }
-                onClick(value)
+                if (top) {
+                  data = {
+                    x: layout.x,
+                    y: layout.y,
+                    height: container.height + container.y - v - layout.y,
+                    width: layout.width,
+                  }
+                }
+                onChange(data)
               }}
             />
-          </div> */}
-          <div className="fbv fbac fbjc">
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-03"
-              className={c(s.item, s.lineB, {
-                [s.isActive]: ctString === 'trwh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: true,
-                  bottom: false,
-                  left: false,
-                  width: true,
-                  height: true,
-                  ctString: 'trwh',
+          </div>
+          <div className="fbh fbac">
+            <div>{t('L')}</div>
+            <NumberInput
+              value={left ? layout.x : 'auto'}
+              readOnly={!left}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: v,
+                  y: layout.y,
+                  height: layout.height,
+                  width: layout.width,
                 }
-                onClick(value)
+                if (right) {
+                  data = {
+                    x: v,
+                    y: layout.y,
+                    height: layout.height,
+                    width: layout.width + layout.x - v,
+                  }
+                }
+                onChange(data)
               }}
             />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-08"
-              className={c(s.item, s.lineB, {
-                [s.isActive]: ctString === 'trbw',
-              })}
-              onClick={() => {
-                const value = {
-                  top: true,
-                  right: true,
-                  bottom: true,
-                  left: false,
-                  width: true,
-                  height: false,
-                  ctString: 'trbw',
+          </div>
+          <div className="fbh fbac">
+            <div>{t('W')}</div>
+            <NumberInput
+              value={width ? layout.width : 'auto'}
+              readOnly={!width}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: layout.x,
+                  y: layout.y,
+                  height: layout.height,
+                  width: v,
                 }
-                onClick(value)
+                if (right) {
+                  data = {
+                    x: layout.width + layout.x - v,
+                    y: layout.y,
+                    height: layout.height,
+                    width: v,
+                  }
+                }
+                onChange(data)
               }}
             />
-            <IconButton
-              buttonSize={24}
-              iconSize={14}
-              icon="ct-11"
-              className={c(s.item, {
-                [s.isActive]: ctString === 'rbwh',
-              })}
-              onClick={() => {
-                const value = {
-                  top: false,
-                  right: true,
-                  bottom: true,
-                  left: false,
-                  width: true,
-                  height: true,
-                  ctString: 'rbwh',
+          </div>
+          <div className="fbh fbac">
+            <div>{t('H')}</div>
+            <NumberInput
+              value={height ? layout.height : 'auto'}
+              readOnly={!height}
+              onChange={(v) => {
+                // 传入x y height width
+                let data = {
+                  x: layout.x,
+                  y: layout.y,
+                  height: v,
+                  width: layout.width,
                 }
-                onClick(value)
+                if (bottom) {
+                  data = {
+                    x: layout.x,
+                    y: layout.y + layout.height - v,
+                    height: v,
+                    width: layout.width,
+                  }
+                }
+                onChange(data)
               }}
             />
           </div>
