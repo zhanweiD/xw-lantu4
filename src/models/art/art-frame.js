@@ -108,7 +108,20 @@ export const MArtFrame = types
       }
     }
 
-    const initBox = ({uid, artId, boxId, name, frameId, exhibit, layout, background, remark, materials, padding}) => {
+    const initBox = ({
+      uid,
+      artId,
+      boxId,
+      name,
+      frameId,
+      exhibit,
+      layout,
+      background,
+      remark,
+      materials,
+      padding,
+      constraints,
+    }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
         uid,
@@ -124,7 +137,7 @@ export const MArtFrame = types
 
       box.padding.setSchema(padding)
       box.background.setSchema(background)
-
+      box.constraints.setSchema(constraints)
       self.boxes.push(box)
       if (exhibit) {
         const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
@@ -294,19 +307,6 @@ export const MArtFrame = types
 
     const setLayout = ({x, y, height, width}) => {
       const {event} = self.env_
-      // self.viewLayout.set({
-      //   x: isDef(x) ? +x + self.viewLayout.x - self.layout.x : self.viewLayout.x,
-      //   y: isDef(y) ? +y + self.viewLayout.y - self.layout.y : self.viewLayout.y,
-      //   height: isDef(height) ? +height + self.viewLayout.height - self.layout.height : self.viewLayout.height,
-      //   width: isDef(width) ? +width + self.viewLayout.width - self.layout.width : self.viewLayout.width,
-      // })
-      // self.layout.set({
-      //   x: isDef(x) ? +x : self.layout.x,
-      //   y: isDef(y) ? +y : self.layout.y,
-      //   height: isDef(height) ? +height : self.layout.height,
-      //   width: isDef(width) ? +width : self.layout.width,
-      // })
-      // const {x: x1, y: y1, height: h, width: w} = self.viewLayout
       const layout = {
         x: isDef(x) ? +x + self.viewLayout.x - self.layout.x : self.viewLayout.x,
         y: isDef(y) ? +y + self.viewLayout.y - self.layout.y : self.viewLayout.y,
