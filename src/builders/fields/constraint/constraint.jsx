@@ -260,7 +260,7 @@ const ConstraintField = ({
           </div>
         </div>
         <div className="fbh fbac">
-          <div className={c('fb1 mr4', s.label)}>{t('T')}</div>
+          <div className={c('fb1', s.label)}>{t('T')}</div>
           <NumberInput
             className={s.w1}
             value={top ? layout.y : 'auto'}
@@ -285,7 +285,7 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml8 mr4', s.label)}>{t('R')}</div>
+          <div className={c('fb1 ml4', s.label)}>{t('R')}</div>
           <NumberInput
             className={s.w1}
             value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
@@ -310,7 +310,7 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml8 mr4', s.label)}>{t('B')}</div>
+          <div className={c('fb1 ml4', s.label)}>{t('B')}</div>
           <NumberInput
             className={s.w1}
             value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
@@ -335,7 +335,7 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml8 mr4', s.label)}>{t('L')}</div>
+          <div className={c('fb1 ml4', s.label)}>{t('L')}</div>
           <NumberInput
             className={s.w1}
             value={left ? layout.x : 'auto'}
@@ -360,7 +360,7 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml8 mr4', s.label)}>{t('W')}</div>
+          <div className={c('fb1 ml4', s.label)}>{t('W')}</div>
           <NumberInput
             className={s.w2}
             value={width ? layout.width : 'auto'}
@@ -384,7 +384,7 @@ const ConstraintField = ({
               onChange(data)
             }}
           />
-          <div className={c('fb1 ml8 mr4', s.label)}>{t('H')}</div>
+          <div className={c('fb1 ml4', s.label)}>{t('H')}</div>
           <NumberInput
             className={s.w2}
             value={height ? layout.height : 'auto'}
