@@ -22,8 +22,8 @@ const CommonTab = ({target}) => {
     setRemark,
     materials,
     padding,
-    isMain,
     setConstraints,
+    frame_,
   } = target || {}
   let materialModels = []
   if (materials) {
@@ -35,7 +35,7 @@ const CommonTab = ({target}) => {
         <Tab sessionId="art-option-common" className={s.commonTab}>
           <Tab.Item name={t('layout')}>
             <Scroll className="h100p">
-              {isMain ? (
+              {!frame_ ? (
                 <Section name={t('base')}>
                   <MultiNumberField
                     items={[
@@ -61,8 +61,12 @@ const CommonTab = ({target}) => {
                       layout: layout,
                       constraints: constraints,
                     }}
+                    container={frame_.viewLayout}
                     onClick={(value) => {
                       setConstraints(value)
+                    }}
+                    onChange={(value) => {
+                      setLayout(value)
                     }}
                   />
                 </Section>

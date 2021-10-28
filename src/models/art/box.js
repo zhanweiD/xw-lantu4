@@ -294,6 +294,7 @@ export const MBox = types
         y2: y1 + h,
       })
       debounceUpdate()
+      self.resize()
     }
 
     const setRemark = ({name = self.name, remark = self.remark}) => {
