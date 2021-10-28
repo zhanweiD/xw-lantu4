@@ -716,7 +716,7 @@ const numberRange = {
  * =====================================
  */
 
-// 填充方式
+// 填充模式
 const fillMode = {
   type: 'check',
   label: 'fillMode',
@@ -735,6 +735,32 @@ const fillMode = {
       value: 'stretchFill',
     },
   ],
+}
+
+// 屏幕自适应模式
+// const screenAdaptionMode = {
+//   type: 'check',
+//   label: 'fillMode',
+//   defaultValue: 'extendGrid',
+//   options: [
+//     // 扩展网格
+//     {
+//       key: 'extendGrid',
+//       value: 'extendGrid',
+//     },
+//     // 拉伸网格
+//     {
+//       key: 'stretchGrid',
+//       value: 'stretchGrid',
+//     },
+//   ],
+// }
+
+// 屏幕自适应
+const screenAdaption = {
+  type: 'switch',
+  label: 'screenAdaption',
+  defaultValue: true,
 }
 
 // 密码
@@ -962,6 +988,10 @@ export default {
   numberRange,
   // 填充模式
   fillMode,
+  // 屏幕自适应模式
+  // screenAdaptionMode,
+  // 屏幕自适应
+  screenAdaption,
   // 密码
   password,
   // 图片混合模式
