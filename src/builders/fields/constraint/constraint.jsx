@@ -56,22 +56,25 @@ const ConstraintField = ({
       visible={visible}
     >
       <div className="fbv fb1">
-        <div className={c('fbh fb1', s.box)}>
-          <img className={s.left} src={line.left} alt="" />
-          <div className={c('fbv fb1', s.center)}>
-            <img src={line.top} className={c('fb1', s.top)} alt="" />
-            <div className={c('fbh fb1 pr fbjc fbac w100p cfw10')}>
-              <img src={line.width} alt="" className="pa w100p" />
-              <img src={line.height} alt="" className="pa h100p" />
+        <div className="fbh mb4">
+          <div className={c('fbh fb1', s.box)}>
+            <img className={s.left} src={line.left} alt="" />
+            <div className={c('fbv fb1', s.center)}>
+              <img src={line.top} className={c('fb1', s.top)} alt="" />
+              <div className={c('fbh fb1 pr fbjc fbac w100p cfw10')}>
+                <img src={line.width} alt="" className="pa w100p" />
+                <img src={line.height} alt="" className="pa h100p" />
+              </div>
+              <img src={line.bottom} className={c('fb1', s.bottom)} alt="" />
             </div>
-            <img src={line.bottom} className={c('fb1', s.bottom)} alt="" />
+            <img src={line.right} className={s.right} alt="" />
           </div>
           <div className="fbh fbn ml8">
             <div className="fbv fbac fbjc">
               <IconButton
                 buttonSize={24}
                 icon="ct-01"
-                className={c({
+                className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'tlwh',
                 })}
                 onClick={() => {
@@ -90,7 +93,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-04"
-                className={c({
+                className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'tblw',
                 })}
                 onClick={() => {
@@ -109,7 +112,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-09"
-                className={c({
+                className={c(s.item, s.lineR, {
                   [s.isActive]: ctString === 'blwh',
                 })}
                 onClick={() => {
@@ -130,7 +133,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-02"
-                className={c({
+                className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'trlh',
                 })}
                 onClick={() => {
@@ -148,7 +151,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
-                className={c({
+                className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'trbl',
                 })}
                 icon="ct-06"
@@ -168,7 +171,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-10"
-                className={c({
+                className={c(s.item, s.lineR, {
                   [s.isActive]: ctString === 'rblh',
                 })}
                 onClick={() => {
@@ -190,7 +193,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-03"
-                className={c({
+                className={c(s.item, s.lineB, {
                   [s.isActive]: ctString === 'trwh',
                 })}
                 onClick={() => {
@@ -209,7 +212,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-08"
-                className={c({
+                className={c(s.item, s.lineB, {
                   [s.isActive]: ctString === 'trbw',
                 })}
                 onClick={() => {
@@ -228,7 +231,7 @@ const ConstraintField = ({
               <IconButton
                 buttonSize={24}
                 icon="ct-11"
-                className={c({
+                className={c(s.item, {
                   [s.isActive]: ctString === 'rbwh',
                 })}
                 onClick={() => {
@@ -249,8 +252,9 @@ const ConstraintField = ({
         </div>
         <div className="fbh">
           <div className="fbh fbac">
-            <div>{t('T')}</div>
+            <div className="mr4">{t('T')}</div>
             <NumberInput
+              className={s.w1}
               value={top ? layout.y : 'auto'}
               readOnly={!top}
               onChange={(v) => {
@@ -274,8 +278,9 @@ const ConstraintField = ({
             />
           </div>
           <div className="fbh fbac">
-            <div>{t('R')}</div>
+            <div className="ml8 mr4">{t('R')}</div>
             <NumberInput
+              className={s.w1}
               value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
               readOnly={!right}
               onChange={(v) => {
@@ -299,8 +304,9 @@ const ConstraintField = ({
             />
           </div>
           <div className="fbh fbac">
-            <div>{t('B')}</div>
+            <div className="ml8 mr4">{t('B')}</div>
             <NumberInput
+              className={s.w1}
               value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
               readOnly={!bottom}
               onChange={(v) => {
@@ -324,8 +330,9 @@ const ConstraintField = ({
             />
           </div>
           <div className="fbh fbac">
-            <div>{t('L')}</div>
+            <div className="ml8 mr4">{t('L')}</div>
             <NumberInput
+              className={s.w1}
               value={left ? layout.x : 'auto'}
               readOnly={!left}
               onChange={(v) => {
@@ -349,7 +356,7 @@ const ConstraintField = ({
             />
           </div>
           <div className="fbh fbac">
-            <div>{t('W')}</div>
+            <div className="ml8 mr4">{t('W')}</div>
             <NumberInput
               value={width ? layout.width : 'auto'}
               readOnly={!width}
@@ -374,7 +381,7 @@ const ConstraintField = ({
             />
           </div>
           <div className="fbh fbac">
-            <div>{t('H')}</div>
+            <div className="ml8 mr4">{t('H')}</div>
             <NumberInput
               value={height ? layout.height : 'auto'}
               readOnly={!height}
