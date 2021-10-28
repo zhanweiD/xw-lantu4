@@ -2,17 +2,26 @@
 
 .box
   border 1px dashed rgba(255, 255, 255, 0.1)
-
+  height: 73px
 .left
   width 32px
 .right
   width 32px
 .top
-  height 32px
+  height 24px
 .bottom
-  height 32px
+  height 24px
 .center
-  height 96px
-
+  height 73px
+.item
+  opacity 0.5
+  background-color rgba(255, 255, 255, 0.1)
+  &:hover
+    opacity 1
+.lineR
+  border-right 1px solid #2a2a2a
+.lineB
+  border-bottom 1px solid #2a2a2a
 .isActive
-  background-color themeColor
+  opacity 1
+  background-color themeColor!important

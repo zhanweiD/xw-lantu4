@@ -166,7 +166,6 @@ const ModelToField = ({model}) => {
       F = (
         <OffsetField
           className="ml24"
-          label={t(model.label)}
           visible={model.visible_}
           value={model.value.toJSON()}
           step={model.step}

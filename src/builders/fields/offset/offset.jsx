@@ -3,6 +3,7 @@ import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 
 import {Field} from '../base'
+import isDef from '@utils/is-def'
 import {NumberInput} from '../number'
 import s from './offset.module.styl'
 
@@ -15,6 +16,8 @@ const OffsetField = ({label, visible, value, onChange = () => {}, labelClassName
     left,
   }
 
+  console.log('oooole', label, isDef(label))
+
   return (
     <Field
       className={className}
@@ -23,7 +26,7 @@ const OffsetField = ({label, visible, value, onChange = () => {}, labelClassName
       label={label}
       visible={visible}
     >
-      <div className={c('emptyNote pr fbh fbac fbjc', s.outer)}>
+      <div className={c('pr fbh fbac fbjc', s.outer)}>
         {Object.entries(offset).map(([key, v]) => {
           return (
             <NumberInput

@@ -53,12 +53,12 @@ const ConstraintField = ({
         <div className={c('fbh fb1', s.box)}>
           <img className={s.left} src={line.left} alt="" />
           <div className={c('fbv fb1', s.center)}>
-            <img src={line.top} className={s.top} alt="" />
+            <img src={line.top} className={c('fb1', s.top)} alt="" />
             <div className={c('fbh fb1 pr fbjc fbac w100p cfw10')}>
-              <img src={line.width} alt="" className="pa" />
-              <img src={line.height} alt="" className="pa" style={{height: 32}} />
+              <img src={line.width} alt="" className="pa w100p" />
+              <img src={line.height} alt="" className="pa h100p" />
             </div>
-            <img src={line.bottom} className={s.bottom} alt="" />
+            <img src={line.bottom} className={c('fb1', s.bottom)} alt="" />
           </div>
           <img src={line.right} className={s.right} alt="" />
         </div>
@@ -66,8 +66,9 @@ const ConstraintField = ({
           <div className="fbv fbac fbjc">
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-01"
-              className={c({
+              className={c(s.item, s.lineR, s.lineB, {
                 [s.isActive]: ctString === 'tlwh',
               })}
               onClick={() => {
@@ -85,8 +86,9 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-04"
-              className={c({
+              className={c(s.item, s.lineR, s.lineB, {
                 [s.isActive]: ctString === 'tblw',
               })}
               onClick={() => {
@@ -104,8 +106,9 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-09"
-              className={c({
+              className={c(s.item, s.lineR, {
                 [s.isActive]: ctString === 'blwh',
               })}
               onClick={() => {
@@ -146,8 +149,9 @@ const ConstraintField = ({
           <div className="fbv fbac fbjc">
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-02"
-              className={c({
+              className={c(s.item, s.lineR, s.lineB, {
                 [s.isActive]: ctString === 'trlh',
               })}
               onClick={() => {
@@ -165,7 +169,8 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
-              className={c({
+              iconSize={14}
+              className={c(s.item, s.lineR, s.lineB, {
                 [s.isActive]: ctString === 'trbl',
               })}
               icon="ct-06"
@@ -184,8 +189,9 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-10"
-              className={c({
+              className={c(s.item, s.lineR, {
                 [s.isActive]: ctString === 'rblh',
               })}
               onClick={() => {
@@ -226,8 +232,9 @@ const ConstraintField = ({
           <div className="fbv fbac fbjc">
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-03"
-              className={c({
+              className={c(s.item, s.lineB, {
                 [s.isActive]: ctString === 'trwh',
               })}
               onClick={() => {
@@ -245,8 +252,9 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-08"
-              className={c({
+              className={c(s.item, s.lineB, {
                 [s.isActive]: ctString === 'trbw',
               })}
               onClick={() => {
@@ -264,8 +272,9 @@ const ConstraintField = ({
             />
             <IconButton
               buttonSize={24}
+              iconSize={14}
               icon="ct-11"
-              className={c({
+              className={c(s.item, {
                 [s.isActive]: ctString === 'rbwh',
               })}
               onClick={() => {

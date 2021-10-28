@@ -29,6 +29,7 @@ export default {
     exhibits: 'Exhibits',
   },
   dimension: 'Dimension',
+  constraint: 'Constraint',
   title: 'Title',
   legend: 'Legend',
   label: 'Label',

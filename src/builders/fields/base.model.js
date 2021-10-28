@@ -10,7 +10,7 @@ const MBase = types
     // NOTE effective有对应的setEffective方法，visible值
     effective: types.optional(types.boolean, true),
     visible: types.optional(types.boolean, true),
-    label: types.optional(types.string, ''),
+    label: types.maybe(types.string),
     // NOTE 需要子类模型自定义value和defaultValue
   })
   .views((self) => ({
