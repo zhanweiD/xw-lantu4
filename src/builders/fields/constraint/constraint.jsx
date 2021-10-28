@@ -73,6 +73,7 @@ const ConstraintField = ({
             <div className="fbv fbac fbjc">
               <IconButton
                 buttonSize={24}
+                title={t('fixTLWH')}
                 icon="ct-01"
                 className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'tlwh',
@@ -92,6 +93,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixTBLW')}
                 icon="ct-04"
                 className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'tblw',
@@ -111,6 +113,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixBLWH')}
                 icon="ct-09"
                 className={c(s.item, s.lineR, {
                   [s.isActive]: ctString === 'blwh',
@@ -132,6 +135,7 @@ const ConstraintField = ({
             <div className="fbv fbac fbjc">
               <IconButton
                 buttonSize={24}
+                title={t('fixTRLH')}
                 icon="ct-02"
                 className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'trlh',
@@ -151,6 +155,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixTRBL')}
                 className={c(s.item, s.lineR, s.lineB, {
                   [s.isActive]: ctString === 'trbl',
                 })}
@@ -170,6 +175,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixRBLH')}
                 icon="ct-10"
                 className={c(s.item, s.lineR, {
                   [s.isActive]: ctString === 'rblh',
@@ -192,6 +198,7 @@ const ConstraintField = ({
             <div className="fbv fbac fbjc">
               <IconButton
                 buttonSize={24}
+                title={t('fixTRWH')}
                 icon="ct-03"
                 className={c(s.item, s.lineB, {
                   [s.isActive]: ctString === 'trwh',
@@ -211,6 +218,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixTRBW')}
                 icon="ct-08"
                 className={c(s.item, s.lineB, {
                   [s.isActive]: ctString === 'trbw',
@@ -230,6 +238,7 @@ const ConstraintField = ({
               />
               <IconButton
                 buttonSize={24}
+                title={t('fixRBWH')}
                 icon="ct-11"
                 className={c(s.item, {
                   [s.isActive]: ctString === 'rbwh',
@@ -250,161 +259,155 @@ const ConstraintField = ({
             </div>
           </div>
         </div>
-        <div className="fbh">
-          <div className="fbh fbac">
-            <div className="mr4">{t('T')}</div>
-            <NumberInput
-              className={s.w1}
-              value={top ? layout.y : 'auto'}
-              readOnly={!top}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
+        <div className="fbh fbac">
+          <div className={c('fb1 mr4', s.label)}>{t('T')}</div>
+          <NumberInput
+            className={s.w1}
+            value={top ? layout.y : 'auto'}
+            readOnly={!top}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: layout.x,
+                y: v,
+                height: layout.height,
+                width: layout.width,
+              }
+              if (bottom) {
+                data = {
                   x: layout.x,
                   y: v,
-                  height: layout.height,
+                  height: layout.height + layout.y - v,
                   width: layout.width,
                 }
-                if (bottom) {
-                  data = {
-                    x: layout.x,
-                    y: v,
-                    height: layout.height + layout.y - v,
-                    width: layout.width,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
-          <div className="fbh fbac">
-            <div className="ml8 mr4">{t('R')}</div>
-            <NumberInput
-              className={s.w1}
-              value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
-              readOnly={!right}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
-                  x: container.width + container.x - v - layout.width,
+              }
+              onChange(data)
+            }}
+          />
+
+          <div className={c('fb1 ml8 mr4', s.label)}>{t('R')}</div>
+          <NumberInput
+            className={s.w1}
+            value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
+            readOnly={!right}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: container.width + container.x - v - layout.width,
+                y: layout.y,
+                height: layout.height,
+                width: layout.width,
+              }
+              if (left) {
+                data = {
+                  x: layout.x,
                   y: layout.y,
                   height: layout.height,
-                  width: layout.width,
+                  width: container.width + container.x - v - layout.x,
                 }
-                if (left) {
-                  data = {
-                    x: layout.x,
-                    y: layout.y,
-                    height: layout.height,
-                    width: container.width + container.x - v - layout.x,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
-          <div className="fbh fbac">
-            <div className="ml8 mr4">{t('B')}</div>
-            <NumberInput
-              className={s.w1}
-              value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
-              readOnly={!bottom}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
+              }
+              onChange(data)
+            }}
+          />
+
+          <div className={c('fb1 ml8 mr4', s.label)}>{t('B')}</div>
+          <NumberInput
+            className={s.w1}
+            value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
+            readOnly={!bottom}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: layout.x,
+                y: container.height + container.y - layout.height - v,
+                height: layout.height,
+                width: layout.width,
+              }
+              if (top) {
+                data = {
                   x: layout.x,
-                  y: container.height + container.y - layout.height - v,
-                  height: layout.height,
+                  y: layout.y,
+                  height: container.height + container.y - v - layout.y,
                   width: layout.width,
                 }
-                if (top) {
-                  data = {
-                    x: layout.x,
-                    y: layout.y,
-                    height: container.height + container.y - v - layout.y,
-                    width: layout.width,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
-          <div className="fbh fbac">
-            <div className="ml8 mr4">{t('L')}</div>
-            <NumberInput
-              className={s.w1}
-              value={left ? layout.x : 'auto'}
-              readOnly={!left}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
+              }
+              onChange(data)
+            }}
+          />
+
+          <div className={c('fb1 ml8 mr4', s.label)}>{t('L')}</div>
+          <NumberInput
+            className={s.w1}
+            value={left ? layout.x : 'auto'}
+            readOnly={!left}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: v,
+                y: layout.y,
+                height: layout.height,
+                width: layout.width,
+              }
+              if (right) {
+                data = {
                   x: v,
                   y: layout.y,
                   height: layout.height,
-                  width: layout.width,
+                  width: layout.width + layout.x - v,
                 }
-                if (right) {
-                  data = {
-                    x: v,
-                    y: layout.y,
-                    height: layout.height,
-                    width: layout.width + layout.x - v,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
-          <div className="fbh fbac">
-            <div className="ml8 mr4">{t('W')}</div>
-            <NumberInput
-              value={width ? layout.width : 'auto'}
-              readOnly={!width}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
-                  x: layout.x,
+              }
+              onChange(data)
+            }}
+          />
+
+          <div className={c('fb1 ml8 mr4', s.label)}>{t('W')}</div>
+          <NumberInput
+            className={s.w2}
+            value={width ? layout.width : 'auto'}
+            readOnly={!width}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: layout.x,
+                y: layout.y,
+                height: layout.height,
+                width: v,
+              }
+              if (right) {
+                data = {
+                  x: layout.width + layout.x - v,
                   y: layout.y,
                   height: layout.height,
                   width: v,
                 }
-                if (right) {
-                  data = {
-                    x: layout.width + layout.x - v,
-                    y: layout.y,
-                    height: layout.height,
-                    width: v,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
-          <div className="fbh fbac">
-            <div className="ml8 mr4">{t('H')}</div>
-            <NumberInput
-              value={height ? layout.height : 'auto'}
-              readOnly={!height}
-              onChange={(v) => {
-                // 传入x y height width
-                let data = {
+              }
+              onChange(data)
+            }}
+          />
+          <div className={c('fb1 ml8 mr4', s.label)}>{t('H')}</div>
+          <NumberInput
+            className={s.w2}
+            value={height ? layout.height : 'auto'}
+            readOnly={!height}
+            onChange={(v) => {
+              // 传入x y height width
+              let data = {
+                x: layout.x,
+                y: layout.y,
+                height: v,
+                width: layout.width,
+              }
+              if (bottom) {
+                data = {
                   x: layout.x,
-                  y: layout.y,
+                  y: layout.y + layout.height - v,
                   height: v,
                   width: layout.width,
                 }
-                if (bottom) {
-                  data = {
-                    x: layout.x,
-                    y: layout.y + layout.height - v,
-                    height: v,
-                    width: layout.width,
-                  }
-                }
-                onChange(data)
-              }}
-            />
-          </div>
+              }
+              onChange(data)
+            }}
+          />
         </div>
       </div>
     </Field>
