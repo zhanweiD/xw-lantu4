@@ -387,6 +387,7 @@ export const MSelectRange = types
           if (target === 'frame' && updated) {
             const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
             const {layout, viewLayout} = frame
+            self.setConstraint()
             viewLayout.set({
               x: Math.round(x1),
               y: Math.round(y1),
@@ -738,6 +739,7 @@ export const MSelectRange = types
     const setLayout = ({x1, y1, x2, y2}) => {
       if (self.target === 'frame') {
         self.set({x1, y1, x2, y2})
+        self.setConstraint()
       } else {
         const [box] = self.boxes_
         self.set({
@@ -750,6 +752,95 @@ export const MSelectRange = types
       if (isAlive(self)) {
         origin = {x1: self.x1, x2: self.x2, y1: self.y1, y2: self.y2}
       }
+    }
+
+    const setConstraint = () => {
+      const {x1, y1, x2, y2, viewport_} = self
+      const frame = viewport_.frames.find((o) => o.frameId === self.range[0].frameId)
+      const {viewLayout} = frame
+      const sourceX1 = viewLayout.x
+      const sourceY1 = viewLayout.y
+      const sourceX2 = viewLayout.width + viewLayout.x
+      const sourceY2 = viewLayout.height + viewLayout.y
+
+      frame.boxes.forEach((box) => {
+        const {ctString} = box.constraints
+        const {x, y, height, width} = box.layout
+        if (ctString === 'trlh') {
+          // 无论怎么变 实际上变得只有width
+          box.layout.set({
+            x,
+            y,
+            height,
+            width: width + (x2 - sourceX2) - (x1 - sourceX1),
+          })
+        }
+        if (ctString === 'trwh') {
+          // x变
+          box.layout.set({
+            x: x + (x2 - sourceX2) - (x1 - sourceX1),
+            y,
+            height,
+            width,
+          })
+        }
+
+        if (ctString === 'tblw') {
+          // 只有height会变
+          box.layout.set({
+            x,
+            y,
+            height: height + (y2 - sourceY2) - (y1 - sourceY1),
+            width,
+          })
+        }
+        if (ctString === 'trbl') {
+          // width height都会变
+          box.layout.set({
+            x,
+            y,
+            height: height + (y2 - sourceY2) - (y1 - sourceY1),
+            width: width + (x2 - sourceX2) - (x1 - sourceX1),
+          })
+        }
+        if (ctString === 'trbw') {
+          // height会变 x也会变
+          box.layout.set({
+            x: x + (x2 - sourceX2) - (x1 - sourceX1),
+            y,
+            height: height + (y2 - sourceY2) - (y1 - sourceY1),
+            width,
+          })
+        }
+        if (ctString === 'blwh') {
+          // y会变
+          box.layout.set({
+            x,
+            y: y + (y2 - sourceY2) - (y1 - sourceY1),
+            height,
+            width,
+          })
+        }
+        if (ctString === 'rblh') {
+          // width y会变
+          box.layout.set({
+            x,
+            y: y + (y2 - sourceY2) - (y1 - sourceY1),
+            height,
+            width: width + (x2 - sourceX2) - (x1 - sourceX1),
+          })
+        }
+        if (ctString === 'rbwh') {
+          // x y会变
+          box.layout.set({
+            x: x + (x2 - sourceX2) - (x1 - sourceX1),
+            y: y + (y2 - sourceY2) - (y1 - sourceY1),
+            height,
+            width,
+          })
+        }
+        box.resize()
+      })
     }
 
     const beforeDestroy = () => {
@@ -766,6 +857,7 @@ export const MSelectRange = types
       updateBoxes,
       remove,
       setLayout,
+      setConstraint,
       beforeDestroy,
     }
   })

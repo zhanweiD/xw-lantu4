@@ -294,25 +294,38 @@ export const MArtFrame = types
 
     const setLayout = ({x, y, height, width}) => {
       const {event} = self.env_
-      self.viewLayout.set({
+      // self.viewLayout.set({
+      //   x: isDef(x) ? +x + self.viewLayout.x - self.layout.x : self.viewLayout.x,
+      //   y: isDef(y) ? +y + self.viewLayout.y - self.layout.y : self.viewLayout.y,
+      //   height: isDef(height) ? +height + self.viewLayout.height - self.layout.height : self.viewLayout.height,
+      //   width: isDef(width) ? +width + self.viewLayout.width - self.layout.width : self.viewLayout.width,
+      // })
+      // self.layout.set({
+      //   x: isDef(x) ? +x : self.layout.x,
+      //   y: isDef(y) ? +y : self.layout.y,
+      //   height: isDef(height) ? +height : self.layout.height,
+      //   width: isDef(width) ? +width : self.layout.width,
+      // })
+      // const {x: x1, y: y1, height: h, width: w} = self.viewLayout
+      const layout = {
         x: isDef(x) ? +x + self.viewLayout.x - self.layout.x : self.viewLayout.x,
         y: isDef(y) ? +y + self.viewLayout.y - self.layout.y : self.viewLayout.y,
         height: isDef(height) ? +height + self.viewLayout.height - self.layout.height : self.viewLayout.height,
         width: isDef(width) ? +width + self.viewLayout.width - self.layout.width : self.viewLayout.width,
-      })
-      self.layout.set({
-        x: isDef(x) ? +x : self.layout.x,
-        y: isDef(y) ? +y : self.layout.y,
-        height: isDef(height) ? +height : self.layout.height,
-        width: isDef(width) ? +width : self.layout.width,
-      })
-      const {x: x1, y: y1, height: h, width: w} = self.viewLayout
-
+      }
+      const {x: x1, y: y1, height: h, width: w} = layout
       event.fire(`art.${self.artId}.select-range.setLayout`, {
         x1,
         y1,
         x2: x1 + w,
         y2: y1 + h,
+      })
+      self.viewLayout.set(layout)
+      self.layout.set({
+        x: isDef(x) ? +x : self.layout.x,
+        y: isDef(y) ? +y : self.layout.y,
+        height: isDef(height) ? +height : self.layout.height,
+        width: isDef(width) ? +width : self.layout.width,
       })
       debounceUpdate()
     }

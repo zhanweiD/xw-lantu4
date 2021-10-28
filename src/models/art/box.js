@@ -10,6 +10,22 @@ import {MBackgroundColor, MOffset} from './art-ui-tab-property'
 
 const log = createLog('@models/art/box.js')
 
+const MConstraints = types
+  .model('MConstraints', {
+    top: types.optional(types.boolean, true),
+    left: types.optional(types.boolean, true),
+    bottom: types.optional(types.boolean, false),
+    right: types.optional(types.boolean, false),
+    height: types.optional(types.boolean, true),
+    width: types.optional(types.boolean, true),
+    ctString: types.optional(
+      types.enumeration(['tlwh', 'trlh', 'trwh', 'tblw', 'rlh', 'trbl', 'tbw', 'trbw', 'blwh', 'rblh', 'rbwh']),
+      'tlwh'
+    ),
+    normalKeys: types.frozen(['top', 'right', 'bottom', 'left', 'height', 'width', 'ctString']),
+  })
+  .actions(commonAction(['getSchema', 'set', 'setSchema']))
+
 export const MBox = types
   .model({
     uid: types.optional(types.string, ''),
@@ -20,7 +36,7 @@ export const MBox = types
     exhibit: types.frozen(),
     layout: types.maybe(MLayout),
     background: types.optional(MBackgroundColor, {}),
-
+    constraints: types.optional(MConstraints, {}),
     materials: types.frozen(),
     remark: types.maybe(types.string),
     // 只有创建失败时才会需要用到的属性
@@ -28,7 +44,7 @@ export const MBox = types
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
     normalKeys: types.frozen(['uid', 'frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
-    deepKeys: types.frozen(['layout', 'paddding', 'background']),
+    deepKeys: types.frozen(['layout', 'constraints', 'paddding', 'background']),
   })
   .views((self) => ({
     get root_() {
@@ -288,6 +304,9 @@ export const MBox = types
       debounceUpdate()
     }
 
+    const setConstraints = (constraints) => {
+      self.constraints.setSchema(constraints)
+    }
     return {
       afterCreate,
       resize,
@@ -298,5 +317,6 @@ export const MBox = types
       setRemark,
       setLayout,
       updateBox,
+      setConstraints,
     }
   })

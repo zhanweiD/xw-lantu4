@@ -29,6 +29,7 @@ export default {
     exhibits: '组件列表',
   },
   dimension: '维度',
+  constraint: '约束',
   title: '标题',
   legend: '图例',
   label: '标签',
