@@ -150,7 +150,6 @@ export const MArtFrame = types
             exhibit.id,
             model.initModel({
               art,
-
               schema: exhibit,
               event,
               data: dataPanel,

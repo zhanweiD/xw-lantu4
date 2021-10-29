@@ -160,6 +160,9 @@ const global = {
       name: 'other',
       fields: [
         {
+          name: 'screenAdaption',
+        },
+        {
           name: 'thousandDiv',
         },
         {
