@@ -124,7 +124,7 @@ const Form = () => {
   return (
     <div className={c('fb3 cfw pr', s.formArea)}>
       {message && <div className={c('pa w100p fbh fbac fbjc ctw fs16 p12', s.tip)}>{message}</div>}
-      <div className={c('wh100p fbv fbjsb', s.formContainer)}>
+      <div className={c('wh100p fbv fbjsb bsbb', s.formContainer)}>
         <div>
           <span className={c('fs26 hand', {ctb50: page !== 'login'})} onClick={() => setPage('login')}>
             登录
