@@ -5,10 +5,16 @@ import ArtFrame from './frame-preview'
 const ArtPreview = ({art}) => {
   useEffect(() => {
     document.title = art.name
+    window.addEventListener('resize', () => {
+      art.update()
+    })
   }, [])
   useEffect(() => {
     // 将整个art缩放到可视区域之内
-    art.initZoom()
+    if (art.global.options.sections.other.fields.screenAdaption) {
+    } else {
+      art.initZoom()
+    }
   }, [art.artId])
 
   return (

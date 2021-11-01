@@ -308,7 +308,7 @@ const createExhibitAdapter = (hooks) =>
       hooks.destroy.call(null, {instance: this.instance})
 
       // 销毁配置项的路径获取工具和对应的数据
-      this.pathable.destroy()
+      // this.pathable.destroy()
     }
 
     update({options, action, updated, updatedPath, flag}) {
