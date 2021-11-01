@@ -14,12 +14,13 @@ import s from './exhibit-panel.module.styl'
 
 const Category = ({category}) => {
   const {t} = useTranslation()
-  const {icon, name, exhibits} = category
+  const {name, exhibits} = category
+  console.log('ccc', `${t(`exhibit.${name}`)} (${exhibits.length})`)
+  console.dir(category)
   return (
     <Section
       id={`category-${category.name}`}
       sessionId={`category-${category.name}`}
-      headIcon={icon}
       childrenClassName=""
       name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
     >
@@ -64,7 +65,7 @@ const ExhibitPanel = () => {
   return (
     <>
       <Tab sessionId="exhibit-panel" className="fb1">
-        <Tab.Item name={t('exhibitPanel.exhibits')}>
+        <Tab.Item name={t('exhibitPanel.official')}>
           <div className="fbh h100p">
             {/* 临时隐藏掉 */}
             <div className="pb8 hide">
@@ -92,6 +93,9 @@ const ExhibitPanel = () => {
               }}
             </Scroll>
           </div>
+        </Tab.Item>
+        <Tab.Item name={t('exhibitPanel.echarts')}>
+          <div>todo</div>
         </Tab.Item>
       </Tab>
     </>

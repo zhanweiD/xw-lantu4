@@ -1,8 +1,9 @@
 export default {
   projects: 'Projects',
   exhibits: 'Exhibits',
-  datas: 'Datas',
+  datas: 'Data',
   materials: 'Materials',
+  echarts: 'ECharts',
   search: 'Search',
   searchPlaceholder: 'Input key words to search',
   name: 'Name',
@@ -27,6 +28,8 @@ export default {
   },
   exhibitPanel: {
     exhibits: 'Exhibits',
+    echarts: 'ECharts',
+    official: 'Official Exhibits',
   },
   dimension: 'Dimension',
   constraint: 'Constraint',
