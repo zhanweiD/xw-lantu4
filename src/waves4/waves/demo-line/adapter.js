@@ -1,12 +1,10 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
 const makeAdapter = ({k}) => {
-  console.log(k)
-
   return createExhibitAdapter({
     // 初始化组件实例
     init({options, pathable}) {
-      console.log('🚗 init', options, pathable)
+      console.log('🚗 init', options, pathable, k)
 
       const {container, dimension, data, layers, themeColors} = options
 
