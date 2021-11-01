@@ -6,7 +6,8 @@ import Box from './box-preview'
 import Material from '../material'
 
 const ArtFrame = ({art, frame}) => {
-  const {watermark} = art
+  const {global} = art
+  const {effective, fields} = global.options.sections.watermark
   const {frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
@@ -31,7 +32,7 @@ const ArtFrame = ({art, frame}) => {
         {boxes.map((box) => (
           <Box key={box.boxId} box={box} frame={frame} />
         ))}
-        <WaterMark text={watermark.value} opacity={watermark.opacity} rotation={watermark.rotation} zIndex={0} />
+        {effective && <WaterMark text={fields.content} opacity={fields.opacity} rotation={fields.angle} zIndex={0} />}
       </div>
     </>
   )

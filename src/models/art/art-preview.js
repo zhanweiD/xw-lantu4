@@ -12,17 +12,6 @@ import {MOffset} from './art-ui-tab-property'
 
 const log = createLog('@models/art/art-preview.js')
 const event = createEvent()
-const MWatermark = types.model('MWatermark', {
-  isEnable: types.optional(types.boolean, false),
-  value: types.optional(types.string, ''),
-  rotation: types.optional(types.frozen(), -15),
-  opacity: types.optional(types.number, 1),
-})
-
-const MPassword = types.model('MPassword', {
-  isEnable: types.optional(types.boolean, false),
-  value: types.optional(types.string, ''),
-})
 
 const MBox = types
   .model('MBoxPreview', {
@@ -67,6 +56,7 @@ const MFrame = types
     background: types.frozen(),
     boxes: types.optional(types.array(MBox), []),
     materials: types.frozen(),
+    global: types.frozen(),
   })
   .views((self) => ({
     get art_() {
@@ -151,9 +141,6 @@ const MArtPreview = types
     artId: types.maybe(types.number),
     name: types.maybe(types.string),
     publishId: types.maybe(types.string),
-    gridUnit: types.optional(types.number, 40),
-    watermark: types.optional(MWatermark, {}),
-    password: types.optional(MPassword, {}),
     frames: types.optional(types.array(MFrame), []),
     totalWidth: types.optional(types.number, 1),
     totalHeight: types.optional(types.number, 1),
@@ -204,9 +191,7 @@ const MArtPreview = types
         self.set({
           artId: art.artId,
           name: art.name,
-          gridUnit: art.gridUnit,
-          watermark: art.watermark,
-          password: art.password,
+          global: art.global,
         })
         art.frames.forEach((frame) => {
           initFrame(frame)
@@ -245,10 +230,19 @@ const MArtPreview = types
       }
     })
     const initFrame = ({boxes, layout, isMain, frameId, background, materials}) => {
+      let view = layout
+      if (self.global.options.sections.other.fields.screenAdaption) {
+        view = {
+          x: 0,
+          y: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }
+      }
       const frame = MFrame.create({
         frameId,
         isMain,
-        layout,
+        layout: view,
         background,
         materials,
       })
