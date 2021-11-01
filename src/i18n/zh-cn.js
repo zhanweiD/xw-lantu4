@@ -3,6 +3,7 @@ export default {
   exhibits: '组件',
   datas: '数据',
   materials: '素材',
+  echarts: 'ECharts',
   search: '搜索',
   searchPlaceholder: '输入关键字进行搜索',
   name: '名称',
@@ -26,7 +27,8 @@ export default {
     recent: '最近使用',
   },
   exhibitPanel: {
-    exhibits: '组件列表',
+    echarts: 'ECharts',
+    official: '官方组件',
   },
   dimension: '维度',
   constraint: '约束',

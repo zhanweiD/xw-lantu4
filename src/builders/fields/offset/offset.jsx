@@ -3,7 +3,6 @@ import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 
 import {Field} from '../base'
-import isDef from '@utils/is-def'
 import {NumberInput} from '../number'
 import s from './offset.module.styl'
 
@@ -15,8 +14,6 @@ const OffsetField = ({label, visible, value, onChange = () => {}, labelClassName
     bottom,
     left,
   }
-
-  console.log('oooole', label, isDef(label))
 
   return (
     <Field

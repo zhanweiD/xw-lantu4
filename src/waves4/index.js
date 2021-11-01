@@ -99,17 +99,13 @@ const categories = [
     // NOTE 所以，gis组件的图层模型的deepKeys会多出data配置
     name: 'gis',
     icon: 'gis',
-    exhibits: [
-      demoLine, // 折线
-    ],
+    exhibits: [],
   },
   {
     // 演示对接
     name: 'demo',
     icon: 'demo-line',
-    exhibits: [
-      demoLine, // 折线
-    ],
+    exhibits: [],
   },
 ]
 
