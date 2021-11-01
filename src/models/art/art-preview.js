@@ -161,7 +161,7 @@ const MBox = types
         self.set({
           layout: {
             x: layout.x + left,
-            y: layout.width - bottom - height,
+            y: layout.height - bottom - height,
             height,
             width,
           },
@@ -173,7 +173,7 @@ const MBox = types
         self.set({
           layout: {
             x: layout.x + left,
-            y: layout.width - bottom - height,
+            y: layout.height - bottom - height,
             height,
             width: layout.width - right - left,
           },
@@ -185,7 +185,7 @@ const MBox = types
         self.set({
           layout: {
             x: layout.width - right - width,
-            y: layout.width - bottom - height,
+            y: layout.height - bottom - height,
             height,
             width,
           },
