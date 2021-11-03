@@ -737,31 +737,46 @@ const fillMode = {
   ],
 }
 
-// 屏幕自适应模式
-// const screenAdaptionMode = {
-//   type: 'check',
-//   label: 'fillMode',
-//   defaultValue: 'extendGrid',
-//   options: [
-//     // 扩展网格
-//     {
-//       key: 'extendGrid',
-//       value: 'extendGrid',
-//     },
-//     // 拉伸网格
-//     {
-//       key: 'stretchGrid',
-//       value: 'stretchGrid',
-//     },
-//   ],
-// }
-
-// 屏幕自适应
-const screenAdaption = {
-  type: 'switch',
-  label: 'screenAdaption',
-  defaultValue: true,
+// 宽度适配
+const widthAdaption = {
+  type: 'check',
+  label: 'width',
+  defaultValue: 'zoomToScreenWidth',
+  options: [
+    {
+      key: 'zoomToScreenWidth',
+      value: 'zoomToScreenWidth',
+    },
+    {
+      key: 'scrollHorizontal',
+      value: 'scrollHorizontal',
+    },
+  ],
 }
+
+// 高度适配
+const heightAdaption = {
+  type: 'check',
+  label: 'height',
+  defaultValue: 'zoomToScreenHeight',
+  options: [
+    {
+      key: 'zoomToScreenHeight',
+      value: 'zoomToScreenHeight',
+    },
+    {
+      key: 'scrollVertical',
+      value: 'scrollVertical',
+    },
+  ],
+}
+
+// 宽度适配
+// const widthAdaption = {
+//   type: 'switch',
+//   label: 'screenAdaption',
+//   defaultValue: true,
+// }
 
 // 密码
 const password = {
@@ -988,10 +1003,10 @@ export default {
   numberRange,
   // 填充模式
   fillMode,
-  // 屏幕自适应模式
-  // screenAdaptionMode,
-  // 屏幕自适应
-  screenAdaption,
+  // 宽度自适应
+  widthAdaption,
+  // 高度自适应
+  heightAdaption,
   // 密码
   password,
   // 图片混合模式
