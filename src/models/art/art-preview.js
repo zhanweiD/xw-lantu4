@@ -56,6 +56,148 @@ const MBox = types
     },
   }))
   .actions(commonAction(['set']))
+  .actions((self) => {
+    const resize = () => {
+      const {layout, padding} = self
+      const {width, height} = layout
+      const {areaOffset} = padding.getData()
+      const [top, right, bottom, left] = areaOffset
+      if (self.exhibit) {
+        const exhibitModel = self.art_.exhibitManager.get(self.exhibit.id)
+        if (exhibitModel.adapter) {
+          exhibitModel.adapter.refresh(width - left - right, height - top - bottom)
+        }
+      }
+      if (self.materials) {
+        self.materials.forEach((material) => {
+          const materialModel = self.art_.exhibitManager.get(material.id)
+          if (materialModel.adapter) {
+            materialModel.adapter.refresh(width - left - right, height - top - bottom)
+          }
+        })
+      }
+    }
+    const update = () => {
+      const {layout} = self.frame_
+      if (self.constraints.ctString === 'tlwh') {
+        const {top, left, width, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: top,
+            height,
+            width,
+          },
+        })
+      }
+      if (self.constraints.ctString === 'trlh') {
+        const {top, left, right, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: top,
+            height,
+            width: layout.width - right - left,
+          },
+        })
+      }
+
+      if (self.constraints.ctString === 'trwh') {
+        const {top, right, width, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: layout.width - right - width,
+            y: top,
+            height,
+            width,
+          },
+        })
+      }
+      if (self.constraints.ctString === 'tblw') {
+        const {top, bottom, width, left} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: top,
+            height: layout.height - top - bottom,
+            width,
+          },
+        })
+      }
+      // 中间
+      if (self.constraints.ctString === 'trbl') {
+        const {top, left, right, bottom} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: top,
+            height: layout.height - top - bottom,
+            width: layout.width - right - left,
+          },
+        })
+      }
+      if (self.constraints.ctString === 'trbw') {
+        const {top, bottom, right, width} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: layout.width - right - width,
+            y: top,
+
+            height: layout.height - top - bottom,
+            width,
+          },
+        })
+      }
+
+      if (self.constraints.ctString === 'blwh') {
+        const {left, bottom, width, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: layout.height - bottom - height,
+            height,
+            width,
+          },
+        })
+      }
+      if (self.constraints.ctString === 'rblh') {
+        const {left, bottom, right, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: left,
+            y: layout.height - bottom - height,
+            height,
+            width: layout.width - right - left,
+          },
+        })
+      }
+      if (self.constraints.ctString === 'rbwh') {
+        const {bottom, right, width, height} = self.constraintValue
+
+        self.set({
+          layout: {
+            x: layout.width - right - width,
+            y: layout.height - bottom - height,
+            height,
+            width,
+          },
+        })
+      }
+      self.resize()
+    }
+    return {
+      resize,
+      update,
+    }
+  })
 
 const MFrame = types
   .model('MFramePreview', {
@@ -323,9 +465,66 @@ const MFrame = types
         })
       }
     }
+    const resize = () => {
+      let view = {}
+      const scaler = self.originLayout.width / self.originLayout.height
+      const {heightAdaption, widthAdaption} = self.art_.global.options.sections.screenAdaption.fields
+      const {clientWidth, clientHeight} = document.body
+      if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'zoomToScreenWidth') {
+        view = {
+          x: 0,
+          y: 0,
+          width: clientWidth,
+          height: clientHeight,
+        }
+      }
+
+      if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'scrollHorizontal') {
+        view = {
+          x: 0,
+          y: 0,
+          width: clientHeight * scaler,
+          height: clientHeight,
+        }
+      }
+
+      if (heightAdaption === 'scrollVertical' && widthAdaption === 'zoomToScreenWidth') {
+        view = {
+          x: 0,
+          y: 0,
+          width: clientWidth,
+          height: clientWidth / scaler,
+        }
+      }
+
+      if (heightAdaption === 'scrollVertical' && widthAdaption === 'scrollHorizontal') {
+        if (scaler >= 1) {
+          view = {
+            x: 0,
+            y: 0,
+            width: clientHeight * scaler,
+            height: clientHeight,
+          }
+        } else {
+          view = {
+            x: 0,
+            y: 0,
+            width: clientWidth,
+            height: clientWidth / scaler,
+          }
+        }
+      }
+      self.set({
+        layout: view,
+      })
+      self.boxes.forEach((box) => {
+        box.update()
+      })
+    }
 
     return {
       initBox,
+      resize,
     }
   })
 
@@ -505,9 +704,16 @@ const MArtPreview = types
       self.totalHeight = self.mainFrame_.layout.height
       self.totalWidth = self.mainFrame_.layout.width
     }
+    const update = () => {
+      self.frames.forEach((frame) => {
+        frame.resize()
+      })
+    }
+
     return {
       afterCreate,
       getArt,
+      update,
       getPublishArt,
     }
   })

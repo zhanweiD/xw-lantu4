@@ -14,10 +14,6 @@ const ArtFrame = ({art, frame}) => {
   const style = {
     width: `${layout.width}px`,
     height: `${layout.height}px`,
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
     margin: 'auto',
   }
 
@@ -30,7 +26,7 @@ const ArtFrame = ({art, frame}) => {
 
   return (
     <>
-      <div id={`artFrame-${frameId}`} className="pa" style={style}>
+      <div id={`artFrame-${frameId}`} className="pr" style={style}>
         {reverseMaterials.map((material) => (
           <Material material={material} key={material.id} target={frame} frame={frame} />
         ))}
