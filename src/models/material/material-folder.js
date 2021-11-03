@@ -8,6 +8,9 @@ const log = createLog('@models/material/material-folder.js')
 function getType(file) {
   const fileType = file.type.split('/')
   let type
+  if (!fileType[0]) {
+    throw new Error('文件类型错误')
+  }
   if (fileType[0] === 'image') {
     type = 'image'
   }
@@ -54,15 +57,19 @@ export const MFolder = types
         tip.error({content: '总上传数量不能大于5个'})
         return
       }
-      const files = images
-        .map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-            fileType: getType(file),
-          })
-        )
-        .concat(...self.files)
-      self.set({files})
+      try {
+        const files = images
+          .map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+              fileType: getType(file),
+            })
+          )
+          .concat(...self.files)
+        self.set({files})
+      } catch (error) {
+        tip.error({content: error.message})
+      }
     }
 
     const uploadMaterial = () => {
