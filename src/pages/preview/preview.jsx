@@ -10,11 +10,7 @@ const Preview = ({match}) => {
     art.getArt(artId)
   }, [artId])
 
-  return (
-    <div className={s.preview}>
-      <div className="wh100p">{art.fetchState === 'success' && <ArtPreview art={art} />}</div>
-    </div>
-  )
+  return <div className={s.preview}>{art.fetchState === 'success' && <ArtPreview art={art} />}</div>
 }
 
 export default observer(Preview)

@@ -157,11 +157,19 @@ const global = {
       ],
     },
     {
-      name: 'other',
+      name: 'screenAdaption',
       fields: [
         {
-          name: 'screenAdaption',
+          name: 'widthAdaption',
         },
+        {
+          name: 'heightAdaption',
+        },
+      ],
+    },
+    {
+      name: 'other',
+      fields: [
         {
           name: 'thousandDiv',
         },
