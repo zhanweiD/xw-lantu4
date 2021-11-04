@@ -269,7 +269,7 @@ const Head = () => {
 
           <IconGroupButton
             icon="global-set"
-            title="显示隐藏配置项面板"
+            title="全局配置面板"
             canUse
             canClick
             isHighlight
@@ -285,7 +285,7 @@ const Head = () => {
           />
           <IconGroupButton
             icon="selected"
-            title="显示隐藏配置项面板"
+            title="选中元素配置面板"
             canUse
             canClick
             isHighlight={false}
@@ -301,7 +301,7 @@ const Head = () => {
           />
           <IconGroupButton
             icon="layer"
-            title="显示隐藏配置项面板"
+            title="图层面板"
             canUse
             canClick
             isHighlight={false}
@@ -321,7 +321,7 @@ const Head = () => {
       {type !== 'art' && isOptionPanelVisible_ && (
         <IconGroupButton
           icon="menu"
-          title="显示隐藏配置项面板"
+          title="配置面板"
           canUse
           canClick
           onClick={() => {
