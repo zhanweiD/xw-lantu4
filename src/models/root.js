@@ -11,9 +11,9 @@ import {MUser} from './user/user'
 export const MRoot = types
   .model('MRoot', {
     user: types.optional(MUser, {}),
-    head: types.optional(MHead, {}),
-    sidebar: types.optional(MSidebar, {}),
-    editor: types.optional(MEditor, {}),
+    head: types.maybe(MHead),
+    sidebar: types.maybe(MSidebar),
+    editor: types.maybe(MEditor),
     optionPanel: types.optional(MOptionPanel, {}),
     overlayManager: types.optional(MOverlayManager, {}),
     colorPickerBox: types.optional(MColorPickerBox, {}),
