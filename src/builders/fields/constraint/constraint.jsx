@@ -194,7 +194,6 @@ const ConstraintField = ({
                 }}
               />
             </div>
-
             <div className="fbv fbac fbjc">
               <IconButton
                 buttonSize={24}
@@ -260,9 +259,9 @@ const ConstraintField = ({
           </div>
         </div>
         <div className="fbh fbac">
-          <div className={c('fb1', s.label)}>{t('T')}</div>
+          <div className={c('mr4 bsbb', s.label)}>{t('T')}</div>
           <NumberInput
-            className={s.w1}
+            className={c('fb1', s.w1)}
             value={top ? layout.y : 'auto'}
             readOnly={!top}
             onChange={(v) => {
@@ -284,10 +283,9 @@ const ConstraintField = ({
               onChange(data)
             }}
           />
-
-          <div className={c('fb1 ml4', s.label)}>{t('R')}</div>
+          <div className={c('ml8 mr4 bsbb', s.label)}>{t('R')}</div>
           <NumberInput
-            className={s.w1}
+            className={c('fb1', s.w1)}
             value={right ? container.width + container.x - (layout.width + layout.x) : 'auto'}
             readOnly={!right}
             onChange={(v) => {
@@ -310,9 +308,9 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml4', s.label)}>{t('B')}</div>
+          <div className={c('ml8 mr4 bsbb', s.label)}>{t('B')}</div>
           <NumberInput
-            className={s.w1}
+            className={c('fb1', s.w1)}
             value={bottom ? container.height + container.y - (layout.height + layout.y) : 'auto'}
             readOnly={!bottom}
             onChange={(v) => {
@@ -335,9 +333,9 @@ const ConstraintField = ({
             }}
           />
 
-          <div className={c('fb1 ml4', s.label)}>{t('L')}</div>
+          <div className={c('ml8 mr4 bsbb', s.label)}>{t('L')}</div>
           <NumberInput
-            className={s.w1}
+            className={c('fb1', s.w1)}
             value={left ? layout.x : 'auto'}
             readOnly={!left}
             onChange={(v) => {
@@ -359,10 +357,11 @@ const ConstraintField = ({
               onChange(data)
             }}
           />
-
-          <div className={c('fb1 ml4', s.label)}>{t('W')}</div>
+        </div>
+        <div className="fbh fbac">
+          <div className={c('mr4 bsbb', s.label)}>{t('W')}</div>
           <NumberInput
-            className={s.w2}
+            className={c('fb1', s.w2)}
             value={width ? layout.width : 'auto'}
             readOnly={!width}
             onChange={(v) => {
@@ -384,9 +383,9 @@ const ConstraintField = ({
               onChange(data)
             }}
           />
-          <div className={c('fb1 ml4', s.label)}>{t('H')}</div>
+          <div className={c('ml8 mr4 bsbb', s.label)}>{t('H')}</div>
           <NumberInput
-            className={s.w2}
+            className={c('fb1', s.w2)}
             value={height ? layout.height : 'auto'}
             readOnly={!height}
             onChange={(v) => {

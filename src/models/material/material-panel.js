@@ -105,6 +105,8 @@ export const MMaterialPanel = types
     const getFolders = flow(function* getFolders() {
       try {
         const {list: folders, folderSort} = yield io.material.getMaterials()
+        // 去除脏数据：错误的素材类型会导致 model 报错
+        folders.forEach((folder) => (folder.materials = folder.materials.filter(({type}) => type !== 'undefined')))
         self.set({
           folders,
           folderSort,
