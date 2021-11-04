@@ -29,7 +29,7 @@ export const MEditorTab = types
   .actions(commonAction(['set']))
   .actions((self) => {
     const showDetail = () => {
-      const {event} = self.env_
+      // const {event} = self.env_
       const {type, id, tabOptions} = self
       if (type === 'projectDetail') {
         // ! description 有问题，后续改
@@ -68,20 +68,20 @@ export const MEditorTab = types
           self.material.getMaterialDetail()
         }
       }
-      // 设置项目素材的 projectId
-      // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
-      if (type !== 'art' && type !== 'material' && type !== 'data') {
-        event.fire('materialPanel.setProjectId', {projectId: undefined})
-        event.fire('dataPanel.setProjectId', {projectId: undefined})
-      } else {
-        const {projectId} = self.tabOptions
-        event.fire('materialPanel.setProjectId', {
-          projectId,
-        })
-        event.fire('dataPanel.setProjectId', {
-          projectId,
-        })
-      }
+      // // 设置项目素材的 projectId
+      // // TODO: 非项目素材打开的时候会与当前激活的项目绑定，待优化
+      // if (type !== 'art' && type !== 'material' && type !== 'data') {
+      //   event.fire('materialPanel.setProjectId', {projectId: undefined})
+      //   event.fire('dataPanel.setProjectId', {projectId: undefined})
+      // } else {
+      //   const {projectId} = self.tabOptions
+      //   event.fire('materialPanel.setProjectId', {
+      //     projectId,
+      //   })
+      //   event.fire('dataPanel.setProjectId', {
+      //     projectId,
+      //   })
+      // }
       if (type === 'data') {
         if (!self.data) {
           const {dataType, folderId, projectId = undefined} = tabOptions

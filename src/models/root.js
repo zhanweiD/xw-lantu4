@@ -76,10 +76,10 @@ export const MRoot = types
       self.head = {
         activePanelButton: activePanelInSession,
       }
-      self.editor = {}
       self.sidebar = {
         activePanel: activePanelInSession,
       }
+      self.editor = {}
     }
 
     /**

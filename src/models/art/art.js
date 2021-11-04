@@ -127,6 +127,7 @@ export const MArt = types
     // 获取数据屏相关信息
     const getArt = flow(function* getArt() {
       self.fetchState = 'loading'
+      const {event} = self.env_
       try {
         const art = yield io.art.getDetail({
           ':artId': self.artId,
@@ -165,6 +166,12 @@ export const MArt = types
           projectId: art.projectId,
           artId: art.artId,
         }
+        event.fire('materialPanel.setProjectId', {
+          projectId,
+        })
+        event.fire('dataPanel.setProjectId', {
+          projectId,
+        })
         self.fetchState = 'success'
       } catch (error) {
         self.fetchState = 'error'
