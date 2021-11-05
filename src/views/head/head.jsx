@@ -266,12 +266,62 @@ const Head = () => {
             }}
             layout="end"
           />
+
+          <IconGroupButton
+            icon="global-set"
+            title="全局配置面板"
+            canUse
+            canClick
+            isHighlight
+            layout="start"
+            onClick={() => {
+              // optionPanel.toggle()
+              // if (art) {
+              //   setTimeout(() => {
+              //     art.viewport.resizeViewport()
+              //   }, 60)
+              // }
+            }}
+          />
+          <IconGroupButton
+            icon="selected"
+            title="选中元素配置面板"
+            canUse
+            canClick
+            isHighlight={false}
+            layout="center"
+            onClick={() => {
+              // optionPanel.toggle()
+              // if (art) {
+              //   setTimeout(() => {
+              //     art.viewport.resizeViewport()
+              //   }, 60)
+              // }
+            }}
+          />
+          <IconGroupButton
+            icon="layer"
+            title="图层面板"
+            canUse
+            canClick
+            isHighlight={false}
+            layout="end"
+            onClick={() => {
+              // optionPanel.toggle()
+              // if (art) {
+              //   setTimeout(() => {
+              //     art.viewport.resizeViewport()
+              //   }, 60)
+              // }
+            }}
+          />
         </>
       )}
-      {isOptionPanelVisible_ && (
+
+      {type !== 'art' && isOptionPanelVisible_ && (
         <IconGroupButton
           icon="menu"
-          title="显示隐藏配置项面板"
+          title="配置面板"
           canUse
           canClick
           onClick={() => {
