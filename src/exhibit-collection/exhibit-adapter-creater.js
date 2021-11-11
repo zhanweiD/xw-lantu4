@@ -1,6 +1,7 @@
 import {getRoot} from 'mobx-state-tree'
 import {reaction} from 'mobx'
 import i18n from '@i18n'
+import isPlainObject from 'lodash/isPlainObject'
 import capitalize from 'lodash/capitalize'
 import createLog from '@utils/create-log'
 import isDef from '@utils/is-def'
@@ -121,12 +122,13 @@ const createExhibitAdapter = (hooks) =>
 
     getNecessary() {
       let necessary = true
-      const map = {}
+      let map
       if (this.model.data) {
         this.model.data.relationModels.forEach((model) => {
           const {id} = getRoot(model)
           const data = model.getValue()
           if (id) {
+            map = {}
             if (!data || !data.length) {
               map[id] = false
             } else {
@@ -139,7 +141,7 @@ const createExhibitAdapter = (hooks) =>
           }
         })
       }
-      const layersNecessary = Object.values(map).some((v) => v)
+      const layersNecessary = isPlainObject(map) ? Object.values(map).some((v) => v) : true
 
       return necessary && layersNecessary
     }
@@ -324,6 +326,7 @@ const createExhibitAdapter = (hooks) =>
           updatedPath,
         })
       } else {
+        console.log(this.getNecessary())
         this.warn()
       }
     }
