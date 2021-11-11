@@ -272,7 +272,7 @@ const Head = () => {
             title="全局配置面板"
             canUse
             canClick
-            isHighlight
+            isHighlight={false}
             layout="start"
             onClick={() => {
               // optionPanel.toggle()
@@ -288,7 +288,7 @@ const Head = () => {
             title="选中元素配置面板"
             canUse
             canClick
-            isHighlight={false}
+            isHighlight={true}
             layout="center"
             onClick={() => {
               // optionPanel.toggle()

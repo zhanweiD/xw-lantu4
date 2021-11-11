@@ -52,6 +52,8 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
     {name: '删除', action: () => (art.removeArt(), menu.hide())},
   ].filter(Boolean)
 
+  console.log('====', art.toJSON())
+
   return (
     <Sortable art={art} index={index} project={project} enable={!isThumbnailVisible}>
       <div
@@ -59,14 +61,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
         onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
         onDoubleClick={art.editArt}
       >
-        {isThumbnailVisible && (
-          <div
-            className={c(s.thumbnailContainer)}
-            style={{
-              backgroundImage: `url(${thumbnail})`,
-            }}
-          />
-        )}
+        {isThumbnailVisible && <div className={c(s.thumbnailContainer)} style={art.thumbnailStyle_} />}
         <div className="fbh fbac">
           <div className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4', art.isActive_ && s.activeArt)}>
             {!isThumbnailVisible && <Icon fill="#fff5" name="drag" size={10} />}

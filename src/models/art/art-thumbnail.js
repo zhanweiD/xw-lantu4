@@ -14,6 +14,7 @@ export const MArtThumbnail = types
     thumbnail: types.maybeNull(types.string),
     isOnline: types.optional(types.boolean, false),
     isTemplate: types.optional(types.boolean, false),
+    frames: types.frozen(),
   })
   .views((self) => ({
     get env_() {
@@ -24,6 +25,42 @@ export const MArtThumbnail = types
     },
     get isActive_() {
       return getRoot(self).editor.activeTabId === self.artId
+    },
+    get thumbnailStyle_() {
+      const {width: frameWidth, height: frameHeight} = self.frames[0].layout
+
+      // 容器宽度
+      const containerHeight = 274
+
+      // 允许的最大宽高比基于高度50px，即274/50
+      const maxRatio = 5.48
+
+      // 允许的最小宽高比基于16:9
+      const minRatio = 2.1
+
+      const frameRatio = frameWidth / frameHeight
+
+      // 默认样式
+      const style = {
+        height: `${Math.floor(containerHeight / frameRatio)}px`,
+        backgroundImage: `url(${self.thumbnail})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }
+
+      // 超出最大边界
+      if (frameRatio > maxRatio) {
+        style.height = 50
+      }
+
+      // 超出最小边界
+      if (frameRatio < minRatio) {
+        style.height = 154
+        style.backgroundSize = 'contain'
+      }
+
+      return style
     },
   }))
   .actions(commonAction(['set']))

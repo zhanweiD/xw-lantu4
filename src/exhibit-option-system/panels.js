@@ -158,6 +158,7 @@ const global = {
     },
     {
       name: 'screenAdaption',
+      effective: false,
       fields: [
         {
           name: 'widthAdaption',

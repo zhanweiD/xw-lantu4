@@ -9,6 +9,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
   const {editor} = w
   const {isPointerEventsNone} = editor
   const commonStyle = {
+    boxSizing: 'border-box',
     width: '10px',
     height: '10px',
     borderRadius: '50%',
