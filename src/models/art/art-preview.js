@@ -536,6 +536,8 @@ const MArtPreview = types
     frames: types.optional(types.array(MFrame), []),
     totalWidth: types.optional(types.number, 1),
     totalHeight: types.optional(types.number, 1),
+    overflowX: types.optional(types.enumeration(['hidden', 'auto']), 'hidden'),
+    overflowY: types.optional(types.enumeration(['hidden', 'auto']), 'hidden'),
     fetchState: types.optional(types.enumeration('MArtPreview.fetchState', ['loading', 'success', 'error']), 'loading'),
   })
   .views((self) => ({
@@ -622,54 +624,104 @@ const MArtPreview = types
 
     const initFrame = ({boxes, layout, isMain, frameId, background, materials}) => {
       let view = cloneDeep(layout)
+      let overflowX = 'hidden'
+      let overflowY = 'hidden'
       const scaler = view.width / view.height
-      const {heightAdaption, widthAdaption} = self.global.options.sections.screenAdaption.fields
+      const {effective, fields} = self.global.options.sections.screenAdaption
+      const {heightAdaption, widthAdaption} = fields
       const {clientWidth, clientHeight} = document.body
-      if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'zoomToScreenWidth') {
-        view = {
-          x: 0,
-          y: 0,
-          width: clientWidth,
-          height: clientHeight,
+      if (effective) {
+        if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'zoomToScreenWidth') {
+          view = {
+            x: 0,
+            y: 0,
+            width: clientWidth,
+            height: clientHeight,
+          }
         }
-      }
 
-      if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'scrollHorizontal') {
-        view = {
-          x: 0,
-          y: 0,
-          width: clientHeight * scaler,
-          height: clientHeight,
-        }
-      }
-
-      if (heightAdaption === 'scrollVertical' && widthAdaption === 'zoomToScreenWidth') {
-        view = {
-          x: 0,
-          y: 0,
-          width: clientWidth,
-          height: clientWidth / scaler,
-        }
-      }
-
-      if (heightAdaption === 'scrollVertical' && widthAdaption === 'scrollHorizontal') {
-        if (scaler >= 1) {
+        if (heightAdaption === 'zoomToScreenHeight' && widthAdaption === 'scrollHorizontal') {
           view = {
             x: 0,
             y: 0,
             width: clientHeight * scaler,
             height: clientHeight,
           }
-        } else {
+
+          overflowX = 'auto'
+        }
+
+        if (heightAdaption === 'scrollVertical' && widthAdaption === 'zoomToScreenWidth') {
           view = {
             x: 0,
             y: 0,
             width: clientWidth,
             height: clientWidth / scaler,
           }
+
+          overflowY = 'auto'
+        }
+
+        if (heightAdaption === 'scrollVertical' && widthAdaption === 'scrollHorizontal') {
+          if (scaler >= 1) {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientHeight * scaler,
+              height: clientHeight,
+            }
+          } else {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientWidth,
+              height: clientWidth / scaler,
+            }
+          }
+          overflowX = 'auto'
+          overflowY = 'auto'
+        }
+      } else {
+        if (scaler >= 1) {
+          // 这时候 width大于height 则判断 clientWidth 比例后的高是否高于clientHeight 如果高于 则最短边为clientHeight 再反推width的值
+          if (clientWidth / scaler > clientHeight) {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientHeight * scaler,
+              height: clientHeight,
+            }
+          } else {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientWidth,
+              height: clientWidth / scaler,
+            }
+          }
+        } else {
+          // 这时候 width小于height 则判断 clientHeight计算比例后的width是否大于clientWidth 如果大于 则最短边为clientWidth 再反推height的值
+          if (clientHeight * scaler > clientWidth) {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientWidth,
+              height: clientWidth / scaler,
+            }
+          } else {
+            view = {
+              x: 0,
+              y: 0,
+              width: clientHeight * scaler,
+              height: clientHeight,
+            }
+          }
         }
       }
-
+      self.set({
+        overflowX,
+        overflowY,
+      })
       const frame = MFrame.create({
         frameId,
         isMain,

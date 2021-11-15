@@ -6,15 +6,17 @@ import Box from './box-preview'
 import Material from '../material'
 
 const ArtFrame = ({art, frame}) => {
-  const {global} = art
+  const {global, overflowX, overflowY} = art
   const {effective, fields} = global.options.sections.watermark
   const {frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const style = {
+    flex: 'none',
     width: `${layout.width}px`,
     height: `${layout.height}px`,
-    margin: 'auto',
+    overflowX,
+    overflowY,
   }
 
   if (backgroundImage_) {
@@ -24,9 +26,19 @@ const ArtFrame = ({art, frame}) => {
     style.backgroundColor = backgroundColor_
   }
 
+  console.log(style)
   return (
-    <>
-      <div id={`artFrame-${frameId}`} className="pr" style={style}>
+    <div
+      id={`artFrame-${frameId}`}
+      className="pr fbh fbac fbjc"
+      style={{
+        overflowX,
+        overflowY,
+        width: '100vw',
+        height: '100vh',
+      }}
+    >
+      <div className="pr" style={style}>
         {reverseMaterials.map((material) => (
           <Material material={material} key={material.id} target={frame} frame={frame} />
         ))}
@@ -35,7 +47,7 @@ const ArtFrame = ({art, frame}) => {
         ))}
         {effective && <WaterMark text={fields.content} opacity={fields.opacity} rotation={fields.angle} zIndex={0} />}
       </div>
-    </>
+    </div>
   )
 }
 
