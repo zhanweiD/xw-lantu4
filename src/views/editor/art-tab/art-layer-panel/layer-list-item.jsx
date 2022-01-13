@@ -3,7 +3,7 @@ import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import IconButton from '@components/icon-button'
 import {DragSource, DropTarget} from '@components/drag-and-drop'
-// import w from '@models'
+import w from '@models'
 import s from './layer-list-item.module.styl'
 
 const Sortable = observer(({layer, index, children, enable}) => {
@@ -38,16 +38,16 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
   const {
     viewport: {selectRange, toggleSelectBox},
   } = art
-  // const menu = w.overlayManager.get('menu')
-  // const list = [
-  //   {name: '编辑', action: () => (art.editArt(), menu.hide())},
-  //   {name: '预览', action: () => (art.previewArt(), menu.hide())},
-  //   !isTemplate && {name: '保存为模板', action: () => (art.saveAsTemplate(), menu.hide())},
-  //   {name: '更新缩略图', action: () => (art.updateLayerPanel(), menu.hide())},
-  //   !isTemplate && {name: '复制', action: () => (art.copyArt(), menu.hide())},
-  //   !isTemplate && {name: '导出', action: () => (art.exportArt(), menu.hide())},
-  //   {name: '删除', action: () => (art.removeArt(), menu.hide())},
-  // ].filter(Boolean)
+  const menu = w.overlayManager.get('menu')
+  const list = [
+    {name: '编辑', action: () => (art.editArt(), menu.hide())},
+    {name: '预览', action: () => (art.previewArt(), menu.hide())},
+    {name: '保存为模板', action: () => (art.saveAsTemplate(), menu.hide())},
+    {name: '更新缩略图', action: () => (art.updateLayerPanel(), menu.hide())},
+    {name: '复制', action: () => (art.copyArt(), menu.hide())},
+    {name: '导出', action: () => (art.exportArt(), menu.hide())},
+    {name: '删除', action: () => (art.removeArt(), menu.hide())},
+  ].filter(Boolean)
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 
@@ -55,7 +55,9 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
     <Sortable layer={layer} index={index} enable={false}>
       <div
         className={c('w100p', s.layer)}
-        // onContextMenu={(e) => (e.preventDefault(), e.stopPropagation(), menu.show({list}))}
+        onContextMenu={(e) => {
+          e.preventDefault(), e.stopPropagation(), menu.show({list})
+        }}
         // onDoubleClick={layer.editArt}
       >
         {/* {isLayerPanelVisible && <div className={c(s.layerPanelContainer)} style={art.layerPanelStyle_} />} */}
