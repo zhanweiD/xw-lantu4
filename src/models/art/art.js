@@ -33,6 +33,7 @@ export const MArt = types
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),
+    isLayerPanelVisible: types.optional(types.boolean, false),
     activeTool: types.optional(types.enumeration('MArtToolbar.activeTool', ['select', 'createFrame']), 'select'),
     fetchState: types.optional(types.enumeration('MArtTab.fetchState', ['loading', 'success', 'error']), 'loading'),
     normalKeys: types.frozen(['artId', 'projectId']),
@@ -241,6 +242,7 @@ export const MArt = types
         self.env_.tip.error({content: '保存失败'})
       }
     })
+
     return {
       afterCreate,
       getArt,

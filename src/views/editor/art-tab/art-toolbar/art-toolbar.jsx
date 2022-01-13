@@ -32,6 +32,17 @@ const ArtToolbar = ({art}) => {
           })
         }}
       />
+      <IconButton
+        icon="layer"
+        title="图层面板"
+        layout="end"
+        className={c(s.toolbarButton)}
+        onClick={() => {
+          art.set({
+            isLayerPanelVisible: true,
+          })
+        }}
+      />
     </div>
   )
 }
