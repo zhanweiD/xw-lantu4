@@ -23,6 +23,7 @@ const ArtLayerPanel = ({art}) => {
     // } else {
     //   setSelectFrame(frames[0])
     // }
+    console.log(111)
     if (!selectRange) return
     const frame = frames.find((item) => item.frameId === selectRange.range[0].frameId)
     setSelectFrame(frame || {})
