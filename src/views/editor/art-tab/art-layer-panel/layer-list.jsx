@@ -42,7 +42,7 @@ import LayerListItem from './layer-list-item'
 // }
 
 // 项目列表
-export default observer(({layer, index, other}) => {
+export default observer(({layer, index, art, other}) => {
   const {boxId} = layer
   return (
     <div key={boxId}>
@@ -52,7 +52,7 @@ export default observer(({layer, index, other}) => {
         dragKey="CREATE_ART_DRAG_KEY"
         data={layer}
       >
-        <LayerListItem layer={layer} index={index} {...other} />
+        <LayerListItem layer={layer} art={art} index={index} {...other} />
       </DragSource>
     </div>
     // 下拉框分组会用到

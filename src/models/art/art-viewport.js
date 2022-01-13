@@ -417,6 +417,7 @@ export const MArtViewport = types
       self.removeSelectRange()
     }
 
+    // 选中
     const toggleSelectRange = ({target, selectRange}) => {
       self.removeSelectRange()
       if (target === 'frame') {
@@ -444,6 +445,36 @@ export const MArtViewport = types
         const {x1, y1, x2, y2} = getCoordinate(layouts)
         self.selectRange = {target, range: selectRange, x1, y1, x2, y2}
       }
+    }
+
+    // 选中图层
+    const toggleSelectBox = (box, shiftKey) => {
+      const {boxId, frameId} = box
+      let boxIds = []
+
+      if (shiftKey) {
+        const {range = []} = self.selectRange || {}
+        const have = range[0]?.boxIds?.find((item) => item === boxId)
+        if (have) boxIds = range[0]?.boxIds?.filter((item) => item !== boxId)
+        else boxIds = [...range[0]?.boxIds, boxId]
+      } else {
+        boxIds = [boxId]
+      }
+
+      if (!boxIds.length) {
+        removeSelectRange()
+        return
+      }
+
+      toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId,
+            boxIds,
+          },
+        ],
+      })
     }
 
     const zoomSingleToView = () => {
@@ -511,6 +542,8 @@ export const MArtViewport = types
       // 框选与删除框选
       toggleSelectRange,
       removeSelectRange,
+      // 改变选中box
+      toggleSelectBox,
       // 创建画布 & 删除画布
       createFrame,
       removeFrame,
