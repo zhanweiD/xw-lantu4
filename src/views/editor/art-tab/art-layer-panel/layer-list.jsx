@@ -8,7 +8,7 @@ import React from 'react'
 import {DragSource} from '@components/drag-and-drop'
 // import w from '@models'
 import LayerListItem from './layer-list-item'
-// import s from './layer-list.module.styl'
+// import s from './art-layer-panel.module.styl'
 
 // 成组后双击菜单
 // const MoreIcon = ({project, isTop, isRecent}) => {

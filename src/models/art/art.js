@@ -53,6 +53,7 @@ export const MArt = types
         key: `waveview-exhibit-manager`,
       })
       self.exhibitManager = exhibitManager
+      self.isLayerPanelVisible = self.env_.session.get('isLayerPanelVisible')
       // 注册2个事件
       // 1、增加数据屏中组件依赖的数据id和组件id，若数据已经被记录则在此条记录中追加记录依赖此数据的组件id
       // 2、删除数据屏中组件依赖的数据id
@@ -243,11 +244,20 @@ export const MArt = types
       }
     })
 
+    /**
+     * 切换容器面板显示隐藏
+     */
+    const toggleLayerVisible = () => {
+      self.isLayerPanelVisible = !self.isLayerPanelVisible
+      self.env_.session.set('isLayerPanelVisible', self.isLayerPanelVisible)
+      setTimeout(self.viewport.resizeViewport, 100)
+    }
     return {
       afterCreate,
       getArt,
       addData,
       preview,
       save,
+      toggleLayerVisible,
     }
   })

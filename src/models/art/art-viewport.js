@@ -1,5 +1,5 @@
 import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree'
-// import {reaction} from 'mobx'
+import {toJS} from 'mobx'
 import minBy from 'lodash/minBy'
 import maxBy from 'lodash/maxBy'
 import isEmpty from 'lodash/isEmpty'
@@ -470,15 +470,17 @@ export const MArtViewport = types
 
     const zoomAllToView = () => {
       initXY()
+      console.log(toJS(self))
       self.zoom.update({
         x: 0,
         y: 0,
         height: self.totalHeight,
         width: self.totalWidth,
       })
-
       if (self.selectRange && self.selectRange.target === 'frame') {
-        const {x, y, height, width} = self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
+        const {x, y, height, width} = self.frames.find(
+          (f) => f.frameId === self.selectRange.range[0].frameId
+        )?.viewLayout
         self.selectRange.set({
           x1: x,
           y1: y,

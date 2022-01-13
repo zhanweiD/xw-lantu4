@@ -23,25 +23,22 @@ const ArtLayerPanel = ({art}) => {
     // } else {
     //   setSelectFrame(frames[0])
     // }
-    console.log(111)
     if (!selectRange) return
     const frame = frames.find((item) => item.frameId === selectRange.range[0].frameId)
     setSelectFrame(frame || {})
   }, [selectRange?.range[0]?.frameId])
+
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
-      {/* <LayerToolbar /> */}
-      <IconButton
-        icon="arrow-left"
-        title="收起图层面板"
-        layout="start"
-        className={c(s.toolbarButton)}
-        onClick={() => {
-          art.set({
-            isLayerPanelVisible: false,
-          })
-        }}
-      />
+      <div className={s.toolbarButton}>
+        <IconButton
+          icon="arrow-left"
+          title="收起图层面板"
+          layout="start"
+          // className={c(s.toolbarButton)}
+          onClick={art.toggleLayerVisible}
+        />
+      </div>
       <Scroll>
         {selectFrame?.boxes?.map((layer, index) => (
           <LayerList key={layer.boxId} layer={layer} index={index} />
