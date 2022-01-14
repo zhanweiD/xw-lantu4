@@ -86,7 +86,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '成组',
         disabled: mulFramDisable,
         action: () => {
-          frame.createGroup(range.boxes_?.map((item) => item.boxId))
+          frame.createGroup(range.boxes_)
           menu.hide()
         },
       },
@@ -94,8 +94,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '解组',
         disabled: mulFramDisable || mulBox,
         action: () => {
-          const frame = range.viewport_.frames.find((item) => item.frameId === range?.range?.[0].frameId)
-          frame.removeGroupByBoxIds(range.boxes_?.map((item) => item.boxId))
+          frame.removeGroupByBoxes(range.boxes_)
           menu.hide()
         },
       },

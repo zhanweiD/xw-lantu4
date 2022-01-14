@@ -432,41 +432,35 @@ export const MArtFrame = types
 
     const copyBox = () => {}
 
-    const addBoxesToGroup = (boxIds, groupId) => {
-      self.boxes.map((item) => {
-        if (boxIds.includes(item.boxId)) {
-          item.addGroup(groupId)
-        }
+    const addBoxesToGroup = (boxes, groupId) => {
+      boxes.map((item) => {
+        item.addGroup(groupId)
       })
     }
     // 创建分组
-    const createGroup = (boxIds) => {
+    const createGroup = (boxes) => {
       // 成组之前如果box在其他组内，需要先解组
-      removeGroupByBoxIds(boxIds)
+      removeGroupByBoxes(boxes)
       const id = uuid()
       const groups = MGroup.create({
         id,
-        boxIds,
+        boxIds: boxes.map((item) => item.boxId),
         name: `分组_${id.substring(0, 4)}`,
       })
       self.groups.push(groups)
-      addBoxesToGroup(boxIds, id)
+      addBoxesToGroup(boxes, id)
     }
 
     // 根据boxIds批量解组
-    const removeGroupByBoxIds = (boxIds) => {
-      boxIds.forEach((boxId) => {
+    const removeGroupByBoxes = (boxes) => {
+      boxes.forEach((box) => {
         // 在box解除绑定关系
-        self.boxes.forEach((box) => {
-          if (box.boxId === boxId && box.groupIds?.length) {
-            box.removeGroup()
-          }
-        })
+        box.removeGroup()
         self.groups = self.groups
           .map((group) => {
             return {
               ...group,
-              boxIds: group.boxIds.filter((item) => item !== boxId),
+              boxIds: group.boxIds.filter((item) => item !== box.boxId),
             }
           })
           .filter((group) => group.boxIds.length)
@@ -479,19 +473,20 @@ export const MArtFrame = types
       groupIds.forEach((groupId) => {
         self.groups.forEach((group) => {
           if (group.id === groupId) {
+            const boxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
             // 解除box上的分组绑定关系
-            removeGroupByBoxIds(group.boxIds)
+            removeGroupByBoxes(boxes)
           }
         })
       })
     }
 
     // 将某个box移动至某个组
-    const moveBoxToGroup = (boxIds, groupId) => {
+    const moveBoxToGroup = (boxes, groupId) => {
       // 先移出原分组
-      removeGroupByBoxIds(boxIds)
+      removeGroupByBoxes(boxes)
       // 将box移至新分组
-      addBoxesToGroup(boxIds, groupId)
+      addBoxesToGroup(boxes, groupId)
     }
 
     return {
@@ -508,7 +503,7 @@ export const MArtFrame = types
       initGroup,
       copyBox,
       createGroup,
-      removeGroupByBoxIds,
+      removeGroupByBoxes,
       removeGroupByGroupIds,
       addBoxesToGroup,
       moveBoxToGroup,
