@@ -56,6 +56,7 @@ const Box = ({box}) => {
         })}
         style={style}
         onMouseDown={(e) => {
+          console.log('down')
           e.stopPropagation()
           viewport_.toggleSelectBox(box, e.shiftKey)
           // viewport_.toggleSelectRange({

@@ -38,17 +38,26 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
   const {
     viewport: {selectRange, toggleSelectBox},
   } = art
+  const {range = []} = selectRange || {}
+  const {boxIds = []} = range[0] || {}
   const menu = w.overlayManager.get('menu')
-  const list = [
-    {name: '置顶', action: () => 1},
-    {name: '置底', action: () => 1},
-    {name: '上移一层', action: () => 1},
-    {name: '下移一层', action: () => 1},
-    {name: '复制', action: () => 1},
-    {name: '删除', action: () => 1},
-    {name: '锁定', action: () => 1},
-    {name: '隐藏', action: () => 1},
-  ].filter(Boolean)
+  const list =
+    boxIds.length > 1
+      ? [
+          {name: '成组', action: () => 1},
+          {name: '解组', action: () => 1},
+          {name: '删除', action: () => 1},
+        ].filter(Boolean)
+      : [
+          {name: '置顶', action: () => 1},
+          {name: '置底', action: () => 1},
+          {name: '上移一层', action: () => 1},
+          {name: '下移一层', action: () => 1},
+          {name: '复制', action: () => 1},
+          {name: '删除', action: () => 1},
+          {name: '锁定', action: () => 1},
+          {name: '隐藏', action: () => 1},
+        ].filter(Boolean)
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 
@@ -57,6 +66,7 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
       <div
         className={c('w100p', s.layer)}
         onContextMenu={(e) => {
+          !boxIds.length && toggleSelectBox(layer, false)
           e.preventDefault()
           e.stopPropagation()
           menu.show({list})
@@ -69,6 +79,7 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
             className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
             onClick={(e) => {
               e.stopPropagation()
+              menu.hide()
               toggleSelectBox(layer, e.shiftKey)
             }}
           >

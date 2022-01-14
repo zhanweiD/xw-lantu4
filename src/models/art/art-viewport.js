@@ -148,7 +148,7 @@ export const MArtViewport = types
     }
 
     // 初始化画布
-    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background, groups}) => {
+    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background, groups = []}) => {
       const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
@@ -470,7 +470,6 @@ export const MArtViewport = types
         removeSelectRange()
         return
       }
-
       toggleSelectRange({
         target: 'box',
         selectRange: [
