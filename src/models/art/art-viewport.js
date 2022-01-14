@@ -456,7 +456,7 @@ export const MArtViewport = types
         const {range = []} = self.selectRange || {}
         const have = range[0]?.boxIds?.find((item) => item === boxId)
         if (have) boxIds = range[0]?.boxIds?.filter((item) => item !== boxId)
-        else boxIds = [...range[0]?.boxIds, boxId]
+        else boxIds = [...(range[0]?.boxIds || []), boxId]
       } else {
         boxIds = [boxId]
       }

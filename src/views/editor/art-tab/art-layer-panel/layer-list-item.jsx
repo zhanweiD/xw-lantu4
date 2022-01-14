@@ -40,13 +40,14 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
   } = art
   const menu = w.overlayManager.get('menu')
   const list = [
-    {name: '编辑', action: () => (art.editArt(), menu.hide())},
-    {name: '预览', action: () => (art.previewArt(), menu.hide())},
-    {name: '保存为模板', action: () => (art.saveAsTemplate(), menu.hide())},
-    {name: '更新缩略图', action: () => (art.updateLayerPanel(), menu.hide())},
-    {name: '复制', action: () => (art.copyArt(), menu.hide())},
-    {name: '导出', action: () => (art.exportArt(), menu.hide())},
-    {name: '删除', action: () => (art.removeArt(), menu.hide())},
+    {name: '置顶', action: () => 1},
+    {name: '置底', action: () => 1},
+    {name: '上移一层', action: () => 1},
+    {name: '下移一层', action: () => 1},
+    {name: '复制', action: () => 1},
+    {name: '删除', action: () => 1},
+    {name: '锁定', action: () => 1},
+    {name: '隐藏', action: () => 1},
   ].filter(Boolean)
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
@@ -56,7 +57,9 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
       <div
         className={c('w100p', s.layer)}
         onContextMenu={(e) => {
-          e.preventDefault(), e.stopPropagation(), menu.show({list})
+          e.preventDefault()
+          e.stopPropagation()
+          menu.show({list})
         }}
         // onDoubleClick={layer.editArt}
       >
@@ -64,7 +67,7 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
         <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, isSelect && s.selectLayerItemBox)}>
           <div
             className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
-            onMouseDown={(e) => {
+            onClick={(e) => {
               e.stopPropagation()
               toggleSelectBox(layer, e.shiftKey)
             }}
@@ -79,7 +82,15 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
               <IconButton
                 buttonSize={24}
                 className={s.toolIconHighlight}
+                icon="lock"
+                iconSize={14}
+                // onClick={layer.previewArt}
+              />
+              <IconButton
+                buttonSize={24}
+                className={s.toolIconHighlight}
                 icon="eye-open"
+                iconSize={14}
                 // onClick={layer.previewArt}
               />
             </div>
