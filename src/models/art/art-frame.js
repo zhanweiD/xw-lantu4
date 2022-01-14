@@ -433,14 +433,20 @@ export const MArtFrame = types
     const copyBox = () => {}
 
     const addBoxesToGroup = (boxes, groupId) => {
+      let tempBoxes = self.boxes
       boxes.map((item) => {
+        // 将tempbox处理为不包含成组box
+        tempBoxes = tempBoxes.filter((box) => box.boxId !== item.boxId)
         item.addGroup(groupId)
       })
+      // boxes排序
+      self.boxes = tempBoxes.slice(0, boxes[0].zIndex_).concat(boxes).concat(tempBoxes.slice(boxes[0].zIndex_))
     }
+
     // 创建分组
     const createGroup = (boxes) => {
       // 成组之前如果box在其他组内，需要先解组
-      removeGroupByBoxes(boxes)
+      // removeGroupByBoxes(boxes)
       const id = uuid()
       const groups = MGroup.create({
         id,
@@ -454,6 +460,21 @@ export const MArtFrame = types
     // 根据boxIds批量解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
+        // 移出分组同时box进行排序
+        const sourceGroup = self.groups.find((item) => item.id === box?.groupIds[0])
+        if (sourceGroup) {
+          // 找到组内最后一个元素，解组后插到最后一个元素后边
+          const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
+          const tartgetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
+          if (tartgetIndex > box.zIndex_) {
+            self.boxes = self.boxes
+              .slice(0, box.zIndex_)
+              .concat(self.boxes.slice(box.zIndex_ + 1, tartgetIndex + 1))
+              .concat(box)
+              .concat(self.boxes.slice(tartgetIndex + 1))
+          }
+        }
+
         // 在box解除绑定关系
         box.removeGroup()
         self.groups = self.groups
