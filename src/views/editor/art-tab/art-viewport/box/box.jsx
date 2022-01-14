@@ -57,15 +57,16 @@ const Box = ({box}) => {
         style={style}
         onMouseDown={(e) => {
           e.stopPropagation()
-          viewport_.toggleSelectRange({
-            target: 'box',
-            selectRange: [
-              {
-                frameId: frame_.frameId,
-                boxIds: [box.boxId],
-              },
-            ],
-          })
+          viewport_.toggleSelectBox(box, e.shiftKey)
+          // viewport_.toggleSelectRange({
+          //   target: 'box',
+          //   selectRange: [
+          //     {
+          //       frameId: frame_.frameId,
+          //       boxIds: [box.boxId],
+          //     },
+          //   ],
+          // })
         }}
       >
         {reverseMaterials.map((material) => (

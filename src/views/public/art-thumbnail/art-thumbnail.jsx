@@ -52,7 +52,7 @@ const ArtThumbnail = ({project, art, index, useButtons = true, isTemplate = fals
     {name: '删除', action: () => (art.removeArt(), menu.hide())},
   ].filter(Boolean)
 
-  console.log('====', art.toJSON())
+  // console.log('====', art.toJSON())
 
   return (
     <Sortable art={art} index={index} project={project} enable={!isThumbnailVisible}>

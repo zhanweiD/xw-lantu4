@@ -32,7 +32,6 @@ const MViewport = types
       viewportEl = el
       self.update()
       enhance()
-
       let timer
       window.addEventListener('resize', () => {
         clearTimeout(timer)

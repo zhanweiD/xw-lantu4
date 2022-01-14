@@ -33,6 +33,7 @@ export const MArt = types
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),
+    isLayerPanelVisible: types.optional(types.boolean, false),
     activeTool: types.optional(types.enumeration('MArtToolbar.activeTool', ['select', 'createFrame']), 'select'),
     fetchState: types.optional(types.enumeration('MArtTab.fetchState', ['loading', 'success', 'error']), 'loading'),
     normalKeys: types.frozen(['artId', 'projectId']),
@@ -52,6 +53,7 @@ export const MArt = types
         key: `waveview-exhibit-manager`,
       })
       self.exhibitManager = exhibitManager
+      self.isLayerPanelVisible = self.env_.session.get('isLayerPanelVisible')
       // 注册2个事件
       // 1、增加数据屏中组件依赖的数据id和组件id，若数据已经被记录则在此条记录中追加记录依赖此数据的组件id
       // 2、删除数据屏中组件依赖的数据id
@@ -241,11 +243,21 @@ export const MArt = types
         self.env_.tip.error({content: '保存失败'})
       }
     })
+
+    /**
+     * 切换容器面板显示隐藏
+     */
+    const toggleLayerVisible = () => {
+      self.isLayerPanelVisible = !self.isLayerPanelVisible
+      self.env_.session.set('isLayerPanelVisible', self.isLayerPanelVisible)
+      setTimeout(self.viewport.resizeViewport, 100)
+    }
     return {
       afterCreate,
       getArt,
       addData,
       preview,
       save,
+      toggleLayerVisible,
     }
   })

@@ -1,5 +1,5 @@
 import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree'
-// import {reaction} from 'mobx'
+import {toJS} from 'mobx'
 import minBy from 'lodash/minBy'
 import maxBy from 'lodash/maxBy'
 import isEmpty from 'lodash/isEmpty'
@@ -422,6 +422,7 @@ export const MArtViewport = types
       self.removeSelectRange()
     }
 
+    // 选中
     const toggleSelectRange = ({target, selectRange}) => {
       self.removeSelectRange()
       if (target === 'frame') {
@@ -451,6 +452,36 @@ export const MArtViewport = types
       }
     }
 
+    // 选中图层
+    const toggleSelectBox = (box, shiftKey) => {
+      const {boxId, frameId} = box
+      let boxIds = []
+
+      if (shiftKey) {
+        const {range = []} = self.selectRange || {}
+        const have = range[0]?.boxIds?.find((item) => item === boxId)
+        if (have) boxIds = range[0]?.boxIds?.filter((item) => item !== boxId)
+        else boxIds = [...(range[0]?.boxIds || []), boxId]
+      } else {
+        boxIds = [boxId]
+      }
+
+      if (!boxIds.length) {
+        removeSelectRange()
+        return
+      }
+
+      toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId,
+            boxIds,
+          },
+        ],
+      })
+    }
+
     const zoomSingleToView = () => {
       initXY()
       const frame = self.selectRange
@@ -475,15 +506,17 @@ export const MArtViewport = types
 
     const zoomAllToView = () => {
       initXY()
+      console.log(toJS(self))
       self.zoom.update({
         x: 0,
         y: 0,
         height: self.totalHeight,
         width: self.totalWidth,
       })
-
       if (self.selectRange && self.selectRange.target === 'frame') {
-        const {x, y, height, width} = self.frames.find((f) => f.frameId === self.selectRange.range[0].frameId)
+        const {x, y, height, width} = self.frames.find(
+          (f) => f.frameId === self.selectRange.range[0].frameId
+        )?.viewLayout
         self.selectRange.set({
           x1: x,
           y1: y,
@@ -514,6 +547,8 @@ export const MArtViewport = types
       // 框选与删除框选
       toggleSelectRange,
       removeSelectRange,
+      // 改变选中box
+      toggleSelectBox,
       // 创建画布 & 删除画布
       createFrame,
       removeFrame,
