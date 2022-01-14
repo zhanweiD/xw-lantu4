@@ -847,6 +847,26 @@ export const MSelectRange = types
       event.off(`art.${self.art_.artId}.select-range.setLayout`)
     }
 
+    // 复制box
+    const copyBox = () => {
+      self.boxes_.map((box) => {
+        const {layout = {}} = box
+        const {x, y, width, height} = layout
+        box.setLayout({x: x + 10, y: y + 10, width, height})
+        box.recreateBox()
+      })
+      // self.boxes_.forEach((box) => {
+      //   if (box.materials) {
+      //     box.materials.forEach((material) => {
+      //       event.fire(`art.${artId}.removeMaterial`, {
+      //         materialId: material.id,
+      //         id: box.boxId,
+      //       })
+      //     })
+      //   }
+      // })
+    }
+
     return {
       afterCreate,
       onMove,
@@ -859,5 +879,6 @@ export const MSelectRange = types
       setLayout,
       setConstraint,
       beforeDestroy,
+      copyBox,
     }
   })

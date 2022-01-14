@@ -1,10 +1,10 @@
-import React from "react"
-import {observer} from "mobx-react-lite"
-import isFunction from "lodash/isFunction"
-import c from "classnames"
-import Overlay from "@components/overlay"
-import Icon from "@components/icon"
-import s from "./menu.module.styl"
+import React from 'react'
+import {observer} from 'mobx-react-lite'
+import isFunction from 'lodash/isFunction'
+import c from 'classnames'
+import Overlay from '@components/overlay'
+import Icon from '@components/icon'
+import s from './menu.module.styl'
 
 /**
  * list项
@@ -26,12 +26,13 @@ const Menu = ({model, className}) => {
   return (
     <Overlay zIndex={22000} contentClassName={s.menuBox} model={model}>
       {list.length && (
-        <div className={c("w100p", className)}>
+        <div className={c('w100p', className)}>
           {list.map((item) => (
             <div
               key={item.name}
-              className={c("pl8 pr8 lh24", s.item)}
+              className={c('pl8 pr8 lh24', s.item, !item.disabled ? s.itemNormal : s.itemDisabled)}
               onClick={(e) => {
+                if (item.disabled) return
                 e.stopPropagation()
                 if (isFunction(item.action)) {
                   item.action()

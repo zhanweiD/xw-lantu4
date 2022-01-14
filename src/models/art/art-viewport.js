@@ -148,7 +148,7 @@ export const MArtViewport = types
     }
 
     // 初始化画布
-    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background}) => {
+    const initFrame = ({frameId, name, isMain, layout, boxes, materials, background, groups}) => {
       const {exhibitCollection, event} = self.env_
       const {artId} = self.art_
       const frame = MArtFrame.create({
@@ -165,6 +165,10 @@ export const MArtViewport = types
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)
+      })
+      // init组
+      groups.forEach((group) => {
+        frame.initGroup(group)
       })
       if (materials) {
         materials.forEach((material) => {
@@ -315,6 +319,7 @@ export const MArtViewport = types
                   Math.max(y1, v.layout.y + b.y1_) <= Math.min(y2, v.layout.y + b.y2_)
               )
               if (boxes.length) {
+                // 此处过滤不可被选中的box
                 ranges.push({
                   frameId: v.frameId,
                   boxIds: boxes.map((b) => b.boxId),

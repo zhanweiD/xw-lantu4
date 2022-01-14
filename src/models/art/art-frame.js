@@ -8,6 +8,7 @@ import {MBox} from './box'
 import {MArtFrameGrid} from './art-frame-grid'
 import {MLayout} from '../common/layout'
 import {MBackgroundColor} from './art-ui-tab-property'
+import {MGroup} from './group'
 
 const log = createLog('@models/art/art-frame.js')
 export const MArtFrame = types
@@ -28,7 +29,8 @@ export const MArtFrame = types
     // 动态展示的位置信息，原点不定，可视区域中最小的左上角计算得出
     viewLayout: types.maybe(MLayout),
     grid: types.optional(MArtFrameGrid, {}),
-    normalKeys: types.frozen(['frameId', 'artId', 'name', 'isMain', 'materials', 'remark']),
+    groups: types.optional(types.array(MGroup), []),
+    normalKeys: types.frozen(['frameId', 'artId', 'name', 'isMain', 'materials', 'remark', 'groups']),
     deepKeys: types.frozen(['boxes', 'layout', 'background']),
   })
   .views((self) => ({
@@ -423,6 +425,75 @@ export const MArtFrame = types
       }
     }
 
+    const initGroup = ({id, name, boxIds}) => {
+      const group = MGroup.create({id, boxIds, name})
+      self.groups.push(group)
+    }
+
+    const copyBox = () => {}
+
+    const addBoxesToGroup = (boxIds, groupId) => {
+      self.boxes.map((item) => {
+        if (boxIds.includes(item.boxId)) {
+          item.addGroup(groupId)
+        }
+      })
+    }
+    // 创建分组
+    const createGroup = (boxIds) => {
+      // 成组之前如果box在其他组内，需要先解组
+      removeGroupByBoxIds(boxIds)
+      const id = uuid()
+      const groups = MGroup.create({
+        id,
+        boxIds,
+        name: `分组_${id.substring(0, 4)}`,
+      })
+      self.groups.push(groups)
+      addBoxesToGroup(boxIds, id)
+    }
+
+    // 根据boxIds批量解组
+    const removeGroupByBoxIds = (boxIds) => {
+      boxIds.forEach((boxId) => {
+        // 在box解除绑定关系
+        self.boxes.forEach((box) => {
+          if (box.boxId === boxId && box.groupIds?.length) {
+            box.removeGroup()
+          }
+        })
+        self.groups = self.groups
+          .map((group) => {
+            return {
+              ...group,
+              boxIds: group.boxIds.filter((item) => item !== boxId),
+            }
+          })
+          .filter((group) => group.boxIds.length)
+      })
+    }
+
+    // 根据groupids解组 /*----图层面板上的解组用到---*/
+    const removeGroupByGroupIds = (groupIds) => {
+      // group纬度上解组
+      groupIds.forEach((groupId) => {
+        self.groups.forEach((group) => {
+          if (group.id === groupId) {
+            // 解除box上的分组绑定关系
+            removeGroupByBoxIds(group.boxIds)
+          }
+        })
+      })
+    }
+
+    // 将某个box移动至某个组
+    const moveBoxToGroup = (boxIds, groupId) => {
+      // 先移出原分组
+      removeGroupByBoxIds(boxIds)
+      // 将box移至新分组
+      addBoxesToGroup(boxIds, groupId)
+    }
+
     return {
       initBox,
       createBox,
@@ -434,5 +505,12 @@ export const MArtFrame = types
       removeBackground,
       sortBackground,
       recreateFrame,
+      initGroup,
+      copyBox,
+      createGroup,
+      removeGroupByBoxIds,
+      removeGroupByGroupIds,
+      addBoxesToGroup,
+      moveBoxToGroup,
     }
   })

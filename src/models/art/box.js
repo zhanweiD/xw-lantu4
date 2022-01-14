@@ -43,7 +43,18 @@ export const MBox = types
     isCreateFail: types.maybe(types.boolean),
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['uid', 'frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    groupIds: types.optional(types.array(types.union(types.string, types.number)), []),
+    normalKeys: types.frozen([
+      'uid',
+      'frameId',
+      'boxId',
+      'artId',
+      'exhibit',
+      'materials',
+      'name',
+      'remark',
+      'groupIds',
+    ]),
     deepKeys: types.frozen(['layout', 'constraints', 'paddding', 'background']),
   })
   .views((self) => ({
@@ -73,6 +84,12 @@ export const MBox = types
     },
     get frame_() {
       return getParent(self, 2)
+    },
+    get zIndex_() {
+      const zIndex = getParent(self, 2)
+        .boxes.map((item) => item.boxId)
+        .indexOf(self.boxId)
+      return zIndex
     },
   }))
   .views((self) => ({
@@ -308,6 +325,49 @@ export const MBox = types
     const setConstraints = (constraints) => {
       self.constraints.setSchema(constraints)
     }
+
+    // 重命名图层
+    const reName = (name) => {
+      self.set({name})
+      debounceUpdate()
+    }
+
+    // 图层添加组
+    const addGroup = (groupId) => {
+      self.groupIds = [groupId]
+    }
+
+    // 移除图层组
+    const removeGroup = () => {
+      self.set({groupIds: []})
+    }
+
+    // 复制容器
+    const copyBox = flow(function* copyBox() {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {uid, layout, name, frameId, exhibit, background} = self
+      try {
+        const box = yield io.art.createBox({
+          uid,
+          exhibit,
+          layout,
+          name,
+          background,
+          ':artId': artId,
+          ':frameId': frameId,
+          ':projectId': projectId,
+        })
+
+        self.boxId = box.boxId
+        self.isCreateFail = undefined
+        self.viewport_.selectRange.set({
+          range: [{frameId}],
+        })
+      } catch (error) {
+        log.error('recreateBox Error: ', error)
+      }
+    })
     return {
       afterCreate,
       resize,
@@ -319,5 +379,9 @@ export const MBox = types
       setLayout,
       updateBox,
       setConstraints,
+      copyBox,
+      reName,
+      addGroup,
+      removeGroup,
     }
   })
