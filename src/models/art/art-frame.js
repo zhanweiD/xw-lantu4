@@ -100,8 +100,10 @@ export const MArtFrame = types
 
     // 将box根据groupId分类
     get layerTreeList() {
+      const boxes = [...self.boxes]
+      boxes.reverse()
       const treeList = []
-      self.boxes.forEach((item) => {
+      boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
           const groupIndex = treeList.findIndex((group) => {
