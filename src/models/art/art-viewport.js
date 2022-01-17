@@ -167,7 +167,7 @@ export const MArtViewport = types
         frame.initBox(box)
       })
       // init组
-      groups.forEach((group) => {
+      groups?.forEach((group) => {
         frame.initGroup(group)
       })
       if (materials) {
