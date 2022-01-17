@@ -80,11 +80,12 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
     const mulFramDisable = range?.length > 1
     // 多个box情况下，不支持解组
     const mulBox = range.boxes_?.length > 1
+    const hasGroup = range.boxes_?.find((item) => item.groupIds.length)
     const frame = range.viewport_.frames.find((item) => item.frameId === range?.range?.[0].frameId)
     return [
       {
         name: '成组',
-        disabled: mulFramDisable,
+        disabled: mulFramDisable || hasGroup,
         action: () => {
           frame.createGroup(range.boxes_)
           menu.hide()
@@ -95,6 +96,38 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         disabled: mulFramDisable || mulBox,
         action: () => {
           frame.removeGroupByBoxes(range.boxes_)
+          menu.hide()
+        },
+      },
+      {
+        name: '上移一层',
+        disabled: mulBox,
+        action: () => {
+          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ - 1)
+          menu.hide()
+        },
+      },
+      {
+        name: '下移一层',
+        disabled: mulBox,
+        action: () => {
+          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ + 1)
+          menu.hide()
+        },
+      },
+      {
+        name: '置顶',
+        disabled: mulBox,
+        action: () => {
+          frame.moveBox(range.boxes_[0].zIndex_, 0)
+          menu.hide()
+        },
+      },
+      {
+        name: '置底',
+        disabled: mulBox,
+        action: () => {
+          frame.moveBox(range.boxes_[0].zIndex_, frame.boxes.length)
           menu.hide()
         },
       },
