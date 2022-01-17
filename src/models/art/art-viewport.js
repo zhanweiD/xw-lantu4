@@ -168,7 +168,7 @@ export const MArtViewport = types
         frame.initBox(box)
       })
       // init组
-      groups.forEach((group) => {
+      groups?.forEach((group) => {
         frame.initGroup(group)
       })
       if (materials) {
@@ -543,17 +543,18 @@ export const MArtViewport = types
       // 是否已成组（包括单选多选）
       // const isGroup = false
       // 多个box情况下，不支持解组
-      const mulBox = selectRange?.boxes_?.length > 1
-      const frame = selectRange?.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
+      const mulBox = selectRange.boxes_?.length > 1
+      const hasGroup = selectRange.boxes_?.find((item) => item.groupIds.length)
+      const frame = selectRange.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
 
       // 区分多选单选菜单
       const menuList = mulBox
         ? [
             {
               name: '成组',
-              disabled: mulFramDisable,
+              disabled: mulFramDisable || hasGroup,
               action: () => {
-                frame.createGroup(selectRange?.boxes_)
+                frame.createGroup(selectRange.boxes_)
                 menu.hide()
               },
             },
@@ -561,7 +562,39 @@ export const MArtViewport = types
               name: '解组',
               disabled: mulFramDisable || mulBox,
               action: () => {
-                frame.removeGroupByBoxes(selectRange?.boxes_)
+                frame.removeGroupByBoxes(selectRange.boxes_)
+                menu.hide()
+              },
+            },
+            {
+              name: '上移一层',
+              disabled: mulBox,
+              action: () => {
+                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ - 1)
+                menu.hide()
+              },
+            },
+            {
+              name: '下移一层',
+              disabled: mulBox,
+              action: () => {
+                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ + 1)
+                menu.hide()
+              },
+            },
+            {
+              name: '置顶',
+              disabled: mulBox,
+              action: () => {
+                frame.moveBox(selectRange.boxes_[0].zIndex_, 0)
+                menu.hide()
+              },
+            },
+            {
+              name: '置底',
+              disabled: mulBox,
+              action: () => {
+                frame.moveBox(selectRange.boxes_[0].zIndex_, frame.boxes.length)
                 menu.hide()
               },
             },

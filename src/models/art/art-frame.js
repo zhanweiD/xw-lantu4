@@ -534,6 +534,19 @@ export const MArtFrame = types
       addBoxesToGroup(boxes, groupId)
     }
 
+    /**
+     * 图层移动
+     * @param {*} currentIndex box的原来位置
+     * @param {*} targetIndex box的目标位置
+     */
+    const moveBox = (currentIndex, targetIndex) => {
+      const boxList = [...self.boxes]
+      const tmp = boxList[currentIndex] // 临时储存文件s
+      boxList.splice(currentIndex, 1) // 移除拖拽项
+      boxList.splice(targetIndex, 0, tmp) // 插入放置项
+      self.boxes = boxList
+    }
+
     return {
       initBox,
       createBox,
@@ -552,6 +565,6 @@ export const MArtFrame = types
       removeGroupByGroupIds,
       addBoxesToGroup,
       moveBoxToGroup,
-      // listToTree,
+      moveBox,
     }
   })
