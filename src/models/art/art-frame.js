@@ -97,6 +97,30 @@ export const MArtFrame = types
       }
       return undefined
     },
+
+    // 将box根据groupId分类
+    get layerTreeList() {
+      const treeList = []
+      self.boxes.forEach((item) => {
+        const {groupIds = []} = item
+        if (groupIds.length) {
+          const groupIndex = treeList.findIndex((group) => {
+            return group.groupIds[0] == groupIds[0]
+          })
+          if (groupIndex !== -1) {
+            treeList[groupIndex].boxes.push(item)
+          } else {
+            treeList.push({
+              groupIds: [...groupIds],
+              boxes: [item],
+            })
+          }
+        } else {
+          treeList.push(item)
+        }
+      })
+      return treeList
+    },
   }))
   .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
@@ -512,5 +536,6 @@ export const MArtFrame = types
       removeGroupByGroupIds,
       addBoxesToGroup,
       moveBoxToGroup,
+      // listToTree,
     }
   })

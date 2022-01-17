@@ -34,7 +34,7 @@ const Sortable = observer(({layer, index, children, enable}) => {
   )
 })
 
-const LayerListItem = ({layer, index, art, useButtons = true}) => {
+const LayerListItem = ({layer, index, art, className, useButtons = true}) => {
   const {
     viewport: {selectRange, toggleSelectBox},
   } = art
@@ -74,7 +74,7 @@ const LayerListItem = ({layer, index, art, useButtons = true}) => {
         // onDoubleClick={layer.editArt}
       >
         {/* {isLayerPanelVisible && <div className={c(s.layerPanelContainer)} style={art.layerPanelStyle_} />} */}
-        <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, isSelect && s.selectLayerItemBox)}>
+        <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, className, isSelect && s.selectLayerItemBox)}>
           <div
             className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
             onClick={(e) => {

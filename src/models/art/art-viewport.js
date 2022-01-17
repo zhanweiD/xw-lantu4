@@ -51,6 +51,7 @@ export const MArtViewport = types
     baseOffsetY: types.optional(types.number, 0),
     zoom: types.optional(MZoom, {}),
     isInit: types.optional(types.boolean, false),
+    // layerTreeList: types.optional(types.array(), []),
     deepKeys: types.frozen(['frames']),
   })
   .views((self) => ({

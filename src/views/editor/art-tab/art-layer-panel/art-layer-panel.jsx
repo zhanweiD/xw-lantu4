@@ -12,7 +12,6 @@ const ArtLayerPanel = ({art}) => {
     isLayerPanelVisible,
     viewport: {frames, selectRange},
   } = art
-
   if (selectRange) {
     if (selectRange.range[0].frameId) {
       selectFrame = frames.find((item) => item.frameId === selectRange.range[0].frameId)
@@ -20,6 +19,7 @@ const ArtLayerPanel = ({art}) => {
   } else if (!selectFrame) {
     selectFrame = frames[0]
   }
+  const {groups = [], layerTreeList = []} = selectFrame
 
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
@@ -27,8 +27,15 @@ const ArtLayerPanel = ({art}) => {
         <IconButton icon="arrow-left" title="收起图层面板" layout="start" onClick={art.toggleLayerVisible} />
       </div>
       <Scroll>
-        {selectFrame?.boxes?.map((layer, index) => (
-          <LayerList key={layer.boxId} layer={layer} index={index} art={art} />
+        {layerTreeList.map((item, index) => (
+          <LayerList
+            key={item.groupIds?.[0] || item.boxId}
+            index={index}
+            layer={item}
+            groups={groups}
+            art={art}
+            selectRange={selectRange}
+          />
         ))}
       </Scroll>
     </div>
