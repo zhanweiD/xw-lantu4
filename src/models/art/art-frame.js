@@ -481,7 +481,7 @@ export const MArtFrame = types
       addBoxesToGroup(boxes, id)
     }
 
-    // 根据boxIds批量解组
+    // 根据box批量解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
         // 移出分组同时box进行排序
