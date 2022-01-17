@@ -2,7 +2,7 @@ import React from 'react'
 import {observer} from 'mobx-react-lite'
 import w from '@models'
 
-const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
+const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY, getMenuList}) => {
   const {x1, y1, x2, y2, target} = range
   const width = x2 - x1
   const height = y2 - y1
@@ -75,53 +75,53 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
     },
   }
 
-  const getMenuList = (menu) => {
-    // 跨画布的情况不能成组，上移等，将菜单置为disabled状态
-    const mulFramDisable = range?.length > 1
-    // 多个box情况下，不支持解组
-    const mulBox = range.boxes_?.length > 1
-    const frame = range.viewport_.frames.find((item) => item.frameId === range?.range?.[0].frameId)
-    return [
-      {
-        name: '成组',
-        disabled: mulFramDisable,
-        action: () => {
-          frame.createGroup(range.boxes_)
-          menu.hide()
-        },
-      },
-      {
-        name: '解组',
-        disabled: mulFramDisable || mulBox,
-        action: () => {
-          frame.removeGroupByBoxes(range.boxes_)
-          menu.hide()
-        },
-      },
-      {
-        name: '删除',
-        action: () => {
-          range.remove()
-          menu.hide()
-        },
-      },
-      // {
-      //   name: '复制',
-      //   action: () => {
-      //     range.copyBox()
-      //     // target.sortBackground(model.id, 'up')
-      //     menu.hide()
-      //   },
-      // },
-      // {
-      //   name: '下移一层',
-      //   action: () => {
-      //     // target.sortBackground(model.id, 'down')
-      //     menu.hide()
-      //   },
-      // },
-    ]
-  }
+  // const getMenuList = (menu) => {
+  //   // 跨画布的情况不能成组，上移等，将菜单置为disabled状态
+  //   const mulFramDisable = range?.length > 1
+  //   // 多个box情况下，不支持解组
+  //   const mulBox = range.boxes_?.length > 1
+  //   const frame = range.viewport_.frames.find((item) => item.frameId === range?.range?.[0].frameId)
+  //   return [
+  //     {
+  //       name: '成组',
+  //       disabled: mulFramDisable,
+  //       action: () => {
+  //         frame.createGroup(range.boxes_)
+  //         menu.hide()
+  //       },
+  //     },
+  //     {
+  //       name: '解组',
+  //       disabled: mulFramDisable || mulBox,
+  //       action: () => {
+  //         frame.removeGroupByBoxes(range.boxes_)
+  //         menu.hide()
+  //       },
+  //     },
+  //     {
+  //       name: '删除',
+  //       action: () => {
+  //         range.remove()
+  //         menu.hide()
+  //       },
+  //     },
+  //     // {
+  //     //   name: '复制',
+  //     //   action: () => {
+  //     //     range.copyBox()
+  //     //     // target.sortBackground(model.id, 'up')
+  //     //     menu.hide()
+  //     //   },
+  //     // },
+  //     // {
+  //     //   name: '下移一层',
+  //     //   action: () => {
+  //     //     // target.sortBackground(model.id, 'down')
+  //     //     menu.hide()
+  //     //   },
+  //     // },
+  //   ]
+  // }
   return (
     <div
       style={{

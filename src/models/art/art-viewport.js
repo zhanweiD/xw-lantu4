@@ -535,6 +535,80 @@ export const MArtViewport = types
       removeShortcutDelete()
     }
 
+    // 统一选中menu
+    const getMenuList = (menu) => {
+      const {selectRange} = self
+      // 跨画布的情况不能成组，上移等，将菜单置为disabled状态
+      const mulFramDisable = selectRange?.range?.length > 1
+      // 是否已成组（包括单选多选）
+      // const isGroup = false
+      // 多个box情况下，不支持解组
+      const mulBox = selectRange?.boxes_?.length > 1
+      const frame = selectRange?.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
+
+      // 区分多选单选菜单
+      const menuList = mulBox
+        ? [
+            {
+              name: '成组',
+              disabled: mulFramDisable,
+              action: () => {
+                frame.createGroup(selectRange?.boxes_)
+                menu.hide()
+              },
+            },
+            {
+              name: '解组',
+              disabled: mulFramDisable || mulBox,
+              action: () => {
+                frame.removeGroupByBoxes(selectRange?.boxes_)
+                menu.hide()
+              },
+            },
+            {
+              name: '删除',
+              action: () => {
+                selectRange.remove()
+                menu.hide()
+              },
+            },
+            // {
+            //   name: '复制',
+            //   action: () => {
+            //     range.copyBox()
+            //     // target.sortBackground(model.id, 'up')
+            //     menu.hide()
+            //   },
+            // },
+            // {
+            //   name: '下移一层',
+            //   action: () => {
+            //     // target.sortBackground(model.id, 'down')
+            //     menu.hide()
+            //   },
+            // },
+          ]
+        : [
+            {name: '置顶', action: () => 1},
+            {name: '置底', action: () => 1},
+            {name: '上移一层', action: () => 1},
+            {name: '下移一层', action: () => 1},
+            {
+              name: '取消成组',
+              disabled: mulFramDisable || mulBox,
+              action: () => {
+                frame.removeGroupByBoxes(selectRange?.boxes_)
+                menu.hide()
+              },
+            },
+            {name: '复制', action: () => 1},
+            {name: '删除', action: () => 1},
+            {name: '锁定', action: () => 1},
+            {name: '隐藏', action: () => 1},
+          ]
+      return menuList
+    }
+
     return {
       // 生命周期函数
       afterCreate,
@@ -558,5 +632,6 @@ export const MArtViewport = types
       zoomAllToView,
       zoomSingleToView,
       resizeViewport,
+      getMenuList,
     }
   })

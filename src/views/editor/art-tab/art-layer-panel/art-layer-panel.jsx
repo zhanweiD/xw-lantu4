@@ -10,6 +10,7 @@ let selectFrame
 const ArtLayerPanel = ({art}) => {
   const {
     isLayerPanelVisible,
+    viewport,
     viewport: {frames, selectRange},
   } = art
   if (selectRange) {
@@ -20,7 +21,7 @@ const ArtLayerPanel = ({art}) => {
     selectFrame = frames[0]
   }
   const {groups = [], layerTreeList = []} = selectFrame
-
+  console.log(selectRange)
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
       <div className={s.toolbarButton}>
@@ -33,7 +34,7 @@ const ArtLayerPanel = ({art}) => {
             index={index}
             layer={item}
             groups={groups}
-            art={art}
+            viewport={viewport}
             selectRange={selectRange}
           />
         ))}

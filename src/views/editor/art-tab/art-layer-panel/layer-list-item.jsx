@@ -34,30 +34,28 @@ const Sortable = observer(({layer, index, children, enable}) => {
   )
 })
 
-const LayerListItem = ({layer, index, art, className, useButtons = true}) => {
-  const {
-    viewport: {selectRange, toggleSelectBox},
-  } = art
+const LayerListItem = ({layer, index, viewport, className, useButtons = true}) => {
+  const {selectRange, toggleSelectBox, getMenuList} = viewport
   const {range = []} = selectRange || {}
   const {boxIds = []} = range[0] || {}
   const menu = w.overlayManager.get('menu')
-  const list =
-    boxIds.length > 1
-      ? [
-          {name: '成组', action: () => 1},
-          {name: '解组', action: () => 1},
-          {name: '删除', action: () => 1},
-        ].filter(Boolean)
-      : [
-          {name: '置顶', action: () => 1},
-          {name: '置底', action: () => 1},
-          {name: '上移一层', action: () => 1},
-          {name: '下移一层', action: () => 1},
-          {name: '复制', action: () => 1},
-          {name: '删除', action: () => 1},
-          {name: '锁定', action: () => 1},
-          {name: '隐藏', action: () => 1},
-        ].filter(Boolean)
+  const list = getMenuList(menu)
+  // boxIds.length > 1
+  //   ? [
+  //       {name: '成组', action: () => 1},
+  //       {name: '解组', action: () => 1},
+  //       {name: '删除', action: () => 1},
+  //     ].filter(Boolean)
+  //   : [
+  //       {name: '置顶', action: () => 1},
+  //       {name: '置底', action: () => 1},
+  //       {name: '上移一层', action: () => 1},
+  //       {name: '下移一层', action: () => 1},
+  //       {name: '复制', action: () => 1},
+  //       {name: '删除', action: () => 1},
+  //       {name: '锁定', action: () => 1},
+  //       {name: '隐藏', action: () => 1},
+  //     ].filter(Boolean)
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 

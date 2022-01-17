@@ -42,7 +42,7 @@ import s from './art-layer-panel.module.styl'
 // }
 
 // 项目列表
-export default observer(({layer, index, art, groups, selectRange, other}) => {
+export default observer(({layer, index, viewport, groups, selectRange, other}) => {
   // layer有可能是box有可能是group,有boxes是group
   return layer.boxes ? (
     <Section
@@ -50,10 +50,7 @@ export default observer(({layer, index, art, groups, selectRange, other}) => {
       sessionId={`SKLayer-${layer.groupIds[0]}`}
       name={groups.find((group) => group.id === layer.groupIds[0])?.name}
       childrenClassName={c(s.pt0)}
-      titleClassName={c(
-        'pt4 pb4',
-        selectRange?.range?.[0]?.boxIds?.length !== layer.boxes.length && s.noSelectLayerGroup
-      )}
+      titleClassName={c('pt4 pb4', selectRange?.boxes_?.length !== layer.boxes.length && s.noSelectLayerGroup)}
       // extra={icon}
     >
       {layer.boxes.map((box) => (
@@ -64,7 +61,7 @@ export default observer(({layer, index, art, groups, selectRange, other}) => {
             dragKey="CREATE_ART_DRAG_KEY"
             data={box}
           >
-            <LayerListItem layer={box} art={art} index={index} className="pl24" {...other} />
+            <LayerListItem layer={box} viewport={viewport} index={index} className="pl24" {...other} />
           </DragSource>
         </div>
       ))}
@@ -77,7 +74,7 @@ export default observer(({layer, index, art, groups, selectRange, other}) => {
         dragKey="CREATE_ART_DRAG_KEY"
         data={layer}
       >
-        <LayerListItem layer={layer} art={art} index={index} {...other} />
+        <LayerListItem layer={layer} viewport={viewport} index={index} {...other} />
       </DragSource>
     </div>
   )
