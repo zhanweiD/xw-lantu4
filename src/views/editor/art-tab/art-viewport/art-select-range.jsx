@@ -103,7 +103,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '上移一层',
         disabled: mulBox,
         action: () => {
-          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ - 1)
+          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ + 1)
           menu.hide()
         },
       },
@@ -111,7 +111,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '下移一层',
         disabled: mulBox,
         action: () => {
-          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ + 1)
+          frame.moveBox(range.boxes_[0].zIndex_, range.boxes_[0].zIndex_ - 1)
           menu.hide()
         },
       },
@@ -119,7 +119,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '置顶',
         disabled: mulBox,
         action: () => {
-          frame.moveBox(range.boxes_[0].zIndex_, 0)
+          frame.moveBox(range.boxes_[0].zIndex_, frame.boxes.length)
           menu.hide()
         },
       },
@@ -127,7 +127,7 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY}) => {
         name: '置底',
         disabled: mulBox,
         action: () => {
-          frame.moveBox(range.boxes_[0].zIndex_, frame.boxes.length)
+          frame.moveBox(range.boxes_[0].zIndex_, 0)
           menu.hide()
         },
       },
