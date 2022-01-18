@@ -462,33 +462,30 @@ export const MArtFrame = types
       const group = MGroup.create({id, boxIds, name})
       self.groups.push(group)
     }
+
     const copyBox = flow(function* copyBox(box) {
       const {io} = self.env_
       const {artId, projectId} = self.art_
       const uid = uuid()
-      // background: box.background,
-      // remark: box.remark,
-      // materials: box.material,
-      // padding: box.padding,
-      // constraints: box.constraints,
+      const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
       const params = {
-        // background: box.background,
+        materials: box.materials,
         artId,
         frameId: box.frameId,
         exhibit: box.exhibit,
         uid,
         name: `容器-${uid.substring(0, 4)}`,
-        layout: {width: box.layout.width, height: box.layout.height, x: box.layout.x + 20, y: box.layout.y + 20},
+        layout,
       }
       self.initBox(params)
       const realBox = self.boxes.find((o) => o.uid === uid)
       try {
         const currentBox = yield io.art.createBox({
           uid: params.uid,
+          materials: box.materials,
           exhibit: box.exhibit,
-          layout: {width: box.layout.width, height: box.layout.height, x: box.layout.x + 20, y: box.layout.y + 20},
+          layout,
           name: params.name,
-          // background: box.background,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
@@ -496,7 +493,6 @@ export const MArtFrame = types
         realBox.set({
           boxId: currentBox.boxId,
         })
-
         self.viewport_.selectRange.set({
           range: [
             {
