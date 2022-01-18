@@ -313,11 +313,14 @@ export const MArtViewport = types
           } else {
             const ranges = []
             // 这里的逻辑参考上面那段超长的注释，一个逻辑。这里的表层需求是框选框覆盖到的组件容器均被框选
+            // 被锁定的及隐藏的不可被框选
             self.frames.forEach((v) => {
               const boxes = v.boxes.filter(
                 (b) =>
                   Math.max(x1, v.layout.x + b.x1_) <= Math.min(x2, v.layout.x + b.x2_) &&
-                  Math.max(y1, v.layout.y + b.y1_) <= Math.min(y2, v.layout.y + b.y2_)
+                  Math.max(y1, v.layout.y + b.y1_) <= Math.min(y2, v.layout.y + b.y2_) &&
+                  !b.isLocked &&
+                  b.isEffect
               )
               if (boxes.length) {
                 // 此处过滤不可被选中的box
@@ -437,17 +440,24 @@ export const MArtViewport = types
           y2: frame.y2_,
         }
       } else {
-        const layouts = selectRange.map((value) => {
-          const frame = self.frames.find((v) => v.frameId === value.frameId)
-          const boxes = frame.boxes.filter((v) => value.boxIds.includes(v.boxId || v.uid))
-          const {x1, y1, x2, y2} = getCoordinate(boxes)
-          return {
-            x1_: frame.x1_ + x1,
-            y1_: frame.y1_ + y1,
-            x2_: frame.x1_ + x2,
-            y2_: frame.y1_ + y2,
-          }
-        })
+        const layouts = selectRange
+          .map((value) => {
+            const frame = self.frames.find((v) => v.frameId === value.frameId)
+            // 将boxes里的隐藏及锁定图层过滤掉
+            const boxes = frame.boxes.filter(
+              (v) => value.boxIds.includes(v.boxId || v.uid) && v.isEffect && !v.isLocked
+            )
+            if (!boxes.length) return
+            const {x1, y1, x2, y2} = getCoordinate(boxes)
+            return {
+              x1_: frame.x1_ + x1,
+              y1_: frame.y1_ + y1,
+              x2_: frame.x1_ + x2,
+              y2_: frame.y1_ + y2,
+            }
+          })
+          .filter((item) => item)
+        if (!layouts.length) return
         const {x1, y1, x2, y2} = getCoordinate(layouts)
         self.selectRange = {target, range: selectRange, x1, y1, x2, y2}
       }
@@ -545,9 +555,18 @@ export const MArtViewport = types
       // const isGroup = false
       // 多个box情况下，不支持解组
       const mulBox = selectRange.boxes_?.length > 1
+      // boxes是否在分组内
       const hasGroup = selectRange.boxes_?.find((item) => item.groupIds.length)
       const frame = selectRange.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
-
+      // 单选情况下的box
+      const targetBox = selectRange.boxes_?.[0] || {}
+      // 是否可以下移
+      const boxDisabledDown =
+        targetBox.zIndex_ === 0 || frame.groups.find((group) => group.boxIds[0] === targetBox.boxId)
+      // 是否可以上移
+      const boxDisabledUp =
+        targetBox.zIndex_ === frame.boxes.length - 1 ||
+        frame.groups.find((group) => group.boxIds[group.boxIds - 1] === targetBox.boxId)
       // 区分多选单选菜单
       const menuList = mulBox
         ? [
@@ -569,33 +588,33 @@ export const MArtViewport = types
             },
             {
               name: '上移一层',
-              disabled: mulBox,
+              disabled: mulBox || boxDisabledUp,
               action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ - 1)
+                frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
                 menu.hide()
               },
             },
             {
               name: '下移一层',
-              disabled: mulBox,
+              disabled: mulBox || boxDisabledDown,
               action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ + 1)
+                frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
                 menu.hide()
               },
             },
             {
               name: '置顶',
-              disabled: mulBox,
+              disabled: mulBox || hasGroup,
               action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, 0)
+                frame.moveBox(targetBox.zIndex_, frame.boxes.length)
                 menu.hide()
               },
             },
             {
               name: '置底',
-              disabled: mulBox,
+              disabled: mulBox || hasGroup,
               action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, frame.boxes.length)
+                frame.moveBox(targetBox.zIndex_, 0)
                 menu.hide()
               },
             },
@@ -625,7 +644,7 @@ export const MArtViewport = types
         : [
             {
               name: '上移一层',
-              disabled: mulBox,
+              disabled: mulBox || boxDisabledUp,
               action: () => {
                 frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ - 1)
                 menu.hide()
@@ -633,7 +652,7 @@ export const MArtViewport = types
             },
             {
               name: '下移一层',
-              disabled: mulBox,
+              disabled: mulBox || boxDisabledDown,
               action: () => {
                 frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ + 1)
                 menu.hide()
@@ -670,9 +689,38 @@ export const MArtViewport = types
                 menu.hide()
               },
             },
-            {name: '复制', action: () => 1},
-            {name: '锁定', action: () => 1},
-            {name: '隐藏', action: () => 1},
+            {
+              name: '复制',
+              action: () => {
+                selectRange?.boxes_.map((item) => {
+                  // item.recreateBox()
+                  frame.copyBox(item)
+                })
+                menu.hide()
+              },
+            },
+            {
+              name: `${targetBox.isEffect ? '隐藏' : '显示'}`,
+              action: () => {
+                targetBox.toggleEffect()
+                self.toggleSelectRange({
+                  target: 'box',
+                  selectRange: [],
+                })
+                menu.hide()
+              },
+            },
+            {
+              name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+              action: () => {
+                targetBox.toggleLock()
+                self.toggleSelectRange({
+                  target: 'box',
+                  selectRange: [],
+                })
+                menu.hide()
+              },
+            },
           ]
       return menuList
     }
