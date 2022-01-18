@@ -21,7 +21,7 @@ const ArtLayerPanel = ({art}) => {
     selectFrame = frames[0]
   }
   const {groups = [], layerTreeList = []} = selectFrame
-  console.log(selectRange)
+
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
       <div className={s.toolbarButton}>

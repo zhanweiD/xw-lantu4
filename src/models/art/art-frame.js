@@ -101,8 +101,9 @@ export const MArtFrame = types
     // 将box根据groupId分类
     get layerTreeList() {
       const boxes = [...self.boxes]
-      boxes.reverse()
       const treeList = []
+      console.log(boxes)
+      boxes.reverse()
       boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
@@ -149,6 +150,7 @@ export const MArtFrame = types
       materials,
       padding,
       constraints,
+      groupIds,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -161,6 +163,7 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
+        groupIds,
       })
 
       box.padding.setSchema(padding)
