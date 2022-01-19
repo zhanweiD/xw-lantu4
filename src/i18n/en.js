@@ -344,6 +344,7 @@ export default {
     brownGreen: 'Brown Green',
   },
   exhibit: {
+    echartsLine: 'Echarts Line',
     classifyLine: 'Line',
     basicLine: 'Basic Line',
     multiLine: 'Multi Line',

@@ -60,43 +60,43 @@ const Category = ({category}) => {
 const ExhibitPanel = () => {
   const {t} = useTranslation()
   const {exhibitPanel} = w.sidebar
-  const {categories} = exhibitPanel
+  const {categories, categoriesEcharts} = exhibitPanel
+
+  const TabItemContent = (cate) => (
+    <div className="fbh h100p">
+      {/* 临时隐藏掉 */}
+      <div className="pb8 hide">
+        {Object.entries(cate).map(([id, category]) => (
+          <Caption content={t(`exhibit.${category.name}`)} key={id}>
+            <div
+              onClick={() => {
+                scrollToFn(`#category-${category.name}`)
+              }}
+              className={c('hand fbv fbac fbjc', s.naviIcon)}
+            >
+              {category.icon ? (
+                <Icon name={category.icon} fill="white" size={16} />
+              ) : (
+                t(`exhibit.${category.name}`).substring(0, 1)
+              )}
+            </div>
+          </Caption>
+        ))}
+      </div>
+      <Scroll className="fb1 pb8">
+        {({scrollTo}) => {
+          scrollToFn = scrollTo
+          return cate.map((category) => Children.toArray(<Category category={category} />))
+        }}
+      </Scroll>
+    </div>
+  )
   let scrollToFn
   return (
     <>
       <Tab sessionId="exhibit-panel" className="fb1">
-        <Tab.Item name={t('exhibitPanel.official')}>
-          <div className="fbh h100p">
-            {/* 临时隐藏掉 */}
-            <div className="pb8 hide">
-              {Object.entries(categories).map(([id, category]) => (
-                <Caption content={t(`exhibit.${category.name}`)} key={id}>
-                  <div
-                    onClick={() => {
-                      scrollToFn(`#category-${category.name}`)
-                    }}
-                    className={c('hand fbv fbac fbjc', s.naviIcon)}
-                  >
-                    {category.icon ? (
-                      <Icon name={category.icon} fill="white" size={16} />
-                    ) : (
-                      t(`exhibit.${category.name}`).substring(0, 1)
-                    )}
-                  </div>
-                </Caption>
-              ))}
-            </div>
-            <Scroll className="fb1 pb8">
-              {({scrollTo}) => {
-                scrollToFn = scrollTo
-                return categories.map((category) => Children.toArray(<Category category={category} />))
-              }}
-            </Scroll>
-          </div>
-        </Tab.Item>
-        <Tab.Item name={t('exhibitPanel.echarts')}>
-          <div>todo</div>
-        </Tab.Item>
+        <Tab.Item name={t('exhibitPanel.official')}>{TabItemContent(categories)}</Tab.Item>
+        <Tab.Item name={t('exhibitPanel.echarts')}>{TabItemContent(categoriesEcharts)}</Tab.Item>
       </Tab>
     </>
   )

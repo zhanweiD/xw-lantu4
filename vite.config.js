@@ -41,6 +41,7 @@ export default defineConfig({
       '@exhibit-collection': resolve('src/exhibit-collection'),
       '@builders': resolve('src/builders'),
       '@materials': resolve('src/materials'),
+      '@wavesEcharts': resolve('src/wave-echarts'),
     },
   },
   server: {

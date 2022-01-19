@@ -1,5 +1,5 @@
 import {getEnv, types} from 'mobx-state-tree'
-import {categories} from '@waves4'
+import {categories, categoriesEcharts} from '@waves4'
 
 export const MExhibitThumbnail = types.model('MExhibitThumbnail', {
   id: types.string,
@@ -30,4 +30,5 @@ const MExhibitCategory = types
 export const MExhibitPanel = types.model({
   name: 'exhibitPanel',
   categories: types.optional(types.array(MExhibitCategory), categories),
+  categoriesEcharts: types.optional(types.array(MExhibitCategory), categoriesEcharts),
 })
