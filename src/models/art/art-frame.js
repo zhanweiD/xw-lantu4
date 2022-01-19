@@ -107,7 +107,7 @@ export const MArtFrame = types
         const {groupIds = []} = item
         if (groupIds.length) {
           const groupIndex = treeList.findIndex((group) => {
-            return group.groupIds[0] == groupIds[0]
+            return group.groupIds?.[0] === groupIds[0]
           })
           if (groupIndex !== -1) {
             treeList[groupIndex].boxes.push(item)
@@ -149,6 +149,7 @@ export const MArtFrame = types
       materials,
       padding,
       constraints,
+      groupIds,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -161,6 +162,7 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
+        groupIds,
       })
 
       box.padding.setSchema(padding)
@@ -330,13 +332,6 @@ export const MArtFrame = types
 
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
-      // 同时处理box的关联的分组
-      self.groups = self.groups
-        .map((group) => {
-          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
-        })
-        .filter((item) => item.boxIds?.length)
-      self.art_.save()
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -474,8 +469,9 @@ export const MArtFrame = types
         frameId: box.frameId,
         exhibit: box.exhibit,
         uid,
-        name: `容器-${uid.substring(0, 4)}`,
+        name: `容器-${uid.substring(0, 4)}-copy`,
         layout,
+        groupIds: box.groupIds,
       }
       self.initBox(params)
       const realBox = self.boxes.find((o) => o.uid === uid)
@@ -486,6 +482,7 @@ export const MArtFrame = types
           exhibit: box.exhibit,
           layout,
           name: params.name,
+          groupIds: box.groupIds,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
