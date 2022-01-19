@@ -273,71 +273,40 @@ export const config = (k, data, key, name) => ({
   axis: {
     sections: [
       {
-        name: 'base',
-        fields: [
-          {
-            name: 'tickZero',
-          },
-          {
-            name: 'tickCount',
-          },
-          {
-            name: 'paddingInner',
-          },
-        ],
-      },
-      {
         name: 'xAxis',
         effective: true,
         sections: [
           {
             name: 'label',
-            sections: [
-              {
-                name: 'text',
-                fields: [
-                  {
-                    name: 'textSize',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: 'xAxisLine',
             fields: [
               {
+                name: 'textSize',
+                defaultValue: 16,
+              },
+              {
+                name: 'textWeight',
+                defaultValue: 400,
+              },
+              {
                 name: 'singleColor',
-                defaultValue: '#cccccc',
+                defaultValue: '#ffffff',
               },
             ],
           },
-          {
-            name: 'xAxisSplitLine',
-            effective: true,
-            fields: [
-              {
-                name: 'singleColor',
-                defaultValue: '#cccccc',
-              },
-              {
-                name: 'opacity',
-                defaultValue: 0.3,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'yAxis',
-        effective: true,
-        sections: [
           {
             name: 'axisLine',
             fields: [
               {
                 name: 'singleColor',
                 defaultValue: '#cccccc',
+              },
+              {
+                name: 'lineWidth',
+                defaultValue: 3,
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.1,
               },
             ],
           },
@@ -350,8 +319,71 @@ export const config = (k, data, key, name) => ({
                 defaultValue: '#cccccc',
               },
               {
+                name: 'lineWidth',
+                defaultValue: 3,
+              },
+              {
                 name: 'opacity',
-                defaultValue: 0.3,
+                defaultValue: 0.1,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'yAxis',
+        effective: true,
+        sections: [
+          {
+            name: 'label',
+            fields: [
+              {
+                name: 'textSize',
+                defaultValue: 16,
+              },
+              {
+                name: 'textWeight',
+                defaultValue: 400,
+              },
+              {
+                name: 'singleColor',
+                defaultValue: '#ffffff',
+              },
+            ],
+          },
+          {
+            name: 'axisLine',
+            effective: true,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: '#cccccc',
+              },
+              {
+                name: 'lineWidth',
+                defaultValue: 3,
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.1,
+              },
+            ],
+          },
+          {
+            name: 'axisSplitLine',
+            effective: true,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: '#cccccc',
+              },
+              {
+                name: 'lineWidth',
+                defaultValue: 3,
+              },
+              {
+                name: 'opacity',
+                defaultValue: 0.1,
               },
             ],
           },
