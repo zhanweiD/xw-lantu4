@@ -550,12 +550,13 @@ export const MArtViewport = types
       if (!selectRange) return []
       // 跨画布的情况不能成组，上移等，将菜单置为disabled状态
       const mulFramDisable = selectRange?.range?.length > 1
+      if (mulFramDisable) return []
       // 是否已成组（包括单选多选）
       // const isGroup = false
       // 多个box情况下，不支持解组
       const mulBox = selectRange.boxes_?.length > 1
       // boxes是否在分组内
-      const hasGroup = selectRange.boxes_?.find((item) => item.groupIds.length)
+      const hasGroup = selectRange.boxes_?.find((item) => item?.groupIds?.length)
       const frame = selectRange.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
       // 单选情况下的box
       const targetBox = selectRange.boxes_?.[0] || {}
@@ -567,160 +568,107 @@ export const MArtViewport = types
         targetBox.zIndex_ === frame.boxes.length - 1 ||
         frame.groups.find((group) => group.boxIds[group.boxIds - 1] === targetBox.boxId)
       // 区分多选单选菜单
-      const menuList = mulBox
-        ? [
-            {
-              name: '成组',
-              disabled: mulFramDisable || hasGroup,
-              action: () => {
-                frame.createGroup(selectRange.boxes_)
-                menu.hide()
-              },
-            },
-            {
-              name: '解组',
-              disabled: mulFramDisable || mulBox,
-              action: () => {
-                frame.removeGroupByBoxes(selectRange.boxes_)
-                menu.hide()
-              },
-            },
-            {
-              name: '上移一层',
-              disabled: mulBox || boxDisabledUp,
-              action: () => {
-                frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
-                menu.hide()
-              },
-            },
-            {
-              name: '下移一层',
-              disabled: mulBox || boxDisabledDown,
-              action: () => {
-                frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
-                menu.hide()
-              },
-            },
-            {
-              name: '置顶',
-              disabled: mulBox || hasGroup,
-              action: () => {
-                frame.moveBox(targetBox.zIndex_, frame.boxes.length)
-                menu.hide()
-              },
-            },
-            {
-              name: '置底',
-              disabled: mulBox || hasGroup,
-              action: () => {
-                frame.moveBox(targetBox.zIndex_, 0)
-                menu.hide()
-              },
-            },
-            {
-              name: '删除',
-              action: () => {
-                selectRange.remove()
-                menu.hide()
-              },
-            },
-            // {
-            //   name: '复制',
-            //   action: () => {
-            //     range.copyBox()
-            //     // target.sortBackground(model.id, 'up')
-            //     menu.hide()
-            //   },
-            // },
-            // {
-            //   name: '下移一层',
-            //   action: () => {
-            //     // target.sortBackground(model.id, 'down')
-            //     menu.hide()
-            //   },
-            // },
-          ]
-        : [
-            {
-              name: '上移一层',
-              disabled: mulBox || boxDisabledUp,
-              action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ - 1)
-                menu.hide()
-              },
-            },
-            {
-              name: '下移一层',
-              disabled: mulBox || boxDisabledDown,
-              action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, selectRange.boxes_[0].zIndex_ + 1)
-                menu.hide()
-              },
-            },
-            {
-              name: '置顶',
-              disabled: mulBox,
-              action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, 0)
-                menu.hide()
-              },
-            },
-            {
-              name: '置底',
-              disabled: mulBox,
-              action: () => {
-                frame.moveBox(selectRange.boxes_[0].zIndex_, frame.boxes.length)
-                menu.hide()
-              },
-            },
-            {
-              name: '删除',
-              action: () => {
-                selectRange.remove()
-                menu.hide()
-              },
-            },
-            {
-              name: '取消成组',
-              disabled: mulFramDisable || mulBox,
-              action: () => {
-                frame.removeGroupByBoxes(selectRange?.boxes_)
-                menu.hide()
-              },
-            },
-            {
-              name: '复制',
-              action: () => {
-                selectRange?.boxes_.map((item) => {
-                  // item.recreateBox()
-                  frame.copyBox(item)
-                })
-                menu.hide()
-              },
-            },
-            {
-              name: `${targetBox.isEffect ? '隐藏' : '显示'}`,
-              action: () => {
-                targetBox.toggleEffect()
-                self.toggleSelectRange({
-                  target: 'box',
-                  selectRange: [],
-                })
-                menu.hide()
-              },
-            },
-            {
-              name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
-              action: () => {
-                targetBox.toggleLock()
-                self.toggleSelectRange({
-                  target: 'box',
-                  selectRange: [],
-                })
-                menu.hide()
-              },
-            },
-          ]
+      const menuList = [
+        {
+          name: '成组',
+          disabled: hasGroup,
+          action: () => {
+            frame.createGroup(selectRange.boxes_)
+            menu.hide()
+          },
+        },
+        {
+          name: '移出分组',
+          disabled: !hasGroup,
+          action: () => {
+            frame.removeGroupByBoxes(selectRange?.boxes_)
+            menu.hide()
+          },
+        },
+        // {
+        //   name: '移出分组',
+        //   disabled: !hasGroup,
+        //   action: () => {
+        //     frame.removeGroupByBoxes(selectRange.boxes_)
+        //     menu.hide()
+        //   },
+        // },
+        {
+          name: '上移一层',
+          disabled: mulBox || boxDisabledUp,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
+            menu.hide()
+          },
+        },
+        {
+          name: '下移一层',
+          disabled: mulBox || boxDisabledDown,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
+            menu.hide()
+          },
+        },
+        {
+          name: '置顶',
+          disabled: mulBox,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, 0)
+            menu.hide()
+          },
+        },
+        {
+          name: '置底',
+          disabled: mulBox,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
+            menu.hide()
+          },
+        },
+        {
+          name: '删除',
+          action: () => {
+            selectRange.remove()
+            menu.hide()
+          },
+        },
+        {
+          name: '复制',
+          action: () => {
+            selectRange?.boxes_.map((item) => {
+              // item.recreateBox()
+              frame.copyBox(item)
+            })
+            menu.hide()
+          },
+        },
+        {
+          name: `${targetBox.isEffect ? '隐藏' : '显示'}`,
+          action: () => {
+            selectRange?.boxes_.map((item) => {
+              item.toggleEffect()
+            })
+            self.toggleSelectRange({
+              target: 'box',
+              selectRange: [],
+            })
+            menu.hide()
+          },
+        },
+        {
+          name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+          action: () => {
+            selectRange?.boxes_.map((item) => {
+              item.toggleLock()
+            })
+            self.toggleSelectRange({
+              target: 'box',
+              selectRange: [],
+            })
+            menu.hide()
+          },
+        },
+      ]
       return menuList
     }
 
