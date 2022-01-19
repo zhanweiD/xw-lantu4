@@ -6,22 +6,26 @@ import {DragSource, DropTarget} from '@components/drag-and-drop'
 import w from '@models'
 import s from './layer-list-item.module.styl'
 
-const Sortable = observer(({layer, index, children, enable}) => {
+const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
   return enable ? (
     <DragSource
       key={layer.boxId}
       onEnd={(dropResult, data) => dropResult.changeSort(data)}
-      dragKey={`ART_SORT_DRAG_KEY_LAYER_${layer?.boxId}`}
+      dragKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
       data={{layer, index}}
     >
       <DropTarget
         hideOutLine
-        acceptKey={`ART_SORT_DRAG_KEY_LAYERID_${layer?.boxId}`}
-        data={{changeSort: layer?.saveArtSort}}
+        acceptKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
+        data={{changeSort: () => console.log('保存排序，暂时使用cmd+s手动保存')}}
+        // data={{changeSort: layer?.saveArtSort}}
         hover={(item) => {
           // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
-            layer.moveArtSort(item.index, index)
+            console.log(item.index, index)
+            // moveBoxToGroup
+            // removeGroupByBoxes
+            selectFrame.dropMove([item.layer], index)
             item.index = index
           }
         }}
@@ -34,7 +38,7 @@ const Sortable = observer(({layer, index, children, enable}) => {
   )
 })
 
-const LayerListItem = ({layer, index, viewport, className, useButtons = true}) => {
+const LayerListItem = ({layer, index, viewport, selectFrame, className, useButtons = true}) => {
   const {selectRange, toggleSelectBox, getMenuList} = viewport
   const {range = []} = selectRange || {}
   const {boxIds = []} = range[0] || {}
@@ -43,7 +47,7 @@ const LayerListItem = ({layer, index, viewport, className, useButtons = true}) =
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 
   return (
-    <Sortable layer={layer} index={index} enable={false}>
+    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={true}>
       <div
         className={c('w100p', s.layer)}
         onContextMenu={(e) => {

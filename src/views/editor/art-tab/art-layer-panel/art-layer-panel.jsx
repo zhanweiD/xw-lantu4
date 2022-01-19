@@ -28,14 +28,14 @@ const ArtLayerPanel = ({art}) => {
         <IconButton icon="arrow-left" title="收起图层面板" layout="start" onClick={art.toggleLayerVisible} />
       </div>
       <Scroll>
-        {layerTreeList.map((item, index) => (
+        {layerTreeList.map((item) => (
           <LayerList
             key={item.groupIds?.[0] || item.boxId}
-            index={index}
             layer={item}
             groups={groups}
             viewport={viewport}
             selectRange={selectRange}
+            selectFrame={selectFrame}
           />
         ))}
       </Scroll>

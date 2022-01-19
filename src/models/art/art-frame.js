@@ -102,8 +102,8 @@ export const MArtFrame = types
     get layerTreeList() {
       const boxes = [...self.boxes]
       const treeList = []
-      console.log(boxes)
       boxes.reverse()
+
       boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
@@ -489,6 +489,7 @@ export const MArtFrame = types
     // 根据boxIds批量解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
+        if (!box.groupIds.length) return // 兼容拖拽操作
         // 移出分组同时box进行排序
         const sourceGroup = self.groups.find((item) => item.id === box?.groupIds[0])
         if (sourceGroup) {
@@ -552,6 +553,27 @@ export const MArtFrame = types
       self.boxes = boxList
     }
 
+    // 拖拽移动
+    const dropMove = (boxes, targetIndex) => {
+      const targetGroup = self.boxes[targetIndex]?.groupIds
+      boxes.forEach((box) => {
+        // 拖到组内（组到组或组外到组内）
+        if (targetGroup.length) {
+          // 同组拖动
+          if (box.groupIds[0] === targetGroup[0]) {
+            moveBox(box.zIndex_, targetIndex)
+          } else {
+            // 不同组拖动
+            moveBoxToGroup([box], targetGroup[0])
+          }
+        } else {
+          // 拖到组外（组内到组外、组外到组外）
+          removeGroupByBoxes([box])
+          moveBox(box.zIndex_, targetIndex)
+        }
+      })
+    }
+
     return {
       initBox,
       createBox,
@@ -571,5 +593,6 @@ export const MArtFrame = types
       addBoxesToGroup,
       moveBoxToGroup,
       moveBox,
+      dropMove,
     }
   })

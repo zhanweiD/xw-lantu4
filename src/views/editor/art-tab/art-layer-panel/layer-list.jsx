@@ -44,7 +44,7 @@ const list = [
 ]
 
 // 项目列表
-export default observer(({layer, index, viewport, groups, selectRange, other}) => {
+export default observer(({layer, viewport, groups, selectRange, selectFrame, other}) => {
   // layer有可能是box有可能是group,有boxes是group
   return layer.boxes ? (
     <Section
@@ -55,12 +55,9 @@ export default observer(({layer, index, viewport, groups, selectRange, other}) =
       titleClassName={c('pt4 pb4', selectRange?.boxes_?.length !== layer.boxes.length && s.noSelectLayerGroup)}
       // extra={<MoreIcon layer={layer} />}
       onContextMenu={(e) => {
-        console.log(111)
         e.preventDefault()
         e.stopPropagation()
-        console.log(222)
         menu.show({list})
-        console.log(333)
       }}
     >
       {layer.boxes.map((box) => (
@@ -71,7 +68,14 @@ export default observer(({layer, index, viewport, groups, selectRange, other}) =
             dragKey="CREATE_ART_DRAG_KEY"
             data={box}
           >
-            <LayerListItem layer={box} viewport={viewport} index={index} className="pl24" {...other} />
+            <LayerListItem
+              layer={box}
+              viewport={viewport}
+              selectFrame={selectFrame}
+              index={box.zIndex_}
+              className="pl24"
+              {...other}
+            />
           </DragSource>
         </div>
       ))}
@@ -84,7 +88,7 @@ export default observer(({layer, index, viewport, groups, selectRange, other}) =
         dragKey="CREATE_ART_DRAG_KEY"
         data={layer}
       >
-        <LayerListItem layer={layer} viewport={viewport} index={index} {...other} />
+        <LayerListItem layer={layer} viewport={viewport} selectFrame={selectFrame} index={layer.zIndex_} {...other} />
       </DragSource>
     </div>
   )
