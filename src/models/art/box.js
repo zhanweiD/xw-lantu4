@@ -145,6 +145,15 @@ export const MBox = types
           debounceUpdate()
         }
       )
+      setTimeout(() => {
+        updateGroup()
+      }, 200)
+    }
+    const updateGroup = () => {
+      const {groups} = self.frame_
+      self.set({
+        groupIds: groups.filter((item) => item.boxIds.includes(self.boxId)).map((item) => item.id),
+      })
     }
     const resize = () => {
       const {layout, padding} = self
@@ -372,5 +381,6 @@ export const MBox = types
       removeGroup,
       toggleEffect,
       toggleLock,
+      updateGroup,
     }
   })

@@ -110,7 +110,7 @@ export const MArtFrame = types
             return group.groupIds?.[0] === groupIds[0]
           })
           if (groupIndex !== -1) {
-            treeList[groupIndex].boxes.push(item)
+            treeList[groupIndex]?.boxes?.push(item)
           } else {
             treeList.push({
               groupIds: [...groupIds],
@@ -458,6 +458,7 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
+    // 复制图层
     const copyBox = flow(function* copyBox(box) {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -469,7 +470,7 @@ export const MArtFrame = types
         frameId: box.frameId,
         exhibit: box.exhibit,
         uid,
-        name: `容器-${uid.substring(0, 4)}-copy`,
+        name: `${box.name}-copy`,
         layout,
         groupIds: box.groupIds,
       }
