@@ -45,7 +45,7 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 
   return (
-    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={true}>
+    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={!layer.isLocked || layer.isEffect}>
       <div
         className={c('w100p', s.layer, (layer.isLocked || !layer.isEffect) && s.noDrop)}
         onContextMenu={(e) => {

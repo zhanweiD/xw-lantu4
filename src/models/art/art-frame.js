@@ -619,7 +619,6 @@ export const MArtFrame = types
       self.boxes = boxList
     }
 
-    // 拖拽移动
     /**
      * 拖拽移动
      * @param {*} boxes 拖拽box
@@ -635,12 +634,34 @@ export const MArtFrame = types
           if (box.groupIds[0] === targetGroup[0]) {
             moveBox(box.zIndex_, targetIndex)
           } else {
-            // 不同组拖动
             moveBoxToGroup([box], targetGroup[0])
+            // 不同组拖动
+            // box.removeGroup()
+            // self.groups = self.groups
+            //   .map((group) => {
+            //     return {
+            //       ...group,
+            //       boxIds: group.boxIds.filter((item) => item !== box.boxId),
+            //     }
+            //   })
+            //   .filter((group) => group.boxIds.length)
+            // moveBoxToGroup([box], targetGroup[0])
           }
         } else {
-          // 拖到组外（组内到组外、组外到组外）
+          // 拖到组外（组内到组外）
           removeGroupByBoxes([box])
+          // if (box?.groupIds?.length) {
+          //   box.removeGroup()
+          //   self.groups = self.groups
+          //     .map((group) => {
+          //       return {
+          //         ...group,
+          //         boxIds: group.boxIds.filter((item) => item !== box.boxId),
+          //       }
+          //     })
+          //     .filter((group) => group.boxIds.length)
+          // }
+          // 组外到组外
           moveBox(box.zIndex_, targetIndex)
         }
       })
