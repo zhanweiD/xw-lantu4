@@ -44,6 +44,10 @@ export const MBox = types
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
     groupIds: types.optional(types.array(types.union(types.string, types.number)), []),
+    // 是否有效：失效状态不能选中、画布不渲染
+    isEffect: types.optional(types.boolean, true),
+    // 容器是否被锁定
+    isLocked: types.optional(types.boolean, false),
     normalKeys: types.frozen([
       'uid',
       'frameId',
@@ -54,6 +58,8 @@ export const MBox = types
       'name',
       'remark',
       'groupIds',
+      'isEffect',
+      'isLocked',
     ]),
     deepKeys: types.frozen(['layout', 'constraints', 'paddding', 'background']),
   })
@@ -342,32 +348,15 @@ export const MBox = types
       self.set({groupIds: []})
     }
 
-    // 复制容器
-    const copyBox = flow(function* copyBox() {
-      const {io} = self.env_
-      const {artId, projectId} = self.art_
-      const {uid, layout, name, frameId, exhibit, background} = self
-      try {
-        const box = yield io.art.createBox({
-          uid,
-          exhibit,
-          layout,
-          name,
-          background,
-          ':artId': artId,
-          ':frameId': frameId,
-          ':projectId': projectId,
-        })
+    // 更新容器显示隐藏状态
+    const toggleEffect = () => {
+      self.isEffect = !self.isEffect
+    }
 
-        self.boxId = box.boxId
-        self.isCreateFail = undefined
-        self.viewport_.selectRange.set({
-          range: [{frameId}],
-        })
-      } catch (error) {
-        log.error('recreateBox Error: ', error)
-      }
-    })
+    // 更新容器显示隐藏状态
+    const toggleLock = () => {
+      self.isLocked = !self.isLocked
+    }
     return {
       afterCreate,
       resize,
@@ -379,9 +368,10 @@ export const MBox = types
       setLayout,
       updateBox,
       setConstraints,
-      copyBox,
       reName,
       addGroup,
       removeGroup,
+      toggleEffect,
+      toggleLock,
     }
   })

@@ -333,6 +333,13 @@ export const MArtFrame = types
 
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
+      // 同时处理box的关联的分组
+      self.groups = self.groups
+        .map((group) => {
+          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
+        })
+        .filter((item) => item.boxIds?.length)
+      self.art_.save()
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -459,8 +466,61 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
-    const copyBox = () => {}
+    const copyBox = flow(function* copyBox(box) {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const uid = uuid()
+      const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
+      const params = {
+        materials: box.materials,
+        artId,
+        frameId: box.frameId,
+        exhibit: box.exhibit,
+        uid,
+        name: `容器-${uid.substring(0, 4)}`,
+        layout,
+      }
+      self.initBox(params)
+      const realBox = self.boxes.find((o) => o.uid === uid)
+      try {
+        const currentBox = yield io.art.createBox({
+          uid: params.uid,
+          materials: box.materials,
+          exhibit: box.exhibit,
+          layout,
+          name: params.name,
+          ':artId': params.artId,
+          ':frameId': params.frameId,
+          ':projectId': projectId,
+        })
+        realBox.set({
+          boxId: currentBox.boxId,
+        })
+        self.viewport_.selectRange.set({
+          range: [
+            {
+              frameId: box.frameId,
+              boxIds: [realBox.boxId],
+            },
+          ],
+        })
+      } catch (error) {
+        realBox.set({
+          isCreateFail: true,
+        })
+        log.error('createBox Error: ', error)
+      }
 
+      self.viewport_.toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId: box.frameId,
+            boxIds: [uid],
+          },
+        ],
+      })
+    })
     const addBoxesToGroup = (boxes, groupId) => {
       let tempBoxes = self.boxes
       boxes.map((item) => {
@@ -486,7 +546,7 @@ export const MArtFrame = types
       addBoxesToGroup(boxes, id)
     }
 
-    // 根据boxIds批量解组
+    // 根据box批量解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
         if (!box.groupIds.length) return // 兼容拖拽操作
@@ -495,13 +555,13 @@ export const MArtFrame = types
         if (sourceGroup) {
           // 找到组内最后一个元素，解组后插到最后一个元素后边
           const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
-          const tartgetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
-          if (tartgetIndex > box.zIndex_) {
+          const targetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
+          if (targetIndex > box.zIndex_) {
             self.boxes = self.boxes
               .slice(0, box.zIndex_)
-              .concat(self.boxes.slice(box.zIndex_ + 1, tartgetIndex + 1))
+              .concat(self.boxes.slice(box.zIndex_ + 1, targetIndex + 1))
               .concat(box)
-              .concat(self.boxes.slice(tartgetIndex + 1))
+              .concat(self.boxes.slice(targetIndex + 1))
           }
         }
 
@@ -547,14 +607,20 @@ export const MArtFrame = types
      */
     const moveBox = (currentIndex, targetIndex) => {
       const boxList = [...self.boxes]
-      const tmp = boxList[currentIndex] // 临时储存文件s
+      const tmp = boxList[currentIndex] // 被移动的元素
       boxList.splice(currentIndex, 1) // 移除拖拽项
       boxList.splice(targetIndex, 0, tmp) // 插入放置项
       self.boxes = boxList
     }
 
     // 拖拽移动
+    /**
+     * 拖拽移动
+     * @param {*} boxes 拖拽box
+     * @param {*} targetIndex 拖拽的目标位置
+     */
     const dropMove = (boxes, targetIndex) => {
+      // 判断目标位置是否在组内
       const targetGroup = self.boxes[targetIndex]?.groupIds
       boxes.forEach((box) => {
         // 拖到组内（组到组或组外到组内）
@@ -572,6 +638,33 @@ export const MArtFrame = types
           moveBox(box.zIndex_, targetIndex)
         }
       })
+    }
+    /**
+     * 组移动
+     * @param {*} currentIndex box的原来位置
+     * @param {*} targetIndex box的目标位置
+     */
+    const moveGroup = (groupId, targetIndex) => {
+      const groupBoxIds = self.groups.find((item) => item.id === groupId)?.boxIds || []
+      const currentBoxes = self.boxes.map((item) => groupBoxIds.includes(item.boxId))
+      let boxList = []
+      const currentStartIndex = currentBoxes?.[0]?.zIndex_
+      if (targetIndex > currentStartIndex) {
+        // 下移
+        boxList = self.boxes
+          .slice(0, currentStartIndex)
+          .concat(self.boxes.slice(currentStartIndex + currentBoxes.length, targetIndex + 1))
+          .concat(currentBoxes)
+          .concat(self.boxes.slice(targetIndex + 1))
+      } else {
+        // 上移
+        boxList = self.boxes
+          .slice(0, targetIndex + 1)
+          .concat(currentBoxes)
+          .concat(self.boxes.slice(targetIndex + currentBoxes.length + 1, currentStartIndex))
+          .concat(self.boxes.slice(currentStartIndex + currentBoxes.length))
+      }
+      self.boxes = boxList
     }
 
     return {
@@ -594,5 +687,6 @@ export const MArtFrame = types
       moveBoxToGroup,
       moveBox,
       dropMove,
+      moveGroup,
     }
   })
