@@ -597,7 +597,7 @@ export const MArtViewport = types
           name: '上移一层',
           disabled: mulBox || boxDisabledUp,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
             menu.hide()
           },
         },
@@ -605,7 +605,7 @@ export const MArtViewport = types
           name: '下移一层',
           disabled: mulBox || boxDisabledDown,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
             menu.hide()
           },
         },
@@ -613,7 +613,7 @@ export const MArtViewport = types
           name: '置顶',
           disabled: mulBox,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, 0)
+            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
             menu.hide()
           },
         },
@@ -621,7 +621,7 @@ export const MArtViewport = types
           name: '置底',
           disabled: mulBox,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
+            frame.moveBox(targetBox.zIndex_, 0)
             menu.hide()
           },
         },
