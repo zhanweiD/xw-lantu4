@@ -1,14 +1,14 @@
 import {observer} from 'mobx-react-lite'
 import React from 'react'
 // import React, {useRef} from 'react'
-// import c from 'classnames'
+import c from 'classnames'
 // import IconButton from '@components/icon-button'
-// import Section from '@builders/section'
+import Section from '@builders/section'
 // import Upload from '@components/upload'
 import {DragSource} from '@components/drag-and-drop'
 // import w from '@models'
 import LayerListItem from './layer-list-item'
-// import s from './art-layer-panel.module.styl'
+import s from './art-layer-panel.module.styl'
 
 // 成组后双击菜单
 // const MoreIcon = ({project, isTop, isRecent}) => {
@@ -42,37 +42,40 @@ import LayerListItem from './layer-list-item'
 // }
 
 // 项目列表
-export default observer(({layer, index, art, other}) => {
-  const {boxId} = layer
-  return (
-    <div key={boxId}>
+export default observer(({layer, index, viewport, groups, selectRange, other}) => {
+  // layer有可能是box有可能是group,有boxes是group
+  return layer.boxes ? (
+    <Section
+      key={layer.groupIds[0]}
+      sessionId={`SKLayer-${layer.groupIds[0]}`}
+      name={groups.find((group) => group.id === layer.groupIds[0])?.name}
+      childrenClassName={c(s.pt0)}
+      titleClassName={c('pt4 pb4', selectRange?.boxes_?.length !== layer.boxes.length && s.noSelectLayerGroup)}
+      // extra={icon}
+    >
+      {layer.boxes.map((box) => (
+        <div key={box.boxId}>
+          <DragSource
+            key={box.boxId}
+            onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
+            dragKey="CREATE_ART_DRAG_KEY"
+            data={box}
+          >
+            <LayerListItem layer={box} viewport={viewport} index={index} className="pl24" {...other} />
+          </DragSource>
+        </div>
+      ))}
+    </Section>
+  ) : (
+    <div key={layer.boxId}>
       <DragSource
-        key={boxId}
+        key={layer.boxId}
         onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
         dragKey="CREATE_ART_DRAG_KEY"
         data={layer}
       >
-        <LayerListItem layer={layer} art={art} index={index} {...other} />
+        <LayerListItem layer={layer} viewport={viewport} index={index} {...other} />
       </DragSource>
     </div>
-    // 下拉框分组会用到
-    //   <Section
-    //   key={boxId}
-    //   sessionId={`SKLayer-${boxId}`}
-    //   name={name}
-    //   childrenClassName="pt8 pb8"
-    //   // extra={icon}
-    // >
-    //   <div key={boxId} className={c('ml8 mr8 mb4')}>
-    //     <DragSource
-    //       key={boxId}
-    //       onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
-    //       dragKey="CREATE_ART_DRAG_KEY"
-    //       data={layer}
-    //     >
-    //       <LayerListItem layer={layer} index={index} {...other} />
-    //     </DragSource>
-    //   </div>
-    // </Section>
   )
 })
