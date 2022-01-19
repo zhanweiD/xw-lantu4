@@ -49,13 +49,15 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
   return (
     <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={true}>
       <div
-        className={c('w100p', s.layer)}
+        className={c('w100p', s.layer, (layer.isLocked || !layer.isEffect) && s.noDrop)}
         onContextMenu={(e) => {
-          boxIds[0] !== layer.boxId && toggleSelectBox(layer, false)
           e.preventDefault()
           e.stopPropagation()
+          if (layer.isLocked || !layer.isEffect) return
+          boxIds[0] !== layer.boxId && boxIds.length < 2 && toggleSelectBox(layer, false)
           menu.show({list: getMenuList(menu)})
         }}
+        onDoubleClick={(v) => console.log(v)}
         // onDoubleClick={layer.editArt}
       >
         <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, className, isSelect && s.selectLayerItemBox)}>
@@ -68,7 +70,7 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
             }}
           >
             {/* {!isLayerPanelVisible && <Icon fill="#fff5" name="drag" size={10} />} */}
-            <div title={layer.name} className="omit hand">
+            <div title={layer.name} className={c('omit', layer.isLocked || !layer.isEffect ? s.noDrop : 'hand')}>
               {layer.name}
             </div>
           </div>
@@ -79,15 +81,25 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
                 className={s.toolIconHighlight}
                 icon="lock"
                 iconSize={14}
-                // onClick={layer.previewArt}
+                onClick={() => layer.set({isLocked: !layer.isLocked})}
               />
-              <IconButton
-                buttonSize={24}
-                className={s.toolIconHighlight}
-                icon="eye-open"
-                iconSize={14}
-                // onClick={layer.previewArt}
-              />
+              {layer.isEffect ? (
+                <IconButton
+                  buttonSize={24}
+                  className={s.toolIconHighlight}
+                  icon="eye-open"
+                  iconSize={14}
+                  onClick={() => layer.set({isEffect: false})}
+                />
+              ) : (
+                <IconButton
+                  buttonSize={24}
+                  className={s.toolIconHighlight}
+                  icon="eye-close"
+                  iconSize={14}
+                  onClick={() => layer.set({isEffect: true})}
+                />
+              )}
             </div>
           )}
         </div>

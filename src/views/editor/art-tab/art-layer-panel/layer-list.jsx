@@ -36,15 +36,23 @@ import s from './art-layer-panel.module.styl'
 //     </div>
 //   )
 // }
+
 const menu = w.overlayManager.get('menu')
 const list = [
-  {name: '解组', action: () => (() => {}, menu.hide())},
-  {name: '复制', action: () => (() => {}, menu.hide())},
+  {name: '置顶', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+  {name: '置底', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+  {name: '上移一层', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+  {name: '下移一层', action: () => (() => {}, menu.hide())},
+  {name: '取消成组', action: () => (() => {}, menu.hide())},
+  {name: '锁定', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+  {name: '隐藏', action: () => (() => {}, menu.hide())},
+  {name: '复制', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
   {name: '删除', action: () => (() => {}, menu.hide())},
 ]
 
 // 项目列表
 export default observer(({layer, viewport, groups, selectRange, selectFrame, other}) => {
+  console.log(selectRange)
   // layer有可能是box有可能是group,有boxes是group
   return layer.boxes ? (
     <Section
@@ -52,7 +60,7 @@ export default observer(({layer, viewport, groups, selectRange, selectFrame, oth
       sessionId={`SKLayer-${layer.groupIds[0]}`}
       name={groups.find((group) => group.id === layer.groupIds[0])?.name}
       childrenClassName={c(s.pt0)}
-      titleClassName={c('pt4 pb4', selectRange?.boxes_?.length !== layer.boxes.length && s.noSelectLayerGroup)}
+      titleClassName={c('pt4 pb4', s.noSelectLayerGroup)}
       // extra={<MoreIcon layer={layer} />}
       onContextMenu={(e) => {
         e.preventDefault()
