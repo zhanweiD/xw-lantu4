@@ -43,7 +43,7 @@ export const MBox = types
     isCreateFail: types.maybe(types.boolean),
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
-    groupIds: types.optional(types.array(types.union(types.string, types.number)), []),
+    groupIds: types.frozen(),
     // 是否有效：失效状态不能选中、画布不渲染
     isEffect: types.optional(types.boolean, true),
     // 容器是否被锁定
@@ -57,7 +57,6 @@ export const MBox = types
       'materials',
       'name',
       'remark',
-      'groupIds',
       'isEffect',
       'isLocked',
     ]),
