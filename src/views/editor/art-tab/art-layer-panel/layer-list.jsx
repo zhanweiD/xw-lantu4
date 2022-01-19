@@ -51,14 +51,15 @@ const list = [
 ]
 
 // 项目列表
-export default observer(({layer, viewport, groups, selectRange, selectFrame, other}) => {
-  console.log(selectRange)
-  // layer有可能是box有可能是group,有boxes是group
-  return layer.boxes ? (
+export default observer(({layer, viewport, groups, selectFrame, other}) => {
+  // console.log(selectRange)
+  // layer有可能是box有可能是group
+  const {groupIds, boxes} = layer
+  return groupIds?.length ? (
     <Section
-      key={layer.groupIds[0]}
-      sessionId={`SKLayer-${layer.groupIds[0]}`}
-      name={groups.find((group) => group.id === layer.groupIds[0])?.name}
+      key={groupIds[0]}
+      sessionId={`SKLayer-${groupIds[0]}`}
+      name={groups.find((group) => group.id === groupIds[0])?.name}
       childrenClassName={c(s.pt0)}
       titleClassName={c('pt4 pb4', s.noSelectLayerGroup)}
       // extra={<MoreIcon layer={layer} />}
@@ -68,7 +69,7 @@ export default observer(({layer, viewport, groups, selectRange, selectFrame, oth
         menu.show({list})
       }}
     >
-      {layer.boxes.map((box) => (
+      {boxes.map((box) => (
         <div key={box.boxId}>
           <DragSource
             key={box.boxId}
@@ -89,15 +90,17 @@ export default observer(({layer, viewport, groups, selectRange, selectFrame, oth
       ))}
     </Section>
   ) : (
-    <div key={layer.boxId}>
-      <DragSource
-        key={layer.boxId}
-        onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
-        dragKey="CREATE_ART_DRAG_KEY"
-        data={layer}
-      >
-        <LayerListItem layer={layer} viewport={viewport} selectFrame={selectFrame} index={layer.zIndex_} {...other} />
-      </DragSource>
-    </div>
+    boxes.map((box) => (
+      <div key={box.boxId}>
+        <DragSource
+          key={box.boxId}
+          onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
+          dragKey="CREATE_ART_DRAG_KEY"
+          data={box}
+        >
+          <LayerListItem layer={box} viewport={viewport} selectFrame={selectFrame} index={box.zIndex_} {...other} />
+        </DragSource>
+      </div>
+    ))
   )
 })

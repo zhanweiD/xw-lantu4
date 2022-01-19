@@ -99,16 +99,17 @@ export const MArtFrame = types
     },
 
     // 将box根据groupId分类
-    get layerTreeList() {
+    get layerTreeList_() {
       const boxes = [...self.boxes]
-      const treeList = []
+      let treeList = []
+      // 统一面板和图层显示顺序
       boxes.reverse()
 
       boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
-          const groupIndex = treeList.findIndex((group) => {
-            return group.groupIds[0] == groupIds[0]
+          const groupIndex = treeList?.findIndex((group) => {
+            return group?.groupIds?.[0] === groupIds?.[0]
           })
           if (groupIndex !== -1) {
             treeList[groupIndex].boxes.push(item)
@@ -119,7 +120,12 @@ export const MArtFrame = types
             })
           }
         } else {
-          treeList.push(item)
+          // 保持treeList中的item格式统一，否则mobx无法观测到treeList的改变
+          // treeList.push(item) // 控制台mobx会警告访问越界
+          treeList.push({
+            groupIds: [],
+            boxes: [item],
+          })
         }
       })
       return treeList

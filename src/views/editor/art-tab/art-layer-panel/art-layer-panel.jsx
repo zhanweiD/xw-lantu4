@@ -20,7 +20,10 @@ const ArtLayerPanel = ({art}) => {
   } else if (!selectFrame) {
     selectFrame = frames[0]
   }
-  const {groups = [], layerTreeList = []} = selectFrame
+  // console.log(selectFrame)
+  // if (!selectFrame) return
+  // console.log(selectFrame)
+  const {groups = [], layerTreeList_ = []} = selectFrame
 
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
@@ -28,9 +31,9 @@ const ArtLayerPanel = ({art}) => {
         <IconButton icon="arrow-left" title="收起图层面板" layout="start" onClick={art.toggleLayerVisible} />
       </div>
       <Scroll>
-        {layerTreeList.map((item) => (
+        {layerTreeList_.map((item) => (
           <LayerList
-            key={item.groupIds?.[0] || item.boxId}
+            key={item.groupIds?.[0] || item?.boxes?.[0]?.boxId}
             layer={item}
             groups={groups}
             viewport={viewport}

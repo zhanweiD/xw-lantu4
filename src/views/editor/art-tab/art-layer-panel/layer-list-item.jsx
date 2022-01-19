@@ -23,10 +23,8 @@ const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
           // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
             console.log(item.index, index)
-            // moveBoxToGroup
-            // removeGroupByBoxes
-            selectFrame.dropMove([item.layer], index)
             item.index = index
+            selectFrame.dropMove([item.layer], index)
           }
         }}
       >
