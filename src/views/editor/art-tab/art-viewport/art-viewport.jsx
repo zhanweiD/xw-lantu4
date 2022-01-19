@@ -8,7 +8,7 @@ import SelectRange from './art-select-range'
 const ArtViewport = ({art}) => {
   const {editor} = w
   const {artId, viewport} = art
-  const {totalWidth, totalHeight, frames, isInit, selectRange, scaler, baseOffsetX, baseOffsetY} = viewport
+  const {totalWidth, totalHeight, frames, isInit, selectRange, scaler, baseOffsetX, baseOffsetY, getMenuList} = viewport
   const viewRef = useRef(null)
   useEffect(() => {
     // 初始化可视区域元素尺寸数据，用于Tab内容缩放
@@ -40,7 +40,13 @@ const ArtViewport = ({art}) => {
           {isInit && frames.map((frame) => <ArtFrame art={art} key={frame.frameId} frame={frame} />)}
         </div>
         {selectRange && (
-          <SelectRange baseOffsetX={baseOffsetX} baseOffsetY={baseOffsetY} scaler={scaler} range={selectRange} />
+          <SelectRange
+            baseOffsetX={baseOffsetX}
+            baseOffsetY={baseOffsetY}
+            scaler={scaler}
+            range={selectRange}
+            getMenuList={getMenuList}
+          />
         )}
         {isInit &&
           frames.map((frame) => (

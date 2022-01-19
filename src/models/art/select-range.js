@@ -695,12 +695,13 @@ export const MSelectRange = types
           boxIds,
         })
         self.boxes_.forEach((box) => {
-          if (box.materials) {
+          if (box.materials && boxIds.includes(box.boxId)) {
             box.materials.forEach((material) => {
-              event.fire(`art.${artId}.removeMaterial`, {
-                materialId: material.id,
-                id: box.boxId,
-              })
+              box.removeBackground(material.id)
+              // event.fire(`art.${artId}.removeMaterial`, { // 此处移除的应该是box上的素材
+              //   materialId: material.id,
+              //   id: box.boxId,
+              // })
             })
           }
         })

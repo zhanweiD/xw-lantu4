@@ -8,7 +8,19 @@ import Material from '@views/public/material'
 import s from './box.module.styl'
 
 const Box = ({box}) => {
-  const {layout, isSelected, art_, viewport_, frame_, backgroundImage_, backgroundColor_, materials = [], padding} = box
+  const {
+    layout,
+    isSelected,
+    art_,
+    viewport_,
+    frame_,
+    backgroundImage_,
+    backgroundColor_,
+    materials = [],
+    padding,
+    isEffect,
+    isLocked,
+  } = box
 
   const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
   const [top, right, bottom, left] = areaOffset
@@ -33,47 +45,51 @@ const Box = ({box}) => {
   }
 
   return (
-    <DropTarget
-      className={c('pa box')}
-      style={{
-        top: `${layout.y}px`,
-        left: `${layout.x}px`,
-        width: `${layout.width}px`,
-        height: `${layout.height}px`,
-      }}
-      acceptKey="UPDATE_BACKGROUND_DRAGE_KEY"
-      data={{
-        addBackground: (data) => {
-          box.addBackground(data)
-        },
-      }}
-    >
-      <div
-        id={`box-${box.uid}`}
-        className={c('bsbb', {
-          [s.boxBackgroundColor]: isBoxBackgroundVisible,
-          [s.outline]: isSelected,
-        })}
-        style={style}
-        onMouseDown={(e) => {
-          e.stopPropagation()
-          viewport_.toggleSelectRange({
-            target: 'box',
-            selectRange: [
-              {
-                frameId: frame_.frameId,
-                boxIds: [box.boxId],
-              },
-            ],
-          })
+    isEffect && (
+      <DropTarget
+        className={c('pa box')}
+        style={{
+          top: `${layout.y}px`,
+          left: `${layout.x}px`,
+          width: `${layout.width}px`,
+          height: `${layout.height}px`,
+        }}
+        acceptKey="UPDATE_BACKGROUND_DRAGE_KEY"
+        data={{
+          addBackground: (data) => {
+            box.addBackground(data)
+          },
         }}
       >
-        {reverseMaterials.map((material) => (
-          <Material material={material} key={material.id} target={box} frame={frame_} />
-        ))}
-        <Exhibit box={box} frame={frame_} />
-      </div>
-    </DropTarget>
+        <div
+          id={`box-${box.uid}`}
+          className={c('bsbb', {
+            [s.boxBackgroundColor]: isBoxBackgroundVisible,
+            [s.outline]: isSelected,
+          })}
+          style={style}
+          onMouseDown={(e) => {
+            if (isLocked) return
+            e.stopPropagation()
+            viewport_.toggleSelectBox(box, e.shiftKey)
+            // viewport_.toggleSelectRange({
+            //   target: 'box',
+            //   selectRange: [
+            //     {
+            //       frameId: frame_.frameId,
+            //       boxIds: [box.boxId],
+            //     },
+            //   ],
+            // })
+          }}
+        >
+          {reverseMaterials.map((material) => (
+            <Material material={material} key={material.id} target={box} frame={frame_} />
+          ))}
+          <Exhibit box={box} frame={frame_} />
+        </div>
+      </DropTarget>
+    )
   )
 }
 

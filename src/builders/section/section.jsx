@@ -63,6 +63,7 @@ const Section = ({
   titleClassName,
   childrenClassName,
   updateKey,
+  onContextMenu = () => {},
 }) => {
   if (allSessionIds[sessionId]) {
     console.warn(`'Section'组件有重复的'sessionId(${sessionId})'出现，请检查`)
@@ -75,7 +76,7 @@ const Section = ({
     }
   }, [updateKey])
   return (
-    <div className={c(className)} id={id}>
+    <div className={c(className)} id={id} onContextMenu={onContextMenu}>
       <Title
         className={titleClassName}
         name={name}

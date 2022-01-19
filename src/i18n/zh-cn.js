@@ -346,6 +346,7 @@ export default {
     brownGreen: '棕绿',
   },
   exhibit: {
+    echartsLine: 'Echarts折线图',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',

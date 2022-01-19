@@ -43,7 +43,23 @@ export const MBox = types
     isCreateFail: types.maybe(types.boolean),
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
-    normalKeys: types.frozen(['uid', 'frameId', 'boxId', 'artId', 'exhibit', 'materials', 'name', 'remark']),
+    groupIds: types.frozen(),
+    // 是否有效：失效状态不能选中、画布不渲染
+    isEffect: types.optional(types.boolean, true),
+    // 容器是否被锁定
+    isLocked: types.optional(types.boolean, false),
+    normalKeys: types.frozen([
+      'uid',
+      'frameId',
+      'boxId',
+      'artId',
+      'exhibit',
+      'materials',
+      'name',
+      'remark',
+      'isEffect',
+      'isLocked',
+    ]),
     deepKeys: types.frozen(['layout', 'constraints', 'paddding', 'background']),
   })
   .views((self) => ({
@@ -73,6 +89,12 @@ export const MBox = types
     },
     get frame_() {
       return getParent(self, 2)
+    },
+    get zIndex_() {
+      const zIndex = getParent(self, 2)
+        .boxes.map((item) => item.boxId)
+        .indexOf(self.boxId)
+      return zIndex
     },
   }))
   .views((self) => ({
@@ -123,6 +145,15 @@ export const MBox = types
           debounceUpdate()
         }
       )
+      setTimeout(() => {
+        updateGroup()
+      }, 200)
+    }
+    const updateGroup = () => {
+      const {groups} = self.frame_
+      self.set({
+        groupIds: groups.filter((item) => item.boxIds.includes(self.boxId)).map((item) => item.id),
+      })
     }
     const resize = () => {
       const {layout, padding} = self
@@ -308,6 +339,32 @@ export const MBox = types
     const setConstraints = (constraints) => {
       self.constraints.setSchema(constraints)
     }
+
+    // 重命名图层
+    const reName = (name) => {
+      self.set({name})
+      debounceUpdate()
+    }
+
+    // 图层添加组
+    const addGroup = (groupId) => {
+      self.groupIds = [groupId]
+    }
+
+    // 移除图层组
+    const removeGroup = () => {
+      self.set({groupIds: []})
+    }
+
+    // 更新容器显示隐藏状态
+    const toggleEffect = () => {
+      self.isEffect = !self.isEffect
+    }
+
+    // 更新容器显示隐藏状态
+    const toggleLock = () => {
+      self.isLocked = !self.isLocked
+    }
     return {
       afterCreate,
       resize,
@@ -319,5 +376,11 @@ export const MBox = types
       setLayout,
       updateBox,
       setConstraints,
+      reName,
+      addGroup,
+      removeGroup,
+      toggleEffect,
+      toggleLock,
+      updateGroup,
     }
   })

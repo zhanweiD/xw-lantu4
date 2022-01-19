@@ -275,12 +275,12 @@ const Head = () => {
             isHighlight={false}
             layout="start"
             onClick={() => {
-              // optionPanel.toggle()
-              // if (art) {
-              //   setTimeout(() => {
-              //     art.viewport.resizeViewport()
-              //   }, 60)
-              // }
+              optionPanel.toggle()
+              if (art) {
+                setTimeout(() => {
+                  art.viewport.resizeViewport()
+                }, 60)
+              }
             }}
           />
           <IconGroupButton
@@ -299,7 +299,7 @@ const Head = () => {
               // }
             }}
           />
-          <IconGroupButton
+          {/* <IconGroupButton
             icon="layer"
             title="图层面板"
             canUse
@@ -314,7 +314,7 @@ const Head = () => {
               //   }, 60)
               // }
             }}
-          />
+          /> */}
         </>
       )}
 
