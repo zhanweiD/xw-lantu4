@@ -566,7 +566,7 @@ export const MArtViewport = types
       // 是否可以上移
       const boxDisabledUp =
         targetBox.zIndex_ === frame.boxes.length - 1 ||
-        frame.groups.find((group) => group.boxIds[group.boxIds - 1] === targetBox.boxId)
+        frame.groups.find((group) => group.boxIds[group.boxIds.length - 1] === targetBox.boxId)
       // 区分多选单选菜单
       const menuList = [
         {
@@ -597,7 +597,15 @@ export const MArtViewport = types
           name: '上移一层',
           disabled: mulBox || boxDisabledUp,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
+            if (targetBox.groupIds?.length) {
+              // 组内移动需要对组进行重新排序，保证组内图层顺序和box里顺序一致
+              frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
+              frame.groupSortBoxes()
+              menu.hide()
+              return
+            }
+            const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ + 1].boxId)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + (groupLength || 1))
             menu.hide()
           },
         },
@@ -605,7 +613,15 @@ export const MArtViewport = types
           name: '下移一层',
           disabled: mulBox || boxDisabledDown,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
+            if (targetBox.groupIds?.length) {
+              // 组内移动
+              frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
+              frame.groupSortBoxes()
+              menu.hide()
+              return
+            }
+            const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ - 1].boxId)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - (groupLength || 1))
             menu.hide()
           },
         },
