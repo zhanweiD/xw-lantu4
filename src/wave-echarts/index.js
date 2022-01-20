@@ -1,3 +1,3 @@
-import {echertsBasicLine, echartsGroupLine} from './line'
+import {echertsBasicLine} from './line'
 
-export {echertsBasicLine, echartsGroupLine}
+export {echertsBasicLine}
