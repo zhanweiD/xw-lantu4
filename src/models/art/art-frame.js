@@ -357,12 +357,7 @@ export const MArtFrame = types
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
       // 同时处理box的关联的分组
-      self.groups = self.groups
-        .map((group) => {
-          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
-        })
-        .filter((item) => item.boxIds?.length)
-      updatePartFrame({groups: self.groups})
+      filterGroupByBoxIds(boxIds)
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -549,15 +544,29 @@ export const MArtFrame = types
       })
     })
     const addBoxesToGroup = (boxes, groupId) => {
-      let tempBoxes = [...self.boxes]
       const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
-      sortBoxes.map((item) => {
+      const sortBoxIds = sortBoxes.map((item) => item.boxId)
+      let tempBoxes = [...self.boxes].filter((item) => !sortBoxIds.includes(item.boxId))
+      sortBoxes.forEach((item) => {
         // 将tempbox处理为不包含成组box
         tempBoxes = tempBoxes.filter((box) => box.boxId !== item.boxId)
         item.addGroup(groupId)
       })
-      const insertIndex = tempBoxes.findIndex((item) => item.zIndex_ === sortBoxes[sortBoxes.length - 1].zIndex_ + 1)
-      self.boxes = tempBoxes.slice(0, insertIndex).concat(sortBoxes).concat(tempBoxes.slice(insertIndex))
+      let box = []
+      // 成组元素最后一个元素的zIndex
+      const targetIndex = sortBoxes[sortBoxes.length - 1].zIndex_
+      if (targetIndex === self.boxes.length - 1) {
+        box = tempBoxes.concat(sortBoxes)
+      } else {
+        tempBoxes.forEach((item) => {
+          if (item.zIndex_ === sortBoxes[sortBoxes.length - 1].zIndex_ + 1) {
+            box = box.concat(sortBoxes)
+          }
+          box.push(item)
+        })
+      }
+      self.boxes = box
+      updatePartFrame({groups: self.groups})
     }
 
     // 创建分组
@@ -571,11 +580,7 @@ export const MArtFrame = types
         name: `分组_${id.substring(0, 4)}`,
       })
       self.groups.push(groups)
-      // addBoxesToGroup(boxes, id)
-      const sortBox = boxes.sort((a, b) => {
-        return b.zIndex_ - a.zIndex_
-      })
-      addBoxesToGroup(sortBox, id)
+      addBoxesToGroup(boxes, id)
     }
 
     // 根据box批量解组
@@ -584,30 +589,21 @@ export const MArtFrame = types
         if (!box.groupIds.length) return // 兼容拖拽操作
         // 移出分组同时box进行排序
         const sourceGroup = self.groups.find((item) => item.id === box?.groupIds[0])
-        if (sourceGroup) {
-          // 找到组内最后一个元素，解组后插到最后一个元素后边
-          const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
-          const targetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
-          if (targetIndex > box.zIndex_) {
-            self.boxes = self.boxes
-              .slice(0, box.zIndex_)
-              .concat(self.boxes.slice(box.zIndex_ + 1, targetIndex + 1))
-              .concat(box)
-              .concat(self.boxes.slice(targetIndex + 1))
-          }
+        // 找到组内最后一个元素，解组后插到最后一个元素后边
+        const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
+        const targetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
+        if (targetIndex > box.zIndex_) {
+          self.boxes = self.boxes
+            .slice(0, box.zIndex_)
+            .concat(self.boxes.slice(box.zIndex_ + 1, targetIndex + 1))
+            .concat(box)
+            .concat(self.boxes.slice(targetIndex + 1))
         }
-
         // 在box解除绑定关系
         box.removeGroup()
-        self.groups = self.groups
-          .map((group) => {
-            return {
-              ...group,
-              boxIds: group.boxIds.filter((item) => item !== box.boxId),
-            }
-          })
-          .filter((group) => group.boxIds.length)
       })
+      // 处理group
+      filterGroupByBoxIds(boxes.map((item) => item.boxId))
     }
 
     // 根据groupids解组 /*----图层面板上的解组用到---*/
@@ -769,11 +765,22 @@ export const MArtFrame = types
       self.groups = self.groups.map((item) => {
         return {...item, boxIds: self.boxes.map((box) => box.boxId).filter((boxId) => item.boxIds.includes(boxId))}
       })
+      updatePartFrame({groups: self.groups})
     }
 
     // 根据boxid获取其组内box的数量移动经常会用到
     const getGroupBoxNum = (boxId) => {
       return self.groups.find((item) => item.boxIds.includes(boxId))?.boxIds?.length || 0
+    }
+
+    // 根据boxId处理分组
+    const filterGroupByBoxIds = (boxIds) => {
+      self.groups = self.groups
+        .map((group) => {
+          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
+        })
+        .filter((item) => item.boxIds?.length)
+      updatePartFrame({groups: self.groups})
     }
 
     return {
