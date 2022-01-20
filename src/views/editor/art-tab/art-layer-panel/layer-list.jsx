@@ -54,19 +54,25 @@ const list = [
 export default observer(({layer, viewport, groups, selectFrame, other}) => {
   // console.log(selectRange)
   // layer有可能是box有可能是group
-  const {groupIds, boxes} = layer
-  return groupIds?.length ? (
+  const {groupIds = [], boxes} = layer
+  const group = groups.find((group) => group.id === groupIds[0])
+
+  return group ? (
     <Section
       key={groupIds[0]}
       sessionId={`SKLayer-${groupIds[0]}`}
-      name={groups.find((group) => group.id === groupIds[0])?.name}
+      name={group.name}
       childrenClassName={c(s.pt0)}
-      titleClassName={c('pt4 pb4', s.noSelectLayerGroup)}
+      titleClassName={c('pt4 pb4', !group.isSelect && s.noSelectLayerGroup)}
       // extra={<MoreIcon layer={layer} />}
       onContextMenu={(e) => {
         e.preventDefault()
         e.stopPropagation()
         menu.show({list})
+        selectFrame.selectGroup(selectFrame, group, false)
+      }}
+      onClick={(e) => {
+        selectFrame.selectGroup(selectFrame, group, e.shiftKey)
       }}
     >
       {boxes.map((box) => (
@@ -79,6 +85,7 @@ export default observer(({layer, viewport, groups, selectFrame, other}) => {
           >
             <LayerListItem
               layer={box}
+              group={group}
               viewport={viewport}
               selectFrame={selectFrame}
               index={box.zIndex_}

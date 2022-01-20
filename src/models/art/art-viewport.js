@@ -351,8 +351,13 @@ export const MArtViewport = types
     }
 
     // 删除框选状态
-    const removeSelectRange = () => {
+    const removeSelectRange = (isSelectBox = false) => {
       // const {session} = self.env_
+      if (!isSelectBox) {
+        const {range = []} = self.selectRange || {}
+        const {frameId} = range[0] || {}
+        self.frames.find((frame) => frame.frameId === frameId)?.removeSelectGroup()
+      }
       self.selectRange = undefined
       // session.set('SKViewport', undefined)
     }
@@ -427,8 +432,9 @@ export const MArtViewport = types
 
     // 选中
     const toggleSelectRange = ({target, selectRange}) => {
-      self.removeSelectRange()
       if (target === 'frame') {
+        self.removeSelectRange()
+
         const frame = self.frames.find((f) => f.frameId === selectRange[0].frameId)
         self.selectRange = {
           target,
@@ -439,6 +445,7 @@ export const MArtViewport = types
           y2: frame.y2_,
         }
       } else {
+        self.removeSelectRange(true)
         const layouts = selectRange
           .map((value) => {
             const frame = self.frames.find((v) => v.frameId === value.frameId)

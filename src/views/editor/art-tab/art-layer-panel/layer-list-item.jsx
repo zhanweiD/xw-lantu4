@@ -36,7 +36,7 @@ const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
   )
 })
 
-const LayerListItem = ({layer, index, viewport, selectFrame, className, useButtons = true}) => {
+const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) => {
   const {selectRange, toggleSelectBox, getMenuList} = viewport
   const {range = []} = selectRange || {}
   const {boxIds = []} = range[0] || {}
@@ -57,11 +57,19 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
         onDoubleClick={(v) => console.log(v)}
         // onDoubleClick={layer.editArt}
       >
-        <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, className, isSelect && s.selectLayerItemBox)}>
+        <div
+          className={c(
+            'fbh fbac pl8 pt4 pb4 pr8',
+            s.layerItemBox,
+            className,
+            (isSelect || group?.isSelect) && s.selectLayerItemBox
+          )}
+        >
           <div
             className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
             onClick={(e) => {
               e.stopPropagation()
+              !e.shiftKey && selectFrame?.groups?.forEach((group) => group.set({isSelect: false}))
               menu.hide()
               toggleSelectBox(layer, e.shiftKey)
             }}
@@ -71,36 +79,34 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
               {layer.name}
             </div>
           </div>
-          {useButtons && (
-            <div className={c('fbh')}>
-              {layer.isLocked ? (
-                <IconButton
-                  buttonSize={24}
-                  className={s.toolIconHighlight}
-                  icon="lock"
-                  iconSize={14}
-                  onClick={() => layer.set({isLocked: false})}
-                />
-              ) : null}
-              {layer.isEffect ? (
-                <IconButton
-                  buttonSize={24}
-                  className={s.toolIconHighlight}
-                  icon="eye-open"
-                  iconSize={14}
-                  onClick={() => layer.set({isEffect: false})}
-                />
-              ) : (
-                <IconButton
-                  buttonSize={24}
-                  className={s.toolIconHighlight}
-                  icon="eye-close"
-                  iconSize={14}
-                  onClick={() => layer.set({isEffect: true})}
-                />
-              )}
-            </div>
-          )}
+          <div className={c('fbh')}>
+            {layer.isLocked ? (
+              <IconButton
+                buttonSize={24}
+                className={s.toolIconHighlight}
+                icon="lock"
+                iconSize={14}
+                onClick={() => layer.set({isLocked: false})}
+              />
+            ) : null}
+            {layer.isEffect ? (
+              <IconButton
+                buttonSize={24}
+                className={s.toolIconHighlight}
+                icon="eye-open"
+                iconSize={14}
+                onClick={() => layer.set({isEffect: false})}
+              />
+            ) : (
+              <IconButton
+                buttonSize={24}
+                className={s.toolIconHighlight}
+                icon="eye-close"
+                iconSize={14}
+                onClick={() => layer.set({isEffect: true})}
+              />
+            )}
+          </div>
         </div>
       </div>
     </Sortable>

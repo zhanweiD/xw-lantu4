@@ -671,6 +671,42 @@ export const MArtFrame = types
         }
       })
     }
+
+    /**
+     * 选中组
+     * @param {*} selectFrame 选中frame
+     * @param {*} group 点击group
+     * @param {*} multiSelect 是否多选（是否按着shift选中）
+     */
+    const selectGroup = (selectFrame, group, multiSelect) => {
+      let boxIds = []
+
+      if (multiSelect) {
+        const {range = []} = self.viewport_.selectRange || {}
+        const originalBoxIds = range[0]?.boxIds || []
+        boxIds = [...new Set([...group.boxIds, ...originalBoxIds])]
+        group.set({isSelect: !group.isSelect})
+      } else {
+        boxIds = group.boxIds.toJSON()
+        selectFrame?.groups?.forEach((item) => {
+          if (item.id === group.id) item.set({isSelect: true})
+          else item.set({isSelect: false})
+        })
+      }
+      // 选中组内所有box
+      self.viewport_.toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId: selectFrame.frameId,
+            boxIds,
+          },
+        ],
+      })
+    }
+    const removeSelectGroup = () => {
+      self.groups.forEach((group) => group.set({isSelect: false}))
+    }
     /**
      * 组移动
      * @param {*} currentIndex box的原来位置
@@ -720,5 +756,7 @@ export const MArtFrame = types
       moveBox,
       dropMove,
       moveGroup,
+      selectGroup,
+      removeSelectGroup,
     }
   })
