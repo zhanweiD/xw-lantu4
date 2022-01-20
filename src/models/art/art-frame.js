@@ -426,6 +426,7 @@ export const MArtFrame = types
         })
       }
     }
+
     const removeBackground = (materialId) => {
       const {event} = self.env_
       const materials = self.materials.map((material) => self.art_.exhibitManager.get(material.id).getSchema())
@@ -630,35 +631,43 @@ export const MArtFrame = types
           if (box.groupIds[0] === targetGroup[0]) {
             moveBox(box.zIndex_, targetIndex)
           } else {
-            moveBoxToGroup([box], targetGroup[0])
-            // 不同组拖动
-            // box.removeGroup()
-            // self.groups = self.groups
-            //   .map((group) => {
-            //     return {
-            //       ...group,
-            //       boxIds: group.boxIds.filter((item) => item !== box.boxId),
-            //     }
-            //   })
-            //   .filter((group) => group.boxIds.length)
+            // 不同组拖动(组外到组内，a组到b组)
+            box.set({groupIds: targetGroup})
+            self.groups = self.groups
+              .map((group) => {
+                // 目标组添加
+                if (group.id === targetGroup[0]) {
+                  return {
+                    ...group,
+                    boxIds: [...group.boxIds, box.boxId],
+                  }
+                }
+                // 其他组移除
+                return {
+                  ...group,
+                  boxIds: group.boxIds.filter((item) => item !== box.boxId),
+                }
+              })
+              .filter((group) => group.boxIds.length)
             // moveBoxToGroup([box], targetGroup[0])
           }
         } else {
           // 拖到组外（组内到组外）
-          removeGroupByBoxes([box])
-          // if (box?.groupIds?.length) {
-          //   box.removeGroup()
-          //   self.groups = self.groups
-          //     .map((group) => {
-          //       return {
-          //         ...group,
-          //         boxIds: group.boxIds.filter((item) => item !== box.boxId),
-          //       }
-          //     })
-          //     .filter((group) => group.boxIds.length)
-          // }
-          // 组外到组外
-          moveBox(box.zIndex_, targetIndex)
+          // removeGroupByBoxes([box])
+          if (box?.groupIds?.length) {
+            box.removeGroup()
+            self.groups = self.groups
+              .map((group) => {
+                return {
+                  ...group,
+                  boxIds: group.boxIds.filter((item) => item !== box.boxId),
+                }
+              })
+              .filter((group) => group.boxIds.length)
+          } else {
+            // 组外到组外
+            moveBox(box.zIndex_, targetIndex)
+          }
         }
       })
     }

@@ -23,8 +23,8 @@ const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
           // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
             console.log(item.index, index)
-            item.index = index
             selectFrame.dropMove([item.layer], index)
+            item.index = index
           }
         }}
       >
@@ -43,9 +43,8 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
   const menu = w.overlayManager.get('menu')
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
-
   return (
-    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={!layer.isLocked || layer.isEffect}>
+    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={!layer.isLocked && layer.isEffect}>
       <div
         className={c('w100p', s.layer, (layer.isLocked || !layer.isEffect) && s.noDrop)}
         onContextMenu={(e) => {
@@ -74,13 +73,15 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, useButto
           </div>
           {useButtons && (
             <div className={c('fbh')}>
-              <IconButton
-                buttonSize={24}
-                className={s.toolIconHighlight}
-                icon="lock"
-                iconSize={14}
-                onClick={() => layer.set({isLocked: !layer.isLocked})}
-              />
+              {layer.isLocked ? (
+                <IconButton
+                  buttonSize={24}
+                  className={s.toolIconHighlight}
+                  icon="lock"
+                  iconSize={14}
+                  onClick={() => layer.set({isLocked: false})}
+                />
+              ) : null}
               {layer.isEffect ? (
                 <IconButton
                   buttonSize={24}
