@@ -337,8 +337,32 @@ export const MArtFrame = types
       }
     })
 
+    // 局部更新frame
+    const updatePartFrame = flow(function* updatePartFrame(params) {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {frameId} = self
+      try {
+        yield io.art.updateFrame({
+          ...params,
+          ':artId': artId,
+          ':projectId': projectId,
+          ':frameId': frameId,
+        })
+      } catch (error) {
+        log.error('updateFrame Error:', error)
+      }
+    })
+
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
+      // 同时处理box的关联的分组
+      self.groups = self.groups
+        .map((group) => {
+          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
+        })
+        .filter((item) => item.boxIds?.length)
+      updatePartFrame({groups: self.groups})
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -525,14 +549,15 @@ export const MArtFrame = types
       })
     })
     const addBoxesToGroup = (boxes, groupId) => {
-      let tempBoxes = self.boxes
-      boxes.map((item) => {
+      let tempBoxes = [...self.boxes]
+      const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
+      sortBoxes.map((item) => {
         // 将tempbox处理为不包含成组box
         tempBoxes = tempBoxes.filter((box) => box.boxId !== item.boxId)
         item.addGroup(groupId)
       })
-      // boxes排序
-      self.boxes = tempBoxes.slice(0, boxes[0].zIndex_).concat(boxes).concat(tempBoxes.slice(boxes[0].zIndex_))
+      const insertIndex = tempBoxes.findIndex((item) => item.zIndex_ === sortBoxes[sortBoxes.length - 1].zIndex_ + 1)
+      self.boxes = tempBoxes.slice(0, insertIndex).concat(sortBoxes).concat(tempBoxes.slice(insertIndex))
     }
 
     // 创建分组
@@ -546,7 +571,11 @@ export const MArtFrame = types
         name: `分组_${id.substring(0, 4)}`,
       })
       self.groups.push(groups)
-      addBoxesToGroup(boxes, id)
+      // addBoxesToGroup(boxes, id)
+      const sortBox = boxes.sort((a, b) => {
+        return b.zIndex_ - a.zIndex_
+      })
+      addBoxesToGroup(sortBox, id)
     }
 
     // 根据box批量解组
@@ -735,6 +764,18 @@ export const MArtFrame = types
       self.boxes = boxList
     }
 
+    // 上移下移之后给组内box排序保持跟图层一致
+    const groupSortBoxes = () => {
+      self.groups = self.groups.map((item) => {
+        return {...item, boxIds: self.boxes.map((box) => box.boxId).filter((boxId) => item.boxIds.includes(boxId))}
+      })
+    }
+
+    // 根据boxid获取其组内box的数量移动经常会用到
+    const getGroupBoxNum = (boxId) => {
+      return self.groups.find((item) => item.boxIds.includes(boxId))?.boxIds?.length || 0
+    }
+
     return {
       initBox,
       createBox,
@@ -758,5 +799,8 @@ export const MArtFrame = types
       moveGroup,
       selectGroup,
       removeSelectGroup,
+      groupSortBoxes,
+      getGroupBoxNum,
+      updatePartFrame,
     }
   })

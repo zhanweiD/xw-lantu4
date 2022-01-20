@@ -1,5 +1,5 @@
 const lineLayer = () => ({
-  name: '线层',
+  name: '折线层',
   type: 'line',
   sections: [
     {
@@ -55,9 +55,16 @@ const lineLayer = () => ({
       ],
     },
     // 下面area打开会报错
-    // {
-    //   name: 'area',
-    // },
+    {
+      name: 'area',
+      effective: false,
+      fields: [
+        {
+          name: 'opacity',
+          defaultValue: 1,
+        },
+      ],
+    },
     {
       name: 'label',
       // 如果有effective属性，且值为布尔，则该section可以整体切换是否生效
@@ -87,11 +94,9 @@ const lineLayer = () => ({
   ],
 })
 
-export const config = (k, data, key, name) => ({
-  // key: 'echertsBasicLine',
-  // name: 'echarts-折线图',
-  key,
-  name,
+export const config = (k, data) => ({
+  key: 'echertsBasicLine',
+  name: k('echertsBasicLine'),
   data,
   dimension: {
     fields: [
