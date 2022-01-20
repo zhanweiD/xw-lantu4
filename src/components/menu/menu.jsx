@@ -30,7 +30,12 @@ const Menu = ({model, className}) => {
           {list.map((item) => (
             <div
               key={item.name}
-              className={c('pl8 pr8 lh24', s.item, !item.disabled ? s.itemNormal : s.itemDisabled)}
+              className={c(
+                'pl8 pr8 lh24',
+                s.item,
+                !item.disabled ? s.itemNormal : s.itemDisabled,
+                item.hideBtmBorder && s.hideBtmBorder
+              )}
               onClick={(e) => {
                 if (item.disabled) return
                 e.stopPropagation()

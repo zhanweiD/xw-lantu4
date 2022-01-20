@@ -99,18 +99,20 @@ export const MArtFrame = types
     },
 
     // 将box根据groupId分类
-    get layerTreeList() {
+    get layerTreeList_() {
       const boxes = [...self.boxes]
+      let treeList = []
+      // 统一面板和图层显示顺序
       boxes.reverse()
-      const treeList = []
+
       boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
           const groupIndex = treeList.findIndex((group) => {
-            return group.groupIds[0] == groupIds[0]
+            return group.groupIds?.[0] === groupIds[0]
           })
           if (groupIndex !== -1) {
-            treeList[groupIndex].boxes.push(item)
+            treeList[groupIndex]?.boxes?.push(item)
           } else {
             treeList.push({
               groupIds: [...groupIds],
@@ -118,7 +120,12 @@ export const MArtFrame = types
             })
           }
         } else {
-          treeList.push(item)
+          // 保持treeList中的item格式统一，否则mobx无法观测到treeList的改变
+          // treeList.push(item) // 控制台mobx会警告访问越界
+          treeList.push({
+            groupIds: [],
+            boxes: [item],
+          })
         }
       })
       return treeList
@@ -149,6 +156,7 @@ export const MArtFrame = types
       materials,
       padding,
       constraints,
+      groupIds,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -161,6 +169,7 @@ export const MArtFrame = types
         layout,
         remark,
         materials,
+        groupIds,
       })
 
       box.padding.setSchema(padding)
@@ -330,13 +339,6 @@ export const MArtFrame = types
 
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
-      // 同时处理box的关联的分组
-      self.groups = self.groups
-        .map((group) => {
-          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
-        })
-        .filter((item) => item.boxIds?.length)
-      self.art_.save()
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -463,6 +465,7 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
+    // 复制图层
     const copyBox = flow(function* copyBox(box) {
       const {io} = self.env_
       const {artId, projectId} = self.art_
@@ -474,8 +477,9 @@ export const MArtFrame = types
         frameId: box.frameId,
         exhibit: box.exhibit,
         uid,
-        name: `容器-${uid.substring(0, 4)}`,
+        name: `${box.name}-copy`,
         layout,
+        groupIds: box.groupIds,
       }
       self.initBox(params)
       const realBox = self.boxes.find((o) => o.uid === uid)
@@ -486,6 +490,7 @@ export const MArtFrame = types
           exhibit: box.exhibit,
           layout,
           name: params.name,
+          groupIds: box.groupIds,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
@@ -546,6 +551,7 @@ export const MArtFrame = types
     // 根据box批量解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
+        if (!box.groupIds.length) return // 兼容拖拽操作
         // 移出分组同时box进行排序
         const sourceGroup = self.groups.find((item) => item.id === box?.groupIds[0])
         if (sourceGroup) {
@@ -610,6 +616,53 @@ export const MArtFrame = types
     }
 
     /**
+     * 拖拽移动
+     * @param {*} boxes 拖拽box
+     * @param {*} targetIndex 拖拽的目标位置
+     */
+    const dropMove = (boxes, targetIndex) => {
+      // 判断目标位置是否在组内
+      const targetGroup = self.boxes[targetIndex]?.groupIds
+      boxes.forEach((box) => {
+        // 拖到组内（组到组或组外到组内）
+        if (targetGroup.length) {
+          // 同组拖动
+          if (box.groupIds[0] === targetGroup[0]) {
+            moveBox(box.zIndex_, targetIndex)
+          } else {
+            moveBoxToGroup([box], targetGroup[0])
+            // 不同组拖动
+            // box.removeGroup()
+            // self.groups = self.groups
+            //   .map((group) => {
+            //     return {
+            //       ...group,
+            //       boxIds: group.boxIds.filter((item) => item !== box.boxId),
+            //     }
+            //   })
+            //   .filter((group) => group.boxIds.length)
+            // moveBoxToGroup([box], targetGroup[0])
+          }
+        } else {
+          // 拖到组外（组内到组外）
+          removeGroupByBoxes([box])
+          // if (box?.groupIds?.length) {
+          //   box.removeGroup()
+          //   self.groups = self.groups
+          //     .map((group) => {
+          //       return {
+          //         ...group,
+          //         boxIds: group.boxIds.filter((item) => item !== box.boxId),
+          //       }
+          //     })
+          //     .filter((group) => group.boxIds.length)
+          // }
+          // 组外到组外
+          moveBox(box.zIndex_, targetIndex)
+        }
+      })
+    }
+    /**
      * 组移动
      * @param {*} currentIndex box的原来位置
      * @param {*} targetIndex box的目标位置
@@ -656,6 +709,7 @@ export const MArtFrame = types
       addBoxesToGroup,
       moveBoxToGroup,
       moveBox,
+      dropMove,
       moveGroup,
     }
   })

@@ -6,23 +6,25 @@ import {DragSource, DropTarget} from '@components/drag-and-drop'
 import w from '@models'
 import s from './layer-list-item.module.styl'
 
-const Sortable = observer(({layer, index, children, enable}) => {
+const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
   return enable ? (
     <DragSource
       key={layer.boxId}
       onEnd={(dropResult, data) => dropResult.changeSort(data)}
-      dragKey={`ART_SORT_DRAG_KEY_LAYER_${layer?.boxId}`}
+      dragKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
       data={{layer, index}}
     >
       <DropTarget
         hideOutLine
-        acceptKey={`ART_SORT_DRAG_KEY_LAYERID_${layer?.boxId}`}
-        data={{changeSort: layer?.saveArtSort}}
+        acceptKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
+        data={{changeSort: () => console.log('保存排序，暂时使用cmd+s手动保存')}}
+        // data={{changeSort: layer?.saveArtSort}}
         hover={(item) => {
           // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
-            layer.moveArtSort(item.index, index)
+            console.log(item.index, index)
             item.index = index
+            selectFrame.dropMove([item.layer], index)
           }
         }}
       >
@@ -34,44 +36,28 @@ const Sortable = observer(({layer, index, children, enable}) => {
   )
 })
 
-const LayerListItem = ({layer, index, viewport, className, useButtons = true}) => {
+const LayerListItem = ({layer, index, viewport, selectFrame, className, useButtons = true}) => {
   const {selectRange, toggleSelectBox, getMenuList} = viewport
   const {range = []} = selectRange || {}
   const {boxIds = []} = range[0] || {}
   const menu = w.overlayManager.get('menu')
-  const list = getMenuList(menu)
-  // boxIds.length > 1
-  //   ? [
-  //       {name: '成组', action: () => 1},
-  //       {name: '解组', action: () => 1},
-  //       {name: '删除', action: () => 1},
-  //     ].filter(Boolean)
-  //   : [
-  //       {name: '置顶', action: () => 1},
-  //       {name: '置底', action: () => 1},
-  //       {name: '上移一层', action: () => 1},
-  //       {name: '下移一层', action: () => 1},
-  //       {name: '复制', action: () => 1},
-  //       {name: '删除', action: () => 1},
-  //       {name: '锁定', action: () => 1},
-  //       {name: '隐藏', action: () => 1},
-  //     ].filter(Boolean)
 
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
 
   return (
-    <Sortable layer={layer} index={index} enable={false}>
+    <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={!layer.isLocked || layer.isEffect}>
       <div
-        className={c('w100p', s.layer)}
+        className={c('w100p', s.layer, (layer.isLocked || !layer.isEffect) && s.noDrop)}
         onContextMenu={(e) => {
-          !boxIds.length && toggleSelectBox(layer, false)
           e.preventDefault()
           e.stopPropagation()
-          menu.show({list})
+          if (layer.isLocked || !layer.isEffect) return
+          boxIds[0] !== layer.boxId && boxIds.length < 2 && toggleSelectBox(layer, false)
+          menu.show({list: getMenuList(menu)})
         }}
+        onDoubleClick={(v) => console.log(v)}
         // onDoubleClick={layer.editArt}
       >
-        {/* {isLayerPanelVisible && <div className={c(s.layerPanelContainer)} style={art.layerPanelStyle_} />} */}
         <div className={c('fbh fbac pl8 pt4 pb4 pr8', s.layerItemBox, className, isSelect && s.selectLayerItemBox)}>
           <div
             className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
@@ -82,7 +68,7 @@ const LayerListItem = ({layer, index, viewport, className, useButtons = true}) =
             }}
           >
             {/* {!isLayerPanelVisible && <Icon fill="#fff5" name="drag" size={10} />} */}
-            <div title={layer.name} className="omit hand">
+            <div title={layer.name} className={c('omit', layer.isLocked || !layer.isEffect ? s.noDrop : 'hand')}>
               {layer.name}
             </div>
           </div>
@@ -93,15 +79,25 @@ const LayerListItem = ({layer, index, viewport, className, useButtons = true}) =
                 className={s.toolIconHighlight}
                 icon="lock"
                 iconSize={14}
-                // onClick={layer.previewArt}
+                onClick={() => layer.set({isLocked: !layer.isLocked})}
               />
-              <IconButton
-                buttonSize={24}
-                className={s.toolIconHighlight}
-                icon="eye-open"
-                iconSize={14}
-                // onClick={layer.previewArt}
-              />
+              {layer.isEffect ? (
+                <IconButton
+                  buttonSize={24}
+                  className={s.toolIconHighlight}
+                  icon="eye-open"
+                  iconSize={14}
+                  onClick={() => layer.set({isEffect: false})}
+                />
+              ) : (
+                <IconButton
+                  buttonSize={24}
+                  className={s.toolIconHighlight}
+                  icon="eye-close"
+                  iconSize={14}
+                  onClick={() => layer.set({isEffect: true})}
+                />
+              )}
             </div>
           )}
         </div>
