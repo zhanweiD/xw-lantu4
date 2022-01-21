@@ -212,7 +212,7 @@ export const MArtFrame = types
       }
     }
 
-    const createBox = flow(function* createBox({position, lib, key}) {
+    const createBox = flow(function* createBox({name, position, lib, key}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
@@ -249,7 +249,7 @@ export const MArtFrame = types
       const uid = uuid()
       const params = {
         artId,
-        name: `容器-${uid.substring(0, 4)}`,
+        name: `${name || '容器'}-${uid.substring(0, 4)}`,
         frameId,
         exhibit,
         layout,
@@ -490,6 +490,7 @@ export const MArtFrame = types
       const {io} = self.env_
       const {artId, projectId} = self.art_
       const uid = uuid()
+      let realBoxId = ''
       const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
       const params = {
         materials: box.materials,
@@ -518,14 +519,7 @@ export const MArtFrame = types
         realBox.set({
           boxId: currentBox.boxId,
         })
-        self.viewport_.selectRange.set({
-          range: [
-            {
-              frameId: box.frameId,
-              boxIds: [realBox.boxId],
-            },
-          ],
-        })
+        realBoxId = realBox.boxId
       } catch (error) {
         realBox.set({
           isCreateFail: true,
@@ -533,15 +527,16 @@ export const MArtFrame = types
         log.error('createBox Error: ', error)
       }
 
-      self.viewport_.toggleSelectRange({
-        target: 'box',
-        selectRange: [
-          {
-            frameId: box.frameId,
-            boxIds: [uid],
-          },
-        ],
-      })
+      // self.viewport_.toggleSelectRange({
+      //   target: 'box',
+      //   selectRange: [
+      //     {
+      //       frameId: box.frameId,
+      //       boxIds: [uid],
+      //     },
+      //   ],
+      // })
+      return {boxId: realBoxId}
     })
     const addBoxesToGroup = (boxes, groupId) => {
       const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
