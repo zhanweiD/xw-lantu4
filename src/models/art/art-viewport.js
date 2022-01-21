@@ -685,7 +685,7 @@ export const MArtViewport = types
         {
           name: '删除',
           action: () => {
-            removeBoxes()
+            selectRange.remove()
             menu.hide()
           },
         },

@@ -80,7 +80,7 @@ const getMenuList = (selectFrame, group) => {
     {
       name: '下移一层',
       action: () => {
-        selectFrame.moveGroup(group, boxes[boxes.length - 1].zIndex_ - 1)
+        selectFrame.moveGroup(group, boxes[0].zIndex_ - 1)
         menu.hide()
       },
     },
@@ -116,8 +116,8 @@ const getMenuList = (selectFrame, group) => {
     {
       name: '删除',
       action: () => {
-        selectFrame.removeBoxes(group.boxIds)
-        menu.hide()
+        // selectFrame.removeBoxes(group.boxIds)
+        // menu.hide()
       },
     },
   ]
