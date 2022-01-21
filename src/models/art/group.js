@@ -7,6 +7,8 @@ export const MGroup = types
     boxIds: types.optional(types.array(types.union(types.string, types.number)), []),
     name: types.optional(types.string, ''),
     isSelect: types.optional(types.boolean, false),
+    isLocked: types.optional(types.boolean, false),
+    isEffect: types.optional(types.boolean, true),
   })
   .views(() => ({
     // 计算 box 范围
@@ -39,6 +41,7 @@ export const MGroup = types
     const reName = (value) => {
       self.name = value
     }
+
     return {
       create,
       remove,

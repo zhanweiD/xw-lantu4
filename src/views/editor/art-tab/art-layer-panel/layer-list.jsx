@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react-lite'
 import React from 'react'
 import c from 'classnames'
-// import IconButton from '@components/icon-button'
+import IconButton from '@components/icon-button'
 import Section from '@builders/section'
 // import Upload from '@components/upload'
 import {DragSource} from '@components/drag-and-drop'
@@ -10,20 +10,48 @@ import LayerListItem from './layer-list-item'
 import s from './art-layer-panel.module.styl'
 
 // 成组后双击菜单
-// const MoreIcon = ({layer}) => {
-//   return (
-//     <div className="pr oh">
-//       {/* {isTop && <div className={s.delta} />} */}
-//       <Upload accept=".json" multiple={false} onOk={() => {}}>
-//         <div ref={uploadRef} />
-//       </Upload>
-//       <IconButton icon="more" iconSize={14} buttonSize={24} onClick={onClickMore} />
-//     </div>
-//   )
-// }
+const MoreIcon = ({selectFrame, group, isEffect, isLocked}) => {
+  return (
+    <div className="pr oh fbh mr8">
+      {isLocked ? (
+        <IconButton
+          buttonSize={24}
+          className={s.toolIconHighlight}
+          icon="lock"
+          iconSize={14}
+          onClick={() => {
+            selectFrame.toggleGroupState(group, 'isLocked')
+          }}
+        />
+      ) : null}
+      {isEffect ? (
+        <IconButton
+          buttonSize={24}
+          className={s.toolIconHighlight}
+          icon="eye-open"
+          iconSize={14}
+          onClick={() => {
+            selectFrame.toggleGroupState(group, 'isEffect')
+          }}
+        />
+      ) : (
+        <IconButton
+          buttonSize={24}
+          className={s.toolIconHighlight}
+          icon="eye-close"
+          iconSize={14}
+          onClick={() => {
+            selectFrame.toggleGroupState(group, 'isEffect')
+          }}
+        />
+      )}
+    </div>
+  )
+}
 
 const menu = w.overlayManager.get('menu')
 const getMenuList = (selectFrame, group) => {
+  const boxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
   const menuList = [
     {
       name: '置顶',
@@ -45,31 +73,59 @@ const getMenuList = (selectFrame, group) => {
       name: '上移一层',
       hideBtmBorder: true,
       action: () => {
-        const currentBoxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
-        selectFrame.moveGroup(group, currentBoxes[currentBoxes.length - 1].zIndex_ + 1)
+        selectFrame.moveGroup(group, boxes[boxes.length - 1].zIndex_ + 1)
         menu.hide()
       },
     },
     {
       name: '下移一层',
       action: () => {
-        const currentBoxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
-        selectFrame.moveGroup(group, currentBoxes[currentBoxes.length - 1].zIndex_ - 1)
+        selectFrame.moveGroup(group, boxes[boxes.length - 1].zIndex_ - 1)
         menu.hide()
       },
     },
-    {name: '取消成组', action: () => (() => {}, menu.hide())},
-    {name: '锁定', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-    {name: '隐藏', action: () => (() => {}, menu.hide())},
-    {name: '复制', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-    {name: '删除', action: () => (() => {}, menu.hide())},
+    {
+      name: '取消成组',
+      action: () => {
+        selectFrame.removeGroupByBoxes(boxes)
+        menu.hide()
+      },
+    },
+    {
+      name: `${group.isLocked ? '解锁' : '锁定'}`,
+      hideBtmBorder: true,
+      action: () => {
+        selectFrame.toggleGroupState(group, 'isLocked')
+        menu.hide()
+      },
+    },
+    {
+      name: `${group.isEffect ? '隐藏' : '显示'}`,
+      action: () => {
+        selectFrame.toggleGroupState(group, 'isEffect')
+        menu.hide()
+      },
+    },
+    {
+      name: '复制',
+      hideBtmBorder: true,
+      action: () => {
+        menu.hide()
+      },
+    },
+    {
+      name: '删除',
+      action: () => {
+        selectFrame.removeBoxes(group.boxIds)
+        menu.hide()
+      },
+    },
   ]
   return menuList
 }
 
 // 项目列表
 export default observer(({layer, viewport, groups, selectFrame, other}) => {
-  // console.log(selectRange)
   // layer有可能是box有可能是group
   const {groupIds = [], boxes} = layer
   const group = groups.find((group) => group.id === groupIds[0])
@@ -81,7 +137,7 @@ export default observer(({layer, viewport, groups, selectFrame, other}) => {
       name={group.name}
       childrenClassName={c(s.pt0)}
       titleClassName={c('pt4 pb4', !group.isSelect && s.noSelectLayerGroup)}
-      // extra={<MoreIcon layer={layer} />}
+      extra={<MoreIcon selectFrame={selectFrame} group={group} isLocked={group?.isLocked} isEffect={group?.isEffect} />}
       onContextMenu={(e) => {
         e.preventDefault()
         e.stopPropagation()

@@ -606,29 +606,6 @@ export const MArtFrame = types
       filterGroupByBoxIds(boxes.map((item) => item.boxId))
     }
 
-    // 组解组 可使用box批量解组方法
-    // 根据groupids解组 /*----图层面板上的解组用到---*/
-    const removeGroupByGroupIds = (groupIds) => {
-      // group纬度上解组
-      groupIds.forEach((groupId) => {
-        self.groups.forEach((group) => {
-          if (group.id === groupId) {
-            const boxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
-            // 解除box上的分组绑定关系
-            removeGroupByBoxes(boxes)
-          }
-        })
-      })
-    }
-
-    // 将某个box移动至某个组
-    const moveBoxToGroup = (boxes, groupId) => {
-      // 先移出原分组
-      removeGroupByBoxes(boxes)
-      // 将box移至新分组
-      addBoxesToGroup(boxes, groupId)
-    }
-
     /**
      * 图层移动
      * @param {*} currentIndex box的原来位置
@@ -675,7 +652,6 @@ export const MArtFrame = types
                 }
               })
               .filter((group) => group.boxIds.length)
-            // moveBoxToGroup([box], targetGroup[0])
           }
         } else {
           // 拖到组外（组内到组外）
@@ -695,6 +671,8 @@ export const MArtFrame = types
             moveBox(box.zIndex_, targetIndex)
           }
         }
+        groupSortBoxes()
+        // updatePartFrame({groups: self.groups})
       })
     }
 
@@ -705,7 +683,6 @@ export const MArtFrame = types
      */
     const selectGroup = (group, multiSelect) => {
       let boxIds = []
-
       if (multiSelect) {
         const {range = []} = self.viewport_.selectRange || {}
         const originalBoxIds = range[0]?.boxIds || []
@@ -718,6 +695,7 @@ export const MArtFrame = types
           else item.set({isSelect: false})
         })
       }
+
       // 选中组内所有box
       self.viewport_.toggleSelectRange({
         target: 'box',
@@ -732,11 +710,26 @@ export const MArtFrame = types
     const removeSelectGroup = () => {
       self.groups.forEach((group) => group.set({isSelect: false}))
     }
+    // 组的显示隐藏，锁定解锁
+    /**
+     * 组的显示隐藏，锁定解锁
+     * @param {*} group 选中group
+     * @param {*} type 需要修改的状态
+     */
+    const toggleGroupState = (group, type) => {
+      self.boxes.forEach((box) => {
+        if (group.boxIds.includes(box.boxId)) {
+          box.set({[type]: !group[type]})
+        }
+      })
+      group.set({[type]: !group[type]})
+      console.log(group)
+    }
 
     /**
      * 组移动
      * @param {*} group 移动组
-     * @param {*} targetIndex box的目标位置
+     * @param {*} targetIndex 目标位置
      */
     const moveGroup = (group, targetIndex) => {
       const currentBoxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
@@ -788,21 +781,19 @@ export const MArtFrame = types
     return {
       initBox,
       createBox,
-      removeBoxes,
       setRemark,
       setLayout,
       updateFrame,
       addBackground,
       removeBackground,
+      removeBoxes,
       sortBackground,
       recreateFrame,
       initGroup,
       copyBox,
       createGroup,
       removeGroupByBoxes,
-      removeGroupByGroupIds,
       addBoxesToGroup,
-      moveBoxToGroup,
       moveBox,
       dropMove,
       moveGroup,
@@ -811,5 +802,6 @@ export const MArtFrame = types
       groupSortBoxes,
       getGroupBoxNum,
       updatePartFrame,
+      toggleGroupState,
     }
   })
