@@ -14,6 +14,7 @@ import s from './menu.module.styl'
  */
 
 const Menu = ({model, className}) => {
+  console.log(className)
   let list
   if (isFunction(model.list)) {
     list = model.list()
@@ -31,7 +32,7 @@ const Menu = ({model, className}) => {
             <div
               key={item.name}
               className={c(
-                'pl8 pr8 lh24',
+                'pl8 pr8 lh32',
                 s.item,
                 !item.disabled ? s.itemNormal : s.itemDisabled,
                 item.hideBtmBorder && s.hideBtmBorder

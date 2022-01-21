@@ -574,34 +574,29 @@ export const MArtViewport = types
       const boxDisabledUp =
         targetBox.zIndex_ === frame.boxes.length - 1 ||
         frame.groups.find((group) => group.boxIds[group.boxIds.length - 1] === targetBox.boxId)
-      // 区分多选单选菜单
+
       const menuList = [
         {
-          name: '成组',
-          disabled: hasGroup,
+          name: '置顶',
+          disabled: mulBox,
+          hideBtmBorder: true,
           action: () => {
-            frame.createGroup(selectRange.boxes_)
+            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
             menu.hide()
           },
         },
         {
-          name: '移出分组',
-          disabled: !hasGroup,
+          name: '置底',
+          disabled: mulBox,
+          hideBtmBorder: true,
           action: () => {
-            frame.removeGroupByBoxes(selectRange?.boxes_)
+            frame.moveBox(targetBox.zIndex_, 0)
             menu.hide()
           },
         },
-        // {
-        //   name: '移出分组',
-        //   disabled: !hasGroup,
-        //   action: () => {
-        //     frame.removeGroupByBoxes(selectRange.boxes_)
-        //     menu.hide()
-        //   },
-        // },
         {
           name: '上移一层',
+          hideBtmBorder: true,
           disabled: mulBox || boxDisabledUp,
           action: () => {
             if (targetBox.groupIds?.length) {
@@ -633,34 +628,32 @@ export const MArtViewport = types
           },
         },
         {
-          name: '置顶',
-          disabled: mulBox,
+          name: '成组',
+          disabled: hasGroup,
+          hideBtmBorder: true,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
+            frame.createGroup(selectRange.boxes_)
             menu.hide()
           },
         },
         {
-          name: '置底',
-          disabled: mulBox,
+          name: '移出分组',
+          disabled: !hasGroup,
           action: () => {
-            frame.moveBox(targetBox.zIndex_, 0)
+            frame.removeGroupByBoxes(selectRange?.boxes_)
             menu.hide()
           },
         },
         {
-          name: '删除',
-          action: () => {
-            selectRange.remove()
-            menu.hide()
-          },
-        },
-        {
-          name: '复制',
+          name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+          hideBtmBorder: true,
           action: () => {
             selectRange?.boxes_.map((item) => {
-              // item.recreateBox()
-              frame.copyBox(item)
+              item.toggleLock()
+            })
+            self.toggleSelectRange({
+              target: 'box',
+              selectRange: [],
             })
             menu.hide()
           },
@@ -679,18 +672,32 @@ export const MArtViewport = types
           },
         },
         {
-          name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+          name: '复制',
+          hideBtmBorder: true,
           action: () => {
             selectRange?.boxes_.map((item) => {
-              item.toggleLock()
-            })
-            self.toggleSelectRange({
-              target: 'box',
-              selectRange: [],
+              // item.recreateBox()
+              frame.copyBox(item)
             })
             menu.hide()
           },
         },
+        {
+          name: '删除',
+          action: () => {
+            selectRange.remove()
+            menu.hide()
+          },
+        },
+
+        // {
+        //   name: '移出分组',
+        //   disabled: !hasGroup,
+        //   action: () => {
+        //     frame.removeGroupByBoxes(selectRange.boxes_)
+        //     menu.hide()
+        //   },
+        // },
       ]
       return menuList
     }

@@ -156,7 +156,7 @@ export const MArtFrame = types
       materials,
       padding,
       constraints,
-      groupIds,
+      groupIds = [],
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -732,6 +732,7 @@ export const MArtFrame = types
     const removeSelectGroup = () => {
       self.groups.forEach((group) => group.set({isSelect: false}))
     }
+
     /**
      * 组移动
      * @param {*} currentIndex box的原来位置
