@@ -110,7 +110,7 @@ const getMenuList = (selectFrame, group) => {
       name: '复制',
       hideBtmBorder: true,
       action: () => {
-        menu.hide()
+        // menu.hide()
       },
     },
     {
