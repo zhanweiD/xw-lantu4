@@ -583,7 +583,7 @@ export const MArtFrame = types
       addBoxesToGroup(boxes, id)
     }
 
-    // 根据box批量解组
+    // 根据box批量解组 支持组解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
         if (!box.groupIds.length) return // 兼容拖拽操作
@@ -606,6 +606,7 @@ export const MArtFrame = types
       filterGroupByBoxIds(boxes.map((item) => item.boxId))
     }
 
+    // 组解组 可使用box批量解组方法
     // 根据groupids解组 /*----图层面板上的解组用到---*/
     const removeGroupByGroupIds = (groupIds) => {
       // group纬度上解组
@@ -699,11 +700,10 @@ export const MArtFrame = types
 
     /**
      * 选中组
-     * @param {*} selectFrame 选中frame
      * @param {*} group 点击group
      * @param {*} multiSelect 是否多选（是否按着shift选中）
      */
-    const selectGroup = (selectFrame, group, multiSelect) => {
+    const selectGroup = (group, multiSelect) => {
       let boxIds = []
 
       if (multiSelect) {
@@ -713,7 +713,7 @@ export const MArtFrame = types
         group.set({isSelect: !group.isSelect})
       } else {
         boxIds = group.boxIds.toJSON()
-        selectFrame?.groups?.forEach((item) => {
+        self.groups?.forEach((item) => {
           if (item.id === group.id) item.set({isSelect: true})
           else item.set({isSelect: false})
         })
@@ -723,7 +723,7 @@ export const MArtFrame = types
         target: 'box',
         selectRange: [
           {
-            frameId: selectFrame.frameId,
+            frameId: self.frameId,
             boxIds,
           },
         ],
@@ -735,27 +735,28 @@ export const MArtFrame = types
 
     /**
      * 组移动
-     * @param {*} currentIndex box的原来位置
+     * @param {*} group 移动组
      * @param {*} targetIndex box的目标位置
      */
-    const moveGroup = (groupId, targetIndex) => {
-      const groupBoxIds = self.groups.find((item) => item.id === groupId)?.boxIds || []
-      const currentBoxes = self.boxes.map((item) => groupBoxIds.includes(item.boxId))
+    const moveGroup = (group, targetIndex) => {
+      const currentBoxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
       let boxList = []
       const currentStartIndex = currentBoxes?.[0]?.zIndex_
+
+      // 注意boxes与显示顺序实际是相反的
       if (targetIndex > currentStartIndex) {
-        // 下移
+        // 图层上移
         boxList = self.boxes
           .slice(0, currentStartIndex)
           .concat(self.boxes.slice(currentStartIndex + currentBoxes.length, targetIndex + 1))
           .concat(currentBoxes)
           .concat(self.boxes.slice(targetIndex + 1))
       } else {
-        // 上移
+        // 图层下移
         boxList = self.boxes
-          .slice(0, targetIndex + 1)
+          .slice(0, targetIndex)
           .concat(currentBoxes)
-          .concat(self.boxes.slice(targetIndex + currentBoxes.length + 1, currentStartIndex))
+          .concat(self.boxes.slice(targetIndex, currentStartIndex))
           .concat(self.boxes.slice(currentStartIndex + currentBoxes.length))
       }
       self.boxes = boxList

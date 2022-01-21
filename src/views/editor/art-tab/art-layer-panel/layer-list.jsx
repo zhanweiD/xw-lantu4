@@ -11,21 +11,6 @@ import s from './art-layer-panel.module.styl'
 
 // 成组后双击菜单
 // const MoreIcon = ({layer}) => {
-//   console.log(layer)
-//   const uploadRef = useRef(null)
-//   const menu = w.overlayManager.get('menu')
-//   // const onUpload = (files) => project.importArt(files, project.projectId)
-//   const onClickMore = (e, button) => {
-//     e.stopPropagation()
-//     menu.toggle({
-//       attachTo: button,
-//       list: [
-//         {name: '解组', action: () => (() => {}, menu.hide())},
-//         {name: '复制', action: () => (() => {}, menu.hide())},
-//         {name: '删除', action: () => (() => {}, menu.hide())},
-//       ],
-//     })
-//   }
 //   return (
 //     <div className="pr oh">
 //       {/* {isTop && <div className={s.delta} />} */}
@@ -38,17 +23,49 @@ import s from './art-layer-panel.module.styl'
 // }
 
 const menu = w.overlayManager.get('menu')
-const list = [
-  {name: '置顶', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-  {name: '置底', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-  {name: '上移一层', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-  {name: '下移一层', action: () => (() => {}, menu.hide())},
-  {name: '取消成组', action: () => (() => {}, menu.hide())},
-  {name: '锁定', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-  {name: '隐藏', action: () => (() => {}, menu.hide())},
-  {name: '复制', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
-  {name: '删除', action: () => (() => {}, menu.hide())},
-]
+const getMenuList = (selectFrame, group) => {
+  const menuList = [
+    {
+      name: '置顶',
+      hideBtmBorder: true,
+      action: () => {
+        selectFrame.moveGroup(group, selectFrame.boxes.length)
+        menu.hide()
+      },
+    },
+    {
+      name: '置底',
+      hideBtmBorder: true,
+      action: () => {
+        selectFrame.moveGroup(group, 0)
+        menu.hide()
+      },
+    },
+    {
+      name: '上移一层',
+      hideBtmBorder: true,
+      action: () => {
+        const currentBoxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
+        selectFrame.moveGroup(group, currentBoxes[currentBoxes.length - 1].zIndex_ + 1)
+        menu.hide()
+      },
+    },
+    {
+      name: '下移一层',
+      action: () => {
+        const currentBoxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
+        selectFrame.moveGroup(group, currentBoxes[currentBoxes.length - 1].zIndex_ - 1)
+        menu.hide()
+      },
+    },
+    {name: '取消成组', action: () => (() => {}, menu.hide())},
+    {name: '锁定', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+    {name: '隐藏', action: () => (() => {}, menu.hide())},
+    {name: '复制', hideBtmBorder: true, action: () => (() => {}, menu.hide())},
+    {name: '删除', action: () => (() => {}, menu.hide())},
+  ]
+  return menuList
+}
 
 // 项目列表
 export default observer(({layer, viewport, groups, selectFrame, other}) => {
@@ -68,11 +85,11 @@ export default observer(({layer, viewport, groups, selectFrame, other}) => {
       onContextMenu={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        menu.show({list})
-        selectFrame.selectGroup(selectFrame, group, false)
+        menu.show({list: getMenuList(selectFrame, group)})
+        selectFrame.selectGroup(group, false)
       }}
       onClick={(e) => {
-        selectFrame.selectGroup(selectFrame, group, e.shiftKey)
+        selectFrame.selectGroup(group, e.shiftKey)
       }}
     >
       {boxes.map((box) => (

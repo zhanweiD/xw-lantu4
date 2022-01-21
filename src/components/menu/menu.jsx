@@ -14,7 +14,6 @@ import s from './menu.module.styl'
  */
 
 const Menu = ({model, className}) => {
-  console.log(className)
   let list
   if (isFunction(model.list)) {
     list = model.list()
