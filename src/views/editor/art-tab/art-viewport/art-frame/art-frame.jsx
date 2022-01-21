@@ -8,6 +8,7 @@ import WaterMark from '@components/watermark'
 import Material from '@views/public/material'
 import Box from '../box'
 import s from './art-frame.module.styl'
+import {useTranslation} from 'react-i18next'
 
 const ArtFrame = ({frame}) => {
   const {
@@ -27,6 +28,8 @@ const ArtFrame = ({frame}) => {
   const {effective, fields} = global.options.sections.watermark
 
   const gridRef = useRef(null)
+
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (isGridVisible) {
@@ -127,6 +130,7 @@ const ArtFrame = ({frame}) => {
             create: (data) => {
               frame.createBox({
                 ...data,
+                name: t(data.name),
               })
             },
             addBackground: (data) => {

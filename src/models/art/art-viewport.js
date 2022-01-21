@@ -659,7 +659,6 @@ export const MArtViewport = types
           name: '复制',
           action: () => {
             selectRange?.boxes_.map((item) => {
-              // item.recreateBox()
               frame.copyBox(item)
             })
             menu.hide()
