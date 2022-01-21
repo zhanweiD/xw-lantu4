@@ -8,13 +8,13 @@ import s from './section.module.styl'
 
 const allSessionIds = {}
 
-const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) => {
+const Title = ({className, type, icon, extra, fold, name, onClick = () => {}, titleClick = () => {}}) => {
   const {t} = useTranslation()
   // type 仅仅有0, 1, 2这三个值 对应三种不同的section头
   return (
     <div
       className={c('h24 fbh fbac bold', {ml24: type === 2, hand: type !== 2}, s.title, s[`title_${type}`], className)}
-      onClick={type !== 2 ? onClick : () => {}}
+      // onClick={type !== 2 ? onClick : () => {}}
     >
       {type !== 2 && (
         <IconButton
@@ -22,9 +22,10 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}}) =
           iconFill="#fff"
           iconSize={type === 0 ? 8 : 6}
           buttonSize={24}
+          onClick={type !== 2 ? onClick : () => {}}
         />
       )}
-      <div className="fb1 fbh fbac lh24">
+      <div className="fb1 fbh fbac lh24" onClick={(e) => titleClick(e)}>
         <div className="omit" title={name}>
           {t(name)}
         </div>
@@ -63,6 +64,7 @@ const Section = ({
   titleClassName,
   childrenClassName,
   updateKey,
+  onClick = () => {},
   onContextMenu = () => {},
 }) => {
   if (allSessionIds[sessionId]) {
@@ -89,6 +91,7 @@ const Section = ({
           setFold(!fold)
           onFold(!fold)
         }}
+        titleClick={onClick}
       />
       <div
         className={c('pt8', childrenClassName, {

@@ -156,7 +156,7 @@ export const MArtFrame = types
       materials,
       padding,
       constraints,
-      groupIds,
+      groupIds = [],
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -212,7 +212,7 @@ export const MArtFrame = types
       }
     }
 
-    const createBox = flow(function* createBox({position, lib, key}) {
+    const createBox = flow(function* createBox({name, position, lib, key}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
@@ -249,7 +249,7 @@ export const MArtFrame = types
       const uid = uuid()
       const params = {
         artId,
-        name: `容器-${uid.substring(0, 4)}`,
+        name: `${name || '容器'}-${uid.substring(0, 4)}`,
         frameId,
         exhibit,
         layout,
@@ -337,8 +337,27 @@ export const MArtFrame = types
       }
     })
 
+    // 局部更新frame
+    const updatePartFrame = flow(function* updatePartFrame(params) {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {frameId} = self
+      try {
+        yield io.art.updateFrame({
+          ...params,
+          ':artId': artId,
+          ':projectId': projectId,
+          ':frameId': frameId,
+        })
+      } catch (error) {
+        log.error('updateFrame Error:', error)
+      }
+    })
+
     const removeBoxes = (boxIds) => {
       self.boxes = self.boxes.filter((box) => !boxIds.includes(box.boxId))
+      // 同时处理box的关联的分组
+      filterGroupByBoxIds(boxIds)
     }
 
     const setLayout = ({x, y, height, width}) => {
@@ -426,6 +445,7 @@ export const MArtFrame = types
         })
       }
     }
+
     const removeBackground = (materialId) => {
       const {event} = self.env_
       const materials = self.materials.map((material) => self.art_.exhibitManager.get(material.id).getSchema())
@@ -470,6 +490,7 @@ export const MArtFrame = types
       const {io} = self.env_
       const {artId, projectId} = self.art_
       const uid = uuid()
+      let realBoxId = ''
       const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
       const params = {
         materials: box.materials,
@@ -498,14 +519,7 @@ export const MArtFrame = types
         realBox.set({
           boxId: currentBox.boxId,
         })
-        self.viewport_.selectRange.set({
-          range: [
-            {
-              frameId: box.frameId,
-              boxIds: [realBox.boxId],
-            },
-          ],
-        })
+        realBoxId = realBox.boxId
       } catch (error) {
         realBox.set({
           isCreateFail: true,
@@ -513,25 +527,41 @@ export const MArtFrame = types
         log.error('createBox Error: ', error)
       }
 
-      self.viewport_.toggleSelectRange({
-        target: 'box',
-        selectRange: [
-          {
-            frameId: box.frameId,
-            boxIds: [uid],
-          },
-        ],
-      })
+      // self.viewport_.toggleSelectRange({
+      //   target: 'box',
+      //   selectRange: [
+      //     {
+      //       frameId: box.frameId,
+      //       boxIds: [uid],
+      //     },
+      //   ],
+      // })
+      return {boxId: realBoxId}
     })
     const addBoxesToGroup = (boxes, groupId) => {
-      let tempBoxes = self.boxes
-      boxes.map((item) => {
+      const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
+      const sortBoxIds = sortBoxes.map((item) => item.boxId)
+      let tempBoxes = [...self.boxes].filter((item) => !sortBoxIds.includes(item.boxId))
+      sortBoxes.forEach((item) => {
         // 将tempbox处理为不包含成组box
         tempBoxes = tempBoxes.filter((box) => box.boxId !== item.boxId)
         item.addGroup(groupId)
       })
-      // boxes排序
-      self.boxes = tempBoxes.slice(0, boxes[0].zIndex_).concat(boxes).concat(tempBoxes.slice(boxes[0].zIndex_))
+      let box = []
+      // 成组元素最后一个元素的zIndex
+      const targetIndex = sortBoxes[sortBoxes.length - 1].zIndex_
+      if (targetIndex === self.boxes.length - 1) {
+        box = tempBoxes.concat(sortBoxes)
+      } else {
+        tempBoxes.forEach((item) => {
+          if (item.zIndex_ === sortBoxes[sortBoxes.length - 1].zIndex_ + 1) {
+            box = box.concat(sortBoxes)
+          }
+          box.push(item)
+        })
+      }
+      self.boxes = box
+      updatePartFrame({groups: self.groups})
     }
 
     // 创建分组
@@ -548,58 +578,27 @@ export const MArtFrame = types
       addBoxesToGroup(boxes, id)
     }
 
-    // 根据box批量解组
+    // 根据box批量解组 支持组解组
     const removeGroupByBoxes = (boxes) => {
       boxes.forEach((box) => {
         if (!box.groupIds.length) return // 兼容拖拽操作
         // 移出分组同时box进行排序
         const sourceGroup = self.groups.find((item) => item.id === box?.groupIds[0])
-        if (sourceGroup) {
-          // 找到组内最后一个元素，解组后插到最后一个元素后边
-          const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
-          const targetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
-          if (targetIndex > box.zIndex_) {
-            self.boxes = self.boxes
-              .slice(0, box.zIndex_)
-              .concat(self.boxes.slice(box.zIndex_ + 1, targetIndex + 1))
-              .concat(box)
-              .concat(self.boxes.slice(targetIndex + 1))
-          }
+        // 找到组内最后一个元素，解组后插到最后一个元素后边
+        const lastBoxId = sourceGroup.boxIds[sourceGroup.boxIds.length - 1]
+        const targetIndex = self.boxes.find((item) => item.boxId === lastBoxId).zIndex_
+        if (targetIndex > box.zIndex_) {
+          self.boxes = self.boxes
+            .slice(0, box.zIndex_)
+            .concat(self.boxes.slice(box.zIndex_ + 1, targetIndex + 1))
+            .concat(box)
+            .concat(self.boxes.slice(targetIndex + 1))
         }
-
         // 在box解除绑定关系
         box.removeGroup()
-        self.groups = self.groups
-          .map((group) => {
-            return {
-              ...group,
-              boxIds: group.boxIds.filter((item) => item !== box.boxId),
-            }
-          })
-          .filter((group) => group.boxIds.length)
       })
-    }
-
-    // 根据groupids解组 /*----图层面板上的解组用到---*/
-    const removeGroupByGroupIds = (groupIds) => {
-      // group纬度上解组
-      groupIds.forEach((groupId) => {
-        self.groups.forEach((group) => {
-          if (group.id === groupId) {
-            const boxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
-            // 解除box上的分组绑定关系
-            removeGroupByBoxes(boxes)
-          }
-        })
-      })
-    }
-
-    // 将某个box移动至某个组
-    const moveBoxToGroup = (boxes, groupId) => {
-      // 先移出原分组
-      removeGroupByBoxes(boxes)
-      // 将box移至新分组
-      addBoxesToGroup(boxes, groupId)
+      // 处理group
+      filterGroupByBoxIds(boxes.map((item) => item.boxId))
     }
 
     /**
@@ -630,86 +629,174 @@ export const MArtFrame = types
           if (box.groupIds[0] === targetGroup[0]) {
             moveBox(box.zIndex_, targetIndex)
           } else {
-            moveBoxToGroup([box], targetGroup[0])
-            // 不同组拖动
-            // box.removeGroup()
-            // self.groups = self.groups
-            //   .map((group) => {
-            //     return {
-            //       ...group,
-            //       boxIds: group.boxIds.filter((item) => item !== box.boxId),
-            //     }
-            //   })
-            //   .filter((group) => group.boxIds.length)
-            // moveBoxToGroup([box], targetGroup[0])
+            // 不同组拖动(组外到组内，a组到b组)
+            box.set({groupIds: targetGroup})
+            self.groups = self.groups
+              .map((group) => {
+                // 目标组添加
+                if (group.id === targetGroup[0]) {
+                  return {
+                    ...group,
+                    boxIds: [...group.boxIds, box.boxId],
+                  }
+                }
+                // 其他组移除
+                return {
+                  ...group,
+                  boxIds: group.boxIds.filter((item) => item !== box.boxId),
+                }
+              })
+              .filter((group) => group.boxIds.length)
           }
         } else {
           // 拖到组外（组内到组外）
-          removeGroupByBoxes([box])
-          // if (box?.groupIds?.length) {
-          //   box.removeGroup()
-          //   self.groups = self.groups
-          //     .map((group) => {
-          //       return {
-          //         ...group,
-          //         boxIds: group.boxIds.filter((item) => item !== box.boxId),
-          //       }
-          //     })
-          //     .filter((group) => group.boxIds.length)
-          // }
-          // 组外到组外
-          moveBox(box.zIndex_, targetIndex)
+          // removeGroupByBoxes([box])
+          if (box?.groupIds?.length) {
+            box.removeGroup()
+            self.groups = self.groups
+              .map((group) => {
+                return {
+                  ...group,
+                  boxIds: group.boxIds.filter((item) => item !== box.boxId),
+                }
+              })
+              .filter((group) => group.boxIds.length)
+          } else {
+            // 组外到组外
+            moveBox(box.zIndex_, targetIndex)
+          }
         }
+        groupSortBoxes()
+        // updatePartFrame({groups: self.groups})
       })
     }
+
+    /**
+     * 选中组
+     * @param {*} group 点击group
+     * @param {*} multiSelect 是否多选（是否按着shift选中）
+     */
+    const selectGroup = (group, multiSelect) => {
+      let boxIds = []
+      if (multiSelect) {
+        const {range = []} = self.viewport_.selectRange || {}
+        const originalBoxIds = range[0]?.boxIds || []
+        boxIds = [...new Set([...group.boxIds, ...originalBoxIds])]
+        group.set({isSelect: !group.isSelect})
+      } else {
+        boxIds = group.boxIds.toJSON()
+        self.groups?.forEach((item) => {
+          if (item.id === group.id) item.set({isSelect: true})
+          else item.set({isSelect: false})
+        })
+      }
+
+      // 选中组内所有box
+      self.viewport_.toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId: self.frameId,
+            boxIds,
+          },
+        ],
+      })
+    }
+    const removeSelectGroup = () => {
+      self.groups.forEach((group) => group.set({isSelect: false}))
+    }
+    // 组的显示隐藏，锁定解锁
+    /**
+     * 组的显示隐藏，锁定解锁
+     * @param {*} group 选中group
+     * @param {*} type 需要修改的状态
+     */
+    const toggleGroupState = (group, type) => {
+      self.boxes.forEach((box) => {
+        if (group.boxIds.includes(box.boxId)) {
+          box.set({[type]: !group[type]})
+        }
+      })
+      group.set({[type]: !group[type]})
+      console.log(group)
+    }
+
     /**
      * 组移动
-     * @param {*} currentIndex box的原来位置
-     * @param {*} targetIndex box的目标位置
+     * @param {*} group 移动组
+     * @param {*} targetIndex 目标位置
      */
-    const moveGroup = (groupId, targetIndex) => {
-      const groupBoxIds = self.groups.find((item) => item.id === groupId)?.boxIds || []
-      const currentBoxes = self.boxes.map((item) => groupBoxIds.includes(item.boxId))
+    const moveGroup = (group, targetIndex) => {
+      const currentBoxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
       let boxList = []
       const currentStartIndex = currentBoxes?.[0]?.zIndex_
+
+      // 注意boxes与显示顺序实际是相反的
       if (targetIndex > currentStartIndex) {
-        // 下移
+        // 图层上移
         boxList = self.boxes
           .slice(0, currentStartIndex)
           .concat(self.boxes.slice(currentStartIndex + currentBoxes.length, targetIndex + 1))
           .concat(currentBoxes)
           .concat(self.boxes.slice(targetIndex + 1))
       } else {
-        // 上移
+        // 图层下移
         boxList = self.boxes
-          .slice(0, targetIndex + 1)
+          .slice(0, targetIndex)
           .concat(currentBoxes)
-          .concat(self.boxes.slice(targetIndex + currentBoxes.length + 1, currentStartIndex))
+          .concat(self.boxes.slice(targetIndex, currentStartIndex))
           .concat(self.boxes.slice(currentStartIndex + currentBoxes.length))
       }
       self.boxes = boxList
     }
 
+    // 上移下移之后给组内box排序保持跟图层一致
+    const groupSortBoxes = () => {
+      self.groups = self.groups.map((item) => {
+        return {...item, boxIds: self.boxes.map((box) => box.boxId).filter((boxId) => item.boxIds.includes(boxId))}
+      })
+      updatePartFrame({groups: self.groups})
+    }
+
+    // 根据boxid获取其组内box的数量移动经常会用到
+    const getGroupBoxNum = (boxId) => {
+      return self.groups.find((item) => item.boxIds.includes(boxId))?.boxIds?.length || 0
+    }
+
+    // 根据boxId处理分组
+    const filterGroupByBoxIds = (boxIds) => {
+      self.groups = self.groups
+        .map((group) => {
+          return {...group, boxIds: group.boxIds.filter((boxId) => !boxIds.includes(boxId))}
+        })
+        .filter((item) => item.boxIds?.length)
+      updatePartFrame({groups: self.groups})
+    }
+
     return {
       initBox,
       createBox,
-      removeBoxes,
       setRemark,
       setLayout,
       updateFrame,
       addBackground,
       removeBackground,
+      removeBoxes,
       sortBackground,
       recreateFrame,
       initGroup,
       copyBox,
       createGroup,
       removeGroupByBoxes,
-      removeGroupByGroupIds,
       addBoxesToGroup,
-      moveBoxToGroup,
       moveBox,
       dropMove,
       moveGroup,
+      selectGroup,
+      removeSelectGroup,
+      groupSortBoxes,
+      getGroupBoxNum,
+      updatePartFrame,
+      toggleGroupState,
     }
   })

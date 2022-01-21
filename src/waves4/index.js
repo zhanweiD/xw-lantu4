@@ -20,7 +20,7 @@ import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
-import {echertsBasicLine, echartsGroupLine} from '@wavesEcharts'
+import {echertsBasicLine} from '@wavesEcharts'
 
 const waves = {
   // 折线
@@ -50,7 +50,6 @@ const waves = {
   // echarts
   demo: demoLine,
   echertsBasicLine,
-  echartsGroupLine,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -137,7 +136,6 @@ const categoriesEcharts = [
     icon: 'demo-line',
     exhibits: [
       echertsBasicLine, // 基础折线图
-      echartsGroupLine,
     ],
   },
 ]
