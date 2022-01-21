@@ -37,6 +37,7 @@ const Category = ({category}) => {
                       lib: data.lib,
                       key: data.key,
                       type: data.type,
+                      name: data.name,
                       position,
                     })
                   }}
