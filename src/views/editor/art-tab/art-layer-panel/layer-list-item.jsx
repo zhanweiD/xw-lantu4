@@ -5,6 +5,7 @@ import IconButton from '@components/icon-button'
 import {DragSource, DropTarget} from '@components/drag-and-drop'
 import w from '@models'
 import s from './layer-list-item.module.styl'
+import Title from './title'
 
 const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
   return enable ? (
@@ -54,8 +55,6 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
           boxIds[0] !== layer.boxId && boxIds.length < 2 && toggleSelectBox(layer, false)
           menu.show({list: getMenuList(menu)})
         }}
-        onDoubleClick={(v) => console.log(v)}
-        // onDoubleClick={layer.editArt}
       >
         <div
           className={c(
@@ -76,7 +75,8 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
           >
             {/* {!isLayerPanelVisible && <Icon fill="#fff5" name="drag" size={10} />} */}
             <div title={layer.name} className={c('omit', layer.isLocked || !layer.isEffect ? s.noDrop : 'hand')}>
-              {layer.name}
+              {/* {layer.name} */}
+              <Title name={layer.name} onChange={layer.reName} />
             </div>
           </div>
           <div className={c('fbh')}>

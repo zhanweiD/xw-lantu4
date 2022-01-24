@@ -8,6 +8,7 @@ import {DragSource} from '@components/drag-and-drop'
 import w from '@models'
 import LayerListItem from './layer-list-item'
 import s from './art-layer-panel.module.styl'
+import Title from './title'
 
 // 成组后双击菜单
 const MoreIcon = ({selectFrame, group, isEffect, isLocked}) => {
@@ -50,7 +51,7 @@ const MoreIcon = ({selectFrame, group, isEffect, isLocked}) => {
 }
 
 const menu = w.overlayManager.get('menu')
-const getMenuList = (selectFrame, group) => {
+const getMenuList = (selectFrame, group, viewport) => {
   const boxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
   const menuList = [
     {
@@ -116,8 +117,8 @@ const getMenuList = (selectFrame, group) => {
     {
       name: '删除',
       action: () => {
-        // selectFrame.removeBoxes(group.boxIds)
-        // menu.hide()
+        viewport.selectRange.remove()
+        menu.hide()
       },
     },
   ]
@@ -134,14 +135,23 @@ export default observer(({layer, viewport, groups, selectFrame, other}) => {
     <Section
       key={groupIds[0]}
       sessionId={`SKLayer-${groupIds[0]}`}
-      name={group.name}
+      // name={group.name}
+      name={
+        <Title
+          name={group.name}
+          onChange={(name) => {
+            group.reName(name)
+            selectFrame.updatePartFrame({groups: selectFrame.groups})
+          }}
+        />
+      }
       childrenClassName={c(s.pt0)}
       titleClassName={c('pt4 pb4', !group.isSelect && s.noSelectLayerGroup)}
       extra={<MoreIcon selectFrame={selectFrame} group={group} isLocked={group?.isLocked} isEffect={group?.isEffect} />}
       onContextMenu={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        menu.show({list: getMenuList(selectFrame, group)})
+        menu.show({list: getMenuList(selectFrame, group, viewport)})
         selectFrame.selectGroup(group, false)
       }}
       onClick={(e) => {

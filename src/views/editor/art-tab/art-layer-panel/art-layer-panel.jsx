@@ -33,8 +33,8 @@ const ArtLayerPanel = ({art}) => {
             layer={item}
             groups={groups}
             viewport={viewport}
-            selectRange={selectRange}
             selectFrame={selectFrame}
+            selectRange={selectRange}
           />
         ))}
       </Scroll>

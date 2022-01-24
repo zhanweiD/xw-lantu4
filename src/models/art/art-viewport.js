@@ -689,15 +689,6 @@ export const MArtViewport = types
             menu.hide()
           },
         },
-
-        // {
-        //   name: '移出分组',
-        //   disabled: !hasGroup,
-        //   action: () => {
-        //     frame.removeGroupByBoxes(selectRange.boxes_)
-        //     menu.hide()
-        //   },
-        // },
       ]
       return menuList
     }
@@ -725,6 +716,7 @@ export const MArtViewport = types
       zoomAllToView,
       zoomSingleToView,
       resizeViewport,
+      // 图层右键菜单
       getMenuList,
     }
   })

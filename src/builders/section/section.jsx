@@ -27,7 +27,7 @@ const Title = ({className, type, icon, extra, fold, name, onClick = () => {}, ti
       )}
       <div className="fb1 fbh fbac lh24" onClick={(e) => titleClick(e)}>
         <div className="omit" title={name}>
-          {t(name)}
+          {typeof name === 'object' ? name : t(name)}
         </div>
         <div
           className="fbn"
