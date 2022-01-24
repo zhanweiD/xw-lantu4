@@ -9,6 +9,8 @@ import {MArtFrameGrid} from './art-frame-grid'
 import {MLayout} from '../common/layout'
 import {MBackgroundColor} from './art-ui-tab-property'
 import {MGroup} from './group'
+import {registerExhibit} from '@exhibit-collection'
+import createEvent from '@utils/create-event'
 
 const log = createLog('@models/art/art-frame.js')
 export const MArtFrame = types
@@ -157,6 +159,7 @@ export const MArtFrame = types
       padding,
       constraints,
       groupIds = [],
+      insertIndex,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -175,7 +178,12 @@ export const MArtFrame = types
       box.padding.setSchema(padding)
       box.background.setSchema(background)
       box.constraints.setSchema(constraints)
-      self.boxes.push(box)
+      if (insertIndex || insertIndex === 0) {
+        // 复制时需要将复制之后的box插入到复制源的上方（基于self.boxes纬度）
+        self.boxes = [].concat(self.boxes.slice(0, insertIndex)).concat([box]).concat(self.boxes.slice(insertIndex))
+      } else {
+        self.boxes.push(box)
+      }
       if (exhibit) {
         const model = exhibitCollection.get(`${exhibit.lib}.${exhibit.key}`)
         const {dataPanel} = self.root_.sidebar
@@ -226,7 +234,6 @@ export const MArtFrame = types
           id: uuid(),
         },
       })
-
       const exhibit = model.getSchema()
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
@@ -485,22 +492,38 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
-    // 复制图层
     const copyBox = flow(function* copyBox(box) {
       const {io} = self.env_
+      const event = createEvent()
       const {artId, projectId} = self.art_
       const uid = uuid()
-      let realBoxId = ''
+      const exhibit = {
+        ...box.exhibit,
+        id: uuid(),
+      }
+      const model = registerExhibit(box.exhibit.key)
+      if (model) {
+        const art = self.art_
+        art.exhibitManager.set(
+          exhibit.id,
+          model.initModel({
+            art,
+            schema: exhibit,
+            event,
+          })
+        )
+      }
       const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
       const params = {
         materials: box.materials,
         artId,
         frameId: box.frameId,
-        exhibit: box.exhibit,
+        exhibit: exhibit,
         uid,
         name: `${box.name}-copy`,
         layout,
         groupIds: box.groupIds,
+        insertIndex: box.zIndex_,
       }
       self.initBox(params)
       const realBox = self.boxes.find((o) => o.uid === uid)
@@ -508,7 +531,7 @@ export const MArtFrame = types
         const currentBox = yield io.art.createBox({
           uid: params.uid,
           materials: box.materials,
-          exhibit: box.exhibit,
+          exhibit: exhibit,
           layout,
           name: params.name,
           groupIds: box.groupIds,
@@ -519,25 +542,28 @@ export const MArtFrame = types
         realBox.set({
           boxId: currentBox.boxId,
         })
-        realBoxId = realBox.boxId
+        if (box.groupIds?.length) {
+          self.groups = self.groups.map((item) => {
+            if (box.groupIds?.includes(item.id)) {
+              return {...item, boxIds: item.boxIds.concat([currentBox.boxId])}
+            }
+            return item
+          })
+          updatePartFrame({groups: self.groups})
+        }
       } catch (error) {
         realBox.set({
           isCreateFail: true,
         })
         log.error('createBox Error: ', error)
       }
-
-      // self.viewport_.toggleSelectRange({
-      //   target: 'box',
-      //   selectRange: [
-      //     {
-      //       frameId: box.frameId,
-      //       boxIds: [uid],
-      //     },
-      //   ],
-      // })
-      return {boxId: realBoxId}
     })
+    // 复制图层
+    const copyBoxes = (boxes) => {
+      boxes.map((box) => {
+        copyBox(box)
+      })
+    }
     const addBoxesToGroup = (boxes, groupId) => {
       const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
       const sortBoxIds = sortBoxes.map((item) => item.boxId)
@@ -666,8 +692,7 @@ export const MArtFrame = types
             moveBox(box.zIndex_, targetIndex)
           }
         }
-        groupSortBoxes()
-        // updatePartFrame({groups: self.groups})
+        updatePartFrame({groups: self.groups})
       })
     }
 
@@ -750,14 +775,6 @@ export const MArtFrame = types
       self.boxes = boxList
     }
 
-    // 上移下移之后给组内box排序保持跟图层一致
-    const groupSortBoxes = () => {
-      self.groups = self.groups.map((item) => {
-        return {...item, boxIds: self.boxes.map((box) => box.boxId).filter((boxId) => item.boxIds.includes(boxId))}
-      })
-      updatePartFrame({groups: self.groups})
-    }
-
     // 根据boxid获取其组内box的数量移动经常会用到
     const getGroupBoxNum = (boxId) => {
       return self.groups.find((item) => item.boxIds.includes(boxId))?.boxIds?.length || 0
@@ -785,7 +802,7 @@ export const MArtFrame = types
       sortBackground,
       recreateFrame,
       initGroup,
-      copyBox,
+      copyBoxes,
       createGroup,
       removeGroupByBoxes,
       addBoxesToGroup,
@@ -794,7 +811,6 @@ export const MArtFrame = types
       moveGroup,
       selectGroup,
       removeSelectGroup,
-      groupSortBoxes,
       getGroupBoxNum,
       updatePartFrame,
       toggleGroupState,
