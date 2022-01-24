@@ -21,9 +21,26 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       padding: types.frozen(config.padding),
       state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
-      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other']),
+      parts: types.optional(types.array(types.string), [
+        'title',
+        'legend',
+        'axis',
+        'polar',
+        'other',
+        'echartsConfigOption',
+      ]),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
-      deepKeys: types.frozen(['title', 'legend', 'axis', 'polar', 'other', 'layers', 'data', 'dimension']),
+      deepKeys: types.frozen([
+        'title',
+        'legend',
+        'axis',
+        'polar',
+        'other',
+        'layers',
+        'data',
+        'dimension',
+        'echartsConfigOption',
+      ]),
     })
     .views((self) => ({
       get art_() {
@@ -63,6 +80,9 @@ export const createExhibitModelClass = (exhibit) => {
         }
         if (config.other) {
           self.setOther(config.other)
+        }
+        if (config.echartsConfigOption) {
+          self.setEchartsconfigoption(config.echartsConfigOption)
         }
       }
       const setCachedData = (data) => {
@@ -195,6 +215,15 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
+      const setEchartsconfigoption = (echartsconfigoption) => {
+        self.echartsconfigoption = createPropertyClass(config.key, echartsconfigoption, 'echartsconfigoption')
+      }
+      const getEchartsconfigoption = () => {
+        if (self.echartsconfigoption) {
+          return self.echartsconfigoption.getData()
+        }
+      }
+
       return {
         setCachedData,
         setContext,
@@ -214,6 +243,8 @@ export const createExhibitModelClass = (exhibit) => {
         getAxis,
         setOther,
         getOther,
+        getEchartsconfigoption,
+        setEchartsconfigoption,
         init,
       }
     })

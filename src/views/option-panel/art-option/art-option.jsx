@@ -58,7 +58,14 @@ const ArtOption = ({art}) => {
     } else if (selectRange.target === 'box' && selectRange.boxes_.length === 1) {
       box = selectRange.boxes_[0]
       exhibitId = box.exhibit?.id
+      console.log(box, selectRange, 'box')
       if (exhibitId) {
+        console.log(
+          box.frame_.art_.exhibitManager.get(exhibitId).toJSON(),
+          box.frame_.toJSON(),
+          'box.frame_.art_.exhibitManager.get(exhibitId)',
+          box.toJSON()
+        )
         exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
       }
     }
