@@ -666,8 +666,7 @@ export const MArtFrame = types
             moveBox(box.zIndex_, targetIndex)
           }
         }
-        groupSortBoxes()
-        // updatePartFrame({groups: self.groups})
+        updatePartFrame({groups: self.groups})
       })
     }
 
@@ -750,14 +749,6 @@ export const MArtFrame = types
       self.boxes = boxList
     }
 
-    // 上移下移之后给组内box排序保持跟图层一致
-    const groupSortBoxes = () => {
-      self.groups = self.groups.map((item) => {
-        return {...item, boxIds: self.boxes.map((box) => box.boxId).filter((boxId) => item.boxIds.includes(boxId))}
-      })
-      updatePartFrame({groups: self.groups})
-    }
-
     // 根据boxid获取其组内box的数量移动经常会用到
     const getGroupBoxNum = (boxId) => {
       return self.groups.find((item) => item.boxIds.includes(boxId))?.boxIds?.length || 0
@@ -794,7 +785,6 @@ export const MArtFrame = types
       moveGroup,
       selectGroup,
       removeSelectGroup,
-      groupSortBoxes,
       getGroupBoxNum,
       updatePartFrame,
       toggleGroupState,
