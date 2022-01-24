@@ -571,7 +571,7 @@ export const MArtViewport = types
       // 是否可以下移
       const currentGroup = frame.groups.find((group) => group.id === targetBox.groupIds[0]) || {}
       const currentGroupBoxIds = frame.boxes
-        .filter((item) => currentGroup.boxIds.includes(item.boxId))
+        .filter((item) => currentGroup?.boxIds?.includes(item.boxId))
         .map((item) => item.zIndex_)
       const boxDisabledDown = targetBox.zIndex_ === 0 || targetBox.zIndex_ === Math.min(...currentGroupBoxIds)
 
@@ -681,10 +681,7 @@ export const MArtViewport = types
           name: '复制',
           hideBtmBorder: true,
           action: () => {
-            selectRange?.boxes_.map((item) => {
-              // item.recreateBox()
-              frame.copyBox(item)
-            })
+            frame.copyBoxes(selectRange?.boxes_)
             menu.hide()
           },
         },
