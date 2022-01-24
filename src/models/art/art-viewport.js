@@ -76,7 +76,8 @@ export const MArtViewport = types
       options: {
         sections: {
           gradientColor: {
-            effective: true,
+            // effective: true,
+            effective: false,
             fields: {
               gradientColor: [
                 ['rgb(0,56,144)', 0],
