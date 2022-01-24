@@ -577,9 +577,7 @@ export const MArtViewport = types
 
       // 是否可以上移
       const boxDisabledUp =
-        targetBox.zIndex_ === frame.boxes.length - 1 ||
-        targetBox.zIndex_ === 0 ||
-        targetBox.zIndex_ === Math.max(...currentGroupBoxIds)
+        targetBox.zIndex_ === frame.boxes.length - 1 || targetBox.zIndex_ === Math.max(...currentGroupBoxIds)
 
       const menuList = [
         {
