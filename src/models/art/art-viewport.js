@@ -76,7 +76,8 @@ export const MArtViewport = types
       options: {
         sections: {
           gradientColor: {
-            effective: true,
+            // effective: true,
+            effective: false,
             fields: {
               gradientColor: [
                 ['rgb(0,56,144)', 0],
@@ -568,12 +569,15 @@ export const MArtViewport = types
       // 单选情况下的box
       const targetBox = selectRange.boxes_?.[0] || {}
       // 是否可以下移
-      const boxDisabledDown =
-        targetBox.zIndex_ === 0 || frame.groups.find((group) => group.boxIds[0] === targetBox.boxId)
+      const currentGroup = frame.groups.find((group) => group.id === targetBox.groupIds[0]) || {}
+      const currentGroupBoxIds = frame.boxes
+        .filter((item) => currentGroup?.boxIds?.includes(item.boxId))
+        .map((item) => item.zIndex_)
+      const boxDisabledDown = targetBox.zIndex_ === 0 || targetBox.zIndex_ === Math.min(...currentGroupBoxIds)
+
       // 是否可以上移
       const boxDisabledUp =
-        targetBox.zIndex_ === frame.boxes.length - 1 ||
-        frame.groups.find((group) => group.boxIds[group.boxIds.length - 1] === targetBox.boxId)
+        targetBox.zIndex_ === frame.boxes.length - 1 || targetBox.zIndex_ === Math.max(...currentGroupBoxIds)
 
       const menuList = [
         {
@@ -600,12 +604,12 @@ export const MArtViewport = types
           disabled: mulBox || boxDisabledUp,
           action: () => {
             if (targetBox.groupIds?.length) {
-              // 组内移动需要对组进行重新排序，保证组内图层顺序和box里顺序一致
+              // 组内移动
               frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
-              frame.groupSortBoxes()
               menu.hide()
               return
             }
+            // 跨组移动
             const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ + 1].boxId)
             frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + (groupLength || 1))
             menu.hide()
@@ -618,10 +622,10 @@ export const MArtViewport = types
             if (targetBox.groupIds?.length) {
               // 组内移动
               frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
-              frame.groupSortBoxes()
               menu.hide()
               return
             }
+            // 跨组移动
             const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ - 1].boxId)
             frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - (groupLength || 1))
             menu.hide()
@@ -675,10 +679,7 @@ export const MArtViewport = types
           name: '复制',
           hideBtmBorder: true,
           action: () => {
-            selectRange?.boxes_.map((item) => {
-              // item.recreateBox()
-              frame.copyBox(item)
-            })
+            frame.copyBoxes(selectRange?.boxes_)
             menu.hide()
           },
         },
@@ -689,15 +690,6 @@ export const MArtViewport = types
             menu.hide()
           },
         },
-
-        // {
-        //   name: '移出分组',
-        //   disabled: !hasGroup,
-        //   action: () => {
-        //     frame.removeGroupByBoxes(selectRange.boxes_)
-        //     menu.hide()
-        //   },
-        // },
       ]
       return menuList
     }
@@ -725,6 +717,7 @@ export const MArtViewport = types
       zoomAllToView,
       zoomSingleToView,
       resizeViewport,
+      // 图层右键菜单
       getMenuList,
     }
   })

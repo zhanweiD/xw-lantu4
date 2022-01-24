@@ -6,8 +6,8 @@ import Scroll from '@components/scroll'
 import LayerList from './layer-list'
 import s from './art-layer-panel.module.styl'
 
-let selectFrame
 const ArtLayerPanel = ({art}) => {
+  let selectFrame
   const {
     isLayerPanelVisible,
     viewport,
@@ -33,8 +33,8 @@ const ArtLayerPanel = ({art}) => {
             layer={item}
             groups={groups}
             viewport={viewport}
-            selectRange={selectRange}
             selectFrame={selectFrame}
+            selectRange={selectRange}
           />
         ))}
       </Scroll>
