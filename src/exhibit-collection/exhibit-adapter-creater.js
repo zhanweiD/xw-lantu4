@@ -109,14 +109,13 @@ const createExhibitAdapter = (hooks) =>
       }
 
       // 定义才添加的数据
-      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsConfigOption']
+      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption']
       liveProps.forEach((prop) => {
         const propConfig = this.model[`get${capitalize(prop)}`]()
         if (isDef(propConfig)) {
           instanceOption[prop] = addOptionMethod(propConfig, prop)
         }
       })
-      console.log(instanceOption, 'instanceOption')
       return instanceOption
     }
 

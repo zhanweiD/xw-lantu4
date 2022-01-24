@@ -218,7 +218,6 @@ export const MArtFrame = types
       const {frameId} = self
       const art = self.art_
       const findAdapter = exhibitCollection.has(`${lib}.${key}`)
-      console.log(findAdapter.value, 'findAdapter.value')
       const model = findAdapter.value.initModel({
         art,
         schema: {
@@ -227,10 +226,7 @@ export const MArtFrame = types
           id: uuid(),
         },
       })
-      console.log(model.toJSON(), 'model', model)
-      // debugger
       const exhibit = model.getSchema()
-      console.log(model.getSchema(), 'model.getSchema()')
       const frameviewport = document.querySelector(`#artFrame-${frameId}`).getBoundingClientRect()
       const gridOrigin = document.querySelector(`#artFramegrid-${frameId}`).getBoundingClientRect()
       const deviceXY = {

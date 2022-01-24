@@ -909,14 +909,13 @@ const paddingInner = {
   hasSlider: true,
 }
 
-const echartsConfigOption = {
-  type: 'data',
-  label: 'dataColumn',
+const echartsoption = {
+  type: 'echartsoption',
+  label: 'echartsoption',
 }
 
 export default {
-  // echarts 配置项
-  echartsConfigOption,
+  echartsoption,
   // 偏移
   offset,
   areaOffset,

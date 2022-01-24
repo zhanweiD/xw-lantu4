@@ -17,6 +17,7 @@ import {
   MGradientField,
   MColumnSelectField,
   MOffsetField,
+  MEchartsField,
 } from './fields'
 import isDef from '@utils/is-def'
 import getObjectData from '@utils/get-object-data'
@@ -38,6 +39,7 @@ const fieldModel = {
   gradient: MGradientField,
   columnSelect: MColumnSelectField,
   offset: MOffsetField,
+  echartsoption: MEchartsField,
 }
 
 const createFieldsClass = (fields) => {

@@ -21,14 +21,7 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       padding: types.frozen(config.padding),
       state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
-      parts: types.optional(types.array(types.string), [
-        'title',
-        'legend',
-        'axis',
-        'polar',
-        'other',
-        'echartsConfigOption',
-      ]),
+      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other', 'echartsoption']),
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen([
         'title',
@@ -39,7 +32,7 @@ export const createExhibitModelClass = (exhibit) => {
         'layers',
         'data',
         'dimension',
-        'echartsConfigOption',
+        'echartsoption',
       ]),
     })
     .views((self) => ({
@@ -81,8 +74,8 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.other) {
           self.setOther(config.other)
         }
-        if (config.echartsConfigOption) {
-          self.setEchartsconfigoption(config.echartsConfigOption)
+        if (config.echartsoption) {
+          self.setEchartsoption(config.echartsoption)
         }
       }
       const setCachedData = (data) => {
@@ -215,12 +208,12 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
-      const setEchartsconfigoption = (echartsconfigoption) => {
-        self.echartsconfigoption = createPropertyClass(config.key, echartsconfigoption, 'echartsconfigoption')
+      const setEchartsoption = (echartsoption) => {
+        self.echartsoption = createPropertyClass(config.key, echartsoption, 'echartsoption')
       }
-      const getEchartsconfigoption = () => {
-        if (self.echartsconfigoption) {
-          return self.echartsconfigoption.getData()
+      const getEchartsoption = () => {
+        if (self.echartsoption) {
+          return self.echartsoption.getData()
         }
       }
 
@@ -243,8 +236,8 @@ export const createExhibitModelClass = (exhibit) => {
         getAxis,
         setOther,
         getOther,
-        getEchartsconfigoption,
-        setEchartsconfigoption,
+        getEchartsoption,
+        setEchartsoption,
         init,
       }
     })

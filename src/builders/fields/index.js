@@ -11,6 +11,7 @@ import {MGradientField, GradientField} from './gradient'
 import {MColumnSelectField, ColumnSelectField} from './column-select'
 import {MOffsetField, OffsetField} from './offset'
 import {ConstraintField} from './constraint'
+import {EchartsOptionField, MEchartsField} from './echarts-option'
 
 const fields = {
   TextField,
@@ -26,6 +27,7 @@ const fields = {
   ColumnSelectField,
   OffsetField,
   ConstraintField,
+  EchartsOptionField,
 }
 
 export {
@@ -41,6 +43,7 @@ export {
   MGradientField,
   MColumnSelectField,
   MOffsetField,
+  MEchartsField,
 }
 
 export default fields
