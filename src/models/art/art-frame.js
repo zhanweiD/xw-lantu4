@@ -587,7 +587,7 @@ export const MArtFrame = types
         })
       }
       self.boxes = box
-      updatePartFrame({groups: self.groups})
+      updatePartFrame({groups: self.groups, boxSort: self.boxes.map((item) => item.boxId)})
     }
 
     // 创建分组
@@ -752,10 +752,10 @@ export const MArtFrame = types
      * @param {*} targetIndex 目标位置
      */
     const moveGroup = (group, targetIndex) => {
+      const tempBoxes = self.boxes.filter((item) => !group.boxIds.includes(item.boxId))
       const currentBoxes = self.boxes.filter((item) => group.boxIds.includes(item.boxId))
       let boxList = []
-      const currentStartIndex = currentBoxes?.[0]?.zIndex_
-
+      const currentStartIndex = Math.min(...currentBoxes.map((item) => item.zIndex_))
       // 注意boxes与显示顺序实际是相反的
       if (targetIndex > currentStartIndex) {
         // 图层上移
@@ -766,11 +766,7 @@ export const MArtFrame = types
           .concat(self.boxes.slice(targetIndex + 1))
       } else {
         // 图层下移
-        boxList = self.boxes
-          .slice(0, targetIndex)
-          .concat(currentBoxes)
-          .concat(self.boxes.slice(targetIndex, currentStartIndex))
-          .concat(self.boxes.slice(currentStartIndex + currentBoxes.length))
+        boxList = tempBoxes.slice(0, targetIndex).concat(currentBoxes).concat(tempBoxes.slice(targetIndex))
       }
       self.boxes = boxList
     }
