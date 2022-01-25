@@ -1,3 +1,4 @@
+import hJSON from 'hjson'
 const lineLayersss = () => {
   return {
     name: 'echartsoption',
@@ -5,18 +6,16 @@ const lineLayersss = () => {
     fields: [
       {
         name: 'echartsoption',
-        defaultValue: JSON.stringify(
+        defaultValue: hJSON.stringify(
           {
             xAxis: {
               type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             },
             yAxis: {
               type: 'value',
             },
             series: [
               {
-                data: [150, 230, 224, 218, 135, 147, 260],
                 type: 'line',
               },
             ],
