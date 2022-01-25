@@ -1,7 +1,6 @@
 import {config} from './config'
 import {baseData} from './data'
 import makeAdapterBar from './makeAdapterBar'
-// import {makeAdapterLine} from 'wave-charts'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 const i18n = {
   echertsBasicBar: ['echarts-柱状图', 'Echarts Bar'],
