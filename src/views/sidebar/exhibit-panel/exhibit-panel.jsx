@@ -15,8 +15,8 @@ import s from './exhibit-panel.module.styl'
 const Category = ({category}) => {
   const {t} = useTranslation()
   const {name, exhibits} = category
-  console.log('ccc', `${t(`exhibit.${name}`)} (${exhibits.length})`)
-  console.dir(category)
+  // console.log('ccc', `${t(`exhibit.${name}`)} (${exhibits.length})`)
+  // console.dir(category)
   return (
     <Section
       id={`category-${category.name}`}

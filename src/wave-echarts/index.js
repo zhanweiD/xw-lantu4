@@ -1,3 +1,3 @@
-import {echertsBasicLine} from './line'
+import {echertsBasicBar} from './bar'
 
-export {echertsBasicLine}
+export {echertsBasicBar}
