@@ -3,7 +3,6 @@ import React from 'react'
 import c from 'classnames'
 import IconButton from '@components/icon-button'
 import Section from '@builders/section'
-// import Upload from '@components/upload'
 import {DragSource} from '@components/drag-and-drop'
 import w from '@models'
 import LayerListItem from './layer-list-item'
@@ -111,7 +110,8 @@ const getMenuList = (selectFrame, group, viewport) => {
       name: '复制',
       hideBtmBorder: true,
       action: () => {
-        // menu.hide()
+        selectFrame.copyGroup(boxes, true)
+        menu.hide()
       },
     },
     {
@@ -126,15 +126,13 @@ const getMenuList = (selectFrame, group, viewport) => {
 }
 
 // 项目列表
-export default observer(({layer, viewport, groups, selectFrame, other}) => {
+export default observer(({layer, viewport, selectFrame, other}) => {
   // layer有可能是box有可能是group
-  const {groupIds = [], boxes} = layer
-  const group = groups.find((group) => group.id === groupIds[0])
-
-  return group ? (
+  const {group, boxes} = layer
+  return group.id ? (
     <Section
-      key={groupIds[0]}
-      sessionId={`SKLayer-${groupIds[0]}`}
+      key={group.id}
+      sessionId={`SKLayer-${group.id}`}
       // name={group.name}
       name={
         <Title

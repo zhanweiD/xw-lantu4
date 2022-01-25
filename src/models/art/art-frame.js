@@ -110,14 +110,14 @@ export const MArtFrame = types
       boxes.forEach((item) => {
         const {groupIds = []} = item
         if (groupIds.length) {
-          const groupIndex = treeList.findIndex((group) => {
-            return group.groupIds?.[0] === groupIds[0]
+          const groupIndex = treeList.findIndex((item) => {
+            return item.group?.id === groupIds[0]
           })
           if (groupIndex !== -1) {
             treeList[groupIndex]?.boxes?.push(item)
           } else {
             treeList.push({
-              groupIds: [...groupIds],
+              group: self.groups.find((group) => group.id === groupIds[0]) || {},
               boxes: [item],
             })
           }
@@ -125,7 +125,7 @@ export const MArtFrame = types
           // 保持treeList中的item格式统一，否则mobx无法观测到treeList的改变
           // treeList.push(item) // 控制台mobx会警告访问越界
           treeList.push({
-            groupIds: [],
+            group: self.groups.find((group) => group.id === groupIds[0]) || {},
             boxes: [item],
           })
         }
@@ -492,7 +492,7 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
-    const copyBox = flow(function* copyBox(box) {
+    const copyBox = flow(function* copyBox(box, isGroup) {
       const {io} = self.env_
       const event = createEvent()
       const {artId, projectId} = self.art_
@@ -522,7 +522,7 @@ export const MArtFrame = types
         uid,
         name: `${box.name}-copy`,
         layout,
-        groupIds: box.groupIds,
+        groupIds: isGroup ? [] : box.groupIds,
         insertIndex: box.zIndex_,
       }
       self.initBox(params)
@@ -534,7 +534,7 @@ export const MArtFrame = types
           exhibit: exhibit,
           layout,
           name: params.name,
-          groupIds: box.groupIds,
+          groupIds: isGroup ? [] : box.groupIds,
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
@@ -542,7 +542,9 @@ export const MArtFrame = types
         realBox.set({
           boxId: currentBox.boxId,
         })
-        if (box.groupIds?.length) {
+
+        // copyGroup组复制
+        if (box.groupIds?.length && !isGroup) {
           self.groups = self.groups.map((item) => {
             if (box.groupIds?.includes(item.id)) {
               return {...item, boxIds: item.boxIds.concat([currentBox.boxId])}
@@ -551,6 +553,7 @@ export const MArtFrame = types
           })
           updatePartFrame({groups: self.groups})
         }
+        return realBox
       } catch (error) {
         realBox.set({
           isCreateFail: true,
@@ -558,12 +561,28 @@ export const MArtFrame = types
         log.error('createBox Error: ', error)
       }
     })
+
     // 复制图层
     const copyBoxes = (boxes) => {
       boxes.map((box) => {
         copyBox(box)
       })
     }
+
+    // 组复制
+    const copyGroup = flow(function* copyGroup(boxes) {
+      const copyBoxes = yield Promise.all(
+        boxes.map(
+          flow(function* boxesMap(item) {
+            const box = yield copyBox(item, true)
+            return box
+          })
+        )
+      )
+      createGroup(copyBoxes)
+    })
+
+    // box添加到group
     const addBoxesToGroup = (boxes, groupId) => {
       const sortBoxes = boxes.sort((a, b) => a.zIndex_ - b.zIndex_)
       const sortBoxIds = sortBoxes.map((item) => item.boxId)
@@ -730,7 +749,7 @@ export const MArtFrame = types
     const removeSelectGroup = () => {
       self.groups.forEach((group) => group.set({isSelect: false}))
     }
-    // 组的显示隐藏，锁定解锁
+
     /**
      * 组的显示隐藏，锁定解锁
      * @param {*} group 选中group
@@ -803,6 +822,7 @@ export const MArtFrame = types
       recreateFrame,
       initGroup,
       copyBoxes,
+      copyGroup,
       createGroup,
       removeGroupByBoxes,
       addBoxesToGroup,
