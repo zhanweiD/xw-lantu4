@@ -361,7 +361,7 @@ export const MBox = types
       self.isEffect = !self.isEffect
     }
 
-    // 更新容器显示隐藏状态
+    // 更新容器锁定解锁状态
     const toggleLock = () => {
       self.isLocked = !self.isLocked
     }

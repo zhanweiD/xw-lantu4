@@ -76,7 +76,8 @@ export const MArtViewport = types
       options: {
         sections: {
           gradientColor: {
-            effective: true,
+            // effective: true,
+            effective: false,
             fields: {
               gradientColor: [
                 ['rgb(0,56,144)', 0],
@@ -351,8 +352,13 @@ export const MArtViewport = types
     }
 
     // 删除框选状态
-    const removeSelectRange = () => {
+    const removeSelectRange = (isSelectBox = false) => {
       // const {session} = self.env_
+      if (!isSelectBox) {
+        const {range = []} = self.selectRange || {}
+        const {frameId} = range[0] || {}
+        self.frames.find((frame) => frame.frameId === frameId)?.removeSelectGroup()
+      }
       self.selectRange = undefined
       // session.set('SKViewport', undefined)
     }
@@ -427,8 +433,9 @@ export const MArtViewport = types
 
     // 选中
     const toggleSelectRange = ({target, selectRange}) => {
-      self.removeSelectRange()
       if (target === 'frame') {
+        self.removeSelectRange()
+
         const frame = self.frames.find((f) => f.frameId === selectRange[0].frameId)
         self.selectRange = {
           target,
@@ -439,6 +446,7 @@ export const MArtViewport = types
           y2: frame.y2_,
         }
       } else {
+        self.removeSelectRange(true)
         const layouts = selectRange
           .map((value) => {
             const frame = self.frames.find((v) => v.frameId === value.frameId)
@@ -561,17 +569,72 @@ export const MArtViewport = types
       // 单选情况下的box
       const targetBox = selectRange.boxes_?.[0] || {}
       // 是否可以下移
-      const boxDisabledDown =
-        targetBox.zIndex_ === 0 || frame.groups.find((group) => group.boxIds[0] === targetBox.boxId)
+      const currentGroup = frame.groups.find((group) => group.id === targetBox.groupIds[0]) || {}
+      const currentGroupBoxIds = frame.boxes
+        .filter((item) => currentGroup?.boxIds?.includes(item.boxId))
+        .map((item) => item.zIndex_)
+      const boxDisabledDown = targetBox.zIndex_ === 0 || targetBox.zIndex_ === Math.min(...currentGroupBoxIds)
+
       // 是否可以上移
       const boxDisabledUp =
-        targetBox.zIndex_ === frame.boxes.length - 1 ||
-        frame.groups.find((group) => group.boxIds[group.boxIds - 1] === targetBox.boxId)
-      // 区分多选单选菜单
+        targetBox.zIndex_ === frame.boxes.length - 1 || targetBox.zIndex_ === Math.max(...currentGroupBoxIds)
+
       const menuList = [
+        {
+          name: '置顶',
+          disabled: mulBox,
+          hideBtmBorder: true,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
+            menu.hide()
+          },
+        },
+        {
+          name: '置底',
+          disabled: mulBox,
+          hideBtmBorder: true,
+          action: () => {
+            frame.moveBox(targetBox.zIndex_, 0)
+            menu.hide()
+          },
+        },
+        {
+          name: '上移一层',
+          hideBtmBorder: true,
+          disabled: mulBox || boxDisabledUp,
+          action: () => {
+            if (targetBox.groupIds?.length) {
+              // 组内移动
+              frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
+              menu.hide()
+              return
+            }
+            // 跨组移动
+            const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ + 1].boxId)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + (groupLength || 1))
+            menu.hide()
+          },
+        },
+        {
+          name: '下移一层',
+          disabled: mulBox || boxDisabledDown,
+          action: () => {
+            if (targetBox.groupIds?.length) {
+              // 组内移动
+              frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
+              menu.hide()
+              return
+            }
+            // 跨组移动
+            const groupLength = frame.getGroupBoxNum(frame.boxes[targetBox.zIndex_ - 1].boxId)
+            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - (groupLength || 1))
+            menu.hide()
+          },
+        },
         {
           name: '成组',
           disabled: hasGroup,
+          hideBtmBorder: true,
           action: () => {
             frame.createGroup(selectRange.boxes_)
             menu.hide()
@@ -585,59 +648,16 @@ export const MArtViewport = types
             menu.hide()
           },
         },
-        // {
-        //   name: '移出分组',
-        //   disabled: !hasGroup,
-        //   action: () => {
-        //     frame.removeGroupByBoxes(selectRange.boxes_)
-        //     menu.hide()
-        //   },
-        // },
         {
-          name: '上移一层',
-          disabled: mulBox || boxDisabledUp,
-          action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ - 1)
-            menu.hide()
-          },
-        },
-        {
-          name: '下移一层',
-          disabled: mulBox || boxDisabledDown,
-          action: () => {
-            frame.moveBox(targetBox.zIndex_, targetBox.zIndex_ + 1)
-            menu.hide()
-          },
-        },
-        {
-          name: '置顶',
-          disabled: mulBox,
-          action: () => {
-            frame.moveBox(targetBox.zIndex_, 0)
-            menu.hide()
-          },
-        },
-        {
-          name: '置底',
-          disabled: mulBox,
-          action: () => {
-            frame.moveBox(targetBox.zIndex_, frame.boxes.length)
-            menu.hide()
-          },
-        },
-        {
-          name: '删除',
-          action: () => {
-            selectRange.remove()
-            menu.hide()
-          },
-        },
-        {
-          name: '复制',
+          name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+          hideBtmBorder: true,
           action: () => {
             selectRange?.boxes_.map((item) => {
-              // item.recreateBox()
-              frame.copyBox(item)
+              item.toggleLock()
+            })
+            self.toggleSelectRange({
+              target: 'box',
+              selectRange: [],
             })
             menu.hide()
           },
@@ -656,15 +676,17 @@ export const MArtViewport = types
           },
         },
         {
-          name: `${targetBox.isLocked ? '解锁' : '锁定'}`,
+          name: '复制',
+          hideBtmBorder: true,
           action: () => {
-            selectRange?.boxes_.map((item) => {
-              item.toggleLock()
-            })
-            self.toggleSelectRange({
-              target: 'box',
-              selectRange: [],
-            })
+            frame.copyBoxes(selectRange?.boxes_)
+            menu.hide()
+          },
+        },
+        {
+          name: '删除',
+          action: () => {
+            selectRange.remove()
             menu.hide()
           },
         },
@@ -695,6 +717,7 @@ export const MArtViewport = types
       zoomAllToView,
       zoomSingleToView,
       resizeViewport,
+      // 图层右键菜单
       getMenuList,
     }
   })

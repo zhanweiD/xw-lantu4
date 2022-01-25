@@ -31,7 +31,7 @@ const Menu = ({model, className}) => {
             <div
               key={item.name}
               className={c(
-                'pl8 pr8 lh24',
+                'pl8 pr8 lh32',
                 s.item,
                 !item.disabled ? s.itemNormal : s.itemDisabled,
                 item.hideBtmBorder && s.hideBtmBorder
