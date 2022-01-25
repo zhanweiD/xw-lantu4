@@ -3,7 +3,6 @@ import React from 'react'
 import c from 'classnames'
 import IconButton from '@components/icon-button'
 import Section from '@builders/section'
-// import Upload from '@components/upload'
 import {DragSource} from '@components/drag-and-drop'
 import w from '@models'
 import LayerListItem from './layer-list-item'
@@ -53,6 +52,13 @@ const MoreIcon = ({selectFrame, group, isEffect, isLocked}) => {
 const menu = w.overlayManager.get('menu')
 const getMenuList = (selectFrame, group, viewport) => {
   const boxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
+  const zIndexList = boxes.map((item) => item.zIndex_)
+  const minBoxIndex = Math.min(...zIndexList)
+  const maxBoxIndex = Math.max(...zIndexList)
+  const maxIndexBoxId = selectFrame.boxes.find((item) => item.zIndex_ === maxBoxIndex + 1)?.boxId
+  const minIndexBoxId = selectFrame.boxes.find((item) => item.zIndex_ === minBoxIndex - 1)?.boxId
+  const upTargetIndex = maxBoxIndex + (selectFrame.getGroupBoxNum(maxIndexBoxId) || 1)
+  const downTargetIndex = minBoxIndex - (selectFrame.getGroupBoxNum(minIndexBoxId) || 1)
   const menuList = [
     {
       name: '置顶',
@@ -74,14 +80,14 @@ const getMenuList = (selectFrame, group, viewport) => {
       name: '上移一层',
       hideBtmBorder: true,
       action: () => {
-        selectFrame.moveGroup(group, boxes[boxes.length - 1].zIndex_ + 1)
+        selectFrame.moveGroup(group, upTargetIndex)
         menu.hide()
       },
     },
     {
       name: '下移一层',
       action: () => {
-        selectFrame.moveGroup(group, boxes[0].zIndex_ - 1)
+        selectFrame.moveGroup(group, downTargetIndex)
         menu.hide()
       },
     },
@@ -111,7 +117,8 @@ const getMenuList = (selectFrame, group, viewport) => {
       name: '复制',
       hideBtmBorder: true,
       action: () => {
-        // menu.hide()
+        selectFrame.copyGroup(boxes, true)
+        menu.hide()
       },
     },
     {
@@ -126,15 +133,13 @@ const getMenuList = (selectFrame, group, viewport) => {
 }
 
 // 项目列表
-export default observer(({layer, viewport, groups, selectFrame, other}) => {
+export default observer(({layer, viewport, selectFrame, other}) => {
   // layer有可能是box有可能是group
-  const {groupIds = [], boxes} = layer
-  const group = groups.find((group) => group.id === groupIds[0])
-
-  return group ? (
+  const {group, boxes} = layer
+  return group.id ? (
     <Section
-      key={groupIds[0]}
-      sessionId={`SKLayer-${groupIds[0]}`}
+      key={group.id}
+      sessionId={`SKLayer-${group.id}`}
       // name={group.name}
       name={
         <Title

@@ -132,6 +132,7 @@ export default {
   privateJSON: '私有JSON',
   dataSource: '数据源',
   dataEncode: '数据呈现',
+  echartsoption: '配置项',
   body: '请求体(Body)',
   queries: '请求参数(Queries)',
   headers: '请求头(Headers)',

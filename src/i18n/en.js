@@ -133,6 +133,7 @@ export default {
   privateJSON: 'Private JSON',
   dataSource: 'Data Source',
   dataEncode: 'Data Encode',
+  echartsoption: 'Echarts Option',
   body: 'Request Body',
   queries: 'Request Queries',
   headers: 'Request Headers',

@@ -5,6 +5,7 @@ import IconButton from '@components/icon-button'
 import Scroll from '@components/scroll'
 import LayerList from './layer-list'
 import s from './art-layer-panel.module.styl'
+import uuid from '@utils/uuid'
 
 const ArtLayerPanel = ({art}) => {
   let selectFrame
@@ -20,18 +21,17 @@ const ArtLayerPanel = ({art}) => {
   } else if (!selectFrame) {
     selectFrame = frames[0]
   }
-  const {groups = [], layerTreeList_ = []} = selectFrame
+
   return (
     <div className={c('h100p fbv', s.artLayerPanel, !isLayerPanelVisible && s.hidden)}>
       <div className={s.toolbarButton}>
         <IconButton icon="arrow-left" title="收起图层面板" layout="start" onClick={art.toggleLayerVisible} />
       </div>
       <Scroll>
-        {layerTreeList_.map((item) => (
+        {selectFrame?.layerTreeList_?.map((item) => (
           <LayerList
-            key={item.groupIds?.[0] || item?.boxes?.[0]?.boxId}
+            key={item?.boxes?.[0]?.boxId || uuid()}
             layer={item}
-            groups={groups}
             viewport={viewport}
             selectFrame={selectFrame}
             selectRange={selectRange}

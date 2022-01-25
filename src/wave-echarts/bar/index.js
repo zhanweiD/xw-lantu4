@@ -1,21 +1,21 @@
 import {config} from './config'
 import {baseData} from './data'
-import {makeAdapterLine} from 'wave-charts'
+import makeAdapterBar from './makeAdapterBar'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 const i18n = {
-  echertsBasicLine: ['echarts-折线图', 'Echarts Line'],
+  echertsBasicBar: ['echarts-柱状图', 'Echarts Bar'],
 }
 
-const echertsBasicLine = {
+const echertsBasicBar = {
   lib: 'wave',
-  id: 'echarts-lebc',
+  id: 'echarts-bar',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'demo-line',
+  icon: 'column-facet',
   i18n,
   config: (k) => config(k, baseData),
-  makeAdapter: (k) => makeAdapterLine({k, createExhibitAdapter}),
+  makeAdapter: (k) => makeAdapterBar({k, createExhibitAdapter}),
 }
 
-export {echertsBasicLine}
+export {echertsBasicBar}

@@ -17,6 +17,7 @@ const {
   GradientField,
   ColumnSelectField,
   OffsetField,
+  EchartsOptionField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
@@ -111,6 +112,17 @@ const ModelToField = ({model}) => {
           }}
           previewSource={() => {
             model.previewSource()
+          }}
+        />
+      )
+      break
+    case 'echartsoption':
+      F = (
+        <EchartsOptionField
+          className="ml24 mt8"
+          value={model.value}
+          onChange={(v) => {
+            model.setSchema(v)
           }}
         />
       )
