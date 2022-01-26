@@ -12,6 +12,7 @@ const setOptionData = (options) => {
   const type = series?.[0]?.type
   // 目前并非所有图表都支持 dataset。
   // 支持 dataset 的图表有： line、bar、pie、scatter、effectScatter、parallel、candlestick、map、funnel、custom。
+  // 当前支持： line、bar、pie、scatter、effectScatter、parallel、candlestick、funnel、custom、radar
   // 雷达图数据处理
   if (type === 'radar') {
     const {radar = {}} = echartsOptions
@@ -42,11 +43,11 @@ const setOptionData = (options) => {
 }
 
 // eslint-disable-next-line no-unused-vars
-const makeAdapterBar = ({k, createExhibitAdapter}) => {
+const makeAdapter = ({k, createExhibitAdapter}) => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options, pathable}) {
-      console.log(options, 'options')
+      // console.log(options, 'options')
       const {container, height, width} = options
       const chart = echarts.init(container, null, {renderer: 'svg', height, width})
       const option = setOptionData(options)
@@ -75,4 +76,4 @@ const makeAdapterBar = ({k, createExhibitAdapter}) => {
   })
 }
 
-export default makeAdapterBar
+export default makeAdapter

@@ -348,6 +348,8 @@ export default {
   },
   exhibit: {
     echartsLine: 'Echarts折线图',
+    echartsBar: 'Echarts条形图',
+    echartsColumn: 'Echarts柱状图',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',
