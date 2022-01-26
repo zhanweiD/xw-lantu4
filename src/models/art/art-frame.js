@@ -285,6 +285,8 @@ export const MArtFrame = types
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
+          isEffect: true, // 初始化状态
+          isLocked: false, // 初始化状态
         })
         realBox.set({
           boxId: box.boxId,
