@@ -9,7 +9,7 @@ const echartslineAndArea = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'exhibit-area',
+  icon: 'line-area',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
