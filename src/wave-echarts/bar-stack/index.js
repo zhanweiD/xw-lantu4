@@ -3,16 +3,16 @@ import makeAdapter from '../makeAdapter'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import i18n from '../i18n'
 
-const echertsBasicBar = {
+const echertsStackBar = {
   lib: 'wave',
-  id: 'echarts-bar',
+  id: 'echarts-stackbar',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'column-facet',
+  icon: 'stack-bar',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echertsBasicBar}
+export {echertsStackBar}

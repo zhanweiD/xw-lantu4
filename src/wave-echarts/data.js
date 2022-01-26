@@ -20,4 +20,14 @@ const groupData = [
   ['上海', 38, 26],
 ]
 
-export {baseData, groupData}
+const waterfallData = [
+  ['省份', '本科院校', '高职院校'],
+  ['北京', 0, 2900],
+  ['天津', 1200, 1200],
+  ['河北', 1400, 300],
+  ['山西', 1200, 200],
+  ['内蒙古', 300, 900],
+  ['辽宁', 0, 300],
+]
+
+export {baseData, groupData, waterfallData}

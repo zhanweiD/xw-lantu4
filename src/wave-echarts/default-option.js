@@ -114,9 +114,30 @@ const lineAndAreaOption = {
   ],
 }
 
+// 柱状图
 const baseBarOption = {
   title: {
     text: '基础条形',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  xAxis: {
+    type: 'value',
+  },
+  yAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+  ],
+}
+
+const groupBarOption = {
+  title: {
+    text: '分组条形图',
     textStyle: {
       color: '#fff',
     },
@@ -137,4 +158,79 @@ const baseBarOption = {
   ],
 }
 
-export {baseLineOption, grouplineOption, baseAreaLineOption, grouplineAreaOption, lineAndAreaOption, baseBarOption}
+// 堆叠柱状图
+const stackBarOption = {
+  title: {
+    text: '分组条形图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  xAxis: {
+    type: 'value',
+  },
+  yAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      stack: '总量',
+      type: 'bar',
+    },
+    {
+      stack: '总量',
+      type: 'bar',
+    },
+  ],
+}
+
+const waterfallBarOption = {
+  title: {
+    text: '瀑布图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  xAxis: {
+    type: 'value',
+  },
+  yAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+      itemStyle: {
+        borderColor: 'transparent',
+        color: 'transparent',
+      },
+      emphasis: {
+        itemStyle: {
+          borderColor: 'transparent',
+          color: 'transparent',
+        },
+      },
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+      },
+    },
+  ],
+}
+
+export {
+  baseLineOption,
+  grouplineOption,
+  baseAreaLineOption,
+  grouplineAreaOption,
+  lineAndAreaOption,
+  baseBarOption,
+  groupBarOption,
+  stackBarOption,
+  waterfallBarOption,
+}
