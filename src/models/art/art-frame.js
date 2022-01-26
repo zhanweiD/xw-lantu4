@@ -160,6 +160,8 @@ export const MArtFrame = types
       constraints,
       groupIds = [],
       insertIndex,
+      isEffect = true,
+      isLocked = false,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -173,6 +175,8 @@ export const MArtFrame = types
         remark,
         materials,
         groupIds,
+        isEffect,
+        isLocked,
       })
 
       box.padding.setSchema(padding)
@@ -543,7 +547,7 @@ export const MArtFrame = types
           boxId: currentBox.boxId,
         })
 
-        // copyGroup组复制
+        // isGroup组复制
         if (box.groupIds?.length && !isGroup) {
           self.groups = self.groups.map((item) => {
             if (box.groupIds?.includes(item.id)) {
@@ -762,7 +766,6 @@ export const MArtFrame = types
         }
       })
       group.set({[type]: !group[type]})
-      console.log(group)
     }
 
     /**

@@ -22,6 +22,7 @@ const ArtFrame = ({frame}) => {
     backgroundColor_,
     materials = [],
   } = frame
+  // const {viewport} = art
   const {isGridVisible, global} = art_
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
@@ -72,7 +73,23 @@ const ArtFrame = ({frame}) => {
 
   const Frame = (
     <div id={`artFramegrid-${frameId}`}>
-      <div id={`artFrame-${frameId}`} className={c('pa', s.origin)} style={style}>
+      <div
+        id={`artFrame-${frameId}`}
+        className={c('pa', s.origin)}
+        style={style}
+        // onClick={() => {
+        //   console.log('frame')
+        //   viewport.toggleSelectRange({
+        //     target: 'frame',
+        //     selectRange: [
+        //       {
+        //         frameId,
+        //       },
+        //     ],
+        //   })
+        //   // viewport.selectRange.onMove(e)
+        // }}
+      >
         {effective && (
           <WaterMark
             text={fields.content.value}
