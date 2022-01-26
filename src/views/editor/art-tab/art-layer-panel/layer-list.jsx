@@ -52,6 +52,13 @@ const MoreIcon = ({selectFrame, group, isEffect, isLocked}) => {
 const menu = w.overlayManager.get('menu')
 const getMenuList = (selectFrame, group, viewport) => {
   const boxes = selectFrame.boxes.filter((item) => group.boxIds.includes(item.boxId))
+  const zIndexList = boxes.map((item) => item.zIndex_)
+  const minBoxIndex = Math.min(...zIndexList)
+  const maxBoxIndex = Math.max(...zIndexList)
+  const maxIndexBoxId = selectFrame.boxes.find((item) => item.zIndex_ === maxBoxIndex + 1)?.boxId
+  const minIndexBoxId = selectFrame.boxes.find((item) => item.zIndex_ === minBoxIndex - 1)?.boxId
+  const upTargetIndex = maxBoxIndex + (selectFrame.getGroupBoxNum(maxIndexBoxId) || 1)
+  const downTargetIndex = minBoxIndex - (selectFrame.getGroupBoxNum(minIndexBoxId) || 1)
   const menuList = [
     {
       name: '置顶',
@@ -73,14 +80,14 @@ const getMenuList = (selectFrame, group, viewport) => {
       name: '上移一层',
       hideBtmBorder: true,
       action: () => {
-        selectFrame.moveGroup(group, boxes[boxes.length - 1].zIndex_ + 1)
+        selectFrame.moveGroup(group, upTargetIndex)
         menu.hide()
       },
     },
     {
       name: '下移一层',
       action: () => {
-        selectFrame.moveGroup(group, boxes[0].zIndex_ - 1)
+        selectFrame.moveGroup(group, downTargetIndex)
         menu.hide()
       },
     },
