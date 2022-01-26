@@ -1,5 +1,5 @@
 import hJSON from 'hjson'
-import {baseLineOption} from '../default-option'
+import {grouplineAreaOption} from '../default-option'
 import {groupData} from '../data'
 
 const lineLayersss = () => {
@@ -9,15 +9,15 @@ const lineLayersss = () => {
     fields: [
       {
         name: 'echartsoption',
-        defaultValue: hJSON.stringify(baseLineOption, {space: 2, quotes: 'strings', separator: true}),
+        defaultValue: hJSON.stringify(grouplineAreaOption, {space: 2, quotes: 'strings', separator: true}),
       },
     ],
   }
 }
 
 export const config = (k) => ({
-  key: 'echertsBasicBar',
-  name: k('echertsBasicBar'),
+  key: 'echartsGroupAreaLine',
+  name: k('echartsGroupAreaLine'),
   data: groupData,
   // 图表容器初始化的大小
   layout: () => [10, 6],

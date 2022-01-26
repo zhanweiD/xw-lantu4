@@ -3,16 +3,16 @@ import makeAdapter from '../makeAdapter'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import i18n from '../i18n'
 
-const echertsBasicBar = {
+const echertsGroupLine = {
   lib: 'wave',
-  id: 'echarts-bar',
+  id: 'echarts-groupline',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'column-facet',
+  icon: 'multi-line',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echertsBasicBar}
+export {echertsGroupLine}
