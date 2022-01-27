@@ -103,6 +103,10 @@ const getMenuList = (selectFrame, group, viewport) => {
       hideBtmBorder: true,
       action: () => {
         selectFrame.toggleGroupState(group, 'isLocked')
+        viewport.toggleSelectRange({
+          target: 'box',
+          selectRange: [],
+        })
         menu.hide()
       },
     },
@@ -110,6 +114,10 @@ const getMenuList = (selectFrame, group, viewport) => {
       name: `${group.isEffect ? '隐藏' : '显示'}`,
       action: () => {
         selectFrame.toggleGroupState(group, 'isEffect')
+        viewport.toggleSelectRange({
+          target: 'box',
+          selectRange: [],
+        })
         menu.hide()
       },
     },
