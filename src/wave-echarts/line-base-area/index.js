@@ -1,6 +1,6 @@
 import {config} from './config'
 import makeAdapter from '../makeAdapter'
-import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
+
 import i18n from '../i18n'
 
 const echartsBasicAreaLine = {
@@ -12,7 +12,7 @@ const echartsBasicAreaLine = {
   icon: 'area',
   i18n,
   config,
-  makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
+  makeAdapter: (k) => makeAdapter({k}),
 }
 
 export {echartsBasicAreaLine}

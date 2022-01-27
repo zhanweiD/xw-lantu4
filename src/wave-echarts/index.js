@@ -4,7 +4,13 @@ import {echartsBasicAreaLine} from './line-base-area'
 import {echartsGroupAreaLine} from './line-group-area'
 import {echartslineAndArea} from './line-base-line-area'
 
-// import {echertsBasicColumn} from
+import {echertsBasicColumn} from './colum-base'
+import {echertsGroupColumn} from './colum-group'
+import {echertsStackColumn} from './column-stack'
+import {echertsWaterfallColumn} from './column-waterfall'
+import {echertsBasicColumnLine} from './colum-line-base'
+import {echertsGroupColumnLine} from './colum-line-group'
+import {echertsStackColumnLine} from './colum-line-stack'
 
 import {echertsBasicBar} from './bar-base'
 import {echertsGroupBar} from './bar-group'
@@ -21,8 +27,16 @@ const categoriesEcharts = [
   {
     name: 'echartsColumn',
     // icon: 'exhibit-rect',
-    icon: 'exhibit-bar',
-    exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
+    icon: 'exhibit-column',
+    exhibits: [
+      echertsBasicColumn,
+      echertsGroupColumn,
+      echertsStackColumn,
+      echertsWaterfallColumn,
+      echertsBasicColumnLine,
+      echertsGroupColumnLine,
+      echertsStackColumnLine,
+    ],
   },
   {
     name: 'echartsBar',
@@ -40,6 +54,14 @@ const echartsWaves = {
   echartsBasicAreaLine,
   echartsGroupAreaLine,
   echartslineAndArea,
+  echertsBasicColumn,
+  echertsGroupColumn,
+  echertsStackColumn,
+  echertsWaterfallColumn,
+  echertsBasicColumnLine,
+  echertsGroupColumnLine,
+  echertsStackColumnLine,
+
   echertsBasicBar,
   echertsStackBar,
   echertsGroupBar,

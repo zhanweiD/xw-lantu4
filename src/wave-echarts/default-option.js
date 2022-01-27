@@ -223,6 +223,196 @@ const waterfallBarOption = {
   ],
 }
 
+const baseColumnOption = {
+  title: {
+    text: '基础柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+  ],
+}
+
+const groupColumnOption = {
+  title: {
+    text: '基础柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'bar',
+    },
+  ],
+}
+
+const stackColumnOption = {
+  title: {
+    text: '堆叠柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+  ],
+}
+
+const waterfallColumnOption = {
+  title: {
+    text: '瀑布图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+      itemStyle: {
+        borderColor: 'transparent',
+        color: 'transparent',
+      },
+      emphasis: {
+        itemStyle: {
+          borderColor: 'transparent',
+          color: 'transparent',
+        },
+      },
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+      },
+    },
+  ],
+}
+
+const baseColumnLineOption = {
+  title: {
+    text: '基础折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
+const groupColumnLineOption = {
+  title: {
+    text: '分组折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'bar',
+    },
+    {
+      type: 'line',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
+const stackColumnLineOption = {
+  title: {
+    text: '堆叠折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'line',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
 export {
   baseLineOption,
   grouplineOption,
@@ -233,4 +423,11 @@ export {
   groupBarOption,
   stackBarOption,
   waterfallBarOption,
+  baseColumnOption,
+  groupColumnOption,
+  stackColumnOption,
+  waterfallColumnOption,
+  baseColumnLineOption,
+  groupColumnLineOption,
+  stackColumnLineOption,
 }

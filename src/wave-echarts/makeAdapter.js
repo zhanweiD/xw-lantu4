@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
 import hJSON from 'hjson'
 const setOptionData = (options) => {
@@ -43,7 +44,7 @@ const setOptionData = (options) => {
 }
 
 // eslint-disable-next-line no-unused-vars
-const makeAdapter = ({k, createExhibitAdapter}) => {
+const makeAdapter = ({k}) => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options, pathable}) {

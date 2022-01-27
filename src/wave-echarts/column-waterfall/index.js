@@ -3,16 +3,16 @@ import makeAdapter from '../makeAdapter'
 
 import i18n from '../i18n'
 
-const echertsGroupLine = {
+const echertsWaterfallColumn = {
   lib: 'wave',
-  id: 'echarts-groupline',
+  id: 'echarts-waterfullColumn',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'multi-line',
+  icon: 'waterfall',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k}),
 }
 
-export {echertsGroupLine}
+export {echertsWaterfallColumn}
