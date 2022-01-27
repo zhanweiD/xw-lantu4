@@ -1,6 +1,14 @@
 import hJSON from 'hjson'
 
-import {baseData} from '../data'
+const data = [
+  ['省份', '本科院校', '高职院校'],
+  ['北京', 66, 25],
+  ['天津', 30, 25],
+  ['河北', 61, 59],
+  ['山西', 33, 47],
+  ['内蒙古', 17, 36],
+  ['辽宁', 65, 51],
+]
 
 const funnelOption = {
   title: {
@@ -30,9 +38,9 @@ const lineLayersss = () => {
 }
 
 export const config = (k) => ({
-  key: 'echartsRadarBase',
-  name: k('echartsRadarBase'),
-  data: baseData,
+  key: 'echartsRadarGroup',
+  name: k('echartsRadarGroup'),
+  data,
   // 图表容器初始化的大小
   layout: () => [10, 6],
   // 图表主绘图区域的内边距

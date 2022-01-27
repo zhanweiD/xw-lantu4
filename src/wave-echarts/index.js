@@ -28,6 +28,9 @@ import {echartsEffectScatter} from './scatter-effectScatter'
 import {echartsFunnelBase} from './funnel-base'
 
 import {echartsRadarBase} from './radar-base'
+import {echartsRadarGroup} from './radar-group'
+
+import {echartsBoxesBase} from './boxes-base'
 
 const categoriesEcharts = [
   {
@@ -81,13 +84,20 @@ const categoriesEcharts = [
   {
     name: 'echartsRadar',
     icon: 'scatter',
-    exhibits: [echartsRadarBase],
+    exhibits: [echartsRadarBase, echartsRadarGroup],
+  },
+  {
+    name: 'echartsCandlestick',
+    icon: 'scatter',
+    exhibits: [echartsBoxesBase],
   },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsRadarGroup,
+  echartsBoxesBase,
   echartsRadarBase,
   echartsFunnelBase,
   echartsEffectScatter,

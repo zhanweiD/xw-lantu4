@@ -352,6 +352,7 @@ export default {
     echartsScatter: 'Echarts Scatter',
     echartsFunnal: 'Echarts Funnal',
     echartsRadar: 'Echarts Radar',
+    echartsCandlestick: 'Echarts Candlestick',
     classifyLine: 'Line',
     basicLine: 'Basic Line',
     multiLine: 'Multi Line',

@@ -27,6 +27,9 @@ const i18n = {
 
   echartsFunnelBase: ['echarts-漏斗图', 'Echarts Funnal'],
   echartsRadarBase: ['echarts-雷达图', 'Echarts Radar'],
+  echartsRadarGroup: ['echarts-分组雷达图', 'Echarts Group Radar'],
+
+  echartsBoxesBase: ['echarts-K线图', 'Echarts Candlestick'],
 }
 
 export default i18n

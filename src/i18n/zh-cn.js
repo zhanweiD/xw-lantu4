@@ -354,6 +354,7 @@ export default {
     echartsScatter: 'Echarts点图',
     echartsFunnal: 'Echarts漏斗图',
     echartsRadar: 'Echarts雷达图',
+    echartsCandlestick: 'Echarts K线图',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',

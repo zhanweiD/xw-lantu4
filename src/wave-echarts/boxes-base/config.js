@@ -1,17 +1,25 @@
 import hJSON from 'hjson'
+const data = [
+  ['2017-10-24', 20, 34, 10, 38],
+  ['2017-10-25', 40, 35, 30, 50],
+  ['2017-10-26', 31, 38, 33, 44],
+  ['2017-10-27', 38, 15, 5, 42],
+]
 
-import {baseData} from '../data'
-
-const funnelOption = {
+const scatterOption = {
   title: {
-    text: '雷达图',
+    text: 'K线图',
     textStyle: {
       color: '#fff',
     },
   },
+  xAxis: {
+    type: 'category',
+  },
+  yAxis: {},
   series: [
     {
-      type: 'radar',
+      type: 'candlestick',
     },
   ],
 }
@@ -23,16 +31,16 @@ const lineLayersss = () => {
     fields: [
       {
         name: 'echartsoption',
-        defaultValue: hJSON.stringify(funnelOption, {space: 2, quotes: 'strings', separator: true}),
+        defaultValue: hJSON.stringify(scatterOption, {space: 2, quotes: 'strings', separator: true}),
       },
     ],
   }
 }
 
 export const config = (k) => ({
-  key: 'echartsRadarBase',
-  name: k('echartsRadarBase'),
-  data: baseData,
+  key: 'echartsBoxesBase',
+  name: k('echartsBoxesBase'),
+  data,
   // 图表容器初始化的大小
   layout: () => [10, 6],
   // 图表主绘图区域的内边距
