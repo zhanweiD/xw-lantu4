@@ -45,7 +45,9 @@ const Menu = ({model, className}) => {
               }}
             >
               <div className="bold fbh fbac">
-                <div className="fb1">{item.name}</div>
+                <div className="fb1" style={{color: item.disabled ? '#999999' : ''}}>
+                  {item.name}
+                </div>
                 {item.iconName && <Icon name={item.iconName} size={12} />}
               </div>
               {item.remark && <div className="mt4 ctw84">{item.remark}</div>}

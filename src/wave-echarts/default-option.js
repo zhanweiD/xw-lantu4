@@ -223,7 +223,285 @@ const waterfallBarOption = {
   ],
 }
 
+const baseColumnOption = {
+  title: {
+    text: '基础柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+  ],
+}
+
+const groupColumnOption = {
+  title: {
+    text: '基础柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'bar',
+    },
+  ],
+}
+
+const stackColumnOption = {
+  title: {
+    text: '堆叠柱状图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+  ],
+}
+
+const waterfallColumnOption = {
+  title: {
+    text: '瀑布图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+      itemStyle: {
+        borderColor: 'transparent',
+        color: 'transparent',
+      },
+      emphasis: {
+        itemStyle: {
+          borderColor: 'transparent',
+          color: 'transparent',
+        },
+      },
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+      },
+    },
+  ],
+}
+
+const baseColumnLineOption = {
+  title: {
+    text: '基础折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
+const groupColumnLineOption = {
+  title: {
+    text: '分组折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+    },
+    {
+      type: 'bar',
+    },
+    {
+      type: 'line',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
+const stackColumnLineOption = {
+  title: {
+    text: '堆叠折柱图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  yAxis: {
+    type: 'value',
+  },
+  xAxis: {
+    type: 'category',
+  },
+  series: [
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'bar',
+      stack: 'Total',
+    },
+    {
+      type: 'line',
+    },
+    {
+      type: 'line',
+    },
+  ],
+}
+
+const basePieOption = {
+  title: {
+    text: '基础饼图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      type: 'pie',
+      radius: '50%',
+    },
+  ],
+}
+
+const radiuRingPieOption = {
+  title: {
+    text: '圆角环形图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2,
+      },
+      label: {
+        show: false,
+        position: 'center',
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '40',
+          fontWeight: 'bold',
+        },
+      },
+      labelLine: {
+        show: false,
+      },
+    },
+  ],
+}
+
+const ringPieOption = {
+  title: {
+    text: '环形图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+    },
+  ],
+}
+
+const rosePieOption = {
+  title: {
+    text: '玫瑰图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: '55%',
+      center: ['50%', '50%'],
+      roseType: 'area',
+    },
+  ],
+}
+
 export {
+  basePieOption,
+  radiuRingPieOption,
+  ringPieOption,
+  rosePieOption,
   baseLineOption,
   grouplineOption,
   baseAreaLineOption,
@@ -233,4 +511,11 @@ export {
   groupBarOption,
   stackBarOption,
   waterfallBarOption,
+  baseColumnOption,
+  groupColumnOption,
+  stackColumnOption,
+  waterfallColumnOption,
+  baseColumnLineOption,
+  groupColumnLineOption,
+  stackColumnLineOption,
 }

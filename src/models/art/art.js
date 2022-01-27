@@ -196,6 +196,7 @@ export const MArt = types
         const {frames} = viewport
         frames.forEach((frame) => {
           const {boxes} = frame
+          frame.boxSort = boxes.map((item) => item.boxId) // 保存box排序
           if (frame.materials) {
             const materials = []
             frame.materials.forEach((m) => {

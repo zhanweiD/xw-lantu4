@@ -346,6 +346,13 @@ export default {
   },
   exhibit: {
     echartsLine: 'Echarts Line',
+    echartsBar: 'Echarts bar',
+    echartsColumn: 'Echarts Column',
+    echartsPie: 'Echarts Pie',
+    echartsScatter: 'Echarts Scatter',
+    echartsFunnal: 'Echarts Funnal',
+    echartsRadar: 'Echarts Radar',
+    echartsCandlestick: 'Echarts Candlestick',
     classifyLine: 'Line',
     basicLine: 'Basic Line',
     multiLine: 'Multi Line',
