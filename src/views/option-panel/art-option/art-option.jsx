@@ -70,14 +70,13 @@ const ArtOption = ({art}) => {
     )
   }
   return (
-    <Tab sessionId="material-option" className="fb1">
-      <Tab.Item name="全局配置">
-        {recusiveNode({
-          ...art.global.options,
-          level: 0,
-        })}
-      </Tab.Item>
-    </Tab>
+    <>
+      <span className="m8">全局配置</span>
+      {recusiveNode({
+        ...art.global.options,
+        level: 0,
+      })}
+    </>
   )
 }
 
