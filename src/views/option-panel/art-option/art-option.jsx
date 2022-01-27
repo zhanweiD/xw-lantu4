@@ -72,10 +72,12 @@ const ArtOption = ({art}) => {
   return (
     <>
       <span className="m8">全局配置</span>
-      {recusiveNode({
-        ...art.global.options,
-        level: 0,
-      })}
+      <Scroll className="h100p">
+        {recusiveNode({
+          ...art.global.options,
+          level: 0,
+        })}
+      </Scroll>
     </>
   )
 }
