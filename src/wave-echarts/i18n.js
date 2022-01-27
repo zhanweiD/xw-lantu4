@@ -21,6 +21,9 @@ const i18n = {
   echartsRadiuRingPie: ['echarts-圆角环形图', 'Echarts Ring Pie'],
   echartsRingPie: ['echarts-环形图', 'Echarts Ring Pie'],
   echartsRosePie: ['echarts-玫瑰图', 'Echarts Rose Pie'],
+
+  echartsBaseScatter: ['echarts-点图', 'Echarts Scatter'],
+  echartsEffectScatter: ['echarts-气泡图', 'Echarts Effect Scatter'],
 }
 
 export default i18n

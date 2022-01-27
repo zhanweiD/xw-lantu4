@@ -22,6 +22,9 @@ import {echartsRadiuRingPie} from './pie-radiu-ring'
 import {echartsRingPie} from './pie-ring'
 import {echartsRosePie} from './pie-rose'
 
+import {echartsBaseScatter} from './scatter-base'
+import {echartsEffectScatter} from './scatter-effectScatter'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -61,11 +64,18 @@ const categoriesEcharts = [
       // echertsStackBar, echertsWaterfallBar
     ],
   },
+  {
+    name: 'echartsScatter',
+    icon: 'scatter',
+    exhibits: [echartsBaseScatter, echartsEffectScatter],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsEffectScatter,
+  echartsBaseScatter,
   echartsRosePie,
   echartsRingPie,
   echertsBasicPie,
