@@ -544,6 +544,7 @@ export const MArtFrame = types
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
+          isEffect: true,
         })
         realBox.set({
           boxId: currentBox.boxId,
