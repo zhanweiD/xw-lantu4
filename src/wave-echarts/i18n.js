@@ -18,6 +18,9 @@ const i18n = {
   echertsWaterfallBar: ['echarts-瀑布图', 'Echarts Waterfall Bar'],
 
   echertsBasicPie: ['echarts-基础饼图', 'Echarts Basic Pie'],
+  echartsRadiuRingPie: ['echarts-圆角环形图', 'Echarts Ring Pie'],
+  echartsRingPie: ['echarts-环形图', 'Echarts Ring Pie'],
+  echartsRosePie: ['echarts-玫瑰图', 'Echarts Rose Pie'],
 }
 
 export default i18n

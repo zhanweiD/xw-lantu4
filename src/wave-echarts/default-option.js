@@ -428,8 +428,80 @@ const basePieOption = {
   ],
 }
 
+const radiuRingPieOption = {
+  title: {
+    text: '圆角环形图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2,
+      },
+      label: {
+        show: false,
+        position: 'center',
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '40',
+          fontWeight: 'bold',
+        },
+      },
+      labelLine: {
+        show: false,
+      },
+    },
+  ],
+}
+
+const ringPieOption = {
+  title: {
+    text: '环形图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+    },
+  ],
+}
+
+const rosePieOption = {
+  title: {
+    text: '玫瑰图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: '55%',
+      center: ['50%', '50%'],
+      roseType: 'area',
+    },
+  ],
+}
+
 export {
   basePieOption,
+  radiuRingPieOption,
+  ringPieOption,
+  rosePieOption,
   baseLineOption,
   grouplineOption,
   baseAreaLineOption,

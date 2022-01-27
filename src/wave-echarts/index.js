@@ -18,6 +18,9 @@ import {echertsStackBar} from './bar-stack'
 import {echertsWaterfallBar} from './bar-waterfall'
 
 import {echertsBasicPie} from './pie-base'
+import {echartsRadiuRingPie} from './pie-radiu-ring'
+import {echartsRingPie} from './pie-ring'
+import {echartsRosePie} from './pie-rose'
 
 const categoriesEcharts = [
   {
@@ -52,7 +55,9 @@ const categoriesEcharts = [
     icon: 'exhibit-pie',
     exhibits: [
       echertsBasicPie,
-      echertsGroupBar,
+      echartsRadiuRingPie,
+      echartsRingPie,
+      echartsRosePie,
       // echertsStackBar, echertsWaterfallBar
     ],
   },
@@ -61,7 +66,10 @@ const categoriesEcharts = [
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsRosePie,
+  echartsRingPie,
   echertsBasicPie,
+  echartsRadiuRingPie,
   echertsBasicLine,
   echertsGroupLine,
   echartsBasicAreaLine,
