@@ -25,6 +25,10 @@ import {echartsRosePie} from './pie-rose'
 import {echartsBaseScatter} from './scatter-base'
 import {echartsEffectScatter} from './scatter-effectScatter'
 
+import {echartsFunnelBase} from './funnel-base'
+
+import {echartsRadarBase} from './radar-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -69,11 +73,23 @@ const categoriesEcharts = [
     icon: 'scatter',
     exhibits: [echartsBaseScatter, echartsEffectScatter],
   },
+  {
+    name: 'echartsFunnal',
+    icon: 'scatter',
+    exhibits: [echartsFunnelBase],
+  },
+  {
+    name: 'echartsRadar',
+    icon: 'scatter',
+    exhibits: [echartsRadarBase],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsRadarBase,
+  echartsFunnelBase,
   echartsEffectScatter,
   echartsBaseScatter,
   echartsRosePie,

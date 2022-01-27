@@ -24,6 +24,9 @@ const i18n = {
 
   echartsBaseScatter: ['echarts-点图', 'Echarts Scatter'],
   echartsEffectScatter: ['echarts-气泡图', 'Echarts Effect Scatter'],
+
+  echartsFunnelBase: ['echarts-漏斗图', 'Echarts Funnal'],
+  echartsRadarBase: ['echarts-雷达图', 'Echarts Radar'],
 }
 
 export default i18n
