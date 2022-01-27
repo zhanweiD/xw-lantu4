@@ -10,7 +10,7 @@ import Box from '../box'
 import s from './art-frame.module.styl'
 import {useTranslation} from 'react-i18next'
 
-const ArtFrame = ({frame}) => {
+const ArtFrame = ({frame, art}) => {
   const {
     frameId,
     grid,
@@ -77,18 +77,16 @@ const ArtFrame = ({frame}) => {
         id={`artFrame-${frameId}`}
         className={c('pa', s.origin)}
         style={style}
-        // onClick={() => {
-        //   console.log('frame')
-        //   viewport.toggleSelectRange({
-        //     target: 'frame',
-        //     selectRange: [
-        //       {
-        //         frameId,
-        //       },
-        //     ],
-        //   })
-        //   // viewport.selectRange.onMove(e)
-        // }}
+        onClick={() => {
+          art.viewport.toggleSelectRange({
+            target: 'frame',
+            selectRange: [
+              {
+                frameId,
+              },
+            ],
+          })
+        }}
       >
         {effective && (
           <WaterMark

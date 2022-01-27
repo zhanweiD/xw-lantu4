@@ -164,9 +164,9 @@ export default observer(({layer, viewport, selectFrame, other}) => {
       }}
     >
       {boxes.map((box) => (
-        <div key={box.boxId}>
+        <div key={`${box.boxId}-box`}>
           <DragSource
-            key={box.boxId}
+            key={`${box.boxId}-drag`}
             onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
             dragKey="CREATE_ART_DRAG_KEY"
             data={box}
@@ -186,9 +186,9 @@ export default observer(({layer, viewport, selectFrame, other}) => {
     </Section>
   ) : (
     boxes.map((box) => (
-      <div key={box.boxId}>
+      <div key={`${box.boxId}-box`}>
         <DragSource
-          key={box.boxId}
+          key={`${box.boxId}-drag`}
           onEnd={(dropResult, data) => dropResult.create({layer: data, source: 'layer'})}
           dragKey="CREATE_ART_DRAG_KEY"
           data={box}
