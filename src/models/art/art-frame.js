@@ -541,6 +541,8 @@ export const MArtFrame = types
           layout,
           name: params.name,
           groupIds: isGroup ? [] : box.groupIds,
+          isEffect: box.isEffect, // 初始化状态
+          isLocked: box.isLocked, // 初始化状态
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
