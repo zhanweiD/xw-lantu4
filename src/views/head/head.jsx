@@ -269,7 +269,7 @@ const Head = () => {
 
           <IconGroupButton
             icon="global-set"
-            title="全局配置面板"
+            title="配置面板"
             canUse
             canClick
             isHighlight={false}
@@ -283,7 +283,7 @@ const Head = () => {
               }
             }}
           />
-          <IconGroupButton
+          {/* <IconGroupButton
             icon="selected"
             title="选中元素配置面板"
             canUse
@@ -298,7 +298,7 @@ const Head = () => {
               //   }, 60)
               // }
             }}
-          />
+          /> */}
           {/* <IconGroupButton
             icon="layer"
             title="图层面板"
