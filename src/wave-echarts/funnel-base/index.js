@@ -1,19 +1,18 @@
 import {config} from './config'
 import makeAdapter from '../makeAdapter'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-
 import i18n from '../i18n'
 
-const echertsBasicLine = {
+const echartsFunnelBase = {
   lib: 'wave',
-  id: 'ecbaseline',
+  id: 'ecefunnalbase',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'basic-line',
+  icon: 'circle-funnel',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echertsBasicLine}
+export {echartsFunnelBase}

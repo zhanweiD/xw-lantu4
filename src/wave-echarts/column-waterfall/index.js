@@ -4,16 +4,16 @@ import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
 import i18n from '../i18n'
 
-const echertsBasicLine = {
+const echertsWaterfallColumn = {
   lib: 'wave',
-  id: 'ecbaseline',
+  id: 'ecwaterfullColumn',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'basic-line',
+  icon: 'waterfall',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echertsBasicLine}
+export {echertsWaterfallColumn}

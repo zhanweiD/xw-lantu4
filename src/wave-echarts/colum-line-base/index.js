@@ -4,16 +4,16 @@ import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 
 import i18n from '../i18n'
 
-const echertsBasicLine = {
+const echertsBasicColumnLine = {
   lib: 'wave',
-  id: 'ecbaseline',
+  id: 'ecbaseColumnCine',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'basic-line',
+  icon: 'line-column',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echertsBasicLine}
+export {echertsBasicColumnLine}
