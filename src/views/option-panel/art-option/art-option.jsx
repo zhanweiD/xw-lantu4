@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import Tab from '@components/tab'
@@ -6,8 +6,6 @@ import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import isDef from '@utils/is-def'
 import CommonTab from './common-tab'
-import Drawer from '@components/drawer'
-import IconButton from '@components/icon-button'
 
 const createPanel = (exhibit, t) => {
   const panels = []
@@ -62,29 +60,24 @@ const ArtOption = ({art}) => {
         exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
       }
     }
+    return (
+      <>
+        <Tab sessionId="art-option" className="fb1">
+          {exhibit && createPanel(exhibit, t)}
+        </Tab>
+        <CommonTab target={box || frame} />
+      </>
+    )
   }
-  const [visible, setVisible] = useState(false)
   return (
-    <>
-      <Tab sessionId="art-option" className="fb1">
-        {exhibit && createPanel(exhibit, t)}
-      </Tab>
-      <div className="pa" style={{right: 0}}>
-        <IconButton
-          icon="global-set"
-          onClick={() => {
-            setVisible(true)
-          }}
-        />
-      </div>
-      <CommonTab target={box || frame} />
-      <Drawer visible={visible} title="全局配置" onClose={() => setVisible(false)}>
+    <Tab sessionId="material-option" className="fb1">
+      <Tab.Item name="全局配置">
         {recusiveNode({
           ...art.global.options,
           level: 0,
         })}
-      </Drawer>
-    </>
+      </Tab.Item>
+    </Tab>
   )
 }
 
