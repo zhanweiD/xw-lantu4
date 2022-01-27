@@ -17,6 +17,8 @@ import {echertsGroupBar} from './bar-group'
 import {echertsStackBar} from './bar-stack'
 import {echertsWaterfallBar} from './bar-waterfall'
 
+import {echertsBasicPie} from './pie-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -44,11 +46,22 @@ const categoriesEcharts = [
     icon: 'exhibit-bar',
     exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
   },
+  {
+    name: 'echartsPie',
+    // icon: 'exhibit-rect',
+    icon: 'exhibit-pie',
+    exhibits: [
+      echertsBasicPie,
+      echertsGroupBar,
+      // echertsStackBar, echertsWaterfallBar
+    ],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echertsBasicPie,
   echertsBasicLine,
   echertsGroupLine,
   echartsBasicAreaLine,

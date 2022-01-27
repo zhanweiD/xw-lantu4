@@ -16,6 +16,8 @@ const i18n = {
   echertsGroupBar: ['echarts-分组条形图', 'Echarts Group Bar'],
   echertsStackBar: ['echarts-堆叠条形图', 'Echarts Stack Bar'],
   echertsWaterfallBar: ['echarts-瀑布图', 'Echarts Waterfall Bar'],
+
+  echertsBasicPie: ['echarts-基础饼图', 'Echarts Basic Pie'],
 }
 
 export default i18n

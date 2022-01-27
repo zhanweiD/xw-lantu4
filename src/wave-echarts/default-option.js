@@ -413,7 +413,23 @@ const stackColumnLineOption = {
   ],
 }
 
+const basePieOption = {
+  title: {
+    text: '基础饼图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      type: 'pie',
+      radius: '50%',
+    },
+  ],
+}
+
 export {
+  basePieOption,
   baseLineOption,
   grouplineOption,
   baseAreaLineOption,
