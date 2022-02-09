@@ -27,7 +27,7 @@ export const MArtThumbnail = types
       return getRoot(self).editor.activeTabId === self.artId
     },
     get thumbnailStyle_() {
-      const {width: frameWidth, height: frameHeight} = self.frames[0].layout
+      const {width: frameWidth, height: frameHeight} = self.frames?.[0]?.layout || {}
 
       // 容器宽度
       const containerHeight = 274
