@@ -266,15 +266,7 @@ export const MArtFrame = types
         layout,
       }
       self.initBox({uid, ...params})
-      self.viewport_.toggleSelectRange({
-        target: 'box',
-        selectRange: [
-          {
-            frameId,
-            boxIds: [uid],
-          },
-        ],
-      })
+      changeBoxSelectRange([uid])
       const realBox = self.boxes.find((o) => o.uid === uid)
       try {
         const box = yield io.art.createBox({
@@ -499,6 +491,12 @@ export const MArtFrame = types
     }
 
     const copyBox = flow(function* copyBox(box, isGroup) {
+      const copiedMaterials = box?.materials?.map((item) => {
+        return {
+          ...item,
+          id: `${item.id.slice(0, item.id.indexOf('.') + 1)}${uuid()}`,
+        }
+      })
       const {io} = self.env_
       const event = createEvent()
       const {artId, projectId} = self.art_
@@ -521,7 +519,7 @@ export const MArtFrame = types
       }
       const layout = {...box.layout, x: box.layout.x + 20, y: box.layout.y + 20}
       const params = {
-        materials: box.materials,
+        materials: copiedMaterials,
         artId,
         frameId: box.frameId,
         exhibit: exhibit,
@@ -536,7 +534,7 @@ export const MArtFrame = types
       try {
         const currentBox = yield io.art.createBox({
           uid: params.uid,
-          materials: box.materials,
+          materials: copiedMaterials,
           exhibit: exhibit,
           layout,
           name: params.name,
@@ -562,6 +560,8 @@ export const MArtFrame = types
           })
           updatePartFrame({groups: self.groups})
         }
+        const selectedBoxIds = self.viewport_.selectRange?.range[0]?.boxIds || []
+        changeBoxSelectRange(selectedBoxIds.concat([currentBox.boxId]))
         return realBox
       } catch (error) {
         realBox.set({
@@ -571,8 +571,22 @@ export const MArtFrame = types
       }
     })
 
+    const changeBoxSelectRange = (boxIds) => {
+      // 选中组内所有box
+      self.viewport_.toggleSelectRange({
+        target: 'box',
+        selectRange: [
+          {
+            frameId: self.frameId,
+            boxIds,
+          },
+        ],
+      })
+    }
+
     // 复制图层
     const copyBoxes = (boxes) => {
+      changeBoxSelectRange([])
       boxes.map((box) => {
         copyBox(box)
       })
@@ -580,6 +594,7 @@ export const MArtFrame = types
 
     // 组复制
     const copyGroup = flow(function* copyGroup(boxes) {
+      changeBoxSelectRange([])
       const copyBoxes = yield Promise.all(
         boxes.map(
           flow(function* boxesMap(item) {
@@ -745,15 +760,7 @@ export const MArtFrame = types
       }
 
       // 选中组内所有box
-      self.viewport_.toggleSelectRange({
-        target: 'box',
-        selectRange: [
-          {
-            frameId: self.frameId,
-            boxIds,
-          },
-        ],
-      })
+      changeBoxSelectRange(boxIds)
     }
     const removeSelectGroup = () => {
       self.groups.forEach((group) => group.set({isSelect: false}))
@@ -765,9 +772,15 @@ export const MArtFrame = types
      * @param {*} type 需要修改的状态
      */
     const toggleGroupState = (group, type) => {
+      const {range = []} = self.viewport_.selectRange || {}
+      const currentFrameRange = range.find((item) => item.frameId === self.frameId) || {}
+      const {boxIds = []} = currentFrameRange
       self.boxes.forEach((box) => {
         if (group.boxIds.includes(box.boxId)) {
           box.set({[type]: !group[type]})
+        }
+        if (box.isLocked || !box.isEffect) {
+          changeBoxSelectRange(boxIds.filter((rangeBoxId) => rangeBoxId !== box.id))
         }
       })
       group.set({[type]: !group[type]})

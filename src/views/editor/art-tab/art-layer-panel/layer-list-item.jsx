@@ -94,7 +94,19 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
                 className={s.toolIconHighlight}
                 icon="eye-open"
                 iconSize={14}
-                onClick={() => layer.set({isEffect: false})}
+                onClick={() => {
+                  layer.set({isEffect: false})
+                  viewport.toggleSelectRange({
+                    target: 'box',
+                    selectRange:
+                      selectRange?.range?.map((item) => {
+                        return {
+                          ...item,
+                          boxIds: item.boxIds.filter((rangeBoxId) => rangeBoxId !== layer.boxId),
+                        }
+                      }) || [],
+                  })
+                }}
               />
             ) : (
               <IconButton
