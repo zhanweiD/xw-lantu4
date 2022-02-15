@@ -55,6 +55,10 @@ const setOptionData = (options) => {
   } else if (type === 'heatmap') {
     echartsOptions.series[0].data = data
     return echartsOptions
+  } else if (type === 'graph') {
+    const [, nodes = [], links = []] = data
+    echartsOptions.series[0].data = nodes
+    echartsOptions.series[0].links = links
   } else {
     echartsOptions.dataset = {
       source: data,
