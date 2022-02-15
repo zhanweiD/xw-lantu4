@@ -32,6 +32,8 @@ import {echartsRadarGroup} from './radar-group'
 
 import {echartsBoxesBase} from './boxes-base'
 
+import {echartsBoxplotBase} from './boxplot-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -55,21 +57,13 @@ const categoriesEcharts = [
   },
   {
     name: 'echartsBar',
-    // icon: 'exhibit-rect',
     icon: 'exhibit-bar',
     exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
   },
   {
     name: 'echartsPie',
-    // icon: 'exhibit-rect',
     icon: 'exhibit-pie',
-    exhibits: [
-      echertsBasicPie,
-      echartsRadiuRingPie,
-      echartsRingPie,
-      echartsRosePie,
-      // echertsStackBar, echertsWaterfallBar
-    ],
+    exhibits: [echertsBasicPie, echartsRadiuRingPie, echartsRingPie, echartsRosePie],
   },
   {
     name: 'echartsScatter',
@@ -91,11 +85,17 @@ const categoriesEcharts = [
     icon: 'scatter',
     exhibits: [echartsBoxesBase],
   },
+  {
+    name: 'echartsBoxPlot',
+    icon: 'exhibit-boxplot',
+    exhibits: [echartsBoxplotBase],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsBoxplotBase,
   echartsRadarGroup,
   echartsBoxesBase,
   echartsRadarBase,

@@ -33,6 +33,26 @@ const setOptionData = (options) => {
       indicator,
     }
     echartsOptions.series[0].data = radarData
+  }
+  if (type === 'boxplot') {
+    // boxplot: 盒须图
+    const radarData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
+    echartsOptions.dataset = [
+      {
+        // prettier-ignore
+        source: radarData,
+      },
+      {
+        transform: {
+          type: 'boxplot',
+          config: {itemNameFormatter: column},
+        },
+      },
+      {
+        fromDatasetIndex: 1,
+        fromTransformResult: 1,
+      },
+    ]
   } else {
     echartsOptions.dataset = {
       source: data,

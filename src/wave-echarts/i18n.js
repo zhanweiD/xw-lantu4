@@ -30,6 +30,7 @@ const i18n = {
   echartsRadarGroup: ['echarts-分组雷达图', 'Echarts Group Radar'],
 
   echartsBoxesBase: ['echarts-K线图', 'Echarts Candlestick'],
+  echartsBoxplotBase: ['echarts-盒须图', 'Echarts Boxplot'],
 }
 
 export default i18n
