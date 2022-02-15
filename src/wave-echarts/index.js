@@ -34,6 +34,8 @@ import {echartsBoxesBase} from './boxes-base'
 
 import {echartsBoxplotBase} from './boxplot-base'
 
+import {echartsHeatmapBase} from './heatmap-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -90,11 +92,17 @@ const categoriesEcharts = [
     icon: 'exhibit-boxplot',
     exhibits: [echartsBoxplotBase],
   },
+  {
+    name: 'echartsHeatmap',
+    icon: 'exhibit-boxplot',
+    exhibits: [echartsHeatmapBase],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsHeatmapBase,
   echartsBoxplotBase,
   echartsRadarGroup,
   echartsBoxesBase,

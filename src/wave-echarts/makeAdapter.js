@@ -33,8 +33,7 @@ const setOptionData = (options) => {
       indicator,
     }
     echartsOptions.series[0].data = radarData
-  }
-  if (type === 'boxplot') {
+  } else if (type === 'boxplot') {
     // boxplot: 盒须图
     const radarData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
     echartsOptions.dataset = [
@@ -53,13 +52,16 @@ const setOptionData = (options) => {
         fromTransformResult: 1,
       },
     ]
+  } else if (type === 'heatmap') {
+    echartsOptions.series[0].data = data
+    return echartsOptions
   } else {
     echartsOptions.dataset = {
       source: data,
     }
   }
+
   return echartsOptions
-  // series
 }
 
 // eslint-disable-next-line no-unused-vars

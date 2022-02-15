@@ -356,6 +356,7 @@ export default {
     echartsRadar: 'Echarts雷达图',
     echartsCandlestick: 'Echarts K线图',
     echartsBoxPlot: 'Echarts 盒须图',
+    echartsHeatmap: 'Echarts 热力图',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',

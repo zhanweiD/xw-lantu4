@@ -31,6 +31,7 @@ const i18n = {
 
   echartsBoxesBase: ['echarts-K线图', 'Echarts Candlestick'],
   echartsBoxplotBase: ['echarts-盒须图', 'Echarts Boxplot'],
+  echartsHeatmapBase: ['echarts-热力图', 'Echarts Heatmap'],
 }
 
 export default i18n
