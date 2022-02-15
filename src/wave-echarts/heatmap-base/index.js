@@ -9,7 +9,7 @@ const echartsHeatmapBase = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'boxes',
+  icon: 'heatmap',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),

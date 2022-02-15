@@ -85,16 +85,11 @@ const categoriesEcharts = [
   {
     name: 'echartsCandlestick',
     icon: 'scatter',
-    exhibits: [echartsBoxesBase],
-  },
-  {
-    name: 'echartsBoxPlot',
-    icon: 'exhibit-boxplot',
-    exhibits: [echartsBoxplotBase],
+    exhibits: [echartsBoxesBase, echartsBoxplotBase],
   },
   {
     name: 'echartsHeatmap',
-    icon: 'exhibit-boxplot',
+    icon: 'exhibit-heatmap',
     exhibits: [echartsHeatmapBase],
   },
 ]
