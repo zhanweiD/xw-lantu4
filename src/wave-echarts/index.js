@@ -39,6 +39,7 @@ import {echartsHeatmapBase} from './heatmap-base'
 import {echartsGraphBase} from './graph-base'
 
 import {echartsTreeBase} from './tree-base'
+import {echartsTreemapBase} from './treemap-base'
 
 const categoriesEcharts = [
   {
@@ -99,13 +100,14 @@ const categoriesEcharts = [
   {
     name: 'echartsGraph',
     icon: 'exhibit-relation',
-    exhibits: [echartsGraphBase, echartsTreeBase],
+    exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase],
   },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsTreemapBase,
   echartsTreeBase,
   echartsGraphBase,
   echartsHeatmapBase,
