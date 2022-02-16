@@ -65,6 +65,13 @@ const Material = ({material, showType}) => {
           params.materialId = materialId
           params.name = name
         }
+        if (type === 'image' && dropResult.create) {
+          dropResult.create({
+            ...params,
+            position,
+          })
+          return
+        }
         dropResult.addBackground({
           ...params,
           position,

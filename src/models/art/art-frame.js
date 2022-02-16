@@ -224,7 +224,7 @@ export const MArtFrame = types
       }
     }
 
-    const createBox = flow(function* createBox({name, position, lib, key}) {
+    const createBox = flow(function* createBox({name, position, lib, key, materialId, type}) {
       const {io, exhibitCollection} = self.env_
       const {artId, projectId} = self.art_
       const {frameId} = self
@@ -292,6 +292,10 @@ export const MArtFrame = types
             },
           ],
         })
+        // 是否是图片容器组件
+        if (materialId) {
+          realBox.addBackground({key, lib, name, materialId, type})
+        }
       } catch (error) {
         realBox.set({
           isCreateFail: true,
@@ -444,23 +448,25 @@ export const MArtFrame = types
 
         self.materials = [].concat(material).concat(...materials)
         debounceUpdate()
-        event.fire(`art.${art.artId}.addMaterial`, {
-          materialId,
-          id: self.frameId,
-        })
+        // 去掉实时保存
+        // event.fire(`art.${art.artId}.addMaterial`, {
+        //   materialId,
+        //   id: box ? box.boxId : self.frameId,
+        //   // id: self.frameId,
+        // })
       }
     }
 
     const removeBackground = (materialId) => {
-      const {event} = self.env_
+      // const {event} = self.env_
       const materials = self.materials.map((material) => self.art_.exhibitManager.get(material.id).getSchema())
       self.materials = materials.filter((material) => material.id !== materialId)
       debounceUpdate()
       self.art_.exhibitManager.remove(materialId)
-      event.fire(`art.${self.art_.artId}.removeMaterial`, {
-        materialId: materialId.split('.')[0],
-        id: self.frameId,
-      })
+      // event.fire(`art.${self.art_.artId}.removeMaterial`, {
+      //   materialId: materialId.split('.')[0],
+      //   id: self.frameId,
+      // })
     }
     const sortBackground = (materialId, direction) => {
       const index = self.materials.findIndex((material) => material.id === materialId)
