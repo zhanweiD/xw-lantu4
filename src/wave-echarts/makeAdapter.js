@@ -93,7 +93,7 @@ const setOptionData = (options) => {
     })
     echartsOptions.series[0].data = _.unionBy(nodes, 'id')
     echartsOptions.series[0].links = links
-  } else if (type === 'tree' || type === 'treemap') {
+  } else if (type === 'tree' || type === 'treemap' || type === 'sunburst') {
     const treeData = arrToTree(data, 0)
     echartsOptions.series[0].data = treeData
   } else {

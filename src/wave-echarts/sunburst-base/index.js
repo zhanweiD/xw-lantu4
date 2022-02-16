@@ -3,16 +3,16 @@ import makeAdapter from '../makeAdapter'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import i18n from '../i18n'
 
-const echartsTreemapBase = {
+const echartSunburstBase = {
   lib: 'wave',
-  id: 'ecTreemapBase',
+  id: 'ecSunburstBase',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'table',
+  icon: 'fan',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echartsTreemapBase}
+export {echartSunburstBase}

@@ -35,6 +35,7 @@ const i18n = {
   echartsGraphBase: ['echarts-关系图', 'Echarts Graph'],
   echartsTreeBase: ['echarts-树图', 'Echarts Tree'],
   echartsTreemapBase: ['echarts-矩形树图', 'Echarts Treemap'],
+  echartSunburstBase: ['echarts-旭日图', 'Echarts Sunburst'],
 }
 
 export default i18n

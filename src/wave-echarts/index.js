@@ -40,6 +40,7 @@ import {echartsGraphBase} from './graph-base'
 
 import {echartsTreeBase} from './tree-base'
 import {echartsTreemapBase} from './treemap-base'
+import {echartSunburstBase} from './sunburst-base'
 
 const categoriesEcharts = [
   {
@@ -100,13 +101,14 @@ const categoriesEcharts = [
   {
     name: 'echartsGraph',
     icon: 'exhibit-relation',
-    exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase],
+    exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase, echartSunburstBase],
   },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartSunburstBase,
   echartsTreemapBase,
   echartsTreeBase,
   echartsGraphBase,
