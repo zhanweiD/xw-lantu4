@@ -1,6 +1,31 @@
 /* eslint-disable no-unused-vars */
 
 import hJSON from 'hjson'
+
+// 平铺结构转为树结构
+const arrToTree = (arr, pid) => {
+  const res = []
+  arr.forEach((item) => {
+    if (item[3] === pid) {
+      const children = arrToTree(
+        arr.filter((v) => v[3] !== pid),
+        item[2]
+      )
+      const currentItem = {
+        name: item[0],
+        value: item[1],
+        id: item[2],
+        pid: item[3],
+      }
+      if (children.length) {
+        res.push({...currentItem, children})
+      } else {
+        res.push({...currentItem})
+      }
+    }
+  })
+  return res
+}
 const setOptionData = (options) => {
   const {title, dimension, data, layers, themeColors} = options
   const dataSource = [...data]
@@ -59,6 +84,9 @@ const setOptionData = (options) => {
     const [, nodes = [], links = []] = data
     echartsOptions.series[0].data = nodes
     echartsOptions.series[0].links = links
+  } else if (type === 'tree') {
+    const treeData = arrToTree(data, 0)
+    echartsOptions.series[0].data = treeData
   } else {
     echartsOptions.dataset = {
       source: data,

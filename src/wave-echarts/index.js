@@ -38,6 +38,8 @@ import {echartsHeatmapBase} from './heatmap-base'
 
 import {echartsGraphBase} from './graph-base'
 
+import {echartsTreeBase} from './tree-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -97,13 +99,14 @@ const categoriesEcharts = [
   {
     name: 'echartsGraph',
     icon: 'exhibit-relation',
-    exhibits: [echartsGraphBase],
+    exhibits: [echartsGraphBase, echartsTreeBase],
   },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echartsTreeBase,
   echartsGraphBase,
   echartsHeatmapBase,
   echartsBoxplotBase,
