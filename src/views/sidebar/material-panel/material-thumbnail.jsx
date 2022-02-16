@@ -65,6 +65,7 @@ const Material = ({material, showType}) => {
           params.materialId = materialId
           params.name = name
         }
+        // 图片拖到画布空白区域生成图片容器
         if (type === 'image' && dropResult.create) {
           dropResult.create({
             ...params,
