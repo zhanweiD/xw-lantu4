@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import hJSON from 'hjson'
+import _ from 'lodash'
 
 // 平铺结构转为树结构
 const arrToTree = (arr, pid) => {
@@ -81,8 +82,16 @@ const setOptionData = (options) => {
     echartsOptions.series[0].data = data
     return echartsOptions
   } else if (type === 'graph') {
-    const [, nodes = [], links = []] = data
-    echartsOptions.series[0].data = nodes
+    const graphData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
+    const nodes = []
+    const links = []
+    graphData.forEach((v) => {
+      nodes.push({id: v[0], name: v[1], symbolSize: v[2]})
+      if (v.length > 3) {
+        links.push({source: v[3], target: v[4]})
+      }
+    })
+    echartsOptions.series[0].data = _.unionBy(nodes, 'id')
     echartsOptions.series[0].links = links
   } else if (type === 'tree') {
     const treeData = arrToTree(data, 0)
