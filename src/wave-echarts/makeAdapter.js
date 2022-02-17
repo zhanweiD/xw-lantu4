@@ -93,6 +93,18 @@ const setOptionData = (options) => {
     })
     echartsOptions.series[0].data = _.unionBy(nodes, 'id')
     echartsOptions.series[0].links = links
+  } else if (type === 'sankey') {
+    const graphData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
+    const node = []
+    const link = []
+    graphData.forEach((v) => {
+      node.push({id: v[0], name: v[1]})
+      if (v.length > 3) {
+        link.push({source: v[3], target: v[4], value: v[2]})
+      }
+    })
+    echartsOptions.series[0].data = _.unionBy(node, 'id')
+    echartsOptions.series[0].links = link
   } else if (type === 'tree' || type === 'treemap' || type === 'sunburst') {
     const treeData = arrToTree(data, 0)
     echartsOptions.series[0].data = treeData
