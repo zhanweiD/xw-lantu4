@@ -3,16 +3,16 @@ import makeAdapter from '../makeAdapter'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import i18n from '../i18n'
 
-const echartsTreemapBase = {
+const echertsGaugeBase = {
   lib: 'wave',
-  id: 'ecTreemapBase',
+  id: 'ecgauge',
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'treemap',
+  icon: 'multicolor-gauge',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
 }
 
-export {echartsTreemapBase}
+export {echertsGaugeBase}

@@ -79,9 +79,11 @@ const setOptionData = (options) => {
       },
     ]
   } else if (type === 'heatmap') {
+    // 热力图
     echartsOptions.series[0].data = data
     return echartsOptions
   } else if (type === 'graph') {
+    // 关系图
     const graphData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
     const nodes = []
     const links = []
@@ -94,6 +96,7 @@ const setOptionData = (options) => {
     echartsOptions.series[0].data = _.unionBy(nodes, 'id')
     echartsOptions.series[0].links = links
   } else if (type === 'sankey') {
+    // 桑基图
     const graphData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
     const node = []
     const link = []
@@ -106,8 +109,12 @@ const setOptionData = (options) => {
     echartsOptions.series[0].data = _.unionBy(node, 'id')
     echartsOptions.series[0].links = link
   } else if (type === 'tree' || type === 'treemap' || type === 'sunburst') {
+    // 树图。矩形树图。旭日图
     const treeData = arrToTree(data, 0)
     echartsOptions.series[0].data = treeData
+  } else if (type === 'gauge') {
+    const gaugeData = dataSource.length ? [...dataSource].splice(1, dataSource.length) : []
+    echartsOptions.series[0].data = gaugeData.map((v) => ({name: v[0], value: v[1]}))
   } else {
     echartsOptions.dataset = {
       source: data,

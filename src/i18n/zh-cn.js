@@ -357,6 +357,7 @@ export default {
     echartsCandlestick: 'Echarts K线图',
     echartsGraph: 'Echarts 关系图',
     echartsHeatmap: 'Echarts 热力图',
+    echartsGauge: 'Echarts 仪表盘',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',

@@ -43,6 +43,8 @@ import {echartsTreemapBase} from './treemap-base'
 import {echartSunburstBase} from './sunburst-base'
 import {echartSankeyBase} from './sankey-base'
 
+import {echertsGaugeBase} from './gauge-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -104,11 +106,17 @@ const categoriesEcharts = [
     icon: 'exhibit-relation',
     exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase, echartSunburstBase, echartSankeyBase],
   },
+  {
+    name: 'echartsGauge',
+    icon: 'exhibit-dashboard',
+    exhibits: [echertsGaugeBase],
+  },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echertsGaugeBase,
   echartSankeyBase,
   echartSunburstBase,
   echartsTreemapBase,
