@@ -19,7 +19,6 @@ import {MultiNumberField} from './multi-number'
 import {ConstraintsField} from './constraints'
 import {AlignmentField} from './alignment'
 import {OffsetField} from './offset'
-
 import createConfigModelClass from './create-config-model-class'
 import ModelToField from './model-to-field'
 

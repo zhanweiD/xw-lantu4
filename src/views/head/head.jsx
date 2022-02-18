@@ -264,6 +264,18 @@ const Head = () => {
                 isArtPublishInfoVisible: true,
               })
             }}
+            layout="center"
+          />
+          <IconGroupButton
+            icon="upload"
+            title="版本管理"
+            canUse
+            canClick
+            onClick={() => {
+              art.set({
+                isVersionManagementVisible: true,
+              })
+            }}
             layout="end"
           />
 

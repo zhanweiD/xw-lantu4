@@ -30,7 +30,7 @@ export const MRoot = types
         self.overlayManager.hideAll()
       })
 
-      // TODO 这里只应该有全局的，自己模型私有使用的 直接自己实例化去玩
+      // TODO: 这里只应该有全局的，自己模型私有使用的 直接自己实例化去玩
       // overlay
       self.overlayManager.create({
         id: 'menu',
