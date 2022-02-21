@@ -38,9 +38,27 @@ function translate(schema) {
   if (other && isObject(other) && Object.keys(other).length) {
     padding = other.getOption('layout.areaOffset')
   }
-
   // 处理图层配置
   layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
+    if (type === 'text') {
+      const layerType = layerTypeMap.get(type) || type
+      const config = layerOptionMap.get(layerType)({getOption, mapOption})
+      config.style.text = {
+        ...config.style.text,
+        whiteSpace: 'normal',
+        wordBreak: 'break-all',
+      }
+      layerConfig.push(
+        merge(
+          {
+            type: layerType,
+            options: {id, layout: 'main'},
+          },
+          config
+        )
+      )
+      return
+    }
     if (effective || effective === undefined) {
       const layerType = layerTypeMap.get(type) || type
       const keys = [...dimension.xColumn, ...options.dataMap.column]

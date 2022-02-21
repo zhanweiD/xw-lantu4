@@ -19,6 +19,7 @@ import percentageBar from './waves/bars/percentage-bar'
 import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
 import demoLine from './waves/demo-line'
+import text from './waves/others/text'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -47,6 +48,8 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 其他
+  text,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -102,6 +105,12 @@ const categories = [
     name: 'gis',
     icon: 'gis',
     exhibits: [],
+  },
+  {
+    // 其他
+    name: 'others',
+    icon: 'others',
+    exhibits: [text],
   },
   {
     // 演示对接

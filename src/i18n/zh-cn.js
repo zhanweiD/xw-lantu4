@@ -437,6 +437,7 @@ export default {
     select: '选择器',
     datepicker: '日期选择器',
     classifyTextIndicator: '文字指标',
+    others: '其他',
     demo: '演示对接',
   },
   user: {

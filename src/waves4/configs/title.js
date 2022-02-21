@@ -1,5 +1,7 @@
 export default ({content}) => {
   return {
+    name: '文本',
+    type: 'text',
     effective: true,
     sections: [
       {
