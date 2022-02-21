@@ -20,6 +20,11 @@ import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
 import basicRadar from './waves/radars/basic-radar'
 import groupRadar from './waves/radars/group-radar'
+import basicPie from './waves/pies/basic-pie'
+import donut from './waves/pies/donut'
+import nigntingaleRose from './waves/pies/nightingale-rose'
+import donutNightingaleRose from './waves/pies/donut-nightingale-rose'
+import stackNightingaleRose from './waves/pies/stack-nightingale-rose'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
@@ -52,6 +57,12 @@ const waves = {
   // 雷达
   basicRadar,
   groupRadar,
+  // 饼图
+  basicPie,
+  donut,
+  nigntingaleRose,
+  donutNightingaleRose,
+  stackNightingaleRose,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -105,6 +116,12 @@ const categories = [
     name: 'classifyRadar',
     icon: 'exhibit-radar',
     exhibits: [basicRadar, groupRadar]
+  },
+  {
+    // 饼图
+    name: 'classifyPie',
+    icon: 'exhibit-pie',
+    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose]
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

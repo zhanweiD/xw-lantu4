@@ -17,7 +17,7 @@ export const config = (k) => ({
   layout: () => [10, 6],
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
-  // 折线图层
+  // 雷达图层
   layers: [radar({k, mode: 'stack', column: ['市场份额']})],
   // 标题面板
   title: title({k, content: '手机厂商市场份额'}),

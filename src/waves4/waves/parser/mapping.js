@@ -319,6 +319,10 @@ export const layerOptionMap = new Map([
         ['label.text.textWeight', 'style.text.fontWeight'],
         ['label.text.singleColor', 'style.text.fill'],
         ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
       ]
       const storage = mapOption(mapping)
       if (getOption('label.effective') !== undefined) {
@@ -340,6 +344,32 @@ export const layerOptionMap = new Map([
         ['base.type', 'options.type'],
       ]
       const storage = mapOption(mapping)
+
+      return storage.get()
+    }
+  ],
+  [
+    'arc',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.mode', 'options.mode'],
+        ['base.type', 'options.type'],
+        ['base.innerRadius', 'style.innerRadius'],
+        // 标签
+        ['label.labelPosition', 'style.labelPosition'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
 
       return storage.get()
     }

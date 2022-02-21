@@ -28,7 +28,7 @@ function translate(schema) {
     legend, // 图例图层配置
     title, // 标题配置
     axis, // 坐标轴配置
-    polar,
+    polar, // 极坐标
     other, // 其他配置
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema

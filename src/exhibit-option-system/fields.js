@@ -914,6 +914,15 @@ const echartsoption = {
   label: 'echartsoption',
 }
 
+// 内半径
+const innerRadius = {
+  type: 'number',
+  label: 'innerRadius',
+  defaultValue: 30,
+  min: 0,
+  hasSlider: true,
+}
+
 export default {
   echartsoption,
   // 偏移
@@ -1025,4 +1034,6 @@ export default {
   tickZero,
   // 比例尺内边距
   paddingInner,
+  // 内半径
+  innerRadius,
 }

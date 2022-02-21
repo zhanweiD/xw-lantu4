@@ -6,7 +6,7 @@ import rect from './rect'
 // import auxiliary from './auxiliary'
 import radar from './radar'
 // import scatter from './scatter'
-// import arc from './arc'
+import arc from './arc'
 // import matrix from './matrix'
 // import chord from './chord'
 // import edgeBundle from './edge-bundle'
@@ -22,7 +22,7 @@ export {
   // auxiliary,
   radar,
   // scatter,
-  // arc,
+  arc,
   // matrix,
   // chord,
   // edgeBundle,

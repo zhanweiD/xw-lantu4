@@ -33,7 +33,6 @@ export const createExhibitModelClass = (exhibit) => {
         'data',
         'dimension',
         'echartsoption',
-        'polar',
       ]),
     })
     .views((self) => ({
