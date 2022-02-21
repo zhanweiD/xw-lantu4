@@ -61,7 +61,12 @@ const updateStyle = ({
     layer = waveLayer.instance
     type = waveLayer.type
   } else {
-    layer = instance.layers.find((item) => item.type === type).instance
+    if (type === 'polar') {
+      // polar 的实例 type 还是 axis
+      layer = instance.layers.find((item) => item.type === 'axis').instance
+    } else {
+      layer = instance.layers.find((item) => item.type === type).instance
+    }
   }
   const {mapOption, getOption} = target
   const config = layerOptionMap.get(type)({mapOption, getOption})

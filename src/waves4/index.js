@@ -18,6 +18,8 @@ import stackBar from './waves/bars/stack-bar'
 import percentageBar from './waves/bars/percentage-bar'
 import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
+import basicRadar from './waves/radars/basic-radar'
+import groupRadar from './waves/radars/group-radar'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
@@ -47,6 +49,9 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 雷达
+  basicRadar,
+  groupRadar,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -94,6 +99,12 @@ const categories = [
     name: 'classifyBar',
     icon: 'exhibit-bar',
     exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
+  },
+  {
+    // 雷达图
+    name: 'classifyRadar',
+    icon: 'exhibit-radar',
+    exhibits: [basicRadar, groupRadar]
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

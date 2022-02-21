@@ -56,6 +56,7 @@ export default {
   legend: '图例',
   label: '标签',
   axis: '坐标轴',
+  polar: '极坐标',
   xAxis: 'X轴',
   yAxis: 'Y轴',
   axisLine: '轴线',

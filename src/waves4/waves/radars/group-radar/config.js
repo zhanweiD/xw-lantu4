@@ -1,94 +1,28 @@
-import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer} from '@waves4/configs'
+import {title, legend, radar, polar} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
   key: 'groupRadar',
   name: k('groupRadar'),
-  // 图表容器初始化的大小
-  layout: () => [400, 300],
-  // 图表主绘图区域的内边距
-  padding: [60, 0, 30, 0],
-  // 图表绑定坐标轴类型，新追加的层必须是相同的坐标类型
-  coordinate: 'polar-bandAngle-linearRadius',
-  // 追加图层
-  getLayersConfig: () => getLayersConfig('polar-bandAngle-linearRadius'),
-  // 图层声明和定义，id无法定义由工具自动生成
-  layers: [
-    {
-      key: 'text',
-      type: 'text',
-      name: '标题层',
-      children: textLayer.children(),
-      other: textLayer.other({
-        content: '某公司财政预算和实际支出对比',
-      }),
-    },
-    {
-      key: 'legend',
-      type: 'legend',
-      name: '图例层',
-      children: legendLayer.children(),
-      other: legendLayer.other(),
-    },
-    {
-      key: 'radar',
-      type: 'radar',
-      name: '雷达层',
-      children: radarLayer.children(),
-      other: radarLayer.other({
-        mode: 'default',
-      }),
-      dataConfig: [
-        [
-          {
-            name: '雷达层-数值',
-            type: ['string', 'number'],
-            range: [1, Infinity],
-            value: [
-              {
-                key: '预算',
-                name: '预算',
-                type: 'number',
-              },
-              {
-                key: '实际支出',
-                name: '实际支出',
-                type: 'number',
-              },
-            ],
-          },
-        ],
-      ],
-    },
-    {
-      key: 'axis',
-      type: 'axis',
-      name: '坐标轴层',
-      children: axisLayer.children(null, 'polar-bandAngle-linearRadius'),
-      other: axisLayer.other({
-        type: 'polar',
-      }),
-    },
-  ],
-  // 数据
-  data: {
-    type: 'json',
-    json: data,
-    dimension: [
+  data,
+  dimension: {
+    fields: [
       {
-        name: '矩形层-维度',
-        type: ['string'],
-        range: [1, 1],
-        value: [
-          {
-            key: '分类',
-            name: '分类',
-            type: 'string',
-          },
-        ],
+        name: 'xColumn',
+        defaultValue: ['分类'],
       },
     ],
   },
-  // 交互
-  interaction: {},
+  // 图表容器初始化的大小
+  layout: () => [10, 6],
+  // 图表主绘图区域的内边距
+  padding: [0, 0, 0, 0],
+  // 折线图层
+  layers: [radar({k, mode: 'stack', column: ['预算', '实际支出']})],
+  // 标题面板
+  title: title({k, content: '某公司财政预算和实际支出对比'}),
+  // 图例面板
+  legend: legend({k}),
+  // 极坐标系坐标轴
+  polar: polar({k}),
 })

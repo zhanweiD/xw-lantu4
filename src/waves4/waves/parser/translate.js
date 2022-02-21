@@ -28,6 +28,7 @@ function translate(schema) {
     legend, // 图例图层配置
     title, // 标题配置
     axis, // 坐标轴配置
+    polar,
     other, // 其他配置
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
@@ -103,6 +104,26 @@ function translate(schema) {
         {
           type: 'axis',
           options: {
+            id: uuid(),
+            layout: 'main',
+          },
+        },
+        config
+      )
+    )
+  }
+
+  if (polar && isObject(polar) && Object.keys(polar).length) {
+    const {getOption, mapOption} = polar
+    const config = layerOptionMap.get('polar')({getOption, mapOption})
+
+    // 极坐标的配置项和直角坐标的配置项类似
+    layerConfig.push(
+      merge(
+        {
+          type: 'axis',
+          options: {
+            type: 'polar',
             id: uuid(),
             layout: 'main',
           },
