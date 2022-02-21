@@ -1,5 +1,7 @@
-import React from "react"
+import React from 'react'
 
-const Login = React.lazy(() => import("./login"))
+// eslint-disable-next-line no-unused-vars
+const Login = React.lazy(() => import('./login'))
+const SaaSLogin = React.lazy(() => import('./saas-login'))
 
-export default Login
+export default SaaSLogin

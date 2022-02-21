@@ -1,7 +1,7 @@
 import check from '@utils/check'
 import config from '@utils/config'
 import createLog from '@utils/create-log'
-// import io from '@utils/io'
+import io from '@utils/io'
 import c from 'classnames'
 import React, {useEffect, useState} from 'react'
 import s from './login.module.styl'
@@ -9,9 +9,10 @@ import s from './login.module.styl'
 let errorClearTimer
 const log = createLog('@pages/login')
 
-const Form = () => {
+const SaaSForm = () => {
   // 登录或注册
-  const [page, setPage] = useState('login') // register
+  // loginMessage： 短信登录  loginPwd: 密码登录 register： 注册
+  const [page, setPage] = useState('loginPwd') // register
   // 手机号
   const [mobile, setMobile] = useState('')
   // 手机验证码
@@ -23,9 +24,9 @@ const Form = () => {
   // 错误提示
   const [message, setMessage] = useState('')
   // 验证码提示文字
-  // const [inviteCodeTip, setInviteCodeTip] = useState('获取验证码')
+  const [inviteCodeTip, setInviteCodeTip] = useState('获取验证码')
   // 是否同意
-  // const [isAgree, setIsAgree] = useState(false)
+  const [isAgree, setIsAgree] = useState(false)
   // 密码
   const [password, setPassword] = useState('')
   const [verificationCode, setVerificationCode] = useState('')
@@ -40,36 +41,36 @@ const Form = () => {
       setMessage('手机号码不正确')
       return
     }
-    // if (!verificationCode) {
-    //   setMessage('请输入手机验证码')
-    //   return
-    // }
-    // if (!/^[0-9]{6}$/.test(verificationCode)) {
-    //   setMessage('验证码不正确')
-    //   return
-    // }
+    if (!verificationCode) {
+      setMessage('请输入手机验证码')
+      return
+    }
+    if (!/^[0-9]{6}$/.test(verificationCode)) {
+      setMessage('验证码不正确')
+      return
+    }
     if (page === 'register' && !inviteCode) {
       setMessage('请输入邀请码')
       return
     }
     let user
     try {
-      // if (page === 'login') {
-      //   user = await io.auth.login({
-      //     platform: 'phone',
-      //     remberMe: isKeepLogin,
-      //     phone: {
-      //       mobile: mobile,
-      //       code: verificationCode,
-      //     },
-      //   })
-      // } else if (page === 'register') {
-      //   user = await io.auth.register({
-      //     mobile,
-      //     inviteCode,
-      //     code: verificationCode,
-      //   })
-      // }
+      if (page === 'loginMessage') {
+        user = await io.auth.login({
+          platform: 'phone',
+          remberMe: isKeepLogin,
+          phone: {
+            mobile: mobile,
+            code: verificationCode,
+          },
+        })
+      } else if (page === 'register') {
+        user = await io.auth.register({
+          mobile,
+          inviteCode,
+          code: verificationCode,
+        })
+      }
       // 登录/注册通过后跳转到主页面
       if (user?.userId) {
         window.location.href = window.appData?.pathPrefix || '/'
@@ -83,41 +84,46 @@ const Form = () => {
     }
   }
   // 获取验证码
-  // const getVerificationCode = async () => {
-  //   setMessage('')
-  //   if (!mobile) {
-  //     setMessage('请输入手机号码')
-  //     return
-  //   }
-  //   if (!check('mobile', mobile)) {
-  //     setMessage('手机号码不正确')
-  //     return
-  //   }
-  //   try {
-  //     if (inviteCodeTip === '获取验证码') {
-  //       await io.auth.getSMSCode({
-  //         type: page,
-  //         mobile,
-  //       })
-  //       let interval
-  //       let countdown = 60
-  //       setInviteCodeTip(`${countdown--}s后重试`)
-  //       interval = setInterval(() => {
-  //         setInviteCodeTip(`${countdown--}s后重试`)
-  //         if (countdown === -1) {
-  //           clearInterval(interval)
-  //           setInviteCodeTip('获取验证码')
-  //         }
-  //       }, 1000)
-  //     }
-  //   } catch (error) {
-  //     if (error.code === 'ERROR_PARAMS_ERROR') {
-  //       log.error(error)
-  //     } else {
-  //       setMessage(error.message)
-  //     }
-  //   }
-  // }
+  const getVerificationCode = async () => {
+    setMessage('')
+    if (!mobile) {
+      setMessage('请输入手机号码')
+      return
+    }
+    if (!check('mobile', mobile)) {
+      setMessage('手机号码不正确')
+      return
+    }
+    try {
+      if (inviteCodeTip === '获取验证码') {
+        const type = {
+          loginPwd: 'login',
+          loginMessage: 'login',
+          register: 'register',
+        }
+        await io.auth.getSMSCode({
+          type: type[page],
+          mobile,
+        })
+        let interval
+        let countdown = 60
+        setInviteCodeTip(`${countdown--}s后重试`)
+        interval = setInterval(() => {
+          setInviteCodeTip(`${countdown--}s后重试`)
+          if (countdown === -1) {
+            clearInterval(interval)
+            setInviteCodeTip('获取验证码')
+          }
+        }, 1000)
+      }
+    } catch (error) {
+      if (error.code === 'ERROR_PARAMS_ERROR') {
+        log.error(error)
+      } else {
+        setMessage(error.message)
+      }
+    }
+  }
   // 提示文字发生变化时自动注销
   useEffect(() => {
     clearTimeout(errorClearTimer)
@@ -130,14 +136,24 @@ const Form = () => {
     <div className={c('fb3 cfw pr', s.formArea)}>
       {message && <div className={c('pa w100p fbh fbac fbjc ctw fs16 p12', s.tip)}>{message}</div>}
       <div className={c('wh100p fbv fbjsb bsbb', s.formContainer)}>
+        <div></div>
         <div>
           {page == 'register' ? (
             <span className={c('fs26 hand', {ctb50: page !== 'register'})} onClick={() => setPage('register')}>
               用户注册
             </span>
           ) : (
-            <span className={c('fs26 hand', {ctb50: page !== 'login'})} onClick={() => setPage('login')}>
-              澜图登录
+            <span>
+              <span className={c('fs26 hand', {ctb50: page !== 'loginPwd'})} onClick={() => setPage('loginPwd')}>
+                密码登录
+              </span>
+              <span className={c('fs26 hand ctb50 mr8 ml8')}>/</span>
+              <span
+                className={c('fs26 hand', {ctb50: page !== 'loginMessage'})}
+                onClick={() => setPage('loginMessage')}
+              >
+                短信登录
+              </span>
             </span>
           )}
         </div>
@@ -150,7 +166,7 @@ const Form = () => {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />
-            {page === 'login' && (
+            {page === 'loginPwd' && (
               <div>
                 <div className="fbh pr lh32">
                   <input
@@ -209,24 +225,24 @@ const Form = () => {
                 </div>
               </div>
             )}
-
-            {/*  TODO:sass部署登录
-            <div className="fbh pr lh32">
-              <input
-                type="text"
-                className="fb1 mb20 lh32 ctb70 fs16"
-                placeholder="请输入手机验证码"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <span
-                className={c('hand fs16', s.sendCode, { ctb50: inviteCodeTip !== '获取验证码' })}
-                onClick={getVerificationCode}
-              >
-                {inviteCodeTip}
-              </span>
-            </div> */}
-            {page === 'login' && (
+            {page === 'loginMessage' && (
+              <div className="fbh pr lh32">
+                <input
+                  type="text"
+                  className="fb1 mb20 lh32 ctb70 fs16"
+                  placeholder="请输入手机验证码"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+                <span
+                  className={c('hand fs16', s.sendCode, {ctb50: inviteCodeTip !== '获取验证码'})}
+                  onClick={getVerificationCode}
+                >
+                  {inviteCodeTip}
+                </span>
+              </div>
+            )}
+            {page === 'loginMessage' || page === 'loginPwd' ? (
               <div className="fbh fbjsb">
                 <label className="fbh fbac hand">
                   <input
@@ -241,11 +257,11 @@ const Form = () => {
                   用户注册
                 </span>
               </div>
-            )}
+            ) : null}
             {page === 'register' && (
               <div className="mb12 fbh fbjsb">
                 <div>
-                  {/* <input
+                  <input
                     className="hand mr4"
                     type="checkbox"
                     value={isAgree}
@@ -264,7 +280,7 @@ const Form = () => {
                     onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/privacy-policy.html')}
                   >
                     澜图隐私政策
-                  </span> */}
+                  </span>
                 </div>
                 <div>
                   <span className={c('fs16 lh32 ctb50')}>已有账号，马上</span>
@@ -284,7 +300,7 @@ const Form = () => {
   )
 }
 
-const Login = () => {
+const SaaSLogin = () => {
   // 版权文案
   const copyright = '© 2016-2021 DTWave. All Rights Reserved. 数澜科技 版权所有 浙ICP备16024205号'
   // 左侧 LOGO 文字
@@ -316,11 +332,11 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <Form />
+        <SaaSForm />
       </div>
       <div className={s.copyright}>{copyright}</div>
     </div>
   )
 }
 
-export default Login
+export default SaaSLogin

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import moment from 'moment'
@@ -10,8 +10,21 @@ import {TextField} from '@components/field'
 import s from './modal.module.styl'
 
 const PublishModal = ({art}) => {
-  const {artPublishInfo = {}, isArtPublishInfoVisible} = art
+  // 从哪里来？
+  const {artPublishInfo = {}, isArtPublishInfoVisible, global, isVersionManagementVisible} = art
   const {list, publishId, remark} = artPublishInfo
+  const [isPublish, setIsPublish] = useState(false)
+  const {
+    options: {
+      sections: {
+        auth: {
+          fields: {password: model},
+        },
+      },
+    },
+  } = global
+  // const model = art.global.options.sections.auth.fields.password
+  console.log(isVersionManagementVisible, isArtPublishInfoVisible)
   const {t} = useTranslation()
   const columns = [
     {
@@ -100,6 +113,43 @@ const PublishModal = ({art}) => {
             />
             <div className={c(s.copyButton, 'pl8 pr8 cfw16 o0p')}>复制</div>
           </div>
+          <div className={c(s.align, 'fbh mt24')}>
+            <span>分享范围</span>
+            <input
+              checked={!isPublish}
+              style={{backgroundColor: 'transparent'}}
+              onChange={(e) => {
+                e.target.checked && setIsPublish(!isPublish)
+              }}
+              type="radio"
+            ></input>
+            <span>公开</span>
+            <input
+              checked={isPublish}
+              onChange={(e) => {
+                e.target.checked && setIsPublish(!isPublish)
+              }}
+              style={{backgroundColor: 'transparent'}}
+              type="radio"
+            ></input>
+            <span>私密</span>
+          </div>
+          {isPublish && (
+            <div className={c(s.align, 'fbh mt24')}>
+              <span>密码</span>
+              <TextField
+                type="password"
+                className="fb1 ml12 mr12"
+                visible={model.visible_}
+                value={model.value}
+                defaultValue={model.defaultValue}
+                placeholder={t(model.placeholder)}
+                onChange={(v) => {
+                  model.setValue(v)
+                }}
+              />
+            </div>
+          )}
           <div
             className={c(s.publishButton, 'mt24 mb8 hand ctw', list && list.length > 4 && s.disableButton)}
             onClick={() => {
