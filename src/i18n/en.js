@@ -278,6 +278,7 @@ export default {
     numberFormat: 'Number Format',
     layer: 'Layer',
     publishManagement: 'Publish Management',
+    versionManagement: 'Version Management',
   },
 
   wave: {

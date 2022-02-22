@@ -280,6 +280,7 @@ export default {
     numberFormat: '数字千分位',
     layer: '图层',
     publishManagement: '发布管理',
+    versionManagement: '部署管理',
   },
 
   wave: {
