@@ -1,7 +1,8 @@
 import check from '@utils/check'
 import config from '@utils/config'
 import createLog from '@utils/create-log'
-// import io from '@utils/io'
+import io from '@utils/io'
+import CryptoJS from 'crypto-js'
 import c from 'classnames'
 import React, {useEffect, useState} from 'react'
 import s from './login.module.styl'
@@ -10,6 +11,7 @@ let errorClearTimer
 const log = createLog('@pages/login')
 
 const Form = () => {
+  const [timer, setTimer] = useState(new Date().getTime())
   // 登录或注册
   const [page, setPage] = useState('login') // register
   // 手机号
@@ -28,6 +30,8 @@ const Form = () => {
   // const [isAgree, setIsAgree] = useState(false)
   // 密码
   const [password, setPassword] = useState('')
+  const [confimPwd, setConfimPwd] = useState('')
+  // confimPwd
   const [verificationCode, setVerificationCode] = useState('')
   // 注册/登录
   const handleSubmit = async () => {
@@ -54,22 +58,26 @@ const Form = () => {
     }
     let user
     try {
-      // if (page === 'login') {
-      //   user = await io.auth.login({
-      //     platform: 'phone',
-      //     remberMe: isKeepLogin,
-      //     phone: {
-      //       mobile: mobile,
-      //       code: verificationCode,
-      //     },
-      //   })
-      // } else if (page === 'register') {
-      //   user = await io.auth.register({
-      //     mobile,
-      //     inviteCode,
-      //     code: verificationCode,
-      //   })
-      // }
+      if (page === 'login') {
+        user = await io.auth.login({
+          platform: 'phone',
+          remberMe: isKeepLogin,
+          phone: {
+            mobile: mobile,
+            code: verificationCode,
+          },
+        })
+      } else if (page === 'register') {
+        // const U2FsdGVkX18VbreRQsHRlX+CG2BB0m3hQxf8toH3xns=
+        user = await io.auth.register({
+          platform: 'waveview',
+          waveview: {
+            mobile,
+            inviteCode,
+            password: CryptoJS.AES.encrypt(password, 'waveview').toString(),
+          },
+        })
+      }
       // 登录/注册通过后跳转到主页面
       if (user?.userId) {
         window.location.href = window.appData?.pathPrefix || '/'
@@ -82,42 +90,34 @@ const Form = () => {
       }
     }
   }
-  // 获取验证码
-  // const getVerificationCode = async () => {
-  //   setMessage('')
-  //   if (!mobile) {
-  //     setMessage('请输入手机号码')
-  //     return
-  //   }
-  //   if (!check('mobile', mobile)) {
-  //     setMessage('手机号码不正确')
-  //     return
-  //   }
-  //   try {
-  //     if (inviteCodeTip === '获取验证码') {
-  //       await io.auth.getSMSCode({
-  //         type: page,
-  //         mobile,
-  //       })
-  //       let interval
-  //       let countdown = 60
-  //       setInviteCodeTip(`${countdown--}s后重试`)
-  //       interval = setInterval(() => {
-  //         setInviteCodeTip(`${countdown--}s后重试`)
-  //         if (countdown === -1) {
-  //           clearInterval(interval)
-  //           setInviteCodeTip('获取验证码')
-  //         }
-  //       }, 1000)
-  //     }
-  //   } catch (error) {
-  //     if (error.code === 'ERROR_PARAMS_ERROR') {
-  //       log.error(error)
-  //     } else {
-  //       setMessage(error.message)
-  //     }
-  //   }
-  // }
+
+  // 获取邀请码
+  const getInvitationCode = async () => {
+    if (!mobile) {
+      setMessage('请输入手机号码')
+      return
+    }
+    if (!check('mobile', mobile)) {
+      setMessage('手机号码不正确')
+      return
+    }
+    // inviteCode
+    try {
+      const res = await io.auth.getInviteCode({
+        type: page,
+        mobile,
+      })
+      const {inviteCode} = res
+      setInviteCode(inviteCode)
+    } catch (error) {
+      if (error.code === 'ERROR_PARAMS_ERROR') {
+        log.error(error)
+      } else {
+        setMessage(error.message)
+      }
+    }
+  }
+
   // 提示文字发生变化时自动注销
   useEffect(() => {
     clearTimeout(errorClearTimer)
@@ -148,7 +148,10 @@ const Form = () => {
               className="mb20 lh32 ctb70 fs16"
               placeholder="请输入手机号码"
               value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
+              onChange={(e) => {
+                setMobile(e.target.value)
+                page === 'register' && setInviteCode('')
+              }}
             />
             {page === 'login' && (
               <div>
@@ -169,6 +172,14 @@ const Form = () => {
                     value={verificationCode}
                     onChange={(e) => setVerificationCode(e.target.value)}
                   />
+                  <img
+                    className="hand"
+                    onClick={() => setTimer(new Date().getTime())}
+                    art=""
+                    src={`${config.urlPrefix}/captcha?timer=${timer}`}
+                    height="35px"
+                    width="100px"
+                  />
                 </div>
               </div>
             )}
@@ -183,49 +194,34 @@ const Form = () => {
                     onChange={(e) => setInviteCode(e.target.value)}
                   />
                   <span
-                    className={c('hand fs16', s.sendCode)}
-                    onClick={() => setMessage('您可以通过以下联系方式获取邀请码：18667027566 何先生')}
+                    className={c('hand fs16', s.sendCode, inviteCode ? 'ct7 notAllowed' : '')}
+                    onClick={() => !inviteCode && getInvitationCode()}
+                    // onClick={() => setMessage('您可以通过以下联系方式获取邀请码：18667027566 何先生')}
                   >
                     获取邀请码
                   </span>
                 </div>
                 <div className="fbh pr lh32">
                   <input
-                    type="text"
+                    type="password"
                     className="fb1 mb20 lh32 ctb70 fs16"
                     placeholder="请输入密码（6-16位，含字母、数字）"
-                    value={inviteCode}
-                    onChange={(e) => setInviteCode(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="fbh pr lh32">
                   <input
-                    type="text"
+                    type="password"
                     className="fb1 mb20 lh32 ctb70 fs16"
                     placeholder="确认密码"
-                    value={inviteCode}
-                    onChange={(e) => setInviteCode(e.target.value)}
+                    value={confimPwd}
+                    onChange={(e) => setConfimPwd(e.target.value)}
                   />
                 </div>
               </div>
             )}
 
-            {/*  TODO:sass部署登录
-            <div className="fbh pr lh32">
-              <input
-                type="text"
-                className="fb1 mb20 lh32 ctb70 fs16"
-                placeholder="请输入手机验证码"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <span
-                className={c('hand fs16', s.sendCode, { ctb50: inviteCodeTip !== '获取验证码' })}
-                onClick={getVerificationCode}
-              >
-                {inviteCodeTip}
-              </span>
-            </div> */}
             {page === 'login' && (
               <div className="fbh fbjsb">
                 <label className="fbh fbac hand">
@@ -244,28 +240,6 @@ const Form = () => {
             )}
             {page === 'register' && (
               <div className="mb12 fbh fbjsb">
-                <div>
-                  {/* <input
-                    className="hand mr4"
-                    type="checkbox"
-                    value={isAgree}
-                    onChange={(e) => setIsAgree(e.target.checked)}
-                  />
-                  <span className={c('fs16 lh32 ctb50')}>同意</span>
-                  <span
-                    className={c('fs16 lh32 hand')}
-                    onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/user-agreement.html')}
-                  >
-                    澜图用户协议
-                  </span>
-                  <span className={c('fs16 lh32 ctb50')}>和</span>
-                  <span
-                    className={c('fs16 lh32 hand')}
-                    onClick={() => window.open('https://cdn.dtwave.com/waveview-public/v4/privacy-policy.html')}
-                  >
-                    澜图隐私政策
-                  </span> */}
-                </div>
                 <div>
                   <span className={c('fs16 lh32 ctb50')}>已有账号，马上</span>
                   <span className={c('fs16 lh32 hand')} onClick={() => setPage('login')}>
