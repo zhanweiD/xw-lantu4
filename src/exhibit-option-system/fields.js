@@ -923,6 +923,13 @@ const innerRadius = {
   hasSlider: true,
 }
 
+// 散点图，散点大小
+const pointSize = {
+  type: 'multiNumber',
+  label: 'pointSize',
+  defaultValue: [10, 10]
+}
+
 export default {
   echartsoption,
   // 偏移
@@ -1036,4 +1043,6 @@ export default {
   paddingInner,
   // 内半径
   innerRadius,
+  // 散点大小
+  pointSize,
 }

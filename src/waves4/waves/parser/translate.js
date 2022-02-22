@@ -16,6 +16,25 @@ const getRealData = (dataSource, keys) => {
   }
 }
 
+// 散点图数据结构不一样
+const getRealScatterData = (dataSource) => {
+  try {
+    if (!dataSource) {
+      return null
+    }
+    return dataSource.map((row, index) => {
+      if (index === 0) {
+        return ['category', 'x', 'y']
+      } else {
+        return row
+      }
+    })
+  } catch (e) {
+    console.error('数据解析失败', {dataSource})
+    return []
+  }
+}
+
 // 工具配置到图表配置的映射函数
 function translate(schema) {
   const {
@@ -36,6 +55,7 @@ function translate(schema) {
   let layerConfig = []
   let padding = [60, 40, 40, 40] // 内边距
 
+  // 如果 config 中有配置 other 属性，那么 padding 的取值就会不一样
   if (other && isObject(other) && Object.keys(other).length) {
     padding = other.getOption('layout.areaOffset')
   }
@@ -43,6 +63,24 @@ function translate(schema) {
   // 处理图层配置
   layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
     if (effective || effective === undefined) {
+      if (type === 'scatter') {
+        const layerType = layerTypeMap.get(type) || type
+        const config = layerOptionMap.get(layerType)({getOption, mapOption})
+        layerConfig.push(
+          merge(
+            {
+              type: 'scatter',
+              data: getRealScatterData(data),
+              options: {
+                id,
+                layout: 'main'
+              }
+            },
+            config
+          )
+        )
+        return
+      }
       const layerType = layerTypeMap.get(type) || type
       const keys = [...dimension.xColumn, ...options.dataMap.column]
       const config = layerOptionMap.get(layerType)({getOption, mapOption})

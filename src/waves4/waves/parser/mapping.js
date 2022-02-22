@@ -373,5 +373,18 @@ export const layerOptionMap = new Map([
 
       return storage.get()
     }
+  ],
+  [
+    'scatter',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.pointSize', 'style.pointSize']
+      ]
+      const storage = mapOption(mapping)
+      // 把散点上的标签隐藏了
+      storage.set('style.text.hide', true)
+
+      return storage.get()
+    }
   ]
 ])

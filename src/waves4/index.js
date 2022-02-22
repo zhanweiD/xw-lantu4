@@ -25,6 +25,8 @@ import donut from './waves/pies/donut'
 import nigntingaleRose from './waves/pies/nightingale-rose'
 import donutNightingaleRose from './waves/pies/donut-nightingale-rose'
 import stackNightingaleRose from './waves/pies/stack-nightingale-rose'
+import scatter from './waves/scatters/scatter'
+import bubble from './waves/scatters/bubble'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
@@ -63,6 +65,9 @@ const waves = {
   nigntingaleRose,
   donutNightingaleRose,
   stackNightingaleRose,
+  // 散点图
+  scatter,
+  bubble,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -122,6 +127,12 @@ const categories = [
     name: 'classifyPie',
     icon: 'exhibit-pie',
     exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose]
+  },
+  {
+    // 散点图
+    name: 'classifyScatter',
+    icon: 'exhibit-scatter',
+    exhibits: [scatter, bubble]
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

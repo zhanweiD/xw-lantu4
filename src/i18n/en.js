@@ -99,6 +99,7 @@ export default {
   continueFallback: 'Join',
   breakFallback: 'Break',
   point: 'Point',
+  pointSize: 'PointSize',
   size: 'Size',
   areaSize: 'Size',
   area: 'Area',

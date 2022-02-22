@@ -99,6 +99,7 @@ export default {
   continueFallback: '补线',
   breakFallback: '切断',
   point: '点',
+  pointSize: '圆点大小',
   size: '尺寸',
   areaSize: '尺寸',
   area: '面积',
