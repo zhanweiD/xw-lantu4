@@ -281,6 +281,7 @@ export default {
     layer: '图层',
     publishManagement: '发布管理',
     versionManagement: '部署管理',
+    visitAuthor: '访问限制',
   },
 
   wave: {
