@@ -318,6 +318,10 @@ context.create('io.auth', {
     method: 'POST',
     url: 'register',
   },
+  captcha: {
+    method: 'GET',
+    url: 'captcha',
+  },
   loginInfo: {
     method: 'GET',
     url: 'user/login_info',
@@ -331,6 +335,10 @@ context.create('io.auth', {
   getSMSCode: {
     method: 'POST',
     url: 'sms/code',
+  },
+  getInviteCode: {
+    method: 'POST',
+    url: 'invite/code',
   },
 })
 context.create('io.user', {

@@ -280,6 +280,8 @@ export default {
     numberFormat: '数字千分位',
     layer: '图层',
     publishManagement: '发布管理',
+    versionManagement: '部署管理',
+    visitAuthor: '访问限制',
   },
 
   wave: {
@@ -355,6 +357,9 @@ export default {
     echartsFunnal: 'Echarts漏斗图',
     echartsRadar: 'Echarts雷达图',
     echartsCandlestick: 'Echarts K线图',
+    echartsGraph: 'Echarts 关系图',
+    echartsHeatmap: 'Echarts 热力图',
+    echartsGauge: 'Echarts 仪表盘',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',
