@@ -2,11 +2,19 @@ import uuid from '@utils/uuid'
 import {merge, isObject} from 'lodash'
 import {layerOptionMap, layerTypeMap} from './mapping'
 
-const getRealData = (dataSource, keys) => {
+const getRealData = (layerType, dataSource, keys) => {
   try {
-    if (!dataSource || !keys) {
-      return null
+    if (!dataSource) return null
+    if (layerType === 'dashboard') {
+      const newData = [...dataSource]
+      newData.shift()
+      return {
+        value: dataSource[0]?.[0] || 0,
+        label: dataSource[0]?.[1] || '',
+        fragments: newData,
+      }
     }
+    if (!keys) return dataSource
     const headers = dataSource[0]
     const indexs = keys.map((key) => headers.findIndex((value) => value === key))
     return dataSource.map((row) => indexs.map((index) => row[index]))
@@ -14,6 +22,30 @@ const getRealData = (dataSource, keys) => {
     console.error('数据解析失败', {dataSource, keys})
     return []
   }
+}
+
+const getConfig = ({layerType, name, config}) => {
+  if (layerType === 'dashboard' && name === '环形指标卡') {
+    config.style = {
+      ...config.style,
+      step: [2, 10],
+      startAngle: 0,
+      endAngle: 360,
+      tickLine: {
+        hide: true,
+      },
+      pointer: {
+        hide: true,
+      },
+      pointerAnchor: {
+        hide: true,
+      },
+      tickText: {
+        hide: true,
+      },
+    }
+  }
+  return config
 }
 
 // 工具配置到图表配置的映射函数
@@ -39,15 +71,11 @@ function translate(schema) {
     padding = other.getOption('layout.areaOffset')
   }
   // 处理图层配置
-  layers.forEach(({id, options, getOption, mapOption, type, effective}) => {
+  layers.forEach(({id, name, options, getOption, mapOption, type, effective}) => {
+    // 文本处理
     if (type === 'text') {
       const layerType = layerTypeMap.get(type) || type
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
-      config.style.text = {
-        ...config.style.text,
-        whiteSpace: 'normal',
-        wordBreak: 'break-all',
-      }
       layerConfig.push(
         merge(
           {
@@ -61,16 +89,17 @@ function translate(schema) {
     }
     if (effective || effective === undefined) {
       const layerType = layerTypeMap.get(type) || type
-      const keys = [...dimension.xColumn, ...options.dataMap.column]
+      const keys = dimension ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
+      console.log(config)
       layerConfig.push(
         merge(
           {
             type: layerType,
-            data: getRealData(data, keys),
+            data: getRealData(layerType, data, keys),
             options: {id, layout: 'main'},
           },
-          config
+          getConfig({layerType, name, config})
         )
       )
     }

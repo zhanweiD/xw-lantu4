@@ -20,6 +20,9 @@ import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
 import demoLine from './waves/demo-line'
 import text from './waves/others/text'
+import dashboard from './waves/others/dashboard'
+import indicator from './waves/others/indicator'
+import pack from './waves/others/pack'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -48,8 +51,13 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 关系图
+  pack,
+
   // 其他
   text,
+  dashboard,
+  indicator,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -107,10 +115,16 @@ const categories = [
     exhibits: [],
   },
   {
+    // 关系图
+    name: 'classifyRelation',
+    icon: 'exhibit-relation',
+    exhibits: [pack],
+  },
+  {
     // 其他
     name: 'others',
-    icon: 'others',
-    exhibits: [text],
+    icon: 'exhibit-other',
+    exhibits: [text, dashboard, indicator],
   },
   {
     // 演示对接

@@ -298,4 +298,59 @@ export const layerOptionMap = new Map([
       return storage.get()
     },
   ],
+  [
+    'dashboard',
+    ({mapOption}) => {
+      const mapping = [
+        // 基础
+        // ['base.axisBinding', 'options.axis'],
+        // ['base.mode', 'options.mode'],centerText
+        ['line.tickSize', 'style.tickSize'],
+        ['line.lineWidth', 'style.arcWidth'],
+        // 圆心
+        ['text.centerText.textSize', 'style.valueText.fontSize'],
+        ['text.centerText.textWeight', 'style.valueText.fontWeight'],
+        ['text.centerText.singleColor', 'style.valueText.fill'],
+        ['text.centerText.opacity', 'style.valueText.fillOpacity'],
+        ['text.centerText.offset', 'style.valueText.offset'],
+        // 圆内
+        ['text.circleText.textSize', 'style.tickText.fontSize'],
+        ['text.circleText.textWeight', 'style.tickText.fontWeight'],
+        ['text.circleText.singleColor', 'style.tickText.fill'],
+        ['text.circleText.opacity', 'style.tickText.fillOpacity'],
+        // ['text.circleText.offset', 'style.tickText.offset'],
+        // 园外
+        ['text.outsideText.textSize', 'style.labelText.fontSize'],
+        ['text.outsideText.textWeight', 'style.labelText.fontWeight'],
+        ['text.outsideText.singleColor', 'style.labelText.fill'],
+        ['text.outsideText.opacity', 'style.labelText.fillOpacity'],
+        ['text.outsideText.offset', 'style.labelText.offset'],
+      ]
+      const storage = mapOption(mapping)
+      // if (getOption('area.effective') !== undefined) {
+      //   storage.set('style.area.hide', !getOption('area.effective'))
+      // }
+      // if (getOption('label.effective') !== undefined) {
+      //   storage.set('style.text.hide', !getOption('label.effective'))
+      // }
+      return storage.get()
+    },
+  ],
+  [
+    'pack',
+    ({mapOption}) => {
+      const mapping = []
+      const storage = mapOption(mapping)
+      // if (getOption('area.effective') !== undefined) {
+      //   storage.set('style.area.hide', !getOption('area.effective'))
+      // }
+      // if (getOption('label.effective') !== undefined) {
+      //   storage.set('style.text.hide', !getOption('label.effective'))
+      // }
+      // if (getOption('label.shadow.effective') !== undefined) {
+      //   storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
+      // }
+      return storage.get()
+    },
+  ],
 ])

@@ -914,6 +914,14 @@ const echartsoption = {
   label: 'echartsoption',
 }
 
+const tickSize = {
+  type: 'number',
+  label: 'tickSize',
+  defaultValue: 10,
+  min: 0,
+  max: 50,
+}
+
 export default {
   echartsoption,
   // 偏移
@@ -1025,4 +1033,6 @@ export default {
   tickZero,
   // 比例尺内边距
   paddingInner,
+  // 刻度线长度
+  tickSize,
 }

@@ -3,6 +3,8 @@ import cartesian from './cartesian'
 import legend from './legend'
 import line from './line'
 import rect from './rect'
+import dashboard from './dashboard'
+import pack from './pack'
 // import auxiliary from './auxiliary'
 // import radar from './radar'
 // import scatter from './scatter'
@@ -18,6 +20,8 @@ export {
   legend,
   line,
   rect,
+  dashboard,
+  pack,
   // auxiliary,
   // radar,
   // scatter,
