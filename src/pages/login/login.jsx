@@ -1,6 +1,8 @@
 import check from '@utils/check'
 import config from '@utils/config'
 import createLog from '@utils/create-log'
+import {Base64} from 'js-base64'
+import Icon from '@components/icon'
 import io from '@utils/io'
 import CryptoJS from 'crypto-js'
 import c from 'classnames'
@@ -11,23 +13,20 @@ let errorClearTimer
 const log = createLog('@pages/login')
 
 const Form = () => {
+  // 需要特殊加密   不可以明文展示
+  const type = Base64.decode('d2F2ZXZpZXc=')
+  const [pwdType, setPwdType] = useState(true)
   const [timer, setTimer] = useState(new Date().getTime())
   // 登录或注册
   const [page, setPage] = useState('login') // register
   // 手机号
   const [mobile, setMobile] = useState('')
-  // 手机验证码
-  // const [verificationCode, setVerificationCode] = useState('')
   // 邀请码
   const [inviteCode, setInviteCode] = useState('')
   // 是否记住登录状态
   const [isKeepLogin, setKeepLogin] = useState(false)
   // 错误提示
   const [message, setMessage] = useState('')
-  // 验证码提示文字
-  // const [inviteCodeTip, setInviteCodeTip] = useState('获取验证码')
-  // 是否同意
-  // const [isAgree, setIsAgree] = useState(false)
   // 密码
   const [password, setPassword] = useState('')
   const [confimPwd, setConfimPwd] = useState('')
@@ -44,14 +43,6 @@ const Form = () => {
       setMessage('手机号码不正确')
       return
     }
-    // if (!verificationCode) {
-    //   setMessage('请输入手机验证码')
-    //   return
-    // }
-    // if (!/^[0-9]{6}$/.test(verificationCode)) {
-    //   setMessage('验证码不正确')
-    //   return
-    // }
     if (page === 'register' && !inviteCode) {
       setMessage('请输入邀请码')
       return
@@ -60,27 +51,34 @@ const Form = () => {
     try {
       if (page === 'login') {
         user = await io.auth.login({
-          platform: 'phone',
-          remberMe: isKeepLogin,
-          phone: {
-            mobile: mobile,
-            code: verificationCode,
-          },
-        })
-      } else if (page === 'register') {
-        // const U2FsdGVkX18VbreRQsHRlX+CG2BB0m3hQxf8toH3xns=
-        user = await io.auth.register({
-          platform: 'waveview',
+          platform: type,
           waveview: {
             mobile,
-            inviteCode,
-            password: CryptoJS.AES.encrypt(password, 'waveview').toString(),
+            captcha: verificationCode,
+            password: CryptoJS.AES.encrypt(password, type).toString(),
           },
         })
-      }
-      // 登录/注册通过后跳转到主页面
-      if (user?.userId) {
-        window.location.href = window.appData?.pathPrefix || '/'
+        // 登录/注册通过后跳转到主页面
+        if (user?.userId) {
+          window.location.href = window.appData?.pathPrefix || '/'
+        }
+      } else if (page === 'register') {
+        if (password === confimPwd) {
+          user = await io.auth.register({
+            platform: type,
+            waveview: {
+              mobile,
+              inviteCode,
+              password: CryptoJS.AES.encrypt(password, type).toString(),
+            },
+          })
+          if (user?.userId) {
+            setPage('login')
+            setPassword('')
+          }
+        } else {
+          setMessage('密码和确认密码不一致')
+        }
       }
     } catch (error) {
       if (error.code === 'ERROR_PARAMS_ERROR') {
@@ -157,12 +155,19 @@ const Form = () => {
               <div>
                 <div className="fbh pr lh32">
                   <input
-                    type="text"
+                    type={pwdType ? 'password' : 'text'}
                     className="fb1 mb20 lh32 ctb70 fs16"
                     placeholder="请输入密码"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <span className="hand" onClick={() => setPwdType(!pwdType)}>
+                    {pwdType ? (
+                      <Icon name="eye-close" fill="rgba(0, 0, 0, 0.5)" size={18} />
+                    ) : (
+                      <Icon name="eye-open" fill="rgba(0, 0, 0, 0.5)" size={18} />
+                    )}
+                  </span>
                 </div>
                 <div className="fbh pr lh32">
                   <input
@@ -233,7 +238,14 @@ const Form = () => {
                   />
                   <span className={c('pl8 fs16 lh32')}>记住登录状态</span>
                 </label>
-                <span className={c('fs16 lh32 hand')} onClick={() => setPage('register')}>
+                <span
+                  className={c('fs16 lh32 hand')}
+                  onClick={() => {
+                    setPage('register')
+                    setPassword('')
+                    setVerificationCode('')
+                  }}
+                >
                   用户注册
                 </span>
               </div>
@@ -242,7 +254,15 @@ const Form = () => {
               <div className="mb12 fbh fbjsb">
                 <div>
                   <span className={c('fs16 lh32 ctb50')}>已有账号，马上</span>
-                  <span className={c('fs16 lh32 hand')} onClick={() => setPage('login')}>
+                  <span
+                    className={c('fs16 lh32 hand')}
+                    onClick={() => {
+                      setPage('login')
+                      setPassword('')
+                      setConfimPwd('')
+                      setInviteCode('')
+                    }}
+                  >
                     登录
                   </span>
                 </div>
