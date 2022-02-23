@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import check from '@utils/check'
 import config from '@utils/config'
 import createLog from '@utils/create-log'
@@ -52,7 +53,7 @@ const Form = () => {
       if (page === 'login') {
         user = await io.auth.login({
           platform: type,
-          waveview: {
+          [type]: {
             mobile,
             captcha: verificationCode,
             password: CryptoJS.AES.encrypt(password, type).toString(),
@@ -66,7 +67,7 @@ const Form = () => {
         if (password === confimPwd) {
           user = await io.auth.register({
             platform: type,
-            waveview: {
+            [type]: {
               mobile,
               inviteCode,
               password: CryptoJS.AES.encrypt(password, type).toString(),
@@ -163,9 +164,9 @@ const Form = () => {
                   />
                   <span className="hand" onClick={() => setPwdType(!pwdType)}>
                     {pwdType ? (
-                      <Icon name="eye-close" fill="rgba(0, 0, 0, 0.5)" size={18} />
+                      <Icon name="private-eyes" fill="rgba(0, 0, 0, 0.5)" size={18} />
                     ) : (
-                      <Icon name="eye-open" fill="rgba(0, 0, 0, 0.5)" size={18} />
+                      <Icon name="public-eyes" fill="rgba(0, 0, 0, 0.5)" size={18} />
                     )}
                   </span>
                 </div>
@@ -200,8 +201,8 @@ const Form = () => {
                   />
                   <span
                     className={c('hand fs16', s.sendCode, inviteCode ? 'ct7 notAllowed' : '')}
-                    onClick={() => !inviteCode && getInvitationCode()}
-                    // onClick={() => setMessage('您可以通过以下联系方式获取邀请码：18667027566 何先生')}
+                    // onClick={() => !inviteCode && getInvitationCode()}
+                    onClick={() => setMessage('您可以通过以下联系方式获取邀请码：18667027566 何先生')}
                   >
                     获取邀请码
                   </span>
