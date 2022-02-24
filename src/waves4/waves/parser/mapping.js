@@ -337,19 +337,82 @@ export const layerOptionMap = new Map([
     },
   ],
   [
+    'edgeBundle',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['base.circleSize', 'style.circleSize'],
+        ['base.lineWidth', 'style.curve.strokeWidth'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'chord',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['base.lineWidth', 'style.arcWidth'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'sankey',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['node.sankeyAlign', 'style.align'],
+        ['node.nodeWidth', 'style.nodeWidth'],
+        ['node.nodeGap', 'style.nodeGap'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'tree',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['line.sankeyAlign', 'style.align'],
+        ['line.lineWidth', 'style.curve.strokeWidth'],
+        ['line.opacity', 'style.curve.strokeOpacity'],
+        ['line.lineCurve', 'style.curve.curve'],
+        ['base.direction', 'options.type'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
     'pack',
     ({mapOption}) => {
-      const mapping = []
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+      ]
       const storage = mapOption(mapping)
-      // if (getOption('area.effective') !== undefined) {
-      //   storage.set('style.area.hide', !getOption('area.effective'))
-      // }
-      // if (getOption('label.effective') !== undefined) {
-      //   storage.set('style.text.hide', !getOption('label.effective'))
-      // }
-      // if (getOption('label.shadow.effective') !== undefined) {
-      //   storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
-      // }
       return storage.get()
     },
   ],

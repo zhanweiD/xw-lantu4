@@ -1,8 +1,21 @@
 export default () => {
   return {
-    name: '打包图',
-    type: 'pack',
+    name: '边缘捆图',
+    type: 'edgeBundle',
     sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'circleSize',
+            defaultValue: [5, 20],
+          },
+          {
+            name: 'lineWidth',
+            defaultValue: 1,
+          },
+        ],
+      },
       {
         name: 'text',
         fields: [
@@ -21,6 +34,10 @@ export default () => {
           {
             name: 'opacity',
             defaultValue: 1,
+          },
+          {
+            name: 'labelOffset',
+            defaultValue: 5,
           },
         ],
       },

@@ -1,7 +1,7 @@
 export default () => {
   return {
-    name: '打包图',
-    type: 'pack',
+    name: '和弦图',
+    type: 'chord',
     sections: [
       {
         name: 'text',
@@ -22,22 +22,12 @@ export default () => {
             name: 'opacity',
             defaultValue: 1,
           },
+          {
+            name: 'labelOffset',
+            defaultValue: 5,
+          },
         ],
       },
-      // {
-      //   name: 'pack',
-      //   fields: [
-      //     {
-      //       name: 'circle',
-      //       sections: [
-      //         {
-      //           name: 'singleColor',
-      //           defaultValue: 'rgb(255,255,255)',
-      //         },
-      //       ]
-      //     },
-      //   ],
-      // },
     ],
   }
 }

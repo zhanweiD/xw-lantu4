@@ -22,7 +22,11 @@ import demoLine from './waves/demo-line'
 import text from './waves/others/text'
 import dashboard from './waves/others/dashboard'
 import indicator from './waves/others/indicator'
-import pack from './waves/others/pack'
+import pack from './waves/relations/pack'
+import edgeBundle from './waves/relations/edge-bundle'
+import chord from './waves/relations/chord'
+import sankey from './waves/relations/sankey'
+import tree from './waves/relations/tree'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -53,7 +57,10 @@ const waves = {
   waterfallBar,
   // 关系图
   pack,
-
+  edgeBundle,
+  chord,
+  sankey,
+  tree,
   // 其他
   text,
   dashboard,
@@ -118,7 +125,7 @@ const categories = [
     // 关系图
     name: 'classifyRelation',
     icon: 'exhibit-relation',
-    exhibits: [pack],
+    exhibits: [edgeBundle, chord, sankey, tree, pack],
   },
   {
     // 其他

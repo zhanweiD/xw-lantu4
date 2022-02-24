@@ -10,9 +10,10 @@ import pack from './pack'
 // import scatter from './scatter'
 // import arc from './arc'
 // import matrix from './matrix'
-// import chord from './chord'
-// import edgeBundle from './edge-bundle'
-// import sankey from './sankey'
+import chord from './chord'
+import edgeBundle from './edge-bundle'
+import sankey from './sankey'
+import tree from './tree'
 
 export {
   title,
@@ -22,12 +23,13 @@ export {
   rect,
   dashboard,
   pack,
+  edgeBundle,
   // auxiliary,
   // radar,
   // scatter,
   // arc,
   // matrix,
-  // chord,
-  // edgeBundle,
-  // sankey
+  chord,
+  sankey,
+  tree,
 }

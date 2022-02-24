@@ -14,6 +14,11 @@ const getRealData = (layerType, dataSource, keys) => {
         fragments: newData,
       }
     }
+    if (layerType === 'chord') {
+      const newData = {}
+      dataSource[0].forEach((item, index) => (newData[item] = dataSource[1]?.[index] || ''))
+      return newData
+    }
     if (!keys) return dataSource
     const headers = dataSource[0]
     const indexs = keys.map((key) => headers.findIndex((value) => value === key))
@@ -45,6 +50,11 @@ const getConfig = ({layerType, name, config}) => {
       },
     }
   }
+  if (layerType === 'sankey') {
+    config.scale = {
+      fixedBandwidth: 7,
+    }
+  }
   return config
 }
 
@@ -63,7 +73,6 @@ function translate(schema) {
     other, // 其他配置
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
-
   let layerConfig = []
   let padding = [60, 40, 40, 40] // 内边距
 
@@ -73,20 +82,6 @@ function translate(schema) {
   // 处理图层配置
   layers.forEach(({id, name, options, getOption, mapOption, type, effective}) => {
     // 文本处理
-    if (type === 'text') {
-      const layerType = layerTypeMap.get(type) || type
-      const config = layerOptionMap.get(layerType)({getOption, mapOption})
-      layerConfig.push(
-        merge(
-          {
-            type: layerType,
-            options: {id, layout: 'main'},
-          },
-          config
-        )
-      )
-      return
-    }
     if (effective || effective === undefined) {
       const layerType = layerTypeMap.get(type) || type
       const keys = dimension ? [...dimension.xColumn, ...options.dataMap.column] : ''
@@ -158,7 +153,6 @@ function translate(schema) {
       )
     )
   }
-
   return {
     width,
     height,
@@ -168,6 +162,7 @@ function translate(schema) {
     tooltip: {position: 'relative'},
     layers: layerConfig.reverse(),
     adjust: false,
+    ...other,
   }
 }
 
