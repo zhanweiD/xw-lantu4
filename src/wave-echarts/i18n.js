@@ -30,6 +30,14 @@ const i18n = {
   echartsRadarGroup: ['echarts-分组雷达图', 'Echarts Group Radar'],
 
   echartsBoxesBase: ['echarts-K线图', 'Echarts Candlestick'],
+  echartsBoxplotBase: ['echarts-盒须图', 'Echarts Boxplot'],
+  echartsHeatmapBase: ['echarts-热力图', 'Echarts Heatmap'],
+  echartsGraphBase: ['echarts-关系图', 'Echarts Graph'],
+  echartsTreeBase: ['echarts-树图', 'Echarts Tree'],
+  echartsTreemapBase: ['echarts-矩形树图', 'Echarts Treemap'],
+  echartSunburstBase: ['echarts-旭日图', 'Echarts Sunburst'],
+  echartSankeyBase: ['echarts-桑基图', 'Echarts Sankey'],
+  echertsGaugeBase: ['echarts-仪表盘', 'Echarts Gauge'],
 }
 
 export default i18n

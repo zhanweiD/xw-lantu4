@@ -30,6 +30,8 @@ export const MArt = types
     datas: types.frozen(),
     // 前端工具属性 不必保存
     isArtPublishInfoVisible: types.optional(types.boolean, false),
+    // 部署管理的flag
+    isVersionManagementVisible: types.optional(types.boolean, false),
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),
