@@ -133,6 +133,12 @@ const categories = [
     exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
   },
   {
+    // 基础地图
+    name: 'classifyMap',
+    icon: 'exhibit-map',
+    exhibits: [],
+  },
+  {
     // NOTE gis是内置特殊的名字，不能修改，
     // NOTE gis类组件的数据特殊，每一层都有自己的数据，不是整个组件共享的数据
     // NOTE 所以，gis组件的图层模型的deepKeys会多出data配置
