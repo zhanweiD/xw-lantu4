@@ -11,7 +11,11 @@ import {types, flow, getEnv} from 'mobx-state-tree'
 import io from '@utils/io'
 import copy from '@utils/copy'
 import commonAction from '@utils/common-action'
+import CryptoJS from 'crypto-js'
+import {Base64} from 'js-base64'
 import createLog from '@utils/create-log'
+
+const type = Base64.decode('d2F2ZXZpZXc=')
 
 const log = createLog('@models/art/art-publish-info.js')
 
@@ -26,6 +30,8 @@ export const MPublishInfo = types
     publishId: types.string,
     projectId: types.number,
     artId: types.number,
+    // publishType:types.string,
+    // publishPassword:types.string,
     list: types.optional(types.array(PublishVersion), []),
   })
   .views((self) => ({
@@ -51,8 +57,25 @@ export const MPublishInfo = types
       }
     })
 
-    const publish = flow(function* publish() {
+    const passwordPublish = flow(function* passwordPublish(isPrivate) {
+      const params = isPrivate ? {value: CryptoJS.AES.encrypt(self.publishPassword, type).toString()} : {}
       try {
+        yield io.art.passwordPublish({
+          ':artId': self.artId,
+          ':projectId': self.projectId,
+          password: {
+            type: isPrivate ? 'private' : 'overt',
+            ...params,
+          },
+        })
+      } catch (error) {
+        log.error('passwordPublish Error: ', error)
+      }
+    })
+
+    const publish = flow(function* publish(isPrivate) {
+      try {
+        self.passwordPublish(isPrivate)
         yield io.art.publish({
           ':artId': self.artId,
           ':projectId': self.projectId,
@@ -128,6 +151,7 @@ export const MPublishInfo = types
       afterCreate,
       getVersions,
       publish,
+      passwordPublish,
       online,
       offline,
       remove,

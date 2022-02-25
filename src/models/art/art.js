@@ -32,6 +32,8 @@ export const MArt = types
     isArtPublishInfoVisible: types.optional(types.boolean, false),
     // 部署管理的flag
     isVersionManagementVisible: types.optional(types.boolean, false),
+    // 是否私有化分享
+    isPrivate: types.optional(types.boolean, false),
     isGridVisible: types.optional(types.boolean, true),
     isBoxBackgroundVisible: types.optional(types.boolean, true),
     isSnap: types.optional(types.boolean, true),

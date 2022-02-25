@@ -6,10 +6,12 @@ import createEvent from '@utils/create-event'
 import createLog from '@utils/create-log'
 import commonAction from '@utils/common-action'
 import tip from '@components/tip'
+import CryptoJS from 'crypto-js'
+import {Base64} from 'js-base64'
 import {registerExhibit} from '@exhibit-collection'
 import {MData} from '../data2/data'
 import {MOffset} from './art-ui-tab-property'
-
+const type = Base64.decode('d2F2ZXZpZXc=')
 const log = createLog('@models/art/art-preview.js')
 const event = createEvent()
 
@@ -600,10 +602,14 @@ const MArtPreview = types
 
     const getPublishArt = flow(function* getPublishDetail(publishId) {
       self.fetchState = 'loading'
+      const params = self.preViewPassword
+        ? {
+            ':publishId': publishId,
+            password: CryptoJS.AES.encrypt(self.preViewPassword, type).toString(),
+          }
+        : {':publishId': publishId}
       try {
-        const art = yield io.art.getPublishDetail({
-          ':publishId': publishId,
-        })
+        const art = yield io.art.getPublishDetail(params)
         self.set({
           artId: art.artId,
           publishId: art.publishId,
