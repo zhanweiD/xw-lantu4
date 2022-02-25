@@ -48,8 +48,8 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
 export const exhibitRegister = (exhibit) => {
   const {config, lib} = exhibit
   const Model = createExhibitModelClass(exhibit)
-
   if (!exhibitCollection.get(`${lib}.${config.key}`)) {
+    // 将注册的容器相关内容写入内存
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
@@ -84,7 +84,6 @@ export const exhibitRegister = (exhibit) => {
     })
   }
 }
-
 // 预览发布状态下只注册用到的组件类型
 export const registerExhibit = (key) => {
   const exhibit = waves[key] || alldecorations[key]

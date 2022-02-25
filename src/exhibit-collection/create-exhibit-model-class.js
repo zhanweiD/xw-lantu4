@@ -108,7 +108,6 @@ export const createExhibitModelClass = (exhibit) => {
           }
           return addOptionMethod(values, 'init')
         })
-
         return layers
       }
 
@@ -127,6 +126,11 @@ export const createExhibitModelClass = (exhibit) => {
 
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
+        }
+        if (config.key === 'text') {
+          self.set({
+            state: 'success',
+          })
         }
       }
 

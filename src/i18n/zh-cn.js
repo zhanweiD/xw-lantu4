@@ -86,6 +86,15 @@ export default {
   decimalPlaces: '小数位数',
   thousandDiv: '千分位',
   text: '文字',
+  centerText: '内文字',
+  outsideText: '外文字',
+  circleText: '刻度文字',
+  sankeyAlign: '对齐',
+  node: '节点',
+  nodeWidth: '宽度',
+  nodeGap: '间距',
+  labelOffset: '偏移',
+  circleSize: '大小',
   textSize: '字号',
   textWeight: '字重',
   shadow: '阴影',
@@ -127,6 +136,7 @@ export default {
   in: '内',
   out: '外',
   shape: '图形',
+  tickSize: '刻度线',
   // TODO 待优化
   tickZero: '刻度零',
   // TODO 待优化
@@ -291,6 +301,8 @@ export default {
     numberFormat: '数字千分位',
     layer: '图层',
     publishManagement: '发布管理',
+    versionManagement: '部署管理',
+    visitAuthor: '访问限制',
   },
 
   wave: {
@@ -366,6 +378,9 @@ export default {
     echartsFunnal: 'Echarts漏斗图',
     echartsRadar: 'Echarts雷达图',
     echartsCandlestick: 'Echarts K线图',
+    echartsGraph: 'Echarts 关系图',
+    echartsHeatmap: 'Echarts 热力图',
+    echartsGauge: 'Echarts 仪表盘',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',
@@ -448,6 +463,7 @@ export default {
     select: '选择器',
     datepicker: '日期选择器',
     classifyTextIndicator: '文字指标',
+    others: '其他',
     demo: '演示对接',
   },
   user: {

@@ -29,6 +29,15 @@ import scatter from './waves/scatters/scatter'
 import bubble from './waves/scatters/bubble'
 import textarea from './waves/v3/textarea'
 import demoLine from './waves/demo-line'
+import text from './waves/others/text'
+import dashboard from './waves/others/dashboard'
+import indicator from './waves/others/indicator'
+import pack from './waves/relations/pack'
+import edgeBundle from './waves/relations/edge-bundle'
+import chord from './waves/relations/chord'
+import sankey from './waves/relations/sankey'
+import tree from './waves/relations/tree'
+import treemap from './waves/relations/treemap'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -69,6 +78,17 @@ const waves = {
   // 散点图
   scatter,
   bubble,
+  // 关系图
+  pack,
+  edgeBundle,
+  chord,
+  sankey,
+  tree,
+  treemap,
+  // 其他
+  text,
+  dashboard,
+  indicator,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -138,10 +158,10 @@ const categories = [
     exhibits: [scatter, bubble]
   },
   {
-    // 其他图表
-    name: 'classifyOthers',
-    icon: 'exhibit-other',
-    exhibits: [textarea]
+    // 关系图
+    name: 'classifyRelation',
+    icon: 'exhibit-relation',
+    exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，
@@ -150,6 +170,12 @@ const categories = [
     name: 'gis',
     icon: 'gis',
     exhibits: [],
+  },
+  {
+    // 其他
+    name: 'others',
+    icon: 'exhibit-other',
+    exhibits: [text, textarea, dashboard, indicator],
   },
   {
     // 演示对接
