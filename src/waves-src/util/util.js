@@ -145,15 +145,15 @@ export function kebabCase(string) {
 // }
 
 // 十六进制颜色转rgba
-export function hexToRgb(hex, opacity) { 
-  try {
-    const obj = colorTool(hex).fade(1 - opacity).object()
-    return `rgba(${obj.r},${obj.g},${obj.b},${obj.alpha})`
-  } catch (err) {
-    console.log(`hex 不是有效颜色: ${hex}`)
-    return hex
-  }
-}
+// export function hexToRgb(hex, opacity) { 
+//   try {
+//     const obj = colorTool(hex).fade(1 - opacity).object()
+//     return `rgba(${obj.r},${obj.g},${obj.b},${obj.alpha})`
+//   } catch (err) {
+//     console.log(`hex 不是有效颜色: ${hex}`)
+//     return hex
+//   }
+// }
 
 // /**
 //  * 
@@ -298,7 +298,7 @@ export function generateColorList(color, n = 255) {
 
 // // 终端是window
 export function isWindows() {
-  const sUserAgent = navigator.userAgent
+  // const sUserAgent = navigator.userAgent
   return (navigator.platform === 'Win32') || (navigator.platform === 'Windows')
 }
 

@@ -8,6 +8,7 @@ export function drawTooltip(position, tooltipOption) {
   const arr = Object.keys(tooltipOption)
   const tooltipSize = this.config('tooltipSize') || 24
   const height = this.getTextHeight(tooltipSize)
+  // eslint-disable-next-line no-unused-vars
   let length = 0
   let longArr = ''
   let width = this.getTextWidth(longArr, this.fontSize(tooltipSize))
@@ -40,7 +41,7 @@ export function drawTooltip(position, tooltipOption) {
     .data([tooltipOption])
     .enter()
     .append('rect')
-    .attr('transform', d => (`translate(${position[0] + (this.mainWidth / 30)}, ${position[1] + (this.mainHeight / 30)})`))
+    .attr('transform', () => (`translate(${position[0] + (this.mainWidth / 30)}, ${position[1] + (this.mainHeight / 30)})`))
     .attr('class', 'tooltipBox')
     .attr('width', width * (3 / 2))
     .attr('height', height * (arr.length + 1))
@@ -52,7 +53,7 @@ export function drawTooltip(position, tooltipOption) {
       .enter()
       .append('text')
       .attr('class', 'tooltipTitle')
-      .attr('transform', d => (`translate(${position[0] + width / 4 + (this.mainWidth / 30)}, ${position[1] + height * (index + 1) + 5 * index + (this.mainHeight / 30)})`))
+      .attr('transform', () => (`translate(${position[0] + width / 4 + (this.mainWidth / 30)}, ${position[1] + height * (index + 1) + 5 * index + (this.mainHeight / 30)})`))
       .attr('fill', 'white')
       .attr('font-size', this.fontSize(tooltipSize))
       .text(d => `${item}: ${d[item]}`)

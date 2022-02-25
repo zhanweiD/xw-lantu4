@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // window.onload = function () {
 //   initDragElement()
 //   initResizeElement()

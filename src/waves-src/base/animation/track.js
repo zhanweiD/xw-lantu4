@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // 此处我要写一个样例动画
 import * as d3 from 'd3'
 import AnimationBase from './base'

@@ -6,8 +6,8 @@
 import * as d3 from 'd3'
 import {isArray, timer, isWindows, isObject, isNumber} from '../util'
 
-const waveDataKey = '__wave_data__'
-const d3remove = d3.selection.prototype.remove
+// const waveDataKey = '__wave_data__'
+// const d3remove = d3.selection.prototype.remove
 const textShadowName = 'text-shadow'
 
 const getKeys = Object.keys
@@ -254,6 +254,7 @@ function update(name, options) {
   if (wave) {
     waveState = wave.state === 'ready'
     updateDuration = wave.config('updateDuration') / 1000
+    // eslint-disable-next-line no-unused-vars
     waveName = wave.uuid
     isAnimation = wave.config('updateAnimation') && waveState
     enableEnterAnimation = wave.config('enableEnterAnimation')
@@ -612,28 +613,28 @@ function setAnimation(options) {
  * 清除绑定在节点上的数据
  * @param {HTMLElement} elm 节点
  */
-function clear(elm) {
-  elm[waveDataKey] = null
-  const children = elm.children || []
-  for (let i = 0; i < children.length; i++) {
-    clear(children[i])
-  }
-}
+// function clear(elm) {
+//   elm[waveDataKey] = null
+//   const children = elm.children || []
+//   for (let i = 0; i < children.length; i++) {
+//     clear(children[i])
+//   }
+// }
 
 /**
  * 改写d3 remove方法
  */
-function remove() {
-  // 清除绑定在节点上的数据
+// function remove() {
+//   // 清除绑定在节点上的数据
 
-  const nodes = this.nodes()
-  for (let i = 0; i < nodes.length; i++) {
-    clear(nodes[i])
-  }
+//   const nodes = this.nodes()
+//   for (let i = 0; i < nodes.length; i++) {
+//     clear(nodes[i])
+//   }
 
-  // 调用真正的remove
-  d3remove.call(this)
-}
+//   // 调用真正的remove
+//   d3remove.call(this)
+// }
 
 function expand(proto) {
   proto.update = update

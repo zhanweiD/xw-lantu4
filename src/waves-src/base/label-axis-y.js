@@ -42,6 +42,7 @@ export default function drawLabelAxisY(axisYOption) {
   } else {
     for (let i = 0, l = oldLabels.length; i < l; i += 1) {
       if (oldLabels[i] !== label[i]) {
+        // eslint-disable-next-line no-unused-vars
         redraw = true
       }
     }

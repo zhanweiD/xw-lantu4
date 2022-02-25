@@ -12,10 +12,10 @@ const TARGET_SWITCH_BOX_STORY = 'switch_box_story'
 // 全局响应：重新获取数据
 const TARGET_REDATA = 'redata'
 
-const noParam = {
-  type: 'none',
-  description: '不需要参数',
-}
+// const noParam = {
+//   type: 'none',
+//   description: '不需要参数',
+// }
 
 const anyParam = {
   type: 'any',

@@ -18,7 +18,7 @@ const defaultOptions = {
   easing: 'cubicBezier(.5, .5, .1, .3)',
 }
 export default class shakeAnimation extends AnimationBase {
-  constructor(options, context) {
+  constructor(options) {
     super(options)
     const _options = {...defaultOptions, ...options}
     this.options = _options

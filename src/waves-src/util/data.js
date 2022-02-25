@@ -2,7 +2,7 @@
  * @file 处理数据相关的一些工具函数 
  */
 // import IDataStructure from '../interfaces/idata'
-import {isArray} from './is'
+// import {isArray} from './is'
 
 function getSource() {
   return {
@@ -257,11 +257,11 @@ function transform(dimensions, values, data) {
   values.forEach((keys, i) => {
     const unit = `unit-${i}`
     source.unit.push(unit)
-    source.valueUnit = source.valueUnit.concat(keys.map(v => unit))
+    source.valueUnit = source.valueUnit.concat(keys.map(() => unit))
   })
 
   // 组装维度
-  Object.keys(dimensionObj).forEach((d, i) => {
+  Object.keys(dimensionObj).forEach((d) => {
     source.dimension.push({
       name: d,
       labels: Object.keys(dimensionObj[d]),

@@ -51,14 +51,14 @@ export function drawLegends(legendOption) {
     legendColor,
     legendPosition,
     titleSize,
-    artboardHeight,
+    // artboardHeight,
     titleY,
-    unitSize,
-    height,
-    width,
+    // unitSize,
+    // height,
+    // width,
     legendY = 0,
     legendWidth,
-    padding,
+    // padding,
     legendAlign,
     legendGap = 0,
     canFilteringData = true,
@@ -80,6 +80,7 @@ export function drawLegends(legendOption) {
       // eslint-disable-next-line no-restricted-syntax
       for (const k in nl) {
         if (nl[k] !== ol[k]) {
+          // eslint-disable-next-line no-unused-vars
           redraw = true
           break
         }
@@ -94,19 +95,19 @@ export function drawLegends(legendOption) {
   this.container.select('.wave-legends').remove()
 
   const titleText = (option.titleText || '').replace(/^\s*|\s*$/g, '')
-  const unitContent = (option.unitContent || '').replace(/^\s*|\s*$/g, '')
+  // const unitContent = (option.unitContent || '').replace(/^\s*|\s*$/g, '')
   // 图例文本大小
   const size = this.fontSize(legendSize)
   // 图例圆点大小应该喝图例字体大小保持比例
   const r = size * 0.75
   // 图例圆圈与左右的间隙
-  const gap = 4
+  // const gap = 4
   // 图例左边部分的长度(除了文字)
-  const legendLeft = 2 * (r + gap)
+  // const legendLeft = 2 * (r + gap)
   // 计算标题的高度
   const titleHeight = titleText ? this._titleHeight || this.getTextHeight(titleSize) + (titleY || 0) : 0
   // 单位高度
-  const unitHeight = unitContent ? this._unitHeight || this.getTextHeight(unitSize) : 0
+  // const unitHeight = unitContent ? this._unitHeight || this.getTextHeight(unitSize) : 0
   // 图例Y轴位置
   let positionY = 0
 

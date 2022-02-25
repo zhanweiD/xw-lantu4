@@ -48,13 +48,13 @@ export function drawLayout() {
   const {
     legendVisible,
     legendY,
-    width,
-    height,
+    // width,
+    // height,
     fullScreen,
     legendSize,
     legendPosition,
-    legendWidth,
-    artboardHeight,
+    // legendWidth,
+    // artboardHeight,
     titleVisible,
     unitVisible,
   } = opt
@@ -79,6 +79,7 @@ export function drawLayout() {
   const unitContent = opt.unitContent.replace(/^\s*|\s*$/g, '')
 
   /* 计算容器高度 */
+  // eslint-disable-next-line no-constant-condition
   if (!0) {
     // 先把上下填充减掉
     // this.mainHeight = height - padding[0] - padding[2]
@@ -173,6 +174,7 @@ export function drawLayout() {
   this.translateX = padding[3]
 
   /* Y偏移 */
+  // eslint-disable-next-line no-constant-condition
   if (!0) {
     if (legendPosition === LEGEND_POSITION[3].key) {
       // 如果图例显示并未位置在标题栏时
@@ -203,7 +205,7 @@ export function drawLayout() {
    */
 export function drawTitle(opt) {
   const {
-    artboardHeight,
+    // artboardHeight,
     titleSize, 
     titleColor, 
     titleText,
@@ -237,7 +239,7 @@ export function drawTitle(opt) {
    */
 export function drawUnit(svg, x = 0, y = 0, opt) {
   const {
-    artboardHeight,
+    // artboardHeight,
     unitSize, 
     unitColor, 
     unitContent,

@@ -65,6 +65,7 @@ const verifyOutputData = (value, type, defaultValue, options = [], isShowTip) =>
         return defaultValue
       }
       // 此时value为数组
+      // eslint-disable-next-line no-case-declarations
       let isInOption = true
       value.forEach(item => {
         if (options.findIndex(o => o.value === item) === -1) {

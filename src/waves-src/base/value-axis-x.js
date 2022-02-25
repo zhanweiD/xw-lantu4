@@ -36,7 +36,7 @@ export default function drawValueAxisX(axisXOption) {
 
   // 如果该图表之前绘制过x轴 那么现在需要对比之前的轴 如果一样那么不需要重绘
   this.__cache__ = this.__cache__ || {}
-  const oldScale = this.__cache__.valueAxisX || [null, null]
+  // const oldScale = this.__cache__.valueAxisX || [null, null]
   // TODO: 时三改的，不改这里warn状态下scaleX.domain（）不改变不会导致scaleX重绘，
   // 从warn下恢复相同的尺度不会导致scale重绘，因为从warn状态下隐藏数字目前采用的是在this.formatMoney中判断this._isWarn的值，被折磨了
   // if (JSON.stringify(scaleX.domain()) === JSON.stringify(oldScale)) {

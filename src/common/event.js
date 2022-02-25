@@ -1,6 +1,6 @@
 import isFunction from 'lodash/isFunction'
 import random from './random'
-import createLog from './create-log'
+// import createLog from './create-log'
 import isDef from './is-def'
 
 // const log = createLog()

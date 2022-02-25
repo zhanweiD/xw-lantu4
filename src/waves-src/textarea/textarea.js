@@ -1,8 +1,5 @@
-import * as d3 from 'd3'
-import {set} from 'mobx'
 import uuid from '../../common/uuid'
 import Base from '../base'
-import {dataUtil, getTextHeight, formatNumber, getTextWidth, computePercent, dataTransformFor111} from '../util'
 
 const {
   isObject,

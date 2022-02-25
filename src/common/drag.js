@@ -6,10 +6,10 @@ const win = window
 export default class Drag {
   // 拖拽起点
   startPageX
-
+  
   // 拖拽起点
   startPageY
-
+  
   // 上一次拖拽结束后的移动距离记录
   lastDeltaX = 0
 
@@ -92,8 +92,8 @@ export default class Drag {
     const {pageX, pageY} = e
 
     // 任意时刻的位移值
-    let distX
-    let distY
+    // let distX
+    // let distY
 
     const originDeltaX = pageX - this.startPageX
     const originDeltaY = pageY - this.startPageY
