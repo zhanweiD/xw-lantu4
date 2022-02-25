@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-1729.59,-3293.91)">
+        <g transform="matrix(1,0,0,1,3325.04,644.064)">
+            <g transform="matrix(0.521152,0,0,0.521152,-2043.61,2667.3)">
+                <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,-1666.59,-881.208)">
+                <g transform="matrix(1.05789,0,0,0.856772,0.959555,505.745)">
+                    <rect x="112.526" y="3542.97" width="24.604" height="2.334" style="fill:rgb(17,155,255);"/>
+                </g>
+                <g transform="matrix(1.05789,0,0,0.856772,0.959555,521.408)">
+                    <rect x="112.526" y="3542.97" width="24.604" height="2.334" style="fill:rgb(17,155,255);"/>
+                </g>
+                <g transform="matrix(1.05789,0,0,0.856772,0.959555,537.07)">
+                    <rect x="112.526" y="3542.97" width="24.604" height="2.334" style="fill:rgb(17,155,255);"/>
+                </g>
+                <g transform="matrix(2.84506,0,0,0.856772,-244.116,552.733)">
+                    <rect x="112.526" y="3542.97" width="24.604" height="2.334" style="fill:rgb(17,155,255);"/>
+                </g>
+                <g transform="matrix(2.84506,0,0,0.856772,-244.116,568.395)">
+                    <rect x="112.526" y="3542.97" width="24.604" height="2.334" style="fill:rgb(17,155,255);"/>
+                </g>
+                <g transform="matrix(1.01523,0,0,1.02907,-1.1579,-98.5389)">
+                    <path d="M97.626,3531.76L97.917,3532.41L115.737,3571.91L111.634,3571.91L105.053,3557.32L86.7,3557.32L80.131,3571.91L76.028,3571.91L93.814,3532.41L94.106,3531.76L97.626,3531.76ZM103.768,3554.48L95.867,3536.96L87.981,3554.48L103.768,3554.48Z" style="fill:rgb(108,221,195);fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
