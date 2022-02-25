@@ -1,6 +1,23 @@
 import hJSON from 'hjson'
-import {basePieOption} from '../default-option'
 import {baseData} from '../data'
+
+const basePieOption = {
+  title: {
+    text: '基础饼图',
+    textStyle: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      type: 'pie',
+      radius: '50%',
+      label: {
+        color: 'rgba(255,255,255,0.5)',
+      },
+    },
+  ],
+}
 
 const lineLayersss = () => {
   return {

@@ -20,7 +20,7 @@ const {
   EchartsOptionField,
 } = fields
 const ModelToField = ({model}) => {
-  console.log(model)
+  // console.log(model)
   const {t} = useTranslation()
   let F
   switch (model.type) {

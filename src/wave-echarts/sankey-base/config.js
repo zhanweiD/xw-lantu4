@@ -23,7 +23,7 @@ const data = [
 const sankeyOption = {
   title: [
     {
-      text: '基础热力图',
+      text: '桑基图',
       textStyle: {
         color: '#fff',
       },
@@ -35,6 +35,9 @@ const sankeyOption = {
       layout: 'none',
       emphasis: {
         focus: 'adjacency',
+      },
+      label: {
+        color: 'rgba(255,255,255,0.5)',
       },
     },
   ],
