@@ -930,6 +930,101 @@ const pointSize = {
   defaultValue: [10, 10]
 }
 
+/**
+ * =====================================
+ * 段落
+ * =====================================
+ */
+const textarea = {
+  type: 'textarea',
+  label: 'content',
+  defaultValue: '',
+}
+
+// 关键词颜色
+const keywordColor = {
+  type: 'color',
+  label: 'keywordColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+
+// 关键词字重
+const keywordFontWeight = {
+  type: 'check',
+  label: 'keywordFontWeight', // 影响显示的名称
+  defaultValue: 400,
+  options: [
+    {key: '1', value: 100},
+    {key: '2', value: 200},
+    {key: '3', value: 300},
+    {key: '4', value: 400},
+    {key: '5', value: 500},
+    {key: '6', value: 600},
+    {key: '7', value: 700},
+  ],
+}
+
+// 是否应用关键词大小
+const hasKeywordFontSize = {
+  type: 'switch',
+  label: 'hasKeywordFontSize',
+  defaultValue: false,
+}
+
+// 关键词大小
+const keywordFontSize = {
+  type: 'number',
+  label: 'keywordFontSize',
+  defaultValue: 14,
+  min: 4,
+  max: 200,
+  step: 1,
+  hasSlider: true,
+}
+
+// 首行缩进
+const textIndent = {
+  type: 'number',
+  label: 'textIndent',
+  defaultValue: 0,
+}
+
+// 行高
+const lineHeight = {
+  type: 'number',
+  label: 'lineHeight',
+  min: 0,
+}
+
+// 对齐
+const textAlign = {
+  type: 'check',
+  label: 'textAlign',
+  defaultValue: 'left',
+  options: [
+    {
+      key: 'L',
+      value: 'left',
+    },
+    {
+      key: 'C',
+      value: 'center',
+    },
+    {
+      key: 'R',
+      value: 'right',
+    }
+  ]
+}
+
+// 段间距
+const paragraphMargin = {
+  type: 'number',
+  label: 'paragraphMargin',
+  min: 0,
+}
+
+
 export default {
   echartsoption,
   // 偏移
@@ -1045,4 +1140,22 @@ export default {
   innerRadius,
   // 散点大小
   pointSize,
+  // 段落
+  textarea,
+  // 关键词颜色
+  keywordColor,
+  // 关键词字重
+  keywordFontWeight,
+  // 是否应用关键词大小
+  hasKeywordFontSize,
+  // 关键词大小
+  keywordFontSize,
+  // 首行缩进
+  textIndent,
+  // 行高
+  lineHeight,
+  // 对齐
+  textAlign,
+  // 段间距
+  paragraphMargin,
 }

@@ -27,6 +27,7 @@ import donutNightingaleRose from './waves/pies/donut-nightingale-rose'
 import stackNightingaleRose from './waves/pies/stack-nightingale-rose'
 import scatter from './waves/scatters/scatter'
 import bubble from './waves/scatters/bubble'
+import textarea from './waves/v3/textarea'
 import demoLine from './waves/demo-line'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
@@ -71,6 +72,8 @@ const waves = {
   // echarts
   demo: demoLine,
   ...echartsWaves,
+  // 段落
+  textarea,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -133,6 +136,12 @@ const categories = [
     name: 'classifyScatter',
     icon: 'exhibit-scatter',
     exhibits: [scatter, bubble]
+  },
+  {
+    // 其他图表
+    name: 'classifyOthers',
+    icon: 'exhibit-other',
+    exhibits: [textarea]
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，
