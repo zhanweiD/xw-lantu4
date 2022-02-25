@@ -5,6 +5,9 @@ import {layerOptionMap, layerTypeMap} from './mapping'
 const getRealData = (layerType, dataSource, keys) => {
   try {
     if (!dataSource) return null
+    if (layerType === 'baseMap') {
+      return dataSource[0][0]
+    }
     if (layerType === 'dashboard') {
       const newData = [...dataSource]
       newData.shift()
@@ -13,11 +16,6 @@ const getRealData = (layerType, dataSource, keys) => {
         label: dataSource[0]?.[1] || '',
         fragments: newData,
       }
-    }
-    if (layerType === 'chord') {
-      const newData = {}
-      dataSource[0].forEach((item, index) => (newData[item] = dataSource[1]?.[index] || ''))
-      return newData
     }
     if (!keys) return dataSource
     const headers = dataSource[0]
@@ -114,8 +112,8 @@ function translate(schema) {
               data: getRealScatterData(data),
               options: {
                 id,
-                layout: 'main'
-              }
+                layout: 'main',
+              },
             },
             config
           )
@@ -131,7 +129,12 @@ function translate(schema) {
           {
             type: layerType,
             data: getRealData(layerType, data, keys),
-            options: {id, layout: 'main', zoom: layerType === 'pack'},
+            options: {
+              id,
+              layout: 'main',
+              zoom: layerType === 'pack',
+              shape: layerType === 'matrix' ? (name === '方形矩阵' ? 'rect' : 'circle') : undefined,
+            },
           },
           getConfig({layerType, name, config})
         )

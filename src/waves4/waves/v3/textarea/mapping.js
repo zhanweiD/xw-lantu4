@@ -1,7 +1,7 @@
 export const layerOptionMap = new Map([
   [
     'layer',
-    ({mapOption, getOption}) => {
+    ({mapOption}) => {
       const mapping = [
         ['base.textarea', 'content'],
         ['base.keywordColor', 'keywordColor'],
@@ -14,10 +14,10 @@ export const layerOptionMap = new Map([
         ['base.singleColor', 'color'],
         ['base.textWeight', 'labelWeight'],
         ['base.textAlign', 'textAlign'],
-        ['base.paragraphMargin', 'paragraphMargin']
+        ['base.paragraphMargin', 'paragraphMargin'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
-    } 
-  ]
+    },
+  ],
 ])

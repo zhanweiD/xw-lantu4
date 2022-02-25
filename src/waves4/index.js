@@ -38,6 +38,9 @@ import chord from './waves/relations/chord'
 import sankey from './waves/relations/sankey'
 import tree from './waves/relations/tree'
 import treemap from './waves/relations/treemap'
+import rectMatrix from './waves/matrices/rect-matrix'
+import circleMatrix from './waves/matrices/circle-matrix'
+import baseMap from './waves/map/baseMap'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -66,6 +69,9 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 热力图
+  rectMatrix,
+  circleMatrix,
   // 雷达
   basicRadar,
   groupRadar,
@@ -85,6 +91,8 @@ const waves = {
   sankey,
   tree,
   treemap,
+  // 地图
+  baseMap,
   // 其他
   text,
   dashboard,
@@ -140,28 +148,40 @@ const categories = [
     exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
   },
   {
-    // 雷达图
-    name: 'classifyRadar',
-    icon: 'exhibit-radar',
-    exhibits: [basicRadar, groupRadar]
-  },
-  {
     // 饼图
     name: 'classifyPie',
     icon: 'exhibit-pie',
-    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose]
+    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose],
   },
   {
     // 散点图
     name: 'classifyScatter',
     icon: 'exhibit-scatter',
-    exhibits: [scatter, bubble]
+    exhibits: [scatter, bubble],
+  },
+  {
+    // 雷达图
+    name: 'classifyRadar',
+    icon: 'exhibit-radar',
+    exhibits: [basicRadar, groupRadar],
+  },
+  {
+    // 热力图
+    name: 'classifyHeatmap',
+    icon: 'exhibit-heatmap',
+    exhibits: [rectMatrix, circleMatrix],
   },
   {
     // 关系图
     name: 'classifyRelation',
     icon: 'exhibit-relation',
     exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
+  },
+  {
+    // 基础地图
+    name: 'classifyMap',
+    icon: 'exhibit-map',
+    exhibits: [baseMap],
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

@@ -1,12 +1,7 @@
-import * as d3 from 'd3'
-import {set} from 'mobx'
 import uuid from '../../common/uuid'
 import Base from '../base'
-import {dataUtil, getTextHeight, formatNumber, getTextWidth, computePercent, dataTransformFor111} from '../util'
 
-const {
-  isObject,
-} = Base
+const {isObject} = Base
 
 const defaultOption = {
   labelSize: 30,
@@ -23,7 +18,6 @@ const defaultOption = {
 }
 
 export default class Text extends Base {
-
   constructor(option) {
     super(option, defaultOption, 'textarea')
     this._data = {}
@@ -55,17 +49,11 @@ export default class Text extends Base {
   data(data) {
     // 判断数据版本
     if (isObject(data.data)) {
-      this._data = [
-        Object.keys(data.data),
-        Object.entries(data.data).map(([, v]) => v),
-      ]
+      this._data = [Object.keys(data.data), Object.entries(data.data).map(([, v]) => v)]
       // 取出文本
       this.templateContent = data?.content || ''
     } else {
-      this._data = [
-        Object.keys(data),
-        Object.entries(data).map(([, v]) => v),
-      ]
+      this._data = [Object.keys(data), Object.entries(data).map(([, v]) => v)]
     }
 
     return this
@@ -86,7 +74,8 @@ export default class Text extends Base {
     }
 
     // 文字容器
-    this.textareaContainer = this.root.append('foreignObject')
+    this.textareaContainer = this.root
+      .append('foreignObject')
       .attr('width', this.mainWidth)
       .attr('height', this.mainHeight)
 
@@ -96,9 +85,8 @@ export default class Text extends Base {
     // 报错之后重绘，具体说明看line
     if (!this._isWarn) {
       const canUnRemoveChart = ['.wave-title', '.wave-unit']
-      canUnRemoveChart.forEach(x => {
-        this.container.select(x)
-          .attr('display', 'block')
+      canUnRemoveChart.forEach((x) => {
+        this.container.select(x).attr('display', 'block')
       })
       this.container.select('.wave-warnInfo').remove()
     }
@@ -109,9 +97,8 @@ export default class Text extends Base {
     if (!this._isWarn) {
       this.root.style('opacity', 1)
       const canUnRemoveChart = ['.wave-title', '.wave-unit']
-      canUnRemoveChart.forEach(x => {
-        this.container.select(x)
-          .attr('display', 'block')
+      canUnRemoveChart.forEach((x) => {
+        this.container.select(x).attr('display', 'block')
       })
       this.container.select('.wave-warnInfo').remove()
     }
@@ -119,9 +106,7 @@ export default class Text extends Base {
     // return this
   }
 
-  changeKeyWords() {
-
-  }
+  changeKeyWords() {}
 
   /**
    * 图表更新
@@ -159,22 +144,28 @@ export default class Text extends Base {
       content = content.replace(rule, `@@WAVEVIEW@@~~~${key}~~~${this._data[1][index]}@@WAVEVIEW@@`)
     })
 
-    const contents = content.split(/[\n]/).filter(v => v).map((v, i) => ({
-      index: i,
-      children: v.split('@@WAVEVIEW@@').map((value, index) => {
-        const rule = new RegExp(`~~~${key}~~~`, 'g')
-        return ({
-          index,
-          value: value.replace(rule, ''),
-          isKeyword: value.indexOf(`~~~${key}~~~`) !== -1,
-        })
-      }),
-    }))
+    const contents = content
+      .split(/[\n]/)
+      .filter((v) => v)
+      .map((v, i) => ({
+        index: i,
+        children: v.split('@@WAVEVIEW@@').map((value, index) => {
+          const rule = new RegExp(`~~~${key}~~~`, 'g')
+          return {
+            index,
+            value: value.replace(rule, ''),
+            isKeyword: value.indexOf(`~~~${key}~~~`) !== -1,
+          }
+        }),
+      }))
 
     // 绘制
-    this.textareaContainer.append('xhtml:div')
+    this.textareaContainer
+      .append('xhtml:div')
       .attr('class', 'wave-textarea-container scrollbar')
-      .attr('style', `
+      .attr(
+        'style',
+        `
         color: ${fontColor};
         font-size: ${this.fontSize(fontSize)}px;
         font-weight: ${fontWeight};
@@ -184,7 +175,8 @@ export default class Text extends Base {
         height: 100%;
         text-align: ${textAlign};
         word-break: normal;
-      `)
+      `
+      )
       .append('xhtml:div')
       .attr('class', 'wave-textarea-container-height-counter')
       .selectAll('.textarea')
@@ -193,34 +185,40 @@ export default class Text extends Base {
       // 绘制段落
       .append('xhtml:p')
       .attr('class', 'wave-textarea-paragraph')
-      .attr('style', `
+      .attr(
+        'style',
+        `
         display: block;
         text-indent: ${this.fontSize(textIndent)}px;
         margin-bottom: ${this.fontSize(paragraphMargin)}px;
-      `)
+      `
+      )
       .selectAll()
       .data(({children}) => children)
       .enter()
       .append('xhtml:span')
-      .attr('class', d => (d.isKeyword ? 'hand keywordsActive' : ''))
-      .attr('style', d => `
+      .attr('class', (d) => (d.isKeyword ? 'hand keywordsActive' : ''))
+      .attr(
+        'style',
+        (d) => `
         color: ${d.isKeyword && keywordColor};
         font-weight: ${d.isKeyword && keywordFontWeight};
         font-size: ${d.isKeyword && hasKeywordFontSize ? this.fontSize(keywordFontSize) : this.fontSize(fontSize)}px;
         line-height:  ${d.isKeyword && hasKeywordFontSize ? this.fontSize(keywordFontSize) : this.fontSize(fontSize)}px;
         
-      `)
-      .on('click', data => {
+      `
+      )
+      .on('click', (data) => {
         if (data.isKeyword) {
           this.event.fire('onClickKeywords', {
             data: {
               key: this._data[1].map((v, i) => (v === data.value ? this._data[0][i] : data.value))[0],
               value: data.value,
-            }
+            },
           })
         }
       })
-      .text(d => d.value)
+      .text((d) => d.value)
 
     return this
   }
@@ -252,7 +250,7 @@ export default class Text extends Base {
     // element.onscroll(v => {
     //   console.log(v, 'v')
     // })
-    element.onscroll = v => {
+    element.onscroll = (v) => {
       if (element.scrollTop === top && element.scrollTop !== 0) {
         return
       }
@@ -262,16 +260,17 @@ export default class Text extends Base {
       scroll()
     }
 
-    const scroll = () => setTimeout(() => {
-      clearInterval(textareaAnimationTimer)
-      textareaAnimationTimer = setInterval(() => {
-        if ((elementRealHeight.offsetHeight - element.offsetHeight) >= top) {
-          element.scrollTo(0, top += 1)
-        } else {
-          element.scrollTo(0, 0)
-        }
-      }, 50)
-    }, enterAnimationDuration)
+    const scroll = () =>
+      setTimeout(() => {
+        clearInterval(textareaAnimationTimer)
+        textareaAnimationTimer = setInterval(() => {
+          if (elementRealHeight.offsetHeight - element.offsetHeight >= top) {
+            element.scrollTo(0, (top += 1))
+          } else {
+            element.scrollTo(0, 0)
+          }
+        }, 50)
+      }, enterAnimationDuration)
 
     scroll()
   }

@@ -12,10 +12,10 @@ const TARGET_SWITCH_BOX_STORY = 'switch_box_story'
 // 全局响应：重新获取数据
 const TARGET_REDATA = 'redata'
 
-const noParam = {
-  type: 'none',
-  description: '不需要参数',
-}
+// const noParam = {
+//   type: 'none',
+//   description: '不需要参数',
+// }
 
 const anyParam = {
   type: 'any',
@@ -41,7 +41,6 @@ export default {
 
   // 不触发函数的返回值
   NOT_TRIGGER: 'fn-not-trigger',
-
 
   // 全部 schema
   CONTAINER_ALL_SCHEMA,
@@ -108,7 +107,6 @@ export default {
     },
   ],
 
-
   // 默认转换函数
   DEFAULT_TANSFORM_FN: `/**
   * @param value any , 值
@@ -118,6 +116,4 @@ export default {
   function(value, notTrigger) {
    return value
   }`,
-
-
 }

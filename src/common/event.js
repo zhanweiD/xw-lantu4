@@ -1,13 +1,13 @@
 import isFunction from 'lodash/isFunction'
 import random from './random'
-import createLog from './create-log'
+// import createLog from './create-log'
 import isDef from './is-def'
 
 // const log = createLog()
 
 const createEvent = (privateName = '') => {
   const id = `__event-${privateName}-${random()}`
-  const rename = name => `${id}-${name}`
+  const rename = (name) => `${id}-${name}`
   let cache = {}
 
   const event = {
@@ -108,35 +108,35 @@ const createEvent = (privateName = '') => {
 
 export default createEvent
 
-export const assignEvent = receiver => {
+export const assignEvent = (receiver) => {
   // log.warn('assignEvent方法将会删除，应改为createEvent实现')
   Object.assign(receiver, createEvent())
 }
 
 export const globalEvent = createEvent()
 
-document.body.addEventListener('click', e => {
+document.body.addEventListener('click', (e) => {
   if (e.target && e.target.closest('.stopPropagation') === null) {
     globalEvent.fire('globalClick', e)
   }
 })
 
-window.addEventListener('resize', e => {
+window.addEventListener('resize', (e) => {
   globalEvent.fire('globalResize', e)
 })
 
-const keyDownPrefix = keyName => `keyDown-${keyName}`
-const keyUpPrefix = keyName => `keyUp-${keyName}`
+const keyDownPrefix = (keyName) => `keyDown-${keyName}`
+const keyUpPrefix = (keyName) => `keyUp-${keyName}`
 
 // 是否处于输入状态
 const isInputting = () => {
   const {activeElement} = document
-  return (activeElement && (activeElement.nodeName === 'TEXTAREA' || activeElement.nodeName === 'INPUT'))
+  return activeElement && (activeElement.nodeName === 'TEXTAREA' || activeElement.nodeName === 'INPUT')
 }
 
 const isFnKeyHolding = () => {
   const {event: e} = window
-  return (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey)
+  return e.metaKey || e.ctrlKey || e.altKey || e.shiftKey
 }
 
 // 示例：
@@ -152,7 +152,7 @@ const isFnKeyHolding = () => {
 // })
 const shortcutEvent = createEvent()
 
-shortcutEvent.fireSingleKey = name => {
+shortcutEvent.fireSingleKey = (name) => {
   if (!isFnKeyHolding() && isInputting()) {
     return
   }
@@ -162,7 +162,7 @@ shortcutEvent.fireSingleKey = name => {
 export const shortcut = {
   init() {
     // 功能键  metaKey = mac command ,  ctrlKey = win ctrl
-    const keyDownFunction = e => {
+    const keyDownFunction = (e) => {
       switch (e.keyCode) {
         // backspace 退格键
         case 8:
@@ -230,11 +230,11 @@ export const shortcut = {
     }
 
     // !NOTE 这里不能使用节流，否则浏览器的默认行为的无法拦截的
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       keyDownFunction(e)
     })
 
-    document.addEventListener('keyup', e => {
+    document.addEventListener('keyup', (e) => {
       switch (e.keyCode) {
         // backspace 退格键
         case 8:
@@ -343,7 +343,7 @@ export const shortcut = {
     // console.log('shortcut event', event)
 
     return () => {
-      offs.forEach(off => {
+      offs.forEach((off) => {
         off()
       })
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // 此处我要写一个样例动画
 import * as d3 from 'd3'
 import AnimationBase from './base'
@@ -47,7 +48,8 @@ export default class Track extends AnimationBase {
     const defs = trackBox.append('defs')
     const {uuid} = this
     this.target.map((x, i) => {
-      const mask = defs.append('mask')
+      const mask = defs
+        .append('mask')
         .attr('id', `mask-${uuid}${i}`)
         .selectAll('m-circle')
         .data([1])
@@ -59,7 +61,8 @@ export default class Track extends AnimationBase {
         .attr('fill', 'url(#grad)')
     })
 
-    const radialGradient = defs.append('radialGradient')
+    const radialGradient = defs
+      .append('radialGradient')
       .attr('id', 'grad')
       .attr('cx', 0.5)
       .attr('cy', 0.5)
@@ -68,7 +71,8 @@ export default class Track extends AnimationBase {
     radialGradient.append('stop').attr('offset', '100%').attr('stop-color', '#fff').attr('stop-opacity', 1)
 
     // 外发光阴影
-    const filterBox = trackBox.selectAll('.filter')
+    const filterBox = trackBox
+      .selectAll('.filter')
       .data([1])
       .enter()
       .append('filter')
@@ -78,12 +82,9 @@ export default class Track extends AnimationBase {
       .attr('x', -2)
       .attr('y', -5)
 
-    filterBox.append('feGaussianBlur')
-      .attr('in', 'offOut')
-      .attr('stdDeviation', 4)
-      .attr('result', 'blurOut')
+    filterBox.append('feGaussianBlur').attr('in', 'offOut').attr('stdDeviation', 4).attr('result', 'blurOut')
 
-    const trackData = this.target.map(d => {
+    const trackData = this.target.map((d) => {
       const lastIndex = d.search(/[lhvcsqta]/i)
       const startPoint = d.slice(1, lastIndex).split(',')
       startPoint[0] = `M${d.split(',')[0].split('M')[1] - trackLength}`
@@ -97,11 +98,12 @@ export default class Track extends AnimationBase {
       let startTime
       // console.log('正在轮播没被清除', this.isAnimation, uuid)
       trackBox.selectAll('.path').remove()
-      trackBox.selectAll('.path')
+      trackBox
+        .selectAll('.path')
         .data(trackData)
         .enter()
         .append('path')
-        .attr('d', d => d)
+        .attr('d', (d) => d)
         .attr('stroke', trackColor)
         .attr('fill', 'none')
         .attr('stroke-width', trackWidth)
@@ -120,7 +122,7 @@ export default class Track extends AnimationBase {
           // 计算track出现的时间
           startTime = trackLength / length
           // console.log(d, ii)
-          return t => {
+          return (t) => {
             // console.log(t)
             const p = elm[ii].getPointAtLength(t * length)
             trackBox.select(`#m-circle${ii}`).attr('cx', p.x).attr('cy', p.y)
@@ -138,7 +140,8 @@ export default class Track extends AnimationBase {
         })
       if (isTrackLight) {
         trackBox.selectAll('#myPx').remove()
-        trackBox.selectAll('#myPx')
+        trackBox
+          .selectAll('#myPx')
           .data(trackData)
           .enter()
           .append('path')
@@ -149,7 +152,7 @@ export default class Track extends AnimationBase {
           .style('opacity', 1)
           .attr('fill', '#55fdfe00')
           .attr('mask', (d, i) => `url(#mask-${uuid}${i})`)
-          .attr('d', d => d)
+          .attr('d', (d) => d)
           .attr('filter', 'url(#blurMe)')
           .transition()
           .duration(trackLoopTime)
@@ -158,7 +161,7 @@ export default class Track extends AnimationBase {
           .attrTween('stroke-dasharray', (d, ii, elm) => {
             const length = elm[ii].getTotalLength()
             const trackScale = d3.interpolateString(`0, ${length}`, `${length}, ${length}`)
-            return t => {
+            return (t) => {
               if (t < startTime) {
                 return `0, ${trackLength}, ${trackScale(t).split(',')[0]}, ${length}`
               }
