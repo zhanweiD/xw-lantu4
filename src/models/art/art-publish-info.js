@@ -12,10 +12,8 @@ import io from '@utils/io'
 import copy from '@utils/copy'
 import commonAction from '@utils/common-action'
 import CryptoJS from 'crypto-js'
-import {Base64} from 'js-base64'
+import encryptionType from '@utils/base64-decode'
 import createLog from '@utils/create-log'
-
-const type = Base64.decode('d2F2ZXZpZXc=')
 
 const log = createLog('@models/art/art-publish-info.js')
 
@@ -58,7 +56,7 @@ export const MPublishInfo = types
     })
 
     const passwordPublish = flow(function* passwordPublish(isPrivate) {
-      const params = isPrivate ? {value: CryptoJS.AES.encrypt(self.publishPassword, type).toString()} : {}
+      const params = isPrivate ? {value: CryptoJS.AES.encrypt(self.publishPassword, encryptionType).toString()} : {}
       try {
         yield io.art.passwordPublish({
           ':artId': self.artId,
