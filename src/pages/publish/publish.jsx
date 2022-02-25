@@ -11,7 +11,8 @@ const Publish = ({match}) => {
   const {publishId} = match.params
   const [visitAuthorVisible, setVisitAuthorVisible] = useState(true)
   useEffect(() => {
-    art.getPublishArt(publishId)
+    // art.getPublishArt(publishId)
+    art.getOnlineType(publishId)
   }, [publishId])
   const {t} = useTranslation()
   if (art.fetchState !== 'success') {

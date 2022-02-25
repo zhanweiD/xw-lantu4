@@ -600,6 +600,24 @@ const MArtPreview = types
       }
     })
 
+    const getOnlineType = flow(function* getOnlineType(publishId) {
+      self.fetchState = 'loading'
+      try {
+        const res = yield io.art.getOnlineType({
+          ':publishId': publishId,
+        })
+        if (res.type === 'private') {
+          // self.getPublishArt(publishId)
+          return
+        }
+        self.getPublishArt(publishId)
+      } catch (error) {
+        self.fetchState = 'error'
+        tip.error({content: error.message})
+        log.error('getOnlineType', error)
+      }
+    })
+
     const getPublishArt = flow(function* getPublishDetail(publishId) {
       self.fetchState = 'loading'
       const params = self.preViewPassword
@@ -773,6 +791,7 @@ const MArtPreview = types
       getArt,
       update,
       getPublishArt,
+      getOnlineType,
     }
   })
 

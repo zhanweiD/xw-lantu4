@@ -283,6 +283,10 @@ context.create('io.art', {
     method: 'POST',
     url: 'project/:projectId/art/:artId/publish',
   },
+  getOnlineType: {
+    method: 'GET',
+    url: 'art/publish/:publishId/online/type',
+  },
   getPublishDetail: {
     method: 'GET',
     url: 'art/publish/:publishId/online',
