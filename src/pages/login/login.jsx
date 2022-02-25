@@ -2,7 +2,7 @@
 import check from '@utils/check'
 import config from '@utils/config'
 import createLog from '@utils/create-log'
-import {Base64} from 'js-base64'
+import encryptionType from '@utils/base64-decode'
 import Icon from '@components/icon'
 import io from '@utils/io'
 import CryptoJS from 'crypto-js'
@@ -14,8 +14,6 @@ let errorClearTimer
 const log = createLog('@pages/login')
 
 const Form = () => {
-  // 需要特殊加密   不可以明文展示
-  const type = Base64.decode('d2F2ZXZpZXc=')
   const [pwdType, setPwdType] = useState(true)
   const [timer, setTimer] = useState(new Date().getTime())
   // 登录或注册
@@ -52,11 +50,11 @@ const Form = () => {
     try {
       if (page === 'login') {
         user = await io.auth.login({
-          platform: type,
-          [type]: {
+          platform: encryptionType,
+          [encryptionType]: {
             mobile,
             captcha: verificationCode,
-            password: CryptoJS.AES.encrypt(password, type).toString(),
+            password: CryptoJS.AES.encrypt(password, encryptionType).toString(),
           },
         })
         // 登录/注册通过后跳转到主页面
@@ -66,11 +64,11 @@ const Form = () => {
       } else if (page === 'register') {
         if (password === confimPwd) {
           user = await io.auth.register({
-            platform: type,
-            [type]: {
+            platform: encryptionType,
+            [encryptionType]: {
               mobile,
               inviteCode,
-              password: CryptoJS.AES.encrypt(password, type).toString(),
+              password: CryptoJS.AES.encrypt(password, encryptionType).toString(),
             },
           })
           if (user?.userId) {

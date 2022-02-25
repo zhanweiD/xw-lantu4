@@ -6,6 +6,8 @@ import createEvent from '@utils/create-event'
 import createLog from '@utils/create-log'
 import commonAction from '@utils/common-action'
 import tip from '@components/tip'
+import CryptoJS from 'crypto-js'
+import encryptionType from '@utils/base64-decode'
 import {registerExhibit} from '@exhibit-collection'
 import {MData} from '../data2/data'
 import {MOffset} from './art-ui-tab-property'
@@ -598,12 +600,34 @@ const MArtPreview = types
       }
     })
 
-    const getPublishArt = flow(function* getPublishDetail(publishId) {
+    const getOnlineType = flow(function* getOnlineType(publishId) {
       self.fetchState = 'loading'
       try {
-        const art = yield io.art.getPublishDetail({
+        const res = yield io.art.getOnlineType({
           ':publishId': publishId,
         })
+        if (res.type === 'private') {
+          // self.getPublishArt(publishId)
+          return
+        }
+        self.getPublishArt(publishId)
+      } catch (error) {
+        self.fetchState = 'error'
+        tip.error({content: error.message})
+        log.error('getOnlineType', error)
+      }
+    })
+
+    const getPublishArt = flow(function* getPublishDetail(publishId) {
+      self.fetchState = 'loading'
+      const params = self.preViewPassword
+        ? {
+            ':publishId': publishId,
+            password: CryptoJS.AES.encrypt(self.preViewPassword, encryptionType).toString(),
+          }
+        : {':publishId': publishId}
+      try {
+        const art = yield io.art.getPublishDetail(params)
         self.set({
           artId: art.artId,
           publishId: art.publishId,
@@ -767,6 +791,7 @@ const MArtPreview = types
       getArt,
       update,
       getPublishArt,
+      getOnlineType,
     }
   })
 

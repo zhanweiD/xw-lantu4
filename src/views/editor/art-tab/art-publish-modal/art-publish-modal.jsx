@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import moment from 'moment'
@@ -6,25 +6,25 @@ import c from 'classnames'
 import Table from '@components/table'
 import Modal from '@components/modal'
 import config from '@utils/config'
+import tip from '@components/tip'
 import {TextField} from '@components/field'
 import s from './modal.module.styl'
 
 const PublishModal = ({art}) => {
   // 从哪里来？
-  const {artPublishInfo = {}, isArtPublishInfoVisible, global, isVersionManagementVisible} = art
-  const {list, publishId, remark} = artPublishInfo
-  const [isPublish, setIsPublish] = useState(false)
+  const {artPublishInfo = {}, isArtPublishInfoVisible, global, isPrivate} = art
+  const {list, publishId, remark, publishPassword} = artPublishInfo
   const {
     options: {
       sections: {
         auth: {
+          // eslint-disable-next-line no-unused-vars
           fields: {password: model},
         },
       },
     },
   } = global
-  // const model = art.global.options.sections.auth.fields.password
-  console.log(isVersionManagementVisible, isArtPublishInfoVisible)
+
   const {t} = useTranslation()
   const columns = [
     {
@@ -116,36 +116,35 @@ const PublishModal = ({art}) => {
           <div className={c(s.align, 'fbh mt24')}>
             <span>分享范围</span>
             <input
-              checked={!isPublish}
+              checked={!isPrivate}
               style={{backgroundColor: 'transparent'}}
               onChange={(e) => {
-                e.target.checked && setIsPublish(!isPublish)
+                e.target.checked && artPublishInfo.set({publishPassword: ''})
+                art.set({isPrivate: false})
               }}
               type="radio"
             ></input>
             <span>公开</span>
             <input
-              checked={isPublish}
+              checked={isPrivate}
               onChange={(e) => {
-                e.target.checked && setIsPublish(!isPublish)
+                art.set({isPrivate: true})
               }}
               style={{backgroundColor: 'transparent'}}
               type="radio"
             ></input>
             <span>私密</span>
           </div>
-          {isPublish && (
+          {isPrivate && (
             <div className={c(s.align, 'fbh mt24')}>
               <span>密码</span>
               <TextField
                 type="password"
                 className="fb1 ml12 mr12"
-                visible={model.visible_}
-                value={model.value}
-                defaultValue={model.defaultValue}
-                placeholder={t(model.placeholder)}
+                value={publishPassword}
+                placeholder="请输入密码"
                 onChange={(v) => {
-                  model.setValue(v)
+                  artPublishInfo.set({publishPassword: v})
                 }}
               />
             </div>
@@ -153,7 +152,15 @@ const PublishModal = ({art}) => {
           <div
             className={c(s.publishButton, 'mt24 mb8 hand ctw', list && list.length > 4 && s.disableButton)}
             onClick={() => {
-              artPublishInfo.publish()
+              if (isPrivate) {
+                if (!publishPassword) {
+                  tip.error({content: '请输入密码'})
+                } else {
+                  artPublishInfo.publish(isPrivate)
+                }
+                return
+              }
+              artPublishInfo.publish(isPrivate)
             }}
           >
             确认发布

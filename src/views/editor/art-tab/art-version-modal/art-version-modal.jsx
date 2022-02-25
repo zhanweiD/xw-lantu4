@@ -20,10 +20,6 @@ const VersionModal = ({art}) => {
     build: '构建中...',
     finish: '下载',
   }
-  console.log(
-    '🚀 ~ file: art-version-modal.jsx ~ line 15 ~ VersionModal ~ isVersionManagementVisible',
-    isVersionManagementVisible
-  )
   const {t} = useTranslation()
   const columns = [
     {
