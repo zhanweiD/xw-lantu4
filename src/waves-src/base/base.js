@@ -1,6 +1,4 @@
 import * as d3 from 'd3'
-import React from 'react'
-import ReactDOM from 'react-dom'
 import * as util from './util'
 import * as labelAxisX from './label-axis-x'
 import * as valueAxisY from './value-axis-y'
@@ -14,9 +12,6 @@ import drawValueAxisX from './value-axis-x'
 import drawLabelAxisY from './label-axis-y'
 import {generateColorList} from '../util'
 import createEvent from '../../common/event'
-import createLog from '../../common/create-log'
-import isDev from '../../common/is-dev'
-import Warning from '../../components/warning'
 import tip from '../../components/tip'
 import {chromaScale} from './chroma'
 import {EmptyAnimation} from './animation'
@@ -24,7 +19,7 @@ import {EmptyAnimation} from './animation'
 // TODO: 后面处理
 // const interpolate = require('color-interpolate')
 
-const {getValueByPath, isNumber, isArray} = util
+const {getValueByPath, isArray} = util
 const {assign} = Object
 
 window.d3 = d3
@@ -134,8 +129,7 @@ export default class Base {
       this.mainWidth = this.containerWidth
       this.mainHeight = this.containerHeight
       // 创建图表根节点g元素
-      this.root = svg.append('g')
-        .attr('width', containerWidth).attr('height', containerHeight)
+      this.root = svg.append('g').attr('width', containerWidth).attr('height', containerHeight)
     } else {
       // 将布局方法，画标题，画单位的方法挂载到实例上，
       // Q：什么时候画标题和单位？A:单位和标题独立在图表之外不影响图表不依赖图表，应该在公共的方法也就是base中画完
@@ -183,10 +177,9 @@ export default class Base {
     if (padding.length === 0) {
       padding = [10]
     } else {
-      // TODO: 
+      // TODO:
       // for (let i = 0, l = padding.length; i < l; i++) {
       //   padding[i] = Number(padding[i])
-
       //   if (!isNumber(padding[i])) {
       //     throw new Error('Padding Values Must Be Number')
       //   }
@@ -201,7 +194,7 @@ export default class Base {
       padding = [padding[0], padding[1], padding[2], padding[1]]
     }
 
-    return this.padding = padding
+    return (this.padding = padding)
   }
 
   // Tooltip 轮播
@@ -255,21 +248,24 @@ export default class Base {
       const size = this.fontSize(this.config('legendSize') || 12)
       const lineContainer = this.root.append('g').attr('transform', `translate(0, ${scaleY(value)})`)
       // 线
-      lineContainer.append('line')
+      lineContainer
+        .append('line')
         .attr('class', 'wave-reference-line')
         .attr('stroke', this.config('referenceLineColorY'))
         .attr('stroke-width', this.fontSize(lineWeight))
         .attr('stroke-dasharray', '5, 5')
         .attr('x2', this.mainWidth)
       // 数值和背景
-      lineContainer.append('rect')
+      lineContainer
+        .append('rect')
         .attr('class', 'wave-reference-line-tag')
         .attr('x', this.mainWidth + offset)
         .attr('y', -util.getTextHeight(size) / 2)
         .attr('width', util.getTextWidth(value, size) + 10)
         .attr('height', util.getTextHeight(size))
         .attr('fill', this.config('referenceLineColorY'))
-      lineContainer.append('text')
+      lineContainer
+        .append('text')
         .attr('class', 'wave-reference-line-text')
         .attr('x', this.mainWidth + 5 + offset)
         .attr('y', util.getTextHeight(size) / 4)
@@ -283,14 +279,16 @@ export default class Base {
       const size = this.fontSize(this.config('legendSize') || 12)
       const lineContainer = this.root.append('g').attr('transform', `translate(${scaleX(value)}, 0)`)
       // 线
-      lineContainer.append('line')
+      lineContainer
+        .append('line')
         .attr('class', 'wave-reference-line')
         .attr('stroke', this.config('referenceLineColorX'))
         .attr('stroke-width', this.fontSize(lineWeight))
         .attr('stroke-dasharray', '5, 5')
         .attr('y2', this.mainHeight)
       // 数值和背景
-      lineContainer.append('rect')
+      lineContainer
+        .append('rect')
         .attr('class', 'wave-reference-line-tag')
         .attr('x', -(util.getTextWidth(value, size) + 10) / 2)
         .attr('y', -util.getTextHeight(size) - offset)
@@ -298,7 +296,8 @@ export default class Base {
         .attr('height', util.getTextHeight(size))
         .attr('fill', this.config('referenceLineColorX'))
         .attr('transform', 'translate(-50%, 0')
-      lineContainer.append('text')
+      lineContainer
+        .append('text')
         .attr('class', 'wave-reference-line-text')
         .attr('x', 5 - (util.getTextWidth(value, size) + 10) / 2)
         .attr('y', (util.getTextHeight(size) / 4) * 3 - util.getTextHeight(size) - offset)
@@ -331,24 +330,24 @@ export default class Base {
   // 定义组件如何在视图中报错
   // @param text {string} 错误提示文本
   // @param onTextClick {function} 点击错误文本时，可以往控制台打印自定义信息
-  warn({text, onTextClick}) {
+  warn({text}) {
     this.root.html('')
     // xy轴，单位，标题，图例,报错信息一次全部干掉
     // 这里有两种实现方式，一种时html（‘’）一种时remove（），目测remove（）性能消耗会小，因为在组件内部也会进行一次remove（）
     const canRemoveWave = ['.wave-axis-y', '.wave-axis-x', '.wave-legends', '.wave-warnInfo']
-    canRemoveWave.forEach(x => {
+    canRemoveWave.forEach((x) => {
       // 一部分删除
       this.container.select(x).remove()
     })
 
     const canUnRemoveWave = ['.wave-title', '.wave-unit']
-    canUnRemoveWave.forEach(x => {
+    canUnRemoveWave.forEach((x) => {
       // 一部分隐藏，不再进行重绘，因为改数据不可能改变标题和单位
       this.container.select(x).attr('display', 'none')
     })
 
     const padding = this._extendPadding()
-    const waring = this.root
+    this.root
       .attr('style', 'pointer-events: none;')
       .append('foreignObject')
       .attr('transform', `translate(${-padding[3]}, ${-padding[0]})`)
@@ -403,7 +402,13 @@ export default class Base {
     const {rangeValue} = options
     const {domain} = options
     const {barWidth = 0} = options
-    const scaleX = scale || d3.scalePoint().range([0 + barWidth, rangeValue - barWidth]).domain(domain).padding(0)
+    const scaleX =
+      scale ||
+      d3
+        .scalePoint()
+        .range([0 + barWidth, rangeValue - barWidth])
+        .domain(domain)
+        .padding(0)
     this.drawAxisX({
       scale: scaleX,
     })
@@ -425,9 +430,15 @@ export default class Base {
     const {rangeR} = options
     const {domainL} = options
     const {domainR} = options
-    const scaleL = d3.scaleLinear().range(rangeL || [this.mainHeight, 0]).domain(domainL)
+    const scaleL = d3
+      .scaleLinear()
+      .range(rangeL || [this.mainHeight, 0])
+      .domain(domainL)
     const scaleR = domainR
-      ? d3.scaleLinear().range(isArray(rangeR) ? rangeR : [this.mainHeight, 0]).domain(domainR)
+      ? d3
+          .scaleLinear()
+          .range(isArray(rangeR) ? rangeR : [this.mainHeight, 0])
+          .domain(domainR)
       : undefined
 
     this.drawAxisY({
@@ -534,7 +545,10 @@ export default class Base {
     if (Object.prototype.hasOwnProperty.call(data, 'label') && Object.prototype.hasOwnProperty.call(data, 'value')) {
       if (Array.isArray(data.value)) {
         if (data.value.length > 0) {
-          if (Object.prototype.hasOwnProperty.call(data.value[0], 'name') && Object.prototype.hasOwnProperty.call(data.value[0], 'data')) {
+          if (
+            Object.prototype.hasOwnProperty.call(data.value[0], 'name') &&
+            Object.prototype.hasOwnProperty.call(data.value[0], 'data')
+          ) {
             return 2
           }
         }
@@ -551,12 +565,12 @@ export default class Base {
   cartesianCoordinateChangeOneToTwo(data) {
     // log.warn('检测到数据为v1.0，建议转换成v2.0，执行转换函数, v1.0 -> v2.0', this)
     const newData = {}
-    newData.label = data.map(x => x.label)
-    const keys = Object.keys(data[0]).filter(x => x !== 'label')
-    newData.value = keys.map(x => {
+    newData.label = data.map((x) => x.label)
+    const keys = Object.keys(data[0]).filter((x) => x !== 'label')
+    newData.value = keys.map((x) => {
       return {
         name: x,
-        data: data.map(d => d[x]),
+        data: data.map((d) => d[x]),
       }
     })
     console.log('转换完毕', newData)
@@ -573,21 +587,21 @@ export default class Base {
     const data = JSON.parse(JSON.stringify(sourceData))
     // 检验数据数量是否相同
     const dataLabelCount = data.label.length
-    data.value.forEach(x => {
+    data.value.forEach((x) => {
       // 数据多了去掉多的
       if (x.data.length > dataLabelCount) x.data = x.data.slice(0, dataLabelCount)
       // 数据少了补0
       while (x.data.length < dataLabelCount) x.data.push(0)
       // 遍历data，将null等值转成0
-      x.data = x.data.map(d => {
+      x.data = x.data.map((d) => {
         d = Number(d)
-        return (!d || d === 0) ? 0 : d
+        return !d || d === 0 ? 0 : d
       })
     })
     // 校验数据是否重复
     data.label = data.label.map((x, i) => {
       if (data.label.indexOf(x) !== i) {
-        data.value.forEach(d => d.data.splice(i, 1))
+        data.value.forEach((d) => d.data.splice(i, 1))
         return null
       }
       return x
@@ -605,7 +619,8 @@ export default class Base {
     }
     const {apiLoopQueries, currentLoopQuery} = this.tagDatas
     this.apiQueriesContainer && this.apiQueriesContainer.remove()
-    this.apiQueriesContainer = this.container.select('svg')
+    this.apiQueriesContainer = this.container
+      .select('svg')
       .append('foreignObject')
       .attr('class', 'wave-tags')
       .attr('width', this.containerWidth)
@@ -613,12 +628,14 @@ export default class Base {
       .attr('pointer-events', 'none')
     // .attr('transform', `translate(0, ${-this.mainHeight}px)`)
 
-    const ul = this.apiQueriesContainer.append('xhtml:ul')
+    const ul = this.apiQueriesContainer
+      .append('xhtml:ul')
       .style('height', '50px')
       .style('width', '100%')
       .style('text-align', 'right')
 
-    const li = ul.selectAll('.wave-legend')
+    const li = ul
+      .selectAll('.wave-legend')
       .data(apiLoopQueries)
       .enter()
       .append('xhtml:li')
@@ -627,7 +644,7 @@ export default class Base {
       .attr('class', 'wave-legend')
 
     li.append('xhtml:span')
-      .text(d => d.label)
+      .text((d) => d.label)
       // .style('font-size', `${size}px`)
       // .style('color', legendColor)
       .style('opacity', (d, i) => (currentLoopQuery === i ? 1 : 0.5))
