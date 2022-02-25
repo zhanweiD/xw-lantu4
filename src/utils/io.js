@@ -235,6 +235,10 @@ context.create('io.art', {
     method: 'GET',
     url: 'art/:artId',
   },
+  passwordPublish: {
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId',
+  },
   remove: {
     method: 'DELETE',
     url: 'project/:projectId/art/:artId',
@@ -278,6 +282,10 @@ context.create('io.art', {
   publish: {
     method: 'POST',
     url: 'project/:projectId/art/:artId/publish',
+  },
+  getOnlineType: {
+    method: 'GET',
+    url: 'art/publish/:publishId/online/type',
   },
   getPublishDetail: {
     method: 'GET',

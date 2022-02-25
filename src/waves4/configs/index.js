@@ -6,10 +6,14 @@ import rect from './rect'
 import dashboard from './dashboard'
 import pack from './pack'
 // import auxiliary from './auxiliary'
-// import radar from './radar'
-// import scatter from './scatter'
-// import arc from './arc'
+import radar from './radar'
+import scatter from './scatter'
+import arc from './arc'
 // import matrix from './matrix'
+// import chord from './chord'
+// import edgeBundle from './edge-bundle'
+// import sankey from './sankey'
+import polar from './polar'
 import chord from './chord'
 import edgeBundle from './edge-bundle'
 import sankey from './sankey'
@@ -27,10 +31,14 @@ export {
   pack,
   edgeBundle,
   // auxiliary,
-  // radar,
-  // scatter,
-  // arc,
+  radar,
+  scatter,
+  arc,
   // matrix,
+  // chord,
+  // edgeBundle,
+  // sankey
+  polar,
   chord,
   sankey,
   tree,

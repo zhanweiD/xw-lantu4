@@ -26,7 +26,7 @@ build:
     - develop
   script:
     - rm -rf out default package-lock.json
-    - npm install --registry=http://r.dtwave-inc.com
+    - npm install
     - npm config set unsafe-perm true
     - npm run build
 

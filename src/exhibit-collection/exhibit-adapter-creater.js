@@ -109,7 +109,7 @@ const createExhibitAdapter = (hooks) =>
       }
 
       // 定义才添加的数据
-      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption']
+      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar']
       liveProps.forEach((prop) => {
         const propConfig = this.model[`get${capitalize(prop)}`]()
         if (isDef(propConfig)) {
@@ -171,7 +171,7 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, legend, axis, other} = model
+      const {data, layers, dimension, title, legend, axis, polar, other} = model
       if (legend) {
         this.observerDisposers.push(
           this.createObserverObject({actionType: 'legend', isGlobal: true}),
@@ -197,6 +197,12 @@ const createExhibitAdapter = (hooks) =>
         this.observerDisposers.push(
           this.createObserverObject({actionType: 'other', isGlobal: true}),
           this.createObserverObject({actionType: 'other'})
+        )
+      }
+      if (polar) {
+        this.observerDisposers.push(
+          this.createObserverObject({actionType: 'polar', isGlobal: true}),
+          this.createObserverObject({actionType: 'polar'})
         )
       }
 

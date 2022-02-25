@@ -299,6 +299,95 @@ export const layerOptionMap = new Map([
     },
   ],
   [
+    'radar',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.mode', 'options.mode'],
+        // 点
+        ['point.size', 'style.circleSize'],
+        // 面
+        ['area.opacity', 'style.polygon.fillOpacity'],
+        // 线
+        ['line.lineWidth', 'style.polygon.strokeWidth'],
+        // 标签
+        ['label.labelPosition', 'style.labelPosition'],
+        ['label.offset', 'style.text.offset'],
+        ['label.decimalPlaces', 'style.text.format.decimalPlace'],
+        ['label.thousandDiv', 'style.text.format.thousandth'],
+        ['label.percentage', 'style.text.format.percentage'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+      if (getOption('area.effective') === false) {
+        storage.set('style.polygon.fillOpacity', 0)
+      }
+      return storage.get()
+    }
+  ],
+  [
+    'polar',
+    ({mapOption}) => {
+      const mapping = [
+        // 比例尺
+        ['base.tickCount', 'scale.count'],
+        ['base.tickZero', 'scale.zero'],
+        ['base.type', 'options.type'],
+      ]
+      const storage = mapOption(mapping)
+
+      return storage.get()
+    }
+  ],
+  [
+    'arc',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.mode', 'options.mode'],
+        ['base.type', 'options.type'],
+        ['base.innerRadius', 'style.innerRadius'],
+        // 标签
+        ['label.labelPosition', 'style.labelPosition'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+
+      return storage.get()
+    }
+  ],
+  [
+    'scatter',
+    ({mapOption}) => {
+      const mapping = [
+        ['base.pointSize', 'style.pointSize']
+      ]
+      const storage = mapOption(mapping)
+      // 把散点上的标签隐藏了
+      storage.set('style.text.hide', true)
+
+      return storage.get()
+    }
+  ],
+  [
     'dashboard',
     ({mapOption}) => {
       const mapping = [
