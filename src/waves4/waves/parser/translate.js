@@ -14,11 +14,6 @@ const getRealData = (layerType, dataSource, keys) => {
         fragments: newData,
       }
     }
-    if (layerType === 'chord') {
-      const newData = {}
-      dataSource[0].forEach((item, index) => (newData[item] = dataSource[1]?.[index] || ''))
-      return newData
-    }
     if (!keys) return dataSource
     const headers = dataSource[0]
     const indexs = keys.map((key) => headers.findIndex((value) => value === key))
@@ -92,7 +87,12 @@ function translate(schema) {
           {
             type: layerType,
             data: getRealData(layerType, data, keys),
-            options: {id, layout: 'main', zoom: layerType === 'pack'},
+            options: {
+              id,
+              layout: 'main',
+              zoom: layerType === 'pack',
+              shape: layerType === 'matrix' ? (name === '方形矩阵' ? 'rect' : 'circle') : undefined,
+            },
           },
           getConfig({layerType, name, config})
         )

@@ -28,6 +28,8 @@ import chord from './waves/relations/chord'
 import sankey from './waves/relations/sankey'
 import tree from './waves/relations/tree'
 import treemap from './waves/relations/treemap'
+import rectMatrix from './waves/matrices/rect-matrix'
+import circleMatrix from './waves/matrices/circle-matrix'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -56,6 +58,9 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 热力图
+  rectMatrix,
+  circleMatrix,
   // 关系图
   pack,
   edgeBundle,
@@ -114,6 +119,12 @@ const categories = [
     name: 'classifyBar',
     icon: 'exhibit-bar',
     exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
+  },
+  {
+    // 热力图
+    name: 'classifyHeatmap',
+    icon: 'exhibit-heatmap',
+    exhibits: [rectMatrix, circleMatrix],
   },
   {
     // 关系图

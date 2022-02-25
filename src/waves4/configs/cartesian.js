@@ -1,4 +1,4 @@
-export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) => {
+export default ({tickZero = false, percentage = false, type = 'bandX-linearY', paddingInner}) => {
   return {
     sections: [
       {
@@ -14,6 +14,7 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY'}) 
           },
           {
             name: 'paddingInner',
+            defaultValue: paddingInner,
           },
         ],
       },
