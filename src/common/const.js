@@ -42,7 +42,6 @@ export default {
   // 不触发函数的返回值
   NOT_TRIGGER: 'fn-not-trigger',
 
-
   // 全部 schema
   CONTAINER_ALL_SCHEMA,
   // subschema
@@ -108,7 +107,6 @@ export default {
     },
   ],
 
-
   // 默认转换函数
   DEFAULT_TANSFORM_FN: `/**
   * @param value any , 值
@@ -118,6 +116,4 @@ export default {
   function(value, notTrigger) {
    return value
   }`,
-
-
 }

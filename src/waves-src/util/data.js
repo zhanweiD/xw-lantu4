@@ -1,5 +1,5 @@
 /*
- * @file 处理数据相关的一些工具函数 
+ * @file 处理数据相关的一些工具函数
  */
 // import IDataStructure from '../interfaces/idata'
 // import {isArray} from './is'
@@ -37,9 +37,9 @@ function classify(source, filter = false, sum = true) {
 
   const dimension = []
   const list = source.data
-  
+
   // 处理维度
-  source.dimension.forEach(dim => {
+  source.dimension.forEach((dim) => {
     // eslint-disable-next-line no-underscore-dangle
     const _dim = {
       name: dim.name,
@@ -48,11 +48,13 @@ function classify(source, filter = false, sum = true) {
     }
     for (let i = 0, l = dim.labels.length; i < l; i += 1) {
       const label = dim.labels[i]
-      _dim.labels.push(_dim.obj[label] = {
-        label,
-        data: [],
-        total: sum ? source.valueDescription.map(() => 0) : [],
-      })
+      _dim.labels.push(
+        (_dim.obj[label] = {
+          label,
+          data: [],
+          total: sum ? source.valueDescription.map(() => 0) : [],
+        })
+      )
     }
     dimension.push(_dim)
   })
@@ -87,7 +89,7 @@ function classify(source, filter = false, sum = true) {
     }
   }
 
-  return dimension.map(dim => {
+  return dimension.map((dim) => {
     delete dim.obj
     // 如果filter为true并且当前标签一条数据都没有那么会删除这个标签
     if (filter) {
@@ -105,7 +107,7 @@ function classify(source, filter = false, sum = true) {
 
 /**
  * 统计源数据中各个单位的最大值
- * 该方法会去重单位 
+ * 该方法会去重单位
  * @param {IDataStructure} source 源数据
  * @param {object}         baseValues 初始值
  */
@@ -114,7 +116,7 @@ function maxValue(source, base) {
   const list = source.data
   const {valueUnit} = source
   const vs = {}
-  valueUnit.forEach(k => (vs[k] = baseValues[k] || 0))
+  valueUnit.forEach((k) => (vs[k] = baseValues[k] || 0))
 
   let itemValue = null
   let k = null
@@ -138,11 +140,11 @@ function assembleValueRange(datas, source) {
   const baseValues = source.maxValue || {}
   const {valueUnit} = source
   const vs = {}
-  valueUnit.forEach(k => {
+  valueUnit.forEach((k) => {
     vs[k] = [Infinity, baseValues[k] || 0]
   })
 
-  datas.forEach(data => {
+  datas.forEach((data) => {
     for (let i = 0, l = data.labels.length; i < l; i++) {
       const item = data.labels[i]
 
@@ -165,9 +167,12 @@ function assembleValueRange(datas, source) {
  */
 function colMaxValue(source) {
   const baseValues = source.maxValue || {}
-  const vs = (o => { source.valueUnit.forEach((u, i) => o[i] = baseValues[u] || 0); return o })([])
+  const vs = ((o) => {
+    source.valueUnit.forEach((u, i) => (o[i] = baseValues[u] || 0))
+    return o
+  })([])
   let ds = null
-  for (let i = source.data.length; i--;) {
+  for (let i = source.data.length; i--; ) {
     ds = source.data[i].values
     for (let n = 0, l = ds.length; n < l; n++) {
       vs[n] = Math.max(vs[n], ds[n])
@@ -186,7 +191,7 @@ function range(source, base) {
   const list = source.data
   const {valueUnit} = source
   const vs = {}
-  valueUnit.forEach(k => {
+  valueUnit.forEach((k) => {
     vs[k] = [null, null]
     vs[k][1] = baseValues[k] === undefined ? null : baseValues[k]
   })
@@ -216,7 +221,7 @@ function range(source, base) {
  * @param {data}     data       源数据
  */
 function transform(dimensions, values, data) {
-  dimensions = dimensions.filter(v => !!v)
+  dimensions = dimensions.filter((v) => !!v)
   const source = getSource()
   const dimensionObj = {}
 
@@ -226,7 +231,7 @@ function transform(dimensions, values, data) {
   let dimensionKey = ''
 
   // eslint-disable-next-line no-multi-assign
-  const valueKeys = source.valueDescription = [].concat(...values)
+  const valueKeys = (source.valueDescription = [].concat(...values))
   const valueKeyLength = valueKeys.length
   const dimensionLength = dimensions.length
   for (let i = 0, l = data.length; i < l; i++) {

@@ -1,19 +1,24 @@
 /* eslint-disable prefer-destructuring */
 import {isWindows, getTextHeight} from '../util'
 
-const LEGEND_POSITION = [{
-  key: 'TOP',
-  value: '上',
-}, {
-  key: 'RIGHT',
-  value: '右',
-}, {
-  key: 'BOTTOM',
-  value: '下',
-}, {
-  key: 'TITLE',
-  value: '标题栏',
-}]
+const LEGEND_POSITION = [
+  {
+    key: 'TOP',
+    value: '上',
+  },
+  {
+    key: 'RIGHT',
+    value: '右',
+  },
+  {
+    key: 'BOTTOM',
+    value: '下',
+  },
+  {
+    key: 'TITLE',
+    value: '标题栏',
+  },
+]
 
 const titleDefaultOption = {
   titleHeight: 0,
@@ -37,12 +42,11 @@ const unitDefaultOption = {
 
 const defaultOption = {padding: 0, ...titleDefaultOption, ...unitDefaultOption}
 
-
 /**
-   * 绘制主绘图区域
-   *
-   * @memberof Layout
-   */
+ * 绘制主绘图区域
+ *
+ * @memberof Layout
+ */
 export function drawLayout() {
   const opt = {...defaultOption, ...this._option}
   const {
@@ -61,7 +65,7 @@ export function drawLayout() {
   // 向下移动的值，暴露给后图
   this.move = 0
   // 写死的值
-  const padding = [0, 0, 40, 0]// this._extendPadding()
+  const padding = [0, 0, 40, 0] // this._extendPadding()
   this.mainHeight -= padding[2]
   // const {padding} = this
 
@@ -71,7 +75,6 @@ export function drawLayout() {
     padding[3] += zoomInSize
   }
 
-  
   let legendHeight = 0
   let legendW = 0
   let maxHeight = 0
@@ -93,7 +96,6 @@ export function drawLayout() {
         legendHeight = (getTextHeight(this.fontSize(legendSize)) || 0) + (legendY || 0)
       }
     }
-    
 
     // 绘制标题？
     if (titleText && titleVisible) {
@@ -111,7 +113,6 @@ export function drawLayout() {
     }
 
     maxHeight = opt.titleHeight + opt.unitHeight
-    
 
     /* 当图例与（标题 || 单位）共存时并且图例的位置是标题栏时 */
     if (legendPosition === LEGEND_POSITION[3].key) {
@@ -120,21 +121,18 @@ export function drawLayout() {
       if (maxHeight < legendHeight) {
         this.mainHeight -= legendHeight
         // 同时将图向下移动
-        this.root
-          .attr('transform', `translate(${padding[3]}, ${legendHeight})`)
+        this.root.attr('transform', `translate(${padding[3]}, ${legendHeight})`)
         this.move = legendHeight
       } else {
         this.mainHeight -= maxHeight
         // 同时将图向下移动
-        this.root
-          .attr('transform', `translate(${padding[3]}, ${maxHeight})`)
+        this.root.attr('transform', `translate(${padding[3]}, ${maxHeight})`)
         this.move = maxHeight
       }
     } else {
       // 如果图例在右边， 图例下移标题+单位
       if (legendPosition === LEGEND_POSITION[1].key) {
-        this.root
-          .attr('transform', `translate(${padding[3]}, ${maxHeight})`)
+        this.root.attr('transform', `translate(${padding[3]}, ${maxHeight})`)
       }
       // 如果图例不是标题栏位置时必须减去标题和单位的高度
       this.mainHeight -= maxHeight
@@ -144,13 +142,11 @@ export function drawLayout() {
         this.mainHeight -= legendHeight
         if (legendPosition === LEGEND_POSITION[0].key) {
           // 如果在上，同时将图向下移动
-          this.root
-            .attr('transform', `translate(${padding[3]}, ${legendHeight + maxHeight})`)
+          this.root.attr('transform', `translate(${padding[3]}, ${legendHeight + maxHeight})`)
           this.move = legendHeight + maxHeight
         } else {
           // 如果在下，就移动标题和单位的高度
-          this.root
-            .attr('transform', `translate(${padding[3]}, ${maxHeight})`)
+          this.root.attr('transform', `translate(${padding[3]}, ${maxHeight})`)
           this.move = maxHeight
         }
       }
@@ -159,8 +155,7 @@ export function drawLayout() {
 
   // 没有图例 也要移动主图表
   if (!legendVisible) {
-    this.root
-      .attr('transform', `translate(${padding[3]}, ${maxHeight})`)
+    this.root.attr('transform', `translate(${padding[3]}, ${maxHeight})`)
   }
 
   if (zoomInSize) {
@@ -199,27 +194,28 @@ export function drawLayout() {
 }
 
 /**
-   * 绘制title
-   *
-   * @memberof Layout
-   */
+ * 绘制title
+ *
+ * @memberof Layout
+ */
 export function drawTitle(opt) {
   const {
     // artboardHeight,
-    titleSize, 
-    titleColor, 
+    titleSize,
+    titleColor,
     titleText,
     titleY,
   } = opt
 
-  this.svg.append('text')
+  this.svg
+    .append('text')
     .attr('class', 'wave-title')
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(titleSize))
     .attr('fill', titleColor)
     .text(titleText)
-    .textHack()  
-    
+    .textHack()
+
   // 计算标题的高度
   opt.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleY
 
@@ -230,23 +226,24 @@ export function drawTitle(opt) {
 }
 
 /**
-   * 绘制单位
-   *
-   * @param {d3.Selection<d3.BaseType, any, HTMLElement, any>} svg
-   * @param {number} [x=0]
-   * @param {number} [y=0]
-   * @memberof Layout
-   */
+ * 绘制单位
+ *
+ * @param {d3.Selection<d3.BaseType, any, HTMLElement, any>} svg
+ * @param {number} [x=0]
+ * @param {number} [y=0]
+ * @memberof Layout
+ */
 export function drawUnit(svg, x = 0, y = 0, opt) {
   const {
     // artboardHeight,
-    unitSize, 
-    unitColor, 
+    unitSize,
+    unitColor,
     unitContent,
     unitY,
   } = opt
 
-  const text = svg.append('text')
+  const text = svg
+    .append('text')
     .attr('class', 'wave-unit')
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(unitSize))
@@ -254,9 +251,9 @@ export function drawUnit(svg, x = 0, y = 0, opt) {
     .attr('x', x)
     .attr('y', y)
     .text(unitContent)
-      
+
   if (text) {
-    (text).textHack()
+    text.textHack()
   }
   opt.unitHeight = getTextHeight(this.fontSize(unitSize)) + unitY
 
@@ -267,19 +264,13 @@ export function drawUnit(svg, x = 0, y = 0, opt) {
 }
 
 /**
-   * 获取住绘图区域的属性
-   *
-   * @returns
-   * @memberof Layout
-   */
+ * 获取住绘图区域的属性
+ *
+ * @returns
+ * @memberof Layout
+ */
 export function getLayout() {
-  const {
-    translateX,
-    translateY,
-    mainWidth,
-    mainHeight,
-    padding,
-  } = this
+  const {translateX, translateY, mainWidth, mainHeight, padding} = this
 
   return {
     mainWidth,
@@ -289,9 +280,11 @@ export function getLayout() {
     _unitHeight: this.unitHeight,
     _translateY: translateY,
     _translateX: translateX,
-    root: this.svg.append('g')
+    root: this.svg
+      .append('g')
       .attr('transform', `translate(${translateX}, ${translateY})`)
-      .attr('width', mainWidth).attr('height', mainHeight)
+      .attr('width', mainWidth)
+      .attr('height', mainHeight)
       .attr('class', 'wave-root')
       .append('g'),
   }

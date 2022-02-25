@@ -45,12 +45,15 @@ const verifyOutputData = (value, type, defaultValue, options = [], isShowTip) =>
         isShowTip && tip.warning({content: '返回值未定义!'})
         return value
       }
-      if (Object.prototype.toString.call(value) !== '[object String]' && Object.prototype.toString.call(value) !== '[object Number]') {
+      if (
+        Object.prototype.toString.call(value) !== '[object String]' &&
+        Object.prototype.toString.call(value) !== '[object Number]'
+      ) {
         isShowTip && tip.warning({content: '返回值应为数值或字符串, 无效处理!'})
         return defaultValue
       }
       // 此时value为数值或字符串
-      if (options.findIndex(o => o.value === value) === -1) {
+      if (options.findIndex((o) => o.value === value) === -1) {
         isShowTip && tip.warning({content: '返回值应在选项列表内, 无效处理!'})
         return defaultValue
       }
@@ -67,8 +70,8 @@ const verifyOutputData = (value, type, defaultValue, options = [], isShowTip) =>
       // 此时value为数组
       // eslint-disable-next-line no-case-declarations
       let isInOption = true
-      value.forEach(item => {
-        if (options.findIndex(o => o.value === item) === -1) {
+      value.forEach((item) => {
+        if (options.findIndex((o) => o.value === item) === -1) {
           isInOption = false
         }
       })
@@ -83,11 +86,20 @@ const verifyOutputData = (value, type, defaultValue, options = [], isShowTip) =>
 }
 
 // 自定义函数模版
-const getValueFunction = (useProcessor = false, fieldType = 'text', defaultValue, processorCode = defaultDataProcessor, options = [], isOnFocusOpenProcessor = false) => {
+const getValueFunction = (
+  useProcessor = false,
+  fieldType = 'text',
+  defaultValue,
+  processorCode = defaultDataProcessor,
+  options = [],
+  isOnFocusOpenProcessor = false
+) => {
   try {
     // 数组类型需要转换为json字符串
     const value = Array.isArray(defaultValue) ? JSON.stringify(defaultValue) : defaultValue
-    return `return function (inputData, useProcessor = ${useProcessor}, fieldType = '${fieldType}', defaultValue = '${value}', options = ${JSON.stringify(options)}, isShowTip = ${isOnFocusOpenProcessor}) {
+    return `return function (inputData, useProcessor = ${useProcessor}, fieldType = '${fieldType}', defaultValue = '${value}', options = ${JSON.stringify(
+      options
+    )}, isShowTip = ${isOnFocusOpenProcessor}) {
       if (useProcessor) {
         ${processorCode}(inputData)
       } else {
@@ -195,7 +207,7 @@ const getDefaultValue = (value, type) => {
   // return type.indexOf('number') > -1 ? Number(sliceCode.split(' ')[2].replace(/\'/g, '')) : sliceCode.split(' ')[2].replace(/\'/g, '')
 }
 // 获取函数value中的options默认值
-const getOptions = value => {
+const getOptions = (value) => {
   if (!valueIsFunction(value)) {
     return []
   }
@@ -204,7 +216,7 @@ const getOptions = value => {
 }
 
 // 获取函数value中的fieldType默认值
-const getFieldType = value => {
+const getFieldType = (value) => {
   if (!valueIsFunction(value)) {
     return ''
   }
@@ -213,7 +225,7 @@ const getFieldType = value => {
 }
 
 // 获取函数value中useProcessor的默认值
-const getUseProcessor = value => {
+const getUseProcessor = (value) => {
   if (!valueIsFunction(value)) {
     return false
   }
@@ -227,10 +239,12 @@ const getProcessorCode = (value, defaultGisDataProcessor) => {
     return defaultGisDataProcessor || defaultDataProcessor
   }
   const sliceCode = value.slice(value.indexOf('if (useProcessor) {'), value.indexOf('}(inputData)') + 1)
-  return sliceCode.slice(sliceCode.indexOf('// @param') > -1 ? sliceCode.indexOf('// @param') : sliceCode.indexOf('return'))
+  return sliceCode.slice(
+    sliceCode.indexOf('// @param') > -1 ? sliceCode.indexOf('// @param') : sliceCode.indexOf('return')
+  )
 }
 
-const getIsShowTip = value => {
+const getIsShowTip = (value) => {
   if (!valueIsFunction(value)) {
     return false
   }
@@ -239,17 +253,21 @@ const getIsShowTip = value => {
 }
 
 // 判断数据是否为函数， 待删除
-const getValueIsFunction = value => {
+const getValueIsFunction = (value) => {
   if (!isDef(value)) {
     return false
   }
   const valueJson = JSON.stringify(value)
-  return ((valueJson.indexOf('function') > -1 && valueJson.indexOf('{') > -1) || (valueJson.indexOf('=>') > -1 && valueJson.indexOf('{') > -1))
-    && valueJson.indexOf('}') > -1 && (valueJson.indexOf('\\n') > -1 || valueJson.indexOf('\n') > -1)
+  return (
+    ((valueJson.indexOf('function') > -1 && valueJson.indexOf('{') > -1) ||
+      (valueJson.indexOf('=>') > -1 && valueJson.indexOf('{') > -1)) &&
+    valueJson.indexOf('}') > -1 &&
+    (valueJson.indexOf('\\n') > -1 || valueJson.indexOf('\n') > -1)
+  )
 }
 
 // 获取当前value值是否是函数字符串
-const valueIsFunction = value => {
+const valueIsFunction = (value) => {
   return getValueIsFunction(value)
 }
 

@@ -3,9 +3,9 @@ import anime from 'animejs'
 import AnimationBase from './base'
 
 /**
-* 缓动
-* @丛鱼
-*/
+ * 缓动
+ * @丛鱼
+ */
 
 const defaultOptions = {
   delay: 0,

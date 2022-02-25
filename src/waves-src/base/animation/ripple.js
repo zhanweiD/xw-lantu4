@@ -3,7 +3,6 @@ import anime from 'animejs'
 import AnimationBase from './base'
 import uuid from '../../../common/uuid'
 
-
 /**
  * 寻找子节点类型
  * todo: 目前这个方法不通用，得继续优化，可能存在type未找到或者container下为多个元素的情况
@@ -76,8 +75,8 @@ export default class RippleAnimation extends AnimationBase {
           .attr('fill', '#0000')
           .style('opacity', 0)
           .style('transform', `translate(${cx ? cx.value : 0}px,${cy ? cy.value : 0}px)`)
-          // .attr('cx', cx ? cx.value : 0)
-          // .attr('cy', cy ? cy.value : 0)
+        // .attr('cx', cx ? cx.value : 0)
+        // .attr('cy', cy ? cy.value : 0)
       })
     })
 

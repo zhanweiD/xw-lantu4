@@ -69,20 +69,22 @@ export function getTextMaxLength(texts, size) {
 export function parentData(elm, n = 1) {
   if (!elm) return {data: null, index: null}
   const i = n - 1
-  return i ? parentData(elm.parentNode, i) : {
-    data: elm.parentNode ? elm.parentNode.__data__ : null,
-    index: elm.parentNode ? elm.parentNode.__index__ : null,
-  }
+  return i
+    ? parentData(elm.parentNode, i)
+    : {
+        data: elm.parentNode ? elm.parentNode.__data__ : null,
+        index: elm.parentNode ? elm.parentNode.__index__ : null,
+      }
 }
 
 /**
-   * 获取文字宽度
-   *
-   * @param {string} text
-   * @param {number} size
-   * @returns {number}
-   * @memberof Base
-   */
+ * 获取文字宽度
+ *
+ * @param {string} text
+ * @param {number} size
+ * @returns {number}
+ * @memberof Base
+ */
 
 const STYLE = {
   FONT_FAMILY: "'PingFang SC', 'Helvetica Neue', Helvetica, Tahoma, Helvetica, sans-serif",
@@ -130,8 +132,9 @@ export function kebabCase(string) {
   if (typeof string !== 'string') {
     return string
   }
-  return string.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-    .map(x => x.toLowerCase())
+  return string
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map((x) => x.toLowerCase())
     .join('-')
 }
 
@@ -145,7 +148,7 @@ export function kebabCase(string) {
 // }
 
 // 十六进制颜色转rgba
-// export function hexToRgb(hex, opacity) { 
+// export function hexToRgb(hex, opacity) {
 //   try {
 //     const obj = colorTool(hex).fade(1 - opacity).object()
 //     return `rgba(${obj.r},${obj.g},${obj.b},${obj.alpha})`
@@ -156,14 +159,14 @@ export function kebabCase(string) {
 // }
 
 // /**
-//  * 
+//  *
 //  * @param ele 元素
 //  * @param styleObj 样式object
 //  * @param action 调用selection.style 还是selection.attr 方法
 //  * @example d3.select(g).call(setStyleMap, {fontSize: 20}, 'attr')
 //  */
 export function setStyleMap(ele, styleObj, action = 'style') {
-  Object.keys(styleObj).forEach(key => {
+  Object.keys(styleObj).forEach((key) => {
     ele[action](kebabCase(key), styleObj[key])
   })
 }
@@ -207,7 +210,6 @@ export function setStyleMap(ele, styleObj, action = 'style') {
 
 //   return newPadding
 // }
-
 
 // 根据一组颜色生成一个颜色列表
 export function generateColorList(color, n = 255) {
@@ -299,7 +301,7 @@ export function generateColorList(color, n = 255) {
 // // 终端是window
 export function isWindows() {
   // const sUserAgent = navigator.userAgent
-  return (navigator.platform === 'Win32') || (navigator.platform === 'Windows')
+  return navigator.platform === 'Win32' || navigator.platform === 'Windows'
 }
 
 // // 判断浏览器支持哪种TransitionEvent
@@ -317,7 +319,6 @@ export function isWindows() {
 //     }
 //   }
 // }
-
 
 // /**
 //  * 校验datas的长度是否满足图表的要求
@@ -357,5 +358,7 @@ export function isWindows() {
  * 生成唯一 ID, 理论上的唯一
  */
 export function createUuid() {
-  return `${(Math.random() * 10000000).toString(16).substr(0, 4)}-${(new Date()).getTime()}-${Math.random().toString().substr(2, 5)}`
+  return `${(Math.random() * 10000000).toString(16).substr(0, 4)}-${new Date().getTime()}-${Math.random()
+    .toString()
+    .substr(2, 5)}`
 }

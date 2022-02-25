@@ -6,10 +6,10 @@ const win = window
 export default class Drag {
   // 拖拽起点
   startPageX
-  
+
   // 拖拽起点
   startPageY
-  
+
   // 上一次拖拽结束后的移动距离记录
   lastDeltaX = 0
 
@@ -37,7 +37,7 @@ export default class Drag {
   // 正在移动的标识
   moving = false
 
-  constructor({handler, target, start = () => {}, move = () => {}, end = () => {},}) {
+  constructor({handler, target, start = () => {}, move = () => {}, end = () => {}}) {
     this.handler = handler
     this.target = target
     this.handler.addEventListener('mousedown', this, false)
@@ -98,8 +98,10 @@ export default class Drag {
     const originDeltaX = pageX - this.startPageX
     const originDeltaY = pageY - this.startPageY
 
-    this.deltaX = originDeltaX > this.maxDeltaX ? this.maxDeltaX : originDeltaX < this.minDeltaX ? this.minDeltaX : originDeltaX
-    this.deltaY = originDeltaY > this.maxDeltaY ? this.maxDeltaY : originDeltaY < this.minDeltaY ? this.minDeltaY : originDeltaY
+    this.deltaX =
+      originDeltaX > this.maxDeltaX ? this.maxDeltaX : originDeltaX < this.minDeltaX ? this.minDeltaX : originDeltaX
+    this.deltaY =
+      originDeltaY > this.maxDeltaY ? this.maxDeltaY : originDeltaY < this.minDeltaY ? this.minDeltaY : originDeltaY
 
     // 如果已经开始移动
     if (this.moving) {
@@ -113,9 +115,10 @@ export default class Drag {
       })
 
       if (this.target) {
-        this.target.style.transform = `matrix(1, 0, 0, 1, ${this.lastDeltaX + this.deltaX}, ${this.lastDeltaY + this.deltaY})`
+        this.target.style.transform = `matrix(1, 0, 0, 1, ${this.lastDeltaX + this.deltaX}, ${
+          this.lastDeltaY + this.deltaY
+        })`
       }
-
     } else if (Math.abs(this.deltaX) > 1 || Math.abs(this.deltaY) > 1) {
       this.moving = true
     }

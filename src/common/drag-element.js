@@ -39,14 +39,8 @@ export function initResizeElement({target}) {
 
     startX = e.clientX
     startY = e.clientY
-    startWidth = parseInt(
-      document.defaultView.getComputedStyle(element).width,
-      10
-    )
-    startHeight = parseInt(
-      document.defaultView.getComputedStyle(element).height,
-      10
-    )
+    startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10)
+    startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10)
     document.documentElement.addEventListener('mousemove', doDrag, false)
     document.documentElement.addEventListener('mouseup', stopDrag, false)
   }
