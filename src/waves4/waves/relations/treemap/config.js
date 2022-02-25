@@ -1,9 +1,9 @@
-import {chord, title} from '@waves4/configs'
+import {treemap, title} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
-  key: 'chord',
-  name: k('chord'),
+  key: 'treemap',
+  name: k('treemap'),
   // 图表容器初始化的大小
   layout: () => [10, 6],
   // 图表主绘图区域的内边距
@@ -12,7 +12,7 @@ export const config = (k) => ({
   // coordinate: 'polar',
   // 追加图层
   // 图层声明和定义，id无法定义由工具自动生成
-  layers: [chord()],
+  layers: [treemap()],
   title: title({k, content: '某APP活跃用户年龄分布'}),
   // 数据
   data,

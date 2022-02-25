@@ -84,6 +84,15 @@ export default {
   decimalPlaces: '小数位数',
   thousandDiv: '千分位',
   text: '文字',
+  centerText: '内文字',
+  outsideText: '外文字',
+  circleText: '刻度文字',
+  sankeyAlign: '对齐',
+  node: '节点',
+  nodeWidth: '宽度',
+  nodeGap: '间距',
+  labelOffset: '偏移',
+  circleSize: '大小',
   textSize: '字号',
   textWeight: '字重',
   shadow: '阴影',
@@ -116,6 +125,7 @@ export default {
   in: '内',
   out: '外',
   shape: '图形',
+  tickSize: '刻度线',
   // TODO 待优化
   tickZero: '刻度零',
   // TODO 待优化
@@ -442,6 +452,7 @@ export default {
     select: '选择器',
     datepicker: '日期选择器',
     classifyTextIndicator: '文字指标',
+    others: '其他',
     demo: '演示对接',
   },
   user: {

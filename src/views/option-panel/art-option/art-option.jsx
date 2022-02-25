@@ -8,6 +8,8 @@ import isDef from '@utils/is-def'
 import CommonTab from './common-tab'
 
 const createPanel = (exhibit, t) => {
+  if (exhibit.key === 'image') return [] // 过滤图片空容器右侧配置
+
   const panels = []
   exhibit.parts.forEach((prop) => {
     if (isDef(exhibit[prop])) {
@@ -32,7 +34,6 @@ const createPanel = (exhibit, t) => {
       )
     }
   })
-
   return [
     <Tab.Item name={t('dataEncode')} key="data">
       <Scroll className="h100p">

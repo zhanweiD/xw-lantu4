@@ -914,6 +914,65 @@ const echartsoption = {
   label: 'echartsoption',
 }
 
+// 刻度文字
+const tickSize = {
+  type: 'number',
+  label: 'tickSize',
+  defaultValue: 10,
+  min: 0,
+  max: 50,
+}
+
+// 标签偏移
+const labelOffset = {
+  type: 'number',
+  label: 'labelOffset',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
+
+// 打包图大小圆
+const circleSize = {
+  type: 'multiNumber',
+  label: 'circleSize',
+  defaultValue: [5, 20],
+  items: [
+    {
+      key: '小',
+      step: 1,
+    },
+    {
+      key: '大',
+      step: 1,
+    },
+  ],
+}
+
+// 桑基图对齐
+const sankeyAlign = {
+  type: 'check',
+  label: 'sankeyAlign',
+  defaultValue: 'middle',
+  options: [
+    {key: '上', value: 'start'},
+    {key: '中', value: 'middle'},
+    {key: '下', value: 'end'},
+  ],
+}
+// 节点线宽
+const nodeWidth = {
+  type: 'number',
+  label: 'nodeWidth',
+  defaultValue: 10,
+}
+// 节点间距
+const nodeGap = {
+  type: 'number',
+  label: 'nodeGap',
+  defaultValue: 10,
+}
+
 export default {
   echartsoption,
   // 偏移
@@ -1025,4 +1084,14 @@ export default {
   tickZero,
   // 比例尺内边距
   paddingInner,
+  // 刻度线长度
+  tickSize,
+  // 大小圆大小
+  circleSize,
+  // 文字偏移
+  labelOffset,
+  // 桑基图对齐
+  sankeyAlign,
+  nodeWidth,
+  nodeGap,
 }

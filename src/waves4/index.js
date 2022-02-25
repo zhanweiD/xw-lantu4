@@ -19,6 +19,15 @@ import percentageBar from './waves/bars/percentage-bar'
 import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
 import demoLine from './waves/demo-line'
+import text from './waves/others/text'
+import dashboard from './waves/others/dashboard'
+import indicator from './waves/others/indicator'
+import pack from './waves/relations/pack'
+import edgeBundle from './waves/relations/edge-bundle'
+import chord from './waves/relations/chord'
+import sankey from './waves/relations/sankey'
+import tree from './waves/relations/tree'
+import treemap from './waves/relations/treemap'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -47,6 +56,17 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 关系图
+  pack,
+  edgeBundle,
+  chord,
+  sankey,
+  tree,
+  treemap,
+  // 其他
+  text,
+  dashboard,
+  indicator,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -96,12 +116,24 @@ const categories = [
     exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
   },
   {
+    // 关系图
+    name: 'classifyRelation',
+    icon: 'exhibit-relation',
+    exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
+  },
+  {
     // NOTE gis是内置特殊的名字，不能修改，
     // NOTE gis类组件的数据特殊，每一层都有自己的数据，不是整个组件共享的数据
     // NOTE 所以，gis组件的图层模型的deepKeys会多出data配置
     name: 'gis',
     icon: 'gis',
     exhibits: [],
+  },
+  {
+    // 其他
+    name: 'others',
+    icon: 'exhibit-other',
+    exhibits: [text, dashboard, indicator],
   },
   {
     // 演示对接

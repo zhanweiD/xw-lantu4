@@ -240,25 +240,26 @@ export const MBox = types
 
         self.materials = [].concat(material).concat(...materials)
         debounceUpdate()
-        if (type === 'image') {
-          event.fire(`art.${art.artId}.addMaterial`, {
-            materialId,
-            id: self.boxId,
-          })
-        }
+        // if (type === 'image') {
+        //   event.fire(`art.${art.artId}.addMaterial`, {
+        //     materialId,
+        //     id: self.boxId,
+        //   })
+        // }
       }
     }
 
     const removeBackground = (materialId) => {
-      const {event} = self.env_
+      // const {event} = self.env_
       const materials = self.materials.map((material) => self.art_.exhibitManager.get(material.id).getSchema())
       self.materials = materials.filter((material) => material.id !== materialId)
       debounceUpdate()
       self.art_.exhibitManager.remove(materialId)
-      event.fire(`art.${self.art_.artId}.removeMaterial`, {
-        materialId: materialId.split('.')[0],
-        id: self.boxId,
-      })
+      // 为什么删除素材要去更新整个art数据
+      // event.fire(`art.${self.art_.artId}.removeMaterial`, {
+      //   materialId: materialId.split('.')[0],
+      //   id: self.boxId,
+      // })
     }
 
     const sortBackground = (materialId, direction) => {
