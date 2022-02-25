@@ -14,6 +14,7 @@ import chord from './chord'
 import edgeBundle from './edge-bundle'
 import sankey from './sankey'
 import tree from './tree'
+import treemap from './treemap'
 
 export {
   title,
@@ -32,4 +33,5 @@ export {
   chord,
   sankey,
   tree,
+  treemap,
 }

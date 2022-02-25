@@ -92,7 +92,7 @@ function translate(schema) {
           {
             type: layerType,
             data: getRealData(layerType, data, keys),
-            options: {id, layout: 'main'},
+            options: {id, layout: 'main', zoom: layerType === 'pack'},
           },
           getConfig({layerType, name, config})
         )

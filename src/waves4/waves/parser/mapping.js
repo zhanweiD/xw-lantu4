@@ -416,4 +416,17 @@ export const layerOptionMap = new Map([
       return storage.get()
     },
   ],
+  [
+    'treemap',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
 ])
