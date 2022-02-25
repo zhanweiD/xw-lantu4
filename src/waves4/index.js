@@ -18,6 +18,16 @@ import stackBar from './waves/bars/stack-bar'
 import percentageBar from './waves/bars/percentage-bar'
 import intervalBar from './waves/bars/interval-bar'
 import waterfallBar from './waves/bars/waterfall-bar'
+import basicRadar from './waves/radars/basic-radar'
+import groupRadar from './waves/radars/group-radar'
+import basicPie from './waves/pies/basic-pie'
+import donut from './waves/pies/donut'
+import nigntingaleRose from './waves/pies/nightingale-rose'
+import donutNightingaleRose from './waves/pies/donut-nightingale-rose'
+import stackNightingaleRose from './waves/pies/stack-nightingale-rose'
+import scatter from './waves/scatters/scatter'
+import bubble from './waves/scatters/bubble'
+import textarea from './waves/v3/textarea'
 import demoLine from './waves/demo-line'
 import text from './waves/others/text'
 import dashboard from './waves/others/dashboard'
@@ -56,6 +66,18 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  // 雷达
+  basicRadar,
+  groupRadar,
+  // 饼图
+  basicPie,
+  donut,
+  nigntingaleRose,
+  donutNightingaleRose,
+  stackNightingaleRose,
+  // 散点图
+  scatter,
+  bubble,
   // 关系图
   pack,
   edgeBundle,
@@ -70,6 +92,8 @@ const waves = {
   // echarts
   demo: demoLine,
   ...echartsWaves,
+  // 段落
+  textarea,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -116,6 +140,24 @@ const categories = [
     exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
   },
   {
+    // 雷达图
+    name: 'classifyRadar',
+    icon: 'exhibit-radar',
+    exhibits: [basicRadar, groupRadar]
+  },
+  {
+    // 饼图
+    name: 'classifyPie',
+    icon: 'exhibit-pie',
+    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose]
+  },
+  {
+    // 散点图
+    name: 'classifyScatter',
+    icon: 'exhibit-scatter',
+    exhibits: [scatter, bubble]
+  },
+  {
     // 关系图
     name: 'classifyRelation',
     icon: 'exhibit-relation',
@@ -133,7 +175,7 @@ const categories = [
     // 其他
     name: 'others',
     icon: 'exhibit-other',
-    exhibits: [text, dashboard, indicator],
+    exhibits: [text, textarea, dashboard, indicator],
   },
   {
     // 演示对接

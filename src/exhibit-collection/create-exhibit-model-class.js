@@ -77,6 +77,9 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.echartsoption) {
           self.setEchartsoption(config.echartsoption)
         }
+        if (config.polar) {
+          self.setPolar(config.polar)
+        }
       }
       const setCachedData = (data) => {
         self.cachedData = data
@@ -221,6 +224,15 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
+      const setPolar = (polar) => {
+        self.polar = createPropertyClass(config.key, polar, 'polar')
+      }
+      const getPolar = () => {
+        if (self.polar) {
+          return self.polar.getData()
+        }
+      }
+
       return {
         setCachedData,
         setContext,
@@ -242,6 +254,8 @@ export const createExhibitModelClass = (exhibit) => {
         getOther,
         getEchartsoption,
         setEchartsoption,
+        setPolar,
+        getPolar,
         init,
       }
     })

@@ -29,6 +29,25 @@ const getRealData = (layerType, dataSource, keys) => {
   }
 }
 
+// 散点图数据结构不一样
+const getRealScatterData = (dataSource) => {
+  try {
+    if (!dataSource) {
+      return null
+    }
+    return dataSource.map((row, index) => {
+      if (index === 0) {
+        return ['category', 'x', 'y']
+      } else {
+        return row
+      }
+    })
+  } catch (e) {
+    console.error('数据解析失败', {dataSource})
+    return []
+  }
+}
+
 const getConfig = ({layerType, name, config}) => {
   if (layerType === 'dashboard' && name === '环形指标卡') {
     config.style = {
@@ -70,12 +89,14 @@ function translate(schema) {
     legend, // 图例图层配置
     title, // 标题配置
     axis, // 坐标轴配置
+    polar, // 极坐标
     other, // 其他配置
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
   let layerConfig = []
   let padding = [60, 40, 40, 40] // 内边距
 
+  // 如果 config 中有配置 other 属性，那么 padding 的取值就会不一样
   if (other && isObject(other) && Object.keys(other).length) {
     padding = other.getOption('layout.areaOffset')
   }
@@ -83,6 +104,24 @@ function translate(schema) {
   layers.forEach(({id, name, options, getOption, mapOption, type, effective}) => {
     // 文本处理
     if (effective || effective === undefined) {
+      if (type === 'scatter') {
+        const layerType = layerTypeMap.get(type) || type
+        const config = layerOptionMap.get(layerType)({getOption, mapOption})
+        layerConfig.push(
+          merge(
+            {
+              type: 'scatter',
+              data: getRealScatterData(data),
+              options: {
+                id,
+                layout: 'main'
+              }
+            },
+            config
+          )
+        )
+        return
+      }
       const layerType = layerTypeMap.get(type) || type
       const keys = dimension ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
@@ -153,6 +192,27 @@ function translate(schema) {
       )
     )
   }
+
+  if (polar && isObject(polar) && Object.keys(polar).length) {
+    const {getOption, mapOption} = polar
+    const config = layerOptionMap.get('polar')({getOption, mapOption})
+
+    // 极坐标的配置项和直角坐标的配置项类似
+    layerConfig.push(
+      merge(
+        {
+          type: 'axis',
+          options: {
+            type: 'polar',
+            id: uuid(),
+            layout: 'main',
+          },
+        },
+        config
+      )
+    )
+  }
+
   return {
     width,
     height,
