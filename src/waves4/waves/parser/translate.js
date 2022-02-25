@@ -5,6 +5,9 @@ import {layerOptionMap, layerTypeMap} from './mapping'
 const getRealData = (layerType, dataSource, keys) => {
   try {
     if (!dataSource) return null
+    if (layerType === 'baseMap') {
+      return dataSource[0][0]
+    }
     if (layerType === 'dashboard') {
       const newData = [...dataSource]
       newData.shift()
@@ -109,8 +112,8 @@ function translate(schema) {
               data: getRealScatterData(data),
               options: {
                 id,
-                layout: 'main'
-              }
+                layout: 'main',
+              },
             },
             config
           )

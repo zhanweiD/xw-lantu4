@@ -40,6 +40,7 @@ import tree from './waves/relations/tree'
 import treemap from './waves/relations/treemap'
 import rectMatrix from './waves/matrices/rect-matrix'
 import circleMatrix from './waves/matrices/circle-matrix'
+import baseMap from './waves/map/baseMap'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -90,6 +91,8 @@ const waves = {
   sankey,
   tree,
   treemap,
+  // 地图
+  baseMap,
   // 其他
   text,
   dashboard,
@@ -148,19 +151,19 @@ const categories = [
     // 饼图
     name: 'classifyPie',
     icon: 'exhibit-pie',
-    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose]
+    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose],
   },
   {
     // 散点图
     name: 'classifyScatter',
     icon: 'exhibit-scatter',
-    exhibits: [scatter, bubble]
+    exhibits: [scatter, bubble],
   },
   {
     // 雷达图
     name: 'classifyRadar',
     icon: 'exhibit-radar',
-    exhibits: [basicRadar, groupRadar]
+    exhibits: [basicRadar, groupRadar],
   },
   {
     // 热力图
@@ -178,7 +181,7 @@ const categories = [
     // 基础地图
     name: 'classifyMap',
     icon: 'exhibit-map',
-    exhibits: [],
+    exhibits: [baseMap],
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

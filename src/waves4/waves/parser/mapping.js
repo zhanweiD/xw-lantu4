@@ -332,7 +332,7 @@ export const layerOptionMap = new Map([
         storage.set('style.polygon.fillOpacity', 0)
       }
       return storage.get()
-    }
+    },
   ],
   [
     'polar',
@@ -346,7 +346,7 @@ export const layerOptionMap = new Map([
       const storage = mapOption(mapping)
 
       return storage.get()
-    }
+    },
   ],
   [
     'arc',
@@ -372,20 +372,18 @@ export const layerOptionMap = new Map([
       }
 
       return storage.get()
-    }
+    },
   ],
   [
     'scatter',
     ({mapOption}) => {
-      const mapping = [
-        ['base.pointSize', 'style.pointSize']
-      ]
+      const mapping = [['base.pointSize', 'style.pointSize']]
       const storage = mapOption(mapping)
       // 把散点上的标签隐藏了
       storage.set('style.text.hide', true)
 
       return storage.get()
-    }
+    },
   ],
   [
     'dashboard',
@@ -526,6 +524,21 @@ export const layerOptionMap = new Map([
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'baseMap',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['base.opacity', 'style.block.fillOpacity'],
+        ['base.singleColor', 'style.block.fill'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

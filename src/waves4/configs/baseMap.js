@@ -4,6 +4,19 @@ export default () => {
     type: 'baseMap',
     sections: [
       {
+        name: 'base',
+        fields: [
+          {
+            name: 'singleColor',
+            defaultValue: 'rgb(0, 100, 255)',
+          },
+          {
+            name: 'opacity',
+            defaultValue: 0.5,
+          },
+        ],
+      },
+      {
         name: 'text',
         fields: [
           {

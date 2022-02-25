@@ -20,6 +20,7 @@ import sankey from './sankey'
 import tree from './tree'
 import treemap from './treemap'
 import matrix from './matrix'
+import baseMap from './baseMap'
 
 export {
   title,
@@ -44,4 +45,5 @@ export {
   tree,
   treemap,
   matrix,
+  baseMap,
 }
