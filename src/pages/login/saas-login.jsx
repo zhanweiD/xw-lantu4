@@ -60,7 +60,7 @@ const SaaSRegister = ({
       <div className="fbh pr lh32">
         <input
           type="text"
-          className="fb1 mb20 lh32 ctb70 fs16"
+          className="fb1 mb20 lh32 ctb70 fs18"
           placeholder="请输入邀请码"
           value={inviteCode}
           onChange={(e) => setInviteCode(e.target.value)}
@@ -76,7 +76,7 @@ const SaaSRegister = ({
       <div className="fbh pr lh32">
         <input
           type="password"
-          className="fb1 mb20 lh32 ctb70 fs16"
+          className="fb1 mb20 lh32 ctb70 fs18"
           placeholder="请输入密码（6-16位，含字母、数字）"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +85,7 @@ const SaaSRegister = ({
       <div className="fbh pr lh32">
         <input
           type="password"
-          className="fb1 mb20 lh32 ctb70 fs16"
+          className="fb1 mb20 lh32 ctb70 fs18"
           placeholder="确认密码"
           value={confimPwd}
           onChange={(e) => setConfimPwd(e.target.value)}
@@ -94,7 +94,7 @@ const SaaSRegister = ({
       <div className="fbh pr lh32">
         <input
           type="text"
-          className="fb1 mb20 lh32 ctb70 fs16"
+          className="fb1 mb20 lh32 ctb70 fs18"
           placeholder="请输入手机验证码"
           value={verificationCode}
           onChange={(e) => setVerificationCode(e.target.value)}
@@ -149,7 +149,7 @@ const MessageLogin = ({
       <div className="fbh pr lh32">
         <input
           type="text"
-          className="fb1 mb20 lh32 ctb70 fs16"
+          className="fb1 mb20 lh32 ctb70 fs18"
           placeholder="请输入手机验证码"
           value={verificationCode}
           onChange={(e) => setVerificationCode(e.target.value)}
@@ -198,29 +198,29 @@ const PwdLogin = ({
         <div className="fbh pr lh32">
           <input
             type={pwdType ? 'password' : 'text'}
-            className="fb1 mb20 lh32 ctb70 fs16"
+            className="fb1 mb20 lh32 ctb70 fs18"
             placeholder="请输入密码"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <span className="hand" onClick={() => setPwdType(!pwdType)}>
             {pwdType ? (
-              <Icon name="private-eyes" fill="rgba(0, 0, 0, 0.5)" size={18} />
+              <Icon name="private-eyes" className={c('p12 pa', s.pwdType)} fill="rgba(0, 0, 0, 0.5)" size={18} />
             ) : (
-              <Icon name="public-eyes" fill="rgba(0, 0, 0, 0.5)" size={18} />
+              <Icon name="public-eyes" className={c('p12 pa', s.pwdType)} fill="rgba(0, 0, 0, 0.5)" size={18} />
             )}
           </span>
         </div>
         <div className="fbh pr lh32">
           <input
             type="text"
-            className="fb1 mb20 lh32 ctb70 fs16"
+            className="fb1 mb20 lh32 ctb70 fs18"
             placeholder="请输入验证码"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
           />
           <img
-            className="hand"
+            className={c('hand pa', s.captcha)}
             onClick={() => setTimer(new Date().getTime())}
             art=""
             src={`${config.urlPrefix}/captcha?timer=${timer}`}
@@ -412,7 +412,7 @@ const SaaSForm = () => {
 
   return (
     <div className={c('fb3 cfw pr', s.formArea)}>
-      {message && <div className={c('pa w100p fbh fbac fbjc ctw fs16 p12', s.tip)}>{message}</div>}
+      {message && <div className={c('pa w100p fbh fbac fbjc ctw fs16 pt12 pb12', s.tip)}>{message}</div>}
       <div className={c('wh100p fbv fbjsb bsbb', s.formContainer)}>
         <div></div>
         <div>
@@ -439,7 +439,7 @@ const SaaSForm = () => {
           <form className="fbv">
             <input
               type="text"
-              className="mb20 lh32 ctb70 fs16"
+              className="mb20 lh32 ctb70 fs18"
               placeholder="请输入手机号码"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
