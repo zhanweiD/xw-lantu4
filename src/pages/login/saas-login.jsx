@@ -350,6 +350,7 @@ const SaaSForm = () => {
           setVerificationCode('')
           setInviteCode('')
           setPassword('')
+          setMessage('注册成功，请登录')
         }
       }
     } catch (error) {

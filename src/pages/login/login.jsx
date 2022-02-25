@@ -72,6 +72,7 @@ const Form = () => {
             },
           })
           if (user?.userId) {
+            setMessage('注册成功，请登录')
             setPage('login')
             setPassword('')
           }
