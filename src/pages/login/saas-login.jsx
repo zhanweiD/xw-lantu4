@@ -3,7 +3,7 @@ import config from '@utils/config'
 import createLog from '@utils/create-log'
 import io from '@utils/io'
 import c from 'classnames'
-import {Base64} from 'js-base64'
+import encryptionType from '@utils/base64-decode'
 import Icon from '@components/icon'
 import CryptoJS from 'crypto-js'
 import React, {useEffect, useState} from 'react'
@@ -248,8 +248,6 @@ const PwdLogin = ({
 }
 
 const SaaSForm = () => {
-  // 需要特殊加密   不可以明文展示
-  const type = Base64.decode('d2F2ZXZpZXc=')
   const [pwdType, setPwdType] = useState(true)
   const [timer, setTimer] = useState(new Date().getTime())
   // 登录或注册
@@ -313,12 +311,12 @@ const SaaSForm = () => {
         }
       } else if (page === 'loginPwd') {
         user = await io.auth.login({
-          platform: type,
+          platform: encryptionType,
           remberMe: isKeepLogin,
-          [type]: {
+          [encryptionType]: {
             mobile,
             captcha: verificationCode,
-            password: CryptoJS.AES.encrypt(password, type).toString(),
+            password: CryptoJS.AES.encrypt(password, encryptionType).toString(),
           },
         })
         // 登录/注册通过后跳转到主页面
@@ -344,7 +342,7 @@ const SaaSForm = () => {
             mobile,
             inviteCode,
             code: verificationCode,
-            password: CryptoJS.AES.encrypt(password, type).toString(),
+            password: CryptoJS.AES.encrypt(password, encryptionType).toString(),
           },
         })
         if (user?.userId) {

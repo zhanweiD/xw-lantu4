@@ -11,14 +11,14 @@ const Publish = ({match}) => {
   const {publishId} = match.params
   const [visitAuthorVisible, setVisitAuthorVisible] = useState(true)
   useEffect(() => {
-    art.getPublishArt(publishId)
-    console.log('🚀 ~ file: publish.jsx ~ line 15 ~ useEffect ~ art', art)
+    // art.getPublishArt(publishId)
+    art.getOnlineType(publishId)
   }, [publishId])
   const {t} = useTranslation()
-  if (art.fetchState === 'success') {
+  if (art.fetchState !== 'success') {
     return (
       <div className={s.publish}>
-        {art.fetchState === 'success' && (
+        {art.fetchState !== 'success' && (
           <div
             style={{
               width: '100%',
@@ -59,7 +59,7 @@ const Publish = ({match}) => {
           }}
           buttons={[
             {name: '取消', action: () => setVisitAuthorVisible(false)},
-            {name: '确定', action: () => setVisitAuthorVisible(false)},
+            {name: '确定', action: () => art.getPublishArt(publishId)},
           ]}
         >
           <div className="p28 pt24 pb24 fb1">
@@ -70,7 +70,7 @@ const Publish = ({match}) => {
                 className={c(s.pwdInput, 'fb1 ml12 mr12 pb4 ')}
                 placeholder="请输入密码"
                 // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => art.set({preViewPassword: e.target.value})}
               />
             </div>
           </div>
