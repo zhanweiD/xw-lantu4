@@ -235,6 +235,10 @@ context.create('io.art', {
     method: 'GET',
     url: 'art/:artId',
   },
+  passwordPublish: {
+    method: 'PUT',
+    url: 'project/:projectId/art/:artId',
+  },
   remove: {
     method: 'DELETE',
     url: 'project/:projectId/art/:artId',
@@ -279,6 +283,10 @@ context.create('io.art', {
     method: 'POST',
     url: 'project/:projectId/art/:artId/publish',
   },
+  getOnlineType: {
+    method: 'GET',
+    url: 'art/publish/:publishId/online/type',
+  },
   getPublishDetail: {
     method: 'GET',
     url: 'art/publish/:publishId/online',
@@ -318,6 +326,10 @@ context.create('io.auth', {
     method: 'POST',
     url: 'register',
   },
+  captcha: {
+    method: 'GET',
+    url: 'captcha',
+  },
   loginInfo: {
     method: 'GET',
     url: 'user/login_info',
@@ -331,6 +343,10 @@ context.create('io.auth', {
   getSMSCode: {
     method: 'POST',
     url: 'sms/code',
+  },
+  getInviteCode: {
+    method: 'POST',
+    url: 'invite/code',
   },
 })
 context.create('io.user', {

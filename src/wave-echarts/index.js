@@ -32,6 +32,19 @@ import {echartsRadarGroup} from './radar-group'
 
 import {echartsBoxesBase} from './boxes-base'
 
+import {echartsBoxplotBase} from './boxplot-base'
+
+import {echartsHeatmapBase} from './heatmap-base'
+
+import {echartsGraphBase} from './graph-base'
+
+import {echartsTreeBase} from './tree-base'
+import {echartsTreemapBase} from './treemap-base'
+import {echartSunburstBase} from './sunburst-base'
+import {echartSankeyBase} from './sankey-base'
+
+import {echertsGaugeBase} from './gauge-base'
+
 const categoriesEcharts = [
   {
     // 折线图
@@ -55,21 +68,13 @@ const categoriesEcharts = [
   },
   {
     name: 'echartsBar',
-    // icon: 'exhibit-rect',
     icon: 'exhibit-bar',
     exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
   },
   {
     name: 'echartsPie',
-    // icon: 'exhibit-rect',
     icon: 'exhibit-pie',
-    exhibits: [
-      echertsBasicPie,
-      echartsRadiuRingPie,
-      echartsRingPie,
-      echartsRosePie,
-      // echertsStackBar, echertsWaterfallBar
-    ],
+    exhibits: [echertsBasicPie, echartsRadiuRingPie, echartsRingPie, echartsRosePie],
   },
   {
     name: 'echartsScatter',
@@ -89,13 +94,36 @@ const categoriesEcharts = [
   {
     name: 'echartsCandlestick',
     icon: 'scatter',
-    exhibits: [echartsBoxesBase],
+    exhibits: [echartsBoxesBase, echartsBoxplotBase],
+  },
+  {
+    name: 'echartsHeatmap',
+    icon: 'exhibit-heatmap',
+    exhibits: [echartsHeatmapBase],
+  },
+  {
+    name: 'echartsGraph',
+    icon: 'exhibit-relation',
+    exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase, echartSunburstBase, echartSankeyBase],
+  },
+  {
+    name: 'echartsGauge',
+    icon: 'exhibit-dashboard',
+    exhibits: [echertsGaugeBase],
   },
 ]
 
 export default categoriesEcharts
 
 const echartsWaves = {
+  echertsGaugeBase,
+  echartSankeyBase,
+  echartSunburstBase,
+  echartsTreemapBase,
+  echartsTreeBase,
+  echartsGraphBase,
+  echartsHeatmapBase,
+  echartsBoxplotBase,
   echartsRadarGroup,
   echartsBoxesBase,
   echartsRadarBase,

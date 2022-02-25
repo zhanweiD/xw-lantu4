@@ -298,4 +298,224 @@ export const layerOptionMap = new Map([
       return storage.get()
     },
   ],
+  [
+    'radar',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.mode', 'options.mode'],
+        // 点
+        ['point.size', 'style.circleSize'],
+        // 面
+        ['area.opacity', 'style.polygon.fillOpacity'],
+        // 线
+        ['line.lineWidth', 'style.polygon.strokeWidth'],
+        // 标签
+        ['label.labelPosition', 'style.labelPosition'],
+        ['label.offset', 'style.text.offset'],
+        ['label.decimalPlaces', 'style.text.format.decimalPlace'],
+        ['label.thousandDiv', 'style.text.format.thousandth'],
+        ['label.percentage', 'style.text.format.percentage'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+      if (getOption('area.effective') === false) {
+        storage.set('style.polygon.fillOpacity', 0)
+      }
+      return storage.get()
+    }
+  ],
+  [
+    'polar',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        // 比例尺
+        ['base.tickCount', 'scale.count'],
+        ['base.tickZero', 'scale.zero'],
+        ['base.type', 'options.type'],
+      ]
+      const storage = mapOption(mapping)
+
+      return storage.get()
+    }
+  ],
+  [
+    'arc',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.mode', 'options.mode'],
+        ['base.type', 'options.type'],
+        ['base.innerRadius', 'style.innerRadius'],
+        // 标签
+        ['label.labelPosition', 'style.labelPosition'],
+        ['label.text.textSize', 'style.text.fontSize'],
+        ['label.text.textWeight', 'style.text.fontWeight'],
+        ['label.text.singleColor', 'style.text.fill'],
+        ['label.text.opacity', 'style.text.fillOpacity'],
+        // 标签阴影
+        ['label.shadow.offset', 'style.text.shadow.offset'],
+        ['label.shadow.blur', 'style.text.shadow.blur'],
+        ['label.shadow.singleColor', 'style.text.shadow.color'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('label.effective') !== undefined) {
+        storage.set('style.text.hide', !getOption('label.effective'))
+      }
+
+      return storage.get()
+    }
+  ],
+  [
+    'scatter',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['base.pointSize', 'style.pointSize']
+      ]
+      const storage = mapOption(mapping)
+      // 把散点上的标签隐藏了
+      storage.set('style.text.hide', true)
+
+      return storage.get()
+    }
+  ],
+  [
+    'dashboard',
+    ({mapOption}) => {
+      const mapping = [
+        // 基础
+        // ['base.axisBinding', 'options.axis'],
+        // ['base.mode', 'options.mode'],centerText
+        ['line.tickSize', 'style.tickSize'],
+        ['line.lineWidth', 'style.arcWidth'],
+        // 圆心
+        ['text.centerText.textSize', 'style.valueText.fontSize'],
+        ['text.centerText.textWeight', 'style.valueText.fontWeight'],
+        ['text.centerText.singleColor', 'style.valueText.fill'],
+        ['text.centerText.opacity', 'style.valueText.fillOpacity'],
+        ['text.centerText.offset', 'style.valueText.offset'],
+        // 圆内
+        ['text.circleText.textSize', 'style.tickText.fontSize'],
+        ['text.circleText.textWeight', 'style.tickText.fontWeight'],
+        ['text.circleText.singleColor', 'style.tickText.fill'],
+        ['text.circleText.opacity', 'style.tickText.fillOpacity'],
+        // ['text.circleText.offset', 'style.tickText.offset'],
+        // 园外
+        ['text.outsideText.textSize', 'style.labelText.fontSize'],
+        ['text.outsideText.textWeight', 'style.labelText.fontWeight'],
+        ['text.outsideText.singleColor', 'style.labelText.fill'],
+        ['text.outsideText.opacity', 'style.labelText.fillOpacity'],
+        ['text.outsideText.offset', 'style.labelText.offset'],
+      ]
+      const storage = mapOption(mapping)
+      // if (getOption('area.effective') !== undefined) {
+      //   storage.set('style.area.hide', !getOption('area.effective'))
+      // }
+      // if (getOption('label.effective') !== undefined) {
+      //   storage.set('style.text.hide', !getOption('label.effective'))
+      // }
+      return storage.get()
+    },
+  ],
+  [
+    'edgeBundle',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['base.circleSize', 'style.circleSize'],
+        ['base.lineWidth', 'style.curve.strokeWidth'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'chord',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['base.lineWidth', 'style.arcWidth'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'sankey',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['node.sankeyAlign', 'style.align'],
+        ['node.nodeWidth', 'style.nodeWidth'],
+        ['node.nodeGap', 'style.nodeGap'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'tree',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['text.labelOffset', 'style.labelOffset'],
+        ['line.sankeyAlign', 'style.align'],
+        ['line.lineWidth', 'style.curve.strokeWidth'],
+        ['line.opacity', 'style.curve.strokeOpacity'],
+        ['line.lineCurve', 'style.curve.curve'],
+        ['base.direction', 'options.type'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'pack',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'treemap',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
 ])

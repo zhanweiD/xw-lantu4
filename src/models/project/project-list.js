@@ -61,8 +61,10 @@ export const MProjectList = types
 
     // 从文件导入数据屏
     const importArt = flow(function* importArt(files, projectId) {
+      // console.log(files[0].type,files[0], projectId)
       const {tip, event} = self.env_
-      const formData = new FormData().append(files[0].type, files[0], files[0].name)
+      const formData = new FormData()
+      formData.append(files[0].type, files[0], files[0].name)
       try {
         yield fetch(`${config.urlPrefix}project/${projectId}/import/art`, {
           method: 'POST',

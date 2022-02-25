@@ -61,15 +61,22 @@ const updateStyle = ({
     layer = waveLayer.instance
     type = waveLayer.type
   } else {
-    layer = instance.layers.find((item) => item.type === type).instance
+    if (type === 'polar') {
+      // polar 的实例 type 还是 axis
+      layer = instance.layers.find((item) => item.type === 'axis').instance
+    } else {
+      layer = instance.layers.find((item) => item.type === type).instance
+    }
   }
   const {mapOption, getOption} = target
   const config = layerOptionMap.get(type)({mapOption, getOption})
   const newOptions = filterInvalid(config)
+  console.log(type)
   // 层 options 影响全局，scale 影响数据，需要重绘
   if (
     (newOptions.scale && Object.keys(newOptions.scale).length) ||
-    (newOptions.options && Object.keys(newOptions.options).length)
+    (newOptions.options && Object.keys(newOptions.options).length) ||
+    type === 'sankey' // 桑基图重绘临时解决方案
   ) {
     reinitializeWave(instance, options)
   } else {
