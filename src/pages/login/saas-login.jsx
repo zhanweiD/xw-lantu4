@@ -223,7 +223,7 @@ const PwdLogin = ({
             className="hand"
             onClick={() => setTimer(new Date().getTime())}
             art=""
-            src={`${config.urlPrefix}/captcha?timer=${timer}`}
+            src={`${config.urlPrefix}captcha?timer=${timer}`}
             height="35px"
             width="100px"
           />
