@@ -1,6 +1,6 @@
 export default ({pointSize = [10, 10]}) => {
   return {
-    name: '散点',
+    name: '散点图层',
     type: 'scatter',
     sections: [
       {
@@ -18,10 +18,10 @@ export default ({pointSize = [10, 10]}) => {
               {
                 key: '最大',
               },
-            ]
+            ],
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   }
 }

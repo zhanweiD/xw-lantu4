@@ -41,6 +41,7 @@ import treemap from './waves/relations/treemap'
 import rectMatrix from './waves/matrices/rect-matrix'
 import circleMatrix from './waves/matrices/circle-matrix'
 import baseMap from './waves/map/baseMap'
+import timeline from './waves/others/timeline'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -97,6 +98,7 @@ const waves = {
   text,
   dashboard,
   indicator,
+  timeline,
   // echarts
   demo: demoLine,
   ...echartsWaves,
@@ -195,7 +197,7 @@ const categories = [
     // 其他
     name: 'others',
     icon: 'exhibit-other',
-    exhibits: [text, textarea, dashboard, indicator],
+    exhibits: [text, textarea, dashboard, indicator, timeline],
   },
   {
     // 演示对接

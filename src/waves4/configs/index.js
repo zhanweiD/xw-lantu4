@@ -9,10 +9,6 @@ import pack from './pack'
 import radar from './radar'
 import scatter from './scatter'
 import arc from './arc'
-// import matrix from './matrix'
-// import chord from './chord'
-// import edgeBundle from './edge-bundle'
-// import sankey from './sankey'
 import polar from './polar'
 import chord from './chord'
 import edgeBundle from './edge-bundle'
@@ -21,6 +17,8 @@ import tree from './tree'
 import treemap from './treemap'
 import matrix from './matrix'
 import baseMap from './baseMap'
+import odLine from './odLine'
+import timeline from './timeline'
 
 export {
   title,
@@ -35,10 +33,6 @@ export {
   radar,
   scatter,
   arc,
-  // matrix,
-  // chord,
-  // edgeBundle,
-  // sankey
   polar,
   chord,
   sankey,
@@ -46,4 +40,6 @@ export {
   treemap,
   matrix,
   baseMap,
+  odLine,
+  timeline,
 }

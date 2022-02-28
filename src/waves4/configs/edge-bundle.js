@@ -7,8 +7,16 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'circleSize',
+            name: 'pointSize',
             defaultValue: [5, 20],
+            items: [
+              {
+                key: '最小',
+              },
+              {
+                key: '最大',
+              },
+            ],
           },
           {
             name: 'lineWidth',
