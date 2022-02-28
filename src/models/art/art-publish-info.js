@@ -81,7 +81,10 @@ export const MPublishInfo = types
         self.getVersions()
         self.toggleArtOnline(true)
       } catch (error) {
+        tip.error({content: error.message})
         log.error('publish Error: ', error)
+        self.getVersions()
+        self.toggleArtOnline(true)
       }
     })
 

@@ -9,7 +9,7 @@ const echartSunburstBase = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'fan',
+  icon: 'sunburstBase',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
