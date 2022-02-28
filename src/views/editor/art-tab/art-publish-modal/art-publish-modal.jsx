@@ -113,9 +113,9 @@ const PublishModal = ({art}) => {
             />
             <div className={c(s.copyButton, 'pl8 pr8 cfw16 o0p')}>复制</div>
           </div>
-          <div className={c(s.align, 'fbh mt24')}>
-            <span>分享范围</span>
-            <input
+          <div className={c('fbh mt24')}>
+            <span className={c('mr24')}>分享范围</span>
+            {/* <input
               checked={!isPrivate}
               style={{backgroundColor: 'transparent'}}
               onChange={(e) => {
@@ -123,17 +123,34 @@ const PublishModal = ({art}) => {
                 art.set({isPrivate: false})
               }}
               type="radio"
-            ></input>
-            <span>公开</span>
-            <input
+            ></input> */}
+            <div
+              className={c(s.radioDiv, !isPrivate ? s.checkRadioDiv : '', 'hand fbh fbac fbjc')}
+              onClick={(e) => {
+                e.target.checked && artPublishInfo.set({publishPassword: ''})
+                art.set({isPrivate: false})
+              }}
+            >
+              {!isPrivate && <div className={c(s.checkRadioBG)}></div>}
+            </div>
+            <span className={c('ml10 mr32')}>公开</span>
+            {/* <input
               checked={isPrivate}
               onChange={(e) => {
                 art.set({isPrivate: true})
               }}
               style={{backgroundColor: 'transparent'}}
               type="radio"
-            ></input>
-            <span>私密</span>
+            ></input> */}
+            <div
+              className={c(s.radioDiv, isPrivate ? s.checkRadioDiv : '', 'hand fbh fbac fbjc')}
+              onClick={(e) => {
+                art.set({isPrivate: true})
+              }}
+            >
+              {isPrivate && <div className={c(s.checkRadioBG)}></div>}
+            </div>
+            <span className={c('ml10')}>私密</span>
           </div>
           {isPrivate && (
             <div className={c(s.align, 'fbh mt24')}>
