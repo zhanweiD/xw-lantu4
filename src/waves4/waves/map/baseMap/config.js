@@ -1,4 +1,4 @@
-import {baseMap, title} from '@waves4/configs'
+import {baseMap, scatter, odLine, cartesian, title} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -12,8 +12,10 @@ export const config = (k) => ({
   // coordinate: 'polar',
   // 追加图层
   // 图层声明和定义，id无法定义由工具自动生成
-  layers: [baseMap()],
+  layers: [odLine({k}), scatter({k}), baseMap()],
   title: title({k, content: '某APP活跃用户年龄分布'}),
+  // 直角坐标系坐标轴
+  axis: cartesian({k}),
   // 数据
   data,
   // 交互

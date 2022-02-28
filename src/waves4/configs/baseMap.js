@@ -1,6 +1,6 @@
 export default () => {
   return {
-    name: '地图底图',
+    name: '地图底图层',
     type: 'baseMap',
     sections: [
       {

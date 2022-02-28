@@ -432,7 +432,7 @@ export const layerOptionMap = new Map([
         ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
         ['text.labelOffset', 'style.labelOffset'],
-        ['base.circleSize', 'style.circleSize'],
+        ['base.pointSize', 'style.circleSize'],
         ['base.lineWidth', 'style.curve.strokeWidth'],
       ]
       const storage = mapOption(mapping)
@@ -539,6 +539,38 @@ export const layerOptionMap = new Map([
         ['text.opacity', 'style.text.fillOpacity'],
         ['base.opacity', 'style.block.fillOpacity'],
         ['base.singleColor', 'style.block.fill'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'odLine',
+    ({mapOption}) => {
+      const mapping = [
+        ['base.singleColor', 'style.flyingObject.fill'],
+        ['line.singleColor', 'style.odLine.stroke'],
+        ['line.lineWidth', 'style.odLine.strokeWidth'],
+        // ['line.opacity', 'style.odLine.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'timeline',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.event.fontSize'],
+        ['text.textWeight', 'style.event.fontWeight'],
+        ['text.singleColor', 'style.event.color'],
+        ['text.opacity', 'style.event.opacity'],
+        ['background.singleColor', 'style.event.backgroundColor'],
+        // ['background.borderRadius', 'style.event.borderRadius'],
+        ['timeline.circleSize', 'style.timeline.circleSize'],
+        ['timeline.singleColor', 'style.timeline.circleColor'],
+        ['line.singleColor', 'style.timeline.lineColor'],
+        ['line.lineWidth', 'style.timeline.lineWidth'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

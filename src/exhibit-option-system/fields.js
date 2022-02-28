@@ -927,7 +927,14 @@ const innerRadius = {
 const pointSize = {
   type: 'multiNumber',
   label: 'pointSize',
-  defaultValue: [10, 10]
+  defaultValue: [10, 10],
+}
+
+// 圆角
+const borderRadius = {
+  type: 'number',
+  label: 'borderRadius',
+  defaultValue: 10,
 }
 
 /**
@@ -1013,8 +1020,8 @@ const textAlign = {
     {
       key: 'R',
       value: 'right',
-    }
-  ]
+    },
+  ],
 }
 
 // 段间距
@@ -1042,21 +1049,11 @@ const labelOffset = {
   max: 50,
 }
 
-// 打包图大小圆
+// 圆大小
 const circleSize = {
-  type: 'multiNumber',
+  type: 'number',
   label: 'circleSize',
-  defaultValue: [5, 20],
-  items: [
-    {
-      key: '小',
-      step: 1,
-    },
-    {
-      key: '大',
-      step: 1,
-    },
-  ],
+  defaultValue: 10,
 }
 
 // 桑基图对齐
@@ -1226,4 +1223,6 @@ export default {
   sankeyAlign,
   nodeWidth,
   nodeGap,
+  // 圆角大小
+  borderRadius,
 }
