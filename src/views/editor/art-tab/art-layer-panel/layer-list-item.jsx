@@ -11,14 +11,19 @@ const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
   return enable ? (
     <DragSource
       key={layer.boxId}
-      onEnd={(dropResult, data) => dropResult.changeSort(data)}
+      onEnd={(dropResult, data) => dropResult.changeSort(dropResult, data)}
       dragKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
       data={{layer, index}}
     >
       <DropTarget
         hideOutLine
         acceptKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
-        data={{changeSort: () => console.log('保存排序，暂时使用cmd+s手动保存')}}
+        data={{
+          changeSort: (dropResult, data) => {
+            console.log(data)
+            // selectFrame.dropMove([data.layer], data.index)
+          },
+        }}
         // data={{changeSort: layer?.saveArtSort}}
         hover={(item) => {
           // 需要重新赋值index，否则会出现无限交换情况

@@ -447,7 +447,7 @@ export default {
     windmill: '风车',
     valueMatrix: '矩阵',
     classifyOthers: '其他图表',
-    text: '单行文本',
+    text: '文本',
     textarea: '多行文本',
     gauge: '仪表盘',
     multicolorGauge: '多色仪表盘',
@@ -467,6 +467,9 @@ export default {
     classifyTextIndicator: '文字指标',
     others: '其他',
     demo: '演示对接',
+    baseCharts: '基础图表',
+    indicators: '指标',
+    preInteraction: '交互组件',
   },
   user: {
     personalCenter: '个人中心',
