@@ -148,6 +148,7 @@ export default observer(({layer, viewport, selectFrame, other}) => {
     <Section
       key={group.id}
       sessionId={`SKLayer-${group.id}`}
+      type={3} // 图层成组
       // name={group.name}
       name={
         <Title
@@ -159,12 +160,7 @@ export default observer(({layer, viewport, selectFrame, other}) => {
         />
       }
       childrenClassName={c(s.pt0)}
-      titleClassName={c(
-        'pt4 pb4',
-        s.layerTitle,
-        group.isSelect && s.selectLayerItemBox,
-        !group.isSelect && s.noSelectLayerGroup
-      )}
+      titleClassName={c('pt4 pb4', s.layerTitle, group.isSelect && s.selectLayerItemBox)}
       extra={<MoreIcon selectFrame={selectFrame} group={group} isLocked={group?.isLocked} isEffect={group?.isEffect} />}
       onContextMenu={(e) => {
         e.preventDefault()

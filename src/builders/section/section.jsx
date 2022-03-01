@@ -10,7 +10,7 @@ const allSessionIds = {}
 
 const Title = ({className, type, icon, extra, fold, name, onClick = () => {}, titleClick = () => {}}) => {
   const {t} = useTranslation()
-  // type 仅仅有0, 1, 2这三个值 对应三种不同的section头
+  // type 仅仅有0, 1, 2这三个值 对应三种不同的section头 3图层成组
   return (
     <div
       className={c('h24 fbh fbac bold', {ml24: type === 2, hand: type !== 2}, s.title, s[`title_${type}`], className)}
