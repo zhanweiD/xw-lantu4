@@ -9,7 +9,7 @@ const echartsFunnelBase = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'circle-funnel',
+  icon: 'funnel',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),

@@ -9,7 +9,7 @@ const echartsGraphBase = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'edge-bundling',
+  icon: 'graph',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),
