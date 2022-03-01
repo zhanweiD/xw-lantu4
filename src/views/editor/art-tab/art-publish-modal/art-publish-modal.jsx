@@ -14,6 +14,7 @@ const PublishModal = ({art}) => {
   // 从哪里来？
   const {artPublishInfo = {}, isArtPublishInfoVisible, global, isPrivate} = art
   const {list, publishId, remark, publishPassword} = artPublishInfo
+  /*
   const {
     options: {
       sections: {
@@ -24,6 +25,7 @@ const PublishModal = ({art}) => {
       },
     },
   } = global
+  */
 
   const {t} = useTranslation()
   const columns = [

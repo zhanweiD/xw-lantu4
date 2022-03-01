@@ -147,10 +147,12 @@ const MaterialPanel = () => {
         </Tab.Item>
         <Tab.Item name={t('materialPanel.official')}>
           <MaterialToolbar />
-          {officialFolders_.map((folder) => (
-            <MaterialFolder key={folder.folderId} folder={folder} showType={showType} />
-          ))}
-          {!officialFolders_.length && <OfficialMaterialFallback keyword={keyword} />}
+          <Scroll className="h100p">
+            {officialFolders_.map((folder) => (
+              <MaterialFolder key={folder.folderId} folder={folder} showType={showType} />
+            ))}
+            {!officialFolders_.length && <OfficialMaterialFallback keyword={keyword} />}
+          </Scroll>
         </Tab.Item>
       </Tab>
       <Modal
