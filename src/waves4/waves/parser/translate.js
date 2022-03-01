@@ -5,6 +5,17 @@ import {layerOptionMap, layerTypeMap} from './mapping'
 const getRealData = (layerType, dataSource, keys) => {
   try {
     if (!dataSource) return null
+    if (layerType === 'baseMap') return 100000
+    if (layerType === 'odLine') return dataSource[0]
+    if (layerType === 'scatter') {
+      return dataSource.map((row, index) => {
+        if (index === 0) {
+          return ['category', 'x', 'y']
+        } else {
+          return row
+        }
+      })
+    }
     if (layerType === 'dashboard') {
       const newData = [...dataSource]
       newData.shift()
@@ -14,36 +25,13 @@ const getRealData = (layerType, dataSource, keys) => {
         fragments: newData,
       }
     }
-    if (layerType === 'chord') {
-      const newData = {}
-      dataSource[0].forEach((item, index) => (newData[item] = dataSource[1]?.[index] || ''))
-      return newData
-    }
+
     if (!keys) return dataSource
     const headers = dataSource[0]
     const indexs = keys.map((key) => headers.findIndex((value) => value === key))
     return dataSource.map((row) => indexs.map((index) => row[index]))
   } catch (e) {
     console.error('数据解析失败', {dataSource, keys})
-    return []
-  }
-}
-
-// 散点图数据结构不一样
-const getRealScatterData = (dataSource) => {
-  try {
-    if (!dataSource) {
-      return null
-    }
-    return dataSource.map((row, index) => {
-      if (index === 0) {
-        return ['category', 'x', 'y']
-      } else {
-        return row
-      }
-    })
-  } catch (e) {
-    console.error('数据解析失败', {dataSource})
     return []
   }
 }
@@ -74,6 +62,10 @@ const getConfig = ({layerType, name, config}) => {
       fixedBandwidth: 7,
     }
   }
+  if (layerType === 'odLine') {
+    config.style.flyingObject.path =
+      'm-17.113639,0.075168c0,29.080622 37.728806,0 37.224786,-0.075171c0.50402,0.075171 -37.224786,-29.005451 -37.224786,0.075171z'
+  }
   return config
 }
 
@@ -94,6 +86,7 @@ function translate(schema) {
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
   let layerConfig = []
+  let isBaseMap = false
   let padding = [60, 40, 40, 40] // 内边距
 
   // 如果 config 中有配置 other 属性，那么 padding 的取值就会不一样
@@ -102,36 +95,23 @@ function translate(schema) {
   }
   // 处理图层配置
   layers.forEach(({id, name, options, getOption, mapOption, type, effective}) => {
-    // 文本处理
     if (effective || effective === undefined) {
-      if (type === 'scatter') {
-        const layerType = layerTypeMap.get(type) || type
-        const config = layerOptionMap.get(layerType)({getOption, mapOption})
-        layerConfig.push(
-          merge(
-            {
-              type: 'scatter',
-              data: getRealScatterData(data),
-              options: {
-                id,
-                layout: 'main'
-              }
-            },
-            config
-          )
-        )
-        return
-      }
       const layerType = layerTypeMap.get(type) || type
-      const keys = dimension ? [...dimension.xColumn, ...options.dataMap.column] : ''
+      const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
-      console.log(config)
+      if (layerType === 'baseMap') isBaseMap = true
+      console.log(layerType)
       layerConfig.push(
         merge(
           {
             type: layerType,
             data: getRealData(layerType, data, keys),
-            options: {id, layout: 'main', zoom: layerType === 'pack'},
+            options: {
+              id,
+              layout: 'main',
+              zoom: layerType === 'pack',
+              shape: layerType === 'matrix' && (name === '方形矩阵' ? 'rect' : 'circle'),
+            },
           },
           getConfig({layerType, name, config})
         )
@@ -183,10 +163,16 @@ function translate(schema) {
       merge(
         {
           type: 'axis',
-          options: {
-            id: uuid(),
-            layout: 'main',
-          },
+          options: isBaseMap
+            ? {
+                id: uuid(),
+                layout: 'main',
+                type: 'geographic',
+              }
+            : {
+                id: uuid(),
+                layout: 'main',
+              },
         },
         config
       )

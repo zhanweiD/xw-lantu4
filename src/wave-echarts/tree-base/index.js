@@ -9,7 +9,7 @@ const echartsTreeBase = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'peacock',
+  icon: 'catalog',
   i18n,
   config,
   makeAdapter: (k) => makeAdapter({k, createExhibitAdapter}),

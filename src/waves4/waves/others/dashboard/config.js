@@ -13,5 +13,5 @@ export const config = (k) => ({
   layers: [dashboard({k, name: '仪表盘', type: 'dashboard'})],
 
   // 标题面板
-  title: title({k, content: '某APP活跃用户年龄分布'}),
+  title: title({k, content: '仪表盘'}),
 })

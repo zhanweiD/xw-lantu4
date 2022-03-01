@@ -23,7 +23,7 @@ const data = [
 const graphOption = {
   title: [
     {
-      text: '基础热力图',
+      text: '关系图',
       textStyle: {
         color: '#fff',
       },

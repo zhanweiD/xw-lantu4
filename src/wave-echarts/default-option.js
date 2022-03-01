@@ -413,21 +413,6 @@ const stackColumnLineOption = {
   ],
 }
 
-const basePieOption = {
-  title: {
-    text: '基础饼图',
-    textStyle: {
-      color: '#fff',
-    },
-  },
-  series: [
-    {
-      type: 'pie',
-      radius: '50%',
-    },
-  ],
-}
-
 const radiuRingPieOption = {
   title: {
     text: '圆角环形图',
@@ -441,9 +426,9 @@ const radiuRingPieOption = {
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
       itemStyle: {
-        borderRadius: 10,
+        borderRadius: 5,
         borderColor: '#fff',
-        borderWidth: 2,
+        borderWidth: 1,
       },
       label: {
         show: false,
@@ -452,8 +437,8 @@ const radiuRingPieOption = {
       emphasis: {
         label: {
           show: true,
-          fontSize: '40',
-          fontWeight: 'bold',
+          fontSize: '20',
+          color: 'rgba(255,255,255,0.5)',
         },
       },
       labelLine: {
@@ -475,6 +460,9 @@ const ringPieOption = {
       name: 'Access From',
       type: 'pie',
       radius: ['40%', '70%'],
+      label: {
+        color: 'rgba(255,255,255,0.5)',
+      },
     },
   ],
 }
@@ -488,17 +476,18 @@ const rosePieOption = {
   },
   series: [
     {
-      name: 'Access From',
       type: 'pie',
       radius: '55%',
       center: ['50%', '50%'],
       roseType: 'area',
+      label: {
+        color: 'rgba(255,255,255,0.5)',
+      },
     },
   ],
 }
 
 export {
-  basePieOption,
   radiuRingPieOption,
   ringPieOption,
   rosePieOption,

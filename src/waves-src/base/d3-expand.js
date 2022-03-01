@@ -6,8 +6,8 @@
 import * as d3 from 'd3'
 import {isArray, timer, isWindows, isObject, isNumber} from '../util'
 
-const waveDataKey = '__wave_data__'
-const d3remove = d3.selection.prototype.remove
+// const waveDataKey = '__wave_data__'
+// const d3remove = d3.selection.prototype.remove
 const textShadowName = 'text-shadow'
 
 const getKeys = Object.keys
@@ -106,10 +106,8 @@ function resolveName(name) {
  */
 function runTwenn(nodes, time) {
   for (let i = 0; i < nodes.length; i++) {
-    let selection = nodes[i].selection.transition()
-      .delay(0)
-      .duration(time)
-    getKeys(nodes[i].operating).forEach(k => {
+    let selection = nodes[i].selection.transition().delay(0).duration(time)
+    getKeys(nodes[i].operating).forEach((k) => {
       selection = selection.tween(k, (data, index, elms) => {
         // 是否有旧的数据
         const formerData = d3.select(elms[index]).property('formerData')
@@ -148,19 +146,19 @@ function operating(selection, operating) {
   } else {
     let result = selection
     let value = null
-    getKeys(operating).forEach(key => {
+    getKeys(operating).forEach((key) => {
       value = operating[key]
 
       // 如果操作的值是对象，那么细化操作
       if (isObject(value)) {
-        getKeys(value).forEach(name => (result = result[key](name, value[name])))
+        getKeys(value).forEach((name) => (result = result[key](name, value[name])))
 
-      // 如果操作的值是个数组，那么数组当做形参传入
+        // 如果操作的值是个数组，那么数组当做形参传入
       } else if (isArray(value)) {
         // eslint-disable-next-line prefer-spread
         result = result[key].apply(result, value)
 
-      // 普通的操作
+        // 普通的操作
       } else {
         result = result[key](value)
       }
@@ -176,7 +174,7 @@ function operating(selection, operating) {
 }
 
 function setTransition(updateDuration, nodes) {
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     // eslint-disable-next-line no-shadow
     const {operating} = node
     let {selection} = node
@@ -186,11 +184,11 @@ function setTransition(updateDuration, nodes) {
     // 或者当前选择器没有dom节点那么直接退出
     if (!operating || !dom) return
 
-    getKeys(operating).forEach(k => {
+    getKeys(operating).forEach((k) => {
       const value = operating[k]
       if (k === 'style' || k === 'attr') {
         const transitionStyle = {}
-        getKeys(value).forEach(name => transitionStyle[name] = `${updateDuration}s`)
+        getKeys(value).forEach((name) => (transitionStyle[name] = `${updateDuration}s`))
         selection.setTransition(transitionStyle)
       } else {
         selection = isArray(value) ? selection[k](...value) : selection[k](value)
@@ -236,7 +234,7 @@ function update(name, options) {
 
   // 找到第一级的操作并把它们都算在allOptions头上
   // 当allOptions上已经存在同名操作时将忽略第一级的操作
-  getKeys(options).forEach(k => {
+  getKeys(options).forEach((k) => {
     if (!filterKeys.test(k)) {
       allOptions[k] = allOptions[k] || options[k]
     }
@@ -254,6 +252,7 @@ function update(name, options) {
   if (wave) {
     waveState = wave.state === 'ready'
     updateDuration = wave.config('updateDuration') / 1000
+    // eslint-disable-next-line no-unused-vars
     waveName = wave.uuid
     isAnimation = wave.config('updateAnimation') && waveState
     enableEnterAnimation = wave.config('enableEnterAnimation')
@@ -261,11 +260,11 @@ function update(name, options) {
 
   // 更新的部分
   // eslint-disable-next-line no-shadow
-  const update = this.selectAll(name)
-    .data(data, dataKey)
+  const update = this.selectAll(name).data(data, dataKey)
 
   // 添加的部分
-  const add = update.enter()
+  const add = update
+    .enter()
     .append(element)
     .attr('class', className ? className.split('.').join(' ') : '')
 
@@ -307,9 +306,9 @@ function update(name, options) {
     // 如果存在需要用动画进行过度的属性
     if (item.operating) {
       // 如果存在使用d3tween过度的属性那么单独提取出来
-      const tween = (item.operating).d3tween
+      const tween = item.operating.d3tween
       if (tween) {
-        delete (item.operating).d3tween
+        delete item.operating.d3tween
 
         // 如果图表就绪前 并且还需要显示入场动画并且tween.firstInvalid还为true
         if (!waveState && enableEnterAnimation && tween.firstInvalid) {
@@ -348,10 +347,10 @@ function update(name, options) {
       setTransition(updateDuration, nodes)
       // 设置过渡
       timer.setTask(() => {
-        nodes.forEach(node => operating(node.selection, node.operating))
+        nodes.forEach((node) => operating(node.selection, node.operating))
       }, true)
     } else {
-      nodes.forEach(node => operating(node.selection, node.operating))
+      nodes.forEach((node) => operating(node.selection, node.operating))
     }
   }
 
@@ -442,15 +441,15 @@ function transition(style, isCover = false) {
   if (!node) return this
 
   if (isCover) {
-    getKeys(style).forEach(name => style[name] && transition.push(`${name} ${style[name]}`))
+    getKeys(style).forEach((name) => style[name] && transition.push(`${name} ${style[name]}`))
   } else {
     // 先拿到当前节点上的过渡样式
     transition = node.style.transition
     transition = !transition ? [] : transition.split(',')
     if (!transition.length) {
-      getKeys(style).forEach(name => style[name] && transition.push(`${name} ${style[name]}`))
+      getKeys(style).forEach((name) => style[name] && transition.push(`${name} ${style[name]}`))
     } else {
-      getKeys(style).forEach(name => {
+      getKeys(style).forEach((name) => {
         for (let i = 0; i < transition.length; i += 1) {
           // 如果当前过渡样式上已经存在同名样式那么覆盖
           // 否则添加
@@ -499,7 +498,7 @@ function setAnimation(options) {
   const name = wave ? wave.uuid : null
   const nodesLength = this.nodes().length || 1
 
-  const time = (delay || 0) + (duration || 0) + ((nodesLength - 1) * interval)
+  const time = (delay || 0) + (duration || 0) + (nodesLength - 1) * interval
 
   // 记录当前节点绑定的过度属性 回头用来还原
   // eslint-disable-next-line no-shadow
@@ -519,7 +518,7 @@ function setAnimation(options) {
 
     // 将过渡样式清除
     if (node && (duration || description) && !d3Animation[options.type]) {
-      getKeys(transitionStyles).forEach(k => (transitionStyles[k] = null))
+      getKeys(transitionStyles).forEach((k) => (transitionStyles[k] = null))
       this.style('transition', transition)
     }
 
@@ -535,8 +534,8 @@ function setAnimation(options) {
     let to = null
 
     // 设置起始状态
-    getKeys(style).forEach(k => this.style(k, isObject(style[k]) ? style[k].from : 0))
-    getKeys(attr).forEach(k => this.attr(k, isObject(attr[k]) ? attr[k].from : 0))
+    getKeys(style).forEach((k) => this.style(k, isObject(style[k]) ? style[k].from : 0))
+    getKeys(attr).forEach((k) => this.attr(k, isObject(attr[k]) ? attr[k].from : 0))
 
     // 用于d3的tween动画
     const d3tween = () => () => {
@@ -545,7 +544,7 @@ function setAnimation(options) {
         .delay((d, i) => i * interval)
         .duration(duration || 0)
 
-      getKeys(keys).forEach(k => {
+      getKeys(keys).forEach((k) => {
         selection = selection.tween(k, isObject(keys[k]) ? keys[k].to : keys[k])
       })
     }
@@ -555,9 +554,9 @@ function setAnimation(options) {
       // 设置过渡样式
       if (duration || description) {
         const transitionStyle = description ? String(description) : `${duration / 1000}s`
-        attrs.forEach(a => {
+        attrs.forEach((a) => {
           if (!a) return
-          getKeys(a).forEach(k => (transitionStyles[k] = transitionStyle))
+          getKeys(a).forEach((k) => (transitionStyles[k] = transitionStyle))
         })
         this.setTransition(transitionStyles)
       }
@@ -565,9 +564,17 @@ function setAnimation(options) {
       // 设置终止状态
       return () => {
         // 是否有间隔时间？
-        const that = interval ? this.transition().duration(0).delay((d, i) => i * interval) : this
-        getKeys(style).forEach(k => { that.style(k, isObject(style[k]) ? style[k].to : style[k]) })
-        getKeys(attr).forEach(k => { that.attr(k, isObject(attr[k]) ? attr[k].to : attr[k]) })
+        const that = interval
+          ? this.transition()
+              .duration(0)
+              .delay((d, i) => i * interval)
+          : this
+        getKeys(style).forEach((k) => {
+          that.style(k, isObject(style[k]) ? style[k].to : style[k])
+        })
+        getKeys(attr).forEach((k) => {
+          that.attr(k, isObject(attr[k]) ? attr[k].to : attr[k])
+        })
       }
     }
 
@@ -612,28 +619,28 @@ function setAnimation(options) {
  * 清除绑定在节点上的数据
  * @param {HTMLElement} elm 节点
  */
-function clear(elm) {
-  elm[waveDataKey] = null
-  const children = elm.children || []
-  for (let i = 0; i < children.length; i++) {
-    clear(children[i])
-  }
-}
+// function clear(elm) {
+//   elm[waveDataKey] = null
+//   const children = elm.children || []
+//   for (let i = 0; i < children.length; i++) {
+//     clear(children[i])
+//   }
+// }
 
 /**
  * 改写d3 remove方法
  */
-function remove() {
-  // 清除绑定在节点上的数据
+// function remove() {
+//   // 清除绑定在节点上的数据
 
-  const nodes = this.nodes()
-  for (let i = 0; i < nodes.length; i++) {
-    clear(nodes[i])
-  }
+//   const nodes = this.nodes()
+//   for (let i = 0; i < nodes.length; i++) {
+//     clear(nodes[i])
+//   }
 
-  // 调用真正的remove
-  d3remove.call(this)
-}
+//   // 调用真正的remove
+//   d3remove.call(this)
+// }
 
 function expand(proto) {
   proto.update = update

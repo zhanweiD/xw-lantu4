@@ -1,4 +1,12 @@
 export default [
-  ['type', 'mode', 'row', 'column', 'lambda', 'mu', 'sigma', 'decimalPlace'],
-  ['table', 'poisson', 10, 10, 40, 1000, 400, 1],
+  ['row1', 'row2', 'row3', 'row4', 'row5', 'row6'],
+  ['col1', 'col2', 'col3', 'col4', 'col5', 'col6'],
+  [
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+  ],
 ]

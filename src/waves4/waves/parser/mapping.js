@@ -332,11 +332,11 @@ export const layerOptionMap = new Map([
         storage.set('style.polygon.fillOpacity', 0)
       }
       return storage.get()
-    }
+    },
   ],
   [
     'polar',
-    ({mapOption, getOption}) => {
+    ({mapOption}) => {
       const mapping = [
         // 比例尺
         ['base.tickCount', 'scale.count'],
@@ -346,7 +346,7 @@ export const layerOptionMap = new Map([
       const storage = mapOption(mapping)
 
       return storage.get()
-    }
+    },
   ],
   [
     'arc',
@@ -372,20 +372,18 @@ export const layerOptionMap = new Map([
       }
 
       return storage.get()
-    }
+    },
   ],
   [
     'scatter',
-    ({mapOption, getOption}) => {
-      const mapping = [
-        ['base.pointSize', 'style.pointSize']
-      ]
+    ({mapOption}) => {
+      const mapping = [['base.pointSize', 'style.pointSize']]
       const storage = mapOption(mapping)
       // 把散点上的标签隐藏了
       storage.set('style.text.hide', true)
 
       return storage.get()
-    }
+    },
   ],
   [
     'dashboard',
@@ -434,7 +432,7 @@ export const layerOptionMap = new Map([
         ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
         ['text.labelOffset', 'style.labelOffset'],
-        ['base.circleSize', 'style.circleSize'],
+        ['base.pointSize', 'style.circleSize'],
         ['base.lineWidth', 'style.curve.strokeWidth'],
       ]
       const storage = mapOption(mapping)
@@ -513,6 +511,66 @@ export const layerOptionMap = new Map([
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'matrix',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'baseMap',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+        ['text.opacity', 'style.text.fillOpacity'],
+        ['base.opacity', 'style.block.fillOpacity'],
+        ['base.singleColor', 'style.block.fill'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'odLine',
+    ({mapOption}) => {
+      const mapping = [
+        ['base.singleColor', 'style.flyingObject.fill'],
+        ['line.singleColor', 'style.odLine.stroke'],
+        ['line.lineWidth', 'style.odLine.strokeWidth'],
+        // ['line.opacity', 'style.odLine.fillOpacity'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'timeline',
+    ({mapOption}) => {
+      const mapping = [
+        ['text.textSize', 'style.event.fontSize'],
+        ['text.textWeight', 'style.event.fontWeight'],
+        ['text.singleColor', 'style.event.color'],
+        ['text.opacity', 'style.event.opacity'],
+        ['background.singleColor', 'style.event.backgroundColor'],
+        // ['background.borderRadius', 'style.event.borderRadius'],
+        ['timeline.circleSize', 'style.timeline.circleSize'],
+        ['timeline.singleColor', 'style.timeline.circleColor'],
+        ['line.singleColor', 'style.timeline.lineColor'],
+        ['line.lineWidth', 'style.timeline.lineWidth'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

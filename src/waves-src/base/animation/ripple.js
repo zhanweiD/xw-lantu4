@@ -3,18 +3,17 @@ import anime from 'animejs'
 import AnimationBase from './base'
 import uuid from '../../../common/uuid'
 
-
 /**
  * 寻找子节点类型
  * todo: 目前这个方法不通用，得继续优化，可能存在type未找到或者container下为多个元素的情况
  */
-const findNodeType = ({targets, index, type}) => {
-  const container = targets.children ? targets.children[0] : targets._groups[0][index]
-  if (container.tagName === type) {
-    return container
-  }
-  return findNodeType({targets: container, type})
-}
+// const findNodeType = ({targets, index, type}) => {
+//   const container = targets.children ? targets.children[0] : targets._groups[0][index]
+//   if (container.tagName === type) {
+//     return container
+//   }
+//   return findNodeType({targets: container, type})
+// }
 
 // 默认参数
 const defaultOptions = {
@@ -23,7 +22,7 @@ const defaultOptions = {
   loop: true,
 }
 
-const animationCount = 0
+// const animationCount = 0
 
 /**
  * 折线示例动画
@@ -51,7 +50,7 @@ const animationCount = 0
  *     target: node
  */
 export default class RippleAnimation extends AnimationBase {
-  constructor(options, context) {
+  constructor(options) {
     super(options)
     this.options = {...defaultOptions, ...options}
 
@@ -67,7 +66,7 @@ export default class RippleAnimation extends AnimationBase {
 
       const selector = d3.select(parentNode)
 
-      new Array(3).fill(1).forEach((item, i) => {
+      new Array(3).fill(1).forEach(() => {
         selector
           .append('circle')
           .attr('class', this.class)
@@ -76,8 +75,8 @@ export default class RippleAnimation extends AnimationBase {
           .attr('fill', '#0000')
           .style('opacity', 0)
           .style('transform', `translate(${cx ? cx.value : 0}px,${cy ? cy.value : 0}px)`)
-          // .attr('cx', cx ? cx.value : 0)
-          // .attr('cy', cy ? cy.value : 0)
+        // .attr('cx', cx ? cx.value : 0)
+        // .attr('cy', cy ? cy.value : 0)
       })
     })
 
@@ -89,7 +88,7 @@ export default class RippleAnimation extends AnimationBase {
    * 播放
    */
   play() {
-    const {delay, duration, direction, loop, scale} = this.options
+    const {duration, loop, scale} = this.options
     const configs = {
       targets: `.${this.class}`,
       loop,
@@ -113,7 +112,7 @@ export default class RippleAnimation extends AnimationBase {
   /**
    * 动画开始位置钩子[轮播]
    */
-  start(data) {
+  start() {
     this.isAnimationStart = true
     this.event.has('start') && this.event.fire('start')
   }
