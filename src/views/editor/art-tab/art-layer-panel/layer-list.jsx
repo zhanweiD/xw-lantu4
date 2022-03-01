@@ -159,7 +159,12 @@ export default observer(({layer, viewport, selectFrame, other}) => {
         />
       }
       childrenClassName={c(s.pt0)}
-      titleClassName={c('pt4 pb4', !group.isSelect && s.noSelectLayerGroup)}
+      titleClassName={c(
+        'pt4 pb4',
+        s.layerTitle,
+        group.isSelect && s.selectLayerItemBox,
+        !group.isSelect && s.noSelectLayerGroup
+      )}
       extra={<MoreIcon selectFrame={selectFrame} group={group} isLocked={group?.isLocked} isEffect={group?.isEffect} />}
       onContextMenu={(e) => {
         e.preventDefault()

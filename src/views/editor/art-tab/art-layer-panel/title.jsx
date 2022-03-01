@@ -34,6 +34,7 @@ const Title = ({name, onChange}) => {
       suppressContentEditableWarning="true"
       style={{
         cursor: contentEditable ? 'text' : '',
+        backgroundColor: contentEditable && '#2a2a2a',
       }}
     >
       {name}

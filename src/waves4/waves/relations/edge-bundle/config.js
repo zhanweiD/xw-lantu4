@@ -14,7 +14,7 @@ export const config = (k) => ({
   // getLayersConfig: () => getLayersConfig('polar'),
   // 图层声明和定义，id无法定义由工具自动生成
   layers: [edgeBundle()],
-  title: title({k, content: '某APP活跃用户年龄分布'}),
+  title: title({k, content: '边缘捆图'}),
   // 数据
   data,
   // 交互
