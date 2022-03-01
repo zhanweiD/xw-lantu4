@@ -151,7 +151,9 @@ const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
       }
 
       const setSchema = (schema) => {
-        self.setValues(schema)
+        if (schema) {
+          self.setValues(schema)
+        }
         // 保存和util的setSchema一样，都支持afterSetSchema方法
         if (isFunction(self.afterSetSchema)) {
           self.afterSetSchema()
