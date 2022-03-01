@@ -147,15 +147,15 @@ const global = {
         },
       ],
     },
-    {
-      name: 'auth',
-      effective: false,
-      fields: [
-        {
-          name: 'password',
-        },
-      ],
-    },
+    // {
+    //   name: 'auth',
+    //   effective: false,
+    //   fields: [
+    //     {
+    //       name: 'password',
+    //     },
+    //   ],
+    // },
     {
       name: 'screenAdaption',
       effective: false,
