@@ -64,7 +64,7 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
           )}
         >
           <div
-            className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4')}
+            className={c('fb1 omit ctw60 fbh fbac fs12 lh24 pl4', (isSelect || group?.isSelect) && s.cf)}
             onClick={(e) => {
               e.stopPropagation()
               !e.shiftKey && selectFrame?.groups?.forEach((group) => group.set({isSelect: false}))

@@ -12,5 +12,5 @@ export const config = (k) => ({
   // 矩形图层
   layers: [pack({k})],
   // 标题面板
-  title: title({k, content: '某APP活跃用户年龄分布'}),
+  title: title({k, content: '打包图'}),
 })
