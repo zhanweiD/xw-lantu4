@@ -20,16 +20,23 @@ const Sortable = observer(({layer, selectFrame, index, children, enable}) => {
         acceptKey={`ART_SORT_DRAG_KEY_FRAMEID_${layer?.frameId}`}
         data={{
           changeSort: (dropResult, data) => {
-            console.log(data)
-            // selectFrame.dropMove([data.layer], data.index)
+            selectFrame.set({hoverBox: {}})
+            selectFrame.dropMove([data.layer], data.nowIndex)
           },
         }}
-        // data={{changeSort: layer?.saveArtSort}}
         hover={(item) => {
           // 需要重新赋值index，否则会出现无限交换情况
           if (item.index !== index) {
-            selectFrame.dropMove([item.layer], index)
-            item.index = index
+            // 上移还是下移
+            if (item.index > index) {
+              selectFrame.set({hoverBox: {hoverBoxId: layer.boxId, location: 'hoverBottom'}})
+            } else {
+              selectFrame.set({hoverBox: {hoverBoxId: layer.boxId, location: 'hoverTop'}})
+            }
+            item.nowIndex = index
+          } else {
+            item.nowIndex = index
+            selectFrame.set({hoverBox: {}})
           }
         }}
       >
@@ -46,12 +53,23 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
   const {range = []} = selectRange || {}
   const {boxIds = []} = range[0] || {}
   const menu = w.overlayManager.get('menu')
-
   const isSelect = selectRange ? selectRange.range?.[0]?.boxIds?.find((item) => item === layer.boxId) : false
+
   return (
     <Sortable layer={layer} index={index} selectFrame={selectFrame} enable={!layer.isLocked && layer.isEffect}>
+      {layer.isHover && (
+        <div className={c('w100p fbh fbjsb', s.hoverBoxTop)}>
+          <div className={c(selectFrame?.hoverBox?.location === 'hoverTop' && s.topLeft)} />
+          <div className={c(selectFrame?.hoverBox?.location === 'hoverTop' && s.topRight)} />
+        </div>
+      )}
       <div
-        className={c('w100p', s.layer, (layer.isLocked || !layer.isEffect) && s.noDrop)}
+        className={c(
+          'w100p',
+          s.layer,
+          layer.isHover && s[selectFrame?.hoverBox?.location],
+          (layer.isLocked || !layer.isEffect) && s.noDrop
+        )}
         onContextMenu={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -125,6 +143,12 @@ const LayerListItem = ({layer, index, viewport, selectFrame, className, group}) 
           </div>
         </div>
       </div>
+      {layer.isHover && (
+        <div className={c('w100p fbh fbjsb', s.hoverBoxBtm)}>
+          <div className={c(selectFrame?.hoverBox?.location === 'hoverBottom' && s.bottomLeft)} />
+          <div className={c(selectFrame?.hoverBox?.location === 'hoverBottom' && s.bottomRight)} />
+        </div>
+      )}
     </Sortable>
   )
 }

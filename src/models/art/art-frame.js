@@ -13,6 +13,10 @@ import {registerExhibit} from '@exhibit-collection'
 import createEvent from '@utils/create-event'
 
 const log = createLog('@models/art/art-frame.js')
+const HoverBox = types.model('HoverBox', {
+  hoverBoxId: types.maybe(types.number),
+  location: types.maybe(types.string),
+})
 export const MArtFrame = types
   .model('MArtFrame', {
     frameId: types.union(types.string, types.number),
@@ -25,6 +29,7 @@ export const MArtFrame = types
     background: types.optional(MBackgroundColor, {}),
     remark: types.maybe(types.string),
     materials: types.frozen(),
+    hoverBox: types.maybe(HoverBox, {}),
 
     // 只有创建失败时才会需要用到的属性
     isCreateFail: types.maybe(types.boolean),

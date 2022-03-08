@@ -96,6 +96,9 @@ export const MBox = types
         .indexOf(self.boxId)
       return zIndex
     },
+    get isHover() {
+      return self.boxId === self.frame_.hoverBox?.hoverBoxId
+    },
   }))
   .views((self) => ({
     get backgroundImage_() {
