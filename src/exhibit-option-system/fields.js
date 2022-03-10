@@ -27,6 +27,38 @@ const offset = {
   ],
 }
 
+// padding
+const padding = {
+  type: 'multiNumber',
+  label: 'padding',
+  defaultValue: [40, 40, 40, 40],
+  items: [
+    {
+      key: '上',
+      step: 1,
+    },
+    {
+      key: '右',
+      step: 1,
+    },
+    {
+      key: '下',
+      step: 1,
+    },
+    {
+      key: '左',
+      step: 1,
+    },
+  ],
+}
+
+// show
+const show = {
+  type: 'switch',
+  label: 'show',
+  defaultValue: true,
+}
+
 // 区域偏移
 const areaOffset = {
   type: 'offset',
@@ -1084,6 +1116,7 @@ export default {
   echartsoption,
   // 偏移
   offset,
+  padding,
   areaOffset,
   // 间隔,
   gap,
@@ -1225,4 +1258,5 @@ export default {
   nodeGap,
   // 圆角大小
   borderRadius,
+  show,
 }

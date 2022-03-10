@@ -42,6 +42,7 @@ import rectMatrix from './waves/matrices/rect-matrix'
 import circleMatrix from './waves/matrices/circle-matrix'
 import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
+import river from './waves/v3/river'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -52,6 +53,7 @@ const waves = {
   groupLine,
   stackAreaLine,
   stepLine,
+  river,
   // 柱状
   basicColumn,
   groupColumn,
@@ -124,6 +126,7 @@ const categories = [
       areaLine,
       stackAreaLine,
       stepLine,
+      river,
       basicColumn,
       groupColumn,
       stackColumn,

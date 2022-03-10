@@ -21,9 +21,7 @@ export default class Text extends Base {
   constructor(option) {
     super(option, defaultOption, 'textarea')
     this._data = {}
-    console.log('==============')
     console.log(this._option)
-    console.log('==============')
     // debugger
     this.root.attr('class', 'wave-textarea')
   }
