@@ -24,9 +24,10 @@ const MoreIcon = ({dataPanel, folder, isTop}) => {
       attachTo: button,
       list: [
         {name: `${isTop ? '取消置顶' : '置顶'}文件夹`, action: () => (toggleFolderTop(folder), menu.hide())},
-        {name: '新建Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
-        {name: '新建JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
-        {name: '新建API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+        {name: '添加Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
+        {name: '添加JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
+        {name: '添加API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+        // {name: '添加SQL', action: () => (createData({folderId, dataType: 'database'}), menu.hide())},
         {name: '删除文件夹', action: () => (confirm(folder, 'removeFolder'), menu.hide())},
       ],
     })

@@ -9,6 +9,11 @@ import makeFunction from '@utils/make-function'
 import s from './base.module.styl'
 import IconButton from '../icon-button'
 
+// 几个特殊字段添加必填标识
+const isKeyword = (v) => {
+  if (v === '名称' || v === '路径') return true
+}
+
 // TODO stopDrag细化到每个输入元素
 export const Field = observer(
   ({
@@ -34,6 +39,7 @@ export const Field = observer(
         >
           {isDef(label) && (
             <div className={c('fb3', !label && 'hide', s.label)} style={labelStyle}>
+              {isKeyword(label) && <span className={s.red}>*</span>}
               {label}
             </div>
           )}

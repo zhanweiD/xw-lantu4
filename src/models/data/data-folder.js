@@ -39,13 +39,13 @@ export const MDataFolder = types
       const type = self.dataPanel_.getDataType()
       let defaultDataName = '未命名数据'
       if (dataType === 'excel') {
-        defaultDataName = '新建Excel'
+        defaultDataName = '添加Excel'
       } else if (dataType === 'json') {
-        defaultDataName = '新建JSON'
+        defaultDataName = '添加JSON'
       } else if (dataType === 'database') {
-        defaultDataName = '新建SQL'
+        defaultDataName = '添加SQL'
       } else if (dataType === 'api') {
-        defaultDataName = '新建API'
+        defaultDataName = '添加API'
       }
 
       event.fire('editor.openTab', {

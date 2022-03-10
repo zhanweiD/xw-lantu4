@@ -2,23 +2,23 @@
  * @author 南风
  * @description 项目详情tab
  */
-import commonAction from "@utils/common-action"
-import {flow, getEnv, getParent, getRoot, types} from "mobx-state-tree"
-import {createConfigModelClass} from "@components/field"
-import uuid from "@utils/uuid"
-import {MProjectMember} from "./editor-tab-project-detail-member"
-import {MDataTab} from "./editor-tab-data"
+import commonAction from '@utils/common-action'
+import {flow, getEnv, getParent, getRoot, types} from 'mobx-state-tree'
+import {createConfigModelClass} from '@components/field'
+import uuid from '@utils/uuid'
+import {MProjectMember} from './editor-tab-project-detail-member'
+import {MDataTab} from './editor-tab-data'
 
 export const MProjectDetail = types
   .model({
     id: types.number,
-    name: types.optional(types.string, ""),
-    description: types.optional(types.string, ""),
+    name: types.optional(types.string, ''),
+    description: types.optional(types.string, ''),
     arts: types.optional(types.array(types.frozen()), []),
     members: types.optional(types.array(MProjectMember), []),
     filterMemberIds: types.optional(types.array(types.number), []),
     organizationMembers: types.optional(types.array(types.frozen()), []),
-    data: types.optional(types.array(MDataTab), [])
+    data: types.optional(types.array(MDataTab), []),
   })
   .views((self) => ({
     get env_() {
@@ -30,38 +30,36 @@ export const MProjectDetail = types
     get roleCodeMapping_() {
       return [
         {
-          key: "成员",
-          value: "project-member"
+          key: '成员',
+          value: 'project-member',
         },
         {
-          key: "管理员",
-          value: "project-admin"
+          key: '管理员',
+          value: 'project-admin',
         },
         {
-          key: "只读成员",
-          value: "project-readonly"
-        }
+          key: '只读成员',
+          value: 'project-readonly',
+        },
       ]
     },
     get members_() {
       return self.filterMemberIds.length
-        ? self.members.filter((member) =>
-            self.filterMemberIds.includes(member.userId)
-          )
+        ? self.members.filter((member) => self.filterMemberIds.includes(member.userId))
         : self.members
     },
     get tab_() {
       return getParent(self, 1)
-    }
+    },
   }))
-  .actions(commonAction(["set"]))
+  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
       const {event} = self.env_
       self.getMembers()
       self.getData()
-      event.on("projectDetail.getDetail", self.getDetail)
-      event.on("projectDetail.getData", self.getData)
+      event.on('projectDetail.getDetail', self.getDetail)
+      event.on('projectDetail.getData', self.getData)
     }
 
     const getMembers = flow(function* getMembers() {
@@ -69,12 +67,12 @@ export const MProjectDetail = types
       const {user} = self.root_
       try {
         const members = yield io.organization.getOrgMembers({
-          ":organizationId": user.organizationId
+          ':organizationId': user.organizationId,
         })
         self.organizationMembers = members.list
       } catch (error) {
         // TODO: 统一替换
-        console.log("error")
+        console.log('error')
       }
     })
 
@@ -83,18 +81,18 @@ export const MProjectDetail = types
       const {id} = self
       try {
         yield io.project.update({
-          ":projectId": id,
+          ':projectId': id,
           name: self.name,
-          description: self.description
+          description: self.description,
         })
-        event.fire("editor.finishUpdate", {
-          type: "project"
+        event.fire('editor.finishUpdate', {
+          type: 'project',
         })
-        event.fire("project-panel.getProjects")
+        event.fire('project-panel.getProjects')
         self.tab_.set({name: self.name})
       } catch (error) {
         // TODO: 统一替换
-        console.log("error")
+        console.log('error')
         tip.error({content: error.message})
       }
     })
@@ -103,7 +101,7 @@ export const MProjectDetail = types
       if (self.arts.length) {
         self.root_.confirm({
           content: `确认删除"${self.name}"项目么? 删除之后无法恢复`,
-          onConfirm: self.removeProject
+          onConfirm: self.removeProject,
         })
       } else {
         self.removeProject()
@@ -114,10 +112,10 @@ export const MProjectDetail = types
       try {
         const {io, event} = self.env_
         yield io.project.remove({
-          ":projectId": self.id
+          ':projectId': self.id,
         })
-        event.fire("editor.closeTab", self.id)
-        event.fire("project-panel.getProjects")
+        event.fire('editor.closeTab', self.id)
+        event.fire('project-panel.getProjects')
       } catch (error) {
         // TODO error 统一替换
         console.log(error)
@@ -128,7 +126,7 @@ export const MProjectDetail = types
       try {
         const {io} = self.env_
         const project = yield io.project.getDetail({
-          ":projectId": self.id
+          ':projectId': self.id,
         })
         self.description = project.description
         self.arts = project.arts
@@ -144,82 +142,77 @@ export const MProjectDetail = types
       const {io, tip, event} = self.env_
       try {
         yield io.project.addMembers({
-          ":projectId": self.id,
+          ':projectId': self.id,
           userIds,
-          roleCode
+          roleCode,
         })
-        event.fire("projectDetail.getDetail")
-        tip.success({content: "添加成员成功！"})
-        const modal = self.root_.overlayManager.get("fieldModal")
+        event.fire('projectDetail.getDetail')
+        tip.success({content: '添加成员成功！'})
+        const modal = self.root_.overlayManager.get('fieldModal')
         modal.hide()
       } catch (error) {
         // TODO error 统一替换
         console.log(error)
-        tip.error({content: "添加成员失败！"})
+        tip.error({content: '添加成员失败！'})
       }
     })
 
     const addMemberConfirm = () => {
-      const modal = self.root_.overlayManager.get("fieldModal")
+      const modal = self.root_.overlayManager.get('fieldModal')
 
-      const MFieldModdal = createConfigModelClass("MFieldModdal", {
-        sections: ["__hide__"],
+      const MFieldModdal = createConfigModelClass('MFieldModdal', {
+        sections: ['__hide__'],
         fields: [
           {
-            section: "__hide__",
-            option: "userIds",
+            section: '__hide__',
+            option: 'userIds',
             field: {
-              type: "select",
-              label: "添加成员",
-              option: "userIds",
+              type: 'select',
+              label: '添加成员',
+              option: 'userIds',
               required: true,
               isMulti: true,
               options: self.organizationMembers
-                .filter(
-                  (member) =>
-                    !self.members.find((m) => m.userId === member.userId)
-                )
+                .filter((member) => !self.members.find((m) => m.userId === member.userId))
                 .map((member) => ({
                   key: member.nickname,
-                  value: member.userId
-                }))
-            }
+                  value: member.userId,
+                })),
+            },
           },
           {
-            section: "__hide__",
-            option: "roleCode",
+            section: '__hide__',
+            option: 'roleCode',
             field: {
-              type: "select",
-              label: "成员角色",
-              option: "roleCode",
-              value: "project-member",
-              options: self.roleCodeMapping_
-            }
-          }
-        ]
+              type: 'select',
+              label: '成员角色',
+              option: 'roleCode',
+              value: 'project-member',
+              options: self.roleCodeMapping_,
+            },
+          },
+        ],
       })
       modal.show({
         attachTo: false,
-        title: "添加成员",
+        title: '添加成员',
         content: MFieldModdal.create(),
         height: 160,
         buttons: [
           {
-            name: "取消",
+            name: '取消',
             action: () => {
               modal.hide()
-            }
+            },
           },
           {
-            name: "确定",
+            name: '确定',
             action: (option) => {
-              option.userIds = Array.isArray(option.userIds)
-                ? option.userIds
-                : [option.userIds]
+              option.userIds = Array.isArray(option.userIds) ? option.userIds : [option.userIds]
               self.addMembers(option)
-            }
-          }
-        ]
+            },
+          },
+        ],
       })
     }
 
@@ -228,30 +221,27 @@ export const MProjectDetail = types
         ? self.set({
             filterMemberIds: self.members
               .filter((member) => member.roleCode === filterValue.value)
-              .map((member) => member.userId)
+              .map((member) => member.userId),
           })
         : self.set({
-            filterMemberIds: []
+            filterMemberIds: [],
           })
     }
 
     // 授权
-    const authorizeRole = flow(function* authorizeRole({
-      roleCode,
-      userIds = []
-    }) {
+    const authorizeRole = flow(function* authorizeRole({roleCode, userIds = []}) {
       const {event, io, tip} = self.env_
       try {
         yield io.project.authorizeRole({
-          ":projectId": self.id,
+          ':projectId': self.id,
           userIds,
-          roleCode
+          roleCode,
         })
-        event.fire("projectDetail.getDetail")
-        tip.success({content: "修改权限成功"})
+        event.fire('projectDetail.getDetail')
+        tip.success({content: '修改权限成功'})
       } catch (error) {
-        console.log("MProjectPanel addMember: ", error)
-        tip.error({content: "修改权限失败"})
+        console.log('MProjectPanel addMember: ', error)
+        tip.error({content: '修改权限失败'})
       }
       return self.length
     })
@@ -260,7 +250,7 @@ export const MProjectDetail = types
     const removeMemberConfirm = ({nickname, userIds}) => {
       self.root_.confirm({
         content: `确认要删除成员‘${nickname}’吗？`,
-        onConfirm: () => self.removeMembers({userIds})
+        onConfirm: () => self.removeMembers({userIds}),
       })
     }
 
@@ -269,14 +259,14 @@ export const MProjectDetail = types
       const {event, io, tip} = self.env_
       try {
         yield io.project.removeMembers({
-          ":projectId": self.id,
-          userIds
+          ':projectId': self.id,
+          userIds,
         })
-        event.fire("projectDetail.getDetail")
-        tip.success({content: "删除成员成功"})
+        event.fire('projectDetail.getDetail')
+        tip.success({content: '删除成员成功'})
       } catch (error) {
-        console.log("MProjectPanel addMember: ", error)
-        tip.error({content: "删除成员失败"})
+        console.log('MProjectPanel addMember: ', error)
+        tip.error({content: '删除成员失败'})
       }
 
       return self.length
@@ -285,8 +275,8 @@ export const MProjectDetail = types
     // 退出项目
     const leaveConfirm = () => {
       self.root_.confirm({
-        content: "确认退出本项目吗？",
-        onConfirm: self.leave
+        content: '确认退出本项目吗？',
+        onConfirm: self.leave,
       })
     }
 
@@ -294,12 +284,12 @@ export const MProjectDetail = types
     const leave = flow(function* leave() {
       const {event, io, tip} = self.env_
       try {
-        yield io.project.quit({":projectId": self.projectId})
-        event.fire("projectDetail.getDetail")
-        tip.success({content: "删除成员成功"})
+        yield io.project.quit({':projectId': self.projectId})
+        event.fire('projectDetail.getDetail')
+        tip.success({content: '删除成员成功'})
       } catch (error) {
-        console.log("MProjectPanel addMember: ", error)
-        tip.error({content: "删除成员失败"})
+        console.log('MProjectPanel addMember: ', error)
+        tip.error({content: '删除成员失败'})
       }
 
       return self.length
@@ -309,66 +299,66 @@ export const MProjectDetail = types
     // 打开相关的数据tab
     const openTabByData = ({data, type}) => {
       const {event} = self.env_
-      let defaultDataName = "未命名数据"
-      if (type === "excel") {
-        defaultDataName = "新建Excel"
-      } else if (type === "json") {
-        defaultDataName = "新建JSON"
-      } else if (type === "database") {
-        defaultDataName = "新建SQL"
-      } else if (type === "api") {
-        defaultDataName = "新建API"
+      let defaultDataName = '未命名数据'
+      if (type === 'excel') {
+        defaultDataName = '添加Excel'
+      } else if (type === 'json') {
+        defaultDataName = '添加JSON'
+      } else if (type === 'database') {
+        defaultDataName = '添加SQL'
+      } else if (type === 'api') {
+        defaultDataName = '添加API'
       }
 
-      event.fire("editor.openTab", {
+      event.fire('editor.openTab', {
         id: data ? data.dataId : uuid(),
         name: data?.dataName || defaultDataName,
-        type: "data",
+        type: 'data',
         tabOptions: {
           isProject: true,
           dataType: type,
-          projectId: self.id
-        }
+          projectId: self.id,
+        },
       })
     }
 
     // 新建数据
     const createMenu = (e, button) => {
       e.stopPropagation()
-      const menu = self.root_.overlayManager.get("menu")
+      const menu = self.root_.overlayManager.get('menu')
       const list = [
         {
-          name: "新建Excel",
+          name: '添加Excel',
           action: () => {
-            self.openTabByData({type: "excel"})
+            self.openTabByData({type: 'excel'})
             menu.hide()
-          }
+          },
         },
         {
-          name: "新建JSON",
+          name: '添加JSON',
           action: () => {
-            self.openTabByData({type: "json"})
+            self.openTabByData({type: 'json'})
             menu.hide()
-          }
+          },
         },
         {
-          name: "新建API",
+          name: '添加API',
           action: () => {
-            self.openTabByData({type: "api"})
+            self.openTabByData({type: 'api'})
             menu.hide()
-          }
+          },
         },
         {
-          name: "新建SQL",
+          name: '添加SQL',
           action: () => {
-            self.openTabByData({type: "database"})
+            self.openTabByData({type: 'database'})
             menu.hide()
-          }
-        }
+          },
+        },
       ]
       menu.toggle({
         attachTo: button,
-        list
+        list,
       })
     }
 
@@ -376,18 +366,18 @@ export const MProjectDetail = types
       const {io, event} = self.env_
       try {
         const data = yield io.project.data.getDataList({
-          ":projectId": self.id
+          ':projectId': self.id,
         })
         self.set({
-          data: data.list
+          data: data.list,
         })
         // self.root_.sidebar.projectPanel.projects.find(x => x.projectId === self.id).updateData({dataList: data.list})
         event.fire(`projectThumbnail.updateData${self.id}`, {
-          dataList: data.list
+          dataList: data.list,
         })
       } catch (error) {
         // TODO: 统一替换
-        console.log("error", error)
+        console.log('error', error)
       }
     })
 
@@ -395,10 +385,10 @@ export const MProjectDetail = types
       const {io, event} = self.env_
       try {
         yield io.project.data.removeData({
-          ":dataId": dataId,
-          ":projectId": self.id
+          ':dataId': dataId,
+          ':projectId': self.id,
         })
-        event.fire("projectDetail.getDetail")
+        event.fire('projectDetail.getDetail')
       } catch (error) {
         // TODO error 统一替换
         console.log(error)
@@ -423,6 +413,6 @@ export const MProjectDetail = types
       createMenu,
       openTabByData,
       getData,
-      removeData
+      removeData,
     }
   })

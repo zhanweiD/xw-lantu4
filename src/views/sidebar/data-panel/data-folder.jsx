@@ -12,9 +12,10 @@ const createMenu = (e, button, folder) => {
   menu.toggle({
     attachTo: button,
     list: [
-      {name: '新建Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
-      {name: '新建JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
-      {name: '新建API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+      {name: '添加Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
+      {name: '添加JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
+      {name: '添加API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
+      // {name: '添加SQL', action: () => (createData({folderId, dataType: 'database'}), menu.hide())},
     ],
   })
 }
