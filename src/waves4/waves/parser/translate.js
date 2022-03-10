@@ -100,7 +100,6 @@ function translate(schema) {
       const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
       if (layerType === 'baseMap') isBaseMap = true
-      console.log(layerType)
       layerConfig.push(
         merge(
           {

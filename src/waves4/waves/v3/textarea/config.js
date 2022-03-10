@@ -6,10 +6,13 @@ export const config = (k) => ({
   name: k('textarea'),
   data,
   // 图表容器初始化的大小
-  layout: () => [10, 6],
+  layout: () => [8, 2],
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   layers: [
-    layer({k, content: '这是一个段落文本在段落中科院使用自定义关键词${key}来以数据驱动的方式往指定位置插入内容。${open}'})
+    layer({
+      k,
+      content: '这是一个段落文本在段落中科院使用自定义关键词${key}来以数据驱动的方式往指定位置插入内容。${open}',
+    }),
   ],
 })

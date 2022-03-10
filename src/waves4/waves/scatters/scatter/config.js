@@ -5,14 +5,14 @@ export const config = (k) => ({
   key: 'scatter',
   name: k('scatter'),
   data,
-  dimension: {
-    fields: [
-      {
-        name: 'xColumn',
-        defaultValue: ['传播力'],
-      },
-    ],
-  },
+  // dimension: {
+  //   fields: [
+  //     {
+  //       name: 'xColumn',
+  //       defaultValue: [],
+  //     },
+  //   ],
+  // },
   // 图表容器初始化的大小
   layout: () => [10, 6],
   // 图表主绘图区域的内边距
@@ -20,7 +20,7 @@ export const config = (k) => ({
   // 矩形图层
   layers: [scatter({k, pointSize: [10, 10]})],
   // 标题面板
-  title: title({k, content: '传染病的传播力和致死率分布'}),
+  title: title({k, content: '散点图'}),
   // 图例面板
   legend: legend({k}),
   // 直角坐标系坐标轴

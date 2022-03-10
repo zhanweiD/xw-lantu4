@@ -10,7 +10,7 @@ import * as Layout2 from './layout2'
 import * as Layout3 from './layout3'
 import drawValueAxisX from './value-axis-x'
 import drawLabelAxisY from './label-axis-y'
-import {generateColorList} from '../util'
+// import {generateColorList} from '../util'
 import createEvent from '../../common/event'
 import tip from '../../components/tip'
 import {chromaScale} from './chroma'
@@ -52,8 +52,8 @@ const commonOption = {
   numberFormat: false,
 
   // 默认主题色：琉璃盏
-  // themeColors: ['#FD926D', '#FFBD6D', '#FFEA92', '#B5E4AA', '#6CDDC3', '#3EBFDA', '#119BFF', '#0B78FF', '#2A43FF'],
-  themeColors: ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'],
+  themeColors: ['#FD926D', '#FFBD6D', '#FFEA92', '#B5E4AA', '#6CDDC3', '#3EBFDA', '#119BFF', '#0B78FF', '#2A43FF'],
+  // themeColors: ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'],
 }
 
 // 超类构造函数初始化了以下属性，子类实例可以直接调用
@@ -193,7 +193,6 @@ export default class Base {
     } else if (padding.length === 3) {
       padding = [padding[0], padding[1], padding[2], padding[1]]
     }
-
     return (this.padding = padding)
   }
 
@@ -456,18 +455,17 @@ export default class Base {
   }
 
   getColor(colorAmount, rangeColors = null) {
-    const colorAmounts = isArray(colorAmount) ? colorAmount : [colorAmount]
+    // const colorAmounts = isArray(colorAmount) ? colorAmount : [colorAmount]
     let colors = this.config('themeColors')
     // 此处对主题色进行筛选使其更符合设计师的选色逻辑
     // 颜色数量小于等于三时
-    if (colorAmounts[0] <= 3) {
-      colors = colors.slice(2, 7)
-    }
-    // 颜色数量等于4时
-    if (colorAmounts[0] === 4) {
-      colors = colors.slice(2)
-    }
-
+    // if (colorAmounts[0] <= 3) {
+    //   colors = colors.slice(2, 7)
+    // }
+    // // 颜色数量等于4时
+    // if (colorAmounts[0] === 4) {
+    //   colors = colors.slice(2)
+    // }
     // 是否自选颜色
     if (this.config('useColors')) {
       // 返回渐变色比例尺
@@ -489,43 +487,46 @@ export default class Base {
       }
     }
 
-    colors = generateColorList(colors)
-    if (!isArray(colors) || !colors.length) {
-      console.error('colors应该传一个颜色数组或二维数组')
-      return []
-    }
-    const colorList = isArray(colors[0]) ? colors : [colors]
-    const result = []
+    // colors = generateColorList(colors)
+    // console.log(colors)
+    // if (!isArray(colors) || !colors.length) {
+    //   console.error('colors应该传一个颜色数组或二维数组')
+    //   return []
+    // }
 
-    colorAmounts.forEach((amount, index) => {
-      const color = colorList[index] || colorList[index - 1]
-      if (!color || !color.length || !amount) {
-        result.push([])
-        return
-      }
+    // const colorList = isArray(colors[0]) ? colors : [colors]
+    // const result = []
 
-      // 如果配置的颜色个数和colorAmount相等那么直接返回配置的颜色
-      if (amount === color.length) {
-        result.push(color)
+    // colorAmounts.forEach((amount, index) => {
+    //   const color = colorList[index] || colorList[index - 1]
+    //   if (!color || !color.length || !amount) {
+    //     result.push([])
+    //     return
+    //   }
 
-        // 如果需要的颜色个数和配置的颜色不相等那么进行插值
-      } else {
-        /*
-        const interpolateColors = []
-        try {
-          const compute = interpolate(color)
-          const scale = amount > 1 ? 1 / (amount - 1) : 1
-          for (let i = 0; i < amount; i++) {
-            interpolateColors.push(compute(scale * i))
-          }
-        } catch (err) {
-          // console.log(err)
-        }
-        result.push(interpolateColors)
-        */
-      }
-    })
-    return isArray(colorAmount) ? result : result[0]
+    //   // 如果配置的颜色个数和colorAmount相等那么直接返回配置的颜色
+    //   if (amount === color.length) {
+    //     result.push(color)
+
+    //     // 如果需要的颜色个数和配置的颜色不相等那么进行插值
+    //   } else {
+    //     /*
+    //     const interpolateColors = []
+    //     try {
+    //       const compute = interpolate(color)
+    //       const scale = amount > 1 ? 1 / (amount - 1) : 1
+    //       for (let i = 0; i < amount; i++) {
+    //         interpolateColors.push(compute(scale * i))
+    //       }
+    //     } catch (err) {
+    //       // console.log(err)
+    //     }
+    //     result.push(interpolateColors)
+    //     */
+    //   }
+    // })
+    // console.log(result)
+    return isArray(colorAmount) ? colors : colors[0]
   }
 
   /**
