@@ -15,7 +15,7 @@ const createMenu = (e, button, folder) => {
       {name: '添加Excel', action: () => (createData({folderId, dataType: 'excel'}), menu.hide())},
       {name: '添加JSON', action: () => (createData({folderId, dataType: 'json'}), menu.hide())},
       {name: '添加API', action: () => (createData({folderId, dataType: 'api'}), menu.hide())},
-      // {name: '添加SQL', action: () => (createData({folderId, dataType: 'database'}), menu.hide())},
+      {name: '添加SQL', action: () => (createData({folderId, dataType: 'database'}), menu.hide())},
     ],
   })
 }

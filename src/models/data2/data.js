@@ -15,6 +15,7 @@ export const MData = types
     dataType: types.maybe(types.string, ''),
     processorFunction: types.maybe(types.string, ''),
     data: types.maybe(types.string, ''),
+    remark: types.maybe(types.string, ''),
     config: types.frozen(),
   })
   .views((self) => ({

@@ -46,76 +46,15 @@ import {echartSankeyBase} from './sankey-base'
 import {echertsGaugeBase} from './gauge-base'
 
 const categoriesEcharts = [
-  {
-    name: 'baseCharts',
-    icon: 'exhibit-line',
-    exhibits: [
-      echertsBasicLine,
-      echertsGroupLine,
-      echartsBasicAreaLine,
-      echartsGroupAreaLine,
-      echartslineAndArea,
-      echertsBasicColumn,
-      echertsGroupColumn,
-      echertsStackColumn,
-      echertsWaterfallColumn,
-      echertsBasicColumnLine,
-      echertsGroupColumnLine,
-      echertsStackColumnLine,
-      echertsBasicBar,
-      echertsGroupBar,
-      echertsStackBar,
-      echertsWaterfallBar,
-      echertsBasicPie,
-      echartsRadiuRingPie,
-      echartsRingPie,
-      echartsRosePie,
-      echartsBaseScatter,
-      echartsEffectScatter,
-      echartsRadarBase,
-      echartsRadarGroup,
-      echartsBoxesBase,
-      echartsBoxplotBase,
-      echartsHeatmapBase,
-    ],
-  },
-  {
-    // 关系图
-    name: 'classifyRelation',
-    icon: 'exhibit-relation',
-    exhibits: [
-      echartsFunnelBase,
-      echartsGraphBase,
-      echartsTreeBase,
-      echartsTreemapBase,
-      echartSunburstBase,
-      echartSankeyBase,
-    ],
-  },
-  // 聚焦图
   // {
-  //   name: 'classifyFocus',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [],
-  // },
-  // 指标
-  {
-    name: 'indicators',
-    icon: 'exhibit-relation',
-    exhibits: [echertsGaugeBase],
-  },
-
-  // {
-  //   // 折线图
-  //   name: 'echartsLine',
+  //   name: 'baseCharts',
   //   icon: 'exhibit-line',
-  //   exhibits: [echertsBasicLine, echertsGroupLine, echartsBasicAreaLine, echartsGroupAreaLine, echartslineAndArea],
-  // },
-  // {
-  //   name: 'echartsColumn',
-  //   // icon: 'exhibit-rect',
-  //   icon: 'exhibit-column',
   //   exhibits: [
+  //     echertsBasicLine,
+  //     echertsGroupLine,
+  //     echartsBasicAreaLine,
+  //     echartsGroupAreaLine,
+  //     echartslineAndArea,
   //     echertsBasicColumn,
   //     echertsGroupColumn,
   //     echertsStackColumn,
@@ -123,53 +62,114 @@ const categoriesEcharts = [
   //     echertsBasicColumnLine,
   //     echertsGroupColumnLine,
   //     echertsStackColumnLine,
+  //     echertsBasicBar,
+  //     echertsGroupBar,
+  //     echertsStackBar,
+  //     echertsWaterfallBar,
+  //     echertsBasicPie,
+  //     echartsRadiuRingPie,
+  //     echartsRingPie,
+  //     echartsRosePie,
+  //     echartsBaseScatter,
+  //     echartsEffectScatter,
+  //     echartsRadarBase,
+  //     echartsRadarGroup,
+  //     echartsBoxesBase,
+  //     echartsBoxplotBase,
+  //     echartsHeatmapBase,
   //   ],
   // },
   // {
-  //   name: 'echartsBar',
-  //   icon: 'exhibit-bar',
-  //   exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
-  // },
-  // {
-  //   name: 'echartsPie',
-  //   icon: 'exhibit-pie',
-  //   exhibits: [echertsBasicPie, echartsRadiuRingPie, echartsRingPie, echartsRosePie],
-  // },
-  // {
-  //   name: 'echartsScatter',
-  //   icon: 'scatter',
-  //   exhibits: [echartsBaseScatter, echartsEffectScatter],
-  // },
-  // {
-  //   name: 'echartsFunnal',
-  //   icon: 'scatter',
-  //   exhibits: [echartsFunnelBase],
-  // },
-  // {
-  //   name: 'echartsRadar',
-  //   icon: 'scatter',
-  //   exhibits: [echartsRadarBase, echartsRadarGroup],
-  // },
-  // {
-  //   name: 'echartsCandlestick',
-  //   icon: 'scatter',
-  //   exhibits: [echartsBoxesBase, echartsBoxplotBase],
-  // },
-  // {
-  //   name: 'echartsHeatmap',
-  //   icon: 'exhibit-heatmap',
-  //   exhibits: [echartsHeatmapBase],
-  // },
-  // {
-  //   name: 'echartsGraph',
+  //   // 关系图
+  //   name: 'classifyRelation',
   //   icon: 'exhibit-relation',
-  //   exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase, echartSunburstBase, echartSankeyBase],
+  //   exhibits: [
+  //     echartsFunnelBase,
+  //     echartsGraphBase,
+  //     echartsTreeBase,
+  //     echartsTreemapBase,
+  //     echartSunburstBase,
+  //     echartSankeyBase,
+  //   ],
   // },
+  // 聚焦图
   // {
-  //   name: 'echartsGauge',
-  //   icon: 'exhibit-dashboard',
+  //   name: 'classifyFocus',
+  //   icon: 'exhibit-relation',
+  //   exhibits: [],
+  // },
+  // 指标
+  // {
+  //   name: 'indicators',
+  //   icon: 'exhibit-relation',
   //   exhibits: [echertsGaugeBase],
   // },
+
+  {
+    // 折线图
+    name: 'echartsLine',
+    icon: 'exhibit-line',
+    exhibits: [echertsBasicLine, echertsGroupLine, echartsBasicAreaLine, echartsGroupAreaLine, echartslineAndArea],
+  },
+  {
+    name: 'echartsColumn',
+    // icon: 'exhibit-rect',
+    icon: 'exhibit-column',
+    exhibits: [
+      echertsBasicColumn,
+      echertsGroupColumn,
+      echertsStackColumn,
+      echertsWaterfallColumn,
+      echertsBasicColumnLine,
+      echertsGroupColumnLine,
+      echertsStackColumnLine,
+    ],
+  },
+  {
+    name: 'echartsBar',
+    icon: 'exhibit-bar',
+    exhibits: [echertsBasicBar, echertsGroupBar, echertsStackBar, echertsWaterfallBar],
+  },
+  {
+    name: 'echartsPie',
+    icon: 'exhibit-pie',
+    exhibits: [echertsBasicPie, echartsRadiuRingPie, echartsRingPie, echartsRosePie],
+  },
+  {
+    name: 'echartsScatter',
+    icon: 'scatter',
+    exhibits: [echartsBaseScatter, echartsEffectScatter],
+  },
+  {
+    name: 'echartsFunnal',
+    icon: 'scatter',
+    exhibits: [echartsFunnelBase],
+  },
+  {
+    name: 'echartsRadar',
+    icon: 'scatter',
+    exhibits: [echartsRadarBase, echartsRadarGroup],
+  },
+  {
+    name: 'echartsCandlestick',
+    icon: 'scatter',
+    exhibits: [echartsBoxesBase, echartsBoxplotBase],
+  },
+  {
+    name: 'echartsHeatmap',
+    icon: 'exhibit-heatmap',
+    exhibits: [echartsHeatmapBase],
+  },
+  {
+    name: 'echartsGraph',
+    icon: 'exhibit-relation',
+    exhibits: [echartsGraphBase, echartsTreeBase, echartsTreemapBase, echartSunburstBase, echartSankeyBase],
+  },
+  {
+    name: 'echartsGauge',
+    icon: 'exhibit-dashboard',
+    exhibits: [echertsGaugeBase],
+  },
 ]
 
 export default categoriesEcharts

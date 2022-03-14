@@ -11,7 +11,17 @@ import IconButton from '../icon-button'
 
 // 几个特殊字段添加必填标识
 const isKeyword = (v) => {
-  if (v === '名称' || v === '路径') return true
+  if (
+    v === '名称' ||
+    v === '路径' ||
+    v === '数据库类型' ||
+    v === '数据库地址' ||
+    v === '用户名' ||
+    v === '密码' ||
+    v === '端口' ||
+    v === '数据库'
+  )
+    return true
 }
 
 // TODO stopDrag细化到每个输入元素

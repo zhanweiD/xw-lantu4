@@ -1,9 +1,13 @@
 import {types, flow, getEnv, getRoot, getParent} from 'mobx-state-tree'
+import AES from 'crypto-js/aes'
+import UTF8 from 'crypto-js/enc-utf8'
 import commonAction from '@utils/common-action'
 import createLog from '@utils/create-log'
 import {createConfigModelClass} from '@components/field'
 import {MDataManager} from '../editor/editor-tab-data-manager'
 
+const encodeAes = (input) => AES.encrypt(input, 'waveview').toString()
+const decodeAes = (input) => AES.decrypt(input, 'waveview').toString(UTF8)
 const log = createLog('@models/data/data-database')
 
 const defaultSql = `-- sql语句
@@ -53,32 +57,17 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
   fields: [
     {
       section: 'optionPanel.databaseInfo',
-      option: 'name',
-      field: {
-        type: 'text',
-        label: '数据库名称',
-        readOnly: true,
-        value: '',
-      },
-    },
-    {
-      section: 'optionPanel.databaseInfo',
-      option: 'remark',
-      field: {
-        type: 'text',
-        label: '备注',
-        readOnly: true,
-        value: '',
-      },
-    },
-    {
-      section: 'optionPanel.databaseInfo',
       option: 'type',
       field: {
-        type: 'text',
+        type: 'select',
         label: '数据库类型',
-        readOnly: true,
-        value: '',
+        value: 'mysql',
+        options: [
+          {
+            key: 'MySQL',
+            value: 'mysql',
+          },
+        ],
       },
     },
     {
@@ -87,8 +76,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'text',
         label: '数据库地址',
-        readOnly: true,
-        value: '',
+        value: '192.168.90.160',
       },
     },
     {
@@ -97,8 +85,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'text',
         label: '用户名',
-        readOnly: true,
-        value: '',
+        value: 'root',
       },
     },
     {
@@ -107,8 +94,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'password',
         label: '密码',
-        readOnly: true,
-        value: '',
+        value: '123456',
       },
     },
     {
@@ -117,25 +103,29 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'number',
         label: '端口',
-        readOnly: true,
+        value: 3306,
       },
     },
-    {
-      section: 'optionPanel.databaseInfo',
-      option: 'database',
-      field: {
-        type: 'text',
-        label: '数据库',
-        readOnly: true,
-        value: '',
-      },
-    },
+    // {
+    //   section: 'optionPanel.databaseInfo',
+    //   option: 'database',
+    //   field: {
+    //     type: 'text',
+    //     label: '数据库',
+    //     value: '',
+    //   },
+    // },
   ],
+})
+
+const MDatabaseObj = types.model('MDatabaseObj', {
+  database: types.string,
 })
 
 export const MDatabase = types
   .model('MDatabase', {
     id: types.maybe(types.number),
+    database: types.maybe(types.string),
     options: types.optional(MDatabaseOptions, {}), // 数据库配置信息
 
     sql: defaultSql,
@@ -147,7 +137,7 @@ export const MDatabase = types
 
     // 优化的
     codeOptions: types.optional(MDatabaseCodeOptions, {}),
-    // databaseList: types.optional(types.array(types.string), []),
+    databaseList: types.optional(types.array(MDatabaseObj), []),
   })
   .views((self) => ({
     get root_() {
@@ -176,14 +166,14 @@ export const MDatabase = types
       try {
         const {sql} = self.codeOptions.getSchema()
         const response = yield io.data.getDatabaseResult({
+          ':dataId': self.data_.dataId,
           sql,
-          ':dataSourceId': self.data_.dataSource.dataSourceId,
         })
         self.codeOptions.setValues({
           result: JSON.stringify(response, null, 2),
         })
         self.data_.updateDataField(response)
-        tip.success({content: 'SQL执行成功率'})
+        tip.success({content: 'SQL执行成功'})
       } catch (error) {
         self.data_.updateDataField([])
         tip.error({content: 'SQL执行错误'})
@@ -195,13 +185,13 @@ export const MDatabase = types
     const testDatabaseConnectivity = flow(function* testDatabaseConnectivity() {
       const {io, tip} = self.env_
       try {
-        const {type, host, port, userName, password, database} = self.data_.dataSource.modelManager.modelConfig
+        const {type, host, port, userName, password, database} = self.option
         yield io.data.test({
           host,
           port,
           dbType: type.toLowerCase(),
-          username: userName,
-          password,
+          userName,
+          password: encodeAes(password),
           database,
         })
         tip.success({content: '连通成功'})
@@ -216,24 +206,18 @@ export const MDatabase = types
     // 获取数据库
     const getDatabases = flow(function* getDatabases() {
       const {tip, io} = self.env_
-      const {modelManager} = self.data_.dataSource
-      const {type, host, port, userName, password} = modelManager.modelConfig
+      const {type, host, port, userName, password} = self.options.getSchema()
       try {
         const result = yield io.data.getDatabases({
-          dataType: type.toLowerCase(),
+          dataType: type,
           config: {
             host,
             port,
             username: userName,
-            password,
+            password: encodeAes(password),
           },
         })
-        modelManager.set({
-          modelConfig: {
-            ...modelManager.modelConfig,
-            databaseList: result.map((v) => v.database),
-          },
-        })
+        self.set({databaseList: result})
         tip.success({content: '获取数据库列表成功'})
       } catch (error) {
         log.error('getDatabases.Error: ', error)
@@ -248,7 +232,7 @@ export const MDatabase = types
         ...config,
         name: dataSourceName,
         remark,
-        userName: config.username,
+        userName: config.userName,
       })
 
       self.data_.dataSource.set({
@@ -265,15 +249,18 @@ export const MDatabase = types
     }
 
     const setData = (data) => {
-      const {dataSource, config} = data
+      const {
+        config: {type, host, username, password, port, database, sql},
+      } = data
       self.options.setSchema({
-        ...dataSource.config,
-        userName: dataSource.config.username,
-        name: dataSource.dataSourceName,
-        remark: dataSource.remark,
+        userName: username,
+        type,
+        host,
+        password: decodeAes(password),
+        port,
       })
-      self.dataSource.set(dataSource)
-      self.codeOptions.setValues({sql: config.sql})
+      self.set({database})
+      self.codeOptions.setValues({sql})
     }
 
     return {

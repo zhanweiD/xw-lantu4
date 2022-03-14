@@ -1,4 +1,6 @@
 import {flow, getEnv, getParent, types} from 'mobx-state-tree'
+import AES from 'crypto-js/aes'
+
 import commonAction from '@utils/common-action'
 import moment from 'moment'
 import createLog from '@utils/create-log'
@@ -9,7 +11,10 @@ import {MApi} from '../data/data-api'
 import {MJson} from '../data/data-json'
 import {MExcel} from '../data/data-excel'
 import {MDataBasic} from '../data/data-basic'
+import {MDatabase} from '../data/data-database'
 import {MDataField} from '../data/data-field'
+
+const encodeAes = (input) => AES.encrypt(input, 'waveview').toString()
 
 const log = createLog('@models/editor/editor-tab-data')
 
@@ -17,9 +22,11 @@ export const MDataTab = types
   .model('MDataTab', {
     dataId: types.maybe(types.number),
     dataName: types.maybe(types.string),
+    remark: types.maybe(types.string),
     folderId: types.maybe(types.number),
     dataType: types.maybe(types.string),
     basic: types.optional(MDataBasic, {}),
+    database: types.optional(MDatabase, {}),
     excel: types.optional(MExcel, {}),
     json: types.optional(MJson, {}),
     api: types.optional(MApi, {}),
@@ -124,10 +131,12 @@ export const MDataTab = types
         isCreate: true,
       })
       self.basic.setSchema({isCreate: true})
-
       self.updateDataField()
       // 全部执行完成之后将状态置为成功
       self.set({state: 'loadSuccess'})
+      if (dataType === 'database') {
+        self.database.getDatabases()
+      }
     }
 
     const saveData = () => {
@@ -196,6 +205,23 @@ export const MDataTab = types
               isSetAlias,
             },
           }
+        } else if (dataType === 'database') {
+          const {type, host, userName, password, port} = self.database.options.getSchema()
+          const {sql} = self.database.codeOptions.getSchema()
+          data = {
+            ...data,
+            config: {
+              ...data.config,
+              type,
+              host,
+              username: userName,
+              password: encodeAes(password),
+              port,
+              sql,
+              database: self.database.database,
+            },
+            // processorFunction: dataProcessor,
+          }
         }
         self.updateData(data)
       } catch (error) {
@@ -216,8 +242,8 @@ export const MDataTab = types
         // 判断是否已经创建
         if (self.isCreate) {
           const result = yield dataIo.updateData({
-            ...data,
             ':dataId': self.dataId,
+            ...data,
           })
           const {mtime} = result
           self.basic.setSchema({
@@ -365,7 +391,7 @@ export const MDataTab = types
     // 后面可能存在扩展，单独抽出生命周期
     const beforeSave = () => {
       const {tip} = self.env_
-      const {basic} = self
+      const {basic, dataType, database, api} = self
       const {dataName} = basic.getSchema()
       if (!dataName) {
         tip.error({content: '数据名称未填写，请填写数据名称'})
@@ -374,6 +400,20 @@ export const MDataTab = types
       if (dataName.length > 32) {
         tip.error({content: '数据名称过长'})
         return false
+      }
+      if (dataType === 'database') {
+        const {type, host, userName, password, port} = database.options.getSchema()
+        if (!type || !host || !userName || !password || !port || !database.database) {
+          tip.error({content: '请完善数据库信息'})
+          return false
+        }
+        return true
+      } else if (dataType === 'api') {
+        const {url} = api.options.getSchema()
+        if (!url) {
+          tip.error({content: '请完善API信息'})
+          return false
+        }
       }
       return true
     }

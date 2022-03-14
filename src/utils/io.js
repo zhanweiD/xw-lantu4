@@ -155,7 +155,7 @@ context.create('io.data', {
   },
   getDatabaseResult: {
     method: 'GET',
-    url: 'data/source/:dataSourceId/query',
+    url: 'data/source/:dataId/query',
   },
   test: {
     method: 'GET',

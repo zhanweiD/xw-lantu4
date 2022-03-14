@@ -117,88 +117,8 @@ Object.values(waves).forEach((wave) => {
 export default waves
 
 const categories = [
-  {
-    name: 'baseCharts',
-    icon: 'exhibit-line',
-    exhibits: [
-      basicLine, // 基础折线图
-      groupLine,
-      areaLine,
-      stackAreaLine,
-      stepLine,
-      river,
-      basicColumn,
-      groupColumn,
-      stackColumn,
-      percentageColumn,
-      intervalColumn,
-      waterfallColumn,
-      basicLineColumn,
-      groupLineColumn,
-      stackLineColumn,
-      basicBar,
-      groupBar,
-      stackBar,
-      percentageBar,
-      intervalBar,
-      waterfallBar,
-      basicPie,
-      donut,
-      nigntingaleRose,
-      donutNightingaleRose,
-      stackNightingaleRose,
-      scatter,
-      bubble,
-      basicRadar,
-      groupRadar,
-    ],
-  },
-  {
-    // 关系图
-    name: 'classifyRelation',
-    icon: 'exhibit-relation',
-    exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
-  },
-  // 聚焦图
-  {
-    name: 'classifyFocus',
-    icon: 'exhibit-relation',
-    exhibits: [rectMatrix, circleMatrix],
-  },
-  {
-    // 地图
-    name: 'classifyMap',
-    icon: 'exhibit-map',
-    exhibits: [baseMap],
-  },
-  // 文字
-  {
-    name: 'text',
-    icon: 'exhibit-relation',
-    exhibits: [text, textarea, timeline],
-  },
-  // 指标
-  {
-    name: 'indicators',
-    icon: 'exhibit-relation',
-    exhibits: [dashboard, indicator],
-  },
-  // 多媒体
-  {
-    name: 'classifyMedia',
-    icon: 'exhibit-relation',
-    exhibits: [],
-  },
-  // 交互
-  {
-    name: 'preInteraction',
-    icon: 'exhibit-relation',
-    exhibits: [],
-  },
-
   // {
-  //   // 折线图
-  //   name: 'classifyLine',
+  //   name: 'baseCharts',
   //   icon: 'exhibit-line',
   //   exhibits: [
   //     basicLine, // 基础折线图
@@ -206,13 +126,7 @@ const categories = [
   //     areaLine,
   //     stackAreaLine,
   //     stepLine,
-  //   ],
-  // },
-  // {
-  //   // 柱状图
-  //   name: 'classifyColumn',
-  //   icon: 'exhibit-column',
-  //   exhibits: [
+  //     river,
   //     basicColumn,
   //     groupColumn,
   //     stackColumn,
@@ -222,37 +136,22 @@ const categories = [
   //     basicLineColumn,
   //     groupLineColumn,
   //     stackLineColumn,
+  //     basicBar,
+  //     groupBar,
+  //     stackBar,
+  //     percentageBar,
+  //     intervalBar,
+  //     waterfallBar,
+  //     basicPie,
+  //     donut,
+  //     nigntingaleRose,
+  //     donutNightingaleRose,
+  //     stackNightingaleRose,
+  //     scatter,
+  //     bubble,
+  //     basicRadar,
+  //     groupRadar,
   //   ],
-  // },
-  // {
-  //   // 条形图
-  //   name: 'classifyBar',
-  //   icon: 'exhibit-bar',
-  //   exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
-  // },
-  // {
-  //   // 饼图
-  //   name: 'classifyPie',
-  //   icon: 'exhibit-pie',
-  //   exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose],
-  // },
-  // {
-  //   // 散点图
-  //   name: 'classifyScatter',
-  //   icon: 'exhibit-scatter',
-  //   exhibits: [scatter, bubble],
-  // },
-  // {
-  //   // 雷达图
-  //   name: 'classifyRadar',
-  //   icon: 'exhibit-radar',
-  //   exhibits: [basicRadar, groupRadar],
-  // },
-  // {
-  //   // 热力图
-  //   name: 'classifyHeatmap',
-  //   icon: 'exhibit-heatmap',
-  //   exhibits: [rectMatrix, circleMatrix],
   // },
   // {
   //   // 关系图
@@ -260,32 +159,133 @@ const categories = [
   //   icon: 'exhibit-relation',
   //   exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
   // },
+  // // 聚焦图
   // {
-  //   // 基础地图
+  //   name: 'classifyFocus',
+  //   icon: 'exhibit-relation',
+  //   exhibits: [rectMatrix, circleMatrix],
+  // },
+  // {
+  //   // 地图
   //   name: 'classifyMap',
   //   icon: 'exhibit-map',
   //   exhibits: [baseMap],
   // },
+  // // 文字
   // {
-  //   // NOTE gis是内置特殊的名字，不能修改，
-  //   // NOTE gis类组件的数据特殊，每一层都有自己的数据，不是整个组件共享的数据
-  //   // NOTE 所以，gis组件的图层模型的deepKeys会多出data配置
-  //   name: 'gis',
-  //   icon: 'gis',
+  //   name: 'text',
+  //   icon: 'exhibit-relation',
+  //   exhibits: [text, textarea, timeline],
+  // },
+  // // 指标
+  // {
+  //   name: 'indicators',
+  //   icon: 'exhibit-relation',
+  //   exhibits: [dashboard, indicator],
+  // },
+  // // 多媒体
+  // {
+  //   name: 'classifyMedia',
+  //   icon: 'exhibit-relation',
   //   exhibits: [],
   // },
+  // // 交互
   // {
-  //   // 其他
-  //   name: 'others',
-  //   icon: 'exhibit-other',
-  //   exhibits: [text, textarea, dashboard, indicator, timeline],
-  // },
-  // {
-  //   // 演示对接
-  //   name: 'demo',
-  //   icon: 'demo-line',
+  //   name: 'preInteraction',
+  //   icon: 'exhibit-relation',
   //   exhibits: [],
   // },
+
+  {
+    // 折线图
+    name: 'classifyLine',
+    icon: 'exhibit-line',
+    exhibits: [
+      basicLine, // 基础折线图
+      groupLine,
+      areaLine,
+      stackAreaLine,
+      stepLine,
+    ],
+  },
+  {
+    // 柱状图
+    name: 'classifyColumn',
+    icon: 'exhibit-column',
+    exhibits: [
+      basicColumn,
+      groupColumn,
+      stackColumn,
+      percentageColumn,
+      intervalColumn,
+      waterfallColumn,
+      basicLineColumn,
+      groupLineColumn,
+      stackLineColumn,
+    ],
+  },
+  {
+    // 条形图
+    name: 'classifyBar',
+    icon: 'exhibit-bar',
+    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
+  },
+  {
+    // 饼图
+    name: 'classifyPie',
+    icon: 'exhibit-pie',
+    exhibits: [basicPie, donut, nigntingaleRose, donutNightingaleRose, stackNightingaleRose],
+  },
+  {
+    // 散点图
+    name: 'classifyScatter',
+    icon: 'exhibit-scatter',
+    exhibits: [scatter, bubble],
+  },
+  {
+    // 雷达图
+    name: 'classifyRadar',
+    icon: 'exhibit-radar',
+    exhibits: [basicRadar, groupRadar],
+  },
+  {
+    // 热力图
+    name: 'classifyHeatmap',
+    icon: 'exhibit-heatmap',
+    exhibits: [rectMatrix, circleMatrix],
+  },
+  {
+    // 关系图
+    name: 'classifyRelation',
+    icon: 'exhibit-relation',
+    exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
+  },
+  {
+    // 基础地图
+    name: 'classifyMap',
+    icon: 'exhibit-map',
+    exhibits: [baseMap],
+  },
+  {
+    // NOTE gis是内置特殊的名字，不能修改，
+    // NOTE gis类组件的数据特殊，每一层都有自己的数据，不是整个组件共享的数据
+    // NOTE 所以，gis组件的图层模型的deepKeys会多出data配置
+    name: 'gis',
+    icon: 'gis',
+    exhibits: [],
+  },
+  {
+    // 其他
+    name: 'others',
+    icon: 'exhibit-other',
+    exhibits: [text, textarea, dashboard, indicator, timeline],
+  },
+  {
+    // 演示对接
+    name: 'demo',
+    icon: 'demo-line',
+    exhibits: [],
+  },
 ]
 
 categories.forEach((category) => {

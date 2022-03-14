@@ -1,15 +1,17 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import Tab from '@components/tab'
 import Scroll from '@components/scroll'
-import Section from '@builders/section'
+// import Section from '@builders/section'
 import Overlay from '@components/overlay'
 import w from '@models'
 import SectionFields from '@components/section-fields'
-import Icon from '@components/icon'
-import DataSourceField from '@views/public/data-source-field'
+import {Field, SelectField} from '@components/field'
+import Button from '@components/button'
+// import Icon from '@components/icon'
+// import DataSourceField from '@views/public/data-source-field'
 import s from './data-option.module.styl'
 import UploadExcel from '../../editor/data-tab/data-excel/upload-excel'
 
@@ -39,12 +41,40 @@ const DataOption = ({data}) => {
               )}
             </>
           )}
-          {dataType === 'database' && <SectionFields model={data.database.options} />}
           {dataType === 'database' && (
+            <>
+              <SectionFields model={data.database.options} />
+              <Field label="数据库">
+                <div className="fbh fb1">
+                  <Button
+                    className={s.button}
+                    lineHeight={18}
+                    type="dashed"
+                    size="small"
+                    name="获取库列表"
+                    circle={3}
+                    onClick={() => data.database.getDatabases()}
+                  />
+                  <SelectField
+                    className="fb1"
+                    value={data.database.database}
+                    // options={[{key: '1', value: '1'}, {key: '2', value: '2'}]}
+                    options={data.database.databaseList.map((item) => ({
+                      key: item.database,
+                      value: item.database,
+                    }))}
+                    onChange={(v) => data.database.set('database', v)}
+                  />
+                </div>
+              </Field>
+            </>
+          )}
+          {/* 没发现有什么用 */}
+          {/* {dataType === 'database' && (
             <Section name="选择数据源" className="fb1" isFold={false}>
               <SelectData list={data.dataSources} data={data} />
             </Section>
-          )}
+          )} */}
 
           <Overlay
             model={overlayManager}
@@ -71,109 +101,109 @@ const DataOption = ({data}) => {
   )
 }
 
-const SelectData = observer(({data, list}) => {
-  const {dataSourceName} = data.dataSource
-  const selectDataRef = useRef()
-  return (
-    <div className={c('pt8 pb16 ml24 mr16 fbh', s.text)}>
-      <div ref={selectDataRef} className="fb3 pr16 fbh">
-        <input
-          className={c(s.input)}
-          value={dataSourceName}
-          onFocus={() => {
-            dataSourceMenu.show({
-              attachTo: selectDataRef.current,
-              closable: false,
-              width: selectDataRef.current.offsetWidth,
-              content: <DataSourceListModel data={data} list={list} />,
-            })
-          }}
-          onBlur={() => {
-            setTimeout(() => {
-              dataSourceMenu.hide()
-            }, 100)
-          }}
-        />
-        <div className={c('', s.drop)}>
-          <Icon name="arrow-down" fill="rgba(255, 255, 255, 0.5)" size={8} />
-        </div>
-      </div>
-      <div
-        className={c('fb1 hand', s.button)}
-        onMouseDown={() => {
-          data.dataSource.modelManager.beforeOpenCreateModel()
-          overlayManager.show({
-            title: '添加数据库',
-            content: (
-              <DataSourceField
-                onClick={data.database.testDatabaseConnectivity}
-                data={data.dataSource.modelManager}
-                model={data.database}
-              />
-            ),
-            attachTo: false,
-          })
-        }}
-      >
-        添加数据源
-      </div>
-    </div>
-  )
-})
+// const SelectData = observer(({data, list}) => {
+//   const {dataSourceName} = data.dataSource || ''
+//   const selectDataRef = useRef()
+//   return (
+//     <div className={c('pt8 pb16 ml24 mr16 fbh', s.text)}>
+//       <div ref={selectDataRef} className="fb3 pr16 fbh">
+//         <input
+//           className={c(s.input)}
+//           value={dataSourceName}
+//           onFocus={() => {
+//             dataSourceMenu.show({
+//               attachTo: selectDataRef.current,
+//               closable: false,
+//               width: selectDataRef.current.offsetWidth,
+//               content: <DataSourceListModel data={data} list={list} />,
+//             })
+//           }}
+//           onBlur={() => {
+//             setTimeout(() => {
+//               dataSourceMenu.hide()
+//             }, 100)
+//           }}
+//         />
+//         <div className={c('', s.drop)}>
+//           <Icon name="arrow-down" fill="rgba(255, 255, 255, 0.5)" size={8} />
+//         </div>
+//       </div>
+//       <div
+//         className={c('fb1 hand', s.button)}
+//         onMouseDown={() => {
+//           data.dataSource.modelManager.beforeOpenCreateModel()
+//           overlayManager.show({
+//             title: '添加数据库',
+//             content: (
+//               <DataSourceField
+//                 onClick={data.database.testDatabaseConnectivity}
+//                 data={data.dataSource.modelManager}
+//                 model={data.database}
+//               />
+//             ),
+//             attachTo: false,
+//           })
+//         }}
+//       >
+//         添加数据源
+//       </div>
+//     </div>
+//   )
+// })
 
-const DataSourceListModel = ({data, list}) => {
-  return (
-    <Scroll>
-      <div className={c(s.dataSourceListModel)}>
-        {list.length > 0 ? (
-          list.map((dataSource) => {
-            return (
-              <div className="fbh p4 pl8 pr8" key={dataSource.dataSourceId}>
-                <div
-                  className="fb2"
-                  onMouseDown={() => {
-                    data.database.setDataSource(dataSource)
-                  }}
-                >
-                  {dataSource.dataSourceName}
-                </div>
-                <div
-                  className="fb1"
-                  onMouseDown={() => {
-                    data.dataSource.removeDataSource({
-                      dataSourceId: dataSource.dataSourceId,
-                    })
-                  }}
-                >
-                  删除
-                </div>
-                <div
-                  onMouseDown={() => {
-                    data.dataSource.modelManager.beforeOpenUpdateModel(dataSource)
-                    overlayManager.show({
-                      title: '修改数据库',
-                      content: (
-                        <DataSourceField
-                          onClick={data.database.testDatabaseConnectivity}
-                          data={data.dataSource.modelManager}
-                          model={data.database}
-                        />
-                      ),
-                      attachTo: false,
-                    })
-                  }}
-                >
-                  修改
-                </div>
-              </div>
-            )
-          })
-        ) : (
-          <div>暂无数据</div>
-        )}
-      </div>
-    </Scroll>
-  )
-}
+// const DataSourceListModel = ({data, list}) => {
+//   return (
+//     <Scroll>
+//       <div className={c(s.dataSourceListModel)}>
+//         {list.length > 0 ? (
+//           list.map((dataSource) => {
+//             return (
+//               <div className="fbh p4 pl8 pr8" key={dataSource.dataSourceId}>
+//                 <div
+//                   className="fb2"
+//                   onMouseDown={() => {
+//                     data.database.setDataSource(dataSource)
+//                   }}
+//                 >
+//                   {dataSource.dataSourceName}
+//                 </div>
+//                 <div
+//                   className="fb1"
+//                   onMouseDown={() => {
+//                     data.dataSource.removeDataSource({
+//                       dataSourceId: dataSource.dataSourceId,
+//                     })
+//                   }}
+//                 >
+//                   删除
+//                 </div>
+//                 <div
+//                   onMouseDown={() => {
+//                     data.dataSource.modelManager.beforeOpenUpdateModel(dataSource)
+//                     overlayManager.show({
+//                       title: '修改数据库',
+//                       content: (
+//                         <DataSourceField
+//                           onClick={data.database.testDatabaseConnectivity}
+//                           data={data.dataSource.modelManager}
+//                           model={data.database}
+//                         />
+//                       ),
+//                       attachTo: false,
+//                     })
+//                   }}
+//                 >
+//                   修改
+//                 </div>
+//               </div>
+//             )
+//           })
+//         ) : (
+//           <div>暂无数据</div>
+//         )}
+//       </div>
+//     </Scroll>
+//   )
+// }
 
 export default observer(DataOption)

@@ -243,6 +243,7 @@ export const MEditor = types
                   config: data.config,
                   dataType: data.dataType,
                   dataName: data.dataName,
+                  remark: data.remark,
                   processorFunction: data.processorFunction,
                   data: data.data,
                 })
