@@ -1,10 +1,10 @@
-import Xt from 'xt-earth/Earth'
+// import Xt from 'xt-earth/Earth'
 import {toJS} from 'mobx'
 // import debounce from 'lodash/debounce'
 // import cloneDeep from 'lodash/cloneDeep'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import uuid from '@common/uuid'
-import createEvent from '@common/event'
+// import createEvent from '@common/event'
 import translate from './translate'
 
 /**
@@ -48,7 +48,7 @@ const Adapter = () =>
       translatedOptions.container.addEventListener('click', this.onclick)
       this.layers = []
       this.state = {}
-      this.draw()
+      // this.draw()
     },
 
     // 配置组件数据
@@ -63,18 +63,18 @@ const Adapter = () =>
     },
     // 绘制组件
     draw() {
-      const {origin, viewport, layers, backgroundColor, sceneMode, terrain, viewFixed} = this.options
+      const {origin, viewport, layers, backgroundColor, terrain, viewFixed} = this.options
       console.log(toJS(this.options))
 
-      const {scaler} = this.model.art.zoom
+      // const {scaler} = this.model.art.zoom
       const earthOptions = {
         // terrain:'http://47.94.231.113:10086/terrain',// 测试浙江高程服务
         terrain,
         // terrain: 'https://lab.earthsdk.com/terrain/577fd5b0ac1f11e99dbd8fd044883638', // 是否开启地形
         destination: [origin[0], origin[1], origin[2]], // 相机初始化位置
         orientation: [viewport[0], viewport[1], viewport[2]], // 相机初始化方向
-        operationMode: Xt.Enum.OperationMode.FIT,
-        sceneMode: Xt.Enum.SceneMode[sceneMode],
+        // operationMode: Xt.Enum.OperationMode.FIT,
+        // sceneMode: Xt.Enum.SceneMode[sceneMode],
         backgroundColor,
         globeColor: backgroundColor,
       }
@@ -82,27 +82,28 @@ const Adapter = () =>
         earthOptions.terrain = terrain
       }
       // 将选项映射到函数
-      this.instance = new Xt.Earth(this.containerId, earthOptions)
+      // this.instance = new Xt.Earth(this.containerId, earthOptions)
+      // this.instance = new Xt.Earth(this.containerId, earthOptions)
 
       // 绑定事件
-      this.instance.interaction.bind(
-        Xt.Enum.InteractionEvent.CLICK,
-        (e) => {
-          //coordinate为WGS-84的经纬度坐标
-          const {coordinate} = e
-          coordinate && this.model.style.coordinateAcquisitionResult.setValue(`${coordinate[0]},${coordinate[1]}`)
-          // console.log('coordinate', coordinate)
-        },
-        {
-          enabled: true,
-        }
-      )
+      // this.instance.interaction.bind(
+      //   Xt.Enum.InteractionEvent.CLICK,
+      //   (e) => {
+      //     //coordinate为WGS-84的经纬度坐标
+      //     const {coordinate} = e
+      //     coordinate && this.model.style.coordinateAcquisitionResult.setValue(`${coordinate[0]},${coordinate[1]}`)
+      //     // console.log('coordinate', coordinate)
+      //   },
+      //   {
+      //     enabled: true,
+      //   }
+      // )
       //销毁点击交互事件,销毁earth时应该会被销毁？
       // earth.renderDispatcher.unbind(Xt.Enum.InteractionEvent.CLICK, clickInteractionEvent)
 
-      this.instance.domScale = scaler
+      // this.instance.domScale = scaler
 
-      this.instance.event = createEvent('wave.gis')
+      // this.instance.event = createEvent('wave.gis')
 
       // 如果设置了视角固定，主动调用一下
       if (viewFixed) {
@@ -133,10 +134,10 @@ const Adapter = () =>
       }
     },
 
-    flyTo(origin) {
-      // const {destination} = this.instance
-      this.instance.destination = [Number(origin[0]), Number(origin[1]), Number(origin[2])]
-    },
+    // flyTo(origin) {
+    //   // const {destination} = this.instance
+    //   this.instance.destination = [Number(origin[0]), Number(origin[1]), Number(origin[2])]
+    // },
   })
 
 export default Adapter
