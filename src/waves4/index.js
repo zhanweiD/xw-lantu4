@@ -44,6 +44,7 @@ import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
 import gis from './waves/v3/gis'
+import button from './waves/v3/button'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -108,6 +109,8 @@ const waves = {
   ...echartsWaves,
   // 段落
   textarea,
+  // 交互
+  button,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -203,12 +206,12 @@ const categories = [
     icon: 'exhibit-other',
     exhibits: [text, textarea, dashboard, indicator, timeline],
   },
-  {
-    // 演示对接
-    name: 'demo',
-    icon: 'demo-line',
-    exhibits: [],
-  },
+  // {
+  //   // 交互组件
+  //   name: 'InteractivComponents',
+  //   icon: 'demo-line',
+  //   exhibits: [button],
+  // },
 ]
 
 categories.forEach((category) => {

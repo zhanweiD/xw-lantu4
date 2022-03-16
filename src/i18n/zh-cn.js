@@ -398,6 +398,7 @@ export default {
     echartsGraph: 'Echarts 关系图',
     echartsHeatmap: 'Echarts 热力图',
     echartsGauge: 'Echarts 仪表盘',
+    InteractivComponents: '交互组件',
     classifyLine: '折线图',
     basicLine: '基础折线',
     multiLine: '多折线',

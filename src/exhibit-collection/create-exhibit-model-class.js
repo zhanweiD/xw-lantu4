@@ -127,7 +127,7 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (config.key === 'text' || config.key === 'gis') {
+        if (config.key === 'text' || config.key === 'gis' || config.key === 'button') {
           self.set({
             state: 'success',
           })
