@@ -190,7 +190,7 @@ const categories = [
     // 基础地图
     name: 'classifyMap',
     icon: 'exhibit-map',
-    exhibits: [baseMap, gis],
+    exhibits: [baseMap],
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，
