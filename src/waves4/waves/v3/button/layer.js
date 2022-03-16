@@ -7,20 +7,29 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'show',
-            defaultValue: true,
-          },
-          {
-            name: 'content',
-            defaultValue: '中等职业教育分布情况',
-          },
-          {
             name: 'textSize',
-            defaultValue: 12,
+            defaultValue: 24,
           },
           {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'borderRadius',
+          },
+          {
+            name: 'content',
+            defaultValue: '按钮1',
+          },
+          {
+            name: 'backgroundColor',
+            defaultValue: 'rgb(0,119,255)',
+          },
+          {
+            name: 'borderWidth',
+          },
+          {
+            name: 'borderColor',
           },
         ],
       },

@@ -40,7 +40,7 @@ export const Field = observer(
       <div className={c('fbh mb8 noFieldEvent w100p pr', className)}>
         {tip && <IconButton title={tip} icon="tip" buttonSize={24} className="pa" />}
         <div
-          className={c('w100p ml24', s.field, {
+          className={c('w100p', s.field, {
             mr16: !supportProcessor,
             mr24: supportProcessor,
             fbh: direction === 'horizontal',

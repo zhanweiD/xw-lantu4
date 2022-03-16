@@ -492,6 +492,24 @@ const singleColor = {
   label: 'singleColor',
   defaultValue: 'transparent',
 }
+// 边框宽度
+const borderWidth = {
+  type: 'number',
+  label: 'borderWidth',
+  defaultValue: 2,
+}
+// 边框颜色
+const borderColor = {
+  type: 'color',
+  label: 'borderColor',
+  defaultValue: 'rgb(255, 255, 255)',
+}
+// 背景色
+const backgroundColor = {
+  type: 'color',
+  label: 'backgroundColor',
+  defaultValue: 'rgb(0, 119, 255)',
+}
 
 // NOTE 将删除
 const colorSingle = {
@@ -1353,6 +1371,9 @@ export default {
   // 圆角大小
   borderRadius,
   show,
+  backgroundColor,
+  borderColor,
+  borderWidth,
   // gis
   gisPosition,
   gisAngle,

@@ -15,7 +15,6 @@ const MButton = MUIBase.named('MInput')
 
     // 传入数据
     const data = (buttonData) => {
-      console.log(buttonData)
       self.buttonData = buttonData
       self.name = buttonData.name || self.config('buttonName')
     }
@@ -30,24 +29,23 @@ const MButton = MUIBase.named('MInput')
       if (redraw === true) {
         self.removeNode(self.container?.parentNode)
       }
-
+      self.name = self.config('buttonName')
       const style = {
         height: self.config('height'),
         width: self.config('width'),
         color: self.config('fontColor'),
         fontSize: self.config('fontSize'),
         backgroundColor: self.config('backgroundColor'),
-        borderRadius: self.config('radius'),
+        borderRadius: self.config('borderRadius'),
         border: `${self.config('borderWidth')}px solid ${self.config('borderColor')}`,
       }
-
       // 自适应容器
-      if (self.config('adaptContainer')) {
-        Object.assign(style, {
-          width: self.containerWidth,
-          height: self.containerHeight,
-        })
-      }
+      // if (self.config('adaptContainer')) {
+      // Object.assign(style, {
+      //   width: self.containerWidth,
+      //   height: self.containerHeight,
+      // })
+      // }
 
       // 渲染组件
       self.render(

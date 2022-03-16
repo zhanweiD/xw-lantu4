@@ -11,25 +11,23 @@ const Adapter = () =>
     init({options}) {
       const mButton = MButton.create()
       const translatedOptions = translate(options)
-      translatedOptions.buttonData = {}
-      translatedOptions.buttonName = '按钮'
       // 初始化模型
       mButton.init(translatedOptions, {})
-      // instance.draw({
-      //   redraw: true,
-      // })
+      mButton.draw({
+        redraw: true,
+      })
       return mButton
     },
     // 处理包括数据、样式等变更
     update({options}) {
       try {
-        console.log(options)
-        // const translatedOptions = translate(options)
+        const mButton = MButton.create()
+        const translatedOptions = translate(options)
         // 初始化模型
-        // mButton.init(translatedOptions, {})
-        // instance.draw({
-        //   redraw: true,
-        // })
+        mButton.init(translatedOptions, {})
+        mButton.draw({
+          redraw: true,
+        })
       } catch (error) {
         console.error('图层配置解析错误，更新失败', error)
       }

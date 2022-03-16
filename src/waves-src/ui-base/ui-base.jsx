@@ -102,7 +102,6 @@ const MUIBase = types
     // 初始化模型实例
     init(options, defaultOption) {
       const {container, ...optionWithoutContainer} = options
-      console.log(container, optionWithoutContainer)
 
       // 编辑模式下关闭动画
       if (!optionWithoutContainer.isPreview) {
