@@ -42,6 +42,7 @@ export default defineConfig({
       '@builders': resolve('src/builders'),
       '@materials': resolve('src/materials'),
       '@wavesEcharts': resolve('src/wave-echarts'),
+      '@common': resolve('src/common'),
     },
   },
   server: {

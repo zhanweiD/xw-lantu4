@@ -1,4 +1,4 @@
-import {types, getEnv, flow} from 'mobx-state-tree'
+import {types, getEnv} from 'mobx-state-tree'
 import hJSON from 'hjson'
 import {MDataField} from '@builders/data-section'
 import commonAction from '@utils/common-action'
@@ -127,7 +127,7 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (config.key === 'text') {
+        if (config.key === 'text' || config.key === 'gis') {
           self.set({
             state: 'success',
           })

@@ -1,4 +1,4 @@
-import {defaultDataProcessor} from '../models/util'
+// import {defaultDataProcessor} from '../models/util'
 import isDef from './is-def'
 import makeFunction from './make-function'
 
@@ -84,6 +84,14 @@ const verifyOutputData = (value, type, defaultValue, options = [], isShowTip) =>
       console.warning('当前类型不支持')
   }
 }
+
+const defaultDataProcessor = `
+// @param inputData {object} 输入数据
+return function (inputData) {
+  // 默认不做任何处理，直接将输入数据返回
+  const outputData = inputData
+  return outputData
+}`
 
 // 自定义函数模版
 const getValueFunction = (

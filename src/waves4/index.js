@@ -43,6 +43,7 @@ import circleMatrix from './waves/matrices/circle-matrix'
 import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
+import gis from './waves/v3/gis'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -96,6 +97,7 @@ const waves = {
   treemap,
   // 地图
   baseMap,
+  gis,
   // 其他
   text,
   dashboard,
@@ -117,85 +119,6 @@ Object.values(waves).forEach((wave) => {
 export default waves
 
 const categories = [
-  // {
-  //   name: 'baseCharts',
-  //   icon: 'exhibit-line',
-  //   exhibits: [
-  //     basicLine, // 基础折线图
-  //     groupLine,
-  //     areaLine,
-  //     stackAreaLine,
-  //     stepLine,
-  //     river,
-  //     basicColumn,
-  //     groupColumn,
-  //     stackColumn,
-  //     percentageColumn,
-  //     intervalColumn,
-  //     waterfallColumn,
-  //     basicLineColumn,
-  //     groupLineColumn,
-  //     stackLineColumn,
-  //     basicBar,
-  //     groupBar,
-  //     stackBar,
-  //     percentageBar,
-  //     intervalBar,
-  //     waterfallBar,
-  //     basicPie,
-  //     donut,
-  //     nigntingaleRose,
-  //     donutNightingaleRose,
-  //     stackNightingaleRose,
-  //     scatter,
-  //     bubble,
-  //     basicRadar,
-  //     groupRadar,
-  //   ],
-  // },
-  // {
-  //   // 关系图
-  //   name: 'classifyRelation',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
-  // },
-  // // 聚焦图
-  // {
-  //   name: 'classifyFocus',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [rectMatrix, circleMatrix],
-  // },
-  // {
-  //   // 地图
-  //   name: 'classifyMap',
-  //   icon: 'exhibit-map',
-  //   exhibits: [baseMap],
-  // },
-  // // 文字
-  // {
-  //   name: 'text',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [text, textarea, timeline],
-  // },
-  // // 指标
-  // {
-  //   name: 'indicators',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [dashboard, indicator],
-  // },
-  // // 多媒体
-  // {
-  //   name: 'classifyMedia',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [],
-  // },
-  // // 交互
-  // {
-  //   name: 'preInteraction',
-  //   icon: 'exhibit-relation',
-  //   exhibits: [],
-  // },
-
   {
     // 折线图
     name: 'classifyLine',
@@ -264,7 +187,7 @@ const categories = [
     // 基础地图
     name: 'classifyMap',
     icon: 'exhibit-map',
-    exhibits: [baseMap],
+    exhibits: [baseMap, gis],
   },
   {
     // NOTE gis是内置特殊的名字，不能修改，

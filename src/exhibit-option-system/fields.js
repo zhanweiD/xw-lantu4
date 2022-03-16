@@ -4,6 +4,100 @@
 // - 向后兼容的设计
 // - 相对位置的图标
 
+// gis
+// 相机位置
+const gisPosition = {
+  type: 'multiNumber',
+  label: 'gisPosition',
+  defaultValue: [120.14857128194079, 30.251288234866852, 10000],
+  items: [
+    {
+      key: '经度',
+      step: 1,
+    },
+    {
+      key: '纬度',
+      step: 1,
+    },
+    {
+      key: '海拔',
+      step: 1,
+    },
+  ],
+}
+// 相机角度
+const gisAngle = {
+  type: 'multiNumber',
+  label: 'gisAngle',
+  defaultValue: [0, -90, 0],
+  items: [
+    {
+      key: '偏航角(Y)',
+      step: 1,
+    },
+    {
+      key: '俯仰角(X)',
+      step: 1,
+    },
+    {
+      key: '翻滚角(Z)',
+      step: 1,
+    },
+  ],
+}
+const gisBackground = {
+  type: 'color',
+  label: 'gisBackground',
+  defaultValue: 'rgba(0,0,0,1)',
+}
+const gisProjection = {
+  type: 'check',
+  label: 'gisProjection',
+  defaultValue: '3D',
+  options: [
+    {
+      key: '3D',
+      value: '3D',
+    },
+    {
+      key: '2D',
+      value: '2D',
+    },
+  ],
+}
+const gisInteraction = {
+  type: 'switch',
+  label: 'gisInteraction',
+  defaultValue: true,
+}
+const gisAngleFixed = {
+  type: 'switch',
+  label: 'gisAngleFixed',
+  defaultValue: false,
+}
+const gisClickXY = {
+  type: 'text',
+  label: 'gisClickXY',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+const gisSnow = {
+  type: 'switch',
+  label: 'gisSnow',
+  defaultValue: false,
+}
+const gisRain = {
+  type: 'switch',
+  label: 'gisRain',
+  defaultValue: false,
+}
+const gisElevation = {
+  type: 'text',
+  label: 'gisElevation',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+
 /**
  * =====================================
  * common
@@ -1259,4 +1353,15 @@ export default {
   // 圆角大小
   borderRadius,
   show,
+  // gis
+  gisPosition,
+  gisAngle,
+  gisBackground,
+  gisProjection,
+  gisInteraction,
+  gisAngleFixed,
+  gisClickXY,
+  gisSnow,
+  gisRain,
+  gisElevation,
 }
