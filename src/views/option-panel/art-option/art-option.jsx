@@ -37,7 +37,13 @@ const createPanel = (exhibit, t) => {
   return [
     <Tab.Item name={t('dataEncode')} key="data">
       <Scroll className="h100p">
-        <Builder data={exhibit.data} dimension={exhibit.dimension} layers={exhibit.layers} exhibit={exhibit} />
+        <Builder
+          gisBase={exhibit.gisBase}
+          data={exhibit.data}
+          dimension={exhibit.dimension}
+          layers={exhibit.layers}
+          exhibit={exhibit}
+        />
       </Scroll>
     </Tab.Item>,
   ].concat(...panels)
@@ -61,6 +67,7 @@ const ArtOption = ({art}) => {
         exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
       }
     }
+    // 配置面板
     return (
       <>
         <Tab sessionId="art-option" className="fb1">

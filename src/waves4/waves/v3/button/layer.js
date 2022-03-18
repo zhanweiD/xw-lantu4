@@ -1,6 +1,6 @@
 export default () => {
   return {
-    name: '按钮',
+    name: '按钮层',
     type: 'button', // 必要
     sections: [
       {

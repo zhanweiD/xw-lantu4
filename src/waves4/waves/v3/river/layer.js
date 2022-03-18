@@ -1,6 +1,6 @@
 export default () => {
   return {
-    name: '河流',
+    name: '河流层',
     type: 'river', // 必要
     sections: [
       {

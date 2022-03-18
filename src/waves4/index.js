@@ -132,6 +132,7 @@ const categories = [
       areaLine,
       stackAreaLine,
       stepLine,
+      river,
     ],
   },
   {

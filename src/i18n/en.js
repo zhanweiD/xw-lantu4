@@ -32,6 +32,7 @@ export default {
     official: 'Official Exhibits',
   },
   dimension: 'Dimension',
+  gisBase: 'GisBase',
   constraint: 'Constraint',
   fixTLWH: '',
   fixTBLW: '',

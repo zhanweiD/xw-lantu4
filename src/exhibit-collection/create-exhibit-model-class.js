@@ -21,7 +21,7 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       padding: types.frozen(config.padding),
       state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
-      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other', 'echartsoption']),
+      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other', 'echartsoption']), // 配置面板顶部tab
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen([
         'title',
@@ -33,7 +33,8 @@ export const createExhibitModelClass = (exhibit) => {
         'data',
         'dimension',
         'echartsoption',
-      ]),
+        'gisBase',
+      ]), // 配置面板配置项
     })
     .views((self) => ({
       get art_() {
@@ -55,6 +56,9 @@ export const createExhibitModelClass = (exhibit) => {
           self.set({
             state: 'success',
           })
+        }
+        if (config.gisBase) {
+          self.setGisBase(config.gisBase)
         }
         if (config.data) {
           self.setData(config.data)
@@ -232,8 +236,18 @@ export const createExhibitModelClass = (exhibit) => {
           return self.polar.getData()
         }
       }
+      const setGisBase = (gisBase) => {
+        self.gisBase = createPropertyClass(config.key, gisBase, 'gisBase')
+      }
+      const getGisBase = () => {
+        if (self.gisBase) {
+          return self.gisBase.getData()
+        }
+      }
 
       return {
+        setGisBase,
+        getGisBase,
         setCachedData,
         setContext,
         setAdapter,

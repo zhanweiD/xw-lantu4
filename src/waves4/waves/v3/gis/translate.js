@@ -5,18 +5,6 @@ import {layerOptionMap} from './mapping'
 //     if (!dataSource) {
 //       return {}
 //     }
-//     const dataObj = {
-//       label: dataSource[1],
-//       value: [],
-//     }
-//     dataSource[0]?.forEach((item, i) => {
-//       if (i !== 0) {
-//         dataObj.value.push({
-//           name: item,
-//           data: dataSource[i + 1],
-//         })
-//       }
-//     })
 //     return dataObj
 //   } catch (e) {
 //     console.error('数据解析失败', {dataSource})

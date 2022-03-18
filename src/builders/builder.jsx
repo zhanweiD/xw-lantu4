@@ -43,9 +43,10 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
   )
 }
 
-const Builder = ({layers, data, dimension, exhibit, extra}) => {
+const Builder = ({layers, data, dimension, exhibit, extra, gisBase}) => {
   const {t} = useTranslation()
-
+  const {key} = exhibit
+  // 子层列表在这加
   return (
     <>
       {data && <ModelToField model={data} />}
@@ -56,25 +57,35 @@ const Builder = ({layers, data, dimension, exhibit, extra}) => {
           })}
         </Section>
       )}
-
-      {layers.map((layer) => {
+      {key === 'gis' && (
+        <div key={`${exhibit.id}.gisBase`}>
+          <Section sessionId={`${exhibit.id}.gisBase`} type={0} name={t('gisBase')} key={t('gisBase')}>
+            {recusiveNode({
+              ...gisBase.options,
+            })}
+          </Section>
+        </div>
+      )}
+      {layers.map((layer, index) => {
         return (
           <div key={layer.id}>
             <Section
               sessionId={`${layer.id}.${layer.name}`}
               type={0}
-              name={layer.name}
+              name={key === 'gis' ? `GIS图层${index + 1}（${layer.name}）` : layer.name}
               key={layer.name}
               extra={
-                <div className="fbh">
-                  <IconButton
-                    icon={layer.effective ? 'eye-open' : 'eye-close'}
-                    iconSize={14}
-                    buttonSize={24}
-                    onClick={layer.toggleEffective}
-                  />
-                  {extra}
-                </div>
+                key === 'gis' ? null : (
+                  <div className="fbh">
+                    <IconButton
+                      icon={layer.effective ? 'eye-open' : 'eye-close'}
+                      iconSize={14}
+                      buttonSize={24}
+                      onClick={layer.toggleEffective}
+                    />
+                    {extra}
+                  </div>
+                )
               }
             >
               {layer.data && <ModelToField model={layer.data} />}
@@ -85,6 +96,35 @@ const Builder = ({layers, data, dimension, exhibit, extra}) => {
           </div>
         )
       })}
+
+      {/* {key === 'gis' && (
+        <div key={`${exhibit.id}.subLayers`}>
+          <Section
+            sessionId={`${exhibit.id}.subLayers`}
+            type={0}
+            name={t('subLayers')}
+            key={t('subLayers')}
+          >
+            {layers.map((layer) => {
+              return (
+                <div key={layer.id}>
+                  <Section
+                    sessionId={`${layer.id}.${layer.name}`}
+                    type={1}
+                    name={layer.name}
+                    key={layer.name}
+                  >
+                    {layer.data && <ModelToField model={layer.data} />}
+                    {recusiveNode({
+                      ...layer.options,
+                    })}
+                  </Section>
+                </div>
+              )
+            })}
+          </Section>
+        </div>
+      )} */}
     </>
   )
 }

@@ -31,6 +31,7 @@ export default {
     official: '官方组件',
   },
   dimension: '维度',
+  gisBase: 'GIS基础',
   constraint: '约束',
   fixTLWH: '固定上边距、左边距、宽度和高度',
   fixTBLW: '固定上边距、下边距、左边距和宽度，高度自适应',

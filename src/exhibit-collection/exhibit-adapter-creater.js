@@ -102,6 +102,7 @@ const createExhibitAdapter = (hooks) =>
         layers: this.model.getLayers(),
         data: this.model.getData(),
         dimension: this.model.getDimension(),
+        gisBase: this.model.getGisBase(),
         ...this.model.context,
         padding: this.model.padding,
         ...this.size,
@@ -171,7 +172,13 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, legend, axis, polar, other} = model
+      const {data, layers, dimension, title, legend, axis, polar, other, gisBase} = model
+      if (gisBase) {
+        this.observerDisposers.push(
+          this.createObserverObject({actionType: 'gisBase', isGlobal: true}),
+          this.createObserverObject({actionType: 'gisBase'})
+        )
+      }
       if (legend) {
         this.observerDisposers.push(
           this.createObserverObject({actionType: 'legend', isGlobal: true}),
