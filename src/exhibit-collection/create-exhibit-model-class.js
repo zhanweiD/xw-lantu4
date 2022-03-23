@@ -131,14 +131,41 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (config.key === 'text' || config.key === 'gis' || config.key === 'button') {
+        if (config.key === 'text' || config.key === 'button' || config.key === 'gis') {
           self.set({
             state: 'success',
           })
         }
       }
 
-      const addLayer = () => {}
+      const addLayer = (layers) => {
+        const oldLayers = self.layers ? self.layers : []
+        self.layers = [
+          ...oldLayers,
+          ...createExhibitLayersClass(config.category, config.key, layers, {
+            exhibitId: self.id,
+            art: self.art_,
+            event: self.event_,
+            data: self.data_,
+          }),
+        ]
+        console.log(self.data)
+        if (self.data) {
+          const models = []
+          self.layers.forEach((layer) => {
+            models.push(...layer.options.getRelationFields('columnSelect'))
+          })
+
+          const relationModels = [].concat(...self.data.getRelationModels(), ...models)
+          self.data.bindRelationModels(relationModels)
+        }
+      }
+
+      const delLayer = (index) => {
+        const oldLayers = [...self.layers]
+        oldLayers.splice(index, 1)
+        self.layers = oldLayers
+      }
 
       const setData = (data) => {
         self.data = MDataField.create(
@@ -252,6 +279,7 @@ export const createExhibitModelClass = (exhibit) => {
         setContext,
         setAdapter,
         addLayer,
+        delLayer,
         setLayers,
         getLayers,
         setData,

@@ -20,14 +20,31 @@ function translate(schema) {
     container, // 容器必传
     padding, // 内边距
     layers, // 图层配置
+    gisBase,
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const {getOption, mapOption} = layers[0]
-  // 属性的转换
-  const config = layerOptionMap.get('layer')({getOption, mapOption})
+  const configs = []
+  layers.forEach((item) => {
+    console.log(item)
+    const {getOption, mapOption} = item
+    switch (item.type) {
+      case 'gis':
+        configs.push({...item, ...layerOptionMap.get('gis')({getOption, mapOption})})
+        break
+      case 'bimAmtn':
+        configs.push({...item, ...layerOptionMap.get('bimAmtn')({getOption, mapOption})})
+        break
+      default:
+        break
+    }
+  })
+  // const {getOption, mapOption} = layers[0]
+  // // 属性的转换
+  // const config = layerOptionMap.get('layer')({getOption, mapOption})
+  // console.log(config)
   // config.data = getRealData(data)
   return {
     width,
@@ -38,7 +55,8 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    ...config,
+    gisBase: {...gisBase.base, ...gisBase.gisSpecialEffects},
+    layers: configs,
   }
 }
 

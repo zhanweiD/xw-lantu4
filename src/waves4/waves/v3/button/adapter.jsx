@@ -9,6 +9,7 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化
     init({options}) {
+      console.log(options)
       const mButton = MButton.create()
       const translatedOptions = translate(options)
       // 初始化模型
@@ -20,6 +21,7 @@ const Adapter = () =>
     },
     // 处理包括数据、样式等变更
     update({options}) {
+      console.log(options)
       try {
         const mButton = MButton.create()
         const translatedOptions = translate(options)

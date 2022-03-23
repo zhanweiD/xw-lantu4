@@ -37,13 +37,7 @@ const createPanel = (exhibit, t) => {
   return [
     <Tab.Item name={t('dataEncode')} key="data">
       <Scroll className="h100p">
-        <Builder
-          gisBase={exhibit.gisBase}
-          data={exhibit.data}
-          dimension={exhibit.dimension}
-          layers={exhibit.layers}
-          exhibit={exhibit}
-        />
+        <Builder exhibit={exhibit} />
       </Scroll>
     </Tab.Item>,
   ].concat(...panels)

@@ -7,7 +7,7 @@ import {transform} from './exhibit-config'
 import isDef from '@utils/is-def'
 
 export const createLayer = (category, key, layer, env) => {
-  const {name, type, id = uuid(), sections, fields} = layer
+  const {name, type, id = uuid(), sections, fields, data} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
       id: types.optional(types.string, id),
@@ -25,6 +25,7 @@ export const createLayer = (category, key, layer, env) => {
         // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
         const MConfig = transform({id, name, sections, fields})
         self.options = MConfig.create()
+        console.log(self.options)
         if (layer.data) {
           self.data = MDataField.create(
             {
@@ -36,6 +37,7 @@ export const createLayer = (category, key, layer, env) => {
             }
           )
         }
+        console.log(self.data)
       }
 
       const getData = () => {

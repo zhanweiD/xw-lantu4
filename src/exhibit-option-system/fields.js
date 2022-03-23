@@ -6,9 +6,9 @@
 
 // gis
 // 相机位置
-const gisPosition = {
+const origin = {
   type: 'multiNumber',
-  label: 'gisPosition',
+  label: 'origin',
   defaultValue: [120.14857128194079, 30.251288234866852, 10000],
   items: [
     {
@@ -26,9 +26,9 @@ const gisPosition = {
   ],
 }
 // 相机角度
-const gisAngle = {
+const viewport = {
   type: 'multiNumber',
-  label: 'gisAngle',
+  label: 'viewport',
   defaultValue: [0, -90, 0],
   items: [
     {
@@ -45,57 +45,84 @@ const gisAngle = {
     },
   ],
 }
-const gisBackground = {
-  type: 'color',
-  label: 'gisBackground',
-  defaultValue: 'rgba(0,0,0,1)',
-}
-const gisProjection = {
+// const gisBackground = {
+//   type: 'color',
+//   label: 'gisBackground',
+//   defaultValue: 'rgba(0,0,0,1)',
+// }
+const sceneMode = {
   type: 'check',
-  label: 'gisProjection',
-  defaultValue: '3D',
+  label: 'sceneMode',
+  defaultValue: 'SCENE3D',
   options: [
     {
       key: '3D',
-      value: '3D',
+      value: 'SCENE3D',
     },
     {
       key: '2D',
-      value: '2D',
+      value: 'PLANAR3D',
     },
   ],
 }
-const gisInteraction = {
+const showMask = {
   type: 'switch',
-  label: 'gisInteraction',
+  label: 'showMask',
   defaultValue: true,
 }
-const gisAngleFixed = {
+const viewFixed = {
   type: 'switch',
-  label: 'gisAngleFixed',
+  label: 'viewFixed',
   defaultValue: false,
 }
-const gisClickXY = {
+const coordinateAcquisitionResult = {
   type: 'text',
-  label: 'gisClickXY',
+  label: 'coordinateAcquisitionResult',
   defaultValue: ' ',
   // hasSlider: true,
 }
-const gisSnow = {
+const snow = {
   type: 'switch',
-  label: 'gisSnow',
+  label: 'snow',
   defaultValue: false,
 }
-const gisRain = {
+const rain = {
   type: 'switch',
-  label: 'gisRain',
+  label: 'rain',
   defaultValue: false,
 }
-const gisElevation = {
+const elevation = {
   type: 'text',
-  label: 'gisElevation',
+  label: 'elevation',
   defaultValue: ' ',
   // hasSlider: true,
+}
+const layerName = {
+  type: 'text',
+  label: 'layerName',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+
+const mapService = {
+  type: 'switch',
+  label: 'mapService',
+  defaultValue: false,
+}
+const gisTheme = {
+  type: 'select',
+  label: 'gisTheme',
+  defaultValue: 'blue',
+  options: [
+    {
+      key: '蓝色',
+      value: 'blue',
+    },
+    {
+      key: '黑色',
+      value: 'black',
+    },
+  ],
 }
 
 /**
@@ -1375,14 +1402,16 @@ export default {
   borderColor,
   borderWidth,
   // gis
-  gisPosition,
-  gisAngle,
-  gisBackground,
-  gisProjection,
-  gisInteraction,
-  gisAngleFixed,
-  gisClickXY,
-  gisSnow,
-  gisRain,
-  gisElevation,
+  origin,
+  viewport,
+  sceneMode,
+  showMask,
+  viewFixed,
+  coordinateAcquisitionResult,
+  snow,
+  rain,
+  elevation,
+  layerName,
+  mapService,
+  gisTheme,
 }

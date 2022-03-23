@@ -4,8 +4,8 @@ export default () => {
     type: 'gis', // 必要
     sections: [
       {
-        name: 'gisSpecialEffects',
-        fields: [{name: 'gisRain'}, {name: 'gisSnow'}, {name: 'gisElevation'}],
+        name: 'base',
+        fields: [{name: 'layerName'}, {name: 'mapService'}, {name: 'gisTheme'}],
       },
     ],
   }

@@ -4,6 +4,18 @@ import {alldecorations} from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
+import {
+  bimAmtn,
+  bimWhite,
+  geojson,
+  heatMap,
+  odLine,
+  pointBreath,
+  pointIcon,
+  pointMuch,
+  pointWave,
+  tripLine,
+} from '../waves4/waves/v3/gis/layers'
 
 const log = createLog('@exhibit-collection')
 
@@ -11,6 +23,50 @@ const exhibitCollection = onerStorage({
   type: 'variable',
   key: 'waveview-exhibit-adapter',
 })
+
+const setGisLayers = (config, gisLayers = []) => {
+  if (config.key !== 'gis') {
+    return config.layers
+  }
+  const modelLayers = [...config.layers]
+  gisLayers.forEach((item) => {
+    switch (item.type) {
+      case 'bimAmtn':
+        modelLayers.push(bimAmtn())
+        break
+      case 'bimWhite':
+        modelLayers.push(bimWhite())
+        break
+      case 'geojson':
+        modelLayers.push(geojson())
+        break
+      case 'heatMap':
+        modelLayers.push(heatMap())
+        break
+      case 'odLine':
+        modelLayers.push(odLine())
+        break
+      case 'pointBreath':
+        modelLayers.push(pointBreath())
+        break
+      case 'pointIcon':
+        modelLayers.push(pointIcon())
+        break
+      case 'pointMuch':
+        modelLayers.push(pointMuch())
+        break
+      case 'pointWave':
+        modelLayers.push(pointWave())
+        break
+      case 'tripLine':
+        modelLayers.push(tripLine())
+        break
+      default:
+        break
+    }
+  })
+  return modelLayers
+}
 
 export const draw = ({exhibit, container, height, width, frame, material}) => {
   if (exhibit) {
@@ -70,14 +126,12 @@ export const exhibitRegister = (exhibit) => {
         // ! 这里这么麻烦写setLayers 其实是有原因的。
         // 从config里拿到的layer配置实际上是初始化的，当用户添加层后，这里config.layers就不是期望的数据了，而应该由后端保存值获取对应的type再调用此type对应的配置
         // model.setLayers(config.layers)
-
         if (schema) {
           model.set({id: schema.id})
           model.init()
-          model.setLayers(config.layers)
+          model.setLayers(setGisLayers(config, schema.layers))
           model.setSchema(schema)
         }
-
         return model
       },
       Adapter: exhibit.Adapter,

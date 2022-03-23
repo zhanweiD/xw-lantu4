@@ -117,7 +117,7 @@ const MValue = types
             self.sourceType = undefined
           }
         }
-        self.exhibit_.set({
+        self.exhibit_?.set({
           state: 'success',
         })
         getParent(self).onAction()

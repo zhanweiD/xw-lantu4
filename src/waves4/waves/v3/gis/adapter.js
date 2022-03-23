@@ -17,8 +17,10 @@ const Adapter = () =>
       const translatedOptions = translate(options)
       console.log(translatedOptions)
     },
-    update(options) {
+    update({options}) {
       console.log(options)
+      const translatedOptions = translate(options)
+      console.log(translatedOptions)
     },
     // 销毁
     destroy({instance}) {

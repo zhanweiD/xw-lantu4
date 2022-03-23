@@ -56,6 +56,19 @@ const createExhibitAdapter = (hooks) =>
           delay: 300,
         }
       )
+      if (model.key === 'gis') {
+        reaction(
+          () => model.layers,
+          () => {
+            // model.adapter.destroy() // 销毁之前实例，重新创建
+            model.adapter.init()
+          },
+          {
+            fireImmediately: true,
+            delay: 300,
+          }
+        )
+      }
     }
 
     constructor({container, height, width, model, isEdit, staticDrawOptions}) {
@@ -229,6 +242,7 @@ const createExhibitAdapter = (hooks) =>
           )
         )
       }
+
       layers.map((layer) => {
         this.observerDisposers.push(
           reaction(
@@ -249,6 +263,7 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => layer.options.updatedOptions,
             () => {
+              console.log('layer.options.updatedOptions')
               if (layer.effective) {
                 const updated = {
                   id: layer.id,
