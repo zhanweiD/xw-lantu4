@@ -9,6 +9,7 @@ import Material from '@views/public/material'
 import Box from '../box'
 import s from './art-frame.module.styl'
 import {useTranslation} from 'react-i18next'
+import {themeConfigs} from '@common/theme'
 
 const ArtFrame = ({frame, art}) => {
   const {
@@ -27,7 +28,8 @@ const ArtFrame = ({frame, art}) => {
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const {effective, fields} = global.options.sections.watermark
-
+  const {theme} = global.options.sections.themeColor.fields
+  console.log(theme.value)
   const gridRef = useRef(null)
 
   const {t} = useTranslation()
@@ -55,6 +57,7 @@ const ArtFrame = ({frame, art}) => {
     grid.guideLineOpacity_,
     grid.guideLineColor_,
     isGridVisible,
+    theme.value,
   ])
 
   const style = {
@@ -69,6 +72,9 @@ const ArtFrame = ({frame, art}) => {
   }
   if (backgroundColor_) {
     style.backgroundColor = backgroundColor_
+  }
+  if (!backgroundColor_ && !backgroundImage_) {
+    style.background = themeConfigs[theme.value].background
   }
 
   const Frame = (

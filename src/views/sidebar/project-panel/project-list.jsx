@@ -45,6 +45,7 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
   const {sidebar} = w
   const {projectPanel} = sidebar
   const {isThumbnailVisible} = projectPanel
+  console.log(projectPanel)
   return (
     <Section
       key={id}
@@ -73,6 +74,7 @@ export const TemplateList = observer(({id, name, arts, icon, children, ...other}
 // 项目列表
 export const ProjectList = observer(({project, children, isTop, isRecent}) => {
   const {projectId, name, arts_} = project
+  console.log(arts_)
   return (
     <TemplateList
       id={projectId}
