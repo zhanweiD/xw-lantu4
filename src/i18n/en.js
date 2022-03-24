@@ -143,6 +143,7 @@ export default {
   privateJSON: 'Private JSON',
   dataSource: 'Data Source',
   dataEncode: 'Data Encode',
+  interaction: 'interaction',
   echartsoption: 'Echarts Option',
   body: 'Request Body',
   queries: 'Request Queries',

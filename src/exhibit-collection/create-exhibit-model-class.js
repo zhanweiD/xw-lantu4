@@ -6,6 +6,7 @@ import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
+import {createInteractionClass} from './create-interaction'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -21,7 +22,15 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       padding: types.frozen(config.padding),
       state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
-      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other', 'echartsoption']), // 配置面板顶部tab
+      parts: types.optional(types.array(types.string), [
+        'title',
+        'legend',
+        'axis',
+        'polar',
+        'other',
+        'echartsoption',
+        'interaction',
+      ]), // 配置面板顶部tab
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen([
         'title',
@@ -34,6 +43,7 @@ export const createExhibitModelClass = (exhibit) => {
         'dimension',
         'echartsoption',
         'gisBase',
+        'interaction',
       ]), // 配置面板配置项
     })
     .views((self) => ({
@@ -83,6 +93,10 @@ export const createExhibitModelClass = (exhibit) => {
         }
         if (config.polar) {
           self.setPolar(config.polar)
+        }
+        // 交互
+        if (config.interaction) {
+          self.setInteraction(config.interaction)
         }
       }
       const setCachedData = (data) => {
@@ -236,6 +250,14 @@ export const createExhibitModelClass = (exhibit) => {
           return self.polar.getData()
         }
       }
+      const setInteraction = (interaction) => {
+        self.interaction = createInteractionClass(config.key, interaction)
+      }
+      const getInteraction = () => {
+        if (self.interaction) {
+          return self.interaction.getData()
+        }
+      }
       const setGisBase = (gisBase) => {
         self.gisBase = createPropertyClass(config.key, gisBase, 'gisBase')
       }
@@ -270,6 +292,8 @@ export const createExhibitModelClass = (exhibit) => {
         setEchartsoption,
         setPolar,
         getPolar,
+        setInteraction,
+        getInteraction,
         init,
       }
     })

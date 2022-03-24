@@ -6,32 +6,43 @@ import Scroll from '@components/scroll'
 import Builder, {recusiveNode} from '@builders'
 import isDef from '@utils/is-def'
 import CommonTab from './common-tab'
+import InteractionTab from './interaction-tab'
 
-const createPanel = (exhibit, t) => {
+const createPanel = (exhibit, t, containerInfo) => {
   if (exhibit.key === 'image') return [] // 过滤图片空容器右侧配置
 
   const panels = []
   exhibit.parts.forEach((prop) => {
     if (isDef(exhibit[prop])) {
-      panels.push(
-        <Tab.Item
-          key={prop}
-          name={t(exhibit[prop].name)}
-          hasIcon={isDef(exhibit[prop].effective)}
-          icon={exhibit[prop].effective ? 'eye-open' : 'eye-close'}
-          onIconClick={(e) => {
-            e.stopPropagation()
-            exhibit[prop].toggleEffective()
-          }}
-        >
-          <Scroll className="h100p">
-            {recusiveNode({
-              ...exhibit[prop].options,
-              level: 0,
-            })}
-          </Scroll>
-        </Tab.Item>
-      )
+      if (exhibit[prop].name === 'interaction') {
+        panels.push(
+          <Tab.Item key={prop} name={t(exhibit[prop].name)}>
+            <Scroll className="h100p">
+              <InteractionTab exhibit={exhibit} containerInfo={containerInfo} />
+            </Scroll>
+          </Tab.Item>
+        )
+      } else {
+        panels.push(
+          <Tab.Item
+            key={prop}
+            name={t(exhibit[prop].name)}
+            hasIcon={isDef(exhibit[prop].effective)}
+            icon={exhibit[prop].effective ? 'eye-open' : 'eye-close'}
+            onIconClick={(e) => {
+              e.stopPropagation()
+              exhibit[prop].toggleEffective()
+            }}
+          >
+            <Scroll className="h100p">
+              {recusiveNode({
+                ...exhibit[prop].options,
+                level: 0,
+              })}
+            </Scroll>
+          </Tab.Item>
+        )
+      }
     }
   })
   return [
@@ -67,13 +78,14 @@ const ArtOption = ({art}) => {
         exhibit = box.frame_.art_.exhibitManager.get(exhibitId)
       }
     }
+    const containerInfo = box || frame
     // 配置面板
     return (
       <>
         <Tab sessionId="art-option" className="fb1">
-          {exhibit && createPanel(exhibit, t)}
+          {exhibit && createPanel(exhibit, t, containerInfo)}
         </Tab>
-        <CommonTab target={box || frame} />
+        <CommonTab target={containerInfo} />
       </>
     )
   }
