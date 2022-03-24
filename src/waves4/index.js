@@ -43,6 +43,7 @@ import circleMatrix from './waves/matrices/circle-matrix'
 import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
+import renju from './waves/v3/renju'
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
 import i18n from '@i18n'
@@ -63,6 +64,8 @@ const waves = {
   intervalColumn,
   waterfallColumn,
   percentageColumn,
+  renju,
+
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -149,6 +152,7 @@ const categories = [
       basicLineColumn,
       groupLineColumn,
       stackLineColumn,
+      renju,
     ],
   },
   {
@@ -191,7 +195,7 @@ const categories = [
     // 基础地图
     name: 'classifyMap',
     icon: 'exhibit-map',
-    exhibits: [baseMap, gis],
+    exhibits: [baseMap],
   },
   {
     // 其他
