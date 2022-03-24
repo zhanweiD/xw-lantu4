@@ -4,9 +4,7 @@ import {dataUtil, hexToRgb} from '../util'
 import {RippleAnimation} from '../base/animation'
 import fallbackData from './fallback-data'
 
-const {
-  drawAxisX, drawAxisY, formatMoney, getTextHeight, getTextWidth, drawTitle, drawUnit,
-} = Base
+const {drawAxisX, drawAxisY, formatMoney, getTextHeight, getTextWidth, drawTitle, drawUnit} = Base
 
 const STATIC = {
   REGION_TYPE: [
@@ -22,7 +20,6 @@ const STATIC = {
       key: 'ALL',
       value: '所有',
     },
-
   ],
 }
 
@@ -104,17 +101,10 @@ export default class HighLow extends Base {
     } catch (err) {
       console.error('Data format error')
       throw new Error('数据结构错误')
-      return this
     }
 
     // 转换数据为老的格式（未来有时间要干掉优化）
-    const source = dataUtil.transform(
-      [this.config('axisXKey')],
-      [
-        highLowKeyList,
-      ],
-      data
-    )
+    const source = dataUtil.transform([this.config('axisXKey')], [highLowKeyList], data)
 
     const regionVisible = this.config('regionVisible')
     const regionType = this.config('regionType')
@@ -126,21 +116,24 @@ export default class HighLow extends Base {
     this._data.data = dataUtil.classify(source, true)[0].labels
 
     // 获取X轴标签
-    this._data.labels = this._data.data.map(d => d.label)
+    this._data.labels = this._data.data.map((d) => d.label)
 
     // 按照值的个数取色
     // const colors = d3.schemeSet3
     const colors = this.getColor(source.valueDescription.length)
-    this._data.data.forEach(d => {
+    this._data.data.forEach((d) => {
       d.v = d.data[0].values.map((v, i) => ({v, c: colors[i]}))
     })
 
     // 图例 - 图例按照值的描述个数表示
-    this._data.legends = source.valueDescription.map((v, i) => ({label: this.dataRule === 'new' ? legendsName[i] : v, color: this._data.data[0].v[i].c}))
+    this._data.legends = source.valueDescription.map((v, i) => ({
+      label: this.dataRule === 'new' ? legendsName[i] : v,
+      color: this._data.data[0].v[i].c,
+    }))
 
     // 获取最大数值
     this._data.maxValue = dataUtil.maxValue(source, source.maxValue)[source.unit[0]]
-    this._data.minValue = d3.min(source.data.map(x => x.values[0]).concat(source.data.map(x => x.values[1])))
+    this._data.minValue = d3.min(source.data.map((x) => x.values[0]).concat(source.data.map((x) => x.values[1])))
 
     // 最大值还得考虑到用户配置的平均值
     const averageValue = this.config('averageValue') || (this._data.maxValue + this._data.minValue) / 2
@@ -162,14 +155,14 @@ export default class HighLow extends Base {
       this._data.region = []
       if (regionType === STATIC.REGION_TYPE[0].key || regionType === STATIC.REGION_TYPE[2].key) {
         this._data.region.push({
-          vs: this._data.data.map(d => [this._scaleX(d.label), this._scaleY(d.v[0].v)]),
+          vs: this._data.data.map((d) => [this._scaleX(d.label), this._scaleY(d.v[0].v)]),
           key: source.valueDescription[0],
           id: 'wave-high-low-region-high',
         })
       }
       if (regionType === STATIC.REGION_TYPE[1].key || regionType === STATIC.REGION_TYPE[2].key) {
         this._data.region.push({
-          vs: this._data.data.map(d => [this._scaleX(d.label), this._scaleY(d.v[1].v)]),
+          vs: this._data.data.map((d) => [this._scaleX(d.label), this._scaleY(d.v[1].v)]),
           key: source.valueDescription[1],
           id: 'wave-high-low-region-low',
         })
@@ -205,7 +198,7 @@ export default class HighLow extends Base {
 
     const averageLine = this.config('averageLine')
     const averageValue = this.config('averageValue') || (this._data.maxValue + this._data.minValue) / 2
-    const averageLineColor = this.config('averageLineColor')
+    // const averageLineColor = this.config('averageLineColor')
     const regionVisible = this.config('regionVisible')
     const regionType = this.config('regionType')
     const regionOpacity = this.config('regionOpacity')
@@ -227,35 +220,29 @@ export default class HighLow extends Base {
       this._areaGenerator = d3.area().y0(this.mainHeight)
       const defs = this._regionContainer.append('defs')
       if (regionType === STATIC.REGION_TYPE[0].key || regionType === STATIC.REGION_TYPE[2].key) {
-        const linearGradient = defs.append('linearGradient')
+        const linearGradient = defs
+          .append('linearGradient')
           .attr('x1', 0)
           .attr('y1', 0)
           .attr('x2', 0)
           .attr('id', 'wave-high-low-region-high')
           .attr('y2', '110%')
 
-        linearGradient.append('stop')
-          .attr('offset', '0%')
-          .style('stop-color', hexToRgb(highColor, regionOpacity))
-        linearGradient.append('stop')
-          .attr('offset', '100%')
-          .style('stop-color', hexToRgb(highColor, 0))
+        linearGradient.append('stop').attr('offset', '0%').style('stop-color', hexToRgb(highColor, regionOpacity))
+        linearGradient.append('stop').attr('offset', '100%').style('stop-color', hexToRgb(highColor, 0))
       }
 
       if (regionType === STATIC.REGION_TYPE[1].key || regionType === STATIC.REGION_TYPE[2].key) {
-        const linearGradient = defs.append('linearGradient')
+        const linearGradient = defs
+          .append('linearGradient')
           .attr('x1', 0)
           .attr('y1', 0)
           .attr('x2', 0)
           .attr('id', 'wave-high-low-region-low')
           .attr('y2', '110%')
 
-        linearGradient.append('stop')
-          .attr('offset', '0%')
-          .style('stop-color', hexToRgb(lowColor, regionOpacity))
-        linearGradient.append('stop')
-          .attr('offset', '100%')
-          .style('stop-color', hexToRgb(lowColor, 0))
+        linearGradient.append('stop').attr('offset', '0%').style('stop-color', hexToRgb(lowColor, regionOpacity))
+        linearGradient.append('stop').attr('offset', '100%').style('stop-color', hexToRgb(lowColor, 0))
       }
     }
 
@@ -265,7 +252,8 @@ export default class HighLow extends Base {
     // 如果显示均线
     if (averageLine) {
       const y = this._scaleY(averageValue)
-      this.root.append('line')
+      this.root
+        .append('line')
         .attr('y1', y)
         .attr('y2', y)
         .attr('x1', 0)
@@ -292,76 +280,75 @@ export default class HighLow extends Base {
     const showItemTarget = this.config('showItemTarget')
     const valueColor = this.config('valueColor')
     const valueSize = this.fontSize(this.config('valueSize'))
-    const regionType = this.config('regionType')
+    // const regionType = this.config('regionType')
     const time = this.config('updateDuration')
-    const regionVisible = this.config('regionVisible')
+    // const regionVisible = this.config('regionVisible')
     const lineWidth = 1
 
-    const {labels, data, region} = this._data
+    // const {labels, data, region} = this._data
+    const {data, region} = this._data
 
     // 是否显示更新动画
     const animation = this.config('updateAnimation') ? `transform ${time / 1000}s` : 'none'
 
-    const getHeight = v => 0 - (this.mainHeight - this._scaleY(v))
+    const getHeight = (v) => 0 - (this.mainHeight - this._scaleY(v))
 
     // 报错之后重绘，具体说明看line
     if (!this._isWarn) {
       const canUnRemoveChart = ['.wave-title', '.wave-unit']
-      canUnRemoveChart.forEach(x => {
-        this.container.select(x)
-          .attr('display', 'block')
+      canUnRemoveChart.forEach((x) => {
+        this.container.select(x).attr('display', 'block')
       })
       this.container.select('.wave-warnInfo').remove()
     }
 
     // 更新区域
-    this._regionContainer
-      .update('path.wave-high-low-region', {
-        data: region,
-        dataKey: d => d.key,
+    this._regionContainer.update('path.wave-high-low-region', {
+      data: region,
+      dataKey: (d) => d.key,
 
-        enter: {
-          attr: {
-            d: d => this._areaGenerator(d.vs),
-            fill: d => `url(#${d.id})`,
-            'transform-origin': 'bottom',
-          },
+      enter: {
+        attr: {
+          d: (d) => this._areaGenerator(d.vs),
+          fill: (d) => `url(#${d.id})`,
+          'transform-origin': 'bottom',
         },
-        transitionAll: {
-          attr: {
-            d: d => this._areaGenerator(d.vs),
-          },
+      },
+      transitionAll: {
+        attr: {
+          d: (d) => this._areaGenerator(d.vs),
         },
-      })
+      },
+    })
 
     // 更新高低点
     this._pointContainer
       .update('g.wave-high-low-item', {
         data,
-        dataKey: d => d.label,
+        dataKey: (d) => d.label,
 
         style: {
-          transform: (d, i) => `translate(${this._scaleX(d.label)}px, ${this.mainHeight}px)`,
+          transform: (d) => `translate(${this._scaleX(d.label)}px, ${this.mainHeight}px)`,
           transition: animation,
         },
       })
 
       // 连线
       .update('rect.wave-high-low-point-line', {
-        data: d => [d.v],
+        data: (d) => [d.v],
 
         enter: {
           attr: {
             fill: lineColor,
             height: 0,
             width: lineWidth,
-            y: d => getHeight(d[0].v > d[1].v ? d[0].v : d[1].v),
+            y: (d) => getHeight(d[0].v > d[1].v ? d[0].v : d[1].v),
           },
         },
         transitionAll: {
           attr: {
-            height: d => Math.abs(getHeight(d[0].v) - getHeight(d[1].v)),
-            y: d => getHeight(d[0].v > d[1].v ? d[0].v : d[1].v),
+            height: (d) => Math.abs(getHeight(d[0].v) - getHeight(d[1].v)),
+            y: (d) => getHeight(d[0].v > d[1].v ? d[0].v : d[1].v),
           },
         },
       })
@@ -369,28 +356,28 @@ export default class HighLow extends Base {
       // 节点
       .upper()
       .update('circle.wave-high-low-point', {
-        data: d => d.v,
+        data: (d) => d.v,
 
         enter: {
           attr: {
             r: 0,
-            cy: d => getHeight(d.v),
-            fill: d => d.c,
+            cy: (d) => getHeight(d.v),
+            fill: (d) => d.c,
           },
         },
 
         transitionAll: {
           attr: {
             r: pointSize,
-            cy: d => getHeight(d.v),
+            cy: (d) => getHeight(d.v),
           },
         },
       })
 
-    // 更新值
+      // 更新值
       .upper()
       .update('text.wave-high-low-value', {
-        data: showItemTarget ? d => d.v : null,
+        data: showItemTarget ? (d) => d.v : null,
 
         enter: {
           attr: {
@@ -402,10 +389,10 @@ export default class HighLow extends Base {
         },
         all: {
           attr: {
-            y: d => getHeight(d.v),
+            y: (d) => getHeight(d.v),
           },
         },
-        text: d => (this._isWarn ? '' : this.formatNumber(d.v)),
+        text: (d) => (this._isWarn ? '' : this.formatNumber(d.v)),
       })
 
     return this
@@ -430,17 +417,21 @@ export default class HighLow extends Base {
     const loopAnimationDelay = this.config('loopAnimationDelay')
 
     if (enableLoopAnimation) {
-      this.rippleAnimation = new RippleAnimation({
-        targets: this._pointContainer.selectAll('.wave-high-low-point'),
-        delay: loopAnimationDelay,
-        duration: loopAnimationDuration,
-        scale: 2.3,
-        loop: true,
-      }, this)
+      this.rippleAnimation = new RippleAnimation(
+        {
+          targets: this._pointContainer.selectAll('.wave-high-low-point'),
+          delay: loopAnimationDelay,
+          duration: loopAnimationDuration,
+          scale: 2.3,
+          loop: true,
+        },
+        this
+      )
     }
 
     if (enableEnterAnimation) {
-      this._pointContainer.selectAll('.wave-high-low-point')
+      this._pointContainer
+        .selectAll('.wave-high-low-point')
         .setAnimation({
           attr: {
             r: pointSize,
@@ -463,13 +454,12 @@ export default class HighLow extends Base {
           },
         })
 
-      this._regionContainer.selectAll('.wave-high-low-region')
-        .setAnimation({
-          style: {
-            transform: {from: 'scale(1, 0)', to: 'scale(1, 1)'},
-          },
-          duration: enterAnimationDuration,
-        })
+      this._regionContainer.selectAll('.wave-high-low-region').setAnimation({
+        style: {
+          transform: {from: 'scale(1, 0)', to: 'scale(1, 1)'},
+        },
+        duration: enterAnimationDuration,
+      })
     } else {
       // 关闭动画
       // .....

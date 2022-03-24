@@ -1,13 +1,13 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import River from '../../../../waves-src/river'
-import translate from './translate'
+import Renju from '../../../../waves-src/renju'
+import translate from './tarnslate'
 
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
       const translatedOptions = translate(options)
-      const instance = new River(translatedOptions)
+      const instance = new Renju(translatedOptions)
       instance.data(translatedOptions.data)
       instance.draw({
         redraw: true,
@@ -23,7 +23,7 @@ const Adapter = () =>
       try {
         const {options: optionsData} = options
         const translatedOptions = translate(optionsData)
-        const instance = new River(translatedOptions)
+        const instance = new Renju(translatedOptions)
         instance._option = translatedOptions
         instance.data(translatedOptions.data)
         instance.draw({

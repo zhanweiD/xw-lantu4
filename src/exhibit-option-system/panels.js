@@ -89,14 +89,14 @@ const global = {
   name: 'global',
   sections: [
     // TODO 主题待开放
-    // {
-    //   name: 'theme',
-    //   fields: [
-    //     {
-    //       name: 'themeSelect',
-    //     },
-    //   ],
-    // },
+    {
+      name: 'themeColor',
+      fields: [
+        {
+          name: 'theme',
+        },
+      ],
+    },
     {
       name: 'grid',
       fields: [

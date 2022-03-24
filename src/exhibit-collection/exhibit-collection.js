@@ -4,6 +4,7 @@ import {alldecorations} from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
+import {themeConfigs} from '@common/theme'
 import {
   bimAmtn,
   bimWhite,
@@ -111,10 +112,19 @@ export const exhibitRegister = (exhibit) => {
       Model,
       initModel({art, schema, event, data}) {
         // 创建组件的模型实例
+        let themeType = ''
+        // 创建组件的模型实例
+        if (art.global.options.sections.themeColor.fields.theme.value) {
+          themeType = art.global.options.sections.themeColor.fields.theme.value
+        } else {
+          themeType = art.global.options.sections.themeColor.fields.theme
+        }
         const model = Model.create(
           {
             context: {
+              theme: themeConfigs[themeType].colors,
               baseFontSize: (1080 / 1050).toFixed(2) - 0,
+              themeColors: themeConfigs[themeType].colors,
             },
           },
           {

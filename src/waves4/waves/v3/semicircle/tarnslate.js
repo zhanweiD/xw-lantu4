@@ -5,10 +5,35 @@ const getRealData = (dataSource) => {
     if (!dataSource) {
       return {}
     }
-    return dataSource
+    // 数据结构赋值
+    const [[tag1, tag2, tag3], [label1, label2, label3], ...datas] = dataSource
+    const dataArray = []
+    datas.forEach((i) => {
+      const [label, compare, value] = i
+      dataArray.push({
+        [tag1]: label,
+        [tag2]: compare,
+        [tag3]: value,
+      })
+    })
+    return {
+      labelKey: {
+        tag: tag1,
+        name: label1,
+      },
+      compareKey: {
+        tag: tag2,
+        name: label2,
+      },
+      valueKey: {
+        tag: tag3,
+        name: label3,
+      },
+      data: dataArray,
+    }
   } catch (e) {
     console.error('数据解析失败', {dataSource})
-    return []
+    return {}
   }
 }
 
@@ -28,6 +53,7 @@ function translate(schema) {
   const {getOption, mapOption} = layers[0]
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
+  //   config.data = getRealData(data)
   config.data = getRealData(data)
 
   return {
@@ -42,6 +68,7 @@ function translate(schema) {
     ...config,
   }
 }
+
 export default (...parameter) => {
   try {
     return translate(...parameter)

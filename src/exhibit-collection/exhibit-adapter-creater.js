@@ -121,7 +121,6 @@ const createExhibitAdapter = (hooks) =>
         ...this.size,
         isPreview: !this.isEdit,
       }
-
       // 定义才添加的数据
       const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar']
       liveProps.forEach((prop) => {

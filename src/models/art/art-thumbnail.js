@@ -2,7 +2,7 @@ import commonAction from '@utils/common-action'
 import config from '@utils/config'
 import {types, getEnv, flow, getRoot} from 'mobx-state-tree'
 import createLog from '@utils/create-log'
-
+import thumbnailImages from './thumbnail.png'
 const log = createLog('@models/art/art-thumbnail.js')
 
 export const MArtThumbnail = types
@@ -39,11 +39,11 @@ export const MArtThumbnail = types
       const minRatio = 2.1
 
       const frameRatio = frameWidth / frameHeight
-
+      const imageUrl = self.thumbnail ? self.thumbnail : thumbnailImages
       // 默认样式
       const style = {
         height: `${Math.floor(containerHeight / frameRatio)}px`,
-        backgroundImage: `url(${self.thumbnail})`,
+        backgroundImage: `url(${imageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -57,9 +57,8 @@ export const MArtThumbnail = types
       // 超出最小边界
       if (frameRatio < minRatio) {
         style.height = 154
-        style.backgroundSize = 'contain'
+        // style.backgroundSize = 'contain'
       }
-
       return style
     },
   }))

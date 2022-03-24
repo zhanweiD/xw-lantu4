@@ -4,6 +4,55 @@
 // - 向后兼容的设计
 // - 相对位置的图标
 
+// 主题
+
+const theme = {
+  type: 'select',
+  label: 'themeLabel',
+  defaultValue: 'fairyLand',
+  options: [
+    {
+      key: 'theme.fairyLand',
+      value: 'fairyLand',
+    },
+    {
+      key: 'theme.emeraldGreen',
+      value: 'emeraldGreen',
+    },
+    {
+      key: 'theme.duskUniverse',
+      value: 'duskUniverse',
+    },
+    {
+      key: 'theme.glaze',
+      value: 'glaze',
+    },
+    {
+      key: 'theme.exquisite',
+      value: 'exquisite',
+    },
+    {
+      key: 'theme.blueGreen',
+      value: 'blueGreen',
+    },
+    {
+      key: 'theme.greenRed',
+      value: 'greenRed',
+    },
+    {
+      key: 'theme.blueRed',
+      value: 'blueRed',
+    },
+    {
+      key: 'theme.orangePurple',
+      value: 'orangePurple',
+    },
+    {
+      key: 'theme.brownGreen',
+      value: 'brownGreen',
+    },
+  ],
+}
 // gis
 // 相机位置
 const origin = {
@@ -865,7 +914,25 @@ const lineFallback = {
     },
   ],
 }
+const lineOpacity = {
+  type: 'number',
+  label: 'lineOpacity',
+  min: 0,
+  max: 1,
+  step: 0.1,
+}
 
+const lineColor = {
+  type: 'color',
+  label: 'lineColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+
+const arcLineColor = {
+  type: 'color',
+  label: 'lineColor',
+  defaultValue: 'rgba(0, 255, 255, 0.6)',
+}
 /**
  * =====================================
  * range
@@ -1219,7 +1286,42 @@ const labelOffset = {
   min: 0,
   max: 50,
 }
-
+const labelOffsetX = {
+  type: 'number',
+  label: 'labelOffsetX',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
+const labelOffsetY = {
+  type: 'number',
+  label: 'labelOffsetY',
+  defaultValue: 5,
+  min: -100,
+  max: 100,
+}
+// 标签颜色
+const labelColor = {
+  type: 'color',
+  label: 'labelColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+// 标签角度
+const labelAngle = {
+  type: 'number',
+  label: 'labelAngle',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
+// 标签字体
+const labelSize = {
+  type: 'number',
+  label: 'labelSize',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
 // 圆大小
 const circleSize = {
   type: 'number',
@@ -1227,6 +1329,16 @@ const circleSize = {
   defaultValue: 10,
 }
 
+const orderType = {
+  type: 'check',
+  label: 'orderType',
+  defaultValue: 'DEFAULT',
+  options: [
+    {key: '默认', value: 'DEFAULT'},
+    {key: '降序', value: 'MAX_MIN'},
+    {key: '升序', value: 'MIN_MAX'},
+  ],
+}
 // 桑基图对齐
 const sankeyAlign = {
   type: 'check',
@@ -1251,8 +1363,63 @@ const nodeGap = {
   defaultValue: 10,
 }
 
+const valueSize = {
+  type: 'number',
+  label: 'valueSize',
+  defaultValue: 12,
+}
+const valueColor = {
+  type: 'color',
+  label: 'valueColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+const valueType = {
+  type: 'check',
+  label: 'valueSize',
+  defaultValue: 'SCALE',
+  options: [
+    {key: '百分比', value: 'SCALE'},
+    {key: '数值', value: 'REAL'},
+  ],
+}
+const valueOffsetY = {
+  type: 'number',
+  label: 'valueOffsetY',
+  defaultValue: 12,
+}
+
+const decimalNumber = {
+  type: 'number',
+  label: 'decimalNumber',
+  defaultValue: 0,
+  min: 0,
+  max: 10,
+}
+// 圆点透明度
+const circleOpacity = {
+  type: 'number',
+  label: 'circleOpacity',
+  defaultValue: 0.6,
+  min: 0,
+  max: 1,
+  step: 0.1,
+}
+// 圆点半径
+const circleMaxRadius = {
+  type: 'number',
+  label: 'circleMaxRadius',
+  defaultValue: 40,
+}
 export default {
+  theme,
+  valueOffsetY,
+  valueType,
+  valueColor,
+  valueSize,
+  circleMaxRadius,
+  circleOpacity,
   echartsoption,
+  decimalNumber,
   // 偏移
   offset,
   padding,
@@ -1343,6 +1510,10 @@ export default {
   lineSmooth,
   // 线缺省
   lineFallback,
+  //线条透明度
+  lineOpacity,
+  //线条颜色
+  lineColor,
   // 数值范围
   numberRange,
   // 填充模式
@@ -1391,8 +1562,14 @@ export default {
   circleSize,
   // 文字偏移
   labelOffset,
+  labelColor,
+  labelAngle,
+  labelSize,
+  labelOffsetX,
+  labelOffsetY,
   // 桑基图对齐
   sankeyAlign,
+  arcLineColor,
   nodeWidth,
   nodeGap,
   // 圆角大小
@@ -1414,4 +1591,5 @@ export default {
   layerName,
   mapService,
   gisTheme,
+  orderType,
 }
