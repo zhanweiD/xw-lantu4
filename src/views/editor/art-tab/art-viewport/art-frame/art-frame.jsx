@@ -29,7 +29,6 @@ const ArtFrame = ({frame, art}) => {
   reverseMaterials.reverse()
   const {effective, fields} = global.options.sections.watermark
   const {theme} = global.options.sections.themeColor.fields
-  console.log(theme.value)
   const gridRef = useRef(null)
 
   const {t} = useTranslation()

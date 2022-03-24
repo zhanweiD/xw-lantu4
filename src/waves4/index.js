@@ -44,6 +44,8 @@ import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
 import renju from './waves/v3/renju'
+import semicircle from './waves/v3/semicircle'
+
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
 import i18n from '@i18n'
@@ -65,7 +67,7 @@ const waves = {
   waterfallColumn,
   percentageColumn,
   renju,
-
+  semicircle,
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -153,6 +155,7 @@ const categories = [
       groupLineColumn,
       stackLineColumn,
       renju,
+      semicircle,
     ],
   },
   {

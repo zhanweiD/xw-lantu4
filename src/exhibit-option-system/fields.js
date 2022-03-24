@@ -900,6 +900,12 @@ const lineColor = {
   label: 'lineColor',
   defaultValue: 'rgba(0, 255, 255, 1)',
 }
+
+const arcLineColor = {
+  type: 'color',
+  label: 'lineColor',
+  defaultValue: 'rgba(0, 255, 255, 0.6)',
+}
 /**
  * =====================================
  * range
@@ -1296,6 +1302,16 @@ const circleSize = {
   defaultValue: 10,
 }
 
+const orderType = {
+  type: 'check',
+  label: 'orderType',
+  defaultValue: 'DEFAULT',
+  options: [
+    {key: '默认', value: 'DEFAULT'},
+    {key: '降序', value: 'MAX_MIN'},
+    {key: '升序', value: 'MIN_MAX'},
+  ],
+}
 // 桑基图对齐
 const sankeyAlign = {
   type: 'check',
@@ -1345,6 +1361,13 @@ const valueOffsetY = {
   defaultValue: 12,
 }
 
+const decimalNumber = {
+  type: 'number',
+  label: 'decimalNumber',
+  defaultValue: 0,
+  min: 0,
+  max: 10,
+}
 // 圆点透明度
 const circleOpacity = {
   type: 'number',
@@ -1369,6 +1392,7 @@ export default {
   circleMaxRadius,
   circleOpacity,
   echartsoption,
+  decimalNumber,
   // 偏移
   offset,
   padding,
@@ -1518,6 +1542,7 @@ export default {
   labelOffsetY,
   // 桑基图对齐
   sankeyAlign,
+  arcLineColor,
   nodeWidth,
   nodeGap,
   // 圆角大小
@@ -1537,4 +1562,5 @@ export default {
   gisSnow,
   gisRain,
   gisElevation,
+  orderType,
 }

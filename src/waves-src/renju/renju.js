@@ -80,7 +80,6 @@ export default class Renju extends Base {
     const data = dataTransformFor111(source)
 
     const {datas} = data
-    console.log(datas)
 
     const maxValues = dataUtil.maxValue(source, source.maxValue)
     this._maxValue = maxValues[source.unit[0]]

@@ -16,6 +16,9 @@ export default {
   remove: 'Remove',
   description: 'Description',
   themeLabel: 'Theme',
+  orderType: 'Sort',
+  arc: 'Arc',
+  decimalNumber: 'Decimal Number',
   loading: {
     error: 'Failed to load',
     retry: 'Reload',
@@ -101,6 +104,7 @@ export default {
   lineCurve: 'Curve',
   lineFallback: 'Fallback',
   lineColor: 'Color',
+  arcLineColor: 'Line Color',
   lineOpacity: 'Opacity',
   circle: 'Circle',
   circleOpacity: 'Opacity',

@@ -16,6 +16,9 @@ export default {
   remove: '删除',
   description: '描述',
   themeLabel: '主题',
+  orderType: '排序',
+  arc: '弧',
+  decimalNumber: '小数点',
   loading: {
     error: '加载失败',
     retry: '重新加载',
@@ -111,6 +114,7 @@ export default {
   lineWidth: '线宽',
   lineCurve: '曲线',
   lineColor: '颜色',
+  arcLineColor: '线条颜色',
   lineOpacity: '透明度',
   lineFallback: '缺省',
   circle: '圆点',

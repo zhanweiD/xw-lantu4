@@ -1,13 +1,13 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import River from '../../../../waves-src/river'
-import translate from './translate'
+import Semicircle from '../../../../waves-src/semicircle'
+import translate from './tarnslate'
 
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
       const translatedOptions = translate(options)
-      const instance = new River(translatedOptions)
+      const instance = new Semicircle(translatedOptions)
       instance.data(translatedOptions.data)
       instance.draw({
         redraw: true,
@@ -23,7 +23,7 @@ const Adapter = () =>
       try {
         const {options: optionsData} = options
         const translatedOptions = translate(optionsData)
-        const instance = new River(translatedOptions)
+        const instance = new Semicircle(translatedOptions)
         instance._option = translatedOptions
         instance.data(translatedOptions.data)
         instance.draw({
@@ -33,7 +33,6 @@ const Adapter = () =>
         console.error('图层配置解析错误，更新失败', error)
       }
     },
-
     // 销毁图表实例
     destroy({instance}) {
       instance.destroy()

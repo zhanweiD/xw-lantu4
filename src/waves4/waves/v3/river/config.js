@@ -14,6 +14,6 @@ export const config = (k) => ({
     }),
   ],
   data,
-  axis: true,
-  legend: true,
+  axis: false,
+  legend: false,
 })

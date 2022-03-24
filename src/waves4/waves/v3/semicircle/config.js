@@ -2,8 +2,8 @@ import data from './data'
 import layer from './layer'
 
 export const config = (k) => ({
-  key: 'renju',
-  name: k('renju'),
+  key: 'semicircle',
+  name: k('semicircle'),
   layout: () => [10, 6],
   padding: [60, 0, 60, 60],
   layers: [
@@ -13,6 +13,6 @@ export const config = (k) => ({
     }),
   ],
   data,
-  axis: false,
+  axis: true,
   legend: false,
 })
