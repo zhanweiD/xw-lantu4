@@ -25,7 +25,6 @@ export const createLayer = (category, key, layer, env) => {
         // 需要判断是否是gis，如果是gis就把数据塞到每一层里去
         const MConfig = transform({id, name, sections, fields})
         self.options = MConfig.create()
-        console.log(self.options)
         if (layer.data) {
           self.data = MDataField.create(
             {
@@ -37,7 +36,6 @@ export const createLayer = (category, key, layer, env) => {
             }
           )
         }
-        console.log(self.data)
       }
 
       const getData = () => {
@@ -48,7 +46,7 @@ export const createLayer = (category, key, layer, env) => {
             data = hJSON.parse(privateData)
           }
           if (type === 'source') {
-            const {datas = []} = self.art_
+            const {datas = []} = self.art_ || {}
             const sourceData = datas.find((v) => v.id === source)
             if (sourceData) {
               let value = []

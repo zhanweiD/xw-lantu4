@@ -19,7 +19,7 @@ class DataFrame {
   // 获取数据
   getData(options) {
     const {type, columns = true} = options || {}
-    const keys = this.#columns.map((item) => item.column)
+    const keys = this.#columns?.map((item) => item.column)
     switch (type) {
       case 'dict': {
         return this.#data
@@ -42,7 +42,7 @@ class DataFrame {
         return data
       }
       default: {
-        const data = this.#data.map((row) => {
+        const data = this.#data?.map((row) => {
           return keys.map((key) => row[key])
         })
         if (columns) {

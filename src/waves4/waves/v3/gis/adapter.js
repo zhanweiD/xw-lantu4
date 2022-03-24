@@ -17,10 +17,11 @@ const Adapter = () =>
       const translatedOptions = translate(options)
       console.log(translatedOptions)
     },
-    update({options}) {
-      console.log(options)
-      const translatedOptions = translate(options)
-      console.log(translatedOptions)
+    update(updateConfig) {
+      const {updated} = updateConfig
+      const {options} = updated || {}
+      console.log(updateConfig)
+      console.log(options[Object.keys(options)[0]])
     },
     // 销毁
     destroy({instance}) {

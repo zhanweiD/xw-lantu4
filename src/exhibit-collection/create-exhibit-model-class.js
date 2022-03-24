@@ -149,8 +149,7 @@ export const createExhibitModelClass = (exhibit) => {
             data: self.data_,
           }),
         ]
-        console.log(self.data)
-        if (self.data) {
+        if (layers.data) {
           const models = []
           self.layers.forEach((layer) => {
             models.push(...layer.options.getRelationFields('columnSelect'))

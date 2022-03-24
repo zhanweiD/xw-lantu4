@@ -29,7 +29,7 @@ export const layerOptionMap = new Map([
   [
     'bimAmtn',
     ({mapOption}) => {
-      const mapping = [['base.gisElevation', 'gisElevation']]
+      const mapping = [['base.elevation', 'elevation']]
       const storage = mapOption(mapping)
       return storage.get()
     },
