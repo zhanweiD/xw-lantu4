@@ -14,20 +14,18 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      console.log(options)
       const translatedOptions = translate(options)
       // const instance = new Earth({
       //   container: options.container,
       //   showMapHelper: true
       // })
       // console.log(instance)
-      console.log(translatedOptions)
+      console.log(options, translatedOptions)
     },
     update(updateConfig) {
       const {updated} = updateConfig
       const {options} = updated || {}
-      console.log(updateConfig)
-      console.log(options[Object.keys(options)[0]])
+      console.log(updateConfig, options[Object.keys(options)[0]])
     },
     // 销毁
     destroy({instance}) {

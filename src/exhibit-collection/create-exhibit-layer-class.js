@@ -29,7 +29,11 @@ export const createLayer = (category, key, layer, env) => {
           self.data = MDataField.create(
             {
               type: 'data',
-              relationModels: self.options.getRelationFields('columnSelect'),
+              sectionStyleType: 1,
+              value: {
+                type: 'private',
+                private: hJSON.stringify(layer.data, {space: 2, quotes: 'strings', separator: true}),
+              },
             },
             {
               ...env,

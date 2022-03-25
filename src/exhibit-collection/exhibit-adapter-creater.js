@@ -62,6 +62,7 @@ const createExhibitAdapter = (hooks) =>
           () => {
             // model.adapter.destroy() // 销毁之前实例，重新创建
             model.adapter.init()
+            // model.adapter.update()
           },
           {
             fireImmediately: true,
@@ -262,7 +263,6 @@ const createExhibitAdapter = (hooks) =>
           reaction(
             () => layer.options.updatedOptions,
             () => {
-              console.log('layer.options.updatedOptions')
               if (layer.effective) {
                 const updated = {
                   id: layer.id,
