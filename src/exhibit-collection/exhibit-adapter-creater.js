@@ -60,9 +60,7 @@ const createExhibitAdapter = (hooks) =>
         reaction(
           () => model.layers,
           () => {
-            // model.adapter.destroy() // 销毁之前实例，重新创建
-            model.adapter.init()
-            // model.adapter.update()
+            model.adapter.observerModel()
           },
           {
             fireImmediately: true,
@@ -73,6 +71,7 @@ const createExhibitAdapter = (hooks) =>
     }
 
     constructor({container, height, width, model, isEdit, staticDrawOptions}) {
+      console.log(this)
       this.container = container
       this.size = {
         width,

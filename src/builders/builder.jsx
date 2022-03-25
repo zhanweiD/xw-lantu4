@@ -65,6 +65,7 @@ const Builder = ({exhibit}) => {
     {
       name: '倾斜摄影层',
       action: () => {
+        // console.log(exhibit, bimAmtn())
         exhibit.addLayer([bimAmtn()])
         menu.hide()
       },
@@ -191,7 +192,15 @@ const Builder = ({exhibit}) => {
                 key === 'gis' ? (
                   !index ? null : (
                     <div className="fbh">
-                      <IconButton icon="close" iconSize={14} buttonSize={24} onClick={() => exhibit.delLayer(index)} />
+                      <IconButton
+                        icon="close"
+                        iconSize={14}
+                        buttonSize={24}
+                        onClick={() => {
+                          // console.log(exhibit)
+                          exhibit.delLayer(index)
+                        }}
+                      />
                     </div>
                   )
                 ) : (
