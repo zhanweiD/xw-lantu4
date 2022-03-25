@@ -198,7 +198,7 @@ const categories = [
     // 基础地图
     name: 'classifyMap',
     icon: 'exhibit-map',
-    exhibits: [baseMap],
+    exhibits: [baseMap, gis],
   },
   {
     // 其他

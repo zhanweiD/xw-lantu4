@@ -8,7 +8,7 @@ import layer from './layers/baseMap'
 export const config = (k) => ({
   key: 'gis',
   name: k('gis'),
-  layout: () => [10, 6],
+  layout: () => [10, 12],
   padding: [60, 0, 60, 60],
   layers: [layer()],
   gisBase: {
