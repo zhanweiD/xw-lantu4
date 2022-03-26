@@ -1,7 +1,7 @@
 export default () => {
   return {
     name: '锤子沙漏',
-    type: 'renju', // 必要
+    type: 'horizontalHourglass', // 必要
     sections: [
       {
         name: 'title',

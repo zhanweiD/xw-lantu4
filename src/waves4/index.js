@@ -46,6 +46,8 @@ import river from './waves/v3/river'
 import renju from './waves/v3/renju'
 import semicircle from './waves/v3/semicircle'
 import horizontalHourglass from './waves/v3/hourglass'
+import histogram from './waves/v3/histogram'
+
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
 import i18n from '@i18n'
@@ -69,6 +71,7 @@ const waves = {
   renju,
   semicircle,
   horizontalHourglass,
+  histogram,
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -158,6 +161,7 @@ const categories = [
       renju,
       semicircle,
       horizontalHourglass,
+      histogram,
     ],
   },
   {
