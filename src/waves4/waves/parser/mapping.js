@@ -246,6 +246,19 @@ export const layerOptionMap = new Map([
         ['label.shadow.offset', 'style.text.shadow.offset'],
         ['label.shadow.blur', 'style.text.shadow.blur'],
         ['label.shadow.singleColor', 'style.text.shadow.color'],
+        // 动画
+        ['animation.enterAnimation.animationType', 'animation.curve.enter.type'],
+        ['animation.enterAnimation.duration', 'animation.curve.enter.duration'],
+        ['animation.enterAnimation.delay', 'animation.curve.enter.delay'],
+        ['animation.enterAnimation.animationType', 'animation.text.enter.type'],
+        ['animation.enterAnimation.duration', 'animation.text.enter.duration'],
+        ['animation.enterAnimation.delay', 'animation.text.enter.delay'],
+        ['animation.loopAnimation.animationType', 'animation.curve.loop.type'],
+        ['animation.loopAnimation.duration', 'animation.curve.loop.duration'],
+        ['animation.loopAnimation.delay', 'animation.curve.loop.delay'],
+        ['animation.loopAnimation.singleColor', 'animation.curve.loop.color'],
+        ['animation.loopAnimation.animationDirection', 'animation.curve.loop.direction'],
+        ['animation.loopAnimation.scope', 'animation.curve.loop.scope'],
       ]
       const storage = mapOption(mapping)
       if (getOption('area.effective') !== undefined) {

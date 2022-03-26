@@ -4,8 +4,81 @@
 // - 向后兼容的设计
 // - 相对位置的图标
 
-// 主题
+// 动画
+const enterAnimation = {
+  type: 'switch',
+  label: 'enterAnimation',
+  defaultValue: true,
+}
+const animationType = {
+  type: 'select',
+  label: 'animationType',
+  defaultValue: 'erase',
+  options: [
+    {
+      key: '淡入淡出',
+      value: 'fade',
+    },
+    {
+      key: '扫光',
+      value: 'scan',
+    },
+    {
+      key: '缩放',
+      value: 'zoom',
+    },
+    {
+      key: '擦除',
+      value: 'erase',
+    },
+  ],
+}
+const duration = {
+  type: 'number',
+  label: 'duration',
+  defaultValue: 2000,
+}
+const delay = {
+  type: 'number',
+  label: 'delay',
+  defaultValue: 100,
+}
+const scope = {
+  type: 'select',
+  label: 'scope',
+  defaultValue: 'stroke',
+  options: [
+    {
+      key: '填充',
+      value: 'stroke',
+    },
+  ],
+}
+const animationDirection = {
+  type: 'check',
+  label: 'animationDirection',
+  defaultValue: 'right',
+  options: [
+    {
+      key: '向上',
+      value: 'top',
+    },
+    {
+      key: '向右',
+      value: 'right',
+    },
+    {
+      key: '向下',
+      value: 'bottom',
+    },
+    {
+      key: '向左',
+      value: 'left',
+    },
+  ],
+}
 
+// 主题
 const theme = {
   type: 'select',
   label: 'themeLabel',
@@ -1592,4 +1665,11 @@ export default {
   mapService,
   gisTheme,
   orderType,
+  // 动画
+  enterAnimation,
+  animationType,
+  duration,
+  delay,
+  scope,
+  animationDirection,
 }
