@@ -18,6 +18,14 @@ export default {
   themeLabel: '主题',
   orderType: '排序',
   arc: '弧',
+  arcType: {
+    arcBackgroundWidth: '背景宽度',
+    arcWidth: '弧线宽度',
+    minRadius: '最小半径',
+    arcGap: '间隔',
+    order: '排序',
+    arcBackgroundColor: '背景色',
+  },
   decimalNumber: '小数点',
   loading: {
     error: '加载失败',
@@ -134,6 +142,7 @@ export default {
   valueType: '数值类型',
   valueColor: '数值颜色',
   valueOffsetY: '数值偏移度',
+  valueVisible: '数值显示',
   labelSize: '字号',
   labelColor: '文字颜色',
   labelAngle: '文字旋转',
