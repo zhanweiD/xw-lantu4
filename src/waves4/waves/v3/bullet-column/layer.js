@@ -1,7 +1,7 @@
 export default () => {
   return {
-    name: '锤子沙漏',
-    type: 'horizontalHourglass', // 必要
+    name: '子弹柱状',
+    type: 'bulletColumn', // 必要
     sections: [
       {
         name: 'title',
@@ -25,23 +25,19 @@ export default () => {
         ],
       },
       {
-        name: 'label',
+        name: 'legend',
         fields: [
           {
-            name: 'labelSize',
+            name: 'show',
+            defaultValue: true,
+          },
+          {
+            name: 'textSize',
             defaultValue: 12,
           },
           {
-            name: 'labelColor',
-            defaultValue: 'rgba(255, 255, 255, 0.65)',
-          },
-          {
-            name: 'labelAngle',
-            defaultValue: 0,
-          },
-          {
-            name: 'labelOffsetY',
-            defaultValue: 0,
+            name: 'singleColor',
+            defaultValue: 'rgb(255,255,255)',
           },
         ],
       },
@@ -55,19 +51,6 @@ export default () => {
           {
             name: 'valueColor',
             defaultValue: 'RGBA(255, 255, 255, 0.65)',
-          },
-        ],
-      },
-      {
-        name: 'circle',
-        fields: [
-          {
-            name: 'circleOpacity',
-            defaultValue: 0.6,
-          },
-          {
-            name: 'circleMaxRadius',
-            defaultValue: 40,
           },
         ],
       },

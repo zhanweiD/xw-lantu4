@@ -1441,6 +1441,13 @@ const valueSize = {
   label: 'valueSize',
   defaultValue: 12,
 }
+
+const valueVisible = {
+  type: 'switch',
+  label: 'valueVisible',
+  defaultValue: true,
+}
+
 const valueColor = {
   type: 'color',
   label: 'valueColor',
@@ -1483,14 +1490,69 @@ const circleMaxRadius = {
   label: 'circleMaxRadius',
   defaultValue: 40,
 }
+const minRadius = {
+  type: 'number',
+  label: 'arcType.minRadius',
+  defaultValue: 50,
+  min: 0,
+  max: 500,
+}
+
+const arcBackgroundWidth = {
+  type: 'number',
+  label: 'arcType.arcBackgroundWidth',
+  defaultValue: 10,
+  min: 0,
+  max: 50,
+}
+
+const order = {
+  type: 'check',
+  label: 'arcType.order',
+  defaultValue: 'POSITIVE',
+  options: [
+    {key: '升序', value: 'POSITIVE'},
+    {key: '降序', value: 'REVERSE'},
+    {key: '不排序', value: 'DEFAULT'},
+  ],
+}
+
+const arcBackgroundColor = {
+  type: 'color',
+  label: 'arcType.arcBackgroundColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+
+const arcWidth = {
+  type: 'number',
+  label: 'arcType.arcWidth',
+  defaultValue: 0,
+  min: 0,
+  max: 50,
+}
+
+const arcGap = {
+  type: 'number',
+  label: 'arcType.arcGap',
+  defaultValue: 0,
+  min: 0,
+  max: 50,
+}
 export default {
   theme,
   valueOffsetY,
   valueType,
   valueColor,
   valueSize,
+  valueVisible,
   circleMaxRadius,
   circleOpacity,
+  minRadius,
+  arcWidth,
+  arcBackgroundWidth,
+  arcBackgroundColor,
+  arcGap,
+  order,
   echartsoption,
   decimalNumber,
   // 偏移

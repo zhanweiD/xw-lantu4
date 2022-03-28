@@ -1,7 +1,7 @@
 export default () => {
   return {
-    name: '锤子沙漏',
-    type: 'horizontalHourglass', // 必要
+    name: '玉珏图',
+    type: 'radialBar', // 必要
     sections: [
       {
         name: 'title',
@@ -36,8 +36,8 @@ export default () => {
             defaultValue: 'rgba(255, 255, 255, 0.65)',
           },
           {
-            name: 'labelAngle',
-            defaultValue: 0,
+            name: 'valueVisible',
+            defaultValue: true,
           },
           {
             name: 'labelOffsetY',
@@ -46,28 +46,31 @@ export default () => {
         ],
       },
       {
-        name: 'value',
+        name: 'arc',
         fields: [
           {
-            name: 'valueSize',
-            defaultValue: 12,
+            name: 'arcWidth',
+            defaultValue: 0,
           },
           {
-            name: 'valueColor',
-            defaultValue: 'RGBA(255, 255, 255, 0.65)',
-          },
-        ],
-      },
-      {
-        name: 'circle',
-        fields: [
-          {
-            name: 'circleOpacity',
-            defaultValue: 0.6,
+            name: 'minRadius',
+            defaultValue: 50,
           },
           {
-            name: 'circleMaxRadius',
-            defaultValue: 40,
+            name: 'arcGap',
+            defaultValue: 10,
+          },
+          {
+            name: 'order',
+            defaultValue: 'POSITIVE',
+          },
+          {
+            name: 'arcBackgroundWidth',
+            defaultValue: 0,
+          },
+          {
+            name: 'arcBackgroundColor',
+            defaultValue: 'rgba(255,255,255,0.15)',
           },
         ],
       },
