@@ -49,8 +49,16 @@ const scope = {
   defaultValue: 'stroke',
   options: [
     {
-      key: '填充',
+      key: '中间',
       value: 'stroke',
+    },
+    {
+      key: '填满',
+      value: 'fill',
+    },
+    {
+      key: '全部',
+      value: 'both',
     },
   ],
 }
@@ -74,6 +82,14 @@ const animationDirection = {
     {
       key: '向左',
       value: 'left',
+    },
+    {
+      key: '向外',
+      value: 'outer',
+    },
+    {
+      key: '向内',
+      value: 'inner',
     },
   ],
 }
@@ -187,10 +203,10 @@ const sceneMode = {
     },
   ],
 }
-const showMask = {
+const enableMapInteractive = {
   type: 'switch',
-  label: 'showMask',
-  defaultValue: true,
+  label: 'enableMapInteractive',
+  defaultValue: false,
 }
 const viewFixed = {
   type: 'switch',
@@ -231,20 +247,70 @@ const mapService = {
   label: 'mapService',
   defaultValue: false,
 }
-const gisTheme = {
+const baseMapStyle = {
   type: 'select',
-  label: 'gisTheme',
-  defaultValue: 'blue',
+  label: 'baseMapStyle',
+  defaultValue: 'blueStyle',
   options: [
     {
       key: '蓝色',
-      value: 'blue',
+      value: 'blueStyle',
     },
     {
       key: '黑色',
-      value: 'black',
+      value: 'blackStyle',
     },
   ],
+}
+const viewportMode = {
+  type: 'check',
+  label: 'viewportMode',
+  defaultValue: 'manual',
+  options: [
+    {
+      key: '自动',
+      value: 'auto',
+    },
+    {
+      key: '手动',
+      value: 'manual',
+    },
+  ],
+}
+const longitude = {
+  type: 'number',
+  label: 'longitude',
+  defaultValue: 120,
+}
+const latitude = {
+  type: 'number',
+  label: 'latitude',
+  defaultValue: 30,
+}
+const zoom = {
+  type: 'number',
+  label: 'zoom',
+  defaultValue: 8,
+}
+const pitch = {
+  type: 'number',
+  label: 'pitch',
+  defaultValue: 0,
+}
+const bearing = {
+  type: 'number',
+  label: 'bearing',
+  defaultValue: 0,
+}
+const showMapControl = {
+  type: 'switch',
+  label: 'showMapControl',
+  defaultValue: true,
+}
+const showMapHelper = {
+  type: 'switch',
+  label: 'showMapHelper',
+  defaultValue: true,
 }
 
 /**
@@ -1655,7 +1721,7 @@ export default {
   origin,
   viewport,
   sceneMode,
-  showMask,
+  enableMapInteractive,
   viewFixed,
   coordinateAcquisitionResult,
   snow,
@@ -1663,7 +1729,15 @@ export default {
   elevation,
   layerName,
   mapService,
-  gisTheme,
+  baseMapStyle,
+  viewportMode,
+  longitude,
+  latitude,
+  zoom,
+  pitch,
+  bearing,
+  showMapControl,
+  showMapHelper,
   orderType,
   // 动画
   enterAnimation,

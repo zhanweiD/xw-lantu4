@@ -61,8 +61,8 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    gisBase: {...gisBase.base, ...gisBase.gisSpecialEffects},
     layers: configs,
+    ...gisBase,
   }
 }
 

@@ -23,7 +23,7 @@ const Exhibit = ({box, frame}) => {
   }, [id])
 
   return (
-    <div className="pa">
+    <div className="pa wh100p">
       <div ref={el} className="exhibit" />
     </div>
   )

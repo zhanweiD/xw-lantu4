@@ -1,7 +1,7 @@
 import React, {Children} from 'react'
 import {observer} from 'mobx-react-lite'
 import {useTranslation} from 'react-i18next'
-import c from 'classnames'
+// import c from 'classnames'
 import w from '@models'
 import Tab from '@components/tab'
 import Section from '@builders/section'
@@ -10,16 +10,15 @@ import Scroll from '@components/scroll'
 import Grid from '@components/grid'
 import {DragSource} from '@components/drag-and-drop'
 import Icon from '@components/icon'
-import s from './exhibit-panel.module.styl'
+// import s from './exhibit-panel.module.styl'
+import uuid from '@utils/uuid'
 
-const Category = ({category}) => {
+const Category = ({id, category}) => {
   const {t} = useTranslation()
   const {name, exhibits} = category
-  // console.log('ccc', `${t(`exhibit.${name}`)} (${exhibits.length})`)
-  // console.dir(category)
   return (
     <Section
-      id={`category-${category.name}`}
+      id={id}
       sessionId={`category-${category.name}`}
       childrenClassName=""
       name={`${t(`exhibit.${name}`)} (${exhibits.length})`}
@@ -62,11 +61,12 @@ const ExhibitPanel = () => {
   const {t} = useTranslation()
   const {exhibitPanel} = w.sidebar
   const {categories, categoriesEcharts} = exhibitPanel
-
+  let scrollToFn
+  console.log(scrollToFn)
   const TabItemContent = (cate) => (
     <div className="fbh h100p">
       {/* 临时隐藏掉 */}
-      <div className="pb8 hide">
+      {/* <div className="pb8">
         {Object.entries(cate).map(([id, category]) => (
           <Caption content={t(`exhibit.${category.name}`)} key={id}>
             <div
@@ -75,24 +75,37 @@ const ExhibitPanel = () => {
               }}
               className={c('hand fbv fbac fbjc', s.naviIcon)}
             >
-              {category.icon ? (
-                <Icon name={category.icon} fill="white" size={16} />
-              ) : (
-                t(`exhibit.${category.name}`).substring(0, 1)
-              )}
+              +
             </div>
           </Caption>
         ))}
-      </div>
-      <Scroll className="fb1 pb8">
+      </div> */}
+      <Scroll id={uuid()} className="fb1 pb8">
         {({scrollTo}) => {
           scrollToFn = scrollTo
-          return cate.map((category) => Children.toArray(<Category category={category} />))
+          return Object.entries(cate).map(([id, category]) => {
+            console.log(id)
+            const key = `category-${category.name}`
+            return Children.toArray(
+              <Category
+                key={key}
+                id={`category-${category.name}`}
+                // isFolded={session.get(key)}
+                category={category}
+              />
+            )
+          })
         }}
       </Scroll>
+
+      {/* <Scroll id={uuid()} className="fb1 pb8">
+        {({scrollTo}) => {
+          scrollToFn = scrollTo
+          return cate.map((category) => Children.toArray(<Category id={`category-${category.name}`} category={category} />))
+        }}
+      </Scroll> */}
     </div>
   )
-  let scrollToFn
   return (
     <>
       <Tab sessionId="exhibit-panel" className="fb1">
