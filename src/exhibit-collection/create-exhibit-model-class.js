@@ -139,25 +139,26 @@ export const createExhibitModelClass = (exhibit) => {
       }
 
       const addLayer = (layers) => {
-        const oldLayers = self.layers ? self.layers : []
-        self.layers = [
-          ...oldLayers,
-          ...createExhibitLayersClass(config.category, config.key, layers, {
-            exhibitId: self.id,
-            art: self.art_,
-            event: self.event_,
-            data: self.data_,
-          }),
-        ]
-        if (layers.data) {
-          const models = []
-          self.layers.forEach((layer) => {
-            models.push(...layer.options.getRelationFields('columnSelect'))
-          })
-
-          const relationModels = [].concat(...self.data.getRelationModels(), ...models)
-          self.data.bindRelationModels(relationModels)
-        }
+        self.set({
+          layers: [
+            ...self.layers,
+            ...createExhibitLayersClass(config.category, config.key, layers, {
+              exhibitId: self.id,
+              art: self.art_,
+              event: self.event_,
+              data: self.data_,
+            }),
+          ],
+        })
+        // self.layers = [
+        //   ...self.layers,
+        //   ...createExhibitLayersClass(config.category, config.key, layers, {
+        //     exhibitId: self.id,
+        //     art: self.art_,
+        //     event: self.event_,
+        //     data: self.data_,
+        //   }),
+        // ]
       }
 
       const delLayer = (index) => {

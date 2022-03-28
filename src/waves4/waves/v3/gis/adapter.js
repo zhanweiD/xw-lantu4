@@ -2,7 +2,7 @@
 // import {toJS} from 'mobx'
 // import debounce from 'lodash/debounce'
 // import cloneDeep from 'lodash/cloneDeep'
-// import {Earth} from 'wave-map'
+import {Earth} from 'wave-map'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 // import createEvent from '@common/event'
 import translate from './translate'
@@ -14,20 +14,19 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      console.log(options)
       const translatedOptions = translate(options)
-      // const instance = new Earth({
-      //   container: options.container,
-      //   showMapHelper: true
-      // })
+      const instance = new Earth(translatedOptions)
       // console.log(instance)
-      console.log(translatedOptions)
+      console.log(options, translatedOptions)
+      return instance
     },
     update(updateConfig) {
-      const {updated} = updateConfig
-      const {options} = updated || {}
-      console.log(updateConfig)
-      console.log(options[Object.keys(options)[0]])
+      const {instance} = updateConfig
+      // const {updated, instance} = updateConfig
+      // const {options} = updated || {}
+      // instance.updateProps()
+      // console.log(options[Object.keys(options)[0]])
+      console.log(updateConfig, instance)
     },
     // 销毁
     destroy({instance}) {

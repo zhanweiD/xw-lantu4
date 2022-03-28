@@ -5,7 +5,11 @@ export default () => {
     sections: [
       {
         name: 'base',
-        fields: [{name: 'elevation'}],
+        fields: [{name: 'elevation'}, {name: 'layerName'}],
+      },
+      {
+        name: 'dataMap',
+        fields: [{name: 'layerName'}],
       },
     ],
     data: [
