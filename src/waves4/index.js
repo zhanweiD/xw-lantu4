@@ -49,6 +49,9 @@ import horizontalHourglass from './waves/v3/hourglass'
 import histogram from './waves/v3/histogram'
 import bulletColumn from './waves/v3/bullet-column'
 import radialBar from './waves/v3/radial-bar'
+import orderedList from './waves/v3/ordered-list'
+
+import bullet from './waves/v3/bullet'
 
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
@@ -87,6 +90,8 @@ const waves = {
   intervalBar,
   waterfallBar,
   radialBar,
+  bullet,
+  orderedList,
   // 热力图
   rectMatrix,
   circleMatrix,
@@ -173,7 +178,7 @@ const categories = [
     // 条形图
     name: 'classifyBar',
     icon: 'exhibit-bar',
-    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar, radialBar],
+    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar, radialBar, bullet, orderedList],
   },
   {
     // 饼图

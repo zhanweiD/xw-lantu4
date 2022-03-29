@@ -302,6 +302,12 @@ const show = {
   defaultValue: true,
 }
 
+const trackShow = {
+  type: 'switch',
+  label: 'trackShow',
+  defaultValue: true,
+}
+
 // 区域偏移
 const areaOffset = {
   type: 'offset',
@@ -1441,7 +1447,13 @@ const valueSize = {
   label: 'valueSize',
   defaultValue: 12,
 }
-
+const valueWidth = {
+  type: 'number',
+  label: 'valueWidth',
+  defaultValue: 700,
+  min: 0,
+  max: 1000,
+}
 const valueVisible = {
   type: 'switch',
   label: 'valueVisible',
@@ -1538,15 +1550,117 @@ const arcGap = {
   min: 0,
   max: 50,
 }
+
+const showLabelValue = {
+  type: 'switch',
+  label: 'valueVisible',
+  defaultValue: true,
+}
+
+const labelValueColor = {
+  type: 'color',
+  label: 'labelValueColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+const labelYOffset = {
+  type: 'number',
+  label: 'labelYOffset',
+  defaultValue: 0,
+  min: -100,
+  max: 100,
+}
+const labelXOffset = {
+  type: 'number',
+  label: 'labelXOffset',
+  defaultValue: 0,
+  min: -100,
+  max: 100,
+}
+
+const trackBagHeight = {
+  type: 'number',
+  label: 'trackBagHeight',
+  defaultValue: 32,
+  min: 0,
+  max: 100,
+}
+
+const thresholdHeight = {
+  type: 'number',
+  label: 'thresholdHeight',
+  defaultValue: 32,
+  min: 0,
+  max: 100,
+}
+const trackHeight = {
+  type: 'number',
+  label: 'trackHeight',
+  defaultValue: 20,
+  min: 0,
+  max: 100,
+}
+const thresholdWidth = {
+  type: 'number',
+  label: 'thresholdWidth',
+  defaultValue: 4,
+  min: 0,
+
+  max: 100,
+}
+
+const lineOffset = {
+  type: 'number',
+  label: 'lineOffset',
+  defaultValue: 0,
+  min: 0,
+  max: 100,
+}
+
+const gradientDirection = {
+  type: 'check',
+  label: 'gradientDirection',
+  defaultValue: 'POSITIVE',
+  options: [
+    {key: '单色系', value: 'HIRONZATAL'},
+    {key: '多色系', value: 'VERTICAL'},
+  ],
+}
+const bgLineColor = {
+  type: 'color',
+  label: 'bgLineColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+
+const maxRow = {
+  type: 'number',
+  label: 'maxRow',
+  defaultValue: 80,
+  min: 0,
+  max: 100,
+}
 export default {
   theme,
   valueOffsetY,
+  bgLineColor,
+  maxRow,
+  gradientDirection,
+  lineOffset,
+  labelXOffset,
+  labelYOffset,
+  thresholdWidth,
+  trackHeight,
+  trackBagHeight,
+  valueWidth,
+  thresholdHeight,
   valueType,
   valueColor,
   valueSize,
   valueVisible,
   circleMaxRadius,
   circleOpacity,
+  showLabelValue,
+  labelValueColor,
+  trackShow,
   minRadius,
   arcWidth,
   arcBackgroundWidth,
