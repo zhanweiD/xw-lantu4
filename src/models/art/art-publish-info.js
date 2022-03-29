@@ -23,6 +23,14 @@ const PublishVersion = types.model('PublishVersion', {
   isOnline: types.boolean,
 })
 
+// 部署相关不该放在这，回头单独维护一个model
+const exportList = types.model('exportList', {
+  id: types.number,
+  ctime: types.number,
+  type: types.number,
+  remark: types.string,
+})
+
 export const MPublishInfo = types
   .model('MPublishInfo', {
     publishId: types.string,
@@ -31,6 +39,7 @@ export const MPublishInfo = types
     // publishType:types.string,
     // publishPassword:types.string,
     list: types.optional(types.array(PublishVersion), []),
+    exportList: types.optional(types.array(exportList), []),
   })
   .views((self) => ({
     get env_() {
@@ -42,7 +51,51 @@ export const MPublishInfo = types
     const {tip} = self.env_
     const afterCreate = () => {
       self.getVersions()
+      self.getExportList()
     }
+
+    const getExportList = flow(function* getExportList() {
+      try {
+        const res = yield io.art.getExportList({
+          ':artId': self.artId,
+        })
+        self.exportList = res
+      } catch (error) {
+        log.error('getExportList Error: ', error)
+      }
+    })
+    const exportTag = flow(function* exportTag(remark) {
+      try {
+        yield io.art.exportTag({
+          remark,
+          publishId: self.publishId,
+        })
+        self.env_.tip.success({content: '导出成功'})
+        self.getExportList()
+      } catch (error) {
+        log.error('exportTag Error: ', error)
+      }
+    })
+    const exportDownload = (id) => {
+      const a = document.createElement('a')
+      const e = document.createEvent('MouseEvents')
+      a.href = `/api/v4/waveview/art/${id}/download/waveview`
+      e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
+      self.env_.tip.success({content: '下载成功'})
+    }
+
+    const exportDelete = flow(function* exportDelete(id) {
+      try {
+        yield io.art.exportDelete({
+          ':id': id,
+        })
+        self.env_.tip.success({content: '删除成功'})
+        self.getExportList()
+      } catch (error) {
+        log.error('getVersions Error: ', error)
+      }
+    })
 
     const getVersions = flow(function* getVersions() {
       try {
@@ -158,5 +211,9 @@ export const MPublishInfo = types
       remove,
       copyUrl,
       toggleArtOnline,
+      exportTag,
+      getExportList,
+      exportDownload,
+      exportDelete,
     }
   })
