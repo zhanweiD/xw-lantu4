@@ -1,18 +1,30 @@
 import onerStorage from 'oner-storage'
+import hJSON from 'hjson'
+import {
+  PointLayer,
+  // IconLayer,
+  // TerrainLayer,
+  HeatmapLayer,
+  // TileLayer,
+  // GeoJsonLayer,
+  // PathLayer,
+  // OdLineLayer
+} from 'wave-map/src/index'
 import waves from '@waves4'
 import {alldecorations} from '@materials'
 import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 import {themeConfigs} from '@common/theme'
+
 import {
-  bimAmtn,
-  bimWhite,
+  gisPoint,
+  gisIcon,
   geojson,
-  heatMap,
+  gisHeatmap,
   odLine,
-  pointBreath,
-  pointIcon,
+  gisTile,
+  gisTerrain,
   pointMuch,
   pointWave,
   tripLine,
@@ -25,33 +37,69 @@ const exhibitCollection = onerStorage({
   key: 'waveview-exhibit-adapter',
 })
 
+const getRealData = (data) => {
+  let dataSource = []
+  if (data.type === 'private') {
+    dataSource = hJSON.parse(data.private)
+  }
+  try {
+    if (!dataSource) {
+      return []
+    }
+    const dataArray = []
+    dataSource.forEach((i, idx) => {
+      if (idx === 0) return
+      dataArray.push({
+        [dataSource[0][0]]: i[0],
+        [dataSource[0][1]]: i[1],
+        [dataSource[0][2]]: i[2],
+        [dataSource[0][3]]: i[3],
+      })
+    })
+    return dataArray
+  } catch (e) {
+    console.error('数据解析失败', {dataSource})
+    return []
+  }
+}
+
 const setGisLayers = (config, gisLayers = []) => {
   if (config.key !== 'gis') {
     return config.layers
   }
   const modelLayers = [...config.layers]
+  const layerConfig = {
+    label: true,
+    opacity: 1,
+  }
   gisLayers.forEach((item) => {
     switch (item.type) {
-      case 'bimAmtn':
-        modelLayers.push(bimAmtn())
+      case 'gisPoint':
+        const option = gisPoint()
+        const pointLayer = new PointLayer({
+          ...layerConfig,
+          data: getRealData(item.data),
+        })
+        option.instanceLayer = pointLayer
+        modelLayers.push(option)
         break
-      case 'bimWhite':
-        modelLayers.push(bimWhite())
+      case 'gisIcon':
+        modelLayers.push(gisIcon())
         break
       case 'geojson':
         modelLayers.push(geojson())
         break
-      case 'heatMap':
-        modelLayers.push(heatMap())
+      case 'gisHeatmap':
+        modelLayers.push(gisHeatmap())
         break
       case 'odLine':
         modelLayers.push(odLine())
         break
-      case 'pointBreath':
-        modelLayers.push(pointBreath())
+      case 'gisTile':
+        modelLayers.push(gisTile())
         break
-      case 'pointIcon':
-        modelLayers.push(pointIcon())
+      case 'gisTerrain':
+        modelLayers.push(gisTerrain())
         break
       case 'pointMuch':
         modelLayers.push(pointMuch())

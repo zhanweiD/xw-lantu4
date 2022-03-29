@@ -1,9 +1,3 @@
-// import layersConfig from './layers'
-// import layer from './layers/baseMap'
-// import bimWhite from './layers/bimWhite'
-// import river from '../river/layer'
-// import dashboard from '../../../configs/dashboard'
-
 // 根据这个配置生成组件的模型
 export const config = (k) => ({
   key: 'gis',

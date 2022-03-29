@@ -84,8 +84,7 @@ const ExhibitPanel = () => {
         {({scrollTo}) => {
           scrollToFn = scrollTo
           return Object.entries(cate).map(([id, category]) => {
-            console.log(id)
-            const key = `category-${category.name}`
+            const key = `category-${id}`
             return Children.toArray(
               <Category
                 key={key}

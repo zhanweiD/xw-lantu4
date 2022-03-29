@@ -1,17 +1,5 @@
 import {layerOptionMap} from './mapping'
 
-// const getRealData = (dataSource) => {
-//   try {
-//     if (!dataSource) {
-//       return {}
-//     }
-//     return dataObj
-//   } catch (e) {
-//     console.error('数据解析失败', {dataSource})
-//     return []
-//   }
-// }
-
 function translate(schema) {
   const {
     width, // 容器宽
@@ -33,21 +21,14 @@ function translate(schema) {
       case 'gis':
         configs.push({...item, ...layerOptionMap.get('gis')({getOption, mapOption})})
         break
-      case 'bimAmtn':
-        configs.push({...item, ...layerOptionMap.get('bimAmtn')({getOption, mapOption})})
+      case 'gisPoint':
+        configs.push({...item, ...layerOptionMap.get('gisPoint')({getOption, mapOption})})
         break
       default:
         break
     }
-    // if (item.id === update.id) {
-    //   if (update.type) {
-    //     configs[index] = {...item, ...layerOptionMap.get(update.type)({getOption, mapOption}), ...update.options[Object.keys(update.options)[0]]}
-    //   } else {
-    //     configs[index].data = update.options.data
-    //   }
-    //   return configs[index]
-    // }
   })
+
   // const {getOption, mapOption} = layers[0]
   // // 属性的转换
   // const config = layerOptionMap.get('layer')({getOption, mapOption})
