@@ -61,6 +61,7 @@ export const MPublishInfo = types
         })
         self.exportList = res
       } catch (error) {
+        self.env_.tip.error({content: error.message})
         log.error('getExportList Error: ', error)
       }
     })
@@ -73,6 +74,7 @@ export const MPublishInfo = types
         self.env_.tip.success({content: '导出成功'})
         self.getExportList()
       } catch (error) {
+        self.env_.tip.error({content: error.message})
         log.error('exportTag Error: ', error)
       }
     })
@@ -93,6 +95,7 @@ export const MPublishInfo = types
         self.env_.tip.success({content: '删除成功'})
         self.getExportList()
       } catch (error) {
+        self.env_.tip.error({content: error.message})
         log.error('getVersions Error: ', error)
       }
     })
