@@ -104,7 +104,7 @@ export const createExhibitModelClass = (exhibit) => {
             name,
             type,
             effective,
-            instanceLayer: layer.instanceLayer_,
+            // instanceLayer: layer.instanceLayer_,
           }
 
           if (effective) {
@@ -156,7 +156,6 @@ export const createExhibitModelClass = (exhibit) => {
       const delLayer = (layer) => {
         const oldLayers = [...self.layers]
         const index = oldLayers.findIndex((item) => item.id === layer.id)
-        console.log(index)
         oldLayers.splice(index, 1)
         self.layers = oldLayers
       }

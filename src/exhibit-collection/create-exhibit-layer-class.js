@@ -7,7 +7,8 @@ import {transform} from './exhibit-config'
 import isDef from '@utils/is-def'
 
 export const createLayer = (category, key, layer, env) => {
-  const {name, type, id = uuid(), sections, fields, instanceLayer} = layer
+  // const {name, type, id = uuid(), sections, fields, instanceLayer} = layer
+  const {name, type, id = uuid(), sections, fields} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
       id: types.optional(types.string, id),
@@ -19,11 +20,11 @@ export const createLayer = (category, key, layer, env) => {
       normalKeys: types.frozen(['id', 'type', 'name', 'effective', 'category']),
       deepKeys: types.frozen(['options', 'data']),
     })
-    .views((self) => ({
-      get instanceLayer_() {
-        return instanceLayer
-      },
-    }))
+    // .views((self) => ({
+    //   get instanceLayer_() {
+    //     return instanceLayer
+    //   },
+    // }))
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {
       const afterCreate = () => {

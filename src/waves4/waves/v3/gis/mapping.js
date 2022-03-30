@@ -4,8 +4,6 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         // ['base.layerName', 'layerName'],
-        // ['base.mapService', 'mapService'],
-        // ['base.gisTheme', 'gisTheme'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
@@ -13,6 +11,14 @@ export const layerOptionMap = new Map([
   ],
   [
     'gisPoint',
+    ({mapOption}) => {
+      const mapping = []
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'gisHeatmap',
     ({mapOption}) => {
       const mapping = []
       const storage = mapOption(mapping)

@@ -1,32 +1,7 @@
-// import Xt from 'xt-earth/Earth'
-// import {toJS} from 'mobx'
-// import debounce from 'lodash/debounce'
-// import cloneDeep from 'lodash/cloneDeep'
 import {Earth} from 'wave-map/src/index'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
+import {newLayersInstance} from '@utils'
 import translate from './translate'
-
-// const getRealData = (dataSource) => {
-//   try {
-//     if (!dataSource) {
-//       return []
-//     }
-//     const dataArray = []
-//     dataSource.forEach((i, idx) => {
-//       if (idx === 0) return
-//       dataArray.push({
-//         [dataSource[0][0]]: i[0],
-//         [dataSource[0][1]]: i[1],
-//         [dataSource[0][2]]: i[2],
-//         [dataSource[0][3]]: i[3],
-//       })
-//     })
-//     return dataArray
-//   } catch (e) {
-//     console.error('数据解析失败', {dataSource})
-//     return []
-//   }
-// }
 
 /**
  * 只允许定义指定hook的适配器类
@@ -36,28 +11,55 @@ const Adapter = () =>
     // 初始化组件实例
     init({options}) {
       const translatedOptions = translate(options)
-      const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
-      const instance = new Earth({...translatedOptions, layers})
+      console.log(options)
+      console.log(translatedOptions)
+      const instance = new Earth(translatedOptions)
+      // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
+      const config = {
+        label: true,
+        opacity: 1,
+        earth: instance,
+      }
+      const layersInstance = newLayersInstance(config, translatedOptions.layers)
+      instance.updateLayers(layersInstance, true)
       return instance
     },
     update(updateConfig) {
-      const {updated, instance, options} = updateConfig
-      const updateLayer = options.layers.find((item) => item.id === updated.id)
-      if (updateLayer) {
-        // if (updated.options.data) {
-        //   updateLayer?.instanceLayer?.setData(getRealData(updated.options.data))
-        // } else {
-        //   updateLayer?.instanceLayer?.updateProps(updated.options)
-        // }
-        instance.updateLayers([updateLayer?.instanceLayer?.getLayers()], false)
-      } else {
-        instance.updateProps(options)
+      const {instance, options} = updateConfig
+      const config = {
+        label: true,
+        opacity: 1,
+        earth: instance,
       }
-      console.log(updateConfig, instance)
+      // 方法二 全部新建,不用考虑layer身上的instanceLayer
+      const layersInstance = newLayersInstance(config, options.layers)
+      instance.updateLayers(layersInstance, true)
+
+      // 方法一，流程暂时走不通 diff更新
+      // 找到修改的layer,有就是layers层更新，没有就是map-box更新
+      // const updateLayer = options.layers.find((item) => item.id === updated.id)
+      // if (updateLayer) {
+      //   // 是否是更新数据
+      //   if (updated.options.data) {
+      //     const data = getRealData(updated.options.data)
+      //     // 设置数据，看了map库更新了数据会掉updateLayer，但实际页面数据没更新（待排查）
+      //     updateLayer?.instanceLayer?.setData(data)
+      //   } else {
+      //     // 更新style
+      //     updateLayer?.instanceLayer?.updateProps(updated.options)
+      //   }
+      //   // const updateOption = updateLayer?.instanceLayer?.getLayers()
+      //   const layers = options.layers.map(item => item.instanceLayer.getLayers())
+      //   // 因为setData后页面未更新，这里再次调用updateLayers更新页面
+      //   instance.updateLayers(layers, true)
+      // } else {
+      //   // 更新map props
+      //   instance.updateProps(options)
+      // }
     },
-    // 销毁
+    // 销毁  v4用destroy,map组件用destory巨坑，都是销毁意思错一个字母
     destroy({instance}) {
-      instance.destroy()
+      instance.destory()
     },
 
     // 任何错误的处理

@@ -24,7 +24,7 @@ const Exhibit = ({box, frame}) => {
 
   return (
     <div className="pa wh100p">
-      <div ref={el} className="exhibit" />
+      <div ref={el} className="exhibit wh100p" />
     </div>
   )
 }

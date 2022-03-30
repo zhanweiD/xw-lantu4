@@ -24,6 +24,9 @@ function translate(schema) {
       case 'gisPoint':
         configs.push({...item, ...layerOptionMap.get('gisPoint')({getOption, mapOption})})
         break
+      case 'gisHeatmap':
+        configs.push({...item, ...layerOptionMap.get('gisHeatmap')({getOption, mapOption})})
+        break
       default:
         break
     }
