@@ -50,6 +50,8 @@ import histogram from './waves/v3/histogram'
 import bulletColumn from './waves/v3/bullet-column'
 import radialBar from './waves/v3/radial-bar'
 import orderedList from './waves/v3/ordered-list'
+import pyramid from './waves/v3/pyramid'
+import progress from './waves/v3/progress'
 
 import bullet from './waves/v3/bullet'
 
@@ -92,6 +94,8 @@ const waves = {
   radialBar,
   bullet,
   orderedList,
+  pyramid,
+  progress,
   // 热力图
   rectMatrix,
   circleMatrix,
@@ -178,7 +182,19 @@ const categories = [
     // 条形图
     name: 'classifyBar',
     icon: 'exhibit-bar',
-    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar, radialBar, bullet, orderedList],
+    exhibits: [
+      basicBar,
+      groupBar,
+      stackBar,
+      percentageBar,
+      intervalBar,
+      waterfallBar,
+      radialBar,
+      bullet,
+      orderedList,
+      pyramid,
+      progress,
+    ],
   },
   {
     // 饼图
