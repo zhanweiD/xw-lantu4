@@ -5,14 +5,15 @@ import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 import {themeConfigs} from '@common/theme'
+
 import {
-  bimAmtn,
-  bimWhite,
+  gisPoint,
+  gisIcon,
   geojson,
-  heatMap,
+  gisHeatmap,
   odLine,
-  pointBreath,
-  pointIcon,
+  gisTile,
+  gisTerrain,
   pointMuch,
   pointWave,
   tripLine,
@@ -30,28 +31,39 @@ const setGisLayers = (config, gisLayers = []) => {
     return config.layers
   }
   const modelLayers = [...config.layers]
+  // const layerConfig = {
+  //   label: true,
+  //   opacity: 1,
+  // }
   gisLayers.forEach((item) => {
     switch (item.type) {
-      case 'bimAmtn':
-        modelLayers.push(bimAmtn())
+      case 'gisPoint':
+        modelLayers.push(gisPoint())
+
+        // const option = gisPoint()
+        // const pointLayer = new PointLayer({
+        //   ...layerConfig,
+        //   data: getRealData(item.data),
+        // })
+        // option.instanceLayer = pointLayer
         break
-      case 'bimWhite':
-        modelLayers.push(bimWhite())
+      case 'gisIcon':
+        modelLayers.push(gisIcon())
         break
       case 'geojson':
         modelLayers.push(geojson())
         break
-      case 'heatMap':
-        modelLayers.push(heatMap())
+      case 'gisHeatmap':
+        modelLayers.push(gisHeatmap())
         break
       case 'odLine':
         modelLayers.push(odLine())
         break
-      case 'pointBreath':
-        modelLayers.push(pointBreath())
+      case 'gisTile':
+        modelLayers.push(gisTile())
         break
-      case 'pointIcon':
-        modelLayers.push(pointIcon())
+      case 'gisTerrain':
+        modelLayers.push(gisTerrain())
         break
       case 'pointMuch':
         modelLayers.push(pointMuch())

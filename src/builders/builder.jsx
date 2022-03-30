@@ -6,14 +6,15 @@ import IconButton from '@components/icon-button'
 import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 import w from '@models'
+import {newLayersInstance} from '@utils'
 import {
-  bimAmtn,
-  bimWhite,
+  gisPoint,
+  gisIcon,
   geojson,
-  heatMap,
+  gisHeatmap,
   odLine,
-  pointBreath,
-  pointIcon,
+  gisTile,
+  gisTerrain,
   pointMuch,
   pointWave,
   tripLine,
@@ -58,36 +59,48 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
 }
 
 const Builder = ({exhibit}) => {
-  const {data, dimension, extra, gisBase, key, layers} = exhibit
+  const {data, dimension, extra, gisBase, key, layers, adapter} = exhibit
+  const {instance} = adapter || {}
+  const config = {
+    label: true,
+    opacity: 1,
+    earth: instance,
+  }
   const {t} = useTranslation()
   const menu = w.overlayManager.get('menu')
   const menuList = [
     {
-      name: '倾斜摄影层',
+      name: '散点气泡层',
       action: () => {
-        // console.log(exhibit, bimAmtn())
-        exhibit.addLayer([bimAmtn()])
+        // const option = gisPoint()
+        // const pointLayer = new PointLayer({
+        //   ...config,
+        //   data: getRealData(option.data),
+        // })
+        // option.instanceLayer = pointLayer
+        exhibit.addLayer([gisPoint()])
+        adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
         menu.hide()
       },
     },
     {
-      name: '白盒模型层',
+      name: '符号层',
       action: () => {
-        exhibit.addLayer([bimWhite()])
+        exhibit.addLayer([gisIcon()])
         menu.hide()
       },
     },
     {
-      name: '图标层',
+      name: '地形层',
       action: () => {
-        exhibit.addLayer([pointIcon()])
+        exhibit.addLayer([gisTerrain()])
         menu.hide()
       },
     },
     {
-      name: '呼吸点层',
+      name: '模型层',
       action: () => {
-        exhibit.addLayer([pointBreath()])
+        exhibit.addLayer([gisTile()])
         menu.hide()
       },
     },
@@ -122,7 +135,8 @@ const Builder = ({exhibit}) => {
     {
       name: '热力层',
       action: () => {
-        exhibit.addLayer([heatMap()])
+        exhibit.addLayer([gisHeatmap()])
+        adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
         menu.hide()
       },
     },
@@ -133,15 +147,11 @@ const Builder = ({exhibit}) => {
         menu.hide()
       },
     },
-    // {
-    //   name: '飞线层',
-    //   hideBtmBorder: true,
-    //   action: () => {
-    //     exhibit.setLayers([bimWhite()])
-    //     menu.hide()
-    //   },
-    // }
   ]
+  const delLayer = (layer) => {
+    exhibit.delLayer(layer)
+    adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
+  }
 
   // 子层列表在这加
   return (
@@ -190,19 +200,16 @@ const Builder = ({exhibit}) => {
               key={layer.name}
               extra={
                 key === 'gis' ? (
-                  !index ? null : (
-                    <div className="fbh">
-                      <IconButton
-                        icon="close"
-                        iconSize={14}
-                        buttonSize={24}
-                        onClick={() => {
-                          // console.log(exhibit)
-                          exhibit.delLayer(index)
-                        }}
-                      />
-                    </div>
-                  )
+                  <div className="fbh">
+                    <IconButton
+                      icon="close"
+                      iconSize={14}
+                      buttonSize={24}
+                      onClick={() => {
+                        delLayer(layer)
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className="fbh">
                     <IconButton
@@ -224,35 +231,6 @@ const Builder = ({exhibit}) => {
           </div>
         )
       })}
-
-      {/* {key === 'gis' && (
-        <div key={`${exhibit.id}.subLayers`}>
-          <Section
-            sessionId={`${exhibit.id}.subLayers`}
-            type={0}
-            name={t('subLayers')}
-            key={t('subLayers')}
-          >
-            {layers.map((layer) => {
-              return (
-                <div key={layer.id}>
-                  <Section
-                    sessionId={`${layer.id}.${layer.name}`}
-                    type={1}
-                    name={layer.name}
-                    key={layer.name}
-                  >
-                    {layer.data && <ModelToField model={layer.data} />}
-                    {recusiveNode({
-                      ...layer.options,
-                    })}
-                  </Section>
-                </div>
-              )
-            })}
-          </Section>
-        </div>
-      )} */}
     </>
   )
 }

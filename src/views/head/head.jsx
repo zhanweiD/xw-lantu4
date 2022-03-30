@@ -268,7 +268,7 @@ const Head = () => {
           />
           <IconGroupButton
             icon="upload"
-            title="版本管理"
+            title="部署管理"
             canUse
             canClick
             onClick={() => {

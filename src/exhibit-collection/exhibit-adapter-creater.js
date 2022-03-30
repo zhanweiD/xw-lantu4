@@ -71,7 +71,6 @@ const createExhibitAdapter = (hooks) =>
     }
 
     constructor({container, height, width, model, isEdit, staticDrawOptions}) {
-      console.log(this)
       this.container = container
       this.size = {
         width,

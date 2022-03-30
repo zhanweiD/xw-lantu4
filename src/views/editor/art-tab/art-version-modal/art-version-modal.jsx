@@ -12,13 +12,14 @@ import s from './modal.module.styl'
 const VersionModal = ({art}) => {
   // 从哪里来？
   const {artPublishInfo = {}, isVersionManagementVisible} = art
-  const {list = [], remark} = artPublishInfo
+  const {exportList = []} = artPublishInfo
   // 构架状态  0 普通模式  1 构建中（取消后状态设置为0） 2 构建完成可下载
-  const [buildStatus, setBuildStatus] = useState('normal')
+  // const [buildStatus, setBuildStatus] = useState('normal')
+  const [remark, setRemark] = useState('')
   const buildButton = {
-    normal: '导出',
-    build: '构建中...',
-    finish: '下载',
+    0: '构建中...',
+    1: '构建成功',
+    2: '构建失败',
   }
   const {t} = useTranslation()
   const columns = [
@@ -28,8 +29,9 @@ const VersionModal = ({art}) => {
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      key: 'status',
+      key: 'type',
       title: '状态',
+      render: (v) => buildButton[v],
     },
     {
       key: 'remark',
@@ -40,11 +42,19 @@ const VersionModal = ({art}) => {
       /* eslint-disable */
       render: (val, rowData) => (
         <div className="fbh h100p fbac">
-          <div className={c(s.copyButton, 'pl8 pr8 hand cfw16')}>下载</div>
+          {rowData.type === 2 ? null : (
+            <div
+              className={c(s.copyButton, 'pl8 pr8 hand cfw16')}
+              onClick={() => {
+                artPublishInfo.exportDownload(rowData.id)
+              }}
+            >
+              下载
+            </div>
+          )}
           <div
-            className={c(s.copyButton, 'pl8 pr8 ml8 hand cfw16', {
-              [s.disableButton]: rowData.isOnline,
-            })}
+            className={c(s.copyButton, 'pl8 pr8 ml8 hand cfw16')}
+            onClick={() => artPublishInfo.exportDelete(rowData.id)}
           >
             删除
           </div>
@@ -53,20 +63,20 @@ const VersionModal = ({art}) => {
     },
   ]
   const href = `${window.location.origin}${config.pathPrefix}`
-  const buildFun = () => {
-    if (buildStatus === 'build') return
-    if (buildStatus === 'normal') {
-      // !TODO 构建操作
-      setBuildStatus('build')
-    }
-    if (buildStatus === 'finish') {
-      // !TODO 下载操作
-    }
-  }
+  // const buildFun = () => {
+  //   if (buildStatus === 'build') return
+  //   if (buildStatus === 'normal') {
+  //     // !TODO 构建操作
+  //     setBuildStatus('build')
+  //   }
+  //   if (buildStatus === 'finish') {
+  //     // !TODO 下载操作
+  //   }
+  // }
 
-  const cancelBuild = () => {
-    setBuildStatus('normal')
-  }
+  // const cancelBuild = () => {
+  //   setBuildStatus('normal')
+  // }
   return (
     <>
       <Modal
@@ -81,13 +91,13 @@ const VersionModal = ({art}) => {
         }}
       >
         <div className="p28 pt24 pb24 fb1">
-          <div className={c(s.align, 'fbh')}>
+          {/* <div className={c(s.align, 'fbh')}>
             <span>部署配额</span>
             <span className="ml8 mr4 hand">8</span>
             <span className="ml4 mr4 ">/</span>
             <span className="ml4 mr4 ">50</span>
             <span>查看所以部署记录</span>
-          </div>
+          </div> */}
           <div className={c(s.align, 'fbh mt24')}>
             <span>链接</span>
             <span className="fb1 ml12 mr12 hand" onClick={() => window.open(href)}>
@@ -108,20 +118,17 @@ const VersionModal = ({art}) => {
               placeholder="非必填，最多32个字符"
               className="fb1 ml12 mr12"
               value={remark || ''}
-              onChange={(value) => {
-                artPublishInfo.set({
-                  remark: value,
-                })
-              }}
+              onChange={setRemark}
             />
           </div>
           <div
             className={c(s.publishButton, 'mt24 mb24 hand ctw', list && list.length > 4 && s.disableButton)}
-            onClick={buildFun}
+            onClick={() => artPublishInfo.exportTag(remark)}
           >
-            {buildButton[buildStatus]}
+            导出
+            {/* {buildButton[buildStatus]} */}
           </div>
-          {buildStatus === 'build' && (
+          {/* {true && (
             <div className={c('mb24 hand ctw center ')}>
               工程文件构建需要一些时间，构建完成后可下载，可点击
               <span className={c(s.tipsBtn, 'hand')} onClick={cancelBuild}>
@@ -129,11 +136,11 @@ const VersionModal = ({art}) => {
               </span>
             </div>
           )}
-          {buildStatus === 'finish' && (
+          {false && (
             <div className={c('mb24 hand ctw center ')}>构建完成，点击下载按钮可下载部署工程文件</div>
-          )}
+          )} */}
           <div className={c('mb8 hand')}>部署记录</div>
-          <Table dataSource={list} columns={columns} placeholder="暂无部署版本" />
+          <Table dataSource={exportList} columns={columns} placeholder="暂无部署版本" />
         </div>
       </Modal>
     </>

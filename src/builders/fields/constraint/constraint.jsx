@@ -42,11 +42,10 @@ const ConstraintField = ({
   const {t} = useTranslation()
   const line = getLine(value.constraints)
 
-  console.log(value)
   const {constraints, layout} = value
   const {ctString, top, right, bottom, left, height, width} = constraints
   // const {x, y, height, width} = value.layout
-  console.log(container)
+  console.log(container, value)
   return (
     <Field
       className={className}

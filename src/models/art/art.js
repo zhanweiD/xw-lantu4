@@ -6,6 +6,7 @@ import createLog from '@utils/create-log'
 import {MDataManager, MMaterialManager} from './art-manager'
 import {MArtViewport} from './art-viewport'
 import {MPublishInfo} from './art-publish-info'
+// import {MVersionInfo} from './art-version-info'
 import config from '@utils/config'
 import {MGlobal} from './art-ui-tab-property'
 import {MData} from '../data2/data'
@@ -23,6 +24,8 @@ export const MArt = types
     viewport: types.optional(MArtViewport, {}),
     // 数据屏的发布版本信息
     artPublishInfo: types.maybe(MPublishInfo),
+    // 部署管理信息
+    // artVersionInfo: types.maybe(MVersionInfo),
     // 数据屏使用的数据id及其映射组件的关系
     dataManager: types.optional(MDataManager, {}),
     materialManager: types.optional(MMaterialManager, {}),
