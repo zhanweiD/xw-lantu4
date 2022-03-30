@@ -1,4 +1,4 @@
-import {Earth} from 'wave-map'
+import {Earth} from 'wave-map/src/index'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import {newLayersInstance} from '@utils'
 import translate from './translate'
@@ -10,30 +10,39 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      const translatedOptions = translate(options)
       console.log(options)
-      console.log(translatedOptions)
+      const translatedOptions = translate(options)
       const instance = new Earth(translatedOptions)
       // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
-      const config = {
-        label: true,
-        opacity: 1,
-        earth: instance,
-      }
-      const layersInstance = newLayersInstance(config, translatedOptions.layers)
+
+      const layersInstance = newLayersInstance(instance, translatedOptions.layers)
       instance.updateLayers(layersInstance, true)
       return instance
     },
+
     update(updateConfig) {
-      const {instance, options} = updateConfig
-      const config = {
-        label: true,
-        opacity: 1,
-        earth: instance,
+      console.log(updateConfig)
+      const {instance, options, updated} = updateConfig
+      const isLayer = options.layers.find((item) => item.id === updated.id)
+      const layersInstance = newLayersInstance(updateConfig.instance, options.layers)
+      if (isLayer) {
+        // 方法二 全部新建,不用考虑layer身上的instanceLayer
+        instance.updateLayers(layersInstance, true)
+      } else {
+        instance.updateProps({...translate(options), layers: layersInstance})
+
+        // 方式二新建map，工具条之类的需要重新创建
+        // instance.destory()
+        // const newInstance = new Earth(translate(options))
+        // const config = {
+        //   label: true,
+        //   opacity: 1,
+        //   earth: newInstance,
+        // }
+        // const layersInstance = newLayersInstance(config, options.layers)
+        // newInstance.updateLayers(layersInstance, true)
+        // return newInstance
       }
-      // 方法二 全部新建,不用考虑layer身上的instanceLayer
-      const layersInstance = newLayersInstance(config, options.layers)
-      instance.updateLayers(layersInstance, true)
 
       // 方法一，流程暂时走不通 diff更新
       // 找到修改的layer,有就是layers层更新，没有就是map-box更新
@@ -57,6 +66,7 @@ const Adapter = () =>
       //   instance.updateProps(options)
       // }
     },
+
     // 销毁  v4用destroy,map组件用destory巨坑，都是销毁意思错一个字母
     destroy({instance}) {
       instance.destory()

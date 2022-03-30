@@ -142,6 +142,7 @@ const theme = {
     },
   ],
 }
+
 // gis
 // 相机位置
 const origin = {
@@ -311,6 +312,52 @@ const showMapHelper = {
   type: 'switch',
   label: 'showMapHelper',
   defaultValue: true,
+}
+
+const stroked = {
+  type: 'switch',
+  label: 'stroked',
+  defaultValue: false,
+}
+const label = {
+  type: 'switch',
+  label: 'label',
+  defaultValue: true,
+}
+const isBreathe = {
+  type: 'switch',
+  label: 'isBreathe',
+  defaultValue: true,
+}
+
+const extruded = {
+  type: 'switch',
+  label: 'extruded',
+  defaultValue: true,
+}
+const radius = {
+  type: 'number',
+  label: 'radius',
+  defaultValue: 5000,
+}
+const heatmapType = {
+  type: 'select',
+  label: 'heatmapType',
+  defaultValue: 'classic',
+  options: [
+    {
+      key: '经典',
+      value: 'classic',
+    },
+    {
+      key: '蜂窝',
+      value: 'honeycomb',
+    },
+    {
+      key: '网格',
+      value: 'grid',
+    },
+  ],
 }
 
 /**
@@ -1915,6 +1962,12 @@ export default {
   showMapControl,
   showMapHelper,
   orderType,
+  stroked,
+  label,
+  isBreathe,
+  extruded,
+  radius,
+  heatmapType,
   // 动画
   enterAnimation,
   animationType,

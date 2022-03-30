@@ -61,11 +61,7 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
 const Builder = ({exhibit}) => {
   const {data, dimension, extra, gisBase, key, layers, adapter} = exhibit
   const {instance} = adapter || {}
-  const config = {
-    label: true,
-    opacity: 1,
-    earth: instance,
-  }
+
   const {t} = useTranslation()
   const menu = w.overlayManager.get('menu')
   const menuList = [
@@ -79,7 +75,7 @@ const Builder = ({exhibit}) => {
         // })
         // option.instanceLayer = pointLayer
         exhibit.addLayer([gisPoint()])
-        adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
         menu.hide()
       },
     },
@@ -136,7 +132,7 @@ const Builder = ({exhibit}) => {
       name: '热力层',
       action: () => {
         exhibit.addLayer([gisHeatmap()])
-        adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
+        adapter.instance?.updateProps({layers: newLayersInstance(adapter.instance, exhibit.layers)})
         menu.hide()
       },
     },
@@ -150,7 +146,7 @@ const Builder = ({exhibit}) => {
   ]
   const delLayer = (layer) => {
     exhibit.delLayer(layer)
-    adapter.instance?.updateProps({layers: newLayersInstance(config, exhibit.layers, true)})
+    adapter.instance?.updateProps({layers: newLayersInstance(adapter.instance, exhibit.layers, true)})
   }
 
   // 子层列表在这加

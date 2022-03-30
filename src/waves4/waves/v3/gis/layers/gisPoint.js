@@ -2,11 +2,23 @@ export default () => {
   return {
     name: '散点气泡层',
     type: 'gisPoint', // 必要
-    sections: [],
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {name: 'label'},
+          {name: 'labelSize', defaultValue: 12},
+          // {name: 'labelColor', defaultValue: 'rgba(255, 255, 255, 1)'},
+          {name: 'opacity'},
+          {name: 'stroked'},
+          {name: 'isBreathe'},
+        ],
+      },
+    ],
     data: [
-      ['label', 'radius', 'coordinates', 'setFillColor'],
-      ['点层1', 10, [120.1, 30], [255, 0, 255, 255]],
-      ['点层2', 10, [120.1, 30.1], [255, 0, 255, 255]],
+      ['label', 'value', 'elevation', 'coordinates'],
+      ['数据100', 100, 3000, [120.1, 30]],
+      ['数据150', 150, 4000, [120.1, 30.1]],
     ],
   }
 }

@@ -743,4 +743,9 @@ export default {
   offsetX: '水平偏移',
   offsetY: '垂直偏移',
   reverse: '反向',
+  stroked: '边框',
+  isBreathe: '动画',
+  extruded: '拔高',
+  radius: '半径',
+  heatmapType: '类型',
 }

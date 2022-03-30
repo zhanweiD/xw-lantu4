@@ -7,7 +7,7 @@ import {
   // GeoJsonLayer,
   // PathLayer,
   // OdLineLayer
-} from 'wave-map'
+} from 'wave-map/src/index'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
@@ -36,26 +36,37 @@ const getRealData = (data) => {
   }
 }
 
-const newLayersInstance = (config, layers, type) => {
+const newLayersInstance = (earth, layers) => {
   return layers.map((item) => {
-    let data
-    switch (item.type) {
+    const layer = item.getSchema ? item.getSchema() : item
+    const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
+    console.log(layerOptions)
+    let instance
+    switch (layer.type) {
       case 'gisPoint':
-        data = new PointLayer({
-          ...config,
-          data: type ? getRealData(item.data.getValue()) : getRealData(item.data),
+        // layerOptions.getRadius = d => d.value
+        // layerOptions.getElevationValue = d => d.elevation,
+        // layerOptions.getFillColor = d => d.value,
+        // layerOptions.getLineWidth = d => d.value,
+        // layerOptions.labelColor = [208, 2, 27, 1]
+        instance = new PointLayer({
+          ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
         }).getLayers()
         break
       case 'gisHeatmap':
-        data = new HeatmapLayer({
-          ...config,
-          data: type ? getRealData(item.data.getValue()) : getRealData(item.data),
+        console.log(layerOptions)
+        instance = new HeatmapLayer({
+          ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
         }).getLayers()
         break
       default:
         break
     }
-    return data
+    return instance
   })
 }
 export {newLayersInstance, getRealData}
