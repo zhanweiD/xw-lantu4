@@ -533,14 +533,20 @@ export default class Pyramid extends Base {
    * @return {object} 图表实例
    */
   animation() {
-    const enableEnterAnimation = this.config('enableEnterAnimation')
-    const enterAnimationDuration = this.config('enterAnimationDuration')
-    const enterAnimationDelay = this.config('enterAnimationDelay')
-    const enableLoopAnimation = this.config('enableLoopAnimation')
-    const loopAnimationDuration = this.config('loopAnimationDuration')
-    const loopAnimationDelay = this.config('loopAnimationDelay')
-    const scanColor = this.config('scanColor')
-
+    // const enableEnterAnimation = this.config('enableEnterAnimation')
+    // const enterAnimationDuration = this.config('enterAnimationDuration')
+    // const enterAnimationDelay = this.config('enterAnimationDelay')
+    // const enableLoopAnimation = this.config('enableLoopAnimation')
+    // const loopAnimationDuration = this.config('loopAnimationDuration')
+    // const loopAnimationDelay = this.config('loopAnimationDelay')
+    // const scanColor = this.config('scanColor')
+    const enableEnterAnimation = true
+    const enterAnimationDuration = 2000
+    const enterAnimationDelay = 500
+    const enableLoopAnimation = false
+    const loopAnimationDuration = 2000
+    const loopAnimationDelay = 500
+    const scanColor = 'RGBA(255, 255, 255, 0.4)'
     const zoomAnimation = new ZoomAnimation(
       {
         targets: '.wave-pyramid-bar',

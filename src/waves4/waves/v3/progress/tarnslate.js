@@ -5,31 +5,14 @@ const getRealData = (dataSource) => {
     if (!dataSource) {
       return {}
     }
-    const [labels, ...values] = dataSource
-    const dataArray = []
-    values.forEach((i) => {
-      const [label, value, contrast] = i
-      dataArray.push({
-        label,
-        value,
-        contrast,
-      })
-    })
-    return {
-      labelKey: {
-        tag: 'label',
-        name: labels[0],
-      },
-      contrastKey: {
-        tag: 'contrast',
-        name: labels[2],
-      },
-      valueKey: {
-        tag: 'value',
-        name: labels[1],
-      },
-      data: dataArray,
+    const [values] = dataSource
+    const [label, value, maxValue] = values
+    const ObjectSource = {
+      label,
+      value,
+      maxValue,
     }
+    return ObjectSource
   } catch (e) {
     console.error('数据解析失败', {dataSource})
     return {}

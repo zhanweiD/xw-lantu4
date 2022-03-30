@@ -922,6 +922,22 @@ const direction = {
   ],
 }
 
+const DIRECTION = {
+  type: 'check',
+  label: 'direction',
+  defaultValue: 'horizontal',
+  options: [
+    {
+      key: 'horizontal',
+      value: 'HORIZONTAL',
+    },
+    {
+      key: 'vertical',
+      value: 'VERTICAL',
+    },
+  ],
+}
+
 /**
  * =====================================
  * number
@@ -1508,6 +1524,12 @@ const nodeGap = {
   defaultValue: 10,
 }
 
+const groupBarGap = {
+  type: 'number',
+  label: 'groupBarGap',
+  defaultValue: 10,
+}
+
 const valueSize = {
   type: 'number',
   label: 'valueSize',
@@ -1697,6 +1719,11 @@ const bgLineColor = {
   defaultValue: 'rgba(255,255,255,0.15)',
 }
 
+const noLabelColor = {
+  type: 'color',
+  label: ' ',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
 const maxRow = {
   type: 'number',
   label: 'maxRow',
@@ -1704,12 +1731,54 @@ const maxRow = {
   min: 0,
   max: 100,
 }
+
+const valueInPosition = {
+  type: 'check',
+  label: 'valueInPosition',
+  defaultValue: 'inside',
+  options: [
+    {key: 'inside', value: 'inside'},
+    {key: 'outside', value: 'outside'},
+  ],
+}
+
+const showShadow = {
+  type: 'switch',
+  label: 'showShadow',
+  defaultValue: false,
+}
+
+const shadowOptions = {
+  type: 'multiNumber',
+  label: ' ',
+  defaultValue: [0, 0, 5],
+  items: [
+    {
+      key: 'horizontal',
+      step: 1,
+    },
+    {
+      key: 'vertical',
+      step: 1,
+    },
+    {
+      key: 'blur',
+      step: 1,
+    },
+  ],
+}
+
 export default {
   theme,
   valueOffsetY,
   bgLineColor,
+  noLabelColor,
+  showShadow,
+  shadowOptions,
   maxRow,
+  groupBarGap,
   gradientDirection,
+  valueInPosition,
   lineOffset,
   labelXOffset,
   labelYOffset,
@@ -1811,6 +1880,7 @@ export default {
   textWeight,
   // 文字方向
   direction,
+  DIRECTION,
   // 千分位
   thousandDiv,
   // 百分比

@@ -51,6 +51,7 @@ import bulletColumn from './waves/v3/bullet-column'
 import radialBar from './waves/v3/radial-bar'
 import orderedList from './waves/v3/ordered-list'
 import pyramid from './waves/v3/pyramid'
+import progress from './waves/v3/progress'
 
 import bullet from './waves/v3/bullet'
 
@@ -94,6 +95,7 @@ const waves = {
   bullet,
   orderedList,
   pyramid,
+  progress,
   // 热力图
   rectMatrix,
   circleMatrix,
@@ -191,6 +193,7 @@ const categories = [
       bullet,
       orderedList,
       pyramid,
+      progress,
     ],
   },
   {
