@@ -45,6 +45,13 @@ import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
 import renju from './waves/v3/renju'
 import semicircle from './waves/v3/semicircle'
+import horizontalHourglass from './waves/v3/hourglass'
+import histogram from './waves/v3/histogram'
+import bulletColumn from './waves/v3/bullet-column'
+import radialBar from './waves/v3/radial-bar'
+import orderedList from './waves/v3/ordered-list'
+
+import bullet from './waves/v3/bullet'
 
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
@@ -68,6 +75,9 @@ const waves = {
   percentageColumn,
   renju,
   semicircle,
+  horizontalHourglass,
+  histogram,
+  bulletColumn,
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -79,6 +89,9 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  radialBar,
+  bullet,
+  orderedList,
   // 热力图
   rectMatrix,
   circleMatrix,
@@ -156,13 +169,16 @@ const categories = [
       stackLineColumn,
       renju,
       semicircle,
+      horizontalHourglass,
+      histogram,
+      bulletColumn,
     ],
   },
   {
     // 条形图
     name: 'classifyBar',
     icon: 'exhibit-bar',
-    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
+    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar, radialBar, bullet, orderedList],
   },
   {
     // 饼图
