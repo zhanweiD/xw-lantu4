@@ -7,7 +7,7 @@ import {
   // GeoJsonLayer,
   // PathLayer,
   // OdLineLayer
-} from 'wave-map/src/index'
+} from 'wave-map'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
