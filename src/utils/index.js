@@ -6,8 +6,18 @@ import {
   // TileLayer,
   // GeoJsonLayer,
   // PathLayer,
-  // OdLineLayer
-} from 'wave-map/src/index'
+  OdLineLayer,
+} from 'wave-map-test'
+// import {
+//   PointLayer,
+//   // IconLayer,
+//   // TerrainLayer,
+//   HeatmapLayer,
+//   // TileLayer,
+//   // GeoJsonLayer,
+//   // PathLayer,
+//   OdLineLayer
+// } from 'wave-map/src/index'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
@@ -42,6 +52,7 @@ const newLayersInstance = (earth, layers) => {
     const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
     console.log(layerOptions)
     let instance
+    console.log(layer)
     switch (layer.type) {
       case 'gisPoint':
         // layerOptions.getRadius = d => d.value
@@ -59,6 +70,22 @@ const newLayersInstance = (earth, layers) => {
         console.log(layerOptions)
         instance = new HeatmapLayer({
           ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
+        }).getLayers()
+        break
+      case 'odLine':
+        console.log(111)
+        instance = new OdLineLayer({
+          // ...layerOptions,
+          greatCircle: false,
+          getHeight: 0.2,
+          getTilt: 0.5,
+          flyPoint: true,
+          sourcePoint: true,
+          targetPoint: true,
+          sourceLabel: true,
+          targetLabel: true,
           earth,
           data: getRealData(layer.data),
         }).getLayers()

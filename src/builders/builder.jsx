@@ -9,15 +9,15 @@ import w from '@models'
 import {newLayersInstance} from '@utils'
 import {
   gisPoint,
-  gisIcon,
-  geojson,
+  // gisIcon,
+  // geojson,
   gisHeatmap,
-  odLine,
-  gisTile,
-  gisTerrain,
-  pointMuch,
-  pointWave,
-  tripLine,
+  // odLine,
+  // gisTile,
+  // gisTerrain,
+  // pointMuch,
+  // pointWave,
+  // tripLine,
 } from '../waves4/waves/v3/gis/layers'
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
@@ -79,55 +79,56 @@ const Builder = ({exhibit}) => {
         menu.hide()
       },
     },
-    {
-      name: '符号层',
-      action: () => {
-        exhibit.addLayer([gisIcon()])
-        menu.hide()
-      },
-    },
-    {
-      name: '地形层',
-      action: () => {
-        exhibit.addLayer([gisTerrain()])
-        menu.hide()
-      },
-    },
-    {
-      name: '模型层',
-      action: () => {
-        exhibit.addLayer([gisTile()])
-        menu.hide()
-      },
-    },
-    {
-      name: '波纹点层',
-      action: () => {
-        exhibit.addLayer([pointWave()])
-        menu.hide()
-      },
-    },
-    {
-      name: '海量点层',
-      action: () => {
-        exhibit.addLayer([pointMuch()])
-        menu.hide()
-      },
-    },
-    {
-      name: 'OD线层',
-      action: () => {
-        exhibit.addLayer([odLine()])
-        menu.hide()
-      },
-    },
-    {
-      name: 'GeoJSON层',
-      action: () => {
-        exhibit.addLayer([geojson()])
-        menu.hide()
-      },
-    },
+    // {
+    //   name: '符号层',
+    //   action: () => {
+    //     exhibit.addLayer([gisIcon()])
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: '地形层',
+    //   action: () => {
+    //     exhibit.addLayer([gisTerrain()])
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: '模型层',
+    //   action: () => {
+    //     exhibit.addLayer([gisTile()])
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: '波纹点层',
+    //   action: () => {
+    //     exhibit.addLayer([pointWave()])
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: '海量点层',
+    //   action: () => {
+    //     exhibit.addLayer([pointMuch()])
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: '飞线层',
+    //   action: () => {
+    //     exhibit.addLayer([odLine()])
+    //     adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+    //     menu.hide()
+    //   },
+    // },
+    // {
+    //   name: 'GeoJSON层',
+    //   action: () => {
+    //     exhibit.addLayer([geojson()])
+    //     menu.hide()
+    //   },
+    // },
     {
       name: '热力层',
       action: () => {
@@ -136,13 +137,13 @@ const Builder = ({exhibit}) => {
         menu.hide()
       },
     },
-    {
-      name: '轨迹线层',
-      action: () => {
-        exhibit.addLayer([tripLine()])
-        menu.hide()
-      },
-    },
+    // {
+    //   name: '轨迹线层',
+    //   action: () => {
+    //     exhibit.addLayer([tripLine()])
+    //     menu.hide()
+    //   },
+    // },
   ]
   const delLayer = (layer) => {
     exhibit.delLayer(layer)

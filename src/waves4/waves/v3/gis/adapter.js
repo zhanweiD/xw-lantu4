@@ -1,4 +1,5 @@
-import {Earth} from 'wave-map/src/index'
+// import {Earth} from 'wave-map/src/index'
+import {Earth} from 'wave-map-test'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import {newLayersInstance} from '@utils'
 import translate from './translate'
