@@ -5,7 +5,7 @@ export default () => {
     sections: [
       {
         name: 'base',
-        fields: [{name: 'extruded'}, {name: 'radius'}, {name: 'heatmapType'}],
+        fields: [{name: 'radius'}, {name: 'heatmapType'}, {name: 'extruded'}, {name: 'elevationRange'}],
       },
     ],
     data: [

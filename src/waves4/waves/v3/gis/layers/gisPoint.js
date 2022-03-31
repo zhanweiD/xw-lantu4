@@ -6,19 +6,27 @@ export default () => {
       {
         name: 'base',
         fields: [
+          {name: 'type'},
+          {name: 'extruded'},
+          {name: 'getElevationValue'},
+          // {name: 'diskResolution'},
           {name: 'label'},
           {name: 'labelSize', defaultValue: 12},
-          // {name: 'labelColor', defaultValue: 'rgba(255, 255, 255, 1)'},
+          {name: 'labelColor', defaultValue: 'rgba(255, 255, 255, 1)'},
           {name: 'opacity'},
+          {name: 'getRadius'},
+          {name: 'fillColor'},
           {name: 'stroked'},
+          {name: 'getLineWidth'},
+          {name: 'lineColor'},
           {name: 'isBreathe'},
         ],
       },
     ],
     data: [
       ['label', 'value', 'elevation', 'coordinates'],
-      ['数据100', 100, 3000, [120.1, 30]],
-      ['数据150', 150, 4000, [120.1, 30.1]],
+      ['散点1', 100, 300, [120.1, 30]],
+      ['散点2', 150, 400, [120.1, 30.1]],
     ],
   }
 }

@@ -46,20 +46,27 @@ const getRealData = (data) => {
   }
 }
 
+const arrayRgba = (rgba) => {
+  const color = rgba.split(',').map((item, index) => {
+    if (!index) return +item.split('(')[1]
+    if (index === 3) return +item.split(')')[0]
+    return +item
+  })
+  color.length = 3
+  return color
+}
+
 const newLayersInstance = (earth, layers) => {
   return layers.map((item) => {
     const layer = item.getSchema ? item.getSchema() : item
     const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
-    console.log(layerOptions)
     let instance
-    console.log(layer)
     switch (layer.type) {
       case 'gisPoint':
-        // layerOptions.getRadius = d => d.value
-        // layerOptions.getElevationValue = d => d.elevation,
-        // layerOptions.getFillColor = d => d.value,
-        // layerOptions.getLineWidth = d => d.value,
-        // layerOptions.labelColor = [208, 2, 27, 1]
+        layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
+        layerOptions.getLineColor = arrayRgba(layerOptions.lineColor)
+        layerOptions.getFillColor = [...arrayRgba(layerOptions.fillColor), 255]
+        // !layerOptions.diskResolution && delete layerOptions.diskResolution
         instance = new PointLayer({
           ...layerOptions,
           earth,
@@ -75,17 +82,20 @@ const newLayersInstance = (earth, layers) => {
         }).getLayers()
         break
       case 'odLine':
-        console.log(111)
+        layerOptions.getSourceColor = arrayRgba(layerOptions.getSourceColor)
+        layerOptions.sourcePointColor = arrayRgba(layerOptions.sourcePointColor)
+        layerOptions.sourceLabelColor = arrayRgba(layerOptions.sourceLabelColor)
+        layerOptions.getTargetColor = arrayRgba(layerOptions.getTargetColor)
+        layerOptions.targetPointColor = arrayRgba(layerOptions.targetPointColor)
+        layerOptions.targetLabelColor = arrayRgba(layerOptions.targetLabelColor)
+        // layerOptions.flyPointColor = arrayRgba(layerOptions.flyPointColor)
+        console.log(layerOptions)
         instance = new OdLineLayer({
-          // ...layerOptions,
-          greatCircle: false,
-          getHeight: 0.2,
-          getTilt: 0.5,
-          flyPoint: true,
-          sourcePoint: true,
-          targetPoint: true,
-          sourceLabel: true,
-          targetLabel: true,
+          ...layerOptions,
+          // setFlyPoint: true,
+          // setFlyPointWidth: 10,
+          // setFlyPointSize: 10,
+          // setFlyPointColor: [255, 255, 255, 1],
           earth,
           data: getRealData(layer.data),
         }).getLayers()

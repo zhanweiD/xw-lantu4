@@ -12,7 +12,7 @@ import {
   // gisIcon,
   // geojson,
   gisHeatmap,
-  // odLine,
+  odLine,
   // gisTile,
   // gisTerrain,
   // pointMuch,
@@ -114,14 +114,14 @@ const Builder = ({exhibit}) => {
     //     menu.hide()
     //   },
     // },
-    // {
-    //   name: '飞线层',
-    //   action: () => {
-    //     exhibit.addLayer([odLine()])
-    //     adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '飞线层',
+      action: () => {
+        exhibit.addLayer([odLine()])
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+        menu.hide()
+      },
+    },
     // {
     //   name: 'GeoJSON层',
     //   action: () => {

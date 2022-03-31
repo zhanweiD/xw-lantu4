@@ -25,4 +25,12 @@ export const layerOptionMap = new Map([
       return storage.get()
     },
   ],
+  [
+    'odLine',
+    ({mapOption}) => {
+      const mapping = []
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
 ])

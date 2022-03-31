@@ -27,6 +27,9 @@ function translate(schema) {
       case 'gisHeatmap':
         configs.push({...item, ...layerOptionMap.get('gisHeatmap')({getOption, mapOption})})
         break
+      case 'odLine':
+        configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
+        break
       default:
         break
     }

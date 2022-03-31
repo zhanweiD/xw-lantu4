@@ -257,10 +257,6 @@ const baseMapStyle = {
       key: '蓝色',
       value: 'blueStyle',
     },
-    {
-      key: '黑色',
-      value: 'blackStyle',
-    },
   ],
 }
 const viewportMode = {
@@ -335,10 +331,30 @@ const extruded = {
   label: 'extruded',
   defaultValue: true,
 }
+const getElevationValue = {
+  type: 'number',
+  label: 'getElevationValue',
+  defaultValue: 5000,
+}
+const diskResolution = {
+  type: 'number',
+  label: 'diskResolution',
+  defaultValue: 4,
+}
+const getRadius = {
+  type: 'number',
+  label: 'getRadius',
+  defaultValue: 12,
+}
 const radius = {
   type: 'number',
   label: 'radius',
-  defaultValue: 5000,
+  defaultValue: 50,
+}
+const getLineWidth = {
+  type: 'number',
+  label: 'getLineWidth',
+  defaultValue: 2,
 }
 const heatmapType = {
   type: 'select',
@@ -358,6 +374,134 @@ const heatmapType = {
       value: 'grid',
     },
   ],
+}
+const type = {
+  type: 'check',
+  label: 'type',
+  defaultValue: '2D',
+  options: [
+    {
+      key: '2D',
+      value: '2D',
+    },
+    {
+      key: '3D',
+      value: '3D',
+    },
+  ],
+}
+
+const flyPoint = {
+  type: 'switch',
+  label: 'flyPoint',
+  defaultValue: true,
+}
+const sourcePoint = {
+  type: 'switch',
+  label: 'sourcePoint',
+  defaultValue: true,
+}
+const sourceLabel = {
+  type: 'switch',
+  label: 'sourceLabel',
+  defaultValue: true,
+}
+const targetPoint = {
+  type: 'switch',
+  label: 'targetPoint',
+  defaultValue: true,
+}
+const targetLabel = {
+  type: 'switch',
+  label: 'targetLabel',
+  defaultValue: true,
+}
+
+const flyPointSize = {
+  type: 'number',
+  label: 'flyPointSize',
+  defaultValue: 12,
+}
+const flyPointWidth = {
+  type: 'number',
+  label: 'flyPointWidth',
+  defaultValue: 1,
+}
+const sourceLabelSize = {
+  type: 'number',
+  label: 'sourceLabelSize',
+  defaultValue: 12,
+}
+const targetPointSize = {
+  type: 'number',
+  label: 'targetPointSize',
+  defaultValue: 12,
+}
+const targetLabelSize = {
+  type: 'number',
+  label: 'targetLabelSize',
+  defaultValue: 12,
+}
+const sourcePointSize = {
+  type: 'number',
+  label: 'sourcePointSize',
+  defaultValue: 12,
+}
+const flyPointColor = {
+  type: 'color',
+  label: 'flyPointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const getSourceColor = {
+  type: 'color',
+  label: 'getSourceColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const sourcePointColor = {
+  type: 'color',
+  label: 'sourcePointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const sourceLabelColor = {
+  type: 'color',
+  label: 'sourceLabelColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const getTargetColor = {
+  type: 'color',
+  label: 'getTargetColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const targetPointColor = {
+  type: 'color',
+  label: 'targetPointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const targetLabelColor = {
+  type: 'color',
+  label: 'targetLabelColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+const greatCircle = {
+  type: 'switch',
+  label: 'greatCircle',
+  defaultValue: true,
+}
+const getTilt = {
+  type: 'number',
+  label: 'getTilt',
+  defaultValue: 0,
+}
+const getHeight = {
+  type: 'number',
+  label: 'getHeight',
+  defaultValue: 1,
+}
+const getWidth = {
+  type: 'number',
+  label: 'getWidth',
+  defaultValue: 1,
 }
 
 /**
@@ -403,6 +547,26 @@ const padding = {
     },
     {
       key: '左',
+      step: 1,
+    },
+  ],
+}
+const fillColor = {
+  type: 'color',
+  label: 'fillColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const elevationRange = {
+  type: 'multiNumber',
+  label: 'elevationRange',
+  defaultValue: [1000, 10000],
+  items: [
+    {
+      key: '低',
+      step: 1,
+    },
+    {
+      key: '高',
       step: 1,
     },
   ],
@@ -2036,8 +2200,37 @@ export default {
   label,
   isBreathe,
   extruded,
-  radius,
+  getRadius,
   heatmapType,
+  type,
+  fillColor,
+  getLineWidth,
+  getElevationValue,
+  diskResolution,
+  elevationRange,
+  radius,
+  greatCircle,
+  getTilt,
+  getHeight,
+  getWidth,
+  getSourceColor,
+  sourcePoint,
+  sourcePointSize,
+  sourcePointColor,
+  sourceLabel,
+  sourceLabelSize,
+  sourceLabelColor,
+  getTargetColor,
+  targetPoint,
+  targetPointSize,
+  targetPointColor,
+  targetLabel,
+  targetLabelSize,
+  targetLabelColor,
+  flyPoint,
+  flyPointWidth,
+  flyPointColor,
+  flyPointSize,
   // 动画
   enterAnimation,
   animationType,
