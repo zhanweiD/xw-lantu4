@@ -1,6 +1,6 @@
 import data from './data'
 import layer from './layer'
-
+import {title} from '@waves4/configs'
 export const config = (k) => ({
   key: 'renju',
   name: k('renju'),
@@ -14,5 +14,6 @@ export const config = (k) => ({
   ],
   data,
   axis: false,
+  title: title({k, content: '手机厂商市场份额'}),
   legend: false,
 })

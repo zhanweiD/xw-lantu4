@@ -98,8 +98,12 @@ const animationDirection = {
 const theme = {
   type: 'select',
   label: 'themeLabel',
-  defaultValue: 'fairyLand',
+  defaultValue: 'default',
   options: [
+    {
+      key: 'theme.default',
+      value: 'default',
+    },
     {
       key: 'theme.fairyLand',
       value: 'fairyLand',

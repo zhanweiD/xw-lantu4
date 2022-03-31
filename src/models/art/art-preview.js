@@ -516,6 +516,7 @@ const MFrame = types
           }
         }
       }
+
       self.set({
         layout: view,
       })
@@ -540,7 +541,10 @@ const MArtPreview = types
     totalHeight: types.optional(types.number, 1),
     overflowX: types.optional(types.enumeration(['hidden', 'auto']), 'hidden'),
     overflowY: types.optional(types.enumeration(['hidden', 'auto']), 'hidden'),
-    fetchState: types.optional(types.enumeration('MArtPreview.fetchState', ['loading', 'success', 'error']), 'loading'),
+    fetchState: types.optional(
+      types.enumeration('MArtPreview.fetchState', ['loading', 'success', 'error', 'password']),
+      'loading'
+    ),
   })
   .views((self) => ({
     get mainFrame_() {
@@ -602,12 +606,13 @@ const MArtPreview = types
 
     const getOnlineType = flow(function* getOnlineType(publishId) {
       self.fetchState = 'loading'
+      // console.log(self.art_.get('isPrivate'))
       try {
         const res = yield io.art.getOnlineType({
           ':publishId': publishId,
         })
         if (res.type === 'private') {
-          // self.getPublishArt(publishId)
+          self.fetchState = 'password'
           return
         }
         self.getPublishArt(publishId)
@@ -619,7 +624,6 @@ const MArtPreview = types
     })
 
     const getPublishArt = flow(function* getPublishDetail(publishId) {
-      self.fetchState = 'loading'
       const params = self.preViewPassword
         ? {
             ':publishId': publishId,
@@ -754,7 +758,7 @@ const MArtPreview = types
         background,
         materials,
       })
-
+      console.log(frame, 'previewModel')
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)

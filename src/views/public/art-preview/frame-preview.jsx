@@ -16,11 +16,10 @@ const ArtFrame = ({art, frame}) => {
   reverseMaterials.reverse()
   const style = {
     flex: 'none',
-    width: `${layout.width}px`,
-    height: `${layout.height}px`,
+    width: '100%',
+    height: '100%',
     overflowX,
     overflowY,
-    background: themeConfigs[theme].background,
   }
 
   if (backgroundImage_) {
@@ -28,6 +27,9 @@ const ArtFrame = ({art, frame}) => {
   }
   if (backgroundColor_) {
     style.backgroundColor = backgroundColor_
+  }
+  if (!backgroundColor_ && !backgroundImage_) {
+    style.background = themeConfigs[theme].background
   }
 
   console.log(style)

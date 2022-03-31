@@ -395,6 +395,7 @@ export default {
   thresholdWidth: 'Threshold Width',
   labelValueColor: 'Label Value Color',
   theme: {
+    default: 'Default Theme',
     fairyLand: 'Fairy Land',
     emeraldGreen: 'Emerald Green',
     duskUniverse: 'Dusk Universe',

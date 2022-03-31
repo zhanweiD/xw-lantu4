@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import art from '@models/art/art-preview'
+
 import {useTranslation} from 'react-i18next'
 import ArtPreview from '@views/public/art-preview'
 import c from 'classnames'
@@ -11,14 +12,13 @@ const Publish = ({match}) => {
   const {publishId} = match.params
   const [visitAuthorVisible, setVisitAuthorVisible] = useState(true)
   useEffect(() => {
-    // art.getPublishArt(publishId)
     art.getOnlineType(publishId)
   }, [publishId])
   const {t} = useTranslation()
-  if (art.fetchState !== 'success') {
+  if (art.fetchState === 'password') {
     return (
       <div className={s.publish}>
-        {art.fetchState !== 'success' && (
+        {art.fetchState === 'password' && (
           <div
             style={{
               width: '100%',
