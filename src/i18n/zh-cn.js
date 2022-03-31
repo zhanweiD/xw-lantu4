@@ -438,6 +438,7 @@ export default {
     tickLineNumber: '刻度线数量',
   },
   theme: {
+    default: '默认',
     fairyLand: '梦幻岛',
     emeraldGreen: '冷翡翠',
     duskUniverse: '黄昏',

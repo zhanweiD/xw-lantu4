@@ -60,7 +60,7 @@ export const MBox = types
       'isEffect',
       'isLocked',
     ]),
-    deepKeys: types.frozen(['layout', 'constraints', 'paddding', 'background']),
+    deepKeys: types.frozen(['layout', 'constraints', 'padding', 'background']),
   })
   .views((self) => ({
     get root_() {
