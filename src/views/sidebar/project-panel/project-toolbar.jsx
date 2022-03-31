@@ -37,13 +37,16 @@ const Toolbar = ({useCreateButton}) => {
           icon="create-project"
           title={t('projectPanel.createProject')}
           className="cfw10"
-          onClick={() => set('isCreateModalVisible', true)}
+          onClick={() => {
+            set('isCreateModalVisible', true)
+          }}
         />
       )}
       <Modal
         width={360}
         title="新建项目"
         isVisible={isCreateModalVisible}
+        closable={false}
         buttons={[
           {name: '取消', action: () => set('isCreateModalVisible', false)},
           {name: '确定', action: () => createProject({name, description}, () => set('isCreateModalVisible', false))},

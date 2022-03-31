@@ -99,10 +99,10 @@ const VersionModal = ({art}) => {
             <span>查看所以部署记录</span>
           </div> */}
           <div className={c(s.align, 'fbh mt24')}>
-            <span>链接</span>
+            {/* <span>链接</span>
             <span className="fb1 ml12 mr12 hand" onClick={() => window.open(href)}>
               <TextField readOnly value={href} className="fb1" />
-            </span>
+            </span> */}
             {/* <div
               className={c(s.copyButton, 'pl8 pr8 hand cfw16')}
               // onClick={() => {

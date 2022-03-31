@@ -10,11 +10,12 @@ const Title = ({name, onChange}) => {
     <div
       className="fb1 omit"
       onKeyDown={(e) => {
-        if (!e.target.innerHTML.length) {
-          e.target.innerHTML = name
-        }
         if (e.key !== 'Enter') {
           return
+        } else {
+          if (!e.target.innerHTML.length) {
+            e.target.innerHTML = name
+          }
         }
         onChange(e.target.innerText)
         setContentEditable(false)
