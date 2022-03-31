@@ -109,7 +109,7 @@ export const setModelSchema = (node, schema) => {
         if (isArray(node[key])) {
           if (isArray(schema[key])) {
             schema[key].forEach((itemSchema, index) => {
-              node[key][index].setSchema(itemSchema)
+              node[key][index]?.setSchema?.(itemSchema)
             })
           }
         } else if (isPlainObject(schema[key]) && isMapType(getType(node[key]))) {

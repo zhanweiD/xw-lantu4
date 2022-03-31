@@ -6,7 +6,9 @@ const makeAdapter = () => {
   return createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      const instance = createWave(translate(options))
+      const config = translate(options)
+      delete config.layout
+      const instance = createWave(config)
       return instance
     },
 
