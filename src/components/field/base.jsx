@@ -48,7 +48,7 @@ export const Field = observer(
           })}
         >
           {isDef(label) && (
-            <div className={c('fb3', !label && 'hide', s.label)} style={labelStyle}>
+            <div className={c('fb3 ml24', !label && 'hide', s.label)} style={labelStyle}>
               {isKeyword(label) && <span className={s.red}>*</span>}
               {label}
             </div>

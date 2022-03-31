@@ -11,13 +11,13 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化组件实例
     init({options}) {
-      console.log(options)
       const translatedOptions = translate(options)
       const instance = new Earth(translatedOptions)
       // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
 
       const layersInstance = newLayersInstance(instance, translatedOptions.layers)
-      instance.updateLayers(layersInstance, true)
+      // instance.updateLayers(layersInstance, true)
+      instance.updateProps({viewportMode: 'auto', layers: layersInstance})
       return instance
     },
 
