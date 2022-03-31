@@ -12,10 +12,9 @@ const Title = ({name, onChange}) => {
       onKeyDown={(e) => {
         if (e.key !== 'Enter') {
           return
-        } else {
-          if (!e.target.innerHTML.length) {
-            e.target.innerHTML = name
-          }
+        }
+        if (!e.target.innerHTML.length) {
+          e.target.innerHTML = name
         }
         onChange(e.target.innerText)
         setContentEditable(false)
