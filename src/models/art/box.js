@@ -369,6 +369,7 @@ export const MBox = types
     const toggleLock = () => {
       self.isLocked = !self.isLocked
     }
+
     return {
       afterCreate,
       resize,

@@ -251,7 +251,7 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
       const setInteraction = (interaction) => {
-        self.interaction = createInteractionClass(config.key, interaction)
+        self.interaction = createInteractionClass(config.key, exhibit, getEnv(self))
       }
       const getInteraction = () => {
         if (self.interaction) {

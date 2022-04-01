@@ -693,6 +693,24 @@ export const MArtViewport = types
       ]
       return menuList
     }
+    // 获取所有的boxs 用于交互组件可选对象
+    const getAllBoxs = () => {
+      // 处理成树形数据
+      const res = self.frames.map((frame) => {
+        return {
+          title: frame.name,
+          key: `frame_${frame.frameId}`,
+          children: (frame.boxes || []).map((box) => {
+            return {
+              title: box.name,
+              key: box.boxId,
+              children: [],
+            }
+          }),
+        }
+      })
+      return res
+    }
 
     return {
       // 生命周期函数
@@ -719,5 +737,6 @@ export const MArtViewport = types
       resizeViewport,
       // 图层右键菜单
       getMenuList,
+      getAllBoxs,
     }
   })

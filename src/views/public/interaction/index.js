@@ -1,3 +1,3 @@
-import ButtonInteraction from './button'
+import Interaction from './interaction'
 
-export {ButtonInteraction}
+export {Interaction}

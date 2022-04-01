@@ -1,13 +1,22 @@
-import {types} from 'mobx-state-tree'
-// import commonAction from '@utils/common-action'
+import {getParent, types} from 'mobx-state-tree'
 import uuid from '@common/uuid'
+import commonAction from '@utils/common-action'
 
-const MAction = types.model('MAction', {
-  actionId: types.identifier,
-  actionType: types.optional(types.string, ''),
-  // 事件监听者，保存box或者frameId
-  listeners: types.optional(types.frozen([]), []),
-})
+const MAction = types
+  .model('MAction', {
+    actionId: types.identifier,
+    actionType: types.optional(types.string, ''),
+    // 事件监听者，保存box或者frameId
+    listeners: types.optional(types.frozen(), []),
+    // 跳转链接
+    herfValue: types.optional(types.string, ''),
+  })
+  .views((self) => ({
+    get _triggerType() {
+      return getParent(self, 2).triggerType
+    },
+  }))
+  .actions(commonAction(['set']))
 
 const MEvent = types
   .model('MEvent', {
@@ -15,11 +24,16 @@ const MEvent = types
     effective: types.optional(types.boolean, true),
     actions: types.array(MAction),
     currentAction: types.optional(types.reference(MAction), ''),
+    triggerType: types.optional(types.string, ''),
   })
+  .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
-      self.addAction()
+      if (self.actions && self.actions.length === 0) {
+        self.addAction()
+      }
     }
+
     const addAction = () => {
       const id = uuid()
       self.actions.push({
@@ -27,6 +41,7 @@ const MEvent = types
       })
       self.currentAction = id
     }
+
     const removeAction = () => {
       if (self.actions.length > 1) {
         self.actions = self.actions.filter((d) => d.actionId !== self.currentAction.actionId)
@@ -34,19 +49,10 @@ const MEvent = types
       }
     }
 
-    const setCurrentAction = (id) => {
-      self.currentAction = id
-    }
-
-    const setEffective = (effective) => {
-      self.effective = effective
-    }
     return {
       afterCreate,
       addAction,
       removeAction,
-      setEffective,
-      setCurrentAction,
     }
   })
 
@@ -65,9 +71,21 @@ const MButtonInteraction = types
     const removeEvent = (eventId) => {
       self.events = self.events.filter((d) => d.eventId !== eventId)
     }
+
+    const handleEvents = () => {
+      // button 组件的事件
+      // const parent = getParent(self)
+      // const {event} = parent.exhibitModel
+    }
+
+    const afterCreate = () => {
+      handleEvents()
+    }
+
     return {
       addEvent,
       removeEvent,
+      afterCreate,
     }
   })
 

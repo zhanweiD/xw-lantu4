@@ -1,18 +1,12 @@
-import {types} from 'mobx-state-tree'
-import isDef from '@utils/is-def'
-import commonAction from '@utils/common-action'
-import getObjectData from '@utils/get-object-data'
-import {transform} from './exhibit-config'
-import MButtonInteraction from './button-interaction-model'
+import {getParent, types, getRoot} from 'mobx-state-tree'
+import MInteraction from './interaction-model'
 
-const MSuperLinkInteraction = types.model('MSuperLinkAction', {
-  //
-  eventTypes: types.enumeration(['click', 'doubleClick']),
-})
-
-const createInteractionModel = (key, config) => {
-  const {eventTriggerTypes} = config
-  console.log('config...', config)
+const createInteractionModel = (key, exhibit, parentEnv) => {
+  // parentEnv 包含了art， event，data， event 在root创建传入的env event
+  // this event是全局的， 交互的实现通过这个
+  const {config} = exhibit
+  const {eventTriggerTypes} = config.interaction
+  console.log('config...', key, exhibit, parentEnv)
   const MModel = types
     .model(`M${key}.interaction`, {
       name: 'interaction',
@@ -20,52 +14,45 @@ const createInteractionModel = (key, config) => {
       triggerName: types.optional(types.string, ''),
       // 目标对象
       targets: types.frozen(),
-      // 事件模型数据
-      // eventModel: types.frozen(),
+      // 以图表id为准，因为box内容可换
+      trigger: types.optional(types.string, ''),
+      // 事件模型数据 不同组件不同模型
+      eventModel: types.optional(MInteraction, {}),
+      // 事件触发者组件的model 在view层挂载
+      // exhibitModel: types.maybeNull(),
       triggerTypes: types.array(types.string, []),
+      // 组件id
+      exhibitId: types.optional(types.string, exhibit.id),
     })
-    // .views(self => ({
-    //   get
-    // }))
-    // .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {
       const afterCreate = () => {
-        console.log('createInteractionModel...afterCreate')
-        if (key === 'button') {
-          self.eventModel = MButtonInteraction.create()
-        }
+        // if (key === 'button') {
+        //   self.eventModel = MInteraction.create()
+        // }
+        // 支持的事件类型
         self.triggerTypes = eventTriggerTypes
       }
 
-      // const toggleEffective = () => {
-      //   self.effective = !self.effective
-      // }
-      // const getData = () => {
-      //   let values = {}
-      //   const {options, effective} = self.getSchema()
-      //   if (isDef(effective)) {
-      //     values.effective = effective
-      //   }
+      const getSchema = () => {
+        return self.eventModel.toJSON()
+      }
 
-      //   if (!isDef(effective) || effective) {
-      //     values = {
-      //       ...values,
-      //       ...getObjectData(options),
-      //     }
-      //   }
-      //   return values
-      // }
+      const setSchema = (schema) => {
+        self.eventModel = MInteraction.create(schema)
+        console.log('setSchema...', schema)
+        // 暂时只在加载完数据，进行事件绑定
+      }
 
       return {
         afterCreate,
-        // toggleEffective,
-        // getData,
+        getSchema,
+        setSchema,
       }
     })
   return MModel
 }
 
-export const createInteractionClass = (key, config) => {
-  const MModel = createInteractionModel(key, config)
+export const createInteractionClass = (key, exhibit, parentEnv) => {
+  const MModel = createInteractionModel(key, exhibit, parentEnv)
   return MModel.create()
 }
