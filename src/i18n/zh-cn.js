@@ -784,4 +784,8 @@ export default {
   flyPointWidth: '飞点宽度',
   flyPointColor: '飞点颜色',
   flyPointSize: '飞点大小',
+  elevationData: '高程数据',
+  elevationDecoder: '定位器',
+  bounds: '显示范围',
+  texture: '纹理',
 }

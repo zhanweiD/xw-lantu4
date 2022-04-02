@@ -1,5 +1,5 @@
-// import {Earth} from 'wave-map/src/index'
-import {Earth} from 'wave-map-test'
+import {Earth} from 'wave-map/src/index'
+// import {Earth} from 'wave-map-test'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import {newLayersInstance} from '@utils'
 import translate from './translate'
@@ -12,12 +12,13 @@ const Adapter = () =>
     // 初始化组件实例
     init({options}) {
       const translatedOptions = translate(options)
+      console.log(translatedOptions)
       const instance = new Earth(translatedOptions)
       // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
 
       const layersInstance = newLayersInstance(instance, translatedOptions.layers)
       // instance.updateLayers(layersInstance, true)
-      instance.updateProps({viewportMode: 'auto', layers: layersInstance})
+      instance.updateProps({layers: layersInstance})
       return instance
     },
 

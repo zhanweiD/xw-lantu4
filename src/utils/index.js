@@ -1,23 +1,23 @@
+// import {
+//   PointLayer,
+//   // IconLayer,
+//   TerrainLayer,
+//   HeatmapLayer,
+//   // TileLayer,
+//   // GeoJsonLayer,
+//   // PathLayer,
+//   OdLineLayer,
+// } from 'wave-map-test'
 import {
   PointLayer,
   // IconLayer,
-  // TerrainLayer,
+  TerrainLayer,
   HeatmapLayer,
   // TileLayer,
   // GeoJsonLayer,
   // PathLayer,
   OdLineLayer,
-} from 'wave-map-test'
-// import {
-//   PointLayer,
-//   // IconLayer,
-//   // TerrainLayer,
-//   HeatmapLayer,
-//   // TileLayer,
-//   // GeoJsonLayer,
-//   // PathLayer,
-//   OdLineLayer
-// } from 'wave-map/src/index'
+} from 'wave-map/src/index'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
@@ -98,6 +98,19 @@ const newLayersInstance = (earth, layers) => {
           // setFlyPointColor: [255, 255, 255, 1],
           earth,
           data: getRealData(layer.data),
+        }).getLayers()
+        break
+      case 'gisTerrain':
+        layerOptions.elevationDecoder = {
+          rScaler: layerOptions.elevationDecoder?.[0],
+          gScaler: layerOptions.elevationDecoder?.[1],
+          bScaler: layerOptions.elevationDecoder?.[2],
+          offset: layerOptions.elevationDecoder?.[3],
+        }
+        instance = new TerrainLayer({
+          ...layerOptions,
+          earth,
+          // data: getRealData(layer.data),
         }).getLayers()
         break
       default:

@@ -638,6 +638,32 @@ const MArtPreview = types
           name: art.name,
           global: art.global,
         })
+
+        const ids = []
+        self.dataManager = art.dataManager
+
+        art.dataManager.map &&
+          Object.keys(art.dataManager.map).forEach((key) => {
+            ids.push(key)
+          })
+        let data = []
+        if (ids.length > 0) {
+          data = yield io.data.getDatasInfo({
+            ids: ids.join(','),
+          })
+        }
+
+        self.datas = data.map((v) => {
+          return MData.create({
+            ...v,
+          })
+        })
+        self.set({
+          artId: art.artId,
+          name: art.name,
+          global: art.global,
+        })
+
         art.frames.forEach((frame) => {
           initFrame(frame)
         })

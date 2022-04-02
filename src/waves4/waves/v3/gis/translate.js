@@ -1,4 +1,4 @@
-import {layerOptionMap} from './mapping'
+// import {layerOptionMap} from './mapping'
 
 function translate(schema) {
   const {
@@ -14,26 +14,29 @@ function translate(schema) {
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const configs = []
-  layers.forEach((item) => {
-    const {getOption, mapOption} = item
-    switch (item.type) {
-      case 'gis':
-        configs.push({...item, ...layerOptionMap.get('gis')({getOption, mapOption})})
-        break
-      case 'gisPoint':
-        configs.push({...item, ...layerOptionMap.get('gisPoint')({getOption, mapOption})})
-        break
-      case 'gisHeatmap':
-        configs.push({...item, ...layerOptionMap.get('gisHeatmap')({getOption, mapOption})})
-        break
-      case 'odLine':
-        configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
-        break
-      default:
-        break
-    }
-  })
+  // const configs = []
+  // layers.forEach((item) => {
+  //   const {getOption, mapOption} = item
+  //   switch (item.type) {
+  //     case 'gis':
+  //       configs.push({...item, ...layerOptionMap.get('gis')({getOption, mapOption})})
+  //       break
+  //     case 'gisPoint':
+  //       configs.push({...item, ...layerOptionMap.get('gisPoint')({getOption, mapOption})})
+  //       break
+  //     case 'gisHeatmap':
+  //       configs.push({...item, ...layerOptionMap.get('gisHeatmap')({getOption, mapOption})})
+  //       break
+  //     case 'odLine':
+  //       configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
+  //       break
+  //     case 'gisTerrain':
+  //       configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
+  //       break
+  //     default:
+  //       break
+  //   }
+  // })
 
   // const {getOption, mapOption} = layers[0]
   // // 属性的转换
@@ -48,7 +51,8 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    layers: configs,
+    layers,
+    // layers: configs,
     ...gisBase,
   }
 }

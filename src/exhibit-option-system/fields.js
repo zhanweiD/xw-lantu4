@@ -508,6 +508,40 @@ const getWidth = {
   defaultValue: 1,
 }
 
+const elevationDecoder = {
+  type: 'multiNumber',
+  label: 'elevationDecoder',
+  defaultValue: [6553.6, 25.6, 0.1, -10000],
+  items: [
+    {
+      key: 'r',
+      step: 1,
+    },
+    {
+      key: 'g',
+      step: 1,
+    },
+    {
+      key: 'b',
+      step: 1,
+    },
+    {
+      key: 'offset',
+      step: 1,
+    },
+  ],
+}
+const elevationData = {
+  type: 'text',
+  label: 'elevationData',
+  defaultValue: `https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoid3VmZW5mZW4iLCJhIjoiY2tma2pjbHU0MWJ6ZzMycDFrejl5dmQ0NiJ9.3F5nrYyDEfDjq6W8UOzZpg`,
+}
+const texture = {
+  type: 'text',
+  label: 'texture',
+  defaultValue: `https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1Ijoid3VmZW5mZW4iLCJhIjoiY2tma2pjbHU0MWJ6ZzMycDFrejl5dmQ0NiJ9.3F5nrYyDEfDjq6W8UOzZpg`,
+}
+
 /**
  * =====================================
  * common
@@ -2235,6 +2269,9 @@ export default {
   flyPointWidth,
   flyPointColor,
   flyPointSize,
+  elevationData,
+  elevationDecoder,
+  texture,
   // 动画
   enterAnimation,
   animationType,

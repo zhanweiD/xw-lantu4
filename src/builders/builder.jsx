@@ -14,7 +14,7 @@ import {
   gisHeatmap,
   odLine,
   // gisTile,
-  // gisTerrain,
+  gisTerrain,
   // pointMuch,
   // pointWave,
   // tripLine,
@@ -86,13 +86,14 @@ const Builder = ({exhibit}) => {
     //     menu.hide()
     //   },
     // },
-    // {
-    //   name: '地形层',
-    //   action: () => {
-    //     exhibit.addLayer([gisTerrain()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '地形层',
+      action: () => {
+        exhibit.addLayer([gisTerrain()])
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+        menu.hide()
+      },
+    },
     // {
     //   name: '模型层',
     //   action: () => {

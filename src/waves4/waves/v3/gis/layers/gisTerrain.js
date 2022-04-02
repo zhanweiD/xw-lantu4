@@ -4,13 +4,14 @@ export default () => {
     type: 'gisTerrain', // 必要
     sections: [
       {
-        name: 'gisSpecialEffects',
-        fields: [{name: 'gisElevation'}],
+        name: 'base',
+        fields: [
+          {name: 'elevationData'},
+          {name: 'elevationDecoder'},
+          // {name: 'bounds'},
+          {name: 'texture'},
+        ],
       },
-    ],
-    data: [
-      ['rScaler', 'gScaler', 'bScaler', 'offset'],
-      [6553.6, 25.6, 0.1, -10000],
     ],
   }
 }
