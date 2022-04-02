@@ -529,6 +529,7 @@ export default {
     classifyOthers: '其他图表',
     text: '文本',
     textarea: '多行文本',
+    classifyText: '文字',
     gauge: '仪表盘',
     multicolorGauge: '多色仪表盘',
     table: '表格',
@@ -548,8 +549,8 @@ export default {
     others: '其他',
     demo: '演示对接',
     baseCharts: '基础图表',
-    indicators: '指标',
-    preInteraction: '交互组件',
+    classifyIndicators: '指标',
+    classifyInteractiv: '交互组件',
   },
   user: {
     personalCenter: '个人中心',

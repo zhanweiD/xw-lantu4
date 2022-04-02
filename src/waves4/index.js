@@ -227,20 +227,32 @@ const categories = [
     exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
   },
   {
-    // 基础地图
+    // 地图
     name: 'classifyMap',
     icon: 'exhibit-map',
     exhibits: [baseMap, gis],
   },
   {
-    // 其他
-    name: 'others',
-    icon: 'exhibit-other',
-    exhibits: [text, textarea, dashboard, indicator, timeline],
+    // 文字
+    name: 'classifyText',
+    icon: 'exhibit-text',
+    exhibits: [text, textarea],
+  },
+  {
+    // 指标
+    name: 'classifyIndicators',
+    icon: 'exhibit-indicators',
+    exhibits: [dashboard, indicator, timeline],
+  },
+  {
+    // 多媒体
+    name: 'classifyMedia',
+    icon: 'exhibit-classifyMedia',
+    exhibits: [],
   },
   {
     // 交互组件
-    name: 'InteractivComponents',
+    name: 'classifyInteractiv',
     icon: 'demo-line',
     exhibits: [button],
   },

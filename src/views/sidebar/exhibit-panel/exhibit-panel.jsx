@@ -57,6 +57,17 @@ const Category = ({id, category}) => {
   )
 }
 
+// const cateList = [
+//   {name: 'baseCharts', key: 'classifyLine'},
+//   {name: 'classifyRelation', key: 'classifyRelation'},
+//   // {name: '聚焦图', key: 'classifyLine'},
+//   {name: 'classifyMap', key: 'classifyMap'},
+//   {name: 'classifyText', key: 'classifyText'},
+//   {name: 'classifyIndicators', key: 'classifyIndicators'},
+//   {name: 'classifyMedia', key: 'classifyMedia'},
+//   {name: 'classifyInteractiv', key: 'classifyInteractiv'},
+// ]
+
 const ExhibitPanel = () => {
   const {t} = useTranslation()
   const {exhibitPanel} = w.sidebar
@@ -67,15 +78,15 @@ const ExhibitPanel = () => {
     <div className="fbh h100p">
       {/* 临时隐藏掉 */}
       {/* <div className="pb8">
-        {Object.entries(cate).map(([id, category]) => (
-          <Caption content={t(`exhibit.${category.name}`)} key={id}>
+        {Object.entries(cateList).map(([id, item]) => (
+          <Caption content={t(`exhibit.${item.name}`)} key={`${uuid()}-${id}`}>
             <div
               onClick={() => {
-                scrollToFn(`#category-${category.name}`)
+                scrollToFn(`#category-${item.key}`)
               }}
               className={c('hand fbv fbac fbjc', s.naviIcon)}
             >
-              +
+              {t(`exhibit.${item.name}`)}
             </div>
           </Caption>
         ))}
@@ -107,7 +118,7 @@ const ExhibitPanel = () => {
   )
   return (
     <>
-      <Tab sessionId="exhibit-panel" className="fb1">
+      <Tab activeIndex={0} sessionId="exhibit-panel" className="fb1">
         <Tab.Item name={t('exhibitPanel.official')}>{TabItemContent(categories)}</Tab.Item>
         <Tab.Item name={t('exhibitPanel.echarts')}>{TabItemContent(categoriesEcharts)}</Tab.Item>
       </Tab>
