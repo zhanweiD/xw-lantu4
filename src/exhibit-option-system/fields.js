@@ -424,7 +424,7 @@ const targetLabel = {
 const flyPointSize = {
   type: 'number',
   label: 'flyPointSize',
-  defaultValue: 12,
+  defaultValue: 8,
 }
 const flyPointWidth = {
   type: 'number',
@@ -434,22 +434,22 @@ const flyPointWidth = {
 const sourceLabelSize = {
   type: 'number',
   label: 'sourceLabelSize',
-  defaultValue: 12,
+  defaultValue: 8,
 }
 const targetPointSize = {
   type: 'number',
   label: 'targetPointSize',
-  defaultValue: 12,
+  defaultValue: 8,
 }
 const targetLabelSize = {
   type: 'number',
   label: 'targetLabelSize',
-  defaultValue: 12,
+  defaultValue: 8,
 }
 const sourcePointSize = {
   type: 'number',
   label: 'sourcePointSize',
-  defaultValue: 12,
+  defaultValue: 8,
 }
 const flyPointColor = {
   type: 'color',
