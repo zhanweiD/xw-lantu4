@@ -2,6 +2,7 @@ import {Earth} from 'wave-map/src/index'
 // import {Earth} from 'wave-map-test'
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import {newLayersInstance} from '@utils'
+// import {newLayersInstance, getRealData} from '@utils'
 import translate from './translate'
 
 /**
@@ -14,6 +15,9 @@ const Adapter = () =>
       const translatedOptions = translate(options)
       console.log(translatedOptions)
       const instance = new Earth(translatedOptions)
+
+      // const layers = translatedOptions?.layers?.map(layer => layer.instanceLayer.getLayers())
+      // const instance = new Earth({...translatedOptions, layers})
       // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
 
       const layersInstance = newLayersInstance(instance, translatedOptions.layers)
@@ -57,15 +61,15 @@ const Adapter = () =>
       //     updateLayer?.instanceLayer?.setData(data)
       //   } else {
       //     // 更新style
-      //     updateLayer?.instanceLayer?.updateProps(updated.options)
+      //     updateLayer?.instanceLayer?.updateProps(updated.options.base)
       //   }
       //   // const updateOption = updateLayer?.instanceLayer?.getLayers()
       //   const layers = options.layers.map(item => item.instanceLayer.getLayers())
       //   // 因为setData后页面未更新，这里再次调用updateLayers更新页面
-      //   instance.updateLayers(layers, true)
+      //   instance.updateProps({layers}, true)
       // } else {
       //   // 更新map props
-      //   instance.updateProps(options)
+      //   instance.updateProps(options.gisBase)
       // }
     },
 

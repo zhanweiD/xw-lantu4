@@ -19,6 +19,8 @@ import {
   // pointWave,
   // tripLine,
 } from '../waves4/waves/v3/gis/layers'
+// import {newLayersInstance, getRealData} from '@utils'
+// import {PointLayer} from 'wave-map/src/index'
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
   if (level > 2) return
@@ -58,10 +60,19 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
   )
 }
 
+// const animate = (pointLayer, cb) => {
+//   setTimeout(() => {
+//     console.log(pointLayer)
+//     pointLayer.setDiskResolution((Math.random() * 12).toFixed(0) - 0 + 2)
+//     pointLayer.setElevationValue((Math.random() * 5000).toFixed(0) - 0 + 2)
+//     cb()
+//     animate()
+//   }, 10000)
+// }
+
 const Builder = ({exhibit}) => {
   const {data, dimension, extra, gisBase, key, layers, adapter} = exhibit
   const {instance} = adapter || {}
-
   const {t} = useTranslation()
   const menu = w.overlayManager.get('menu')
   const menuList = [
@@ -70,10 +81,14 @@ const Builder = ({exhibit}) => {
       action: () => {
         // const option = gisPoint()
         // const pointLayer = new PointLayer({
-        //   ...config,
+        //   earth: instance,
+        //   label: true,
         //   data: getRealData(option.data),
         // })
         // option.instanceLayer = pointLayer
+        // exhibit.addLayer([option])
+        // adapter.instance?.updateProps({layers: exhibit.layers.map(item => item.instanceLayer_.getLayers())})
+        // menu.hide()
         exhibit.addLayer([gisPoint()])
         adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
         menu.hide()

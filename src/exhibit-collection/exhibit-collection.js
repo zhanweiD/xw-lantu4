@@ -18,6 +18,8 @@ import {
   pointWave,
   tripLine,
 } from '../waves4/waves/v3/gis/layers'
+// import {Earth, PointLayer} from 'wave-map'
+// import {getRealData} from '@utils/index'
 
 const log = createLog('@exhibit-collection')
 
@@ -31,10 +33,6 @@ const setGisLayers = (config, gisLayers = []) => {
     return config.layers
   }
   const modelLayers = [...config.layers]
-  // const layerConfig = {
-  //   label: true,
-  //   opacity: 1,
-  // }
   gisLayers.forEach((item) => {
     switch (item.type) {
       case 'gisPoint':
@@ -42,10 +40,10 @@ const setGisLayers = (config, gisLayers = []) => {
 
         // const option = gisPoint()
         // const pointLayer = new PointLayer({
-        //   ...layerConfig,
         //   data: getRealData(item.data),
         // })
         // option.instanceLayer = pointLayer
+        // modelLayers.push(option)
         break
       case 'gisIcon':
         modelLayers.push(gisIcon())
