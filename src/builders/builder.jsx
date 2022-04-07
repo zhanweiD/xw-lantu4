@@ -18,7 +18,7 @@ import {
   gisPath,
 } from '../waves4/waves/v3/gis/layers'
 // import {newLayersInstance, getRealData} from '@utils'
-// import {PointLayer} from 'wave-map/src/index'
+// import {PointLayer} from 'wave-map'
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
   if (level > 2) return
