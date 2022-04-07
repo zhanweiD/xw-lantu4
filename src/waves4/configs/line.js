@@ -1,4 +1,4 @@
-export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axis = 'main', column = []}) => {
+export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', column = []}) => {
   return {
     name: '折线层',
     type: 'line',
@@ -19,23 +19,23 @@ export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axi
             name: 'axisBinding',
             defaultValue: axis,
           },
-          {
-            name: 'custom',
-            option: 'mode',
-            label: 'mode',
-            defaultValue: mode,
-            type: 'select',
-            options: [
-              {
-                key: 'group',
-                value: 'group',
-              },
-              {
-                key: 'stack',
-                value: 'stack',
-              },
-            ],
-          },
+          // {
+          //   name: 'custom',
+          //   option: 'mode',
+          //   label: 'mode',
+          //   defaultValue: mode,
+          //   type: 'select',
+          //   options: [
+          //     {
+          //       key: 'group',
+          //       value: 'group',
+          //     },
+          //     {
+          //       key: 'stack',
+          //       value: 'stack',
+          //     },
+          //   ],
+          // },
         ],
       },
       {

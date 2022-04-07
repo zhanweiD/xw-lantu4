@@ -221,7 +221,7 @@ export const layerOptionMap = new Map([
       const mapping = [
         // 基础
         ['base.axisBinding', 'options.axis'],
-        ['base.mode', 'options.mode'],
+        // ['base.mode', 'options.mode'],
         // 点
         ['point.size', 'style.pointSize'],
         ['point.singleColor', 'style.point.fill'],
