@@ -17,7 +17,7 @@ import {
   // GeoJsonLayer,
   PathLayer,
   OdLineLayer,
-} from 'wave-map'
+} from 'wave-map-test'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {

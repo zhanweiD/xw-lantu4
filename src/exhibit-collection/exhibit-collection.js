@@ -16,7 +16,7 @@ import {
   gisTerrain,
   gisPath,
 } from '../waves4/waves/v3/gis/layers'
-// import {Earth, PointLayer} from 'wave-map'
+// import {Earth, PointLayer} from 'wave-map-test'
 // import {getRealData} from '@utils/index'
 
 const log = createLog('@exhibit-collection')
