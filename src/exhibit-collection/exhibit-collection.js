@@ -14,9 +14,7 @@ import {
   odLine,
   gisTile,
   gisTerrain,
-  pointMuch,
-  pointWave,
-  tripLine,
+  gisPath,
 } from '../waves4/waves/v3/gis/layers'
 // import {Earth, PointLayer} from 'wave-map'
 // import {getRealData} from '@utils/index'
@@ -63,14 +61,8 @@ const setGisLayers = (config, gisLayers = []) => {
       case 'gisTerrain':
         modelLayers.push(gisTerrain())
         break
-      case 'pointMuch':
-        modelLayers.push(pointMuch())
-        break
-      case 'pointWave':
-        modelLayers.push(pointWave())
-        break
-      case 'tripLine':
-        modelLayers.push(tripLine())
+      case 'gisPath':
+        modelLayers.push(gisPath())
         break
       default:
         break

@@ -15,7 +15,7 @@ import {
   HeatmapLayer,
   // TileLayer,
   // GeoJsonLayer,
-  // PathLayer,
+  PathLayer,
   OdLineLayer,
 } from 'wave-map/src/index'
 import hJSON from 'hjson'
@@ -32,12 +32,17 @@ const getRealData = (data) => {
     const dataArray = []
     dataSource.forEach((i, idx) => {
       if (idx === 0) return
-      dataArray.push({
-        [dataSource[0][0]]: i[0],
-        [dataSource[0][1]]: i[1],
-        [dataSource[0][2]]: i[2],
-        [dataSource[0][3]]: i[3],
+      const dataItem = {}
+      dataSource[0].forEach((item, index) => {
+        dataItem[dataSource[0][index]] = i[index]
       })
+      dataArray.push(dataItem)
+      // dataArray.push({
+      //   [dataSource[0][0]]: i[0],
+      //   [dataSource[0][1]]: i[1],
+      //   [dataSource[0][2]]: i[2],
+      //   [dataSource[0][3]]: i[3],
+      // })
     })
     return dataArray
   } catch (e) {
@@ -46,6 +51,7 @@ const getRealData = (data) => {
   }
 }
 
+// 'rgba(255,255,255,1)' --> [255,255,255(,1)]
 const arrayRgba = (rgba) => {
   const color = rgba.split(',').map((item, index) => {
     if (!index) return +item.split('(')[1]
@@ -57,7 +63,7 @@ const arrayRgba = (rgba) => {
 }
 
 const newLayersInstance = (earth, layers) => {
-  return layers.map((item) => {
+  const data = layers.map((item) => {
     const layer = item.getSchema ? item.getSchema() : item
     const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
     let instance
@@ -113,10 +119,24 @@ const newLayersInstance = (earth, layers) => {
           // data: getRealData(layer.data),
         }).getLayers()
         break
+      case 'gisPath':
+        layerOptions.endVertexColor = arrayRgba(layerOptions.endVertexColor)
+        layerOptions.pathColor = arrayRgba(layerOptions.pathColor)
+        layerOptions.trailColor = arrayRgba(layerOptions.trailColor)
+        layerOptions.vertexColor = arrayRgba(layerOptions.vertexColor)
+        console.log(layerOptions)
+        instance = new PathLayer({
+          ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
+        }).getLayers()
+        break
       default:
         break
     }
     return instance
   })
+  // console.log(data.flat())
+  return data
 }
 export {newLayersInstance, getRealData}

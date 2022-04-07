@@ -15,9 +15,7 @@ import {
   odLine,
   // gisTile,
   gisTerrain,
-  // pointMuch,
-  // pointWave,
-  // tripLine,
+  gisPath,
 } from '../waves4/waves/v3/gis/layers'
 // import {newLayersInstance, getRealData} from '@utils'
 // import {PointLayer} from 'wave-map/src/index'
@@ -116,20 +114,6 @@ const Builder = ({exhibit}) => {
     //     menu.hide()
     //   },
     // },
-    // {
-    //   name: '波纹点层',
-    //   action: () => {
-    //     exhibit.addLayer([pointWave()])
-    //     menu.hide()
-    //   },
-    // },
-    // {
-    //   name: '海量点层',
-    //   action: () => {
-    //     exhibit.addLayer([pointMuch()])
-    //     menu.hide()
-    //   },
-    // },
     {
       name: '飞线层',
       action: () => {
@@ -149,17 +133,18 @@ const Builder = ({exhibit}) => {
       name: '热力层',
       action: () => {
         exhibit.addLayer([gisHeatmap()])
-        adapter.instance?.updateProps({layers: newLayersInstance(adapter.instance, exhibit.layers)})
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
         menu.hide()
       },
     },
-    // {
-    //   name: '轨迹线层',
-    //   action: () => {
-    //     exhibit.addLayer([tripLine()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '轨迹线层',
+      action: () => {
+        exhibit.addLayer([gisPath()])
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+        menu.hide()
+      },
+    },
   ]
   const delLayer = (layer) => {
     exhibit.delLayer(layer)

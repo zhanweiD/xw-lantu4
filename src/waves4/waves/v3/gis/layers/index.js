@@ -5,8 +5,6 @@ import gisHeatmap from './gisHeatmap'
 import odLine from './odLine'
 import gisTile from './gisTile'
 import gisTerrain from './gisTerrain'
-import pointMuch from './pointMuch'
-import pointWave from './pointWave'
-import tripLine from './tripLine'
+import gisPath from './gisPath'
 
-export {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, pointMuch, pointWave, tripLine}
+export {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath}

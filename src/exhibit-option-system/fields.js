@@ -541,6 +541,82 @@ const texture = {
   label: 'texture',
   defaultValue: `https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1Ijoid3VmZW5mZW4iLCJhIjoiY2tma2pjbHU0MWJ6ZzMycDFrejl5dmQ0NiJ9.3F5nrYyDEfDjq6W8UOzZpg`,
 }
+const showPath = {
+  type: 'switch',
+  label: 'showPath',
+  defaultValue: true,
+}
+const showTrail = {
+  type: 'switch',
+  label: 'showTrail',
+  defaultValue: true,
+}
+const showEndVertex = {
+  type: 'switch',
+  label: 'showEndVertex',
+  defaultValue: true,
+}
+const showVertex = {
+  type: 'switch',
+  label: 'showVertex',
+  defaultValue: true,
+}
+const rounded = {
+  type: 'switch',
+  label: 'rounded',
+  defaultValue: true,
+}
+const pathColor = {
+  type: 'color',
+  label: 'pathColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const trailColor = {
+  type: 'color',
+  label: 'trailColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const endVertexColor = {
+  type: 'color',
+  label: 'endVertexColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const vertexColor = {
+  type: 'color',
+  label: 'vertexColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+const pathWidth = {
+  type: 'number',
+  label: 'pathWidth',
+  defaultValue: 2,
+}
+const trailWidth = {
+  type: 'number',
+  label: 'trailWidth',
+  defaultValue: 4,
+}
+const trailLength = {
+  type: 'number',
+  label: 'trailLength',
+  defaultValue: 4,
+}
+const trailSpeed = {
+  type: 'number',
+  label: 'trailSpeed',
+  defaultValue: 1,
+}
+const endVertexSize = {
+  type: 'number',
+  label: 'endVertexSize',
+  defaultValue: 2,
+}
+const vertexSize = {
+  type: 'number',
+  label: 'vertexSize',
+  defaultValue: 1,
+}
 
 /**
  * =====================================
@@ -2272,6 +2348,21 @@ export default {
   elevationData,
   elevationDecoder,
   texture,
+  showPath,
+  pathWidth,
+  pathColor,
+  rounded,
+  showTrail,
+  trailWidth,
+  trailLength,
+  trailColor,
+  trailSpeed,
+  showEndVertex,
+  endVertexColor,
+  endVertexSize,
+  showVertex,
+  vertexColor,
+  vertexSize,
   // 动画
   enterAnimation,
   animationType,

@@ -21,7 +21,6 @@ const Adapter = () =>
       // const layers = translatedOptions.layers.map((item) => item.instanceLayer?.getLayers())
 
       const layersInstance = newLayersInstance(instance, translatedOptions.layers)
-      // instance.updateLayers(layersInstance, true)
       instance.updateProps({layers: layersInstance})
       return instance
     },
@@ -33,10 +32,9 @@ const Adapter = () =>
       const layersInstance = newLayersInstance(updateConfig.instance, options.layers)
       if (isLayer) {
         // 方法二 全部新建,不用考虑layer身上的instanceLayer
-        instance.updateLayers(layersInstance, true)
+        instance.updateProps({layers: layersInstance})
       } else {
         instance.updateProps({...translate(options), layers: layersInstance})
-
         // 方式二新建map，工具条之类的需要重新创建
         // instance.destory()
         // const newInstance = new Earth(translate(options))
