@@ -803,4 +803,9 @@ export default {
   showVertex: '中间节点',
   vertexColor: '节点颜色',
   vertexSize: '节点大小',
+  iconSize: '大小',
+  showLabel: '标签',
+  getAngle: '旋转',
+  getTextAnchor: '文字锚点',
+  getAlignmentBaseline: '基线',
 }

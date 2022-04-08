@@ -617,6 +617,41 @@ const vertexSize = {
   label: 'vertexSize',
   defaultValue: 1,
 }
+const iconSize = {
+  type: 'number',
+  label: 'iconSize',
+  defaultValue: 30,
+}
+const showLabel = {
+  type: 'switch',
+  label: 'showLabel',
+  defaultValue: true,
+}
+const getAngle = {
+  type: 'number',
+  label: 'getAngle',
+  defaultValue: 0,
+}
+const getTextAnchor = {
+  type: 'check',
+  label: 'getTextAnchor',
+  defaultValue: 'middle',
+  options: [
+    {key: '左', value: 'end'},
+    {key: '中', value: 'middle'},
+    {key: '右', value: 'start'},
+  ],
+}
+const getAlignmentBaseline = {
+  type: 'check',
+  label: 'getAlignmentBaseline',
+  defaultValue: 'bottom',
+  options: [
+    {key: '上', value: 'bottom'},
+    {key: '中', value: 'center'},
+    {key: '下', value: 'top'},
+  ],
+}
 
 /**
  * =====================================
@@ -2363,6 +2398,11 @@ export default {
   showVertex,
   vertexColor,
   vertexSize,
+  iconSize,
+  showLabel,
+  getAngle,
+  getTextAnchor,
+  getAlignmentBaseline,
   // 动画
   enterAnimation,
   animationType,

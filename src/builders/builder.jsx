@@ -9,7 +9,7 @@ import w from '@models'
 import {newLayersInstance} from '@utils'
 import {
   gisPoint,
-  // gisIcon,
+  gisIcon,
   // geojson,
   gisHeatmap,
   odLine,
@@ -92,13 +92,14 @@ const Builder = ({exhibit}) => {
         menu.hide()
       },
     },
-    // {
-    //   name: '符号层',
-    //   action: () => {
-    //     exhibit.addLayer([gisIcon()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '符号层',
+      action: () => {
+        exhibit.addLayer([gisIcon()])
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+        menu.hide()
+      },
+    },
     {
       name: '地形层',
       action: () => {

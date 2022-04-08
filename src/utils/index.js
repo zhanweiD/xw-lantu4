@@ -10,7 +10,7 @@
 // } from 'wave-map-test'
 import {
   PointLayer,
-  // IconLayer,
+  IconLayer,
   TerrainLayer,
   HeatmapLayer,
   // TileLayer,
@@ -126,6 +126,17 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.vertexColor = arrayRgba(layerOptions.vertexColor)
         console.log(layerOptions)
         instance = new PathLayer({
+          ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
+        }).getLayers()
+        break
+      case 'gisIcon':
+        layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
+        layerOptions.getLabel = (d) => d.name
+        layerOptions.getLabelPosition = (d) => d.coordinates
+        console.log(layerOptions)
+        instance = new IconLayer({
           ...layerOptions,
           earth,
           data: getRealData(layer.data),
