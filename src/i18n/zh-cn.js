@@ -808,4 +808,12 @@ export default {
   getAngle: '旋转',
   getTextAnchor: '文字锚点',
   getAlignmentBaseline: '基线',
+  billboard: '面向相机',
+  filled: '填充',
+  getFillColor: '填充色',
+  wireframe: '线框',
+  getLineColor: '线框色',
+  geojsonData: 'geojson',
+  geojsonType: '类型',
+  getElevation: '高程',
 }

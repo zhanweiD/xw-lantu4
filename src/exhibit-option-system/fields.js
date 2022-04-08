@@ -333,11 +333,16 @@ const isBreathe = {
 const extruded = {
   type: 'switch',
   label: 'extruded',
-  defaultValue: true,
+  defaultValue: false,
 }
 const getElevationValue = {
   type: 'number',
   label: 'getElevationValue',
+  defaultValue: 5000,
+}
+const getElevation = {
+  type: 'number',
+  label: 'getElevation',
   defaultValue: 5000,
 }
 const diskResolution = {
@@ -358,7 +363,7 @@ const radius = {
 const getLineWidth = {
   type: 'number',
   label: 'getLineWidth',
-  defaultValue: 2,
+  defaultValue: 1,
 }
 const heatmapType = {
   type: 'select',
@@ -508,6 +513,42 @@ const getWidth = {
   defaultValue: 1,
 }
 
+const filled = {
+  type: 'switch',
+  label: 'filled',
+  defaultValue: true,
+}
+const getFillColor = {
+  type: 'color',
+  label: 'getFillColor',
+  defaultValue: 'rgba(255, 155, 35, 1)',
+}
+const wireframe = {
+  type: 'switch',
+  label: 'wireframe',
+  defaultValue: true,
+}
+const getLineColor = {
+  type: 'color',
+  label: 'getLineColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const geojsonType = {
+  type: 'check',
+  label: 'geojsonType',
+  defaultValue: 'province',
+  options: [
+    {
+      key: '省份',
+      value: 'province',
+    },
+    {
+      key: '建筑群',
+      value: 'city',
+    },
+  ],
+}
+
 const elevationDecoder = {
   type: 'multiNumber',
   label: 'elevationDecoder',
@@ -627,10 +668,20 @@ const showLabel = {
   label: 'showLabel',
   defaultValue: true,
 }
+const billboard = {
+  type: 'switch',
+  label: 'billboard',
+  defaultValue: true,
+}
 const getAngle = {
   type: 'number',
   label: 'getAngle',
   defaultValue: 0,
+}
+const geojsonData = {
+  type: 'text',
+  label: 'geojsonData',
+  defaultValue: 'http://cdn.dtwave.com/waveview/geojson/100000_full.json',
 }
 const getTextAnchor = {
   type: 'check',
@@ -1825,7 +1876,7 @@ const labelOffsetY = {
 const labelColor = {
   type: 'color',
   label: 'labelColor',
-  defaultValue: 'rgba(0, 255, 255, 1)',
+  defaultValue: 'rgba(255, 255, 255, 1)',
 }
 // 标签角度
 const labelAngle = {
@@ -1839,7 +1890,7 @@ const labelAngle = {
 const labelSize = {
   type: 'number',
   label: 'labelSize',
-  defaultValue: 5,
+  defaultValue: 12,
   min: 0,
   max: 50,
 }
@@ -2403,6 +2454,13 @@ export default {
   getAngle,
   getTextAnchor,
   getAlignmentBaseline,
+  filled,
+  getFillColor,
+  wireframe,
+  getLineColor,
+  geojsonData,
+  getElevation,
+  geojsonType,
   // 动画
   enterAnimation,
   animationType,
@@ -2410,4 +2468,5 @@ export default {
   delay,
   scope,
   animationDirection,
+  billboard,
 }

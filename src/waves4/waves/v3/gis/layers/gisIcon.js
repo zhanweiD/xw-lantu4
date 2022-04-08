@@ -10,6 +10,7 @@ export default () => {
           {name: 'showLabel'},
           {name: 'labelSize', defaultValue: 16},
           {name: 'labelColor'},
+          {name: 'billboard'},
           {name: 'getAngle'},
           {name: 'getTextAnchor'},
           {name: 'getAlignmentBaseline'},

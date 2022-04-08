@@ -14,7 +14,7 @@ import {
   TerrainLayer,
   HeatmapLayer,
   // TileLayer,
-  // GeoJsonLayer,
+  GeoJsonLayer,
   PathLayer,
   OdLineLayer,
 } from 'wave-map-test'
@@ -140,6 +140,41 @@ const newLayersInstance = (earth, layers) => {
           ...layerOptions,
           earth,
           data: getRealData(layer.data),
+        }).getLayers()
+        break
+      case 'geojson':
+        layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
+        layerOptions.getFillColor = arrayRgba(layerOptions.getFillColor)
+        layerOptions.getLineColor = arrayRgba(layerOptions.getLineColor)
+        layerOptions.getLabel = (d) => d.label
+        layerOptions.getLabelPosition = (d) => d.center
+        layerOptions.data = layerOptions.geojsonData
+
+        console.log(layerOptions)
+        instance = new GeoJsonLayer({
+          earth,
+          labelData: getRealData(layer.data),
+          ...layerOptions,
+          getElevation: (d) => {
+            return layerOptions.geojsonType === 'city'
+              ? Number(d.properties.FLOOR) * 3
+              : Number(d.properties.childrenNum) * 3000
+          },
+          // getElevation: d => {
+          //   return Number(d.properties.FLOOR) * 3
+          // },
+          // getFillColor: () => [200, 140 * Math.random(), 0],
+          // getFillColor: () => [200 * Math.random(), 30, 40],
+          // data: layer.geojsonData,
+          // data: 'http://cdn.dtwave.com/waveview/geojson/100000_full.json',
+          // wireframe: true,
+          // stroked: true,
+          // filled: true,
+          // showLabel: true,
+          // labelSize: 14,
+          // getLineColor: [255, 255, 100],
+          // getLineWidth: 6000,
+          // lineWidthUnits: 'pixels',
         }).getLayers()
         break
       default:

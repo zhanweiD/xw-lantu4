@@ -10,7 +10,7 @@ import {newLayersInstance} from '@utils'
 import {
   gisPoint,
   gisIcon,
-  // geojson,
+  geojson,
   gisHeatmap,
   odLine,
   // gisTile,
@@ -123,13 +123,14 @@ const Builder = ({exhibit}) => {
         menu.hide()
       },
     },
-    // {
-    //   name: 'GeoJSON层',
-    //   action: () => {
-    //     exhibit.addLayer([geojson()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '填充层',
+      action: () => {
+        exhibit.addLayer([geojson()])
+        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+        menu.hide()
+      },
+    },
     {
       name: '热力层',
       action: () => {
