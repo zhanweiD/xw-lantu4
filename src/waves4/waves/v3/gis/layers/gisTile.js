@@ -4,8 +4,12 @@ export default () => {
     type: 'gisTile', // 必要
     sections: [
       {
-        name: 'gisSpecialEffects',
-        fields: [{name: 'gisElevation'}],
+        name: 'base',
+        fields: [
+          {name: 'tileUrl'},
+          {name: 'tileType'},
+          // {name: 'loadOptions'},
+        ],
       },
     ],
   }

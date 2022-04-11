@@ -1,23 +1,23 @@
-// import {
-//   PointLayer,
-//   // IconLayer,
-//   TerrainLayer,
-//   HeatmapLayer,
-//   // TileLayer,
-//   // GeoJsonLayer,
-//   // PathLayer,
-//   OdLineLayer,
-// } from 'wave-map-test'
 import {
   PointLayer,
   IconLayer,
   TerrainLayer,
   HeatmapLayer,
-  // TileLayer,
+  TileLayer,
   GeoJsonLayer,
   PathLayer,
   OdLineLayer,
 } from 'wave-map-test'
+// import {
+//   PointLayer,
+//   IconLayer,
+//   TerrainLayer,
+//   HeatmapLayer,
+//   TileLayer,
+//   GeoJsonLayer,
+//   PathLayer,
+//   OdLineLayer,
+// } from 'wave-map/src/index'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
@@ -37,12 +37,6 @@ const getRealData = (data) => {
         dataItem[dataSource[0][index]] = i[index]
       })
       dataArray.push(dataItem)
-      // dataArray.push({
-      //   [dataSource[0][0]]: i[0],
-      //   [dataSource[0][1]]: i[1],
-      //   [dataSource[0][2]]: i[2],
-      //   [dataSource[0][3]]: i[3],
-      // })
     })
     return dataArray
   } catch (e) {
@@ -63,7 +57,7 @@ const arrayRgba = (rgba) => {
 }
 
 const newLayersInstance = (earth, layers) => {
-  const data = layers.map((item) => {
+  return layers.map((item) => {
     const layer = item.getSchema ? item.getSchema() : item
     const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
     let instance
@@ -72,7 +66,7 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
         layerOptions.getLineColor = arrayRgba(layerOptions.lineColor)
         layerOptions.getFillColor = [...arrayRgba(layerOptions.fillColor), 255]
-        // !layerOptions.diskResolution && delete layerOptions.diskResolution
+
         instance = new PointLayer({
           ...layerOptions,
           earth,
@@ -80,7 +74,6 @@ const newLayersInstance = (earth, layers) => {
         }).getLayers()
         break
       case 'gisHeatmap':
-        console.log(layerOptions)
         instance = new HeatmapLayer({
           ...layerOptions,
           earth,
@@ -95,7 +88,6 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.targetPointColor = arrayRgba(layerOptions.targetPointColor)
         layerOptions.targetLabelColor = arrayRgba(layerOptions.targetLabelColor)
         // layerOptions.flyPointColor = arrayRgba(layerOptions.flyPointColor)
-        console.log(layerOptions)
         instance = new OdLineLayer({
           ...layerOptions,
           // setFlyPoint: true,
@@ -124,7 +116,7 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.pathColor = arrayRgba(layerOptions.pathColor)
         layerOptions.trailColor = arrayRgba(layerOptions.trailColor)
         layerOptions.vertexColor = arrayRgba(layerOptions.vertexColor)
-        console.log(layerOptions)
+
         instance = new PathLayer({
           ...layerOptions,
           earth,
@@ -135,7 +127,7 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
         layerOptions.getLabel = (d) => d.name
         layerOptions.getLabelPosition = (d) => d.coordinates
-        console.log(layerOptions)
+
         instance = new IconLayer({
           ...layerOptions,
           earth,
@@ -150,7 +142,6 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.getLabelPosition = (d) => d.center
         layerOptions.data = layerOptions.geojsonData
 
-        console.log(layerOptions)
         instance = new GeoJsonLayer({
           earth,
           labelData: getRealData(layer.data),
@@ -160,29 +151,26 @@ const newLayersInstance = (earth, layers) => {
               ? Number(d.properties.FLOOR) * 3
               : Number(d.properties.childrenNum) * 3000
           },
-          // getElevation: d => {
-          //   return Number(d.properties.FLOOR) * 3
-          // },
-          // getFillColor: () => [200, 140 * Math.random(), 0],
           // getFillColor: () => [200 * Math.random(), 30, 40],
-          // data: layer.geojsonData,
-          // data: 'http://cdn.dtwave.com/waveview/geojson/100000_full.json',
-          // wireframe: true,
-          // stroked: true,
-          // filled: true,
-          // showLabel: true,
-          // labelSize: 14,
-          // getLineColor: [255, 255, 100],
-          // getLineWidth: 6000,
-          // lineWidthUnits: 'pixels',
         }).getLayers()
         break
       default:
+        layerOptions.loadOptions =
+          layerOptions.tileType === 'cesium'
+            ? {
+                'cesium-ion': {
+                  accessToken:
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWMxMzcyYy0zZjJkLTQwODctODNlNi01MDRkZmMzMjIxOWIiLCJpZCI6OTYyMCwic2NvcGVzIjpbImFzbCIsImFzciIsImdjIl0sImlhdCI6MTU2Mjg2NjI3M30.1FNiClUyk00YH_nWfSGpiQAjR5V2OvREDq1PJ5QMjWQ',
+                },
+              }
+            : undefined
+        instance = new TileLayer({
+          ...layerOptions,
+          earth,
+        }).getLayers()
         break
     }
     return instance
   })
-  // console.log(data.flat())
-  return data
 }
 export {newLayersInstance, getRealData}

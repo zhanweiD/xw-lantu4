@@ -816,4 +816,6 @@ export default {
   geojsonData: 'geojson',
   geojsonType: '类型',
   getElevation: '高程',
+  tileUrl: '模型链接',
+  tileType: '数据类型',
 }

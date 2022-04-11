@@ -703,6 +703,22 @@ const getAlignmentBaseline = {
     {key: '下', value: 'top'},
   ],
 }
+const tileUrl = {
+  type: 'text',
+  label: 'tileUrl',
+  defaultValue: 'https://assets.cesium.com/43978/tileset.json',
+  // defaultValue: 'https://saasprod.4001113900.com:10020/jxmgy/tileset.json',
+}
+const tileType = {
+  type: 'check',
+  label: 'tileType',
+  defaultValue: 'cesium',
+  options: [
+    {key: 'cesium', value: 'cesium'},
+    {key: 'acrgis', value: 'i3s'},
+    {key: 'supermap', value: 'tile3d'},
+  ],
+}
 
 /**
  * =====================================
@@ -2461,6 +2477,8 @@ export default {
   geojsonData,
   getElevation,
   geojsonType,
+  tileUrl,
+  tileType,
   // 动画
   enterAnimation,
   animationType,
