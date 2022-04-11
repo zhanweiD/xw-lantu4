@@ -7,16 +7,7 @@ import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 import w from '@models'
 import {newLayersInstance} from '@utils'
-import {
-  gisPoint,
-  gisIcon,
-  geojson,
-  gisHeatmap,
-  odLine,
-  gisTile,
-  gisTerrain,
-  gisPath,
-} from '../waves4/waves/v3/gis/layers'
+import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath} from '../waves4/waves/gis/layers'
 // import {newLayersInstance, getRealData} from '@utils'
 // import {PointLayer} from 'wave-map-test'
 
