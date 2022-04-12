@@ -7,6 +7,7 @@ import {transform} from './exhibit-config'
 import isDef from '@utils/is-def'
 
 export const createLayer = (category, key, layer, env) => {
+  // const {name, type, id = uuid(), sections, fields, instanceLayer} = layer
   const {name, type, id = uuid(), sections, fields} = layer
   const MLayer = types
     .model(`M${key}Layer`, {
@@ -19,6 +20,11 @@ export const createLayer = (category, key, layer, env) => {
       normalKeys: types.frozen(['id', 'type', 'name', 'effective', 'category']),
       deepKeys: types.frozen(['options', 'data']),
     })
+    // .views((self) => ({
+    //   get instanceLayer_() {
+    //     return instanceLayer
+    //   },
+    // }))
     .actions(commonAction(['set', 'getSchema', 'setSchema']))
     .actions((self) => {
       const afterCreate = () => {
@@ -29,7 +35,11 @@ export const createLayer = (category, key, layer, env) => {
           self.data = MDataField.create(
             {
               type: 'data',
-              relationModels: self.options.getRelationFields('columnSelect'),
+              sectionStyleType: 1,
+              value: {
+                type: 'private',
+                private: hJSON.stringify(layer.data, {space: 2, quotes: 'strings', separator: true}),
+              },
             },
             {
               ...env,
@@ -46,7 +56,7 @@ export const createLayer = (category, key, layer, env) => {
             data = hJSON.parse(privateData)
           }
           if (type === 'source') {
-            const {datas = []} = self.art_
+            const {datas = []} = self.art_ || {}
             const sourceData = datas.find((v) => v.id === source)
             if (sourceData) {
               let value = []

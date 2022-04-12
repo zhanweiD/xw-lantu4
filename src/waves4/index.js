@@ -43,6 +43,18 @@ import circleMatrix from './waves/matrices/circle-matrix'
 import baseMap from './waves/map/baseMap'
 import timeline from './waves/others/timeline'
 import river from './waves/v3/river'
+import renju from './waves/v3/renju'
+import semicircle from './waves/v3/semicircle'
+import horizontalHourglass from './waves/v3/hourglass'
+import histogram from './waves/v3/histogram'
+import bulletColumn from './waves/v3/bullet-column'
+import radialBar from './waves/v3/radial-bar'
+import orderedList from './waves/v3/ordered-list'
+import pyramid from './waves/v3/pyramid'
+import progress from './waves/v3/progress'
+
+import bullet from './waves/v3/bullet'
+
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
 import i18n from '@i18n'
@@ -63,6 +75,11 @@ const waves = {
   intervalColumn,
   waterfallColumn,
   percentageColumn,
+  renju,
+  semicircle,
+  horizontalHourglass,
+  histogram,
+  bulletColumn,
   // 折柱
   basicLineColumn,
   groupLineColumn,
@@ -74,6 +91,11 @@ const waves = {
   percentageBar,
   intervalBar,
   waterfallBar,
+  radialBar,
+  bullet,
+  orderedList,
+  pyramid,
+  progress,
   // 热力图
   rectMatrix,
   circleMatrix,
@@ -149,13 +171,30 @@ const categories = [
       basicLineColumn,
       groupLineColumn,
       stackLineColumn,
+      renju,
+      semicircle,
+      horizontalHourglass,
+      histogram,
+      bulletColumn,
     ],
   },
   {
     // 条形图
     name: 'classifyBar',
     icon: 'exhibit-bar',
-    exhibits: [basicBar, groupBar, stackBar, percentageBar, intervalBar, waterfallBar],
+    exhibits: [
+      basicBar,
+      groupBar,
+      stackBar,
+      percentageBar,
+      intervalBar,
+      waterfallBar,
+      radialBar,
+      bullet,
+      orderedList,
+      pyramid,
+      progress,
+    ],
   },
   {
     // 饼图
@@ -188,20 +227,32 @@ const categories = [
     exhibits: [edgeBundle, chord, sankey, tree, treemap, pack],
   },
   {
-    // 基础地图
+    // 地图
     name: 'classifyMap',
     icon: 'exhibit-map',
     exhibits: [baseMap, gis],
   },
   {
-    // 其他
-    name: 'others',
-    icon: 'exhibit-other',
-    exhibits: [text, textarea, dashboard, indicator, timeline],
+    // 文字
+    name: 'classifyText',
+    icon: 'exhibit-text',
+    exhibits: [text, textarea],
+  },
+  {
+    // 指标
+    name: 'classifyIndicators',
+    icon: 'exhibit-indicators',
+    exhibits: [dashboard, indicator, timeline],
+  },
+  {
+    // 多媒体
+    name: 'classifyMedia',
+    icon: 'exhibit-classifyMedia',
+    exhibits: [],
   },
   {
     // 交互组件
-    name: 'InteractivComponents',
+    name: 'classifyInteractiv',
     icon: 'demo-line',
     exhibits: [button],
   },

@@ -83,7 +83,6 @@ const MValue = types
     const formatData = flow(function* format() {
       try {
         if (self.type === 'private') {
-          console.log(self)
           self.columns = hJSON.parse(self.private)[0].map((column) => ({
             column,
             alias: column,
@@ -117,7 +116,7 @@ const MValue = types
             self.sourceType = undefined
           }
         }
-        self.exhibit_.set({
+        self.exhibit_?.set({
           state: 'success',
         })
         getParent(self).onAction()

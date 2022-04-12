@@ -1,19 +1,74 @@
 export const themeConfigs = {
+  default: {
+    colors: [
+      '#34C8FE',
+      '#009BFF',
+      '#006BFD',
+      '#1B45F6',
+      '#421FED',
+      '#6103E6',
+      '#7700E3',
+      '#9D01DF',
+      '#BC00DB',
+      '#D900D8',
+      '#EE34A1',
+    ],
+    // 这个是给图片管理中使用的
+    background: '',
+  },
   // 梦幻岛
   fairyLand: {
-    colors: ['#34C8FE', '#009BFF', '#006BFD', '#1B45F6', '#421FED', '#6103E6', '#7700E3', '#9D01DF', '#BC00DB', '#D900D8', '#EE34A1'],
+    colors: [
+      '#34C8FE',
+      '#009BFF',
+      '#006BFD',
+      '#1B45F6',
+      '#421FED',
+      '#6103E6',
+      '#7700E3',
+      '#9D01DF',
+      '#BC00DB',
+      '#D900D8',
+      '#EE34A1',
+    ],
     // 这个是给图片管理中使用的
     background: 'url(https://cdn.dtwave.com/waveview-front/img/fairyLand_bg.png) center center / 100% 100% no-repeat',
   },
   // 冷翡翠
   emeraldGreen: {
-    colors: ['#FFE800', '#A5E000', '#3BD146', '#00BA73', '#00A088', '#008490', '#226191', '#42408C', '#4E207C', '#B23C33', '#67050C'],
-    background: 'url(https://cdn.dtwave.com/waveview-front/img/emeraldGreen_bg.png) center center / 100% 100% no-repeat',
+    colors: [
+      '#FFE800',
+      '#A5E000',
+      '#3BD146',
+      '#00BA73',
+      '#00A088',
+      '#008490',
+      '#226191',
+      '#42408C',
+      '#4E207C',
+      '#B23C33',
+      '#67050C',
+    ],
+    background:
+      'url(https://cdn.dtwave.com/waveview-front/img/emeraldGreen_bg.png) center center / 100% 100% no-repeat',
   },
   // 黄昏宇宙
   duskUniverse: {
-    colors: ['#EDFB00', '#FFD000', '#FFA600', '#FF8235', '#F55F58', '#E13F73', '#C8188C', '#A900A5', '#8400AF', '#4600A3', '#2F0098'],
-    background: 'url(https://cdn.dtwave.com/waveview-front/img/duskUniverse_bg.png) center center / 100% 100% no-repeat',
+    colors: [
+      '#EDFB00',
+      '#FFD000',
+      '#FFA600',
+      '#FF8235',
+      '#F55F58',
+      '#E13F73',
+      '#C8188C',
+      '#A900A5',
+      '#8400AF',
+      '#4600A3',
+      '#2F0098',
+    ],
+    background:
+      'url(https://cdn.dtwave.com/waveview-front/img/duskUniverse_bg.png) center center / 100% 100% no-repeat',
   },
   // 琉璃盏
   glaze: {

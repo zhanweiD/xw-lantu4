@@ -4,17 +4,20 @@ import cloneDeep from 'lodash/cloneDeep'
 import WaterMark from '@components/watermark'
 import Box from './box-preview'
 import Material from '../material'
+import {themeConfigs} from '@common/theme'
 
 const ArtFrame = ({art, frame}) => {
   const {global, overflowX, overflowY} = art
   const {effective, fields} = global.options.sections.watermark
   const {frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
+  const {theme} = global.options.sections.themeColor.fields
+
   const reverseMaterials = cloneDeep(materials)
   reverseMaterials.reverse()
   const style = {
     flex: 'none',
-    width: `${layout.width}px`,
-    height: `${layout.height}px`,
+    width: '100%',
+    height: '100%',
     overflowX,
     overflowY,
   }
@@ -24,6 +27,9 @@ const ArtFrame = ({art, frame}) => {
   }
   if (backgroundColor_) {
     style.backgroundColor = backgroundColor_
+  }
+  if (!backgroundColor_ && !backgroundImage_) {
+    style.background = themeConfigs[theme].background
   }
 
   return (

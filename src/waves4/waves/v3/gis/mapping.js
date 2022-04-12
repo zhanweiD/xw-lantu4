@@ -1,13 +1,34 @@
 export const layerOptionMap = new Map([
   [
-    'layer',
+    'gis',
     ({mapOption}) => {
       const mapping = [
-        // ['title.show', 'titleVisible'],
-        // ['title.content', 'titleText'],
-        // ['title.textSize', 'titleSize'],
-        // ['title.singleColor', 'titleColor'],
+        // ['base.layerName', 'layerName'],
       ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'gisPoint',
+    ({mapOption}) => {
+      const mapping = []
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'gisHeatmap',
+    ({mapOption}) => {
+      const mapping = []
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'odLine',
+    ({mapOption}) => {
+      const mapping = []
       const storage = mapOption(mapping)
       return storage.get()
     },

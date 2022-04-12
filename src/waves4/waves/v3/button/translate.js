@@ -42,7 +42,6 @@ function translate(schema) {
     ...config,
   }
 }
-
 export default (...parameter) => {
   try {
     return translate(...parameter)

@@ -17,8 +17,11 @@ import w from '@models'
 import s from './main.module.styl'
 
 const Main = () => {
-  const {user} = w
-
+  const {editor, user} = w
+  const {activeTabId, tabs} = editor
+  const activeTab = tabs.filter((tab) => tab.id === activeTabId)[0] || {}
+  const {art} = activeTab
+  const {isArtPublishInfoVisible, isVersionManagementVisible} = art || {}
   if (!user.userId)
     return (
       <div className="w100p h100v fbv fbjc fbac">
@@ -39,6 +42,7 @@ const Main = () => {
       <Menu model={w.overlayManager.get('menu')} />
       <Confirm model={w.overlayManager.get('confirm')} />
       <ColorPicker model={w.overlayManager.get('colorPicker')} />
+      {(isArtPublishInfoVisible || isVersionManagementVisible) && <div className="montmorillonite"></div>}
     </div>
   )
 }

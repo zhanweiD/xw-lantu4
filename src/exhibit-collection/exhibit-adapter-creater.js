@@ -56,6 +56,18 @@ const createExhibitAdapter = (hooks) =>
           delay: 300,
         }
       )
+      if (model.key === 'gis') {
+        reaction(
+          () => model.layers,
+          () => {
+            model.adapter.observerModel()
+          },
+          {
+            fireImmediately: true,
+            delay: 300,
+          }
+        )
+      }
     }
 
     constructor({container, height, width, model, isEdit, staticDrawOptions}) {
@@ -109,7 +121,6 @@ const createExhibitAdapter = (hooks) =>
         ...this.size,
         isPreview: !this.isEdit,
       }
-
       // 定义才添加的数据
       const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar']
       liveProps.forEach((prop) => {
@@ -230,6 +241,7 @@ const createExhibitAdapter = (hooks) =>
           )
         )
       }
+
       layers.map((layer) => {
         this.observerDisposers.push(
           reaction(

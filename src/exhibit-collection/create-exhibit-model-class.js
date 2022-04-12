@@ -123,6 +123,7 @@ export const createExhibitModelClass = (exhibit) => {
             name,
             type,
             effective,
+            // instanceLayer: layer.instanceLayer_,
           }
 
           if (effective) {
@@ -150,14 +151,33 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (config.key === 'text' || config.key === 'gis' || config.key === 'button') {
+        if (config.key === 'text' || config.key === 'button' || config.key === 'gis') {
           self.set({
             state: 'success',
           })
         }
       }
 
-      const addLayer = () => {}
+      const addLayer = (layers) => {
+        self.set({
+          layers: [
+            ...self.layers,
+            ...createExhibitLayersClass(config.category, config.key, layers, {
+              exhibitId: self.id,
+              art: self.art_,
+              event: self.event_,
+              data: self.data_,
+            }),
+          ],
+        })
+      }
+
+      const delLayer = (layer) => {
+        const oldLayers = [...self.layers]
+        const index = oldLayers.findIndex((item) => item.id === layer.id)
+        oldLayers.splice(index, 1)
+        self.layers = oldLayers
+      }
 
       const setData = (data) => {
         self.data = MDataField.create(
@@ -307,6 +327,7 @@ export const createExhibitModelClass = (exhibit) => {
         setContext,
         setAdapter,
         addLayer,
+        delLayer,
         setLayers,
         getLayers,
         setData,

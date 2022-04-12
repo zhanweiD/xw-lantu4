@@ -12,7 +12,7 @@ import s from './modal.module.styl'
 
 const PublishModal = ({art}) => {
   // 从哪里来？
-  const {artPublishInfo = {}, isArtPublishInfoVisible, global, isPrivate} = art
+  const {artPublishInfo = {}, isArtPublishInfoVisible, isPrivate} = art
   const {list, publishId, remark, publishPassword} = artPublishInfo
   /*
   const {

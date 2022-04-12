@@ -227,6 +227,22 @@ context.create('io.project.data', {
 })
 
 context.create('io.art', {
+  exportTag: {
+    method: 'POST',
+    url: 'art/export/private/waveview',
+  },
+  getExportList: {
+    method: 'GET',
+    url: 'art/:artId/export/private/waveview',
+  },
+  exportDownload: {
+    method: 'GET',
+    url: 'art/:id/download/waveview',
+  },
+  exportDelete: {
+    method: 'DELETE',
+    url: 'art/:id/download/waveview',
+  },
   create: {
     method: 'POST',
     url: 'project/:projectId/art',

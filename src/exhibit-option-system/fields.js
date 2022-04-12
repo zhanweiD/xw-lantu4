@@ -4,11 +4,154 @@
 // - 向后兼容的设计
 // - 相对位置的图标
 
+// 动画
+const enterAnimation = {
+  type: 'switch',
+  label: 'enterAnimation',
+  defaultValue: true,
+}
+const animationType = {
+  type: 'select',
+  label: 'animationType',
+  defaultValue: 'erase',
+  options: [
+    {
+      key: '淡入淡出',
+      value: 'fade',
+    },
+    {
+      key: '扫光',
+      value: 'scan',
+    },
+    {
+      key: '缩放',
+      value: 'zoom',
+    },
+    {
+      key: '擦除',
+      value: 'erase',
+    },
+  ],
+}
+const duration = {
+  type: 'number',
+  label: 'duration',
+  defaultValue: 2000,
+}
+const delay = {
+  type: 'number',
+  label: 'delay',
+  defaultValue: 100,
+}
+const scope = {
+  type: 'select',
+  label: 'scope',
+  defaultValue: 'stroke',
+  options: [
+    {
+      key: '中间',
+      value: 'stroke',
+    },
+    {
+      key: '填满',
+      value: 'fill',
+    },
+    {
+      key: '全部',
+      value: 'both',
+    },
+  ],
+}
+const animationDirection = {
+  type: 'check',
+  label: 'animationDirection',
+  defaultValue: 'right',
+  options: [
+    {
+      key: '向上',
+      value: 'top',
+    },
+    {
+      key: '向右',
+      value: 'right',
+    },
+    {
+      key: '向下',
+      value: 'bottom',
+    },
+    {
+      key: '向左',
+      value: 'left',
+    },
+    {
+      key: '向外',
+      value: 'outer',
+    },
+    {
+      key: '向内',
+      value: 'inner',
+    },
+  ],
+}
+
+// 主题
+const theme = {
+  type: 'select',
+  label: 'themeLabel',
+  defaultValue: 'default',
+  options: [
+    {
+      key: 'theme.default',
+      value: 'default',
+    },
+    {
+      key: 'theme.fairyLand',
+      value: 'fairyLand',
+    },
+    {
+      key: 'theme.emeraldGreen',
+      value: 'emeraldGreen',
+    },
+    {
+      key: 'theme.duskUniverse',
+      value: 'duskUniverse',
+    },
+    {
+      key: 'theme.glaze',
+      value: 'glaze',
+    },
+    {
+      key: 'theme.exquisite',
+      value: 'exquisite',
+    },
+    {
+      key: 'theme.blueGreen',
+      value: 'blueGreen',
+    },
+    {
+      key: 'theme.greenRed',
+      value: 'greenRed',
+    },
+    {
+      key: 'theme.blueRed',
+      value: 'blueRed',
+    },
+    {
+      key: 'theme.orangePurple',
+      value: 'orangePurple',
+    },
+    {
+      key: 'theme.brownGreen',
+      value: 'brownGreen',
+    },
+  ],
+}
+
 // gis
 // 相机位置
-const gisPosition = {
+const origin = {
   type: 'multiNumber',
-  label: 'gisPosition',
+  label: 'origin',
   defaultValue: [120.14857128194079, 30.251288234866852, 10000],
   items: [
     {
@@ -26,9 +169,9 @@ const gisPosition = {
   ],
 }
 // 相机角度
-const gisAngle = {
+const viewport = {
   type: 'multiNumber',
-  label: 'gisAngle',
+  label: 'viewport',
   defaultValue: [0, -90, 0],
   items: [
     {
@@ -45,57 +188,434 @@ const gisAngle = {
     },
   ],
 }
-const gisBackground = {
-  type: 'color',
-  label: 'gisBackground',
-  defaultValue: 'rgba(0,0,0,1)',
-}
-const gisProjection = {
+// const gisBackground = {
+//   type: 'color',
+//   label: 'gisBackground',
+//   defaultValue: 'rgba(0,0,0,1)',
+// }
+const sceneMode = {
   type: 'check',
-  label: 'gisProjection',
-  defaultValue: '3D',
+  label: 'sceneMode',
+  defaultValue: 'SCENE3D',
   options: [
     {
       key: '3D',
-      value: '3D',
+      value: 'SCENE3D',
     },
+    {
+      key: '2D',
+      value: 'PLANAR3D',
+    },
+  ],
+}
+const enableMapInteractive = {
+  type: 'switch',
+  label: 'enableMapInteractive',
+  defaultValue: false,
+}
+const viewFixed = {
+  type: 'switch',
+  label: 'viewFixed',
+  defaultValue: false,
+}
+const coordinateAcquisitionResult = {
+  type: 'text',
+  label: 'coordinateAcquisitionResult',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+const snow = {
+  type: 'switch',
+  label: 'snow',
+  defaultValue: false,
+}
+const rain = {
+  type: 'switch',
+  label: 'rain',
+  defaultValue: false,
+}
+const elevation = {
+  type: 'text',
+  label: 'elevation',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+const layerName = {
+  type: 'text',
+  label: 'layerName',
+  defaultValue: ' ',
+  // hasSlider: true,
+}
+
+const mapService = {
+  type: 'switch',
+  label: 'mapService',
+  defaultValue: false,
+}
+const baseMapStyle = {
+  type: 'select',
+  label: 'baseMapStyle',
+  defaultValue: 'blueStyle',
+  options: [
+    {
+      key: '蓝色',
+      value: 'blueStyle',
+    },
+  ],
+}
+const viewportMode = {
+  type: 'check',
+  label: 'viewportMode',
+  defaultValue: 'manual',
+  options: [
+    {
+      key: '自动',
+      value: 'auto',
+    },
+    {
+      key: '手动',
+      value: 'manual',
+    },
+  ],
+}
+const longitude = {
+  type: 'number',
+  label: 'longitude',
+  defaultValue: 120,
+}
+const latitude = {
+  type: 'number',
+  label: 'latitude',
+  defaultValue: 30,
+}
+const zoom = {
+  type: 'number',
+  label: 'zoom',
+  defaultValue: 8,
+}
+const pitch = {
+  type: 'number',
+  label: 'pitch',
+  defaultValue: 0,
+}
+const bearing = {
+  type: 'number',
+  label: 'bearing',
+  defaultValue: 0,
+}
+const showMapControl = {
+  type: 'switch',
+  label: 'showMapControl',
+  defaultValue: true,
+}
+const showMapHelper = {
+  type: 'switch',
+  label: 'showMapHelper',
+  defaultValue: true,
+}
+
+const stroked = {
+  type: 'switch',
+  label: 'stroked',
+  defaultValue: false,
+}
+const label = {
+  type: 'switch',
+  label: 'label',
+  defaultValue: true,
+}
+const isBreathe = {
+  type: 'switch',
+  label: 'isBreathe',
+  defaultValue: true,
+}
+
+const extruded = {
+  type: 'switch',
+  label: 'extruded',
+  defaultValue: true,
+}
+const getElevationValue = {
+  type: 'number',
+  label: 'getElevationValue',
+  defaultValue: 5000,
+}
+const diskResolution = {
+  type: 'number',
+  label: 'diskResolution',
+  defaultValue: 4,
+}
+const getRadius = {
+  type: 'number',
+  label: 'getRadius',
+  defaultValue: 12,
+}
+const radius = {
+  type: 'number',
+  label: 'radius',
+  defaultValue: 50,
+}
+const getLineWidth = {
+  type: 'number',
+  label: 'getLineWidth',
+  defaultValue: 2,
+}
+const heatmapType = {
+  type: 'select',
+  label: 'heatmapType',
+  defaultValue: 'classic',
+  options: [
+    {
+      key: '经典',
+      value: 'classic',
+    },
+    {
+      key: '蜂窝',
+      value: 'honeycomb',
+    },
+    {
+      key: '网格',
+      value: 'grid',
+    },
+  ],
+}
+const type = {
+  type: 'check',
+  label: 'type',
+  defaultValue: '2D',
+  options: [
     {
       key: '2D',
       value: '2D',
     },
+    {
+      key: '3D',
+      value: '3D',
+    },
   ],
 }
-const gisInteraction = {
+
+const flyPoint = {
   type: 'switch',
-  label: 'gisInteraction',
+  label: 'flyPoint',
   defaultValue: true,
 }
-const gisAngleFixed = {
+const sourcePoint = {
   type: 'switch',
-  label: 'gisAngleFixed',
-  defaultValue: false,
+  label: 'sourcePoint',
+  defaultValue: true,
 }
-const gisClickXY = {
+const sourceLabel = {
+  type: 'switch',
+  label: 'sourceLabel',
+  defaultValue: true,
+}
+const targetPoint = {
+  type: 'switch',
+  label: 'targetPoint',
+  defaultValue: true,
+}
+const targetLabel = {
+  type: 'switch',
+  label: 'targetLabel',
+  defaultValue: true,
+}
+
+const flyPointSize = {
+  type: 'number',
+  label: 'flyPointSize',
+  defaultValue: 8,
+}
+const flyPointWidth = {
+  type: 'number',
+  label: 'flyPointWidth',
+  defaultValue: 1,
+}
+const sourceLabelSize = {
+  type: 'number',
+  label: 'sourceLabelSize',
+  defaultValue: 8,
+}
+const targetPointSize = {
+  type: 'number',
+  label: 'targetPointSize',
+  defaultValue: 8,
+}
+const targetLabelSize = {
+  type: 'number',
+  label: 'targetLabelSize',
+  defaultValue: 8,
+}
+const sourcePointSize = {
+  type: 'number',
+  label: 'sourcePointSize',
+  defaultValue: 8,
+}
+const flyPointColor = {
+  type: 'color',
+  label: 'flyPointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const getSourceColor = {
+  type: 'color',
+  label: 'getSourceColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const sourcePointColor = {
+  type: 'color',
+  label: 'sourcePointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const sourceLabelColor = {
+  type: 'color',
+  label: 'sourceLabelColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const getTargetColor = {
+  type: 'color',
+  label: 'getTargetColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const targetPointColor = {
+  type: 'color',
+  label: 'targetPointColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const targetLabelColor = {
+  type: 'color',
+  label: 'targetLabelColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+const greatCircle = {
+  type: 'switch',
+  label: 'greatCircle',
+  defaultValue: true,
+}
+const getTilt = {
+  type: 'number',
+  label: 'getTilt',
+  defaultValue: 0,
+}
+const getHeight = {
+  type: 'number',
+  label: 'getHeight',
+  defaultValue: 1,
+}
+const getWidth = {
+  type: 'number',
+  label: 'getWidth',
+  defaultValue: 1,
+}
+
+const elevationDecoder = {
+  type: 'multiNumber',
+  label: 'elevationDecoder',
+  defaultValue: [6553.6, 25.6, 0.1, -10000],
+  items: [
+    {
+      key: 'r',
+      step: 1,
+    },
+    {
+      key: 'g',
+      step: 1,
+    },
+    {
+      key: 'b',
+      step: 1,
+    },
+    {
+      key: 'offset',
+      step: 1,
+    },
+  ],
+}
+const elevationData = {
   type: 'text',
-  label: 'gisClickXY',
-  defaultValue: ' ',
-  // hasSlider: true,
+  label: 'elevationData',
+  defaultValue: `https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoid3VmZW5mZW4iLCJhIjoiY2tma2pjbHU0MWJ6ZzMycDFrejl5dmQ0NiJ9.3F5nrYyDEfDjq6W8UOzZpg`,
 }
-const gisSnow = {
-  type: 'switch',
-  label: 'gisSnow',
-  defaultValue: false,
-}
-const gisRain = {
-  type: 'switch',
-  label: 'gisRain',
-  defaultValue: false,
-}
-const gisElevation = {
+const texture = {
   type: 'text',
-  label: 'gisElevation',
-  defaultValue: ' ',
-  // hasSlider: true,
+  label: 'texture',
+  defaultValue: `https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1Ijoid3VmZW5mZW4iLCJhIjoiY2tma2pjbHU0MWJ6ZzMycDFrejl5dmQ0NiJ9.3F5nrYyDEfDjq6W8UOzZpg`,
+}
+const showPath = {
+  type: 'switch',
+  label: 'showPath',
+  defaultValue: true,
+}
+const showTrail = {
+  type: 'switch',
+  label: 'showTrail',
+  defaultValue: true,
+}
+const showEndVertex = {
+  type: 'switch',
+  label: 'showEndVertex',
+  defaultValue: true,
+}
+const showVertex = {
+  type: 'switch',
+  label: 'showVertex',
+  defaultValue: true,
+}
+const rounded = {
+  type: 'switch',
+  label: 'rounded',
+  defaultValue: true,
+}
+const pathColor = {
+  type: 'color',
+  label: 'pathColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const trailColor = {
+  type: 'color',
+  label: 'trailColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const endVertexColor = {
+  type: 'color',
+  label: 'endVertexColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const vertexColor = {
+  type: 'color',
+  label: 'vertexColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+const pathWidth = {
+  type: 'number',
+  label: 'pathWidth',
+  defaultValue: 2,
+}
+const trailWidth = {
+  type: 'number',
+  label: 'trailWidth',
+  defaultValue: 4,
+}
+const trailLength = {
+  type: 'number',
+  label: 'trailLength',
+  defaultValue: 4,
+}
+const trailSpeed = {
+  type: 'number',
+  label: 'trailSpeed',
+  defaultValue: 1,
+}
+const endVertexSize = {
+  type: 'number',
+  label: 'endVertexSize',
+  defaultValue: 2,
+}
+const vertexSize = {
+  type: 'number',
+  label: 'vertexSize',
+  defaultValue: 1,
 }
 
 /**
@@ -145,11 +665,37 @@ const padding = {
     },
   ],
 }
+const fillColor = {
+  type: 'color',
+  label: 'fillColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const elevationRange = {
+  type: 'multiNumber',
+  label: 'elevationRange',
+  defaultValue: [1000, 10000],
+  items: [
+    {
+      key: '低',
+      step: 1,
+    },
+    {
+      key: '高',
+      step: 1,
+    },
+  ],
+}
 
 // show
 const show = {
   type: 'switch',
   label: 'show',
+  defaultValue: true,
+}
+
+const trackShow = {
+  type: 'switch',
+  label: 'trackShow',
   defaultValue: true,
 }
 
@@ -701,6 +1247,22 @@ const direction = {
   ],
 }
 
+const DIRECTION = {
+  type: 'check',
+  label: 'direction',
+  defaultValue: 'horizontal',
+  options: [
+    {
+      key: 'horizontal',
+      value: 'HORIZONTAL',
+    },
+    {
+      key: 'vertical',
+      value: 'VERTICAL',
+    },
+  ],
+}
+
 /**
  * =====================================
  * number
@@ -838,7 +1400,25 @@ const lineFallback = {
     },
   ],
 }
+const lineOpacity = {
+  type: 'number',
+  label: 'lineOpacity',
+  min: 0,
+  max: 1,
+  step: 0.1,
+}
 
+const lineColor = {
+  type: 'color',
+  label: 'lineColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+
+const arcLineColor = {
+  type: 'color',
+  label: 'lineColor',
+  defaultValue: 'rgba(0, 255, 255, 0.6)',
+}
 /**
  * =====================================
  * range
@@ -1192,7 +1772,42 @@ const labelOffset = {
   min: 0,
   max: 50,
 }
-
+const labelOffsetX = {
+  type: 'number',
+  label: 'labelOffsetX',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
+const labelOffsetY = {
+  type: 'number',
+  label: 'labelOffsetY',
+  defaultValue: 5,
+  min: -100,
+  max: 100,
+}
+// 标签颜色
+const labelColor = {
+  type: 'color',
+  label: 'labelColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+// 标签角度
+const labelAngle = {
+  type: 'number',
+  label: 'labelAngle',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
+// 标签字体
+const labelSize = {
+  type: 'number',
+  label: 'labelSize',
+  defaultValue: 5,
+  min: 0,
+  max: 50,
+}
 // 圆大小
 const circleSize = {
   type: 'number',
@@ -1200,6 +1815,16 @@ const circleSize = {
   defaultValue: 10,
 }
 
+const orderType = {
+  type: 'check',
+  label: 'orderType',
+  defaultValue: 'DEFAULT',
+  options: [
+    {key: '默认', value: 'DEFAULT'},
+    {key: '降序', value: 'MAX_MIN'},
+    {key: '升序', value: 'MIN_MAX'},
+  ],
+}
 // 桑基图对齐
 const sankeyAlign = {
   type: 'check',
@@ -1224,8 +1849,286 @@ const nodeGap = {
   defaultValue: 10,
 }
 
+const groupBarGap = {
+  type: 'number',
+  label: 'groupBarGap',
+  defaultValue: 10,
+}
+
+const valueSize = {
+  type: 'number',
+  label: 'valueSize',
+  defaultValue: 12,
+}
+const valueWidth = {
+  type: 'number',
+  label: 'valueWidth',
+  defaultValue: 700,
+  min: 0,
+  max: 1000,
+}
+const valueVisible = {
+  type: 'switch',
+  label: 'valueVisible',
+  defaultValue: true,
+}
+
+const valueColor = {
+  type: 'color',
+  label: 'valueColor',
+  defaultValue: 'rgba(0, 255, 255, 1)',
+}
+const valueType = {
+  type: 'check',
+  label: 'valueSize',
+  defaultValue: 'SCALE',
+  options: [
+    {key: '百分比', value: 'SCALE'},
+    {key: '数值', value: 'REAL'},
+  ],
+}
+const valueOffsetY = {
+  type: 'number',
+  label: 'valueOffsetY',
+  defaultValue: 12,
+}
+
+const decimalNumber = {
+  type: 'number',
+  label: 'decimalNumber',
+  defaultValue: 0,
+  min: 0,
+  max: 10,
+}
+// 圆点透明度
+const circleOpacity = {
+  type: 'number',
+  label: 'circleOpacity',
+  defaultValue: 0.6,
+  min: 0,
+  max: 1,
+  step: 0.1,
+}
+// 圆点半径
+const circleMaxRadius = {
+  type: 'number',
+  label: 'circleMaxRadius',
+  defaultValue: 40,
+}
+const minRadius = {
+  type: 'number',
+  label: 'arcType.minRadius',
+  defaultValue: 50,
+  min: 0,
+  max: 500,
+}
+
+const arcBackgroundWidth = {
+  type: 'number',
+  label: 'arcType.arcBackgroundWidth',
+  defaultValue: 10,
+  min: 0,
+  max: 50,
+}
+
+const order = {
+  type: 'check',
+  label: 'arcType.order',
+  defaultValue: 'POSITIVE',
+  options: [
+    {key: '升序', value: 'POSITIVE'},
+    {key: '降序', value: 'REVERSE'},
+    {key: '不排序', value: 'DEFAULT'},
+  ],
+}
+
+const arcBackgroundColor = {
+  type: 'color',
+  label: 'arcType.arcBackgroundColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+
+const arcWidth = {
+  type: 'number',
+  label: 'arcType.arcWidth',
+  defaultValue: 0,
+  min: 0,
+  max: 50,
+}
+
+const arcGap = {
+  type: 'number',
+  label: 'arcType.arcGap',
+  defaultValue: 0,
+  min: 0,
+  max: 50,
+}
+
+const showLabelValue = {
+  type: 'switch',
+  label: 'valueVisible',
+  defaultValue: true,
+}
+
+const labelValueColor = {
+  type: 'color',
+  label: 'labelValueColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+const labelYOffset = {
+  type: 'number',
+  label: 'labelYOffset',
+  defaultValue: 0,
+  min: -100,
+  max: 100,
+}
+const labelXOffset = {
+  type: 'number',
+  label: 'labelXOffset',
+  defaultValue: 0,
+  min: -100,
+  max: 100,
+}
+
+const trackBagHeight = {
+  type: 'number',
+  label: 'trackBagHeight',
+  defaultValue: 32,
+  min: 0,
+  max: 100,
+}
+
+const thresholdHeight = {
+  type: 'number',
+  label: 'thresholdHeight',
+  defaultValue: 32,
+  min: 0,
+  max: 100,
+}
+const trackHeight = {
+  type: 'number',
+  label: 'trackHeight',
+  defaultValue: 20,
+  min: 0,
+  max: 100,
+}
+const thresholdWidth = {
+  type: 'number',
+  label: 'thresholdWidth',
+  defaultValue: 4,
+  min: 0,
+
+  max: 100,
+}
+
+const lineOffset = {
+  type: 'number',
+  label: 'lineOffset',
+  defaultValue: 0,
+  min: 0,
+  max: 100,
+}
+
+const gradientDirection = {
+  type: 'check',
+  label: 'gradientDirection',
+  defaultValue: 'POSITIVE',
+  options: [
+    {key: '单色系', value: 'HIRONZATAL'},
+    {key: '多色系', value: 'VERTICAL'},
+  ],
+}
+const bgLineColor = {
+  type: 'color',
+  label: 'bgLineColor',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+
+const noLabelColor = {
+  type: 'color',
+  label: ' ',
+  defaultValue: 'rgba(255,255,255,0.15)',
+}
+const maxRow = {
+  type: 'number',
+  label: 'maxRow',
+  defaultValue: 80,
+  min: 0,
+  max: 100,
+}
+
+const valueInPosition = {
+  type: 'check',
+  label: 'valueInPosition',
+  defaultValue: 'inside',
+  options: [
+    {key: 'inside', value: 'inside'},
+    {key: 'outside', value: 'outside'},
+  ],
+}
+
+const showShadow = {
+  type: 'switch',
+  label: 'showShadow',
+  defaultValue: false,
+}
+
+const shadowOptions = {
+  type: 'multiNumber',
+  label: ' ',
+  defaultValue: [0, 0, 5],
+  items: [
+    {
+      key: 'horizontal',
+      step: 1,
+    },
+    {
+      key: 'vertical',
+      step: 1,
+    },
+    {
+      key: 'blur',
+      step: 1,
+    },
+  ],
+}
+
 export default {
+  theme,
+  valueOffsetY,
+  bgLineColor,
+  noLabelColor,
+  showShadow,
+  shadowOptions,
+  maxRow,
+  groupBarGap,
+  gradientDirection,
+  valueInPosition,
+  lineOffset,
+  labelXOffset,
+  labelYOffset,
+  thresholdWidth,
+  trackHeight,
+  trackBagHeight,
+  valueWidth,
+  thresholdHeight,
+  valueType,
+  valueColor,
+  valueSize,
+  valueVisible,
+  circleMaxRadius,
+  circleOpacity,
+  showLabelValue,
+  labelValueColor,
+  trackShow,
+  minRadius,
+  arcWidth,
+  arcBackgroundWidth,
+  arcBackgroundColor,
+  arcGap,
+  order,
   echartsoption,
+  decimalNumber,
   // 偏移
   offset,
   padding,
@@ -1302,6 +2205,7 @@ export default {
   textWeight,
   // 文字方向
   direction,
+  DIRECTION,
   // 千分位
   thousandDiv,
   // 百分比
@@ -1316,6 +2220,10 @@ export default {
   lineSmooth,
   // 线缺省
   lineFallback,
+  //线条透明度
+  lineOpacity,
+  //线条颜色
+  lineColor,
   // 数值范围
   numberRange,
   // 填充模式
@@ -1364,8 +2272,14 @@ export default {
   circleSize,
   // 文字偏移
   labelOffset,
+  labelColor,
+  labelAngle,
+  labelSize,
+  labelOffsetX,
+  labelOffsetY,
   // 桑基图对齐
   sankeyAlign,
+  arcLineColor,
   nodeWidth,
   nodeGap,
   // 圆角大小
@@ -1375,14 +2289,85 @@ export default {
   borderColor,
   borderWidth,
   // gis
-  gisPosition,
-  gisAngle,
-  gisBackground,
-  gisProjection,
-  gisInteraction,
-  gisAngleFixed,
-  gisClickXY,
-  gisSnow,
-  gisRain,
-  gisElevation,
+  origin,
+  viewport,
+  sceneMode,
+  enableMapInteractive,
+  viewFixed,
+  coordinateAcquisitionResult,
+  snow,
+  rain,
+  elevation,
+  layerName,
+  mapService,
+  baseMapStyle,
+  viewportMode,
+  longitude,
+  latitude,
+  zoom,
+  pitch,
+  bearing,
+  showMapControl,
+  showMapHelper,
+  orderType,
+  stroked,
+  label,
+  isBreathe,
+  extruded,
+  getRadius,
+  heatmapType,
+  type,
+  fillColor,
+  getLineWidth,
+  getElevationValue,
+  diskResolution,
+  elevationRange,
+  radius,
+  greatCircle,
+  getTilt,
+  getHeight,
+  getWidth,
+  getSourceColor,
+  sourcePoint,
+  sourcePointSize,
+  sourcePointColor,
+  sourceLabel,
+  sourceLabelSize,
+  sourceLabelColor,
+  getTargetColor,
+  targetPoint,
+  targetPointSize,
+  targetPointColor,
+  targetLabel,
+  targetLabelSize,
+  targetLabelColor,
+  flyPoint,
+  flyPointWidth,
+  flyPointColor,
+  flyPointSize,
+  elevationData,
+  elevationDecoder,
+  texture,
+  showPath,
+  pathWidth,
+  pathColor,
+  rounded,
+  showTrail,
+  trailWidth,
+  trailLength,
+  trailColor,
+  trailSpeed,
+  showEndVertex,
+  endVertexColor,
+  endVertexSize,
+  showVertex,
+  vertexColor,
+  vertexSize,
+  // 动画
+  enterAnimation,
+  animationType,
+  duration,
+  delay,
+  scope,
+  animationDirection,
 }

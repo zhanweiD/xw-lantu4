@@ -76,7 +76,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'text',
         label: '数据库地址',
-        value: '192.168.90.160',
+        // value: '192.168.90.160',
       },
     },
     {
@@ -85,7 +85,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'text',
         label: '用户名',
-        value: 'root',
+        // value: 'root',
       },
     },
     {
@@ -94,7 +94,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'password',
         label: '密码',
-        value: '123456',
+        // value: '123456',
       },
     },
     {
@@ -103,7 +103,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'number',
         label: '端口',
-        value: 3306,
+        // value: 3306,
       },
     },
     // {
@@ -252,6 +252,7 @@ export const MDatabase = types
       const {
         config: {type, host, username, password, port, database, sql},
       } = data
+
       self.options.setSchema({
         userName: username,
         type,

@@ -1,4 +1,4 @@
-export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axis = 'main', column = []}) => {
+export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', column = []}) => {
   return {
     name: '折线层',
     type: 'line',
@@ -19,23 +19,23 @@ export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axi
             name: 'axisBinding',
             defaultValue: axis,
           },
-          {
-            name: 'custom',
-            option: 'mode',
-            label: 'mode',
-            defaultValue: mode,
-            type: 'select',
-            options: [
-              {
-                key: 'group',
-                value: 'group',
-              },
-              {
-                key: 'stack',
-                value: 'stack',
-              },
-            ],
-          },
+          // {
+          //   name: 'custom',
+          //   option: 'mode',
+          //   label: 'mode',
+          //   defaultValue: mode,
+          //   type: 'select',
+          //   options: [
+          //     {
+          //       key: 'group',
+          //       value: 'group',
+          //     },
+          //     {
+          //       key: 'stack',
+          //       value: 'stack',
+          //     },
+          //   ],
+          // },
         ],
       },
       {
@@ -165,6 +165,26 @@ export default ({lineCurve = 'curveLinear', mode = 'group', hasArea = false, axi
                 name: 'singleColor',
                 defaultValue: 'rgb(0,0,0)',
               },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'animation',
+        sections: [
+          {
+            name: 'enterAnimation',
+            fields: [{name: 'animationType'}, {name: 'duration'}, {name: 'delay'}],
+          },
+          {
+            name: 'loopAnimation',
+            fields: [
+              {name: 'animationType', defaultValue: 'scan'},
+              {name: 'duration'},
+              {name: 'delay', defaultValue: 2000},
+              {name: 'singleColor', defaultValue: 'rgba(255, 255, 255, 1)'},
+              {name: 'animationDirection'},
+              {name: 'scope'},
             ],
           },
         ],

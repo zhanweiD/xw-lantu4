@@ -52,7 +52,6 @@ const commonOption = {
   numberFormat: false,
 
   // 默认主题色：琉璃盏
-  themeColors: ['#FD926D', '#FFBD6D', '#FFEA92', '#B5E4AA', '#6CDDC3', '#3EBFDA', '#119BFF', '#0B78FF', '#2A43FF'],
   // themeColors: ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'],
 }
 
@@ -122,6 +121,7 @@ export default class Base {
 
     this._baseFontSize = this.config('baseFontSize')
     this._numberFormat = this.config('numberFormat')
+
     this.isDev = false
 
     // 当组件为网格时，整个图表不受padding影响且不会进行布局

@@ -1,16 +1,4 @@
-import {layerOptionMap} from './mapping'
-
-// const getRealData = (dataSource) => {
-//   try {
-//     if (!dataSource) {
-//       return {}
-//     }
-//     return dataObj
-//   } catch (e) {
-//     console.error('数据解析失败', {dataSource})
-//     return []
-//   }
-// }
+// import {layerOptionMap} from './mapping'
 
 function translate(schema) {
   const {
@@ -20,14 +8,39 @@ function translate(schema) {
     container, // 容器必传
     padding, // 内边距
     layers, // 图层配置
+    gisBase,
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const {getOption, mapOption} = layers[0]
-  // 属性的转换
-  const config = layerOptionMap.get('layer')({getOption, mapOption})
+  // const configs = []
+  // layers.forEach((item) => {
+  //   const {getOption, mapOption} = item
+  //   switch (item.type) {
+  //     case 'gis':
+  //       configs.push({...item, ...layerOptionMap.get('gis')({getOption, mapOption})})
+  //       break
+  //     case 'gisPoint':
+  //       configs.push({...item, ...layerOptionMap.get('gisPoint')({getOption, mapOption})})
+  //       break
+  //     case 'gisHeatmap':
+  //       configs.push({...item, ...layerOptionMap.get('gisHeatmap')({getOption, mapOption})})
+  //       break
+  //     case 'odLine':
+  //       configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
+  //       break
+  //     case 'gisTerrain':
+  //       configs.push({...item, ...layerOptionMap.get('odLine')({getOption, mapOption})})
+  //       break
+  //     default:
+  //       break
+  //   }
+  // })
+
+  // const {getOption, mapOption} = layers[0]
+  // // 属性的转换
+  // const config = layerOptionMap.get('layer')({getOption, mapOption})
   // config.data = getRealData(data)
   return {
     width,
@@ -38,7 +51,9 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    ...config,
+    layers,
+    // layers: configs,
+    ...gisBase,
   }
 }
 
