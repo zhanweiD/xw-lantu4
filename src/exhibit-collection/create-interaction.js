@@ -1,12 +1,12 @@
-import {getParent, types, getRoot} from 'mobx-state-tree'
+import {types} from 'mobx-state-tree'
 import MInteraction from './interaction-model'
 
-const createInteractionModel = (key, exhibit, parentEnv) => {
-  // parentEnv 包含了art， event，data， event 在root创建传入的env event
+const createInteractionModel = (key, exhibit, parentModel) => {
+  // event 包含了art， event，data， event 在root创建传入的env event
   // this event是全局的， 交互的实现通过这个
   const {config} = exhibit
   const {eventTriggerTypes} = config.interaction
-  console.log('config...', key, exhibit, parentEnv)
+  console.log('config...', key, exhibit, parentModel)
   const MModel = types
     .model(`M${key}.interaction`, {
       name: 'interaction',
@@ -22,13 +22,10 @@ const createInteractionModel = (key, exhibit, parentEnv) => {
       // exhibitModel: types.maybeNull(),
       triggerTypes: types.array(types.string, []),
       // 组件id
-      exhibitId: types.optional(types.string, exhibit.id),
+      exhibitId: types.optional(types.string, parentModel.id),
     })
     .actions((self) => {
       const afterCreate = () => {
-        // if (key === 'button') {
-        //   self.eventModel = MInteraction.create()
-        // }
         // 支持的事件类型
         self.triggerTypes = eventTriggerTypes
       }
@@ -38,11 +35,10 @@ const createInteractionModel = (key, exhibit, parentEnv) => {
       }
 
       const setSchema = (schema) => {
-        self.eventModel = MInteraction.create(schema)
-        console.log('setSchema...', schema)
-        // 暂时只在加载完数据，进行事件绑定
+        self.eventModel = schema
+        // 分开发环境只在加载完数据，进行事件绑定,只绑定一次,
+        // parentModel.registerEvent(schema)
       }
-
       return {
         afterCreate,
         getSchema,

@@ -6,7 +6,7 @@ import Exhibit from '../exhibit'
 import Material from '../material'
 
 const Box = ({box, frame}) => {
-  const {layout, materials = [], padding, backgroundImage_, backgroundColor_} = box
+  const {layout, materials = [], padding, backgroundImage_, backgroundColor_, visibility} = box
 
   const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
   const [top, right, bottom, left] = areaOffset
@@ -20,6 +20,7 @@ const Box = ({box, frame}) => {
     padding: `${top}px ${right}px ${bottom}px ${left}px`,
     backgroundSize: '100% 100%',
     backgroundRepeat: 'no-repeat',
+    visibility,
   }
   if (backgroundImage_) {
     style.backgroundImage = `linear-gradient(${backgroundImage_})`

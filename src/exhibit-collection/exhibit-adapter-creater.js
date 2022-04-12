@@ -92,6 +92,7 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = this.getAllOptions()
       this.instance = hooks.init.call(null, {
         options: instanceOption,
+        event: this.event,
       })
       this.observerModel()
     }

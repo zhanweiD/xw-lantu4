@@ -55,8 +55,24 @@ const MButton = MUIBase.named('MInput')
       )
     }
 
+    let count = 0,
+      timer = null
+
+    // 通过单击，记录模拟双击
     const onClick = (e) => {
-      self.event.fire('onClickButton', {data: self.buttonData, e})
+      count++
+      if (timer) {
+        return
+      }
+      timer = setTimeout(() => {
+        if (count === 1) {
+          self.event.fire('click', {data: self.buttonData, e})
+        } else {
+          self.event.fire('doubleClick', {data: self.buttonData, e})
+        }
+        count = 0
+        timer = null
+      }, 200)
     }
 
     return {

@@ -25,6 +25,7 @@ const MBox = types
     padding: types.optional(MOffset, {}),
     constraints: types.frozen(),
     constraintValue: types.frozen(),
+    visibility: types.optional(types.string, 'visible'),
   })
   .views((self) => ({
     get art_() {
@@ -195,9 +196,24 @@ const MBox = types
       }
       self.resize()
     }
+    const actions = {
+      show: () => {
+        self.visibility = 'visible'
+      },
+      hidden: () => {
+        self.visibility = 'hidden'
+      },
+      toggle_visible: () => {
+        self.visibility = self.visibility === 'visible' ? 'hidden' : 'visible'
+      },
+    }
+    const dipatchAction = function (actionType, ...restParams) {
+      actions[actionType].apply(self, restParams)
+    }
     return {
       resize,
       update,
+      dipatchAction,
     }
   })
 
@@ -785,7 +801,6 @@ const MArtPreview = types
         frame.resize()
       })
     }
-
     return {
       afterCreate,
       getArt,

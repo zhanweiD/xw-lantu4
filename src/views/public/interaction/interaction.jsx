@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {Switch} from '@components/field/switch'
@@ -7,14 +7,14 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import TabScroll from '@components/tab-scroll'
 import {useTranslation} from 'react-i18next'
-import TargetSelect from './target-select'
-import actions from './actions'
+import actions from '@exhibit-collection/actions'
+import InteractionField from '../inertaction-field'
 
 import s from './interaction.module.styl'
 
 const {Item} = TabScroll
 
-const {SelectField, TextField} = fields
+const {SelectField} = fields
 
 // format [key] => [{key: key, value: key}] 用于下拉选项
 const formatOptions = (keys = [], t) => {
@@ -31,7 +31,9 @@ const AddEventButton = ({onClick}) => {
 
 const ActionSetting = observer(({model}) => {
   const {t} = useTranslation()
-  const {listeners, actionType, set, herfValue, _triggerType} = model
+  const {actionType, set, _triggerType, actionValue} = model
+  // 缓存value值，因为组件非受控，只用传一次就够了
+  const actionValueMemo = useMemo(() => actionValue, [])
   return (
     <div>
       <SelectField
@@ -41,11 +43,7 @@ const ActionSetting = observer(({model}) => {
         value={actionType}
         onChange={(v) => set('actionType', v)}
       />
-      {actionType === 'href' ? (
-        <TextField label="链接" className="mr8 ml24" value={herfValue} onChange={(v) => set('herfValue', v)} />
-      ) : (
-        <TargetSelect value={listeners} defaultValue={listeners} onChange={(v) => set('listeners', v)} />
-      )}
+      <InteractionField type={actionType} defaultValue={actionValueMemo} onChange={(v) => set('actionValue', v)} />
     </div>
   )
 })

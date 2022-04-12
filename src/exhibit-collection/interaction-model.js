@@ -7,9 +7,10 @@ const MAction = types
     actionId: types.identifier,
     actionType: types.optional(types.string, ''),
     // 事件监听者，保存box或者frameId
-    listeners: types.optional(types.frozen(), []),
+    // listeners: types.optional(types.frozen(), []),
     // 跳转链接
-    herfValue: types.optional(types.string, ''),
+    // herfValue: types.optional(types.string, ''),
+    actionValue: types.frozen(),
   })
   .views((self) => ({
     get _triggerType() {

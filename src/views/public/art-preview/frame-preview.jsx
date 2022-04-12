@@ -26,7 +26,6 @@ const ArtFrame = ({art, frame}) => {
     style.backgroundColor = backgroundColor_
   }
 
-  console.log(style)
   return (
     <div
       id={`artFrame-${frameId}`}

@@ -7,6 +7,7 @@ import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
 import {createInteractionClass} from './create-interaction'
+import {actionMap} from './actions'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -96,7 +97,7 @@ export const createExhibitModelClass = (exhibit) => {
         }
         // 交互
         if (config.interaction) {
-          self.setInteraction(config.interaction)
+          self.setInteraction()
         }
       }
       const setCachedData = (data) => {
@@ -108,6 +109,10 @@ export const createExhibitModelClass = (exhibit) => {
       }
       const setAdapter = (adapter) => {
         self.adapter = adapter
+        // 说明组件已经注册，但是还未渲染
+        if (self.interaction) {
+          self.registerEvent()
+        }
       }
 
       const getLayers = () => {
@@ -250,8 +255,9 @@ export const createExhibitModelClass = (exhibit) => {
           return self.polar.getData()
         }
       }
-      const setInteraction = (interaction) => {
-        self.interaction = createInteractionClass(config.key, exhibit, getEnv(self))
+      const setInteraction = () => {
+        // 将当前的model传入 交互组件内，因为self.adapter 保存了组件的model数据，以及全局event等信息
+        self.interaction = createInteractionClass(config.key, exhibit, self)
       }
       const getInteraction = () => {
         if (self.interaction) {
@@ -265,6 +271,33 @@ export const createExhibitModelClass = (exhibit) => {
         if (self.gisBase) {
           return self.gisBase.getData()
         }
+      }
+
+      function handleAction(action) {
+        const {actionType} = action
+        actionMap[actionType].call(self, action)
+      }
+
+      function handleEventOn(triggerType, actions) {
+        const {event} = self.adapter
+        event.on(triggerType, () => {
+          actions.forEach((d) => {
+            handleAction(d)
+          })
+        })
+      }
+
+      const registerEvent = () => {
+        const eventSchema = self.interaction.toJSON()
+        const events = eventSchema?.eventModel?.events
+        if (!events || !events.length) {
+          return
+        }
+        events.forEach(({effective, triggerType, actions = []}) => {
+          if (effective && actions.length) {
+            handleEventOn(triggerType, actions)
+          }
+        })
       }
 
       return {
@@ -295,6 +328,7 @@ export const createExhibitModelClass = (exhibit) => {
         setInteraction,
         getInteraction,
         init,
+        registerEvent,
       }
     })
 

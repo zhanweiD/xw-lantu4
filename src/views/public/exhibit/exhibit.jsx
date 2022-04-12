@@ -10,7 +10,6 @@ const Exhibit = ({box, frame}) => {
   const [top, right, bottom, left] = areaOffset
   const {height, width} = layout
   const {id} = exhibit || {}
-  console.log('exhibit...box', exhibit)
   useEffect(() => {
     if (exhibit) {
       draw({
