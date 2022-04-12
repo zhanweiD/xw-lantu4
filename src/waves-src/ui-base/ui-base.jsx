@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {types, flow} from 'mobx-state-tree'
 // import interpolate from 'color-interpolate'
-import {Field} from '@components/field'
+// import {Field} from '@components/field'
 import Warning from '@components/warning'
 // import createLog from '@common/create-log'
 import createEvent from '@common/event'
@@ -152,7 +152,8 @@ const MUIBase = types
       const componentRef = React.createRef(null)
       const component = (
         <div ref={componentRef}>
-          <Field>{element}</Field>
+          {element}
+          {/* <Field>{element}</Field> */}
         </div>
       )
 

@@ -90,7 +90,8 @@ const newLayersInstance = (earth, layers) => {
         // layerOptions.flyPointColor = arrayRgba(layerOptions.flyPointColor)
         instance = new OdLineLayer({
           ...layerOptions,
-          // setFlyPoint: true,
+          // flyPoint: true,
+          // getHeight: 1,
           // setFlyPointWidth: 10,
           // setFlyPointSize: 10,
           // setFlyPointColor: [255, 255, 255, 1],
