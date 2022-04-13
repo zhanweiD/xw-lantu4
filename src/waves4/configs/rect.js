@@ -210,6 +210,26 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           },
         ],
       },
+      {
+        name: 'animation',
+        sections: [
+          {
+            name: 'enterAnimation',
+            fields: [{name: 'animationType'}, {name: 'duration'}, {name: 'delay'}],
+          },
+          {
+            name: 'loopAnimation',
+            fields: [
+              {name: 'animationType', defaultValue: 'scan'},
+              {name: 'duration'},
+              {name: 'delay', defaultValue: 2000},
+              {name: 'singleColor', defaultValue: 'rgba(255, 255, 255, 1)'},
+              {name: 'animationDirection'},
+              {name: 'scope'},
+            ],
+          },
+        ],
+      },
     ],
   }
 }

@@ -297,6 +297,20 @@ export const layerOptionMap = new Map([
         ['label.shadow.offset', 'style.text.shadow.offset'],
         ['label.shadow.blur', 'style.text.shadow.blur'],
         ['label.shadow.singleColor', 'style.text.shadow.color'],
+        // 动画
+        ['animation.enterAnimation.animationType', 'animation.rect.enter.type'],
+        ['animation.enterAnimation.duration', 'animation.rect.enter.duration'],
+        ['animation.enterAnimation.delay', 'animation.rect.enter.delay'],
+        ['animation.enterAnimation.animationType', 'animation.text.enter.type'],
+        ['animation.enterAnimation.duration', 'animation.text.enter.duration'],
+        ['animation.enterAnimation.delay', 'animation.text.enter.delay'],
+        // ['animation.enterAnimation.delay', 'animation.text.enter.delay'],
+        ['animation.loopAnimation.animationType', 'animation.rect.loop.type'],
+        ['animation.loopAnimation.duration', 'animation.rect.loop.duration'],
+        ['animation.loopAnimation.delay', 'animation.rect.loop.delay'],
+        ['animation.loopAnimation.singleColor', 'animation.rect.loop.color'],
+        ['animation.loopAnimation.animationDirection', 'animation.rect.loop.direction'],
+        ['animation.loopAnimation.scope', 'animation.rect.loop.scope'],
       ]
       const storage = mapOption(mapping)
       if (getOption('background.effective') !== undefined) {
