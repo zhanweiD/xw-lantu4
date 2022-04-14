@@ -9,7 +9,7 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import s from './common-tab.module.styl'
 
-const {TextField, TextareaField, MultiNumberField, ConstraintField} = fields
+const {TextField, TextareaField, MultiNumberField, ConstraintField, SwitchField} = fields
 const CommonTab = ({target}) => {
   const {t} = useTranslation()
   const {
@@ -24,6 +24,7 @@ const CommonTab = ({target}) => {
     padding,
     setConstraints,
     frame_,
+    visible,
   } = target || {}
   let materialModels = []
   if (materials) {
@@ -103,6 +104,14 @@ const CommonTab = ({target}) => {
                   label={t('remark')}
                   value={remark || ''}
                   onChange={(value) => setRemark({remark: value})}
+                />
+                <SwitchField
+                  className="ml24"
+                  label="默认隐藏"
+                  value={!visible}
+                  onChange={(ck) => {
+                    target.set('visible', !ck)
+                  }}
                 />
               </Section>
             </Scroll>

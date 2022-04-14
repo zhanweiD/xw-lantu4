@@ -48,6 +48,8 @@ export const MBox = types
     isEffect: types.optional(types.boolean, true),
     // 容器是否被锁定
     isLocked: types.optional(types.boolean, false),
+    // 控制图表显示隐藏
+    visible: types.optional(types.boolean, true),
     normalKeys: types.frozen([
       'uid',
       'frameId',
@@ -59,6 +61,7 @@ export const MBox = types
       'remark',
       'isEffect',
       'isLocked',
+      'visible',
     ]),
     deepKeys: types.frozen(['layout', 'constraints', 'padding', 'background']),
   })

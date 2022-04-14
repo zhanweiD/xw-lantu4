@@ -106,6 +106,25 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
   }
 }
 
+export const destroy = ({exhibit, frame, material}) => {
+  if (exhibit) {
+    const model = frame.art_.exhibitManager.get(exhibit.id)
+    if (model) {
+      model.adapter.destroy()
+    } else {
+      log.warn('组件模型未找到', exhibit.id)
+    }
+  }
+  if (material) {
+    const model = frame.art_.exhibitManager.get(material.id)
+    if (model) {
+      model.adapter.destroy()
+    } else {
+      log.warn('组件模型未找到', material.id)
+    }
+  }
+}
+
 export const exhibitRegister = (exhibit) => {
   const {config, lib} = exhibit
   const Model = createExhibitModelClass(exhibit)

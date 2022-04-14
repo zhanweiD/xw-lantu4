@@ -23,7 +23,7 @@ const formatOptions = (keys = [], t) => {
 
 const AddEventButton = ({onClick}) => {
   return (
-    <div onClick={onClick} className={c('m8', s.addEvent)}>
+    <div onClick={onClick} className={c('m8 hand', s.addEvent)}>
       添加事件
     </div>
   )

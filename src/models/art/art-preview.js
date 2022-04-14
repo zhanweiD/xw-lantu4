@@ -25,7 +25,7 @@ const MBox = types
     padding: types.optional(MOffset, {}),
     constraints: types.frozen(),
     constraintValue: types.frozen(),
-    visibility: types.optional(types.string, 'visible'),
+    visible: types.boolean,
   })
   .views((self) => ({
     get art_() {
@@ -198,13 +198,13 @@ const MBox = types
     }
     const actions = {
       show: () => {
-        self.visibility = 'visible'
+        self.visible = true
       },
       hidden: () => {
-        self.visibility = 'hidden'
+        self.visible = false
       },
       toggle_visible: () => {
-        self.visibility = self.visibility === 'visible' ? 'hidden' : 'visible'
+        self.visible = !self.visible
       },
     }
     const dipatchAction = function (actionType, ...restParams) {
@@ -258,7 +258,7 @@ const MFrame = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const initBox = ({boxId, exhibit, layout, materials, background, padding, constraints}) => {
+    const initBox = ({boxId, exhibit, layout, materials, background, padding, constraints, ...rest}) => {
       const box = MBox.create({
         boxId,
         exhibit,
@@ -266,6 +266,7 @@ const MFrame = types
         background,
         padding,
         constraints,
+        ...rest,
       })
       if (constraints.ctString === 'tlwh') {
         const top = layout.y - self.originLayout.y
