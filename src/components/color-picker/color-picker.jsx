@@ -15,10 +15,9 @@ const ColorPicker = ({model}) => {
       <div className={s.pickerBox}>
         <SketchPicker
           color={colorPickerBox.rgbaOrderObject}
-          disableAlpha
+          // disableAlpha
           onChange={(color) => {
-            const rgba = `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`
-
+            const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
             if (isFunction(onChange)) {
               onChange(rgba)
               // 更新颜色选择器value显示
