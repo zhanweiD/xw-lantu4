@@ -22,6 +22,10 @@ export default ({pointSize = [10, 10]}) => {
           },
         ],
       },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
     ],
   }
 }

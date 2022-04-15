@@ -818,4 +818,5 @@ export default {
   getElevation: '高程',
   tileUrl: '模型链接',
   tileType: '数据类型',
+  tooltip: 'Tooltip',
 }

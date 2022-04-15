@@ -1,4 +1,4 @@
-export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='outer', column = [],}) => {
+export default ({mode = 'default', type = 'pie', innerRadius = 0, labelPosition = 'outer', column = []}) => {
   return {
     name: '圆弧',
     type: 'arc',
@@ -10,7 +10,7 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='
             name: 'column',
             defaultValue: column,
           },
-        ]
+        ],
       },
       {
         name: 'base',
@@ -30,8 +30,9 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='
                 key: 'stack',
                 value: 'stack',
               },
-            ]
-          }, {
+            ],
+          },
+          {
             name: 'custom',
             option: 'type',
             label: 'type',
@@ -39,21 +40,22 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='
             options: [
               {
                 key: 'pie',
-                value: 'pie'
+                value: 'pie',
               },
               {
                 key: 'nightingaleRose',
-                value: 'nightingaleRose'
-              }
+                value: 'nightingaleRose',
+              },
             ],
             type: 'select',
-          }, {
+          },
+          {
             name: 'innerRadius',
             type: 'number',
             option: 'innerRadius',
             defaultValue: innerRadius,
-          }
-        ]
+          },
+        ],
       },
       {
         name: 'label',
@@ -75,8 +77,8 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='
                 key: 'wave.topOuter',
                 value: 'outer',
               },
-            ]
-          }
+            ],
+          },
         ],
         sections: [
           {
@@ -118,8 +120,12 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0,labelPosition='
               },
             ],
           },
-        ]
-      }
-    ]
+        ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+    ],
   }
 }

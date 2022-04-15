@@ -170,6 +170,10 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
         ],
       },
       {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+      {
         name: 'animation',
         sections: [
           {

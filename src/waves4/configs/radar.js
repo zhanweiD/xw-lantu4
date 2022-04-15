@@ -10,7 +10,7 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
             name: 'column',
             defaultValue: column,
           },
-        ]
+        ],
       },
       {
         name: 'base',
@@ -30,9 +30,9 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
                 key: 'stack',
                 value: 'stack',
               },
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       },
       {
         name: 'area',
@@ -49,18 +49,18 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
         fields: [
           {
             name: 'lineWidth',
-            defaultValue: 2
-          }
-        ]
+            defaultValue: 2,
+          },
+        ],
       },
       {
         name: 'point',
         fields: [
           {
             name: 'size',
-            defaultValue: 6
-          }
-        ]
+            defaultValue: 6,
+          },
+        ],
       },
       {
         name: 'label',
@@ -170,6 +170,10 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
           },
         ],
       },
-    ]
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+    ],
   }
 }

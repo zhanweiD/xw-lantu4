@@ -211,6 +211,10 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
         ],
       },
       {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+      {
         name: 'animation',
         sections: [
           {
