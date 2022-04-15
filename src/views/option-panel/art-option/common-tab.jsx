@@ -25,6 +25,7 @@ const CommonTab = ({target}) => {
     setConstraints,
     frame_,
     visible,
+    boxId,
   } = target || {}
   let materialModels = []
   if (materials) {
@@ -105,14 +106,19 @@ const CommonTab = ({target}) => {
                   value={remark || ''}
                   onChange={(value) => setRemark({remark: value})}
                 />
-                <SwitchField
-                  className="ml24"
-                  label="默认隐藏"
-                  value={!visible}
-                  onChange={(ck) => {
-                    target.set('visible', !ck)
-                  }}
-                />
+                {
+                  // 只有box有
+                  boxId && (
+                    <SwitchField
+                      className="ml24"
+                      label="默认隐藏"
+                      value={!visible}
+                      onChange={(ck) => {
+                        target.set('visible', !ck)
+                      }}
+                    />
+                  )
+                }
               </Section>
             </Scroll>
           </Tab.Item>

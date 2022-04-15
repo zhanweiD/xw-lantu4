@@ -10,7 +10,7 @@ const Adapter = () =>
     // 初始化
     // event 是产品层面，创建exhibitModel 时创建的event
     init({options, event}) {
-      const mButton = MButton.create({}, {event})
+      const mButton = MButton.create({})
       const translatedOptions = translate(options)
       // 初始化模型
       mButton.init(translatedOptions, {})

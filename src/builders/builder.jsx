@@ -22,7 +22,6 @@ import {
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
   if (level > 2) return
-
   return (
     <>
       {fields && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}
@@ -152,6 +151,7 @@ const Builder = ({exhibit}) => {
   }
 
   // 子层列表在这加
+  console.log('exhibit....................', exhibit)
   return (
     <>
       {data && <ModelToField model={data} />}

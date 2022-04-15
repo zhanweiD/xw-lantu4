@@ -167,6 +167,7 @@ export const MArtFrame = types
       insertIndex,
       isEffect = true,
       isLocked = false,
+      visible,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -182,6 +183,7 @@ export const MArtFrame = types
         groupIds,
         isEffect,
         isLocked,
+        visible,
       })
 
       box.padding.setSchema(padding)

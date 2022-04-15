@@ -2093,7 +2093,13 @@ const shadowOptions = {
   ],
 }
 
+const adaptContainer = {
+  label: 'adaptContainer',
+  type: 'switch',
+}
+
 export default {
+  adaptContainer,
   theme,
   valueOffsetY,
   bgLineColor,
