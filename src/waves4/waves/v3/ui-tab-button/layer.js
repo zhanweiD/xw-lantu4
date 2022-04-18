@@ -7,13 +7,20 @@ export default () => {
         name: 'basic',
         fields: [
           {
-            name: 'adaptContainer',
-            defaultValue: false,
+            name: 'width',
+            defaultValue: 450,
           },
           {
-            name: 'trackShow',
-            defaultValue: true,
+            name: 'height',
+            defaultValue: 40,
           },
+          {
+            name: 'textSize',
+            defaultValue: 20,
+          },
+          {name: 'alignmentDirection'},
+          {name: 'inactiveColor'},
+          {name: 'activeColor'},
         ],
       },
     ],

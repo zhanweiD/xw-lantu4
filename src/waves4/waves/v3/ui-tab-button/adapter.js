@@ -1,5 +1,6 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import MTabButton from '@wavesSrc/ui-tab-button'
+import {layerOptionMap} from './mapping'
 // import translate from './translate'
 
 /**
@@ -25,8 +26,12 @@ const Adapter = () =>
     // 初始化
     init({options, event}) {
       const mTabButton = MTabButton.create({options: tableListToBadData(options.data)})
+
+      const {getOption, mapOption} = options.layers[0]
+      const config = layerOptionMap.get('layer')({getOption, mapOption})
+
       // 初始化模型
-      mTabButton.init(options, {})
+      mTabButton.init({...options, ...config}, {})
       mTabButton.draw({
         redraw: false,
       })
@@ -38,11 +43,23 @@ const Adapter = () =>
     },
 
     // 配置组件数据
-    update({instance}) {
+    update({instance, options}) {
+      // const mTabButton = MTabButton.create({options: tableListToBadData(options.data)})
+      const {getOption, mapOption} = options.layers[0]
+      const config = layerOptionMap.get('layer')({getOption, mapOption})
+      // 初始化模型
+      instance.data(tableListToBadData(options.data))
+      instance.init({...options, ...config}, {})
       instance.draw({
         redraw: true,
       })
     },
+    // update({instance, options}) {
+    //   console.log(instance, options)
+    //   instance.draw({
+    //     redraw: true,
+    //   })
+    // },
 
     // /**
     //  * 非标准数据格式转换为标准二维表数据额格式

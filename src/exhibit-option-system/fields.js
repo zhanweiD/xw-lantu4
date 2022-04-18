@@ -1247,6 +1247,35 @@ const direction = {
   ],
 }
 
+// 排列方向
+const alignmentDirection = {
+  type: 'check',
+  label: 'alignmentDirection',
+  defaultValue: 'HORIZONTAL',
+  options: [
+    {
+      key: '水平',
+      value: 'HORIZONTAL',
+    },
+    {
+      key: '垂直',
+      value: 'VERTICAL',
+    },
+  ],
+}
+// 未激活背景色
+const inactiveColor = {
+  type: 'color',
+  label: 'inactiveColor',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
+// 激活背景色
+const activeColor = {
+  type: 'color',
+  label: 'activeColor',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
 const DIRECTION = {
   type: 'check',
   label: 'direction',
@@ -2288,6 +2317,10 @@ export default {
   arcLineColor,
   nodeWidth,
   nodeGap,
+
+  alignmentDirection,
+  inactiveColor,
+  activeColor,
   // 圆角大小
   borderRadius,
   show,

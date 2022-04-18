@@ -7,7 +7,7 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'uiTabButton',
   name: k('uiTabButton'),
-  layout: () => [4, 2],
+  layout: () => [10, 1],
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   interaction: {

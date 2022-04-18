@@ -808,4 +808,7 @@ export default {
   showVertex: '中间节点',
   vertexColor: '节点颜色',
   vertexSize: '节点大小',
+  inactiveColor: '未激活背景色',
+  activeColor: '激活背景色',
+  alignmentDirection: '排列顺序',
 }

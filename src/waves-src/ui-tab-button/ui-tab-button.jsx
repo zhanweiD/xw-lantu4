@@ -45,12 +45,12 @@ const MCheck = MUIBase.named('MInput')
       })
 
       // 自适应容器
-      if (self.config('adaptContainer')) {
-        Object.assign(style, {
-          width: self.containerWidth,
-          height: self.containerHeight,
-        })
-      }
+      // if (self.config('adaptContainer')) {
+      Object.assign(style, {
+        width: self.containerWidth,
+        height: self.containerHeight,
+      })
+      // }
 
       // 渲染组件
       self.render(
