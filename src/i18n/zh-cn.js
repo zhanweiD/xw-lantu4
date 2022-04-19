@@ -68,7 +68,7 @@ export default {
   valueWidth: '数值粗细',
   trackBagHeight: '背景高度',
   thresholdHeight: '阔值高度',
-  trackHeight: '数值条高度',
+  trackHeight: '矩形宽度',
   trackBagColor: '背景颜色',
   thresholdWidth: '阔值宽度',
   labelValueColor: '标签值颜色',

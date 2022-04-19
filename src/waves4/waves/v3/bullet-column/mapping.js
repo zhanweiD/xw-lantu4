@@ -11,10 +11,8 @@ export const layerOptionMap = new Map([
         ['label.labelColor', 'labelColor'],
         ['label.labelAngle', 'labelAngle'],
         ['label.labelOffsetY', 'labelOffsetY'],
-        ['line.lineOpacity', 'lineOpacity'],
-        ['line.lineColor', 'lineColor'],
-        ['value.valueSize', 'valueSize'],
-        ['value.valueColor', 'valueColor'],
+        // ['line.lineOpacity', 'lineOpacity'],
+        // ['line.lineColor', 'lineColor'],
         ['circle.circleOpacity', 'circleOpacity'],
         ['circle.circleMaxRadius', 'circleMaxRadius'],
         ['legend.show', 'legendVisible'],
@@ -25,6 +23,11 @@ export const layerOptionMap = new Map([
         ['unit.singleColor', 'unitColor'],
         ['unit.offset', 'unitOffset'],
         ['unit.content', 'unitContent'],
+        ['base.width', 'barWidth'],
+        ['base.lineWidth', 'lineWidth'],
+        ['base.lineColor', 'lineColor'],
+        ['base.singleColor', 'valueColor'],
+        ['base.textSize', 'valueSize'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

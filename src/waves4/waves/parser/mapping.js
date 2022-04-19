@@ -287,6 +287,8 @@ export const layerOptionMap = new Map([
         ['base.axisBinding', 'options.axis'],
         ['base.type', 'options.type'],
         ['base.mode', 'options.mode'],
+        ['base.width', 'style.rectWidth'],
+        ['base.gap', 'style.rectInterval'],
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],

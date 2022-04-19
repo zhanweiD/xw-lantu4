@@ -4,6 +4,35 @@ export default () => {
     type: 'bulletColumn', // 必要
     sections: [
       {
+        name: 'base',
+        fields: [
+          {
+            name: 'trackHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'trackBagHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'thresholdHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'trackBagColor',
+            defaultValue: 'rgba(255,255,255,0.2)',
+          },
+          {
+            name: 'thresholdWidth',
+            defaultValue: 4,
+          },
+          {
+            name: 'trackShow',
+            defaultValue: true,
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {
@@ -104,35 +133,6 @@ export default () => {
           {
             name: 'valuePosition',
             defaultValue: 'TOP',
-          },
-        ],
-      },
-      {
-        name: 'options',
-        fields: [
-          {
-            name: 'trackShow',
-            defaultValue: true,
-          },
-          {
-            name: 'trackBagHeight',
-            defaultValue: 32,
-          },
-          {
-            name: 'thresholdHeight',
-            defaultValue: 32,
-          },
-          {
-            name: 'trackHeight',
-            defaultValue: 20,
-          },
-          {
-            name: 'trackBagColor',
-            defaultValue: 'rgba(255,255,255,0.2)',
-          },
-          {
-            name: 'thresholdWidth',
-            defaultValue: 4,
           },
         ],
       },
