@@ -20,6 +20,11 @@ export const layerOptionMap = new Map([
         ['legend.show', 'legendVisible'],
         ['legend.textSize', 'legendSize'],
         ['legend.singleColor', 'legendColor'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

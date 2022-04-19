@@ -17,6 +17,11 @@ export const layerOptionMap = new Map([
         ['value.valueColor', 'valueColor'],
         ['circle.circleOpacity', 'circleOpacity'],
         ['circle.circleMaxRadius', 'circleMaxRadius'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

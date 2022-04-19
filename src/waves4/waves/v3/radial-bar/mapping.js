@@ -24,6 +24,11 @@ export const layerOptionMap = new Map([
         ['arc.order', 'order'],
         ['arc.arcBackgroundWidth', 'arcBackgroundWidth'],
         ['arc.arcBackgroundColor', 'arcBackgroundColor'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
