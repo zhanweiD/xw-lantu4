@@ -819,4 +819,5 @@ export default {
   tileUrl: '模型链接',
   tileType: '数据类型',
   tooltip: 'Tooltip',
+  unit: '单位',
 }

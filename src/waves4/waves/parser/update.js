@@ -1,3 +1,4 @@
+// import {createWave} from '@waveview/wave/src/main'
 import {createWave} from '@waveview/wave'
 import {layerOptionMap, layerTypeMap} from './mapping'
 import translate from './translate'

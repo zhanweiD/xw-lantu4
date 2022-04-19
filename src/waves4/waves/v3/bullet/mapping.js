@@ -42,6 +42,11 @@ export const layerOptionMap = new Map([
         ['options.trackBagHeight', 'trackBagHeight'],
         ['options.trackHeight', 'trackHeight'],
         ['tooltip.show', 'tooltipVisible'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

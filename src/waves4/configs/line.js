@@ -163,10 +163,20 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
               },
               {
                 name: 'singleColor',
-                defaultValue: 'rgb(0,0,0)',
+                defaultValue: 'rgba(0,0,0,1)',
               },
             ],
           },
+        ],
+      },
+      {
+        name: 'unit',
+        fields: [
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
         ],
       },
       {

@@ -248,6 +248,11 @@ export const layerOptionMap = new Map([
         ['label.shadow.singleColor', 'style.text.shadow.color'],
         // tooltip
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
         // 动画
         ['animation.enterAnimation.animationType', 'animation.curve.enter.type'],
         ['animation.enterAnimation.duration', 'animation.curve.enter.duration'],
@@ -300,6 +305,11 @@ export const layerOptionMap = new Map([
         ['label.shadow.blur', 'style.text.shadow.blur'],
         ['label.shadow.singleColor', 'style.text.shadow.color'],
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
         // 动画
         ['animation.enterAnimation.animationType', 'animation.rect.enter.type'],
         ['animation.enterAnimation.duration', 'animation.rect.enter.duration'],
@@ -350,6 +360,11 @@ export const layerOptionMap = new Map([
         ['label.text.singleColor', 'style.text.fill'],
         ['label.text.opacity', 'style.text.fillOpacity'],
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
         // 标签阴影
         ['label.shadow.offset', 'style.text.shadow.offset'],
         ['label.shadow.blur', 'style.text.shadow.blur'],
@@ -397,6 +412,11 @@ export const layerOptionMap = new Map([
         ['label.shadow.blur', 'style.text.shadow.blur'],
         ['label.shadow.singleColor', 'style.text.shadow.color'],
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
       ]
       const storage = mapOption(mapping)
       if (getOption('label.effective') !== undefined) {
@@ -412,6 +432,11 @@ export const layerOptionMap = new Map([
       const mapping = [
         ['base.pointSize', 'style.pointSize'],
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
       ]
       const storage = mapOption(mapping)
       // 把散点上的标签隐藏了
@@ -567,6 +592,11 @@ export const layerOptionMap = new Map([
         ['text.singleColor', 'style.text.fill'],
         ['text.opacity', 'style.text.fillOpacity'],
         ['tooltip.show', 'options.tooltipOption.visible'],
+        ['unit.show', 'style.unit.showUnit'],
+        ['unit.textSize', 'style.unit.fontSize'],
+        ['unit.singleColor', 'style.unit.fill'],
+        ['unit.offset', 'style.unit.offset'],
+        ['unit.content', 'style.unit.data'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
