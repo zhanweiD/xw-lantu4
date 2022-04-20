@@ -19,6 +19,8 @@ export const MMaterialPanel = types
     projectFolderSort: types.optional(types.array(types.number), []),
     // 官方素材
     officialFolders: types.optional(types.array(MFolder), []),
+    // 装饰
+    decorationFolders: types.optional(types.array(MFolder), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
@@ -72,6 +74,15 @@ export const MMaterialPanel = types
       }
       return officialFolders
     },
+    get decorationFolders_() {
+      let decorationFolders = self.decorationFolders
+      if (self.keyword) {
+        decorationFolders = decorationFolders.filter(
+          (folder) => folder.materials_.length || folder.folderName.match(self.keyword)
+        )
+      }
+      return decorationFolders
+    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
@@ -82,6 +93,7 @@ export const MMaterialPanel = types
       event.on('materialPanel.setProjectId', self.setProjectId)
       self.getFolders()
       self.getOfficialFolders()
+      self.getDecorationFolders()
     }
 
     // 切换展示方式
@@ -174,6 +186,26 @@ export const MMaterialPanel = types
       }
     })
 
+    // 装饰（点装饰）
+    const getDecorationFolders = flow(function* getFolders() {
+      try {
+        const materials = yield io.material.getDecorationMaterials()
+        self.decorationFolders = [
+          {
+            folderId: -1,
+            folderName: '图片素材',
+            isOfficial: true,
+            materials: materials.map((item) => ({
+              folderId: -2,
+              isOfficial: true,
+              ...item,
+            })),
+          },
+        ]
+      } catch (error) {
+        log.error('getDecorationFolders Error: ', error)
+      }
+    })
     // 项目ID变化时更新项目素材
     const setProjectId = ({projectId}) => {
       if (projectId !== self.projectId) {
@@ -291,6 +323,7 @@ export const MMaterialPanel = types
       getFolders,
       getProjectFolders,
       getOfficialFolders,
+      getDecorationFolders,
       setProjectId,
       createFolder,
       removeFolder,
