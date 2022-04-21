@@ -1,6 +1,6 @@
 import React from 'react'
 import {observer} from 'mobx-react-lite'
-import {useTranslation} from 'react-i18next'
+// import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import w from '@models'
 import IconButton from '@components/icon-button'
@@ -11,7 +11,7 @@ import s from './editor.module.styl'
 const Editor = () => {
   const {editor, overlayManager} = w
   const {tabs, activeTabId, updateActiveNote, closeTab, closeAllTabs, closeOtherTabs} = editor
-  const {t} = useTranslation()
+  // const {t} = useTranslation()
 
   // const getIconName = (tab) => {
   //   if (tab.type === 'art') {
@@ -111,14 +111,19 @@ const Editor = () => {
             </div>
           ))}
           {!tabs.length ? (
-            <div className="wh100p fbv fbjc fbac">
-              <img className={s.logo} src={config[t('login.slogan')]} alt="logo" />
-              <div className="mt30 pt16">
-                <div className={c(s.step, 'ctw10 fs18 bold lh40 mb16 center')}>三步轻松新建可视化数据屏</div>
-                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP1: 新建项目，管理数据和素材(可选)</div>
-                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP2: 新建数据屏，拖拽组件，制作图表</div>
-                <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP3: 预览确认数据屏效果，发布数据屏</div>
-              </div>
+            // <div className="wh100p fbv fbjc fbac">
+            //   <img className={s.logo} src={config[t('login.slogan')]} alt="logo" />
+            //   <div className="mt30 pt16">
+            //     <div className={c(s.step, 'ctw10 fs18 bold lh40 mb16 center')}>三步轻松新建可视化数据屏</div>
+            //     <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP1: 新建项目，管理数据和素材(可选)</div>
+            //     <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP2: 新建数据屏，拖拽组件，制作图表</div>
+            //     <div className={c(s.step, 'ctw10 fs18 bold lh32')}>STEP3: 预览确认数据屏效果，发布数据屏</div>
+            //   </div>
+            // </div>
+            <div className={c('wh100p fbv fbjsb fbac', s.initEditor)}>
+              <img className={s.logo} src={config.slogan} alt="logo" />
+              <img className={s.logo} src={config.bgSteps} alt="steps" />
+              <img src={config.bgPie} alt="logo" />
             </div>
           ) : (
             ''

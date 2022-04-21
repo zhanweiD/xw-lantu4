@@ -28,6 +28,11 @@ export const layerOptionMap = new Map([
         ['options.tooltipVisible', 'tooltipVisible'],
         ['options.tooltipEventType', 'tooltipEventType'],
         ['options.enableLoopTooltip', 'enableLoopTooltip'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

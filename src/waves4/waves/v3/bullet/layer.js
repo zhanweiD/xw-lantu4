@@ -4,6 +4,35 @@ export default () => {
     type: 'bulletColumn', // 必要
     sections: [
       {
+        name: 'base',
+        fields: [
+          {
+            name: 'trackHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'trackBagHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'thresholdHeight',
+            defaultValue: 20,
+          },
+          {
+            name: 'trackBagColor',
+            defaultValue: 'rgba(255,255,255,0.2)',
+          },
+          {
+            name: 'thresholdWidth',
+            defaultValue: 4,
+          },
+          {
+            name: 'trackShow',
+            defaultValue: true,
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {
@@ -108,33 +137,18 @@ export default () => {
         ],
       },
       {
-        name: 'options',
+        name: 'unit',
         fields: [
-          {
-            name: 'trackShow',
-            defaultValue: true,
-          },
-          {
-            name: 'trackBagHeight',
-            defaultValue: 32,
-          },
-          {
-            name: 'thresholdHeight',
-            defaultValue: 32,
-          },
-          {
-            name: 'trackHeight',
-            defaultValue: 20,
-          },
-          {
-            name: 'trackBagColor',
-            defaultValue: 'rgba(255,255,255,0.2)',
-          },
-          {
-            name: 'thresholdWidth',
-            defaultValue: 4,
-          },
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
         ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
       },
     ],
   }

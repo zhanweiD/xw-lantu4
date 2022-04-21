@@ -52,10 +52,8 @@ import radialBar from './waves/v3/radial-bar'
 import orderedList from './waves/v3/ordered-list'
 import pyramid from './waves/v3/pyramid'
 import progress from './waves/v3/progress'
-
 import bullet from './waves/v3/bullet'
-
-import gis from './waves/v3/gis'
+import gis from './waves/gis'
 import button from './waves/v3/button'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'

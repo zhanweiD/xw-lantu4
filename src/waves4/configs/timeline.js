@@ -63,6 +63,10 @@ export default () => {
           },
         ],
       },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
     ],
   }
 }

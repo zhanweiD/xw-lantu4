@@ -53,8 +53,8 @@ export default defineConfig({
     proxy: {
       '/api/v4/waveview': {
         // target: 'http://192.168.90.160:9088/',
-        // target: 'http://192.168.1.43:9088/',
         target: 'http://192.168.90.160:9990/',
+        // target: 'http://192.168.1.43:9088/',
       },
     },
     hmr: false,
