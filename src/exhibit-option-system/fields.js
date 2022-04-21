@@ -1433,7 +1433,32 @@ const numberRange = {
 }
 
 // 时间范围 暂不做
+const time = {
+  type: 'time',
+  label: 'time',
+  defaultValue: [0, 60],
+}
 
+// 形状
+const shapeType = {
+  type: 'shapeType',
+  label: 'shapeType',
+  defaultValue: 'square',
+  options: [
+    {
+      key: 'square',
+      value: 'square',
+    },
+    {
+      key: 'circular',
+      value: 'circular',
+    },
+    {
+      key: 'triangle',
+      value: 'triangle',
+    },
+  ],
+}
 /**
  * =====================================
  * special
@@ -2226,6 +2251,10 @@ export default {
   lineColor,
   // 数值范围
   numberRange,
+  // 时间
+  time,
+  // 形状
+  shapeType,
   // 填充模式
   fillMode,
   // 宽度自适应

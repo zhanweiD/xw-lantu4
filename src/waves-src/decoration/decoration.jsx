@@ -20,6 +20,7 @@ const MDecoration = MUIBase.named('MPointDecoration')
       if (redraw === true) {
         self.removeNode(self.container?.parentNode)
       }
+      self.color = self.config('colors')
       self.dur = self.config('dur')
       self.shape = self.config('shape')
       const style = {
