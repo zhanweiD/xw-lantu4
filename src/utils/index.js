@@ -7,7 +7,7 @@ import {
   GeoJsonLayer,
   PathLayer,
   OdLineLayer,
-} from 'wave-map-test'
+} from 'wave-map'
 // import {
 //   PointLayer,
 //   IconLayer,

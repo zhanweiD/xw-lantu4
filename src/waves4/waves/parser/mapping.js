@@ -230,6 +230,9 @@ export const layerOptionMap = new Map([
         ['line.lineWidth', 'style.curve.strokeWidth'],
         ['line.lineCurve', 'style.curve.curve'],
         ['line.lineFallback', 'options.fallback'],
+        // ['line.color.colorType', 'style.curve.colorType'],
+        // ['line.color.singleColor', 'style.curve.stroke'],
+        // ['line.color.gradientColor', 'style.curve.gradientColor'],
         // 面
         ['area.opacity', 'style.area.fillOpacity'],
         // 标签

@@ -60,17 +60,20 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
         //     fields: [
         //       {
         //         name: 'colorType',
-        //         defaultValue: 'single',
+        //         defaultValue: 'singleColor',
         //       },
         //       {
         //         name: 'singleColor',
+        //         defaultValue: 'rgba(52,200,254,1)',
         //       },
         //       {
-        //         name: 'colorGradient',
+        //         name: 'gradientColor',
+        //         defaultValue: [['rgba(52,200,254,0)', 0], ['rgba(52,200,254,1)', 1]],
+        //         effective: false,
         //       },
-        //       {
-        //         name: 'opacity',
-        //       },
+        //       // {
+        //       //   name: 'opacity',
+        //       // },
         //     ],
         //   },
         // ],

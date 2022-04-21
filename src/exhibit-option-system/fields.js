@@ -1170,14 +1170,20 @@ const colorSingle = {
 const gradientColor = {
   type: 'gradient',
   label: 'gradientColor',
-  defaultValue: ['#00D8FF', '#007EFF'],
+  defaultValue: [
+    ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
 }
 
 // NOTE 将删除
 const colorGradient = {
   type: 'gradient',
   label: 'gradientColor',
-  defaultValue: ['#00D8FF', '#007EFF'],
+  defaultValue: [
+    ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
 }
 
 // 颜色列表

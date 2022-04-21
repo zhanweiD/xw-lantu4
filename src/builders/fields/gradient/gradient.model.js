@@ -8,7 +8,10 @@ export const MGradientField = MBase.named('MGradientField')
     type: types.enumeration(['gradient']),
     option: types.optional(types.string, ''),
     value: types.frozen(),
-    defaultValue: types.optional(types.frozen(), ['rgb(74,144,226)', 'rgb(80,227,194)']),
+    defaultValue: types.optional(types.frozen(), [
+      ['rgb(74,144,226)', 0],
+      ['rgb(80,227,194)', 1],
+    ]),
   })
   .actions((self) => {
     const afterCreate = () => {

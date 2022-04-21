@@ -139,6 +139,7 @@ export default {
   lineWidth: '线宽',
   lineCurve: '曲线',
   lineColor: '线颜色',
+  colorType: '颜色类型',
   arcLineColor: '线条颜色',
   lineOpacity: '透明度',
   lineFallback: '缺省',

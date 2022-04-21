@@ -65,7 +65,7 @@ const GradientField = ({
     }
 
     setRect(boundingClientRect)
-  }, [])
+  }, [visible])
 
   // 鼠标拖动圆点
   useEffect(() => {
@@ -131,10 +131,10 @@ const GradientField = ({
       const {innerHeight} = window
       if (top + height + 24 > innerHeight) {
         colorPickerBoxDom.style.top = `${top - height - 8}px`
-        colorPickerBoxDom.style.left = `${left}px`
+        colorPickerBoxDom.style.left = `${left - 24}px`
       } else {
         colorPickerBoxDom.style.top = `${top + 24}px`
-        colorPickerBoxDom.style.left = `${left}px`
+        colorPickerBoxDom.style.left = `${left - 24}px`
       }
     }
   }, [canShowPicker])
@@ -149,7 +149,6 @@ const GradientField = ({
     const rgb = gradientListInit.find((o) => o.key === key)
       ? gradientListInit.find((o) => o.key === key).color
       : 'rgba(0, 119, 255, 1)'
-
     const color = rgb
       .replace(/rgba\(/i, '')
       .replace(/rgb\(/i, '')
@@ -308,9 +307,9 @@ const GradientField = ({
           />
           <SketchPicker
             color={rgba2objMap(activeKey)}
-            disableAlpha
+            // disableAlpha
             onChange={(color) => {
-              const rgba = `rgb(${color.rgb.r},${color.rgb.g},${color.rgb.b})`
+              const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
               onChange(colorArrayForm(changeColorMap(activeKey, rgba)))
             }}
           />
