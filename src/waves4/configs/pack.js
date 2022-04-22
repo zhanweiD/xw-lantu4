@@ -24,6 +24,10 @@ export default () => {
           },
         ],
       },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
       // {
       //   name: 'pack',
       //   fields: [

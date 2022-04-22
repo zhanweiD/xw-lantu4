@@ -6,16 +6,7 @@ import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 import {themeConfigs} from '@common/theme'
 
-import {
-  gisPoint,
-  gisIcon,
-  geojson,
-  gisHeatmap,
-  odLine,
-  gisTile,
-  gisTerrain,
-  gisPath,
-} from '../waves4/waves/v3/gis/layers'
+import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath} from '../waves4/waves/gis/layers'
 // import {Earth, PointLayer} from 'wave-map-test'
 // import {getRealData} from '@utils/index'
 

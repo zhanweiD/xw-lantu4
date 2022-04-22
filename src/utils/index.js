@@ -1,23 +1,23 @@
-// import {
-//   PointLayer,
-//   // IconLayer,
-//   TerrainLayer,
-//   HeatmapLayer,
-//   // TileLayer,
-//   // GeoJsonLayer,
-//   // PathLayer,
-//   OdLineLayer,
-// } from 'wave-map-test'
 import {
   PointLayer,
-  // IconLayer,
+  IconLayer,
   TerrainLayer,
   HeatmapLayer,
-  // TileLayer,
-  // GeoJsonLayer,
+  TileLayer,
+  GeoJsonLayer,
   PathLayer,
   OdLineLayer,
-} from 'wave-map-test'
+} from 'wave-map'
+// import {
+//   PointLayer,
+//   IconLayer,
+//   TerrainLayer,
+//   HeatmapLayer,
+//   TileLayer,
+//   GeoJsonLayer,
+//   PathLayer,
+//   OdLineLayer,
+// } from 'wave-map/src/index'
 import hJSON from 'hjson'
 
 const getRealData = (data) => {
@@ -37,12 +37,6 @@ const getRealData = (data) => {
         dataItem[dataSource[0][index]] = i[index]
       })
       dataArray.push(dataItem)
-      // dataArray.push({
-      //   [dataSource[0][0]]: i[0],
-      //   [dataSource[0][1]]: i[1],
-      //   [dataSource[0][2]]: i[2],
-      //   [dataSource[0][3]]: i[3],
-      // })
     })
     return dataArray
   } catch (e) {
@@ -63,7 +57,7 @@ const arrayRgba = (rgba) => {
 }
 
 const newLayersInstance = (earth, layers) => {
-  const data = layers.map((item) => {
+  return layers.map((item) => {
     const layer = item.getSchema ? item.getSchema() : item
     const layerOptions = layer.options.sections ? layer.options.sections.base.fields : layer.options.base
     let instance
@@ -72,7 +66,7 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
         layerOptions.getLineColor = arrayRgba(layerOptions.lineColor)
         layerOptions.getFillColor = [...arrayRgba(layerOptions.fillColor), 255]
-        // !layerOptions.diskResolution && delete layerOptions.diskResolution
+
         instance = new PointLayer({
           ...layerOptions,
           earth,
@@ -80,7 +74,6 @@ const newLayersInstance = (earth, layers) => {
         }).getLayers()
         break
       case 'gisHeatmap':
-        console.log(layerOptions)
         instance = new HeatmapLayer({
           ...layerOptions,
           earth,
@@ -95,10 +88,10 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.targetPointColor = arrayRgba(layerOptions.targetPointColor)
         layerOptions.targetLabelColor = arrayRgba(layerOptions.targetLabelColor)
         // layerOptions.flyPointColor = arrayRgba(layerOptions.flyPointColor)
-        console.log(layerOptions)
         instance = new OdLineLayer({
           ...layerOptions,
-          // setFlyPoint: true,
+          // flyPoint: true,
+          // getHeight: 1,
           // setFlyPointWidth: 10,
           // setFlyPointSize: 10,
           // setFlyPointColor: [255, 255, 255, 1],
@@ -124,19 +117,61 @@ const newLayersInstance = (earth, layers) => {
         layerOptions.pathColor = arrayRgba(layerOptions.pathColor)
         layerOptions.trailColor = arrayRgba(layerOptions.trailColor)
         layerOptions.vertexColor = arrayRgba(layerOptions.vertexColor)
-        console.log(layerOptions)
+
         instance = new PathLayer({
           ...layerOptions,
           earth,
           data: getRealData(layer.data),
         }).getLayers()
         break
+      case 'gisIcon':
+        layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
+        layerOptions.getLabel = (d) => d.name
+        layerOptions.getLabelPosition = (d) => d.coordinates
+
+        instance = new IconLayer({
+          ...layerOptions,
+          earth,
+          data: getRealData(layer.data),
+        }).getLayers()
+        break
+      case 'geojson':
+        layerOptions.labelColor = arrayRgba(layerOptions.labelColor)
+        layerOptions.getFillColor = arrayRgba(layerOptions.getFillColor)
+        layerOptions.getLineColor = arrayRgba(layerOptions.getLineColor)
+        layerOptions.getLabel = (d) => d.label
+        layerOptions.getLabelPosition = (d) => d.center
+        layerOptions.data = layerOptions.geojsonData
+
+        instance = new GeoJsonLayer({
+          earth,
+          labelData: getRealData(layer.data),
+          ...layerOptions,
+          getElevation: (d) => {
+            return layerOptions.geojsonType === 'city'
+              ? Number(d.properties.FLOOR) * 3
+              : Number(d.properties.childrenNum) * 3000
+          },
+          // getFillColor: () => [200 * Math.random(), 30, 40],
+        }).getLayers()
+        break
       default:
+        layerOptions.loadOptions =
+          layerOptions.tileType === 'cesium'
+            ? {
+                'cesium-ion': {
+                  accessToken:
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWMxMzcyYy0zZjJkLTQwODctODNlNi01MDRkZmMzMjIxOWIiLCJpZCI6OTYyMCwic2NvcGVzIjpbImFzbCIsImFzciIsImdjIl0sImlhdCI6MTU2Mjg2NjI3M30.1FNiClUyk00YH_nWfSGpiQAjR5V2OvREDq1PJ5QMjWQ',
+                },
+              }
+            : undefined
+        instance = new TileLayer({
+          ...layerOptions,
+          earth,
+        }).getLayers()
         break
     }
     return instance
   })
-  // console.log(data.flat())
-  return data
 }
 export {newLayersInstance, getRealData}

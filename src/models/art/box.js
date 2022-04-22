@@ -44,7 +44,7 @@ export const MBox = types
     padding: types.optional(MOffset, {}),
     isSelected: types.optional(types.boolean, false),
     groupIds: types.frozen(),
-    // 是否有效：失效状态不能选中、画布不渲染
+    // 是否有效：失效状态不能选中、画布不渲染，显示/隐藏
     isEffect: types.optional(types.boolean, true),
     // 容器是否被锁定
     isLocked: types.optional(types.boolean, false),

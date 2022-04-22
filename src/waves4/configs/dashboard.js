@@ -96,6 +96,10 @@ export default ({type, name}) => {
                 },
               ],
             },
+            {
+              name: 'tooltip',
+              fields: [{name: 'show', defaultValue: false}],
+            },
           ]
         : [
             {
@@ -163,6 +167,10 @@ export default ({type, name}) => {
                   ],
                 },
               ],
+            },
+            {
+              name: 'tooltip',
+              fields: [{name: 'show', defaultValue: false}],
             },
           ],
   }

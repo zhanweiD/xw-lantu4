@@ -161,28 +161,29 @@ export default class BulletColumn extends Base {
     // const lineColor = this.config('lineColor')
     // const lineWidth = this.config('lineWidth')
     // const lineValueVisible = this.config('lineValueVisible')
+    const {lineColor, lineWidth, barWidth, valueSize, valueColor} = this._option
     const valueVisible = true
-    const valueSize = 12
-    const valueColor = 'RGBA(255,255,255,0.6)'
-    const customizeBarWidth = 0
+    // const valueSize = 12
+    // const valueColor = 'RGBA(255,255,255,0.6)'
+    // const customizeBarWidth = 0
     const barGap = 1
     const barOpacity = 1
     const {xAxis, data, barMaxValue} = this._data
     // 是否显示更新动画
-    const lineColor = '#c531ac'
-    const lineWidth = 2
+    // const lineColor = '#c531ac'
+    // const lineWidth = 2
     const lineValueVisible = false
     // 一共有几个维度
     const dimensionCount = this._data.legends.length
     // 一共有几根柱子
-    const barCount = dimensionCount * this._data.xAxis.length
+    // const barCount = dimensionCount * this._data.xAxis.length
 
     // 柱子的宽度默认使用容器宽度/30
-    let barWidth = customizeBarWidth || this.mainWidth / 30
+    // let barWidth = customizeBarWidth || this.mainWidth / 30
     // 大于10根柱子的时候使每根柱子宽度为总宽度/双倍柱子数量，保证每组柱子间保持着一组柱子的差距
-    if (barCount > 10) {
-      barWidth = customizeBarWidth || this.mainWidth / (barCount * 2)
-    }
+    // if (barCount > 10) {
+    //   barWidth = customizeBarWidth || this.mainWidth / (barCount * 2)
+    // }
     // X轴
     this._scaleX = this.baseDrawAxisX({
       rangeValue: this.mainWidth,

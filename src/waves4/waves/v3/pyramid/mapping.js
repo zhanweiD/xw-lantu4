@@ -33,7 +33,11 @@ export const layerOptionMap = new Map([
         ['value.showShadow', 'valueShadowVisible'],
         ['value.shadowOptions', 'valueShadowOffset'],
         ['value.noLabelColor', 'valueShadowColor'],
-
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
         // 其他选项
       ]
       const storage = mapOption(mapping)

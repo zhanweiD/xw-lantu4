@@ -7,16 +7,7 @@ import isDef from '@utils/is-def'
 import {useTranslation} from 'react-i18next'
 import w from '@models'
 import {newLayersInstance} from '@utils'
-import {
-  gisPoint,
-  // gisIcon,
-  // geojson,
-  gisHeatmap,
-  odLine,
-  // gisTile,
-  gisTerrain,
-  gisPath,
-} from '../waves4/waves/v3/gis/layers'
+import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath} from '../waves4/waves/gis/layers'
 // import {newLayersInstance, getRealData} from '@utils'
 // import {PointLayer} from 'wave-map-test'
 
@@ -72,6 +63,12 @@ const Builder = ({exhibit}) => {
   const {instance} = adapter || {}
   const {t} = useTranslation()
   const menu = w.overlayManager.get('menu')
+
+  const addLayer = (layerOption) => {
+    exhibit.addLayer(layerOption)
+    adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
+    menu.hide()
+  }
   const menuList = [
     {
       name: '散点气泡层',
@@ -86,63 +83,36 @@ const Builder = ({exhibit}) => {
         // exhibit.addLayer([option])
         // adapter.instance?.updateProps({layers: exhibit.layers.map(item => item.instanceLayer_.getLayers())})
         // menu.hide()
-        exhibit.addLayer([gisPoint()])
-        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-        menu.hide()
+        addLayer([gisPoint()])
       },
     },
-    // {
-    //   name: '符号层',
-    //   action: () => {
-    //     exhibit.addLayer([gisIcon()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '符号层',
+      action: () => addLayer([gisIcon()]),
+    },
     {
       name: '地形层',
-      action: () => {
-        exhibit.addLayer([gisTerrain()])
-        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-        menu.hide()
-      },
+      action: () => addLayer([gisTerrain()]),
     },
-    // {
-    //   name: '模型层',
-    //   action: () => {
-    //     exhibit.addLayer([gisTile()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '模型层',
+      action: () => addLayer([gisTile()]),
+    },
     {
       name: '飞线层',
-      action: () => {
-        exhibit.addLayer([odLine()])
-        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-        menu.hide()
-      },
+      action: () => addLayer([odLine()]),
     },
-    // {
-    //   name: 'GeoJSON层',
-    //   action: () => {
-    //     exhibit.addLayer([geojson()])
-    //     menu.hide()
-    //   },
-    // },
+    {
+      name: '填充层',
+      action: () => addLayer([geojson()]),
+    },
     {
       name: '热力层',
-      action: () => {
-        exhibit.addLayer([gisHeatmap()])
-        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-        menu.hide()
-      },
+      action: () => addLayer([gisHeatmap()]),
     },
     {
       name: '轨迹线层',
-      action: () => {
-        exhibit.addLayer([gisPath()])
-        adapter.instance?.updateProps({layers: newLayersInstance(instance, exhibit.layers)})
-        menu.hide()
-      },
+      action: () => addLayer([gisPath()]),
     },
   ]
   const delLayer = (layer) => {
