@@ -10,6 +10,7 @@ const fields = {
   toggle_visible: TargetSelect,
   show: TargetSelect,
   default: TargetSelect,
+  tabShow: TargetSelect,
 }
 // restProps
 
@@ -21,7 +22,7 @@ const fields = {
 const InteractionField = ({type = 'default', ...restProps}) => {
   const FieldComponent = fields[type]
   if (!FieldComponent) {
-    return <div>{`type: ${type} 动作组件未找到!`}</div>
+    return <div className="fbh fbjc fbac">{`type: ${type} 该动作类型组件未找到!`}</div>
   }
   return <FieldComponent {...restProps} />
 }

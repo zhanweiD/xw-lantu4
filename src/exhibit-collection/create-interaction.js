@@ -10,6 +10,8 @@ const createInteractionModel = (key, exhibit, parentModel) => {
   const MModel = types
     .model(`M${key}.interaction`, {
       name: 'interaction',
+      // 触发组件类型
+      triggerKey: key,
       // 触发对象名称
       triggerName: types.optional(types.string, ''),
       // 目标对象
@@ -27,6 +29,7 @@ const createInteractionModel = (key, exhibit, parentModel) => {
     .actions((self) => {
       const afterCreate = () => {
         // 支持的事件类型
+        self.exhibitModel = parentModel
         self.triggerTypes = eventTriggerTypes
       }
 

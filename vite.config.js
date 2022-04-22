@@ -48,7 +48,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    prot: 3000,
+    prot: 3001,
     open: true,
     proxy: {
       '/api/v4/waveview': {

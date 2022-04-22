@@ -811,4 +811,7 @@ export default {
   inactiveColor: '未激活背景色',
   activeColor: '激活背景色',
   alignmentDirection: '排列顺序',
+
+  tabSwitch: '显隐切换',
+  tabShow: '显示',
 }

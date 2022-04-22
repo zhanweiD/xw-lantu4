@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import s from './tab.module.styl'
 
 const TabScroll = ({children = [], className, headClassName, bodyClassName, activeKey, onChange = () => {}}) => {
   const items = [].concat(children.filter ? children.filter((child) => !!child) : children)
-  useEffect(() => {
-    console.log('TabScroll', activeKey)
-  }, [activeKey])
+  // useEffect(() => {
+  //   console.log('TabScroll', activeKey)
+  // }, [activeKey])
   return (
     <div className={c('fbv', s.root, className)}>
       <div className={c('fbh cfb10', s.head, headClassName)}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import cloneDeep from 'lodash/cloneDeep'
 import WaterMark from '@components/watermark'
@@ -7,9 +7,9 @@ import Material from '../material'
 import {themeConfigs} from '@common/theme'
 
 const ArtFrame = ({art, frame}) => {
-  const {global, overflowX, overflowY} = art
+  const {global, overflowX, overflowY, zoom} = art
   const {effective, fields} = global.options.sections.watermark
-  const {frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
+  const {originLayout, frameId, layout, boxes, materials = [], backgroundImage_, backgroundColor_} = frame
   const {theme} = global.options.sections.themeColor.fields
 
   const reverseMaterials = cloneDeep(materials)
@@ -31,6 +31,17 @@ const ArtFrame = ({art, frame}) => {
   if (!backgroundColor_ && !backgroundImage_) {
     style.background = themeConfigs[theme].background
   }
+  useEffect(() => {
+    const resizeFun = () => {
+      art.zoom.init(document.querySelector(`#artFrame-${frameId}`))
+    }
+    window.addEventListener('resize', resizeFun)
+    return () => window.removeEventListener('resize', resizeFun)
+  }, [frameId])
+
+  useEffect(() => {
+    art.zoom.init(document.querySelector(`#artFrame-${frameId}`))
+  }, [frameId])
 
   return (
     <div
@@ -39,8 +50,8 @@ const ArtFrame = ({art, frame}) => {
       style={{
         overflowX,
         overflowY,
-        width: '100vw',
-        height: '100vh',
+        width: originLayout.width,
+        height: originLayout.height,
       }}
     >
       <div className="pr" style={style}>

@@ -125,6 +125,12 @@ export const MZoom = types
         // NOTE 官方文档里没有autocenter参数，demo里有
         // NOTE 当目标元素在初始化时就需要缩放到可视窗口中间时，设置为true。
         autocenter: true,
+        // 阻止把缩放元素拖拽到可视区域之外
+        bounds: true,
+        boundsPadding: 0,
+        // TODO: 这个要根据真实尺寸相对于屏幕大小进行计算
+        maxZoom: 5,
+        minZoom: 0.1,
         // 1表示禁止双击缩放
         zoomDoubleClickSpeed: 1,
         beforeWheel() {

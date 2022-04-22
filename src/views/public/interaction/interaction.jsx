@@ -48,23 +48,28 @@ const ActionSetting = observer(({model}) => {
   )
 })
 
-const ActionsTab = observer(({actions, onRemoveAction, onAddAction, onTabChange, activeKey}) => {
+const ActionsTab = observer((props) => {
+  const {disabledAddAndRemove, actions, onRemoveAction, onAddAction, onTabChange, activeKey} = props
   const {t} = useTranslation()
   return (
     <div>
-      <div className="fbh fbjsb mr8 ml24">
+      <div className="fbh fbac fbjsb mr8 ml24 mb8">
         <span>实现动作</span>
-        <div className="fbh">
-          <IconButton onClick={onAddAction} icon="add" buttonSize={24} iconSize={12} />
-          <IconButton onClick={onRemoveAction} icon="remove" buttonSize={24} iconSize={12} />
-        </div>
+        {disabledAddAndRemove ? (
+          <div />
+        ) : (
+          <div className="fbh">
+            <IconButton onClick={onAddAction} icon="add" buttonSize={24} iconSize={12} />
+            <IconButton onClick={onRemoveAction} icon="remove" buttonSize={24} iconSize={12} />
+          </div>
+        )}
       </div>
       <div>
         <TabScroll headClassName="ml24 mr8 mb8" activeKey={activeKey} onChange={(id) => onTabChange(id)}>
           {actions.map((action, index) => {
-            const {actionId} = action
+            const {actionId, actionName} = action
             return (
-              <Item name={`动作${index + 1}`} key={actionId} itemKey={actionId}>
+              <Item name={actionName || `动作${index + 1}`} key={actionId} itemKey={actionId}>
                 <ActionSetting model={action} />
               </Item>
             )
@@ -76,7 +81,8 @@ const ActionsTab = observer(({actions, onRemoveAction, onAddAction, onTabChange,
 })
 
 const EventCard = observer(({eventInfo = {}, onRemoveEvent, index, eventTypes = []}) => {
-  const {eventId, effective, actions, addAction, removeAction, set, currentAction, triggerType} = eventInfo
+  const {isCanAddAndRemove, eventId, effective, actions, addAction, removeAction, set, currentAction, triggerType} =
+    eventInfo
   const {t} = useTranslation()
   return (
     <Section
@@ -105,6 +111,7 @@ const EventCard = observer(({eventInfo = {}, onRemoveEvent, index, eventTypes = 
         onAddAction={() => addAction()}
         actions={actions}
         activeKey={currentAction.actionId}
+        disabledAddAndRemove={!isCanAddAndRemove}
       />
     </Section>
   )

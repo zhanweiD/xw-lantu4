@@ -474,7 +474,6 @@ export const MArtViewport = types
     const toggleSelectBox = (box, shiftKey) => {
       const {boxId, frameId} = box
       let boxIds = []
-
       if (shiftKey) {
         const {range = []} = self.selectRange || {}
         const have = range[0]?.boxIds?.find((item) => item === boxId)

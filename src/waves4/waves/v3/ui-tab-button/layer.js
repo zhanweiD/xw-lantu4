@@ -18,7 +18,9 @@ export default () => {
             name: 'textSize',
             defaultValue: 20,
           },
-          {name: 'alignmentDirection'},
+          {
+            name: 'alignmentDirection',
+          },
           {name: 'inactiveColor'},
           {name: 'activeColor'},
         ],

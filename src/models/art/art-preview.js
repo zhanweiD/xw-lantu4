@@ -9,6 +9,7 @@ import tip from '@components/tip'
 import CryptoJS from 'crypto-js'
 import encryptionType from '@utils/base64-decode'
 import {registerExhibit} from '@exhibit-collection'
+import {MZoom} from '@utils/zoom'
 import {MData} from '../data2/data'
 import {MOffset} from './art-ui-tab-property'
 
@@ -562,6 +563,7 @@ const MArtPreview = types
       types.enumeration('MArtPreview.fetchState', ['loading', 'success', 'error', 'password']),
       'loading'
     ),
+    zoom: types.optional(MZoom, {}),
   })
   .views((self) => ({
     get mainFrame_() {

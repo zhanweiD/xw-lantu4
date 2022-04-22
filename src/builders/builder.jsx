@@ -151,7 +151,6 @@ const Builder = ({exhibit}) => {
   }
 
   // 子层列表在这加
-  console.log('exhibit....................', exhibit)
   return (
     <>
       {data && <ModelToField model={data} />}

@@ -2,6 +2,7 @@
 export default {
   click: ['show', 'hidden', 'toggle_visible', 'href'],
   doubleClick: ['show', 'hidden'],
+  tabSwitch: ['tabShow'],
 }
 
 // 针对box的 show，hidden，toggle_visible，actionValue是目标对象的列表
@@ -24,4 +25,16 @@ export const actionMap = {
   show: boxActionHandle,
   hidden: boxActionHandle,
   toggle_visible: boxActionHandle,
+  tabShow: function (action, index, eventData) {
+    // 处理tabSwitch事件
+    const idx = eventData.index
+    const {actionValue = []} = action
+    if (idx === index) {
+      // 展示当前所选的对象，
+      boxActionHandle.call(this, {actionType: 'show', actionValue})
+    } else {
+      // 隐藏所选的对象
+      boxActionHandle.call(this, {actionType: 'hidden', actionValue})
+    }
+  },
 }

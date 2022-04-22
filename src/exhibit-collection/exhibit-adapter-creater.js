@@ -339,7 +339,6 @@ const createExhibitAdapter = (hooks) =>
     }
 
     update({options, action, updated, updatedPath, flag}) {
-      debugger
       if (this.getNecessary()) {
         if (this.container.contains(this.div)) {
           this.container.removeChild(this.div)

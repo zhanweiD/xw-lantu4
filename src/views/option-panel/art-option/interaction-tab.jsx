@@ -13,7 +13,7 @@ const InteractionTab = ({exhibit, containerInfo}) => {
   return (
     <div className="interaction-box">
       <TextField className="ml24 mt8" label={t('interactionTarget')} value={name} />
-      {['button'].includes(key) && <Interaction model={exhibit.interaction} />}
+      {['button', 'uiTabButton'].includes(key) && <Interaction model={exhibit.interaction} />}
     </div>
   )
 }

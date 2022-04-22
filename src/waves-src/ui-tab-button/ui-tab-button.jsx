@@ -61,7 +61,7 @@ const MCheck = MUIBase.named('MInput')
 
     const onChange = (active, option) => {
       self.active = active
-      self.event.fire('onSwitchButton', {data: option})
+      self.event.fire('onSwitchButton', {data: option, index: active})
       self.draw({redraw: false})
     }
 

@@ -16,7 +16,7 @@ const Checkbox = ({onChange = () => undefined, className, checked}) => {
 }
 // options 数据格式要求
 
-const TreeSelect = ({options = [], onChange = () => undefined, defaultValue = []}) => {
+const TreeSelect = ({onNodeEnter, onNodeLeave, options = [], onChange = () => undefined, defaultValue = []}) => {
   const [selectedKeys, setSelectkeys] = useState(defaultValue)
   const onSelect = (keys = [], checked) => {
     if (keys.length === 1) {
@@ -42,19 +42,36 @@ const TreeSelect = ({options = [], onChange = () => undefined, defaultValue = []
     onChange(selectedKeys)
   }, [selectedKeys])
 
-  const loopChild = (nodes) => {
+  const loopChild = (nodes, level = 1) => {
     return (
       <>
         {nodes.map((node) => {
           if (node.children && Array.isArray(node.children)) {
             return (
               <div key={node.key}>
-                <Item onSelect={onSelect} selectedKeys={selectedKeys} nodeData={node} />
-                <div className="pl16">{loopChild(node.children)}</div>
+                <Item
+                  onMouseEnter={onNodeEnter && onNodeEnter.bind(null, node)}
+                  onMouseLeave={onNodeLeave && onNodeLeave.bind(null, node)}
+                  paddingLeft={level * 16}
+                  onSelect={onSelect}
+                  selectedKeys={selectedKeys}
+                  nodeData={node}
+                />
+                <div>{loopChild(node.children, level + 1)}</div>
               </div>
             )
           }
-          return <Item key={node.key} onSelect={onSelect} selectedKeys={selectedKeys} nodeData={node} />
+          return (
+            <Item
+              onMouseEnter={onNodeEnter && onNodeEnter.bind(null, node)}
+              onMouseLeave={onNodeLeave && onNodeLeave.bind(null, node)}
+              paddingLeft={level * 16}
+              key={node.key}
+              onSelect={onSelect}
+              selectedKeys={selectedKeys}
+              nodeData={node}
+            />
+          )
         })}
       </>
     )
@@ -63,7 +80,7 @@ const TreeSelect = ({options = [], onChange = () => undefined, defaultValue = []
   return <div className={c(s.tree_select)}>{loopChild(options)}</div>
 }
 
-const Item = ({onSelect, selectedKeys = [], nodeData}) => {
+const Item = ({onSelect, selectedKeys = [], nodeData, paddingLeft, onMouseEnter, onMouseLeave}) => {
   const {key, title, children = []} = nodeData
   const checked = selectedKeys.includes(key)
   const onSelfSelect = () => {
@@ -80,7 +97,13 @@ const Item = ({onSelect, selectedKeys = [], nodeData}) => {
     onSelect(keys, !checked, nodeData)
   }
   return (
-    <div className={c('fbh fbas fbac hand', s.select_item)} onClick={() => onSelfSelect()}>
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{paddingLeft}}
+      className={c('fbh fbas fbac hand', s.select_item)}
+      onClick={() => onSelfSelect()}
+    >
       <Checkbox checked={checked} className="fbn" />
       <div className="omit ml4">{title}</div>
     </div>
