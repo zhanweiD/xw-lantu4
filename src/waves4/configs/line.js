@@ -53,30 +53,30 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
             name: 'lineFallback',
           },
         ],
-        // sections: [
-        //   {
-        //     name: 'color',
-        //     effective: false,
-        //     fields: [
-        //       {
-        //         name: 'colorType',
-        //         defaultValue: 'singleColor',
-        //       },
-        //       {
-        //         name: 'singleColor',
-        //         defaultValue: 'rgba(52,200,254,1)',
-        //       },
-        //       {
-        //         name: 'gradientColor',
-        //         defaultValue: [['rgba(52,200,254,0)', 0], ['rgba(52,200,254,1)', 1]],
-        //         effective: false,
-        //       },
-        //       // {
-        //       //   name: 'opacity',
-        //       // },
-        //     ],
-        //   },
-        // ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType',
+                defaultValue: 'singleColor',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'gradientColor',
+                defaultValue: [
+                  ['rgba(52,200,254,0)', 0],
+                  ['rgba(52,200,254,1)', 1],
+                ],
+                effective: false,
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'point',

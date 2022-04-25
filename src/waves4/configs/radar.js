@@ -33,6 +33,18 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
             ],
           },
         ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'area',
