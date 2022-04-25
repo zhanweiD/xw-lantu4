@@ -122,7 +122,7 @@ const Interaction = ({model}) => {
   const {events = [], addEvent, removeEvent} = eventModel
 
   return (
-    <div className="ss">
+    <div>
       <AddEventButton onClick={() => addEvent()} />
       {events.map((event, index) => {
         return (

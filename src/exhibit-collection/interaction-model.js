@@ -107,7 +107,7 @@ const MEvent = types
     }
 
     const beforeDestroy = () => {
-      reactionDisposer()
+      reactionDisposer && reactionDisposer()
     }
 
     return {

@@ -4,7 +4,6 @@ import c from 'classnames'
 import TreeSelect from '@components/tree-select'
 import Scroll from '@components/scroll'
 import w from '@models'
-import {debounce} from 'lodash'
 
 import s from './interaction.module.styl'
 
@@ -19,12 +18,9 @@ function toggleOutlineById(id, flag) {
 const TargetSelect = ({onChange, defaultValue}) => {
   const {art} = w.editor.getCurrentTab()
   const actionTargets = art?.viewport?.getAllBoxs()
-  const onEnterTarget = useCallback(
-    debounce((node) => {
-      toggleOutlineById(node.key, true)
-    }, 16),
-    []
-  )
+  const onEnterTarget = useCallback((node) => {
+    toggleOutlineById(node.key, true)
+  }, [])
   return (
     <Field childrenClassName={c(s.lineHeight_initial)} className={c('mr8 ml24', s.baseLine)} label="目标对象">
       <Scroll className="w100p">
