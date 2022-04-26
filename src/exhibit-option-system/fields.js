@@ -1134,6 +1134,27 @@ const colorType = {
   },
 }
 
+// 颜色类型
+const colorType2 = {
+  type: 'check',
+  label: 'colorType',
+  defaultValue: 'customColors',
+  options: [
+    {
+      key: 'singleColor',
+      value: 'customColors',
+    },
+    {
+      key: 'multicolor',
+      value: 'rangeColors',
+    },
+  ],
+  action({siblings, value}) {
+    siblings.singleColor.setEffective(value === 'customColors')
+    siblings.rangeColors.setEffective(value === 'rangeColors')
+  },
+}
+
 // 单色
 const singleColor = {
   type: 'color',
@@ -1172,6 +1193,14 @@ const gradientColor = {
   label: 'gradientColor',
   defaultValue: [
     ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
+}
+const rangeColors = {
+  type: 'gradient',
+  label: 'multicolor',
+  defaultValue: [
+    ['#50E3C2', 0],
     ['#007eff', 1],
   ],
 }
@@ -2273,12 +2302,14 @@ export default {
   areaSize,
   // 颜色类型
   colorType,
+  colorType2,
   // 颜色单色
   singleColor,
   colorSingle,
   // 颜色渐变
   colorGradient,
   gradientColor,
+  rangeColors,
   // 颜色列表
   listColor,
   // 普通字段

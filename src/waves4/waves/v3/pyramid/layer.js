@@ -19,6 +19,26 @@ export default () => {
             defaultValue: [40, 40, 40, 40],
           },
         ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType2',
+                defaultValue: 'customColors',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'title',

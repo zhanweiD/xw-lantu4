@@ -93,7 +93,7 @@ export default class Semicircle extends Base {
 
     // 颜色
     // 固定两个颜色
-    const colors = this.getColor([1, 2])
+    const colors = this.getColor(2)
     this._colors = colors
 
     // 图例 - 图例按照值的描述个数表示

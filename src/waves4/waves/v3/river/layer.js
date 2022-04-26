@@ -68,6 +68,24 @@ export default () => {
           {name: 'content', defaultValue: '单位'},
         ],
       },
+      {
+        name: 'color',
+        effective: false,
+        fields: [
+          {
+            name: 'colorType2',
+            defaultValue: 'customColors',
+          },
+          {
+            name: 'singleColor',
+            defaultValue: 'rgba(52,200,254,1)',
+          },
+          {
+            name: 'rangeColors',
+            effective: false,
+          },
+        ],
+      },
     ],
   }
 }

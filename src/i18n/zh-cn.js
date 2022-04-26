@@ -140,6 +140,7 @@ export default {
   lineCurve: '曲线',
   lineColor: '线颜色',
   colorType: '颜色类型',
+  multicolor: '多色',
   arcLineColor: '线条颜色',
   lineOpacity: '透明度',
   lineFallback: '缺省',
