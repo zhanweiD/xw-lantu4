@@ -3,6 +3,10 @@ export const layerOptionMap = new Map([
     'layer',
     ({mapOption}) => {
       const mapping = [
+        ['color.effective', 'useColors'],
+        ['color.colorType2', 'checkColorModel'],
+        ['color.singleColor', 'customColors'],
+        ['color.rangeColors', 'rangeColors'],
         //标题
         ['title.show', 'titleVisible'],
         ['title.content', 'titleText'],

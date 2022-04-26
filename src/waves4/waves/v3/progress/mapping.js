@@ -4,6 +4,9 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['basic.padding', 'padding'],
+        ['basic.height', 'rectHeight'],
+        ['basic.color.effective', 'useColors'],
+        ['basic.color.singleColor', 'customColors'],
         //标题
         ['title.show', 'titleVisible'],
         ['title.content', 'titleText'],
@@ -15,9 +18,8 @@ export const layerOptionMap = new Map([
         ['label.labelColor', 'labelColor'],
         ['label.decimalNumber', 'percentNum'],
         ['label.labelYOffset', 'valueOffsetY'],
-        ['rect.height', 'rectHeight'],
-        ['rect.trackBagHeight', 'backgroudHeight'],
-        ['rect.arcBackgroundColor', 'backgroundColor'],
+        ['background.trackBagHeight', 'backgroudHeight'],
+        ['background.arcBackgroundColor', 'backgroundColor'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

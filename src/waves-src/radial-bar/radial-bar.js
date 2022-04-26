@@ -99,7 +99,7 @@ export default class RadialBar extends Base {
 
     // 颜色
     // const color = d3.schemeSet3
-    const color = this.getColor(data)
+    const color = this.getColor(data.length)
     this._data._minRadius = _minRadius > this.config('minRadius') ? _minRadius : this.config('minRadius')
     this._data.data =
       order === STATIC.ORDER[0].key

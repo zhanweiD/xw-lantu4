@@ -79,7 +79,7 @@ export default class River extends Base {
     })
 
     // 颜色
-    this._colors = this.getColor(data.value)
+    this._colors = this.getColor(data.value.length)
     return this
   }
 

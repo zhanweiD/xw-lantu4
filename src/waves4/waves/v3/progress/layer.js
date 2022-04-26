@@ -10,6 +10,24 @@ export default () => {
             name: 'padding',
             defaultValue: [40, 40, 40, 40],
           },
+          {
+            name: 'height',
+            defaultValue: 40,
+            min: 0,
+            max: 200,
+          },
+        ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+            ],
+          },
         ],
       },
       {
@@ -61,14 +79,8 @@ export default () => {
         ],
       },
       {
-        name: 'rect',
+        name: 'background',
         fields: [
-          {
-            name: 'height',
-            defaultValue: 40,
-            min: 0,
-            max: 200,
-          },
           {
             name: 'trackBagHeight',
             defaultValue: 40,

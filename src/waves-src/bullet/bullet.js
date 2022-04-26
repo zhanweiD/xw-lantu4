@@ -117,10 +117,10 @@ export default class Bullet extends Base {
     // 图例 - 如果只有一个数值那么颜色按照条目个数取色 否则按照值的个数取色
     if (source.valueDescription.length > 1) {
       // const colors = d3.schemeSet3
-      const colors = this.getColor([])
+      const colors = this.getColor(source.valueDescription.length)
       this._data.data.forEach((d) => (d.c = colors))
     } else {
-      const colors = this.getColor([])
+      const colors = this.getColor(this._data.labels.length)
       this._data.data.forEach((d, i) => (d.c = [colors[i]]))
     }
 

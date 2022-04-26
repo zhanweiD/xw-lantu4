@@ -80,23 +80,15 @@ export default class BulletColumn extends Base {
     // 图例
     // 此处调用getColor方法其实违背了data函数的准则不可涉及配置项，后续更改
     if (this._data.source.value.length > 1) {
-      const colors = this.getColor(1)
+      const colors = this.getColor(this._data.source.value.length)
       this._data.data.forEach((d) => {
         d.c = colors
         d.name = this._data.name
       })
     } else {
-      const colors = this.getColor(1)
-      // let index = 0
-      this._data.data.forEach((d) => {
-        // if (i >= colors.length) {
-        //   index = i % colors.length
-        //   console.log(i % colors.length)
-        // } else {
-        //   index = i
-        // }
-        d.c = [colors]
-
+      const colors = this.getColor(this._data.xAxis.length)
+      this._data.data.forEach((d, i) => {
+        d.c = [colors[i]]
         // eslint-disable-next-line prefer-destructuring
         d.name = this._data.name
       })
@@ -110,7 +102,6 @@ export default class BulletColumn extends Base {
     this._data.source.value.map((item) => dataArray.push(...item.data))
     this._data.source.compareValue.map((item) => dataArray.push(...item.data))
     this._data.barMaxValue = Math.max.apply(null, dataArray) || 1
-    console.log(this._data)
     return this
   }
 

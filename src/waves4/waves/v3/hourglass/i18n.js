@@ -1,3 +1,3 @@
 export default {
-  horizontalHourglass: ['水平沙漏', 'horizontalHourglass'],
+  horizontalHourglass: ['垂直沙漏', 'horizontalHourglass'],
 }
