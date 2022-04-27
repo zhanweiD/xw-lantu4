@@ -971,6 +971,15 @@ const size = {
   step: 1,
 }
 
+// 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
+const sizeSpecialDotMaterial = {
+  type: 'number',
+  label: 'size',
+  min: 1,
+  max: 9,
+  step: 1,
+}
+
 // 尺寸(宽高)
 const areaSize = {
   type: 'multiNumber',
@@ -2186,6 +2195,8 @@ export default {
   height,
   // 尺寸
   size,
+  //尺寸-特殊单设-适配：点装饰组件
+  sizeSpecialDotMaterial,
   // 尺寸(宽高)
   areaSize,
   // 颜色类型

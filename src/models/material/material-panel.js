@@ -187,25 +187,32 @@ export const MMaterialPanel = types
     })
 
     // 装饰（点装饰）
-    const getDecorationFolders = flow(function* getFolders() {
+    const getDecorationFolders = () => {
       try {
-        const materials = yield io.material.getDecorationMaterials()
         self.decorationFolders = [
           {
             folderId: -1,
-            folderName: '图片素材',
+            folderName: '装饰素材',
             isOfficial: true,
-            materials: materials.map((item) => ({
+            materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
               folderId: -2,
               isOfficial: true,
-              ...item,
+              materialId: id,
+              name,
+              icon,
+              lib,
+              key,
+              type: 'decoration',
+              width: 10,
+              height: 10,
             })),
           },
         ]
       } catch (error) {
         log.error('getDecorationFolders Error: ', error)
       }
-    })
+    }
+
     // 项目ID变化时更新项目素材
     const setProjectId = ({projectId}) => {
       if (projectId !== self.projectId) {
