@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="200px" height="50px" style="transform: scale(1, 1.08);">
+	<rect fill="#fff" x="8.273809523809524" y="8.75" width="2.5"
+	 height="2.5">	 
+	</rect>
+	<rect fill="#fff" x="17.797619047619047" y="8.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#fff" x="65.41666666666667" y="8.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.33523493651288483" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="84.46428571428571" y="8.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.06031179930626207" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="132.08333333333334" y="8.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.7386941632464756" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="151.13095238095238" y="8.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.9054601431021134" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="170.17857142857142" y="8.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.179289030449993" repeatCount="indefinite"></animate>
+	</rect>	 	 	 	 
+	<rect fill="#fff" x="27.32142857142857" y="18.75" width="2.5" height="2.5">	 
+	</rect> 
+	<rect fill="#fff" x="46.36904761904762" y="18.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.2147647983483152" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="55.89285714285714" y="18.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.7917459878111748" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="65.41666666666667" y="18.75" width="2.5" height="2.5">
+		 
+	</rect>
+	<rect fill="#fff" x="74.94047619047619" y="18.75" width="2.5" height="2.5">
+		 
+	</rect> 	 
+	<rect fill="#fff" x="113.03571428571428" y="18.75" width="2.5" height="2.5">		 
+	</rect>	 	 	 
+	<rect fill="#fff" x="151.13095238095238" y="18.75" width="2.5" height="2.5">		 
+	</rect>	 	 
+	<rect fill="#fff" x="179.70238095238096" y="18.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.1209504635516283" repeatCount="indefinite"></animate>
+	</rect>	 	 	 
+	<rect fill="#fff" x="27.32142857142857" y="28.75" width="2.5" height="2.5">		 
+	</rect>	 
+	<rect fill="#fff" x="46.36904761904762" y="28.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.08512403815271075" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="55.89285714285714" y="28.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.6469129582396476" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="65.41666666666667" y="28.75" width="2.5" height="2.5">		 
+	</rect>	 
+	<rect fill="#fff" x="84.46428571428571" y="28.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="0.7736079968489982" repeatCount="indefinite"></animate>
+	</rect>	 
+	<rect fill="#fff" x="132.08333333333334" y="28.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#fff" x="141.60714285714286" y="28.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#fff" x="151.13095238095238" y="28.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#fff" x="160.6547619047619" y="28.75" width="2.5" height="2.5">		 
+	</rect>	 
+	<rect fill="#fff" x="179.70238095238096" y="28.75" width="2.5" height="2.5">		 
+	</rect>	 	 
+	<rect fill="#fff" x="17.797619047619047" y="38.75" width="2.5" height="2.5">		 
+	</rect>	 	 	 
+	<rect fill="#fff" x="55.89285714285714" y="38.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.373489823728975" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="65.41666666666667" y="38.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#fff" x="74.94047619047619" y="38.75" width="2.5" height="2.5">		 
+	</rect>	 	 	 	 
+	<rect fill="#fff" x="122.55952380952381" y="38.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.8269957498789662" repeatCount="indefinite"></animate>
+	</rect>	 	 
+	<rect fill="#fff" x="151.13095238095238" y="38.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.0449282434932656" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#fff" x="160.6547619047619" y="38.75" width="2.5" height="2.5">
+		<animate attributeName="fill" values="#fff;transparent" dur="1s" begin="1.4230248499584661" repeatCount="indefinite"></animate>
+	</rect>	 	 
+	<rect fill="#fff" x="189.22619047619048" y="38.75" width="2.5" height="2.5">		 
+	</rect>
+	<rect fill="#0de7c2" x="187.97619047619048" y="17.5" width="5" height="5">
+		<animate attributeName="width" values="0;5" dur="2s" repeatCount="indefinite"></animate>
+		<animate attributeName="height" values="0;5" dur="2s" repeatCount="indefinite"></animate>
+		<animate attributeName="x" values="190.47619047619048;187.97619047619048" dur="2s" repeatCount="indefinite"></animate>
+		<animate attributeName="y" values="20;17.5" dur="2s" repeatCount="indefinite"></animate>
+	</rect>
+	<rect fill="#0de7c2" x="131.42857142857142" y="17.5" width="40" height="5">
+		<animate attributeName="width" values="0;40;0" dur="2s" repeatCount="indefinite"></animate>
+		<animate attributeName="x" values="171.42857142857142;131.42857142857142;171.42857142857142" dur="2s" repeatCount="indefinite"></animate>
+	</rect>
+</svg>
