@@ -12,6 +12,8 @@ import InteractionField from '../inertaction-field'
 
 import s from './interaction.module.styl'
 
+import './interaction.styl'
+
 const {Item} = TabScroll
 
 const {SelectField} = fields
@@ -90,7 +92,7 @@ const EventCard = observer(({eventInfo = {}, onRemoveEvent, index, eventTypes = 
       extra={
         <div className="fbh fbac">
           <Switch
-            className={c(s.eventSwitch, {switch_on: effective})}
+            className={c('eventSwitch', {switch_on: effective})}
             value={effective}
             onChange={(ck) => set('effective', ck)}
           />
