@@ -19,6 +19,37 @@ import {
 //   OdLineLayer,
 // } from 'wave-map/src/index'
 import hJSON from 'hjson'
+import chroma from 'chroma-js'
+
+// rgba-->16进制
+const hexify = (color) => {
+  var values = color
+    .replace(/rgba?\(/, '')
+    .replace(/\)/, '')
+    .replace(/[\s+]/g, '')
+    .split(',')
+  var a = parseFloat(values[3] || 1),
+    r = Math.floor(a * parseInt(values[0]) + (1 - a) * 255),
+    g = Math.floor(a * parseInt(values[1]) + (1 - a) * 255),
+    b = Math.floor(a * parseInt(values[2]) + (1 - a) * 255)
+  return '#' + ('0' + r.toString(16)).slice(-2) + ('0' + g.toString(16)).slice(-2) + ('0' + b.toString(16)).slice(-2)
+}
+
+/** 颜色比例尺
+ * @param v 渐变色数组 [['rgba(74,144,226,1)', 0],['rgba(80,227,194,1)', 1]]
+ * @param n getColor所需颜色数量
+ */
+const chromaScale = (v, n) => {
+  const colors = v.map((o) => o[0])
+  const domain = v.map((o) => o[1])
+  const scaleMap = {}
+  Array.from({length: n}, (x, i) => i).forEach((x) => {
+    const {_rgb} = chroma.scale(colors).domain(domain)(x / (n > 1 ? n - 1 : 1))
+    scaleMap[x] = `rgba(${_rgb[0]}, ${_rgb[1]}, ${_rgb[2]}, ${_rgb[3]})`
+  })
+  const rgbaColors = Object.values(scaleMap)
+  return rgbaColors.map((item) => hexify(item))
+}
 
 const getRealData = (data) => {
   let dataSource = data
@@ -174,4 +205,4 @@ const newLayersInstance = (earth, layers) => {
     return instance
   })
 }
-export {newLayersInstance, getRealData}
+export {newLayersInstance, getRealData, chromaScale}

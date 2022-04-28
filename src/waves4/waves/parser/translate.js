@@ -1,4 +1,5 @@
 import uuid from '@utils/uuid'
+import {chromaScale} from '@utils'
 import {merge, isObject} from 'lodash'
 import {layerOptionMap, layerTypeMap} from './mapping'
 
@@ -99,6 +100,15 @@ function translate(schema) {
       const layerType = layerTypeMap.get(type) || type
       const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
+      if (config.style.rangeColorList) {
+        if (type === 'arc' || type === 'dashboard' || type === 'scatter') {
+          config.style.rangeColorList = chromaScale(config.style.rangeColorList, data.length - 1)
+        } else if (type === 'chord' || type === 'edgeBundle' || type === 'edgeBundle') {
+          config.style.rangeColorList = chromaScale(config.style.rangeColorList, data[0].length)
+        } else {
+          config.style.rangeColorList = chromaScale(config.style.rangeColorList, data[0].length - 1)
+        }
+      }
       if (layerType === 'baseMap') isBaseMap = true
       layerConfig.push(
         merge(

@@ -1105,12 +1105,16 @@ const colorType = {
   defaultValue: 'singleColor',
   options: [
     {
-      key: 'singleColor',
+      key: 'monochromatic',
       value: 'singleColor',
     },
     {
       key: 'gradientColor',
       value: 'gradientColor',
+    },
+    {
+      key: 'multicolor',
+      value: 'rangeColors',
     },
     // {
     //   key: 'themeColor',
@@ -1127,9 +1131,9 @@ const colorType = {
   //   // siblings.themeColor.setEffective(value === 'themeColor')
   // },
   action({siblings, value}) {
-    // console.log('field action', siblings, value)
     siblings.singleColor.setEffective(value === 'singleColor')
     siblings.gradientColor.setEffective(value === 'gradientColor')
+    siblings.rangeColors.setEffective(value === 'rangeColors')
     // siblings.themeColor.setEffective(value === 'themeColor')
   },
 }
@@ -1141,7 +1145,7 @@ const colorType2 = {
   defaultValue: 'customColors',
   options: [
     {
-      key: 'singleColor',
+      key: 'monochromatic',
       value: 'customColors',
     },
     {

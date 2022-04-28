@@ -25,8 +25,15 @@ export default ({type, name}) => {
               effective: false,
               fields: [
                 {
+                  name: 'colorType2',
+                },
+                {
                   name: 'singleColor',
                   defaultValue: 'rgba(52,200,254,1)',
+                },
+                {
+                  name: 'rangeColors',
+                  effective: false,
                 },
               ],
             },
@@ -127,19 +134,17 @@ export default ({type, name}) => {
               name: 'color',
               effective: false,
               fields: [
-                // {
-                //   name: 'colorType',
-                //   defaultValue: 'singleColor',
-                // },
+                {
+                  name: 'colorType2',
+                },
                 {
                   name: 'singleColor',
                   defaultValue: 'rgba(52,200,254,1)',
                 },
-                // {
-                //   name: 'gradientColor',
-                //   defaultValue: [['rgba(52,200,254,0)', 0], ['rgba(52,200,254,1)', 1]],
-                //   effective: false,
-                // },
+                {
+                  name: 'rangeColors',
+                  effective: false,
+                },
               ],
             },
             {

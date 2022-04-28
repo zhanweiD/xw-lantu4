@@ -141,6 +141,7 @@ export default {
   lineColor: '线颜色',
   colorType: '颜色类型',
   multicolor: '多色',
+  monochromatic: '单色',
   arcLineColor: '线条颜色',
   lineOpacity: '透明度',
   lineFallback: '缺省',
