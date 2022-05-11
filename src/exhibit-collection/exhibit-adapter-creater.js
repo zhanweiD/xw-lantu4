@@ -351,7 +351,6 @@ const createExhibitAdapter = (hooks) =>
           updatedPath,
         })
       } else {
-        console.log(this.getNecessary())
         this.warn()
       }
     }
