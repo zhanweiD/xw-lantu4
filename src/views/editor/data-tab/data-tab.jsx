@@ -13,7 +13,7 @@ const DataTab = ({data}) => {
     <Loading data={state_}>
       {data.dataType === 'excel' && <ExcelData data={data} />}
       {data.dataType === 'json' && <JsonData data={data} />}
-      {data.dataType === 'database' && <Database data={data} />}
+      {data.dataType === 'sql' && <Database data={data} />}
       {data.dataType === 'api' && <ApiData data={data} />}
     </Loading>
   )
