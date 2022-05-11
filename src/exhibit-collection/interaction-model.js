@@ -3,28 +3,6 @@ import uuid from '@common/uuid'
 import commonAction from '@utils/common-action'
 import {reaction} from 'mobx'
 
-// 定制化处理tab switch事件
-function handleTabEvent(actions = [], dataSource = []) {
-  // 数据无变化, 不做处理
-  if (actions.length === dataSource.length) return actions
-  // 数据变更，响应的在初始化的时候，要同步数据创建对应的动作
-  // tab的动作和tab的数据是按索引对应的
-  return dataSource.map((d, index) => {
-    const actionName = d[0]
-    if (actions[index]) {
-      return {
-        actionName,
-        ...actions[index],
-      }
-    }
-    return {
-      actionName,
-      // actionType: 'show',
-      actionId: uuid(),
-    }
-  })
-}
-
 const MAction = types
   .model('MAction', {
     actionId: types.identifier,
@@ -50,45 +28,16 @@ const MEvent = types
     currentAction: types.optional(types.reference(MAction), ''),
     triggerType: types.optional(types.string, ''),
     normalKeys: types.frozen(['eventId', 'effective', 'actions', 'triggerType']),
-    // 不需要保存到后端
-    isCanAddAndRemove: types.optional(types.boolean, true),
   })
+  .views((self) => ({
+    get isCanAddAndRemove() {
+      return true
+    },
+  }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const handleTabSwitch = () => {
-      self.isCanAddAndRemove = false
-      const interactionModel = getParent(self, 3)
-      const data = interactionModel.exhibitModel.getData()
-      self.actions = handleTabEvent(self.actions.toJSON(), data.slice(1))
-      if (self.actions.length > 0) {
-        self.currentAction = self.actions[0]['actionId']
-      }
-    }
-    let reactionDisposer
     const afterCreate = () => {
-      const interactionModel = getParent(self, 3)
-      const {triggerKey} = interactionModel
-      if (triggerKey === 'uiTabButton') {
-        // tab 组件，因为要自动同步数据, 定制化处理
-        const interactionModel = getParent(self, 3)
-        reactionDisposer = reaction(
-          () => interactionModel.exhibitModel.data.value.toJSON(),
-          () => {
-            const data = interactionModel.exhibitModel.getData() || []
-            const realData = data.slice(1)
-            if (realData.length !== self.actions.length) {
-              console.log('reactionTabData: ', data)
-              self.handleTabSwitch()
-            }
-          },
-          {
-            fireImmediately: true,
-            delay: 30,
-          }
-        )
-      } else if (self.actions && self.actions.length === 0) {
-        self.addAction()
-      }
+      self.addAction()
     }
 
     const addAction = () => {
@@ -106,12 +55,9 @@ const MEvent = types
       }
     }
 
-    const beforeDestroy = () => {
-      reactionDisposer && reactionDisposer()
-    }
+    const beforeDestroy = () => {}
 
     return {
-      handleTabSwitch,
       afterCreate,
       addAction,
       removeAction,
@@ -120,7 +66,7 @@ const MEvent = types
   })
 
 const MInteraction = types
-  .model('MButtonAction', {
+  .model('MAction', {
     // 事件列表
     events: types.optional(types.array(MEvent), []),
   })
