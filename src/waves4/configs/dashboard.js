@@ -21,6 +21,16 @@ export default ({type, name}) => {
               ],
             },
             {
+              name: 'color',
+              effective: false,
+              fields: [
+                {
+                  name: 'singleColor',
+                  defaultValue: 'rgba(52,200,254,1)',
+                },
+              ],
+            },
+            {
               name: 'text',
               sections: [
                 {
@@ -111,6 +121,25 @@ export default ({type, name}) => {
                   min: 1,
                   max: 50,
                 },
+              ],
+            },
+            {
+              name: 'color',
+              effective: false,
+              fields: [
+                // {
+                //   name: 'colorType',
+                //   defaultValue: 'singleColor',
+                // },
+                {
+                  name: 'singleColor',
+                  defaultValue: 'rgba(52,200,254,1)',
+                },
+                // {
+                //   name: 'gradientColor',
+                //   defaultValue: [['rgba(52,200,254,0)', 0], ['rgba(52,200,254,1)', 1]],
+                //   effective: false,
+                // },
               ],
             },
             {

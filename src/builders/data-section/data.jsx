@@ -209,22 +209,24 @@ const DataField = ({
                   })
                 }}
               />
-              <Processor
-                type={type}
-                name={t('body')}
-                value={value.apiBody}
-                effective={value.useApiBody}
-                onChange={(data) => {
-                  onChange({
-                    apiBody: data,
-                  })
-                }}
-                onIconClick={(data) => {
-                  onChange({
-                    useApiBody: data,
-                  })
-                }}
-              />
+              {value.apiConfig?.method !== 'GET' && (
+                <Processor
+                  type={type}
+                  name={t('body')}
+                  value={value.apiBody}
+                  effective={value.useApiBody}
+                  onChange={(data) => {
+                    onChange({
+                      apiBody: data,
+                    })
+                  }}
+                  onIconClick={(data) => {
+                    onChange({
+                      useApiBody: data,
+                    })
+                  }}
+                />
+              )}
             </>
           )}
           {value.source && (
@@ -262,6 +264,7 @@ const DataField = ({
                       key={data.dataId}
                       className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                       onClick={() => {
+                        value.source && removeSource(value.source)
                         addSource(data.dataId)
                         setIsVisible(false)
                       }}
@@ -278,6 +281,7 @@ const DataField = ({
                       key={data.dataId}
                       className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                       onClick={() => {
+                        value.source && removeSource(value.source)
                         addSource(data.dataId)
                         setIsVisible(false)
                       }}

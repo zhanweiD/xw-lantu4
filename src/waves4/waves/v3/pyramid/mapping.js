@@ -6,6 +6,10 @@ export const layerOptionMap = new Map([
         ['basic.padding', 'padding'],
         ['basic.orderType', 'order'],
         ['basic.DIRECTION', 'direction'],
+        ['basic.color.effective', 'useColors'],
+        ['basic.color.colorType2', 'checkColorModel'],
+        ['basic.color.singleColor', 'customColors'],
+        ['basic.color.rangeColors', 'rangeColors'],
         //标题
         ['title.show', 'titleVisible'],
         ['title.content', 'titleText'],

@@ -68,6 +68,30 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           {name: 'width'},
           {name: 'gap'},
         ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType',
+                defaultValue: 'singleColor',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'gradientColor',
+                defaultValue: [
+                  ['rgba(52,200,254,0)', 0],
+                  ['rgba(52,200,254,1)', 1],
+                ],
+                effective: false,
+              },
+            ],
+          },
+        ],
         // sections: [
         //   {
         //     name: 'color',

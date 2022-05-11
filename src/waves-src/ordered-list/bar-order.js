@@ -166,14 +166,13 @@ export default class BarOrder extends Base {
     // 颜色
     if (gradientDirection === STATIC.GRADIENT_DIRECTION[0].key) {
       // this.colors = d3.schemeSet3// .slice(0, 2)
-      this.colors = this.getColor([1])
+      this.colors = this.getColor(2)
       // 水平渐变
       this.drawLineColor()
     } else {
-      this.colors = this.getColor([1], 1)
+      this.colors = this.getColor(this._labels.length)
       // this.colors = d3.schemeSet3
     }
-    console.log(this._data.data)
     return this
   }
 
@@ -265,7 +264,6 @@ export default class BarOrder extends Base {
       'valueSize',
       'gap',
     ].map((i) => this.config(i))
-    console.log(maxRow, lineHeight, labelSize, valueSize, gap)
     // 原需：当数据条数少于需展示的条数时，按照数据条数撑满容器
     // 原需：当数据条数多于需展示的条数时，按照需展示的条数撑满容器
     // 20191014改：按照需展示的条数撑满容器
@@ -390,11 +388,11 @@ export default class BarOrder extends Base {
 
     if (gradientDirection === STATIC.GRADIENT_DIRECTION[0].key) {
       // this.colors = d3.schemeSet3// .slice(0, 2)
-      this.colors = this.getColor(this.getColor([1]))
+      this.colors = this.getColor(2)
       // 水平渐变
       this.drawLineColor()
     } else {
-      this.colors = this.getColor([1])
+      this.colors = this.getColor(this._labels.length)
       // this.colors = d3.schemeSet3
     }
 

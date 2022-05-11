@@ -28,6 +28,10 @@ export const layerOptionMap = new Map([
         ['base.lineColor', 'lineColor'],
         ['base.singleColor', 'valueColor'],
         ['base.textSize', 'valueSize'],
+        ['base.color.effective', 'useColors'],
+        ['base.color.colorType2', 'checkColorModel'],
+        ['base.color.singleColor', 'customColors'],
+        ['base.color.rangeColors', 'rangeColors'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

@@ -77,9 +77,8 @@ export default class Histogram extends Base {
 
     // 统计数值范围
     const valueRange = dataUtil.range(source)[source.unit[0]]
-    console.log(source)
     // 颜色 按照第一个维度的标签数量来
-    const colors = isStacked ? this.getColor(source.data) : this.getColor([])
+    const colors = isStacked ? this.getColor(source.dimension[0].labels.length) : this.getColor(1)
 
     // 图例
     const legends = isStacked ? source.dimension[0].labels.map((v, i) => ({label: v, color: colors[i]})) : []

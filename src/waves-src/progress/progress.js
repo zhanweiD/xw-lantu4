@@ -61,7 +61,7 @@ export default class Progress extends Base {
 
     // 图表用到的颜色
     // this._colors = d3.schemeSet3
-    this._colors = this.getColor([])
+    this._colors = this.getColor(source.valueDescription.length)
 
     // 图例 - 图例按照值的描述个数表示
     this._data.legends = source.valueDescription.map((v, i) => ({label: v, color: this._colors[i]}))
