@@ -107,7 +107,7 @@ const MValue = types
               params.body = makeFunction(self.apiBody)({})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
-            self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+            self.useProcessor ? makeFunction(self.processor)({dataFrame: dataFrame}) || dataFrame : dataFrame
             self.columns = dataFrame.columns
 
             self.data = dataFrame.getData()

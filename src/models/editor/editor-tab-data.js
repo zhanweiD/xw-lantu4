@@ -146,9 +146,9 @@ export const MDataTab = types
       }
       const {tip} = self.env_
       try {
-        const {dataType, folderId, basic, dataField} = self
+        const {dataType, folderId, basic} = self
+        // const {dataType, folderId, basic, dataField} = self
         const {dataName, remark} = basic.getSchema()
-        console.log(dataField)
         // 数据需要的配置
         let data = {
           dataType,
