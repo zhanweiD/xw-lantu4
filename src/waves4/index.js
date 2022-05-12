@@ -57,6 +57,8 @@ import bullet from './waves/v3/bullet'
 
 import gis from './waves/v3/gis'
 import button from './waves/v3/button'
+import input from './waves/v3/input'
+// import search from './waves/v3/search'
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -133,6 +135,8 @@ const waves = {
   textarea,
   // 交互
   button,
+  input,
+  // search
 }
 
 Object.values(waves).forEach((wave) => {
@@ -254,7 +258,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button],
+    exhibits: [button, input],
   },
 ]
 
