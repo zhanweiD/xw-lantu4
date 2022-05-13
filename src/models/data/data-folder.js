@@ -42,7 +42,7 @@ export const MDataFolder = types
         defaultDataName = '添加Excel'
       } else if (dataType === 'json') {
         defaultDataName = '添加JSON'
-      } else if (dataType === 'database') {
+      } else if (dataType === 'sql') {
         defaultDataName = '添加SQL'
       } else if (dataType === 'api') {
         defaultDataName = '添加API'

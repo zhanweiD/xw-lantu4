@@ -8,13 +8,20 @@ import translate from './translate'
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化
-    init({options}) {
-      const mButton = MButton.create()
+    // event 是产品层面，创建exhibitModel 时创建的event
+    init({options, event}) {
+      const mButton = MButton.create({})
       const translatedOptions = translate(options)
       // 初始化模型
       mButton.init(translatedOptions, {})
       mButton.draw({
         redraw: true,
+      })
+      mButton.event.on('click', () => {
+        event.fire('click')
+      })
+      mButton.event.on('doubleClick', () => {
+        event.fire('doubleClick')
       })
       return mButton
     },

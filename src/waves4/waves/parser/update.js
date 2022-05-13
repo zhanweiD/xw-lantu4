@@ -1,11 +1,16 @@
-import {createWave} from '@waveview/wave'
+// import {createWave} from '@waveview/wave/src/main'
+// import {createWave} from '@waveview/wave'
+import {createWave} from 'dtwave-chart'
+// import {createWave} from 'dtwave-chart/src/main'
+
 import {layerOptionMap, layerTypeMap} from './mapping'
 import translate from './translate'
 
 // 删除无效值，因为无效值有特殊含义（采用默认值）
 const filterInvalid = (object) => {
   Object.keys(object).forEach((key) => {
-    if (typeof object[key] === 'object') {
+    // if (typeof object[key] === 'object') { // 数组也会进来报错
+    if (Object.prototype.toString.call(object[key]) === '[object Object]') {
       object[key] = filterInvalid(object[key])
     }
     if (object[key] === undefined) {

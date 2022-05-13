@@ -19,6 +19,26 @@ export default () => {
             defaultValue: [40, 40, 40, 40],
           },
         ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType2',
+                defaultValue: 'customColors',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'title',
@@ -142,6 +162,16 @@ export default () => {
             name: 'noLabelColor',
             defaultValue: 'rgba(255, 255, 255, 0.65)',
           },
+        ],
+      },
+      {
+        name: 'unit',
+        fields: [
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
         ],
       },
     ],

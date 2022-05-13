@@ -4,6 +4,51 @@ export default () => {
     type: 'bulletColumn', // 必要
     sections: [
       {
+        name: 'base',
+        fields: [
+          {
+            name: 'width',
+            defaultValue: 20,
+          },
+          {
+            name: 'lineWidth',
+            defaultValue: 4,
+          },
+          {
+            name: 'lineColor',
+            defaultValue: 'RGBA(229, 100, 222, 0.65)',
+          },
+          {
+            name: 'textSize',
+            defaultValue: 12,
+          },
+          {
+            name: 'singleColor',
+            defaultValue: 'RGBA(255, 255, 255, 0.65)',
+          },
+        ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType2',
+                defaultValue: 'customColors',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {
@@ -41,17 +86,27 @@ export default () => {
           },
         ],
       },
+      // {
+      //   name: 'value',
+      //   fields: [
+      //     {
+      //       name: 'valueSize',
+      //       defaultValue: 12,
+      //     },
+      //     {
+      //       name: 'valueColor',
+      //       defaultValue: 'RGBA(255, 255, 255, 0.65)',
+      //     },
+      //   ],
+      // },
       {
-        name: 'value',
+        name: 'unit',
         fields: [
-          {
-            name: 'valueSize',
-            defaultValue: 12,
-          },
-          {
-            name: 'valueColor',
-            defaultValue: 'RGBA(255, 255, 255, 0.65)',
-          },
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
         ],
       },
     ],

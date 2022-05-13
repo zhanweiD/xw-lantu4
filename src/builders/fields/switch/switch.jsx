@@ -4,9 +4,9 @@ import c from 'classnames'
 import {Field} from '../base'
 import s from './switch.module.styl'
 
-export const Switch = observer(({value, onChange}) => (
+export const Switch = observer(({value, onChange, className}) => (
   <div
-    className={c(s.switch, {
+    className={c(s.switch, className, {
       [s.switch_on]: value,
     })}
     onClick={() => onChange(!value)}

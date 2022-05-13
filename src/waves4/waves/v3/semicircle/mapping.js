@@ -16,12 +16,21 @@ export const layerOptionMap = new Map([
         ['arc.decimalNumber', 'decimalNumber'],
         ['arc.arcLineColor', 'arcLineColor'],
         ['arc.orderType', 'orderType'],
+        ['arc.color.effective', 'useColors'],
+        ['arc.color.colorType2', 'checkColorModel'],
+        ['arc.color.singleColor', 'customColors'],
+        ['arc.color.rangeColors', 'rangeColors'],
         ['axis.labelOffset', 'xTickOffset'],
         ['axis.textSize', 'xTickSize'],
         ['axis.singleColor', 'xTickColor'],
         ['axis.labelOffset', 'offsetY'],
         ['axis.textSize', 'yTickSize'],
         ['axis.singleColor', 'yTickColor'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

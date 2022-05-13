@@ -89,18 +89,10 @@ export default class Renju extends Base {
       const percents = computePercent(datas, (d) => d.value, 1)
       datas.forEach((d, i) => (d.percent = percents[i]))
     }
-    const flag = true
-    if (flag) {
-      // 如果开启渐变，那么需要多一个颜色
-      this._colors = this.getColor(datas)
-      // this._colors = d3.schemeSet3
-    } else {
-      // 如果不开启渐变，那就一条数据对应一个颜色
-      // this._colors = d3.schemeSet3
-      this._colors = this.getColor(datas)
 
-      datas.forEach((d, i) => (d.color = this._colors[i]))
-    }
+    this._colors = this.getColor(datas.length)
+
+    datas.forEach((d, i) => (d.color = this._colors[i]))
 
     // 存入索引
     datas.forEach((d, i) => (d.index = i))

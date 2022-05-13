@@ -110,8 +110,8 @@ export default class Hourglass extends Base {
     }))
 
     // 只需要两个颜色
-    this._colors = this.getColor(data)
-    // this._colors = d3.schemeSet3.slice(0, 2)
+    // this._colors = this.getColor(data)
+    this._colors = this.getColor(2)
 
     // 图例数据
     this._legends = source.valueDescription.map((vd, i) => ({

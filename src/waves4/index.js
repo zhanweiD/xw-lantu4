@@ -52,17 +52,17 @@ import radialBar from './waves/v3/radial-bar'
 import orderedList from './waves/v3/ordered-list'
 import pyramid from './waves/v3/pyramid'
 import progress from './waves/v3/progress'
-
 import bullet from './waves/v3/bullet'
-
-import gis from './waves/v3/gis'
+import gis from './waves/gis'
 import button from './waves/v3/button'
-<<<<<<< HEAD
+
 import select from './waves/v3/select'
-=======
+
 import input from './waves/v3/input'
 import search from './waves/v3/search'
->>>>>>> feat/liurushen
+
+import uiTabButton from './waves/v3/ui-tab-button'
+
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -139,12 +139,15 @@ const waves = {
   textarea,
   // 交互
   button,
-<<<<<<< HEAD
+
   select,
-=======
+
   input,
   search,
->>>>>>> feat/liurushen
+
+
+  uiTabButton,
+
 }
 
 Object.values(waves).forEach((wave) => {
@@ -266,11 +269,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-<<<<<<< HEAD
-    exhibits: [button, select],
-=======
-    exhibits: [button, input, search],
->>>>>>> feat/liurushen
+    exhibits: [button, input, search, uiTabButton, select],
   },
 ]
 

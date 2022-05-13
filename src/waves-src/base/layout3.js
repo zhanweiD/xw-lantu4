@@ -1,15 +1,19 @@
 import {isWindows, getTextHeight, getTextWidth} from '../util'
 
-const TITLE_ALIGN = [{
-  key: 'LEFT',
-  value: '首端',
-}, {
-  key: 'CENTER',
-  value: '居中',
-}, {
-  key: 'RIGHT',
-  value: '末端',
-}]
+const TITLE_ALIGN = [
+  {
+    key: 'LEFT',
+    value: '首端',
+  },
+  {
+    key: 'CENTER',
+    value: '居中',
+  },
+  {
+    key: 'RIGHT',
+    value: '末端',
+  },
+]
 
 const titleDefaultOption = {
   titleHeight: 0,
@@ -40,10 +44,7 @@ const defaultOption = {padding: 0, ...titleDefaultOption, ...unitDefaultOption}
 // 绘制主绘图区域
 export function drawLayout() {
   const option = {...defaultOption, ...this._option}
-  const {
-    titleVisible,
-    unitVisible,
-  } = option
+  const {titleVisible, unitVisible} = option
 
   // padding从此处取
   const padding = this._extendPadding()
@@ -72,14 +73,15 @@ export function drawLayout() {
     this._option.unitWidth = defaultOption.unitWidth
     this._option.unitHeight = defaultOption.unitHeight
   }
-  
+
   // 主体区域的宽高，图例的影响在图例中计算
   const titleUnitHeight = this.config('titleHeight') + this.config('unitHeight')
   this.mainWidth = this.containerWidth - padding[1] - padding[3]
   this.mainHeight = this.containerHeight - padding[0] - padding[2] - titleUnitHeight
 
   // 创建图表根节点g元素，g节点只受padding影响
-  this.root = this.svg.append('g')
+  this.root = this.svg
+    .append('g')
     .attr('transform', `translate(${padding[3]}, ${padding[0] + titleUnitHeight})`)
     .attr('width', this.mainWidth)
     .attr('height', this.mainHeight)
@@ -93,20 +95,15 @@ export function drawLayout() {
 
 // 绘制title
 export function drawTitle(option) {
-  const {
-    titleSize,
-    titleColor,
-    titleText,
-    titleY,
-    titlePosition,
-  } = option
+  const {titleSize, titleColor, titleText, titleY, titlePosition} = option
 
   // 影响顶层布局的 title 宽高属性
   this._option.titleWidth = getTextWidth(titleText, this.fontSize(titleSize))
   this._option.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleY
-  
+
   this.container.select('.wave-title').remove()
-  this.svg.append('text')
+  this.svg
+    .append('text')
     .attr('class', 'wave-title')
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(titleSize))
@@ -141,25 +138,30 @@ export function drawUnit(option) {
     unitSize,
     unitColor,
     unitContent,
-    unitY,
+    // unitY,
+    unitOffset,
   } = option
 
-  const text = this.svg.append('text')
+  const text = this.svg
+    .append('text')
     .attr('class', 'wave-unit')
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(unitSize))
     .attr('fill', unitColor)
-    .attr('x', 0)
-    .attr('y', this.config('titleHeight'))
+    .attr('x', unitOffset[0])
+    .attr('y', unitOffset[1])
+    // .attr('x', 0)
+    // .attr('y', this.config('titleHeight'))
     .text(unitContent)
 
   if (text) {
-    (text).textHack()
+    text.textHack()
   }
 
   // 影响顶层布局的 unit 宽高属性
   this._option.unitWidth = getTextWidth(unitContent, this.fontSize(unitSize))
-  this._option.unitHeight = getTextHeight(this.fontSize(unitSize)) + unitY
+  this._option.unitHeight = getTextHeight(this.fontSize(unitSize)) + unitOffset[1]
+  // this._option.unitHeight = getTextHeight(this.fontSize(unitSize)) + unitY
 
   // 解决window系统上单位和title紧挨问题
   if (isWindows()) {

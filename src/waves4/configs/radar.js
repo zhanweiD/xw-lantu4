@@ -10,7 +10,7 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
             name: 'column',
             defaultValue: column,
           },
-        ]
+        ],
       },
       {
         name: 'base',
@@ -30,9 +30,21 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
                 key: 'stack',
                 value: 'stack',
               },
-            ]
-          }
-        ]
+            ],
+          },
+        ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'area',
@@ -49,18 +61,18 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
         fields: [
           {
             name: 'lineWidth',
-            defaultValue: 2
-          }
-        ]
+            defaultValue: 2,
+          },
+        ],
       },
       {
         name: 'point',
         fields: [
           {
             name: 'size',
-            defaultValue: 6
-          }
-        ]
+            defaultValue: 6,
+          },
+        ],
       },
       {
         name: 'label',
@@ -170,6 +182,20 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
           },
         ],
       },
-    ]
+      {
+        name: 'unit',
+        fields: [
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
+        ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+    ],
   }
 }

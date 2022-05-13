@@ -23,6 +23,18 @@ export default () => {
             defaultValue: 1,
           },
         ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'text',
@@ -48,6 +60,10 @@ export default () => {
             defaultValue: 5,
           },
         ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
       },
       // {
       //   name: 'pack',

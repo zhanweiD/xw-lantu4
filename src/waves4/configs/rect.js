@@ -65,6 +65,32 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
               },
             ],
           },
+          {name: 'width'},
+          {name: 'gap'},
+        ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType',
+                defaultValue: 'singleColor',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'gradientColor',
+                defaultValue: [
+                  ['rgba(52,200,254,0)', 0],
+                  ['rgba(52,200,254,1)', 1],
+                ],
+                effective: false,
+              },
+            ],
+          },
         ],
         // sections: [
         //   {
@@ -206,6 +232,40 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
                 name: 'singleColor',
                 defaultValue: 'rgb(0,0,0)',
               },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'unit',
+        fields: [
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
+        ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
+      },
+      {
+        name: 'animation',
+        sections: [
+          {
+            name: 'enterAnimation',
+            fields: [{name: 'animationType'}, {name: 'duration'}, {name: 'delay'}],
+          },
+          {
+            name: 'loopAnimation',
+            fields: [
+              {name: 'animationType', defaultValue: 'scan'},
+              {name: 'duration'},
+              {name: 'delay', defaultValue: 2000},
+              {name: 'singleColor', defaultValue: 'rgba(255, 255, 255, 1)'},
+              {name: 'animationDirection'},
+              {name: 'scope'},
             ],
           },
         ],

@@ -52,6 +52,7 @@ const createFieldsClass = (fields) => {
           return self.getValue()
         },
         setSchema(schema) {
+          if (schema) self.setEffective(true) // 初始隐藏(effective: false)，后续修改为有效值无法获取到（图表渐变色）
           return self.setValue(schema)
         },
         afterAttach() {
@@ -101,6 +102,7 @@ const createFieldsClass = (fields) => {
 }
 
 const createConfigModelClass = (modelName, config = {}, initProps = {}) => {
+  // console.log(config)
   if (isArray(config.fields)) {
     initProps.fields = types.optional(createFieldsClass(config.fields), {})
   }

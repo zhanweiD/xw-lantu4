@@ -15,6 +15,7 @@ const MValue = types
     source: types.maybe(types.number),
 
     sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'sql'])),
+    apiConfig: types.frozen(),
 
     // api系列
     useApiHeader: types.optional(types.boolean, false),
@@ -94,6 +95,7 @@ const MValue = types
           if (sourceData) {
             self.sourceType = sourceData.dataType
             self.displayName = sourceData.displayName_
+            self.apiConfig = sourceData.config
             const params = {}
             if (self.useApiHeader) {
               params.headers = makeFunction(self.apiHeader)({})
@@ -105,7 +107,7 @@ const MValue = types
               params.body = makeFunction(self.apiBody)({})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
-            self.useProcessor ? makeFunction(self.processor)({data: dataFrame}) || dataFrame : dataFrame
+            self.useProcessor ? makeFunction(self.processor)({dataFrame: dataFrame}) || dataFrame : dataFrame
             self.columns = dataFrame.columns
 
             self.data = dataFrame.getData()

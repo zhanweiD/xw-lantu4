@@ -4,6 +4,16 @@ export default () => {
     type: 'chord',
     sections: [
       {
+        name: 'color',
+        effective: false,
+        fields: [
+          {
+            name: 'singleColor',
+            defaultValue: 'rgba(52,200,254,1)',
+          },
+        ],
+      },
+      {
         name: 'text',
         fields: [
           {
@@ -27,6 +37,10 @@ export default () => {
             defaultValue: 5,
           },
         ],
+      },
+      {
+        name: 'tooltip',
+        fields: [{name: 'show', defaultValue: false}],
       },
     ],
   }

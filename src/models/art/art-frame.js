@@ -167,6 +167,7 @@ export const MArtFrame = types
       insertIndex,
       isEffect = true,
       isLocked = false,
+      visible = true,
     }) => {
       const {exhibitCollection, event} = self.env_
       const box = MBox.create({
@@ -182,6 +183,7 @@ export const MArtFrame = types
         groupIds,
         isEffect,
         isLocked,
+        visible,
       })
 
       box.padding.setSchema(padding)
@@ -284,6 +286,7 @@ export const MArtFrame = types
           ':projectId': projectId,
           isEffect: true, // 初始化状态
           isLocked: false, // 初始化状态
+          visible: true,
         })
         realBox.set({
           boxId: box.boxId,
