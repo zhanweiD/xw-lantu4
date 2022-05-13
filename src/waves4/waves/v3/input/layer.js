@@ -12,7 +12,7 @@ export default () => {
           },
           {
             name: 'singleColor',
-            defaultValue: 'rgb(255,255,255)',
+            defaultValue: 'rgba(255,255,255,1)',
           },
           {
             name: 'content',
@@ -20,7 +20,7 @@ export default () => {
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgb(0,119,255)',
+            defaultValue: 'rgba(255,255,255,0.1)',
           },
         ],
       },

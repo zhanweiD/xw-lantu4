@@ -1,3 +1,3 @@
-// import MSearch from './search'
+import MSearch from './search'
 
-// export default MSearch
+export default MSearch
