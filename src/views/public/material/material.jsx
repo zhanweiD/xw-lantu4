@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import {observer} from 'mobx-react-lite'
-import {draw} from '@exhibit-collection'
+import {draw, destroy} from '@exhibit-collection'
 
 const Material = ({material, target, frame}) => {
   const el = useRef(null)
@@ -16,6 +16,14 @@ const Material = ({material, target, frame}) => {
         width,
         frame,
       })
+    }
+    return () => {
+      if (material) {
+        destroy({
+          material,
+          frame,
+        })
+      }
     }
   }, [id])
 

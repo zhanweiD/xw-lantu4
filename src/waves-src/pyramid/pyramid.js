@@ -149,7 +149,7 @@ export default class Pyramid extends Base {
 
     // 颜色
     // 金字塔颜色固定两个
-    this._data.color = this.getColor([])
+    this._data.color = this.getColor(2)
 
     // 图例
 

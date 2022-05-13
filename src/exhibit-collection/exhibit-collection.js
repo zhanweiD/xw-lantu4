@@ -6,16 +6,7 @@ import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 import {themeConfigs} from '@common/theme'
 
-import {
-  gisPoint,
-  gisIcon,
-  geojson,
-  gisHeatmap,
-  odLine,
-  gisTile,
-  gisTerrain,
-  gisPath,
-} from '../waves4/waves/v3/gis/layers'
+import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath} from '../waves4/waves/gis/layers'
 // import {Earth, PointLayer} from 'wave-map-test'
 // import {getRealData} from '@utils/index'
 
@@ -75,6 +66,7 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
   if (exhibit) {
     const model = frame.art_.exhibitManager.get(exhibit.id)
     if (model) {
+      // debugger
       const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
       Adapter.draw({
         container,
@@ -98,6 +90,25 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
         model,
         isEdit,
       })
+    } else {
+      log.warn('组件模型未找到', material.id)
+    }
+  }
+}
+
+export const destroy = ({exhibit, frame, material}) => {
+  if (exhibit) {
+    const model = frame.art_.exhibitManager.get(exhibit.id)
+    if (model) {
+      model.adapter.destroy()
+    } else {
+      log.warn('组件模型未找到', exhibit.id)
+    }
+  }
+  if (material) {
+    const model = frame.art_.exhibitManager.get(material.id)
+    if (model) {
+      model.adapter.destroy()
     } else {
       log.warn('组件模型未找到', material.id)
     }

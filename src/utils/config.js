@@ -10,6 +10,8 @@ const config = {
   waveviewBack: '/waveview-bg.png',
   mascot: '/mascot.svg',
   slogan: '/slogan.png',
+  bgPie: '/bg-pie.png',
+  bgSteps: '/bgSteps.svg',
   pathPrefix: '',
   urlPrefix: '/api/v4/waveview/',
 }

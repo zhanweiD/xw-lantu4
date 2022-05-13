@@ -3,6 +3,10 @@ export const layerOptionMap = new Map([
     'layer',
     ({mapOption}) => {
       const mapping = [
+        ['color.effective', 'useColors'],
+        ['color.colorType2', 'checkColorModel'],
+        ['color.singleColor', 'customColors'],
+        ['color.rangeColors', 'rangeColors'],
         //标题
         ['title.show', 'titleVisible'],
         ['title.content', 'titleText'],
@@ -28,6 +32,11 @@ export const layerOptionMap = new Map([
         ['options.tooltipVisible', 'tooltipVisible'],
         ['options.tooltipEventType', 'tooltipEventType'],
         ['options.enableLoopTooltip', 'enableLoopTooltip'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

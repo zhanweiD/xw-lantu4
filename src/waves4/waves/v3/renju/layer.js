@@ -1,6 +1,6 @@
 export default () => {
   return {
-    name: '河流',
+    name: '连珠',
     type: 'renju', // 必要
     sections: [
       {
@@ -90,6 +90,36 @@ export default () => {
             name: 'circleMaxRadius',
             defaultValue: 40,
           },
+        ],
+        sections: [
+          {
+            name: 'color',
+            effective: false,
+            fields: [
+              {
+                name: 'colorType2',
+                defaultValue: 'customColors',
+              },
+              {
+                name: 'singleColor',
+                defaultValue: 'rgba(52,200,254,1)',
+              },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'unit',
+        fields: [
+          {name: 'show', defaultValue: false},
+          {name: 'textSize', defaultValue: 12},
+          {name: 'singleColor', defaultValue: 'rgba(255,255,255,0.5)'},
+          {name: 'offset', defaultValue: [0, 48]},
+          {name: 'content', defaultValue: '单位'},
         ],
       },
     ],

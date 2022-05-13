@@ -59,7 +59,7 @@ export const MDataTab = types
       return iconMapping[self.dataType] || ''
     },
     get result_() {
-      if (self.dataType === 'api' || self.dataType === 'json' || self.dataType === 'database') {
+      if (self.dataType === 'api' || self.dataType === 'json' || self.dataType === 'sql') {
         return hJSON.parse(self[self.dataType].codeOptions.result.value)
       }
       const {data, columns} = self.excel
@@ -134,7 +134,7 @@ export const MDataTab = types
       self.updateDataField()
       // 全部执行完成之后将状态置为成功
       self.set({state: 'loadSuccess'})
-      if (dataType === 'database') {
+      if (dataType === 'sql') {
         self.database.getDatabases()
       }
     }
@@ -146,7 +146,8 @@ export const MDataTab = types
       }
       const {tip} = self.env_
       try {
-        const {dataType, folderId, basic, dataField} = self
+        const {dataType, folderId, basic} = self
+        // const {dataType, folderId, basic, dataField} = self
         const {dataName, remark} = basic.getSchema()
         // 数据需要的配置
         let data = {
@@ -155,7 +156,7 @@ export const MDataTab = types
           dataName,
           remark,
           config: {
-            dataField: hJSON.parse(dataField.dataFieldCode.value),
+            // dataField: hJSON.parse(dataField.dataFieldCode.value),
           },
         }
         // 数据源创建、修改后执行的函数
@@ -205,7 +206,7 @@ export const MDataTab = types
               isSetAlias,
             },
           }
-        } else if (dataType === 'database') {
+        } else if (dataType === 'sql') {
           const {type, host, userName, password, port} = self.database.options.getSchema()
           const {sql} = self.database.codeOptions.getSchema()
           data = {
@@ -401,7 +402,7 @@ export const MDataTab = types
         tip.error({content: '数据名称过长'})
         return false
       }
-      if (dataType === 'database') {
+      if (dataType === 'sql') {
         const {type, host, userName, password, port} = database.options.getSchema()
         if (!type || !host || !userName || !password || !port || !database.database) {
           tip.error({content: '请完善数据库信息'})

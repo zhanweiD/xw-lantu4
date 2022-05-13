@@ -304,7 +304,7 @@ export const MProjectDetail = types
         defaultDataName = '添加Excel'
       } else if (type === 'json') {
         defaultDataName = '添加JSON'
-      } else if (type === 'database') {
+      } else if (type === 'sql') {
         defaultDataName = '添加SQL'
       } else if (type === 'api') {
         defaultDataName = '添加API'
@@ -351,7 +351,7 @@ export const MProjectDetail = types
         {
           name: '添加SQL',
           action: () => {
-            self.openTabByData({type: 'database'})
+            self.openTabByData({type: 'sql'})
             menu.hide()
           },
         },

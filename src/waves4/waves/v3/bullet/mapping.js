@@ -35,12 +35,22 @@ export const layerOptionMap = new Map([
         ['legend.textSize', 'legendSize'],
         ['legend.singleColor', 'legendColor'],
         // 选项
-        ['options.trackShow', 'thresholdVisible'],
-        ['options.trackBagColor', 'trackBagColor'],
-        ['options.thresholdHeight', 'thresholdHeight'],
-        ['options.thresholdWidth', 'thresholdWidth'],
-        ['options.trackBagHeight', 'trackBagHeight'],
-        ['options.trackHeight', 'trackHeight'],
+        ['base.trackShow', 'thresholdVisible'],
+        ['base.trackBagColor', 'trackBagColor'],
+        ['base.thresholdHeight', 'thresholdHeight'],
+        ['base.thresholdWidth', 'thresholdWidth'],
+        ['base.trackBagHeight', 'trackBagHeight'],
+        ['base.trackHeight', 'trackHeight'],
+        ['base.color.effective', 'useColors'],
+        ['base.color.colorType2', 'checkColorModel'],
+        ['base.color.singleColor', 'customColors'],
+        ['base.color.rangeColors', 'rangeColors'],
+        ['tooltip.show', 'tooltipVisible'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

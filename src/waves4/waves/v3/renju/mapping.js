@@ -19,6 +19,15 @@ export const layerOptionMap = new Map([
         ['value.valueOffsetY', 'valueOffsetY'],
         ['circle.circleOpacity', 'circleOpacity'],
         ['circle.circleMaxRadius', 'circleMaxRadius'],
+        ['unit.show', 'unitVisible'],
+        ['unit.textSize', 'unitSize'],
+        ['unit.singleColor', 'unitColor'],
+        ['unit.offset', 'unitOffset'],
+        ['unit.content', 'unitContent'],
+        ['circle.color.effective', 'useColors'],
+        ['circle.color.colorType2', 'checkColorModel'],
+        ['circle.color.singleColor', 'customColors'],
+        ['circle.color.rangeColors', 'rangeColors'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {types, flow} from 'mobx-state-tree'
 // import interpolate from 'color-interpolate'
-import {Field} from '@components/field'
+// import {Field} from '@components/field'
 import Warning from '@components/warning'
 // import createLog from '@common/create-log'
 import createEvent from '@common/event'
@@ -52,8 +52,8 @@ const MUIBase = types
     tip: types.frozen(),
     // 日志信息
     log: types.frozen(),
-    // 公共方法
-    util: types.frozen(),
+    // 公共方法 在下面会赋值的，直接定义类型frozen， MST会freeze util，导致报错
+    // util: types.frozen(),
     // 组件库名称
     lib: types.optional(types.string, 'wave'),
     // 组件名称
@@ -134,7 +134,7 @@ const MUIBase = types
       // 溢出控制
       self.drawLayout()
       // 拓展公共方法
-      // self.util = util
+      self.util = util
       self.tooltip = window.waveview.tooltip
     },
 
@@ -152,7 +152,8 @@ const MUIBase = types
       const componentRef = React.createRef(null)
       const component = (
         <div ref={componentRef}>
-          <Field>{element}</Field>
+          {element}
+          {/* <Field>{element}</Field> */}
         </div>
       )
 

@@ -9,6 +9,7 @@ import tip from '@components/tip'
 import CryptoJS from 'crypto-js'
 import encryptionType from '@utils/base64-decode'
 import {registerExhibit} from '@exhibit-collection'
+import {MZoom} from '@utils/zoom'
 import {MData} from '../data2/data'
 import {MOffset} from './art-ui-tab-property'
 
@@ -25,6 +26,7 @@ const MBox = types
     padding: types.optional(MOffset, {}),
     constraints: types.frozen(),
     constraintValue: types.frozen(),
+    visible: types.boolean,
   })
   .views((self) => ({
     get art_() {
@@ -195,9 +197,24 @@ const MBox = types
       }
       self.resize()
     }
+    const actions = {
+      show: () => {
+        self.visible = true
+      },
+      hidden: () => {
+        self.visible = false
+      },
+      toggle_visible: () => {
+        self.visible = !self.visible
+      },
+    }
+    const dipatchAction = function (actionType, ...restParams) {
+      actions[actionType].apply(self, restParams)
+    }
     return {
       resize,
       update,
+      dipatchAction,
     }
   })
 
@@ -242,7 +259,7 @@ const MFrame = types
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const initBox = ({boxId, exhibit, layout, materials, background, padding, constraints}) => {
+    const initBox = ({boxId, exhibit, layout, materials, background, padding, constraints, ...rest}) => {
       const box = MBox.create({
         boxId,
         exhibit,
@@ -250,6 +267,7 @@ const MFrame = types
         background,
         padding,
         constraints,
+        ...rest,
       })
       if (constraints.ctString === 'tlwh') {
         const top = layout.y - self.originLayout.y
@@ -545,6 +563,7 @@ const MArtPreview = types
       types.enumeration('MArtPreview.fetchState', ['loading', 'success', 'error', 'password']),
       'loading'
     ),
+    zoom: types.optional(MZoom, {}),
   })
   .views((self) => ({
     get mainFrame_() {
@@ -815,7 +834,6 @@ const MArtPreview = types
         frame.resize()
       })
     }
-
     return {
       afterCreate,
       getArt,

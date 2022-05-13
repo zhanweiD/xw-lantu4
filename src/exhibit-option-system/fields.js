@@ -333,11 +333,16 @@ const isBreathe = {
 const extruded = {
   type: 'switch',
   label: 'extruded',
-  defaultValue: true,
+  defaultValue: false,
 }
 const getElevationValue = {
   type: 'number',
   label: 'getElevationValue',
+  defaultValue: 5000,
+}
+const getElevation = {
+  type: 'number',
+  label: 'getElevation',
   defaultValue: 5000,
 }
 const diskResolution = {
@@ -358,7 +363,7 @@ const radius = {
 const getLineWidth = {
   type: 'number',
   label: 'getLineWidth',
-  defaultValue: 2,
+  defaultValue: 1,
 }
 const heatmapType = {
   type: 'select',
@@ -508,6 +513,42 @@ const getWidth = {
   defaultValue: 1,
 }
 
+const filled = {
+  type: 'switch',
+  label: 'filled',
+  defaultValue: true,
+}
+const getFillColor = {
+  type: 'color',
+  label: 'getFillColor',
+  defaultValue: 'rgba(255, 155, 35, 1)',
+}
+const wireframe = {
+  type: 'switch',
+  label: 'wireframe',
+  defaultValue: true,
+}
+const getLineColor = {
+  type: 'color',
+  label: 'getLineColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+const geojsonType = {
+  type: 'check',
+  label: 'geojsonType',
+  defaultValue: 'province',
+  options: [
+    {
+      key: '省份',
+      value: 'province',
+    },
+    {
+      key: '建筑群',
+      value: 'city',
+    },
+  ],
+}
+
 const elevationDecoder = {
   type: 'multiNumber',
   label: 'elevationDecoder',
@@ -616,6 +657,67 @@ const vertexSize = {
   type: 'number',
   label: 'vertexSize',
   defaultValue: 1,
+}
+const iconSize = {
+  type: 'number',
+  label: 'iconSize',
+  defaultValue: 30,
+}
+const showLabel = {
+  type: 'switch',
+  label: 'showLabel',
+  defaultValue: true,
+}
+const billboard = {
+  type: 'switch',
+  label: 'billboard',
+  defaultValue: true,
+}
+const getAngle = {
+  type: 'number',
+  label: 'getAngle',
+  defaultValue: 0,
+}
+const geojsonData = {
+  type: 'text',
+  label: 'geojsonData',
+  defaultValue: 'http://cdn.dtwave.com/waveview/geojson/100000_full.json',
+}
+const getTextAnchor = {
+  type: 'check',
+  label: 'getTextAnchor',
+  defaultValue: 'middle',
+  options: [
+    {key: '左', value: 'end'},
+    {key: '中', value: 'middle'},
+    {key: '右', value: 'start'},
+  ],
+}
+const getAlignmentBaseline = {
+  type: 'check',
+  label: 'getAlignmentBaseline',
+  defaultValue: 'bottom',
+  options: [
+    {key: '上', value: 'bottom'},
+    {key: '中', value: 'center'},
+    {key: '下', value: 'top'},
+  ],
+}
+const tileUrl = {
+  type: 'text',
+  label: 'tileUrl',
+  defaultValue: 'https://assets.cesium.com/43978/tileset.json',
+  // defaultValue: 'https://saasprod.4001113900.com:10020/jxmgy/tileset.json',
+}
+const tileType = {
+  type: 'check',
+  label: 'tileType',
+  defaultValue: 'cesium',
+  options: [
+    {key: 'cesium', value: 'cesium'},
+    {key: 'acrgis', value: 'i3s'},
+    {key: 'supermap', value: 'tile3d'},
+  ],
 }
 
 /**
@@ -1041,6 +1143,27 @@ const colorType = {
   },
 }
 
+// 颜色类型
+const colorType2 = {
+  type: 'check',
+  label: 'colorType',
+  defaultValue: 'customColors',
+  options: [
+    {
+      key: 'singleColor',
+      value: 'customColors',
+    },
+    {
+      key: 'multicolor',
+      value: 'rangeColors',
+    },
+  ],
+  action({siblings, value}) {
+    siblings.singleColor.setEffective(value === 'customColors')
+    siblings.rangeColors.setEffective(value === 'rangeColors')
+  },
+}
+
 // 单色
 const singleColor = {
   type: 'color',
@@ -1077,14 +1200,28 @@ const colorSingle = {
 const gradientColor = {
   type: 'gradient',
   label: 'gradientColor',
-  defaultValue: ['#00D8FF', '#007EFF'],
+  defaultValue: [
+    ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
+}
+const rangeColors = {
+  type: 'gradient',
+  label: 'multicolor',
+  defaultValue: [
+    ['#50E3C2', 0],
+    ['#007eff', 1],
+  ],
 }
 
 // NOTE 将删除
 const colorGradient = {
   type: 'gradient',
   label: 'gradientColor',
-  defaultValue: ['#00D8FF', '#007EFF'],
+  defaultValue: [
+    ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
 }
 
 // 颜色列表
@@ -1254,6 +1391,35 @@ const direction = {
       value: 'vertical',
     },
   ],
+}
+
+// 排列方向
+const alignmentDirection = {
+  type: 'check',
+  label: 'alignmentDirection',
+  defaultValue: 'HORIZONTAL',
+  options: [
+    {
+      key: '水平',
+      value: 'HORIZONTAL',
+    },
+    {
+      key: '垂直',
+      value: 'VERTICAL',
+    },
+  ],
+}
+// 未激活背景色
+const inactiveColor = {
+  type: 'color',
+  label: 'inactiveColor',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
+// 激活背景色
+const activeColor = {
+  type: 'color',
+  label: 'activeColor',
+  defaultValue: 'rgba(0,119,255,1)',
 }
 
 const DIRECTION = {
@@ -1824,7 +1990,7 @@ const labelOffsetY = {
 const labelColor = {
   type: 'color',
   label: 'labelColor',
-  defaultValue: 'rgba(0, 255, 255, 1)',
+  defaultValue: 'rgba(255, 255, 255, 1)',
 }
 // 标签角度
 const labelAngle = {
@@ -1838,7 +2004,7 @@ const labelAngle = {
 const labelSize = {
   type: 'number',
   label: 'labelSize',
-  defaultValue: 5,
+  defaultValue: 12,
   min: 0,
   max: 50,
 }
@@ -2127,7 +2293,13 @@ const shadowOptions = {
   ],
 }
 
+const adaptContainer = {
+  label: 'adaptContainer',
+  type: 'switch',
+}
+
 export default {
+  adaptContainer,
   theme,
   valueOffsetY,
   bgLineColor,
@@ -2201,12 +2373,14 @@ export default {
   areaSize,
   // 颜色类型
   colorType,
+  colorType2,
   // 颜色单色
   singleColor,
   colorSingle,
   // 颜色渐变
   colorGradient,
   gradientColor,
+  rangeColors,
   // 颜色列表
   listColor,
   // 普通字段
@@ -2322,6 +2496,10 @@ export default {
   arcLineColor,
   nodeWidth,
   nodeGap,
+
+  alignmentDirection,
+  inactiveColor,
+  activeColor,
   // 圆角大小
   borderRadius,
   show,
@@ -2403,6 +2581,20 @@ export default {
   showVertex,
   vertexColor,
   vertexSize,
+  iconSize,
+  showLabel,
+  getAngle,
+  getTextAnchor,
+  getAlignmentBaseline,
+  filled,
+  getFillColor,
+  wireframe,
+  getLineColor,
+  geojsonData,
+  getElevation,
+  geojsonType,
+  tileUrl,
+  tileType,
   // 动画
   enterAnimation,
   animationType,
@@ -2410,4 +2602,5 @@ export default {
   delay,
   scope,
   animationDirection,
+  billboard,
 }
