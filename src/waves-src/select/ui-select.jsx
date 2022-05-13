@@ -203,11 +203,10 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
     width: `${style.optionWidth}px`,
     height: `${style.optionHeight}px`,
     lineHeight: `${style.optionHeight}px`,
-    fontSize: style.optionFontSize,
+    fontSize: style.fontSize / 2 + 5,
     color: style.optionFontColor,
     backgroundColor: style.optionBackgroundColor,
     cursor: 'pointer',
-    padding: '0 10px',
   }
   const hoverOptionStyle = {
     ...optionStyle,
