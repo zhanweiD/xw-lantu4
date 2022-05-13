@@ -14,10 +14,10 @@ export default () => {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
           },
-          {
-            name: 'content',
-            defaultValue: '下拉框',
-          },
+          // {
+          //   name: 'content',
+          //   defaultValue: '下拉框',
+          // },
           {
             name: 'backgroundColor',
             defaultValue: 'rgb(0,119,255)',

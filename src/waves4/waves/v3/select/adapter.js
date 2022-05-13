@@ -27,7 +27,7 @@ const Adapter = (k) =>
         const translatedOptions = translate(options)
         // 初始化模型
         mSelect.init(translatedOptions, {})
-
+        mSelect.data(translatedOptions)
         mSelect.draw({
           redraw: true,
         })

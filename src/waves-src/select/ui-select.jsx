@@ -219,6 +219,7 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
         type="text"
         value={inputValue || (isOptionVisible ? '' : '请输入')}
         style={inputValue ? inputContainerStyle : placeholderStyle}
+        className={s.textCenter}
         onFocus={() => setOptionVisible(true)}
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => setOptionVisible(false)}
