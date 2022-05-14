@@ -179,6 +179,8 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
     color: style.fontColor,
     height: style.height,
     cursor: style.enableSearch ? 'text' : 'pointer',
+    backgroundColor: style.backgroundColor, // 不加的话会受全局样式影响
+    border: 'none', // 不加的话会受全局样式影响
   }
   const placeholderStyle = {
     ...inputContainerStyle,
@@ -197,10 +199,12 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
     maxHeight: style.totalHeight,
     overflow: 'scroll',
     border: `${style.optionBorderWidth}px solid ${style.optionBorderColor}`,
+    width: '100%',
+    marginLeft: '-10px',
   }
   const optionStyle = {
     alignItems: 'center',
-    width: `${style.optionWidth}px`,
+    width: `${style.optionWidth + 20}px`,
     height: `${style.optionHeight}px`,
     lineHeight: `${style.optionHeight}px`,
     fontSize: style.fontSize / 2 + 5,

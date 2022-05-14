@@ -10,6 +10,9 @@ export const layerOptionMap = new Map([
         ['base.backgroundColor', 'backgroundColor'],
         ['base.borderWidth', 'borderWidth'],
         ['base.borderColor', 'borderColor'],
+        ['base.optionFontColor', 'optionFontColor'],
+        ['base.optionBackgroundColor', 'optionBackgroundColor'],
+        ['base.optionHoverBackgroundColor', 'optionHoverBackgroundColor'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
