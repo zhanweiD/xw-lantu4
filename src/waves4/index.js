@@ -60,7 +60,7 @@ import select from './waves/v3/select'
 
 import input from './waves/v3/input'
 import search from './waves/v3/search'
-
+import switchs from './waves/v3/switch'
 import uiTabButton from './waves/v3/ui-tab-button'
 
 import i18n from '@i18n'
@@ -139,15 +139,11 @@ const waves = {
   textarea,
   // 交互
   button,
-
   select,
-
   input,
   search,
-
-
+  switchs,
   uiTabButton,
-
 }
 
 Object.values(waves).forEach((wave) => {
@@ -269,7 +265,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select],
+    exhibits: [button, input, search, uiTabButton, select, switchs],
   },
 ]
 

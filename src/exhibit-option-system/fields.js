@@ -1188,7 +1188,24 @@ const backgroundColor = {
   label: 'backgroundColor',
   defaultValue: 'rgb(0, 119, 255)',
 }
-
+// 圆点颜色
+const pointColor = {
+  type: 'color',
+  label: 'pointColor',
+  defaultValue: 'rgba(0,0,0,1)',
+}
+// 激活背景颜色
+const activeBackgroundColor = {
+  type: 'color',
+  label: 'activeBackgroundColor',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
+// 未激活背景颜色
+const inactiveBackgroundColor = {
+  type: 'color',
+  label: 'inactiveBackgroundColor',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
 // NOTE 将删除
 const colorSingle = {
   type: 'color',
@@ -1854,6 +1871,11 @@ const pointSize = {
   defaultValue: [10, 10],
 }
 
+const pointSizeItem = {
+  type: 'number',
+  label: 'pointSizeItem',
+  defaultValue: 25,
+}
 // 圆角
 const borderRadius = {
   type: 'number',
@@ -2504,6 +2526,14 @@ export default {
   borderRadius,
   show,
   backgroundColor,
+  //圆点颜色
+  pointColor,
+  //圆点大小
+  pointSizeItem,
+  //激活背景颜色
+  activeBackgroundColor,
+  //未激活背景颜色
+  inactiveBackgroundColor,
   borderColor,
   borderWidth,
   // gis
