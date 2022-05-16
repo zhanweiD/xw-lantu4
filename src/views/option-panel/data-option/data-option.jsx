@@ -41,7 +41,7 @@ const DataOption = ({data}) => {
               )}
             </>
           )}
-          {dataType === 'sql' && (
+          {dataType === 'database' && (
             <>
               <SectionFields model={data.database.options} />
               <Field label="数据库">
@@ -63,7 +63,7 @@ const DataOption = ({data}) => {
                       key: item.database,
                       value: item.database,
                     }))}
-                    onChange={(v) => data.database.set('sql', v)}
+                    onChange={(v) => data.database.set('database', v)}
                   />
                 </div>
               </Field>

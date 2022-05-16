@@ -59,7 +59,7 @@ export const MDataTab = types
       return iconMapping[self.dataType] || ''
     },
     get result_() {
-      if (self.dataType === 'api' || self.dataType === 'json' || self.dataType === 'sql') {
+      if (self.dataType === 'api' || self.dataType === 'json' || self.dataType === 'database') {
         return hJSON.parse(self[self.dataType].codeOptions.result.value)
       }
       const {data, columns} = self.excel
@@ -134,7 +134,7 @@ export const MDataTab = types
       self.updateDataField()
       // 全部执行完成之后将状态置为成功
       self.set({state: 'loadSuccess'})
-      if (dataType === 'sql') {
+      if (dataType === 'database') {
         self.database.getDatabases()
       }
     }
@@ -206,7 +206,7 @@ export const MDataTab = types
               isSetAlias,
             },
           }
-        } else if (dataType === 'sql') {
+        } else if (dataType === 'database') {
           const {type, host, userName, password, port} = self.database.options.getSchema()
           const {sql} = self.database.codeOptions.getSchema()
           data = {
@@ -402,7 +402,7 @@ export const MDataTab = types
         tip.error({content: '数据名称过长'})
         return false
       }
-      if (dataType === 'sql') {
+      if (dataType === 'database') {
         const {type, host, userName, password, port} = database.options.getSchema()
         if (!type || !host || !userName || !password || !port || !database.database) {
           tip.error({content: '请完善数据库信息'})

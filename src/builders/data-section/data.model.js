@@ -14,7 +14,7 @@ const MValue = types
     private: types.optional(types.string, ''),
     source: types.maybe(types.number),
 
-    sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'sql'])),
+    sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'database'])),
     apiConfig: types.frozen(),
 
     // api系列
@@ -109,7 +109,6 @@ const MValue = types
             const dataFrame = yield sourceData.getDataFrame(params)
             self.useProcessor ? makeFunction(self.processor)({dataFrame: dataFrame}) || dataFrame : dataFrame
             self.columns = dataFrame.columns
-
             self.data = dataFrame.getData()
           } else {
             self.displayName = ''
@@ -144,12 +143,14 @@ const MValue = types
         apiQueries,
         useApiBody,
         apiBody,
-        useApiProcessor,
-        apiProcessor,
-        useJsonProcessor,
-        jsonProcessor,
-        useExcelProcessor,
-        excelProcessor,
+        // useApiProcessor,
+        // apiProcessor,
+        // useJsonProcessor,
+        // jsonProcessor,
+        // useExcelProcessor,
+        // excelProcessor,
+        useProcessor,
+        processor,
       } = self
       if (self.type === 'private') {
         values = {
@@ -161,6 +162,8 @@ const MValue = types
         values = {
           type,
           source,
+          useProcessor,
+          processor,
         }
         if (sourceType === 'api') {
           values.useApiHeader = useApiHeader
@@ -169,17 +172,17 @@ const MValue = types
           values.apiQueries = apiQueries
           values.useApiBody = useApiBody
           values.apiBody = apiBody
-          values.useApiProcessor = useApiProcessor
-          values.apiProcessor = apiProcessor
+          // values.useApiProcessor = useApiProcessor
+          // values.apiProcessor = apiProcessor
         }
-        if (sourceType === 'json') {
-          values.useJsonProcessor = useJsonProcessor
-          values.jsonProcessor = jsonProcessor
-        }
-        if (sourceType === 'excel') {
-          values.useExcelProcessor = useExcelProcessor
-          values.excelProcessor = excelProcessor
-        }
+        // if (sourceType === 'json') {
+        //   values.useJsonProcessor = useJsonProcessor
+        //   values.jsonProcessor = jsonProcessor
+        // }
+        // if (sourceType === 'excel') {
+        //   values.useExcelProcessor = useExcelProcessor
+        //   values.excelProcessor = excelProcessor
+        // }
       }
       return values
     }

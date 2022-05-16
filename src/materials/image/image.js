@@ -24,7 +24,7 @@ class Image {
       this.setStyle()
       this.container.appendChild(this.div)
     } else {
-      this.container.removeChild(this.div)
+      this.div && this.container.removeChild(this.div)
     }
   }
 
