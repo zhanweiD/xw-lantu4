@@ -151,11 +151,13 @@ const MValue = types
         // excelProcessor,
         useProcessor,
         processor,
+        columns,
       } = self
       if (self.type === 'private') {
         values = {
           type,
           private: privateData,
+          columns: columns.toJSON(),
         }
       }
       if (self.type === 'source') {
@@ -164,6 +166,7 @@ const MValue = types
           source,
           useProcessor,
           processor,
+          columns,
         }
         if (sourceType === 'api') {
           values.useApiHeader = useApiHeader

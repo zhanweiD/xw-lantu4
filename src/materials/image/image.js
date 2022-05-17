@@ -55,7 +55,7 @@ class Image {
   }
 
   destroy() {
-    this.container.removeChild(this.div)
+    this.div && this.container.removeChild(this.div)
     this.div = undefined
   }
 }
