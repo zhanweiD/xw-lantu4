@@ -157,7 +157,7 @@ const MValue = types
         values = {
           type,
           private: privateData,
-          columns: columns.toJSON(),
+          columns: columns.toJSON()?.map((item) => item.column),
         }
       }
       if (self.type === 'source') {
@@ -166,7 +166,7 @@ const MValue = types
           source,
           useProcessor,
           processor,
-          columns,
+          columns: columns?.map((item) => item.column),
         }
         if (sourceType === 'api') {
           values.useApiHeader = useApiHeader
