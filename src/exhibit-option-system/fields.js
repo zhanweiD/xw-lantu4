@@ -1073,6 +1073,15 @@ const size = {
   step: 1,
 }
 
+// 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
+const sizeSpecialDotMaterial = {
+  type: 'number',
+  label: 'size',
+  min: 1,
+  max: 9,
+  step: 1,
+}
+
 // 尺寸(宽高)
 const areaSize = {
   type: 'multiNumber',
@@ -1599,7 +1608,32 @@ const numberRange = {
 }
 
 // 时间范围 暂不做
+const time = {
+  type: 'time',
+  label: 'time',
+  defaultValue: [0, 60],
+}
 
+// 形状
+const shapeType = {
+  type: 'shapeType',
+  label: 'shapeType',
+  defaultValue: 'square',
+  options: [
+    {
+      key: 'square',
+      value: 'square',
+    },
+    {
+      key: 'circular',
+      value: 'circular',
+    },
+    {
+      key: 'triangle',
+      value: 'triangle',
+    },
+  ],
+}
 /**
  * =====================================
  * special
@@ -2333,6 +2367,8 @@ export default {
   height,
   // 尺寸
   size,
+  //尺寸-特殊单设-适配：点装饰组件
+  sizeSpecialDotMaterial,
   // 尺寸(宽高)
   areaSize,
   // 颜色类型
@@ -2400,6 +2436,10 @@ export default {
   lineColor,
   // 数值范围
   numberRange,
+  // 时间
+  time,
+  // 形状
+  shapeType,
   // 填充模式
   fillMode,
   // 宽度自适应

@@ -291,6 +291,7 @@ export default {
     project: '项目素材',
     space: '空间素材',
     official: '官方素材',
+    decoration: '装饰',
     collect: '收藏列表',
     materialCreate: '新建素材文件夹',
     logInfo: '日志信息',

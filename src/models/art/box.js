@@ -374,6 +374,11 @@ export const MBox = types
       self.isLocked = !self.isLocked
     }
 
+    // 获取数据源字段
+    const getColumns = () => {
+      return self.exhibit.data.columns
+    }
+
     return {
       afterCreate,
       resize,
@@ -391,5 +396,6 @@ export const MBox = types
       toggleEffect,
       toggleLock,
       updateGroup,
+      getColumns,
     }
   })

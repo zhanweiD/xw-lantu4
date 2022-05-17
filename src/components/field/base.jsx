@@ -34,19 +34,20 @@ export const Field = observer(
     children,
     isMulti = false,
     direction = 'horizontal',
-    supportProcessor = false,
+    // supportProcessor = false,
     noField = false,
+    // supportProcessor = false,
   }) => {
     if (noField) {
       return children
     }
     return (
-      <div className={c('fbh mb8 noFieldEvent pr ml24', className)}>
+      <div className={c('fbh mb8 noFieldEvent pr ml12', className)}>
         {tip && <IconButton title={tip} icon="tip" buttonSize={24} className="pa" />}
         <div
-          className={c('w100p', s.field, {
-            mr16: !supportProcessor,
-            mr24: supportProcessor,
+          className={c('w100p mr8', s.field, {
+            // mr16: !supportProcessor,
+            // mr24: supportProcessor,
             fbh: direction === 'horizontal',
             fbv: direction === 'vertical',
           })}
@@ -58,7 +59,7 @@ export const Field = observer(
             </div>
           )}
           <div
-            className={c('fb7 pr fbh stopDrag', s.field, {
+            className={c('fb9 pr fbh stopDrag', s.field, {
               fbv: isMulti,
               fbh: !isMulti,
             })}

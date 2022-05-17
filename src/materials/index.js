@@ -1,5 +1,6 @@
 import corner from './decorations/corner'
 import brackect from './decorations/brackect'
+import dot from './decorations/dot'
 import image from './image'
 import i18n from '@i18n'
 
@@ -7,6 +8,7 @@ import i18n from '@i18n'
 const alldecorations = {
   corner,
   brackect,
+  dot,
   image,
 }
 
@@ -23,6 +25,7 @@ Object.values(alldecorations).forEach((decoration) => {
 const decorations = {
   corner,
   brackect,
+  dot,
 }
 
 export {alldecorations}

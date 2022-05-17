@@ -146,7 +146,8 @@ export const MDataTab = types
       }
       const {tip} = self.env_
       try {
-        const {dataType, folderId, basic, dataField} = self
+        const {dataType, folderId, basic} = self
+        // const {dataType, folderId, basic, dataField} = self
         const {dataName, remark} = basic.getSchema()
         // 数据需要的配置
         let data = {
@@ -155,7 +156,7 @@ export const MDataTab = types
           dataName,
           remark,
           config: {
-            dataField: hJSON.parse(dataField.dataFieldCode.value),
+            // dataField: hJSON.parse(dataField.dataFieldCode.value),
           },
         }
         // 数据源创建、修改后执行的函数

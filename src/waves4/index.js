@@ -55,7 +55,14 @@ import progress from './waves/v3/progress'
 import bullet from './waves/v3/bullet'
 import gis from './waves/gis'
 import button from './waves/v3/button'
+
+import select from './waves/v3/select'
+
+import input from './waves/v3/input'
+import search from './waves/v3/search'
+
 import uiTabButton from './waves/v3/ui-tab-button'
+
 import i18n from '@i18n'
 import categoriesEcharts, {echartsWaves} from '@wavesEcharts'
 
@@ -132,6 +139,12 @@ const waves = {
   textarea,
   // 交互
   button,
+
+  select,
+
+  input,
+  search,
+
   uiTabButton,
 }
 
@@ -254,7 +267,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, uiTabButton],
+    exhibits: [button, input, search, uiTabButton, select],
   },
 ]
 
