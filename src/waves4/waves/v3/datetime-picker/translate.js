@@ -3,9 +3,33 @@ import {layerOptionMap} from './mapping'
 const getRealData = (dataSource) => {
   try {
     if (!dataSource) {
-      return {}
+      return []
     }
-    return dataSource
+    const [labels, ...values] = dataSource
+    const dataArray = []
+    values.forEach((i) => {
+      const [label, compare, value] = i
+      dataArray.push({
+        label,
+        compare,
+        value,
+      })
+    })
+    return {
+      labelKey: {
+        tag: 'label',
+        name: labels[0],
+      },
+      compareKey: {
+        tag: 'compare',
+        name: labels[1],
+      },
+      valueKey: {
+        tag: 'value',
+        name: labels[2],
+      },
+      data: dataArray,
+    }
   } catch (e) {
     console.error('数据解析失败', {dataSource})
     return []
@@ -29,7 +53,6 @@ function translate(schema) {
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
   config.data = getRealData(data)
-
   return {
     width,
     height,
@@ -42,13 +65,11 @@ function translate(schema) {
     ...config,
   }
 }
+
 export default (...parameter) => {
-  console.log(...parameter, '000000')
   try {
-    console.log(999)
     return translate(...parameter)
   } catch (error) {
-    console.log(888)
     console.error('图表解析失败', error)
     return null
   }

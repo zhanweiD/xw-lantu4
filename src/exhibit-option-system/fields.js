@@ -62,6 +62,22 @@ const scope = {
     },
   ],
 }
+//取值方式
+const valueMethod = {
+  type: 'check',
+  label: 'valueMethod',
+  defaultValue: 'timePoint',
+  options: [
+    {
+      key: '时间点',
+      value: 'timePoint',
+    },
+    {
+      key: '时间范围',
+      value: 'timeRange',
+    },
+  ],
+}
 const animationDirection = {
   type: 'check',
   label: 'animationDirection',
@@ -1040,6 +1056,11 @@ const missing = {
   label: 'missing',
 }
 
+//选择器类型
+const pickerTypecwq = {
+  type: 'string',
+  label: 'pickerTypecwq',
+}
 /**
  * =====================================
  * size
@@ -1071,6 +1092,27 @@ const size = {
   min: 1,
   max: 100,
   step: 1,
+}
+//字体大小
+const fontSize = {
+  type: 'number',
+  label: 'fontSize',
+  min: 1,
+  max: 1000,
+  step: 1,
+}
+// 缩放系数
+const scale = {
+  type: 'number',
+  label: 'scale',
+  min: 0,
+  max: 1,
+  step: 1,
+}
+// 选择器类型
+const pickerType = {
+  type: 'string',
+  label: 'pickerType',
 }
 
 // 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
@@ -2387,8 +2429,16 @@ export default {
   width,
   // 高度
   height,
-  // 尺寸
+  // 大小
   size,
+  //取值方式
+  valueMethod,
+  //缩放系数
+  scale,
+  // 字体大小
+  fontSize,
+  // 选择器类型
+  pickerType,
   //尺寸-特殊单设-适配：点装饰组件
   sizeSpecialDotMaterial,
   // 尺寸(宽高)
@@ -2534,6 +2584,9 @@ export default {
   activeBackgroundColor,
   //未激活背景颜色
   inactiveBackgroundColor,
+  //选择器类型
+  pickerTypecwq,
+
   borderColor,
   borderWidth,
   // gis

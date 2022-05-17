@@ -1,5 +1,6 @@
 import React from 'react'
 import c from 'classnames'
+import {observer} from 'mobx-react-lite'
 import {types} from 'mobx-state-tree'
 import {MUIBase} from '../ui-base'
 import s from './switch.module.styl'
@@ -26,7 +27,6 @@ const MSwitch = MUIBase.named('MSwitch')
       if (redraw === true) {
         self.removeNode(self.container?.parentNode)
       }
-      console.log(self, '99')
       const style = {
         height: self.config('height'),
         width: self.config('width'),
@@ -42,28 +42,6 @@ const MSwitch = MUIBase.named('MSwitch')
           width: self.containerWidth,
           height: self.containerHeight,
         })
-      }
-
-      const Switch = (value, onChange, style) => {
-        const {pointColor, pointSizeItem, radius, activeBackgroundColor, inactiveBackgroundColor, height, width} = style
-        const pointStyle = {
-          backgroundColor: pointColor,
-          width: pointSizeItem,
-          height: pointSizeItem,
-        }
-        const containerStyle = {
-          width,
-          height,
-          borderRadius: radius,
-          background: value ? activeBackgroundColor : inactiveBackgroundColor,
-          justifyContent: value ? 'flex-end' : 'flex-start',
-        }
-
-        return (
-          <div className={c(s.switch)} style={containerStyle} onClick={() => onChange(!value)}>
-            <div style={pointStyle} className={s.point} />
-          </div>
-        )
       }
 
       // 渲染组件
@@ -91,5 +69,27 @@ const MSwitch = MUIBase.named('MSwitch')
       toggleSwitch,
     }
   })
+
+const Switch = observer(({value, onChange, style}) => {
+  const {pointColor, pointSize, radius, activeBackgroundColor, inactiveBackgroundColor, height, width} = style
+  const pointStyle = {
+    backgroundColor: pointColor,
+    width: pointSize,
+    height: pointSize,
+  }
+  const containerStyle = {
+    width,
+    height,
+    borderRadius: radius,
+    background: value ? activeBackgroundColor : inactiveBackgroundColor,
+    justifyContent: value ? 'flex-end' : 'flex-start',
+  }
+
+  return (
+    <div className={c(s.switch)} style={containerStyle} onClick={() => onChange(!value)}>
+      <div style={pointStyle} className={s.point} />
+    </div>
+  )
+})
 
 export default MSwitch

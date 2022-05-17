@@ -1,5 +1,5 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import MSwitch from '../../../../waves-src/switch'
+import MDatetimePicker from '@wavesSrc/datetime-picker'
 import translate from './translate'
 
 /**
@@ -9,23 +9,23 @@ const Adapter = () =>
   createExhibitAdapter({
     //初始化
     init({options}) {
-      const mSwitch = MSwitch.create()
+      const mDatetimePicker = MDatetimePicker.create()
       const translatedOptions = translate(options)
       // 初始化模型
-      mSwitch.init(translatedOptions, {})
-      mSwitch.draw({
+      mDatetimePicker.init(translatedOptions, {})
+      mDatetimePicker.draw({
         redraw: true,
       })
-      return mSwitch
+      return mDatetimePicker
     },
     // 处理包括数据，样式等变更
     update({options}) {
       try {
-        const mSwitch = MSwitch.create()
+        const mDatetimePicker = MDatetimePicker.create()
         const translatedOptions = translate(options)
         // 初始化模型
-        mSwitch.init(translatedOptions, {})
-        mSwitch.draw({
+        mDatetimePicker.init(translatedOptions, {})
+        mDatetimePicker.draw({
           redraw: true,
         })
       } catch (error) {

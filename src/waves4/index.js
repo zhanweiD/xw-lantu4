@@ -57,7 +57,7 @@ import gis from './waves/gis'
 import button from './waves/v3/button'
 
 import select from './waves/v3/select'
-
+import DatetimePicker from './waves/v3/datetime-picker'
 import input from './waves/v3/input'
 import search from './waves/v3/search'
 import switchs from './waves/v3/switch'
@@ -144,6 +144,7 @@ const waves = {
   search,
   switchs,
   uiTabButton,
+  DatetimePicker,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -265,7 +266,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select, switchs],
+    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker],
   },
 ]
 
