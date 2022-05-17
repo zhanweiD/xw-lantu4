@@ -28,6 +28,7 @@ export const TextField = observer(
     iconShowName,
     onIconButtonClick = () => {},
     valid,
+    noField,
   }) => {
     const {message, success = true} = isDef(valid) ? makeFunction(valid)(value) : {}
     const codeRef = useRef(null)
@@ -41,7 +42,7 @@ export const TextField = observer(
     // !NOTE value属性错误的写法：value={value || defaultValue} 会导致输入过程不能为空字符串
     return (
       <>
-        <Field label={label} tip={tip} className={c(className, {[s.valid]: !success})} style={style}>
+        <Field noField={noField} label={label} tip={tip} className={c(className, {[s.valid]: !success})} style={style}>
           <input
             contentEditable
             type={type}
@@ -98,6 +99,7 @@ export const TextField = observer(
 
         {valid && (
           <Field
+            noField={noField}
             label={label ? ' ' : ''}
             className={c('mt8', {
               [s.tipError]: !success,

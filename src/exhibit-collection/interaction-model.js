@@ -37,7 +37,9 @@ const MEvent = types
   .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
-      self.addAction()
+      if (!self.actions.length) {
+        self.addAction()
+      }
     }
 
     const addAction = () => {

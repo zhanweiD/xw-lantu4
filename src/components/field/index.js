@@ -21,6 +21,7 @@ import {AlignmentField} from './alignment'
 import {OffsetField} from './offset'
 import createConfigModelClass from './create-config-model-class'
 import ModelToField from './model-to-field'
+import Radio from './radio'
 
 const RangeNumberField = MultiNumberField
 
@@ -47,4 +48,5 @@ export {
   createConfigModelClass,
   ModelToField,
   CodeField,
+  Radio,
 }
