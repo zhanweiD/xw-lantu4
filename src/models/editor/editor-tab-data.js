@@ -175,6 +175,7 @@ export const MDataTab = types
             processorFunction: dataProcessor,
           }
         } else if (dataType === 'api') {
+          const {apiPolling, useApiPolling} = self.api
           const {method, url} = self.api.options.getSchema()
           const {headers, query, body, dataProcessor, useDataProcessor} = self.api.codeOptions.getSchema()
           data = {
@@ -187,6 +188,8 @@ export const MDataTab = types
               qs: query,
               body,
               useDataProcessor,
+              apiPolling,
+              useApiPolling,
             },
             processorFunction: dataProcessor,
           }

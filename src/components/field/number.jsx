@@ -1,18 +1,16 @@
-import React, {useEffect, useState, useRef} from "react"
-import {observer} from "mobx-react-lite"
-import np from "number-precision"
-import isNumber from "lodash/isNumber"
-import c from "classnames"
-import trim from "lodash/trim"
-import isNumeric from "@utils/is-numberic"
-import isDef from "@utils/is-def"
-import {Field} from "./base"
-import s from "./number.module.styl"
+import React, {useEffect, useState, useRef} from 'react'
+import {observer} from 'mobx-react-lite'
+import np from 'number-precision'
+import isNumber from 'lodash/isNumber'
+import c from 'classnames'
+import trim from 'lodash/trim'
+import isNumeric from '@utils/is-numberic'
+import isDef from '@utils/is-def'
+import {Field} from './base'
+import s from './number.module.styl'
 
 const isSpecialString = (string, min) =>
-  ["", (isNumber(min) && min < 0) || !isDef(min) ? "-" : "", "+", "."].indexOf(
-    string
-  ) > -1
+  ['', (isNumber(min) && min < 0) || !isDef(min) ? '-' : '', '+', '.'].indexOf(string) > -1
 
 const fixRange = (n, min, max) => {
   if (isNumeric(min)) {
@@ -33,7 +31,7 @@ const NumberRange = ({min, max}) => {
   } else if (isDef(max)) {
     range = `<${max}`
   }
-  return <div className={c("ctw40", s.range)}>{range}</div>
+  return <div className={c('ctw40', s.range)}>{range}</div>
 }
 
 export const NumberInput = observer(
@@ -48,13 +46,13 @@ export const NumberInput = observer(
     placeholder,
     className,
     toggleFocus = () => {},
-    isExternal
+    isExternal,
   }) => {
-    const [inputValue, setInputValue] = useState("")
+    const [inputValue, setInputValue] = useState('')
     const codeRef = useRef(null)
 
     useEffect(() => {
-      codeRef.current.addEventListener("keyup", (e) => {
+      codeRef.current.addEventListener('keyup', (e) => {
         e.stopPropagation()
       })
     }, [])
@@ -78,15 +76,15 @@ export const NumberInput = observer(
           const v = trim(e.target.value)
           if (isNumeric(v)) {
             let n = +v
-            if (e.key === "ArrowUp") {
+            if (e.key === 'ArrowUp') {
               n = np.plus(n, step)
             }
-            if (e.key === "ArrowDown") {
+            if (e.key === 'ArrowDown') {
               n = np.minus(n, step)
             }
 
             // 仅按上下键的时候才触发值的改变
-            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
               onChange(fixRange(n, min, max))
             }
           }
@@ -102,12 +100,7 @@ export const NumberInput = observer(
             onChange(fixRange(+v, min, max))
             isExternal && setInputValue(fixRange(+v, min, max))
           }
-          if (
-            !(
-              e.relatedTarget &&
-              e.relatedTarget.className.indexOf("numberSlider") > -1
-            )
-          ) {
+          if (!(e.relatedTarget && e.relatedTarget.className.indexOf('numberSlider') > -1)) {
             toggleFocus(false)
           }
         }}
@@ -136,6 +129,7 @@ export const NumberField = observer(
     defaultValue,
     onChange = () => {},
     className,
+    inputClassName,
     min,
     max,
     step = 1,
@@ -145,7 +139,7 @@ export const NumberField = observer(
     supportProcessor = false,
     updateProcessor = () => {},
     hasSlider,
-    hasSaveCode
+    hasSaveCode,
   }) => {
     const [isFocus, setIsFocus] = useState(false)
     // const scale = ['0', '20', '40', '60', '80', '100']
@@ -166,7 +160,7 @@ export const NumberField = observer(
         {isFocus && scale.map(degree => <div key={degree} className={c('pa', s.scaleBase, s[`scale${degree}`])} />)}
       </div> */}
           <NumberInput
-            className={c(className, {[s.sliderFocus]: hasSlider && isFocus})}
+            className={c(inputClassName, {[s.sliderFocus]: hasSlider && isFocus})}
             value={value}
             defaultValue={defaultValue}
             onChange={onChange}
@@ -181,18 +175,13 @@ export const NumberField = observer(
           {hasSlider && isFocus && (
             <input
               type="range"
-              className={c("pa numberSlider", s.slider)}
+              className={c('pa numberSlider', s.slider)}
               min={min}
               max={max}
               step={step}
               value={value}
               onBlur={(e) => {
-                if (
-                  !(
-                    e.relatedTarget &&
-                    e.relatedTarget.className.indexOf("sliderFocus") > -1
-                  )
-                ) {
+                if (!(e.relatedTarget && e.relatedTarget.className.indexOf('sliderFocus') > -1)) {
                   setIsFocus(false)
                 }
               }}
