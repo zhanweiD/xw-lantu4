@@ -4,13 +4,14 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['base.borderRadius', 'borderRadius'],
-        ['base.content', 'buttonName'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
         ['base.borderWidth', 'borderWidth'],
         ['base.borderColor', 'borderColor'],
         ['base.opacity', 'opacity'],
         ['base.padding', 'padding'],
+        ['animation.updateDuration', 'updateDuration'], // 轮播间隔
+        ['animation.animationType', 'animationType'], // 轮播类型
       ]
       const storage = mapOption(mapping)
       return storage.get()

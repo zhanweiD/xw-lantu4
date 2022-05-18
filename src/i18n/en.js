@@ -338,6 +338,7 @@ export default {
     stack: 'Stack',
     waterfall: 'Waterfall',
     interval: 'Interval',
+    updateDuration: 'update Duration',
     column: 'Column',
     bar: 'Bar',
     center: 'Center',

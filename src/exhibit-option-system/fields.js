@@ -62,6 +62,15 @@ const scope = {
     },
   ],
 }
+
+// 轮播间隔
+const updateDuration = {
+  type: 'number',
+  label: 'updateDuration',
+  defaultValue: 1000,
+  max: 5000,
+}
+
 const animationDirection = {
   type: 'check',
   label: 'animationDirection',
@@ -2628,5 +2637,6 @@ export default {
   delay,
   scope,
   animationDirection,
+  updateDuration,
   billboard,
 }

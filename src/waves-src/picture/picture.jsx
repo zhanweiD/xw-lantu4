@@ -7,7 +7,6 @@ const MPicture = MUIBase.named('MPicture')
   .props({
     name: types.optional(types.string, '图片'),
     pictureData: types.array(types.frozen()),
-    others: types.optional(types.model(), {}),
   })
   .actions((self) => {
     const afterCreate = () => {
@@ -39,23 +38,70 @@ const MPicture = MUIBase.named('MPicture')
         'borderWidth',
         'borderColor',
         'borderRadius',
-        'paddingLeft',
+        'padding',
         'opacity',
         'top',
         'left',
         'right',
-        'content',
+        'updateDuration',
+        'animationType',
       ]?.forEach((name) => (style[name] = self.config(name)))
-      // console.log('style', style)
+      const {borderWidth, borderColor, ...others} = style
+
+      // 轮播
+      const handleIntervalImage = () => {
+        let interval
+        let total = self.pictureData.length
+        let i = 0
+
+        interval = setInterval(() => {
+          if (i < total) {
+            document.getElementById('div0').style.transform = `translate(${-style.width * i}px)`
+            i++
+          } else {
+            clearInterval(interval)
+            handleIntervalImage()
+          }
+        }, style.updateDuration)
+      }
+
+      self.pictureData.length > 1 ? handleIntervalImage() : null
 
       self.render(
-        <div style={style} className={s.center}>
-          <img
-            width={self.containerWidth * 0.8}
-            height={self.containerHeight * 0.8}
-            src={self.pictureData[1][0]}
-            alt={style.content}
-          />
+        <div style={{border: `${borderWidth}px solid ${borderColor}`, ...others}} className={s.swiper}>
+          <div
+            id="div0"
+            className={s.img_container}
+            style={{
+              paddingTop: style.padding[0],
+              paddingRight: style.padding[1],
+              paddingBottom: style.padding[2],
+              paddingLeft: style.padding[3],
+            }}
+          >
+            {self.pictureData?.map((v, ind) => (
+              <img
+                key={ind}
+                width={style.width - style.padding[1] - style.padding[3]}
+                height={style.height - style.padding[0] - style.padding[2]}
+                src={v[0]}
+                alt="图片加载失败"
+              />
+            ))}
+          </div>
+          {self.pictureData.length > 1 && (
+            <div className={s.num_container}>
+              {self.pictureData.map((t, ind) => (
+                <button
+                  key={ind}
+                  className={s.btn}
+                  onClick={() => {
+                    document.getElementById('div0').style.transform = `translate(${-style.width * ind}px)`
+                  }}
+                ></button>
+              ))}
+            </div>
+          )}
         </div>
       )
     }

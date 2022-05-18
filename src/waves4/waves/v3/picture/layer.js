@@ -10,10 +10,6 @@ export default () => {
             name: 'borderRadius',
           },
           {
-            name: 'content',
-            defaultValue: '图片',
-          },
-          {
             name: 'backgroundColor',
             defaultValue: 'rgb(0,119,255)',
           },
@@ -28,6 +24,25 @@ export default () => {
           },
           {
             name: 'padding',
+            defaultValue: [5, 5, 5, 5],
+          },
+        ],
+      },
+      {
+        name: 'animation',
+        fields: [
+          {
+            name: 'updateDuration',
+          },
+          {
+            name: 'animationType',
+            defaultValue: 'normal',
+            options: [
+              {
+                key: '左右切换',
+                value: 'normal',
+              },
+            ],
           },
         ],
       },

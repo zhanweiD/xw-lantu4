@@ -745,6 +745,7 @@ export default {
   updateAnimation: '更新',
   animationType: '类型',
   duration: '时长',
+  updateDuration: '轮播间隔',
   delay: '延时',
   fade: '淡入淡出',
   scan: '扫光',
