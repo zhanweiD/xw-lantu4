@@ -66,6 +66,7 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
   if (exhibit) {
     const model = frame.art_.exhibitManager.get(exhibit.id)
     if (model) {
+      // debugger
       const {Adapter} = exhibitCollection.get(`${model.lib}.${model.key}`)
       Adapter.draw({
         container,
@@ -89,6 +90,25 @@ export const draw = ({exhibit, container, height, width, frame, material}) => {
         model,
         isEdit,
       })
+    } else {
+      log.warn('组件模型未找到', material.id)
+    }
+  }
+}
+
+export const destroy = ({exhibit, frame, material}) => {
+  if (exhibit) {
+    const model = frame.art_.exhibitManager.get(exhibit.id)
+    if (model) {
+      model.adapter.destroy()
+    } else {
+      log.warn('组件模型未找到', exhibit.id)
+    }
+  }
+  if (material) {
+    const model = frame.art_.exhibitManager.get(material.id)
+    if (model) {
+      model.adapter.destroy()
     } else {
       log.warn('组件模型未找到', material.id)
     }

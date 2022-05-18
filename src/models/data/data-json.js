@@ -9,16 +9,16 @@ import createLog from '@utils/create-log'
 
 const log = createLog('@models/data/data-json')
 
-const defaultDataProcessorCode = `// @param data {object} 原始数据
- return function ({data}) {
-   return data
- }`
+// const defaultDataProcessorCode = `// @param data {object} 原始数据
+//  return function ({data}) {
+//    return data
+//  }`
 
 const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
   id: types.identifier,
   sections: [
     'dataPanel.json',
-    'dataPanel.dataProcessAndDataDisplay',
+    // 'dataPanel.dataProcessAndDataDisplay',
     // {
     //   section: 'optionPanel.dataProcessor',
     //   fields: [
@@ -55,46 +55,46 @@ const MJsonCodeOptions = createConfigModelClass('MJsonCodeOptions', {
         ],
       },
     },
-    {
-      section: 'dataPanel.dataProcessAndDataDisplay',
-      option: 'useDataProcessor',
-      field: {
-        type: 'switch',
-        label: 'optionPanel.dataProcessor',
-        defaultValue: false,
-      },
-    },
-    {
-      section: 'dataPanel.dataProcessAndDataDisplay',
-      option: 'dataProcessor',
-      field: {
-        type: 'code',
-        defaultValue: defaultDataProcessorCode,
-        readOnly: false,
-        height: 300,
-        buttons: [
-          {
-            name: '执行',
-            position: 'left',
-            action: (self) => {
-              const parent = getParent(self, 1)
-              parent.getResult()
-            },
-          },
-        ],
-      },
-    },
-    {
-      section: 'dataPanel.dataProcessAndDataDisplay',
-      option: 'result',
-      field: {
-        type: 'code',
-        defaultValue: '',
-        readOnlyCode: true,
-        height: 300,
-        value: '{}',
-      },
-    },
+    // {
+    //   section: 'dataPanel.dataProcessAndDataDisplay',
+    //   option: 'useDataProcessor',
+    //   field: {
+    //     type: 'switch',
+    //     label: 'optionPanel.dataProcessor',
+    //     defaultValue: false,
+    //   },
+    // },
+    // {
+    //   section: 'dataPanel.dataProcessAndDataDisplay',
+    //   option: 'dataProcessor',
+    //   field: {
+    //     type: 'code',
+    //     defaultValue: defaultDataProcessorCode,
+    //     readOnly: false,
+    //     height: 300,
+    //     buttons: [
+    //       {
+    //         name: '执行',
+    //         position: 'left',
+    //         action: (self) => {
+    //           const parent = getParent(self, 1)
+    //           parent.getResult()
+    //         },
+    //       },
+    //     ],
+    //   },
+    // },
+    // {
+    //   section: 'dataPanel.dataProcessAndDataDisplay',
+    //   option: 'result',
+    //   field: {
+    //     type: 'code',
+    //     defaultValue: '',
+    //     readOnlyCode: true,
+    //     height: 300,
+    //     value: '{}',
+    //   },
+    // },
   ],
 })
 

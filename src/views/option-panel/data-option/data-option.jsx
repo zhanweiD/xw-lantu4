@@ -4,7 +4,9 @@ import {useTranslation} from 'react-i18next'
 import c from 'classnames'
 import Tab from '@components/tab'
 import Scroll from '@components/scroll'
-// import Section from '@builders/section'
+import {NumberField} from '@components/field'
+import IconButton from '@components/icon-button'
+import Section from '@builders/section'
 import Overlay from '@components/overlay'
 import w from '@models'
 import SectionFields from '@components/section-fields'
@@ -26,7 +28,39 @@ const DataOption = ({data}) => {
       <Tab.Item name={t('dataPanel.info')}>
         <Scroll className="h100p">
           {data.basic && <SectionFields model={data.basic} />}
-          {dataType === 'api' && <SectionFields onChange={data.api.onOptionsChange} model={data.api.options} />}
+          {dataType === 'api' && (
+            <>
+              <Section
+                name="轮询"
+                titleClassName="pr8 fw200"
+                headIcon={
+                  <IconButton
+                    className="ml4"
+                    icon={data.api.useApiPolling ? 'effective' : 'ineffective'}
+                    iconSize={14}
+                    buttonSize={18}
+                    onClick={() =>
+                      data.api.set({
+                        useApiPolling: !data.api.useApiPolling,
+                      })
+                    }
+                  />
+                }
+              >
+                <NumberField
+                  label="间隔（s）"
+                  min={1}
+                  value={data.api.apiPolling || 0}
+                  onChange={(v) =>
+                    data.api.set({
+                      apiPolling: v,
+                    })
+                  }
+                />
+              </Section>
+              <SectionFields onChange={data.api.onOptionsChange} model={data.api.options} />
+            </>
+          )}
 
           {dataType === 'excel' && (
             <>

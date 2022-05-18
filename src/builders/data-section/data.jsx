@@ -8,6 +8,7 @@ import copy from '@utils/copy'
 import Modal from '@components/modal'
 import Tab from '@components/tab'
 import IconButton from '@components/icon-button'
+import {NumberField} from '@components/field'
 import {CodeField} from '../fields/code'
 import Section from '../section'
 import Processor from './processor'
@@ -209,22 +210,64 @@ const DataField = ({
                   })
                 }}
               />
-              <Processor
+              <Section
+                name="轮询"
+                headIcon={
+                  <IconButton
+                    className="ml4"
+                    icon={value.useApiPolling ? 'effective' : 'ineffective'}
+                    iconSize={14}
+                    buttonSize={18}
+                    onClick={() =>
+                      onChange({
+                        useApiPolling: !value.useApiPolling,
+                      })
+                    }
+                  />
+                }
                 type={type}
-                name={t('body')}
-                value={value.apiBody}
-                effective={value.useApiBody}
-                onChange={(data) => {
-                  onChange({
-                    apiBody: data,
-                  })
-                }}
-                onIconClick={(data) => {
-                  onChange({
-                    useApiBody: data,
-                  })
-                }}
-              />
+                titleClassName="pr8"
+              >
+                <NumberField
+                  label="间隔（s）"
+                  className="ml24"
+                  value={value.apiPolling || 0}
+                  min={1}
+                  onChange={(v) =>
+                    onChange({
+                      apiPolling: v,
+                    })
+                  }
+                />
+                {/* <SelectField
+                    className="fb1"
+                    value={data.database.database}
+                    // options={[{key: '1', value: '1'}, {key: '2', value: '2'}]}
+                    options={data.database.databaseList.map((item) => ({
+                      key: item.database,
+                      value: item.database,
+                    }))}
+                    onChange={(v) => data.database.set('database', v)}
+                  /> */}
+              </Section>
+              {value.apiConfig?.method !== 'GET' && (
+                <Processor
+                  type={type}
+                  name={t('body')}
+                  value={value.apiBody}
+                  effective={value.useApiBody}
+                  onChange={(data) => {
+                    onChange({
+                      apiBody: data,
+                    })
+                  }}
+                  onIconClick={(data) => {
+                    onChange({
+                      useApiBody: data,
+                    })
+                  }}
+                />
+              )}
             </>
           )}
           {value.source && (
@@ -262,6 +305,7 @@ const DataField = ({
                       key={data.dataId}
                       className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                       onClick={() => {
+                        value.source && removeSource(value.source)
                         addSource(data.dataId)
                         setIsVisible(false)
                       }}
@@ -278,6 +322,7 @@ const DataField = ({
                       key={data.dataId}
                       className={c('fbh fbac lh24 pr8 pl8 ctw60 hand mb2', s.row)}
                       onClick={() => {
+                        value.source && removeSource(value.source)
                         addSource(data.dataId)
                         setIsVisible(false)
                       }}

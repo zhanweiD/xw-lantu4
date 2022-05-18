@@ -32,9 +32,9 @@ const defaultBody = `// 返回自定义的Body数据(键值对)
    }
  }`
 
-const defaultDataProcessorCode = `return function ({content}) {
-   return content
- }`
+// const defaultDataProcessorCode = `return function ({content}) {
+//    return content
+//  }`
 
 const MApiOptions = createConfigModelClass('MApiOptions', {
   id: types.maybe(types.number),
@@ -83,7 +83,7 @@ const MApiCodeOptions = createConfigModelClass(
       'dataPanel.headers',
       'dataPanel.queries',
       'dataPanel.body',
-      'dataPanel.dataProcessAndDataDisplay',
+      'dataPanel.apiResult',
       // {
       //   section: 'optionPanel.dataProcessor',
       //   fields: [
@@ -141,44 +141,53 @@ const MApiCodeOptions = createConfigModelClass(
           defaultValue: '',
         },
       },
+      // {
+      //   section: 'dataPanel.dataProcessAndDataDisplay',
+      //   option: 'useDataProcessor',
+      //   field: {
+      //     type: 'switch',
+      //     label: 'optionPanel.dataProcessor',
+      //     defaultValue: false,
+      //   },
+      // },
+      // {
+      //   section: 'dataPanel.apiResult',
+      //   option: 'dataProcessor',
+      //   field: {
+      //     type: 'code',
+      //     defaultValue: defaultDataProcessorCode,
+      //     readOnly: true,
+      //     height: 300,
+      //     buttons: [
+      //       {
+      //         name: '执行',
+      //         position: 'left',
+      //         action: (self) => {
+      //           const parent = getParent(self, 1)
+      //           parent.getResult()
+      //         },
+      //       },
+      //     ],
+      //   },
+      // },
       {
-        section: 'dataPanel.dataProcessAndDataDisplay',
-        option: 'useDataProcessor',
-        field: {
-          type: 'switch',
-          label: 'optionPanel.dataProcessor',
-          defaultValue: false,
-        },
-      },
-      {
-        section: 'dataPanel.dataProcessAndDataDisplay',
-        option: 'dataProcessor',
-        field: {
-          type: 'code',
-          defaultValue: defaultDataProcessorCode,
-          readOnly: true,
-          height: 300,
-          buttons: [
-            {
-              name: '执行',
-              position: 'left',
-              action: (self) => {
-                const parent = getParent(self, 1)
-                parent.getResult()
-              },
-            },
-          ],
-        },
-      },
-
-      {
-        section: 'dataPanel.dataProcessAndDataDisplay',
+        section: 'dataPanel.apiResult',
         option: 'result',
         field: {
           type: 'code',
           defaultValue: '{}',
           readOnlyCode: true,
           height: 300,
+          buttons: [
+            {
+              name: '执行',
+              position: 'topLeft',
+              action: (self) => {
+                const parent = getParent(self, 1)
+                parent.getResult()
+              },
+            },
+          ],
         },
       },
     ],
@@ -227,7 +236,9 @@ export const MApi = types
      }
    }`
     ),
-    normalKeys: types.frozen(['query', 'headers', 'body']),
+    useApiPolling: types.optional(types.boolean, false),
+    apiPolling: types.optional(types.number, 10),
+    normalKeys: types.frozen(['query', 'headers', 'body', 'useApiPolling', 'apiPolling']),
   })
   .views((self) => ({
     get env_() {
@@ -331,8 +342,9 @@ export const MApi = types
 
     const setData = (data) => {
       const {processorFunction, config} = data
-      const {url, method, headers, qs, body, useDataProcessor} = config
-
+      const {url, method, headers, qs, body, useDataProcessor, apiPolling, useApiPolling} = config
+      self.apiPolling = apiPolling
+      self.useApiPolling = useApiPolling
       self.options.setValues({url, method})
       self.codeOptions.setValues({
         headers,

@@ -1073,6 +1073,15 @@ const size = {
   step: 1,
 }
 
+// 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
+const sizeSpecialDotMaterial = {
+  type: 'number',
+  label: 'size',
+  min: 1,
+  max: 9,
+  step: 1,
+}
+
 // 尺寸(宽高)
 const areaSize = {
   type: 'multiNumber',
@@ -1388,6 +1397,35 @@ const direction = {
   ],
 }
 
+// 排列方向
+const alignmentDirection = {
+  type: 'check',
+  label: 'alignmentDirection',
+  defaultValue: 'HORIZONTAL',
+  options: [
+    {
+      key: '水平',
+      value: 'HORIZONTAL',
+    },
+    {
+      key: '垂直',
+      value: 'VERTICAL',
+    },
+  ],
+}
+// 未激活背景色
+const inactiveColor = {
+  type: 'color',
+  label: 'inactiveColor',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
+// 激活背景色
+const activeColor = {
+  type: 'color',
+  label: 'activeColor',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
 const DIRECTION = {
   type: 'check',
   label: 'direction',
@@ -1574,7 +1612,32 @@ const numberRange = {
 }
 
 // 时间范围 暂不做
+const time = {
+  type: 'time',
+  label: 'time',
+  defaultValue: [0, 60],
+}
 
+// 形状
+const shapeType = {
+  type: 'shapeType',
+  label: 'shapeType',
+  defaultValue: 'square',
+  options: [
+    {
+      key: 'square',
+      value: 'square',
+    },
+    {
+      key: 'circular',
+      value: 'circular',
+    },
+    {
+      key: 'triangle',
+      value: 'triangle',
+    },
+  ],
+}
 /**
  * =====================================
  * special
@@ -2234,7 +2297,13 @@ const shadowOptions = {
   ],
 }
 
+const adaptContainer = {
+  label: 'adaptContainer',
+  type: 'switch',
+}
+
 export default {
+  adaptContainer,
   theme,
   valueOffsetY,
   bgLineColor,
@@ -2302,6 +2371,8 @@ export default {
   height,
   // 尺寸
   size,
+  //尺寸-特殊单设-适配：点装饰组件
+  sizeSpecialDotMaterial,
   // 尺寸(宽高)
   areaSize,
   // 颜色类型
@@ -2369,6 +2440,10 @@ export default {
   lineColor,
   // 数值范围
   numberRange,
+  // 时间
+  time,
+  // 形状
+  shapeType,
   // 填充模式
   fillMode,
   // 宽度自适应
@@ -2425,6 +2500,10 @@ export default {
   arcLineColor,
   nodeWidth,
   nodeGap,
+
+  alignmentDirection,
+  inactiveColor,
+  activeColor,
   // 圆角大小
   borderRadius,
   show,

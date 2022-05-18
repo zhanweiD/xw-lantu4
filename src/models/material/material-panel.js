@@ -19,6 +19,8 @@ export const MMaterialPanel = types
     projectFolderSort: types.optional(types.array(types.number), []),
     // 官方素材
     officialFolders: types.optional(types.array(MFolder), []),
+    // 装饰
+    decorationFolders: types.optional(types.array(MFolder), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
@@ -72,6 +74,15 @@ export const MMaterialPanel = types
       }
       return officialFolders
     },
+    get decorationFolders_() {
+      let decorationFolders = self.decorationFolders
+      if (self.keyword) {
+        decorationFolders = decorationFolders.filter(
+          (folder) => folder.materials_.length || folder.folderName.match(self.keyword)
+        )
+      }
+      return decorationFolders
+    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
@@ -82,6 +93,7 @@ export const MMaterialPanel = types
       event.on('materialPanel.setProjectId', self.setProjectId)
       self.getFolders()
       self.getOfficialFolders()
+      self.getDecorationFolders()
     }
 
     // 切换展示方式
@@ -173,6 +185,33 @@ export const MMaterialPanel = types
         log.error('getOfficialFolders Error: ', error)
       }
     })
+
+    // 装饰（点装饰）
+    const getDecorationFolders = () => {
+      try {
+        self.decorationFolders = [
+          {
+            folderId: -1,
+            folderName: '装饰素材',
+            isOfficial: true,
+            materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
+              folderId: -2,
+              isOfficial: true,
+              materialId: id,
+              name,
+              icon,
+              lib,
+              key,
+              type: 'decoration',
+              width: 10,
+              height: 10,
+            })),
+          },
+        ]
+      } catch (error) {
+        log.error('getDecorationFolders Error: ', error)
+      }
+    }
 
     // 项目ID变化时更新项目素材
     const setProjectId = ({projectId}) => {
@@ -291,6 +330,7 @@ export const MMaterialPanel = types
       getFolders,
       getProjectFolders,
       getOfficialFolders,
+      getDecorationFolders,
       setProjectId,
       createFolder,
       removeFolder,

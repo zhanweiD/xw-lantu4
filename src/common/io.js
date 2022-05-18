@@ -46,19 +46,19 @@ context.create('io.project', {
     // url: 'http://192.168.90.160:9067/project',
     process(content) {
       // 将每个项目的大屏列表根据`sort`排序
-      content.list.map(project => {
+      content.list.map((project) => {
         const {sort} = project
         // 后端返回一定有id，由id生成索引idx
         project.idx = project.projectId
         project.id = project.projectId
         // 根据sort字段对大屏进行排序
         project.arts.sort((art1, art2) => sort.indexOf(art1.artId) - sort.indexOf(art2.artId))
-        project.arts.map(val => {
+        project.arts.map((val) => {
           val.id = val.artId
           return val
         })
 
-        project.data.map(d => {
+        project.data.map((d) => {
           switch (d.data.type) {
             case 0:
               d.viewType = 'excelData'
@@ -80,7 +80,7 @@ context.create('io.project', {
               break
             case 3:
               d.viewType = 'sqlData'
-              d.typeName = 'database'
+              d.typeName = 'sql'
               d.name = d.data.dataSource.name
               d.dataId = d.data.dataId
               break
@@ -92,14 +92,14 @@ context.create('io.project', {
           return d
         })
         /**
-       * 0: 管理员
-       * 1: 成员
-       * 2: 只读成员
-       *
-       * c: 超级管理员
-       * a: 组织管理员
-       * b: 组织成员
-       */
+         * 0: 管理员
+         * 1: 成员
+         * 2: 只读成员
+         *
+         * c: 超级管理员
+         * a: 组织管理员
+         * b: 组织成员
+         */
         // 当前权限
         // const role1 = 0
         // const role2 = 'a'
@@ -189,7 +189,6 @@ context.create('io.art', {
       content.id = content.artId
       return content
     },
-
   },
 
   // 获取大屏内用到的组件列表
@@ -251,10 +250,11 @@ context.create('io.artVersion', {
     method: 'GET',
     mockUrl: 'art/:artId/version/list',
     url: 'art/:artId/version/list',
-    process: response => {
-      response.list && response.list.forEach(v => {
-        v.id = v.versionId
-      })
+    process: (response) => {
+      response.list &&
+        response.list.forEach((v) => {
+          v.id = v.versionId
+        })
       return response
     },
   },
@@ -294,7 +294,6 @@ context.create('io.artVersion', {
     method: 'PUT',
     url: 'art/:publishId/publish/only/path',
   },
-
 })
 
 // 组件库相关接口
@@ -336,13 +335,14 @@ context.create('io.material', {
     url: 'file/material',
     mock: false,
     mockUrl: 'file/material',
-    process: response => {
-      response && response.forEach(v => {
-        v.createTime = v.ctime
-        v.creater = v.userName
-        v.id = v.fileId
-        v.name = v.fileName
-      })
+    process: (response) => {
+      response &&
+        response.forEach((v) => {
+          v.createTime = v.ctime
+          v.creater = v.userName
+          v.id = v.fileId
+          v.name = v.fileName
+        })
       return response
     },
   },
@@ -359,7 +359,7 @@ context.create('io.material', {
     url: 'file/material/:fileId',
     mock: false,
     mockUrl: 'file/material/:fileId',
-    process: response => {
+    process: (response) => {
       response.createTime = response.ctime
       response.creater = response.user?.nickName
       response.id = response.fileId
@@ -382,34 +382,36 @@ context.create('io.data', {
   getDatas: {
     method: 'GET',
     url: 'data',
-    process: response => {
-      response && response.forEach(v => {
-        switch (v.type) {
-          case 0:
-            v.data = v.excel
-            v.data.id = v.data.dataId
-            v.data.name = v.data.fileName
-            v.data.type = v.type
-            break
-          case 1:
-            v.data = v.json
-            v.data.id = v.data.dataId
-            v.data.name = v.data.fileName
-            v.data.type = v.type
-            break
-          case 2:
-            v.data = v.api
-            v.data.type = v.type
-            v.data.id = v.data.dataId
-            break
-          case 3:
-            v.data = v.dataSource
-            v.data.id = v.data.dataId
-            v.data.type = v.type
-            break
-          default: v.data = []
-        }
-      })
+    process: (response) => {
+      response &&
+        response.forEach((v) => {
+          switch (v.type) {
+            case 0:
+              v.data = v.excel
+              v.data.id = v.data.dataId
+              v.data.name = v.data.fileName
+              v.data.type = v.type
+              break
+            case 1:
+              v.data = v.json
+              v.data.id = v.data.dataId
+              v.data.name = v.data.fileName
+              v.data.type = v.type
+              break
+            case 2:
+              v.data = v.api
+              v.data.type = v.type
+              v.data.id = v.data.dataId
+              break
+            case 3:
+              v.data = v.dataSource
+              v.data.id = v.data.dataId
+              v.data.type = v.type
+              break
+            default:
+              v.data = []
+          }
+        })
       return response
     },
   },
@@ -483,11 +485,12 @@ context.create('io.template', {
   getTemplates: {
     method: 'GET',
     url: 'template/art',
-    process: response => {
-      response.list && response.list.forEach(v => {
-        v.id = v.templateId
-        v.name = v.templateName
-      })
+    process: (response) => {
+      response.list &&
+        response.list.forEach((v) => {
+          v.id = v.templateId
+          v.name = v.templateName
+        })
       return response
     },
   },
@@ -509,7 +512,7 @@ context.create('io.template', {
   saveAsTemplate: {
     method: 'POST',
     url: 'template/art',
-    process: response => {
+    process: (response) => {
       response.id = response.templateId
       response.name = response.templateName
       return response
@@ -520,7 +523,6 @@ context.create('io.template', {
     method: 'DELETE',
     url: 'template/art/:templateId',
   },
-
 })
 
 context.create('io.publish', {
@@ -612,8 +614,8 @@ context.create('io.organization', {
     url: 'organization',
     mock: false,
     mockUrl: 'http://111.231.93.26:7300/mock/5eec1e1fe99185234d3695c3/auth/organization/list',
-    process: response => {
-      return response.map(item => {
+    process: (response) => {
+      return response.map((item) => {
         return {
           id: item.organizationId,
           name: item.organizationName,
@@ -630,7 +632,7 @@ context.create('io.organization', {
   create: {
     method: 'POST',
     url: 'organization',
-    process: response => {
+    process: (response) => {
       response.id = response.organizationId
       return response
     },

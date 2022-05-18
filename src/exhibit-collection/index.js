@@ -1,4 +1,4 @@
-import exhibitCollection, {draw, exhibitRegister, registerExhibit} from "./exhibit-collection"
+import exhibitCollection, {draw, destroy, exhibitRegister, registerExhibit} from './exhibit-collection'
 
 export default exhibitCollection
-export {draw, exhibitRegister, registerExhibit}
+export {draw, exhibitRegister, registerExhibit, destroy}

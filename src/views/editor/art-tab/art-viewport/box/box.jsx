@@ -20,6 +20,7 @@ const Box = ({box}) => {
     padding,
     isEffect,
     isLocked,
+    visible,
   } = box
 
   const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
@@ -36,6 +37,7 @@ const Box = ({box}) => {
     padding: `${top}px ${right}px ${bottom}px ${left}px`,
     backgroundSize: '100% 100%',
     backgroundRepeat: 'no-repeat',
+    opacity: visible ? 1 : 0.4,
   }
   if (backgroundImage_) {
     style.backgroundImage = `linear-gradient(${backgroundImage_})`
@@ -62,7 +64,7 @@ const Box = ({box}) => {
         }}
       >
         <div
-          id={`box-${box.uid}`}
+          id={`box-${box.boxId}`}
           className={c('bsbb', {
             [s.boxBackgroundColor]: isBoxBackgroundVisible,
             [s.outline]: isSelected,

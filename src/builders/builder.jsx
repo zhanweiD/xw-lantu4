@@ -13,7 +13,6 @@ import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gis
 
 export const recusiveNode = ({sections, fields, level = 1}) => {
   if (level > 2) return
-
   return (
     <>
       {fields && Object.entries(fields).map(([key, field]) => <ModelToField model={field} key={key} />)}

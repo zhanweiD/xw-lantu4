@@ -254,6 +254,11 @@ export const MEditor = types
         })
     }
 
+    const getCurrentTab = () => {
+      const tab = self.tabs.find((item) => item.id === self.activeTabId)
+      return tab || {}
+    }
+
     return {
       afterCreate,
       applySession,
@@ -269,5 +274,6 @@ export const MEditor = types
       showTabDetail,
       updateTabname,
       fanoutData,
+      getCurrentTab,
     }
   })

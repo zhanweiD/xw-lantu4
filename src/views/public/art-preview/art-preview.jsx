@@ -5,9 +5,9 @@ import ArtFrame from './frame-preview'
 const ArtPreview = ({art}) => {
   useEffect(() => {
     document.title = art.name
-    window.addEventListener('resize', () => {
-      art.update()
-    })
+    // window.addEventListener('resize', () => {
+    //   art.update()
+    // })
   }, [])
   return <ArtFrame frame={art.mainFrame_} art={art} />
 }

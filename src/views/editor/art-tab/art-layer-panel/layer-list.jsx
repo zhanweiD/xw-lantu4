@@ -140,7 +140,7 @@ const getMenuList = (selectFrame, group, viewport) => {
   return menuList
 }
 
-// 项目列表
+// 图层列表
 export default observer(({layer, viewport, selectFrame, other}) => {
   // layer有可能是box有可能是group
   const {group, boxes} = layer

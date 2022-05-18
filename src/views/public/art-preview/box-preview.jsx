@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import cloneDeep from 'lodash/cloneDeep'
 import c from 'classnames'
@@ -6,7 +6,11 @@ import Exhibit from '../exhibit'
 import Material from '../material'
 
 const Box = ({box, frame}) => {
-  const {layout, materials = [], padding, backgroundImage_, backgroundColor_} = box
+  const {layout, materials = [], padding, backgroundImage_, backgroundColor_, visible} = box
+  if (!visible) {
+    // 隐藏的直接不展示
+    return null
+  }
 
   const {areaOffset = [0, 0, 0, 0]} = padding.options.updatedOptions || {}
   const [top, right, bottom, left] = areaOffset

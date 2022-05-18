@@ -6,6 +6,8 @@ import getObjectData from '@utils/get-object-data'
 import addOptionMethod from '@utils/add-option-method'
 import {createExhibitLayersClass} from './create-exhibit-layer-class'
 import {createPropertyClass} from './create-exhibit-property-class'
+import {createInteractionClass} from './create-interaction'
+import {actionMap} from './actions'
 
 // 根据schema创建组件独有的模型
 export const createExhibitModelClass = (exhibit) => {
@@ -21,7 +23,15 @@ export const createExhibitModelClass = (exhibit) => {
       context: types.frozen(),
       padding: types.frozen(config.padding),
       state: types.optional(types.enumeration(['loading', 'success', 'error']), 'loading'),
-      parts: types.optional(types.array(types.string), ['title', 'legend', 'axis', 'polar', 'other', 'echartsoption']), // 配置面板顶部tab
+      parts: types.optional(types.array(types.string), [
+        'title',
+        'legend',
+        'axis',
+        'polar',
+        'other',
+        'echartsoption',
+        'interaction',
+      ]), // 配置面板顶部tab
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen([
         'title',
@@ -34,6 +44,7 @@ export const createExhibitModelClass = (exhibit) => {
         'dimension',
         'echartsoption',
         'gisBase',
+        'interaction',
       ]), // 配置面板配置项
     })
     .views((self) => ({
@@ -84,6 +95,10 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.polar) {
           self.setPolar(config.polar)
         }
+        // 交互
+        if (config.interaction) {
+          self.setInteraction()
+        }
       }
       const setCachedData = (data) => {
         self.cachedData = data
@@ -94,6 +109,10 @@ export const createExhibitModelClass = (exhibit) => {
       }
       const setAdapter = (adapter) => {
         self.adapter = adapter
+        // 说明组件已经注册，但是还未渲染
+        if (self.interaction) {
+          self.registerEvent()
+        }
       }
 
       const getLayers = () => {
@@ -132,7 +151,7 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (config.key === 'text' || config.key === 'button' || config.key === 'gis') {
+        if (['text', 'button', 'gis', 'input', 'search'].includes(config.key)) {
           self.set({
             state: 'success',
           })
@@ -256,6 +275,15 @@ export const createExhibitModelClass = (exhibit) => {
           return self.polar.getData()
         }
       }
+      const setInteraction = () => {
+        // 将当前的model传入 交互组件内，因为self.adapter 保存了组件的model数据，以及全局event等信息
+        self.interaction = createInteractionClass(config.key, exhibit, self)
+      }
+      const getInteraction = () => {
+        if (self.interaction) {
+          return self.interaction.getData()
+        }
+      }
       const setGisBase = (gisBase) => {
         self.gisBase = createPropertyClass(config.key, gisBase, 'gisBase')
       }
@@ -263,6 +291,42 @@ export const createExhibitModelClass = (exhibit) => {
         if (self.gisBase) {
           return self.gisBase.getData()
         }
+      }
+
+      /**
+       * 事件触发后，调用所有的action
+       * @param {object} action 动作配置
+       * @param {number} index 动作的索引
+       * @param {object|any} evetData 事件触发传递的数据
+       */
+      function handleAction(action, index, evetData) {
+        const {actionType} = action
+        // 通过actionMap 对象维护事件处理逻辑策略，以防if else
+        // 绑定处理函数的this到当前的exhibitModel，以获得相关的model层信息
+        actionMap[actionType].call(self, action, index, evetData)
+      }
+
+      function handleEventOn(triggerType, actions) {
+        const {event} = self.adapter
+        event.on(triggerType, (evetData) => {
+          actions.forEach((action, index) => {
+            handleAction(action, index, evetData)
+          })
+        })
+      }
+
+      // 如果当前exhibit有事件，注册事件
+      const registerEvent = () => {
+        const eventSchema = self.interaction.toJSON()
+        const events = eventSchema?.eventModel?.events
+        if (!events || !events.length) {
+          return
+        }
+        events.forEach(({effective, triggerType, actions = []}) => {
+          if (effective && actions.length) {
+            handleEventOn(triggerType, actions)
+          }
+        })
       }
 
       return {
@@ -291,7 +355,10 @@ export const createExhibitModelClass = (exhibit) => {
         setEchartsoption,
         setPolar,
         getPolar,
+        setInteraction,
+        getInteraction,
         init,
+        registerEvent,
       }
     })
 

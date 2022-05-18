@@ -104,6 +104,7 @@ const createExhibitAdapter = (hooks) =>
       const instanceOption = this.getAllOptions()
       this.instance = hooks.init.call(null, {
         options: instanceOption,
+        event: this.event,
       })
       this.observerModel()
     }
@@ -350,7 +351,6 @@ const createExhibitAdapter = (hooks) =>
           updatedPath,
         })
       } else {
-        console.log(this.getNecessary())
         this.warn()
       }
     }

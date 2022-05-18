@@ -37,6 +37,46 @@ const CodeField = ({
       direction="vertical"
     >
       <div className={c('w100p fbv')} ref={codeRef}>
+        <div className="w100p fbh fbjsb mt8">
+          <div className="fbh">
+            {buttons
+              .filter(({position}) => position === 'topLeft')
+              .map((button) => {
+                return (
+                  <Buttton
+                    key={button.name}
+                    name={button.name}
+                    className="mr8"
+                    lineHeight={20}
+                    disabled={readOnly}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      button.action(parent)
+                    }}
+                  />
+                )
+              })}
+          </div>
+          <div className="fbh">
+            {buttons
+              .filter(({position}) => position === 'topRight')
+              .map((button) => {
+                return (
+                  <Buttton
+                    key={button.name}
+                    name={button.name}
+                    className="ml8"
+                    lineHeight={20}
+                    disabled={readOnly}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      button.action(parent)
+                    }}
+                  />
+                )
+              })}
+          </div>
+        </div>
         <div style={{height: `${height}px`, width: '100%'}} className={c('stopDrag')}>
           <CodeBoard
             placeholder={placeholder}

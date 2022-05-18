@@ -103,7 +103,7 @@ export const MDatabaseOptions = createConfigModelClass('MDatabaseOptions', {
       field: {
         type: 'number',
         label: '端口',
-        // value: 3306,
+        // value: 3307,
       },
     },
     // {
@@ -164,6 +164,7 @@ export const MDatabase = types
     const getResult = flow(function* getResult() {
       const {io, tip} = self.env_
       try {
+        if (!self.data_.dataId) return tip.error({content: '请先保存数据源再执行'})
         const {sql} = self.codeOptions.getSchema()
         const response = yield io.data.getDatabaseResult({
           ':dataId': self.data_.dataId,
@@ -173,7 +174,7 @@ export const MDatabase = types
           result: JSON.stringify(response, null, 2),
         })
         self.data_.updateDataField(response)
-        tip.success({content: 'SQL执行成功'})
+        // tip.success({content: 'SQL执行成功'})
       } catch (error) {
         self.data_.updateDataField([])
         tip.error({content: 'SQL执行错误'})

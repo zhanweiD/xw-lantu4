@@ -1,3 +1,4 @@
+// import {cartesian} from '@waves4/configs'
 import layer from './layer'
 // 根据这个配置生成组件的模型
 export const config = (k) => ({
@@ -8,7 +9,9 @@ export const config = (k) => ({
   layout: () => [4, 2],
   padding: [60, 0, 60, 60],
   layers: [layer()],
+  completed: true,
   interaction: {
+    eventTriggerTypes: ['click', 'doubleClick'],
     sources: [
       {
         // 事件名称
@@ -26,4 +29,5 @@ export const config = (k) => ({
     ],
     targets: [],
   },
+  // 标题面板
 })
