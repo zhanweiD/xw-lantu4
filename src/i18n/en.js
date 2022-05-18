@@ -144,6 +144,8 @@ export default {
   stretchFill: 'Stretch',
   blendMode: 'Blend Mode',
   content: 'Content',
+  dotSize: 'Dot Size',
+  dotColor: 'Dot Color',
   keywordColor: 'KeywordColor',
   keywordFontWeight: 'KeywordFontWeight',
   hasKeywordFontSize: 'HasKeywordFontSize',

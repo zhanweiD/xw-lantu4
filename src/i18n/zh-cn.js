@@ -181,6 +181,8 @@ export default {
   longEdgeFill: '长边',
   stretchFill: '拉伸',
   blendMode: '混合模式',
+  dotSize: '轮播点大小',
+  dotColor: '轮播点颜色',
   content: '内容',
   keywordColor: '关键词颜色',
   keywordFontWeight: '关键词字重',

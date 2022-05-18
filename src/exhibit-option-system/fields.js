@@ -465,6 +465,14 @@ const sourcePointSize = {
   label: 'sourcePointSize',
   defaultValue: 8,
 }
+const dotSize = {
+  type: 'number',
+  label: 'dotSize',
+}
+const dotColor = {
+  type: 'color',
+  label: 'dotColor',
+}
 const flyPointColor = {
   type: 'color',
   label: 'flyPointColor',
@@ -2596,6 +2604,8 @@ export default {
   targetLabelColor,
   flyPoint,
   flyPointWidth,
+  dotColor,
+  dotSize,
   flyPointColor,
   flyPointSize,
   elevationData,

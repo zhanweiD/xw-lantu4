@@ -37,6 +37,8 @@ const MPicture = MUIBase.named('MPicture')
         'backgroundColor',
         'borderWidth',
         'borderColor',
+        'dotColor',
+        'dotSize',
         'borderRadius',
         'padding',
         'opacity',
@@ -46,7 +48,7 @@ const MPicture = MUIBase.named('MPicture')
         'updateDuration',
         'animationType',
       ]?.forEach((name) => (style[name] = self.config(name)))
-      const {borderWidth, borderColor, ...others} = style
+      const {borderWidth, borderColor, dotColor, dotSize, ...others} = style
 
       // 轮播
       const handleIntervalImage = () => {
@@ -94,6 +96,7 @@ const MPicture = MUIBase.named('MPicture')
               {self.pictureData.map((t, ind) => (
                 <button
                   key={ind}
+                  style={{background: dotColor, width: dotSize, height: dotSize}}
                   className={s.btn}
                   onClick={() => {
                     document.getElementById('div0').style.transform = `translate(${-style.width * ind}px)`

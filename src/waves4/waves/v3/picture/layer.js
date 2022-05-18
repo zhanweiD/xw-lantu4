@@ -24,7 +24,15 @@ export default () => {
           },
           {
             name: 'padding',
-            defaultValue: [5, 5, 5, 5],
+            defaultValue: [0, 0, 0, 0],
+          },
+          {
+            name: 'dotColor',
+            defaultValue: '#fff',
+          },
+          {
+            name: 'dotSize',
+            defaultValue: 10,
           },
         ],
       },
