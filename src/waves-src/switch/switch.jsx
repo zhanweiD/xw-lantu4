@@ -31,10 +31,10 @@ const MSwitch = MUIBase.named('MSwitch')
         height: self.config('height'),
         width: self.config('width'),
         pointColor: self.config('pointColor'),
-        pointSizeItem: self.config('pointSizeItem'),
+        pointSize: self.config('pointSize'),
         radius: self.config('radius'),
-        activeBackgroundColor: self.config('activeBackgroundColor'),
-        inactiveBackgroundColor: self.config('inactiveBackgroundColor'),
+        activeBackgroundColor: self.config('activeColor'),
+        inactiveBackgroundColor: self.config('inactiveColor'),
       }
       // 自适应容器
       if (self.config('adaptContainer')) {

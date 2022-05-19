@@ -1,13 +1,13 @@
 export const layerOptionMap = new Map([
   [
-    'laer',
+    'layer',
     ({mapOption}) => {
       const mapping = [
         ['base.radius', 'radius'],
-        ['base.pointSizeItem', 'pointSizeItem'],
+        ['base.pointSizes', 'pointSize'],
         ['base.pointColor', 'pointColor'],
-        ['base.activeBackgroundColor', 'activeBackgroundColor'],
-        ['bases.inactiveBackgroundColor', 'inactiveBackgroundColor'],
+        ['base.activeColor', 'activeColor'],
+        ['base.inactiveColor', 'inactiveColor'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

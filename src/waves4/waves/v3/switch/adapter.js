@@ -11,6 +11,7 @@ const Adapter = () =>
     init({options}) {
       const mSwitch = MSwitch.create()
       const translatedOptions = translate(options)
+      console.log(translatedOptions)
       // 初始化模型
       mSwitch.init(translatedOptions, {})
       mSwitch.draw({
@@ -23,6 +24,8 @@ const Adapter = () =>
       try {
         const mSwitch = MSwitch.create()
         const translatedOptions = translate(options)
+        console.log(translatedOptions)
+
         // 初始化模型
         mSwitch.init(translatedOptions, {})
         mSwitch.draw({

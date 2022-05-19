@@ -43,12 +43,9 @@ function translate(schema) {
   }
 }
 export default (...parameter) => {
-  console.log(...parameter, '000000')
   try {
-    console.log(999)
     return translate(...parameter)
   } catch (error) {
-    console.log(888)
     console.error('图表解析失败', error)
     return null
   }

@@ -4,8 +4,8 @@ export default {
   onToggleSwitch: ['当状态切换时', 'When the switch is toggled'],
   toggleSwitch: ['切换状态', 'Toggle Switch'],
   pointColor: ['圆点颜色', 'Point Color'],
-  pointSizeItem: ['圆点大小', 'Point Size Item'],
+  pointSizes: ['圆点大小', 'Point Sizes'],
   radius: ['圆角', 'Radius'],
-  activeBackgroundColor: ['激活背景颜色', 'Active Background Color'],
-  inactiveBackgroundColor: ['未激活背景颜色', 'inactiveBackgroundColor'],
+  activeColor: ['激活背景颜色', 'Active Color'],
+  inactiveColor: ['未激活背景颜色', 'Inactive Color'],
 }

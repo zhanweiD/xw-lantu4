@@ -28,11 +28,11 @@ export default () => {
           },
           {
             name: 'pickerType',
-            defaultValue: '日期',
+            defaultValue: 'date',
           },
           {
             name: 'valueMethod',
-            defaultValue: '时间点',
+            defaultValue: 'timePoint',
           },
         ],
       },

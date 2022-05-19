@@ -1,17 +1,17 @@
 export default () => {
   return {
     name: '开关层',
-    type: 'switch',
+    type: 'switchs',
     sections: [
       {
         name: 'base',
         fields: [
           {
             name: 'radius',
-            defaultValue: 30,
+            defaultValue: 50,
           },
           {
-            name: 'pointSizeItem',
+            name: 'pointSizes',
             defaultValue: 25,
           },
           {
@@ -19,12 +19,12 @@ export default () => {
             defaultValue: 'rgba(0,0,0,1)',
           },
           {
-            name: 'activeBackgroundColor',
-            defaultValue: 'rgba(255,255,255,0.1)',
+            name: 'activeColor',
+            defaultValue: 'rgb(0,119,255,1)',
           },
           {
-            name: 'inactiveBackgroundColor',
-            default: 'rgba(255,255,255,0.1)',
+            name: 'inactiveColor',
+            defaultValue: 'rgba(255,255,255,0.1)',
           },
         ],
       },

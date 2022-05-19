@@ -51,7 +51,6 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
       }
 
       style.lineHeight = style.height
-
       // 渲染组件
       self.render(
         <DateTimePciker
@@ -121,7 +120,6 @@ const DateTimePciker = observer(({modal, onChange, pickerType, valueMethod, styl
       }
     }
   }, [modal.dates])
-
   // 设定默认值
   const parse = (number) => (number >= 10 ? `${number}` : `0${number}`)
   const now = new Date()
@@ -165,7 +163,6 @@ const DateTimePciker = observer(({modal, onChange, pickerType, valueMethod, styl
       if (mainPickerRef.current.value === '' || secondPickerRef.current.value === '') return
       data = [mainPickerRef.current.value, secondPickerRef.current.value]
     }
-
     onChange({dates: data})
     modal.selectTime({dates: data})
   }

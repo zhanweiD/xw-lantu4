@@ -1111,8 +1111,36 @@ const scale = {
 }
 // 选择器类型
 const pickerType = {
-  type: 'string',
+  type: 'select',
   label: 'pickerType',
+  defaultValue: 'date',
+  options: [
+    {
+      // key值为选项标签名
+      key: 'date',
+      value: 'date',
+    },
+    {
+      key: 'time',
+      value: 'time',
+    },
+    {
+      key: 'datetime',
+      value: 'datetime',
+    },
+    {
+      key: 'year',
+      value: 'year',
+    },
+    {
+      key: 'month',
+      value: 'month',
+    },
+    {
+      key: 'week',
+      value: 'week',
+    },
+  ],
 }
 
 // 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
@@ -1234,19 +1262,7 @@ const backgroundColor = {
 const pointColor = {
   type: 'color',
   label: 'pointColor',
-  defaultValue: 'rgba(0,0,0,1)',
-}
-// 激活背景颜色
-const activeBackgroundColor = {
-  type: 'color',
-  label: 'activeBackgroundColor',
-  defaultValue: 'rgba(255,255,255,0.1)',
-}
-// 未激活背景颜色
-const inactiveBackgroundColor = {
-  type: 'color',
-  label: 'inactiveBackgroundColor',
-  defaultValue: 'rgba(255,255,255,0.1)',
+  defaultValue: 'rgb(0,0,0)',
 }
 // NOTE 将删除
 const colorSingle = {
@@ -1472,13 +1488,13 @@ const alignmentDirection = {
 const inactiveColor = {
   type: 'color',
   label: 'inactiveColor',
-  defaultValue: 'rgba(255,255,255,0.1)',
+  defaultValue: 'rgb(255,255,255,0.1)',
 }
 // 激活背景色
 const activeColor = {
   type: 'color',
   label: 'activeColor',
-  defaultValue: 'rgba(0,119,255,1)',
+  defaultValue: 'rgb(0,119,255,1)',
 }
 
 const DIRECTION = {
@@ -1913,10 +1929,12 @@ const pointSize = {
   defaultValue: [10, 10],
 }
 
-const pointSizeItem = {
+const pointSizes = {
   type: 'number',
-  label: 'pointSizeItem',
-  defaultValue: 25,
+  label: 'pointSizes',
+  defaultValue: 100,
+  min: 2,
+  max: 500,
 }
 // 圆角
 const borderRadius = {
@@ -2579,11 +2597,7 @@ export default {
   //圆点颜色
   pointColor,
   //圆点大小
-  pointSizeItem,
-  //激活背景颜色
-  activeBackgroundColor,
-  //未激活背景颜色
-  inactiveBackgroundColor,
+  pointSizes,
   //选择器类型
   pickerTypecwq,
 
