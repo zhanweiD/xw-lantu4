@@ -1240,6 +1240,28 @@ const singleColor = {
   label: 'singleColor',
   defaultValue: 'transparent',
 }
+
+// 选项文字颜色
+const optionFontColor = {
+  type: 'color',
+  label: 'optionFontColor',
+  defaultValue: '#000',
+}
+
+// 选项默认背景色
+const optionBackgroundColor = {
+  type: 'color',
+  label: 'optionBackgroundColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 选项的背景悬浮时颜色
+const optionHoverBackgroundColor = {
+  type: 'color',
+  label: 'optionHoverBackgroundColor',
+  defaultValue: 'rgb(83,90,138)',
+}
+
 // 边框宽度
 const borderWidth = {
   type: 'number',
@@ -2467,6 +2489,10 @@ export default {
   // 颜色单色
   singleColor,
   colorSingle,
+  // 下拉框选项文字颜色
+  optionFontColor,
+  optionBackgroundColor,
+  optionHoverBackgroundColor,
   // 颜色渐变
   colorGradient,
   gradientColor,
