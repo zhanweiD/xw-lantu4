@@ -12,6 +12,7 @@ import {MColumnSelectField, ColumnSelectField} from './column-select'
 import {MOffsetField, OffsetField} from './offset'
 import {ConstraintField} from './constraint'
 import {EchartsOptionField, MEchartsField} from './echarts-option'
+import {ColorListField, MColorListField} from './colorList'
 
 const fields = {
   TextField,
@@ -28,6 +29,7 @@ const fields = {
   OffsetField,
   ConstraintField,
   EchartsOptionField,
+  ColorListField,
 }
 
 export {
@@ -44,6 +46,7 @@ export {
   MColumnSelectField,
   MOffsetField,
   MEchartsField,
+  MColorListField,
 }
 
 export default fields

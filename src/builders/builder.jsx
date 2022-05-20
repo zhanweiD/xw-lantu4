@@ -58,8 +58,8 @@ export const recusiveNode = ({sections, fields, level = 1}) => {
 //   }, 10000)
 // }
 
-const Builder = ({exhibit}) => {
-  const {data, dimension, extra, gisBase, key, layers, adapter} = exhibit
+const Builder = ({layers, data, dimension, exhibit, extra, gisBase}) => {
+  const {key, adapter} = exhibit
   const {instance} = adapter || {}
   const {t} = useTranslation()
   const menu = w.overlayManager.get('menu')
