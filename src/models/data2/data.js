@@ -61,6 +61,8 @@ export const MData = types
         }
         case 'api':
           return fetch(options)
+        case 'database':
+          return getSQLResult(options)
       }
     }
 
@@ -134,6 +136,29 @@ export const MData = types
       } catch (error) {
         log.error({content: '请求发起失败', error})
         return throwError(error)
+      }
+    })
+
+    // 获取sql结果
+    const getSQLResult = flow(function* getResult() {
+      const {config, dataId, processorFunction} = self
+      try {
+        const response = yield io.data.getDatabaseResult({
+          ':dataId': dataId,
+          sql: config.sql,
+        })
+        if (config.useDataProcessor) {
+          try {
+            return new DataFrame({source: makeFunction(processorFunction)({content: response})})
+          } catch (error) {
+            log.error({content: '数据处理函数失败'})
+            return throwError(error)
+          }
+        } else {
+          return new DataFrame({source: response})
+        }
+      } catch (error) {
+        log.error('getResult.Error:', error)
       }
     })
 

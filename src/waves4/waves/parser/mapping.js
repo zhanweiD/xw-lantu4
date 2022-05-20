@@ -233,6 +233,7 @@ export const layerOptionMap = new Map([
         ['line.color.colorType', 'style.curve.colorType'],
         ['line.color.singleColor', 'style.curve.stroke'],
         ['line.color.gradientColor', 'style.curve.gradientColor'],
+        ['line.color.rangeColors', 'style.rangeColorList'],
         // 面
         ['area.opacity', 'style.area.fillOpacity'],
         // 标签
@@ -295,6 +296,7 @@ export const layerOptionMap = new Map([
         ['base.color.colorType', 'style.rect.colorType'],
         ['base.color.singleColor', 'style.rect.fill'],
         ['base.color.gradientColor', 'style.rect.gradientColor'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],
@@ -350,7 +352,10 @@ export const layerOptionMap = new Map([
     'radar',
     ({mapOption, getOption}) => {
       const mapping = [
+        ['base.color.colorType2', 'style.polygon.colorType'],
         ['base.color.singleColor', 'style.polygon.fill'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
+
         ['base.mode', 'options.mode'],
         // 点
         ['point.size', 'style.circleSize'],
@@ -410,8 +415,8 @@ export const layerOptionMap = new Map([
         ['base.mode', 'options.mode'],
         ['base.type', 'options.type'],
         ['base.color.singleColor', 'style.arc.fill'],
-        // ['base.color.colorType', 'style.arc.colorType'],
-        // ['base.color.gradientColor', 'style.arc.gradientColor'],
+        ['base.color.colorType2', 'style.arc.colorType'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
         ['base.innerRadius', 'style.innerRadius'],
         // 标签
         ['label.labelPosition', 'style.labelPosition'],
@@ -444,6 +449,7 @@ export const layerOptionMap = new Map([
       const mapping = [
         ['base.pointSize', 'style.pointSize'],
         ['base.color.singleColor', 'style.point.fill'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
         ['tooltip.show', 'options.tooltipOption.visible'],
         ['unit.show', 'style.unit.showUnit'],
         ['unit.textSize', 'style.unit.fontSize'],
@@ -467,9 +473,10 @@ export const layerOptionMap = new Map([
         // ['base.mode', 'options.mode'],centerText
         ['line.tickSize', 'style.tickSize'],
         ['line.lineWidth', 'style.arcWidth'],
+
         ['color.singleColor', 'style.arc.fill'],
-        ['color.colorType', 'style.arc.colorType'],
-        ['color.gradientColor', 'style.arc.gradientColor'],
+        ['color.colorType2', 'style.arc.colorType'],
+        ['color.rangeColors', 'style.rangeColorList'],
         // 圆心
         ['text.centerText.textSize', 'style.valueText.fontSize'],
         ['text.centerText.textWeight', 'style.valueText.fontWeight'],
@@ -512,6 +519,7 @@ export const layerOptionMap = new Map([
         ['base.pointSize', 'style.circleSize'],
         ['base.lineWidth', 'style.curve.strokeWidth'],
         ['base.color.singleColor', 'style.circle.fill'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
         ['tooltip.show', 'options.tooltipOption.visible'],
       ]
       const storage = mapOption(mapping)
@@ -523,6 +531,7 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['color.singleColor', 'style.arc.fill'],
+        ['color.rangeColors', 'style.rangeColorList'],
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
@@ -540,6 +549,7 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['color.singleColor', 'style.rect.fill'],
+        ['color.rangeColors', 'style.rangeColorList'],
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
@@ -559,6 +569,7 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['base.color.singleColor', 'style.circle.fill'],
+        ['base.color.rangeColors', 'style.rangeColorList'],
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
@@ -580,6 +591,7 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['color.singleColor', 'style.circle.fill'],
+        ['color.rangeColors', 'style.rangeColorList'],
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
@@ -595,6 +607,7 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['color.singleColor', 'style.rect.fill'],
+        ['color.rangeColors', 'style.rangeColorList'],
         ['text.textSize', 'style.text.fontSize'],
         ['text.textWeight', 'style.text.fontWeight'],
         ['text.singleColor', 'style.text.fill'],
@@ -609,6 +622,12 @@ export const layerOptionMap = new Map([
     'matrix',
     ({mapOption}) => {
       const mapping = [
+        ['color.singleColor', 'style.circle.fill'],
+        ['color.singleColor', 'style.rect.fill'],
+        ['color.colorType2', 'style.arc.colorType'],
+        ['color.colorType2', 'style.rect.colorType'],
+        ['color.rangeColors', 'style.rangeColorList'],
+
         ['color.singleColor', 'style.rect.fill'],
         ['color.singleColor', 'style.circle.fill'],
         ['text.textSize', 'style.text.fontSize'],

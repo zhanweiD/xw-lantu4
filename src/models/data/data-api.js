@@ -236,7 +236,9 @@ export const MApi = types
      }
    }`
     ),
-    normalKeys: types.frozen(['query', 'headers', 'body']),
+    useApiPolling: types.optional(types.boolean, false),
+    apiPolling: types.optional(types.number, 10),
+    normalKeys: types.frozen(['query', 'headers', 'body', 'useApiPolling', 'apiPolling']),
   })
   .views((self) => ({
     get env_() {
@@ -340,8 +342,9 @@ export const MApi = types
 
     const setData = (data) => {
       const {processorFunction, config} = data
-      const {url, method, headers, qs, body, useDataProcessor} = config
-
+      const {url, method, headers, qs, body, useDataProcessor, apiPolling, useApiPolling} = config
+      self.apiPolling = apiPolling
+      self.useApiPolling = useApiPolling
       self.options.setValues({url, method})
       self.codeOptions.setValues({
         headers,

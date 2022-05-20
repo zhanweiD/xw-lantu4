@@ -148,6 +148,7 @@ const waves = {
   switchs,
   uiTabButton,
   DatetimePicker,
+  uiTabButton,
 }
 
 Object.values(waves).forEach((wave) => {
