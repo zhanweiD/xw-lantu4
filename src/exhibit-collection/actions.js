@@ -18,7 +18,7 @@ export const actionTranslation = i18n.sandbox(
     hidden: ['隐藏', 'Hidden'],
     toggle_visible: ['显隐切换', 'Show and Hidden switching'],
     href: ['跳转链接', 'Jump link'],
-    switchPanel: ['切换选项', 'Switch Tab'],
+    switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
   },
   'interactionLang'
@@ -54,7 +54,8 @@ function boxActionHandle({actionType, actionValue = {}}, eventData) {
 // 函数的this执行 exhibitModel， 其通过createExhibitModelClass生成
 export const actionMap = {
   href: ({actionType, actionValue}) => {
-    window.open(actionValue)
+    const {href} = actionValue
+    window.open(href)
   },
   show: boxActionHandle,
   hidden: boxActionHandle,

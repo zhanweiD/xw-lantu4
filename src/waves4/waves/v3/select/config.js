@@ -9,5 +9,8 @@ export const config = (k) => ({
   layout: () => [4, 2],
   padding: [60, 0, 60, 60],
   layers: [layer()],
+  interaction: {
+    eventTriggerTypes: ['switchPanel'],
+  },
   data,
 })
