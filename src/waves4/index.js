@@ -54,6 +54,7 @@ import pyramid from './waves/v3/pyramid'
 import progress from './waves/v3/progress'
 import bullet from './waves/v3/bullet'
 import gis from './waves/gis'
+import picture from './waves/v3/picture'
 import button from './waves/v3/button'
 
 import select from './waves/v3/select'
@@ -137,6 +138,8 @@ const waves = {
   ...echartsWaves,
   // 段落
   textarea,
+  // 图片组件
+  picture,
   // 交互
   button,
   select,
@@ -260,7 +263,7 @@ const categories = [
     // 多媒体
     name: 'classifyMedia',
     icon: 'exhibit-classifyMedia',
-    exhibits: [],
+    exhibits: [picture],
   },
   {
     // 交互组件

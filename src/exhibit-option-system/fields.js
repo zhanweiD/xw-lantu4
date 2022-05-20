@@ -78,6 +78,15 @@ const valueMethod = {
     },
   ],
 }
+
+// 轮播间隔
+const updateDuration = {
+  type: 'number',
+  label: 'updateDuration',
+  defaultValue: 1000,
+  max: 5000,
+}
+
 const animationDirection = {
   type: 'check',
   label: 'animationDirection',
@@ -471,6 +480,14 @@ const sourcePointSize = {
   type: 'number',
   label: 'sourcePointSize',
   defaultValue: 8,
+}
+const dotSize = {
+  type: 'number',
+  label: 'dotSize',
+}
+const dotColor = {
+  type: 'color',
+  label: 'dotColor',
 }
 const flyPointColor = {
   type: 'color',
@@ -2684,6 +2701,8 @@ export default {
   targetLabelColor,
   flyPoint,
   flyPointWidth,
+  dotColor,
+  dotSize,
   flyPointColor,
   flyPointSize,
   elevationData,
@@ -2725,5 +2744,6 @@ export default {
   delay,
   scope,
   animationDirection,
+  updateDuration,
   billboard,
 }
