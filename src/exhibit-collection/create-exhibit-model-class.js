@@ -151,7 +151,7 @@ export const createExhibitModelClass = (exhibit) => {
           const relationModels = [].concat(...self.data.getRelationModels(), ...models)
           self.data.bindRelationModels(relationModels)
         }
-        if (['text', 'button', 'gis', 'input', 'search'].includes(config.key)) {
+        if (['text', 'button', 'gis', 'input', 'search', 'switchs', 'DatetimePicker'].includes(config.key)) {
           self.set({
             state: 'success',
           })
