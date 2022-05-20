@@ -89,6 +89,10 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
                 ],
                 effective: false,
               },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
             ],
           },
         ],

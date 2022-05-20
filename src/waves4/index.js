@@ -54,13 +54,14 @@ import pyramid from './waves/v3/pyramid'
 import progress from './waves/v3/progress'
 import bullet from './waves/v3/bullet'
 import gis from './waves/gis'
+import picture from './waves/v3/picture'
 import button from './waves/v3/button'
 
 import select from './waves/v3/select'
-
+import DatetimePicker from './waves/v3/datetime-picker'
 import input from './waves/v3/input'
 import search from './waves/v3/search'
-
+import switchs from './waves/v3/switch'
 import uiTabButton from './waves/v3/ui-tab-button'
 
 import i18n from '@i18n'
@@ -137,15 +138,17 @@ const waves = {
   ...echartsWaves,
   // 段落
   textarea,
+  // 图片组件
+  picture,
   // 交互
   button,
-
   select,
-
   input,
   search,
 
   uiTabButton,
+  switchs,
+  DatetimePicker,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -261,13 +264,13 @@ const categories = [
     // 多媒体
     name: 'classifyMedia',
     icon: 'exhibit-classifyMedia',
-    exhibits: [],
+    exhibits: [picture],
   },
   {
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select],
+    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker],
   },
 ]
 

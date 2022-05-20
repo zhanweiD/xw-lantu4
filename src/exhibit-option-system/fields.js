@@ -62,6 +62,31 @@ const scope = {
     },
   ],
 }
+//取值方式
+const valueMethod = {
+  type: 'check',
+  label: 'valueMethod',
+  defaultValue: 'timePoint',
+  options: [
+    {
+      key: '时间点',
+      value: 'timePoint',
+    },
+    {
+      key: '时间范围',
+      value: 'timeRange',
+    },
+  ],
+}
+
+// 轮播间隔
+const updateDuration = {
+  type: 'number',
+  label: 'updateDuration',
+  defaultValue: 1000,
+  max: 5000,
+}
+
 const animationDirection = {
   type: 'check',
   label: 'animationDirection',
@@ -455,6 +480,14 @@ const sourcePointSize = {
   type: 'number',
   label: 'sourcePointSize',
   defaultValue: 8,
+}
+const dotSize = {
+  type: 'number',
+  label: 'dotSize',
+}
+const dotColor = {
+  type: 'color',
+  label: 'dotColor',
 }
 const flyPointColor = {
   type: 'color',
@@ -1040,6 +1073,11 @@ const missing = {
   label: 'missing',
 }
 
+//选择器类型
+const pickerTypecwq = {
+  type: 'string',
+  label: 'pickerTypecwq',
+}
 /**
  * =====================================
  * size
@@ -1071,6 +1109,55 @@ const size = {
   min: 1,
   max: 100,
   step: 1,
+}
+//字体大小
+const fontSize = {
+  type: 'number',
+  label: 'fontSize',
+  min: 1,
+  max: 1000,
+  step: 1,
+}
+// 缩放系数
+const scale = {
+  type: 'number',
+  label: 'scale',
+  min: 0,
+  max: 1,
+  step: 1,
+}
+// 选择器类型
+const pickerType = {
+  type: 'select',
+  label: 'pickerType',
+  defaultValue: 'date',
+  options: [
+    {
+      // key值为选项标签名
+      key: 'date',
+      value: 'date',
+    },
+    {
+      key: 'time',
+      value: 'time',
+    },
+    {
+      key: 'datetime',
+      value: 'datetime',
+    },
+    {
+      key: 'year',
+      value: 'year',
+    },
+    {
+      key: 'month',
+      value: 'month',
+    },
+    {
+      key: 'week',
+      value: 'week',
+    },
+  ],
 }
 
 // 尺寸-仅：点装饰组件 组件的行间距需<10  因为>10会行行相交 行间点会连在一起
@@ -1114,12 +1201,16 @@ const colorType = {
   defaultValue: 'singleColor',
   options: [
     {
-      key: 'singleColor',
+      key: 'monochromatic',
       value: 'singleColor',
     },
     {
       key: 'gradientColor',
       value: 'gradientColor',
+    },
+    {
+      key: 'multicolor',
+      value: 'rangeColors',
     },
     // {
     //   key: 'themeColor',
@@ -1136,9 +1227,9 @@ const colorType = {
   //   // siblings.themeColor.setEffective(value === 'themeColor')
   // },
   action({siblings, value}) {
-    // console.log('field action', siblings, value)
     siblings.singleColor.setEffective(value === 'singleColor')
     siblings.gradientColor.setEffective(value === 'gradientColor')
+    siblings.rangeColors.setEffective(value === 'rangeColors')
     // siblings.themeColor.setEffective(value === 'themeColor')
   },
 }
@@ -1150,7 +1241,7 @@ const colorType2 = {
   defaultValue: 'customColors',
   options: [
     {
-      key: 'singleColor',
+      key: 'monochromatic',
       value: 'customColors',
     },
     {
@@ -1170,6 +1261,28 @@ const singleColor = {
   label: 'singleColor',
   defaultValue: 'transparent',
 }
+
+// 选项文字颜色
+const optionFontColor = {
+  type: 'color',
+  label: 'optionFontColor',
+  defaultValue: '#000',
+}
+
+// 选项默认背景色
+const optionBackgroundColor = {
+  type: 'color',
+  label: 'optionBackgroundColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 选项的背景悬浮时颜色
+const optionHoverBackgroundColor = {
+  type: 'color',
+  label: 'optionHoverBackgroundColor',
+  defaultValue: 'rgb(83,90,138)',
+}
+
 // 边框宽度
 const borderWidth = {
   type: 'number',
@@ -1188,7 +1301,12 @@ const backgroundColor = {
   label: 'backgroundColor',
   defaultValue: 'rgb(0, 119, 255)',
 }
-
+// 圆点颜色
+const pointColor = {
+  type: 'color',
+  label: 'pointColor',
+  defaultValue: 'rgb(0,0,0)',
+}
 // NOTE 将删除
 const colorSingle = {
   type: 'color',
@@ -1413,13 +1531,13 @@ const alignmentDirection = {
 const inactiveColor = {
   type: 'color',
   label: 'inactiveColor',
-  defaultValue: 'rgba(255,255,255,0.1)',
+  defaultValue: 'rgb(255,255,255,0.1)',
 }
 // 激活背景色
 const activeColor = {
   type: 'color',
   label: 'activeColor',
-  defaultValue: 'rgba(0,119,255,1)',
+  defaultValue: 'rgb(0,119,255,1)',
 }
 
 const DIRECTION = {
@@ -1854,6 +1972,13 @@ const pointSize = {
   defaultValue: [10, 10],
 }
 
+const pointSizes = {
+  type: 'number',
+  label: 'pointSizes',
+  defaultValue: 100,
+  min: 2,
+  max: 500,
+}
 // 圆角
 const borderRadius = {
   type: 'number',
@@ -2365,8 +2490,16 @@ export default {
   width,
   // 高度
   height,
-  // 尺寸
+  // 大小
   size,
+  //取值方式
+  valueMethod,
+  //缩放系数
+  scale,
+  // 字体大小
+  fontSize,
+  // 选择器类型
+  pickerType,
   //尺寸-特殊单设-适配：点装饰组件
   sizeSpecialDotMaterial,
   // 尺寸(宽高)
@@ -2377,6 +2510,10 @@ export default {
   // 颜色单色
   singleColor,
   colorSingle,
+  // 下拉框选项文字颜色
+  optionFontColor,
+  optionBackgroundColor,
+  optionHoverBackgroundColor,
   // 颜色渐变
   colorGradient,
   gradientColor,
@@ -2504,6 +2641,13 @@ export default {
   borderRadius,
   show,
   backgroundColor,
+  //圆点颜色
+  pointColor,
+  //圆点大小
+  pointSizes,
+  //选择器类型
+  pickerTypecwq,
+
   borderColor,
   borderWidth,
   // gis
@@ -2561,6 +2705,8 @@ export default {
   targetLabelColor,
   flyPoint,
   flyPointWidth,
+  dotColor,
+  dotSize,
   flyPointColor,
   flyPointSize,
   elevationData,
@@ -2602,5 +2748,6 @@ export default {
   delay,
   scope,
   animationDirection,
+  updateDuration,
   billboard,
 }

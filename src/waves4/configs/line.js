@@ -74,6 +74,10 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
                 ],
                 effective: false,
               },
+              {
+                name: 'rangeColors',
+                effective: false,
+              },
             ],
           },
         ],

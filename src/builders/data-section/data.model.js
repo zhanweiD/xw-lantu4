@@ -8,6 +8,7 @@ import makeFunction from '@utils/make-function'
 import createLog from '@utils/create-log'
 
 const log = createLog('@data-section')
+let intervalKey
 const MValue = types
   .model('MValue', {
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
@@ -53,7 +54,8 @@ const MValue = types
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
 }`
     ),
-
+    useApiPolling: types.optional(types.boolean, false),
+    apiPolling: types.optional(types.number, 10),
     // 前端使用系列
     displayName: types.optional(types.string, ''),
     columns: types.optional(types.array(types.frozen()), []),
@@ -69,14 +71,51 @@ const MValue = types
   .actions(commonAction(['set']))
   .actions((self) => {
     const afterCreate = () => {
+      // 放到setTimeout是afterCreate时拿不到apiConfig
+      setTimeout(() => {
+        // 轮询调用formatData重新获取api数据
+        if (self.apiConfig?.useApiPolling) {
+          clearInterval(intervalKey)
+          intervalKey = setInterval(self.formatData, self.apiConfig?.apiPolling * 1000)
+        }
+        // 私有配置覆盖公共配置
+        if (self.useApiPolling) {
+          clearInterval(intervalKey)
+          intervalKey = setInterval(self.formatData, self.apiPolling * 1000)
+        }
+      }, 100)
       reaction(
         () => {
           return {
+            // 当大屏引用数据源发生变化重新获取数据
             data: self.art_.datas.length && self.art_.datas.map((data) => data.toJSON()),
           }
         },
         () => {
           self.formatData()
+        }
+      )
+      reaction(
+        () => {
+          return {
+            // 当轮询配置发生变化时重新设置定时器
+            data: self.useApiPolling && self.apiPolling,
+          }
+        },
+        ({data}) => {
+          if (data === 0) return
+          if (data > 0) {
+            clearInterval(intervalKey)
+            intervalKey = setInterval(self.formatData, self.apiPolling * 1000)
+          } else {
+            clearInterval(intervalKey)
+            if (self.apiConfig?.useApiPolling) {
+              intervalKey = setInterval(self.formatData, self.apiConfig?.apiPolling * 1000)
+            }
+          }
+        },
+        {
+          delay: 300,
         }
       )
     }
@@ -152,12 +191,14 @@ const MValue = types
         useProcessor,
         processor,
         columns,
+        useApiPolling,
+        apiPolling,
       } = self
       if (self.type === 'private') {
         values = {
           type,
           private: privateData,
-          columns: columns.toJSON(),
+          columns: columns.toJSON()?.map((item) => item.column),
         }
       }
       if (self.type === 'source') {
@@ -166,7 +207,7 @@ const MValue = types
           source,
           useProcessor,
           processor,
-          columns,
+          columns: columns?.map((item) => item.column),
         }
         if (sourceType === 'api') {
           values.useApiHeader = useApiHeader
@@ -175,6 +216,8 @@ const MValue = types
           values.apiQueries = apiQueries
           values.useApiBody = useApiBody
           values.apiBody = apiBody
+          values.apiPolling = apiPolling
+          values.useApiPolling = useApiPolling
           // values.useApiProcessor = useApiProcessor
           // values.apiProcessor = apiProcessor
         }
