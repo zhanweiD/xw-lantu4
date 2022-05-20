@@ -108,9 +108,9 @@ const MSelect = MUIBase.named('MSelect')
       )
     }
 
-    const onChange = (key, value) => {
-      console.log('接收change', key, value)
-      self.values[value] = key
+    const onChange = (obj) => {
+      console.log('接收change选项', obj)
+      self.values[obj.value] = obj.key
 
       // 数据更新，进行重新绘制
       setTimeout(() => self.draw({redraw: false}), 0)
@@ -231,7 +231,7 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
                 className={c('omit', s.option)}
                 style={hoverIndex === i ? hoverOptionStyle : optionStyle}
                 onMouseDown={() => {
-                  onChange(key, value)
+                  onChange({key, value})
                   setInputValue(key)
                   setOptionVisible(false)
                 }}
