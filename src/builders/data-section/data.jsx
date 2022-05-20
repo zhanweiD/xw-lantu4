@@ -88,15 +88,15 @@ const DataField = ({
               value={json}
               height={200}
               onChange={(value) => {
-                // setJson(value)
-                try {
-                  const hjson = hJSON.parse(value)
-                  onChange({
-                    private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
-                  })
-                } catch (error) {
-                  tip.error({content: '保存失败,请检查JSON是否合法'})
-                }
+                setJson(value)
+                // try {
+                //   const hjson = hJSON.parse(value)
+                //   onChange({
+                //     private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
+                //   })
+                // } catch (error) {
+                //   tip.error({content: '保存失败,请检查JSON是否合法'})
+                // }
               }}
               buttons={[
                 {
@@ -119,20 +119,20 @@ const DataField = ({
                   },
                   position: 'left',
                 },
-                // {
-                //   name: '保存',
-                //   action: () => {
-                //     try {
-                //       const hjson = hJSON.parse(json)
-                //       onChange({
-                //         private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
-                //       })
-                //     } catch (error) {
-                //       tip.error({content: '保存失败,请检查JSON是否合法'})
-                //     }
-                //   },
-                //   position: 'right',
-                // },
+                {
+                  name: '更新',
+                  action: () => {
+                    try {
+                      const hjson = hJSON.parse(json)
+                      onChange({
+                        private: hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true}),
+                      })
+                    } catch (error) {
+                      tip.error({content: '保存失败,请检查JSON是否合法'})
+                    }
+                  },
+                  position: 'right',
+                },
               ]}
             />
           </Section>
