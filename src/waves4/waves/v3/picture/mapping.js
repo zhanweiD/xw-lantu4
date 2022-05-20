@@ -3,16 +3,17 @@ export const layerOptionMap = new Map([
     'layer',
     ({mapOption}) => {
       const mapping = [
-        ['base.textSize', 'fontSize'],
         ['base.borderRadius', 'borderRadius'],
-        ['base.content', 'buttonName'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
         ['base.borderWidth', 'borderWidth'],
         ['base.borderColor', 'borderColor'],
-        ['base.optionFontColor', 'optionFontColor'],
-        ['base.optionBackgroundColor', 'optionBackgroundColor'],
-        ['base.optionHoverBackgroundColor', 'optionHoverBackgroundColor'],
+        ['base.opacity', 'opacity'],
+        ['base.padding', 'padding'],
+        ['base.dotColor', 'dotColor'],
+        ['base.dotSize', 'dotSize'],
+        ['animation.updateDuration', 'updateDuration'], // 轮播间隔
+        ['animation.animationType', 'animationType'], // 轮播类型
       ]
       const storage = mapOption(mapping)
       return storage.get()
