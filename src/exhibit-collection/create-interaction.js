@@ -5,7 +5,7 @@ const createInteractionModel = (key, exhibit, parentModel) => {
   // event 包含了art， event，data， event 在root创建传入的env event
   // this event是全局的， 交互的实现通过这个
   const {config} = exhibit
-  const {eventTriggerTypes} = config.interaction
+  const {eventTriggerTypes, needConditions} = config.interaction
   console.log('config...', key, exhibit, parentModel)
   const MModel = types
     .model(`M${key}.interaction`, {
@@ -26,6 +26,11 @@ const createInteractionModel = (key, exhibit, parentModel) => {
       // 组件id
       exhibitId: types.optional(types.string, parentModel.id),
     })
+    .views((self) => ({
+      get fieldList() {
+        return self.exhibitModel?.data?.value?.columns.toJSON()
+      },
+    }))
     .actions((self) => {
       const afterCreate = () => {
         // 支持的事件类型

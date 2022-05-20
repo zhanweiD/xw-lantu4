@@ -33,7 +33,7 @@ const AddEventButton = ({onClick}) => {
 
 const ActionSetting = observer(({model}) => {
   const {t} = useTranslation()
-  const {actionType, set, _triggerType, actionValue} = model
+  const {actionType, set, _triggerType, actionValue, dataFieldList, exhibitKey} = model
   return (
     <div>
       <SelectField
@@ -44,7 +44,13 @@ const ActionSetting = observer(({model}) => {
         onChange={(v) => set('actionType', v)}
       />
       {actionType && (
-        <InteractionField type={actionType} defaultValue={actionValue} onChange={(v) => set('actionValue', v)} />
+        <InteractionField
+          type={actionType}
+          exhibitKey={exhibitKey}
+          defaultValue={actionValue}
+          onChange={(v) => set('actionValue', v)}
+          dataFieldList={dataFieldList}
+        />
       )}
     </div>
   )
@@ -121,7 +127,7 @@ const EventCard = observer(({eventInfo = {}, onRemoveEvent, index, eventTypes = 
 })
 
 const Interaction = ({model}) => {
-  const {triggerTypes, eventModel, exhibitId} = model
+  const {triggerTypes, eventModel} = model
   const {events = [], addEvent, removeEvent} = eventModel
 
   return (

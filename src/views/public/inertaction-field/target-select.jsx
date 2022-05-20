@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Field} from '@builders/fields/base'
 import c from 'classnames'
 import TreeSelect from '@components/tree-select'
@@ -35,12 +35,13 @@ const TargetSelect = ({onChange, defaultValue}) => {
   const onEnterTarget = useCallback((node) => {
     toggleOutlineById(node.key, true)
   }, [])
+  const {targets = []} = defaultValue
   return (
     <MyField label="目标对象" className={c(s.lineHeight_initial)}>
       <Scroll className="w100p">
         <TreeSelect
-          defaultValue={defaultValue}
-          onChange={onChange}
+          defaultValue={targets}
+          onChange={(v) => onChange({targets: v})}
           options={actionTargets}
           onNodeLeave={(node) => {
             toggleOutlineById(node.key, false)
@@ -51,32 +52,55 @@ const TargetSelect = ({onChange, defaultValue}) => {
     </MyField>
   )
 }
-
-const ConditionItem = ({onRemove, data = {}}) => {
+/**
+ *
+ * condition 输出的格式是 object
+ * fieldName 字段名
+ * operator 操作符
+ * fieldValue 字段值
+ */
+const ConditionItem = ({onRemove, data = {}, dataFieldList = [], onChange}) => {
   const setData = (key, value) => {
     data[key] = value
+    onChange && onChange()
   }
   return (
     <div className={c('fbh fbac mb8 fbjsb')}>
       <div className="mr8 fb1">
-        <SelectField onChange={(v) => setData('fieldName', v)} noField placeholder="字段名" />
+        <SelectField
+          defaultValue={data?.fieldName}
+          options={dataFieldList.map((d) => ({key: d.column, value: d.column}))}
+          onChange={(v) => setData('fieldName', v)}
+          noField
+          placeholder="字段名"
+        />
       </div>
       <div className={c('mr8', s.conditionField)}>
-        <SelectField onChange={(v) => setData('operator', v)} noField defaultValue="=" options={conditions} />
+        <SelectField
+          onChange={(v) => setData('operator', v)}
+          noField
+          defaultValue={data.operator}
+          options={conditions}
+        />
       </div>
       <div className="fb1">
-        <TextField onChange={(v) => setData('fieldValue', v)} noField placeholder="字段值" />
+        <TextField
+          defaultValue={data?.fieldValue}
+          onChange={(v) => setData('fieldValue', v)}
+          noField
+          placeholder="字段值"
+        />
       </div>
       <IconButton onClick={onRemove} icon="remove" buttonSize={24} iconSize={12} />
     </div>
   )
 }
 
-const Condition = ({onChange, defaultValue}) => {
-  const [conditions, setConditions] = useState(defaultValue || [])
-  const [triggerCondition, setCv] = useState('every')
+const Condition = ({onChange, defaultValue = {}, dataFieldList}) => {
+  const [conditions, setConditions] = useState(defaultValue.conditions || [])
+  const [triggerCondition, setCv] = useState(defaultValue.triggerCondition || 'every')
   const addCondition = () => {
-    setConditions([...conditions, {id: uuid()}])
+    setConditions([...conditions, {id: uuid(), operator: '='}])
   }
   const onRemove = (id) => {
     setConditions(conditions.filter((c) => c.id !== id))
@@ -93,7 +117,13 @@ const Condition = ({onChange, defaultValue}) => {
       <div className="w100p">
         <div>
           {conditions.map((cd) => (
-            <ConditionItem data={cd} onRemove={() => onRemove(cd.id)} key={cd.id} />
+            <ConditionItem
+              onChange={() => onChange && onChange({conditions, triggerCondition})}
+              dataFieldList={dataFieldList}
+              data={cd}
+              onRemove={() => onRemove(cd.id)}
+              key={cd.id}
+            />
           ))}
         </div>
         {conditions.length >= 2 && (
@@ -112,14 +142,22 @@ const Condition = ({onChange, defaultValue}) => {
   )
 }
 
-export const ConditionTargetSelect = ({onChange, defaultValue}) => {
-  const onTargetChange = (v) => {
-    console.log(v)
-  }
+export const ConditionTargetSelect = ({dataFieldList, onChange, defaultValue = {}, exhibitKey}) => {
+  const cacheValue = useRef(defaultValue)
+  const onVChange = useCallback((v) => {
+    const value = {...cacheValue.current, ...v}
+    onChange(value)
+    cacheValue.current = value
+  }, [])
   return (
     <>
-      <Condition />
-      <TargetSelect onChange={onTargetChange} defaultValue={onTargetChange.targets} />
+      {
+        // button 不需要条件，特殊处理
+        exhibitKey !== 'button' && (
+          <Condition onChange={onVChange} dataFieldList={dataFieldList} defaultValue={defaultValue} />
+        )
+      }
+      <TargetSelect onChange={(v) => onVChange(v)} defaultValue={defaultValue} />
     </>
   )
 }

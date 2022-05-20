@@ -1,7 +1,15 @@
 import {getParent, types} from 'mobx-state-tree'
 import uuid from '@common/uuid'
 import commonAction from '@utils/common-action'
-import {reaction} from 'mobx'
+
+// const MActionValue = types.model({})
+//   .volatile(self => ({
+//     state: {}
+//   })).actions(self => ({
+//     setState(v) {
+//       self.state = v
+//     }
+//   }))
 
 const MAction = types
   .model('MAction', {
@@ -11,11 +19,17 @@ const MAction = types
     // listeners: types.optional(types.frozen(), []),
     // 跳转链接
     actionName: types.optional(types.string, ''),
-    actionValue: types.frozen(),
+    actionValue: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
     get _triggerType() {
       return getParent(self, 2).triggerType
+    },
+    get dataFieldList() {
+      return getParent(self, 4).dataFieldList
+    },
+    get exhibitKey() {
+      return getParent(self, 5).exhibitModel.key
     },
   }))
   .actions(commonAction(['set']))
@@ -68,10 +82,15 @@ const MEvent = types
   })
 
 const MInteraction = types
-  .model('MAction', {
+  .model('MInteraction', {
     // 事件列表
     events: types.optional(types.array(MEvent), []),
   })
+  .views((self) => ({
+    get dataFieldList() {
+      return getParent(self, 1).fieldList
+    },
+  }))
   .actions((self) => {
     const addEvent = () => {
       const id = uuid()
@@ -83,9 +102,7 @@ const MInteraction = types
       self.events = self.events.filter((d) => d.eventId !== eventId)
     }
 
-    const afterCreate = () => {
-      // console.log('afterCreate...', getParent(self, 1))
-    }
+    const afterCreate = () => {}
 
     return {
       addEvent,

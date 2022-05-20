@@ -309,8 +309,8 @@ export const createExhibitModelClass = (exhibit) => {
       function handleEventOn(triggerType, actions) {
         const {event} = self.adapter
         event.on(triggerType, (evetData) => {
-          actions.forEach((action, index) => {
-            handleAction(action, index, evetData)
+          actions.forEach((action) => {
+            handleAction(action, evetData)
           })
         })
       }

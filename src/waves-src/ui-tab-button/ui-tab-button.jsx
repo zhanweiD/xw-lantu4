@@ -1,4 +1,4 @@
-import React, {Children} from 'react'
+import React, {Children, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import c from 'classnames'
 import {sum} from 'd3'
@@ -123,7 +123,10 @@ const CheckField = observer(({modal, active, onChange, options, style}) => {
   const textWidths = options.map((item) => modal.util.getTextWidth(item.key, fontSize))
   const totalWidth = sum(textWidths)
   const assignedWidths = textWidths.map((textWidth) => textWidth + (width - totalWidth) / textWidths.length)
-
+  useEffect(() => {
+    // 默认触发一次事件
+    onChange && onChange(active, options[active])
+  }, [])
   return (
     <div className={c(isHorizontal ? s.containerRow : s.containerColumn)}>
       {options.map((option, index) =>

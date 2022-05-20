@@ -37,7 +37,7 @@ const Adapter = () =>
       })
       mTabButton.event.on('onSwitchButton', (info) => {
         console.log(info)
-        event.fire('tabSwitch', info)
+        event.fire('switchPanel', info)
       })
       return mTabButton
     },

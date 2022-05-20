@@ -197,6 +197,10 @@ const MBox = types
       }
       self.resize()
     }
+    let initVisible = self.visible
+    const afterCreate = () => {
+      initVisible = self.visible
+    }
     const actions = {
       show: () => {
         self.visible = true
@@ -207,6 +211,10 @@ const MBox = types
       toggle_visible: () => {
         self.visible = !self.visible
       },
+      reset: () => {
+        // 目前reset只针对显示隐藏属性
+        self.visible = initVisible
+      },
     }
     const dipatchAction = function (actionType, ...restParams) {
       actions[actionType].apply(self, restParams)
@@ -215,6 +223,7 @@ const MBox = types
       resize,
       update,
       dipatchAction,
+      afterCreate,
     }
   })
 
