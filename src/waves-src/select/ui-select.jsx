@@ -97,7 +97,7 @@ const MSelect = MUIBase.named('MSelect')
                 modal={self}
                 style={style}
                 options={self.selectData.map((item) => item)}
-                value={self.values[index]}
+                value={self.selectData[0]?.key}
                 onChange={(value) => self.onChange(value, index)}
                 onClear={() => self.onChange('', index)}
                 isActive={self.selectActiveKeys.findIndex((active) => active === self.selectKeys[index]) > -1}
