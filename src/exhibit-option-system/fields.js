@@ -1323,6 +1323,15 @@ const gradientColor = {
     ['#007eff', 1],
   ],
 }
+// 渐变
+const colorList = {
+  type: 'colorList',
+  label: 'colorList',
+  defaultValue: [
+    ['#79b7ff', 0],
+    ['#007eff', 1],
+  ],
+}
 const rangeColors = {
   type: 'gradient',
   label: 'multicolor',
@@ -2750,4 +2759,5 @@ export default {
   animationDirection,
   updateDuration,
   billboard,
+  colorList,
 }

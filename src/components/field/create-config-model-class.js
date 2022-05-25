@@ -49,6 +49,7 @@ const fieldModel = {
   color: MColorField,
   rangeColor: MRangeColorField,
   gradientColor: MGradientColorField,
+  colorList: MGradientColorField,
   rangeNumber: MRangeNumberField,
   constraints: MConstraintsField,
   alignment: MAlignmentField,

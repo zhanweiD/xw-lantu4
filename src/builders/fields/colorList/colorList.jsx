@@ -9,11 +9,11 @@ import s from './colorList.module.styl'
 import {Field} from '../base'
 import {colorArrayForm, colorObjectForm, getGradientColor} from './gradient-util'
 
-const GradientField = ({
+const ColorListField = ({
   label,
   visible,
   value,
-  defaultValue = ['rgb(74,144,226)', 'rgb(80,227,194)'],
+  defaultValue = ['rgb(74,144,226)'],
   onChange = () => {},
   labelClassName,
   childrenClassName,
@@ -26,8 +26,11 @@ const GradientField = ({
   const [isClick, setIsClick] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [rectBackgroundColor, setRectBackgroundColor] = useState()
+  const [colorList, setColorList] = useState([value || defaultValue])
 
   const rectRef = useRef()
+  const colorRef = useRef()
+  const rectContainerRef = useRef()
   const colorPickerBoxRef = useRef()
 
   const {gradientList = []} = isDef(value) ? colorObjectForm(value) : colorObjectForm(defaultValue)
@@ -56,17 +59,6 @@ const GradientField = ({
 
   const gradientListInit = getgradientListInit()
 
-  // 获取矩形空间的位置
-  useEffect(() => {
-    const boundingClientRect = {
-      x: rectRef.current.getBoundingClientRect().x,
-      y: rectRef.current.getBoundingClientRect().y,
-      width: rectRef.current.getBoundingClientRect().width,
-    }
-
-    setRect(boundingClientRect)
-  }, [visible])
-
   // 鼠标拖动圆点
   useEffect(() => {
     const {key, x, y} = circle
@@ -93,15 +85,22 @@ const GradientField = ({
         if (e.clientY - circleNode.startY >= 0) {
           circleNode.style.top = `${-4}px`
         }
-        let circleX = e.clientX
-        if (e.clientX < rect.x) {
-          circleX = rect.x
+        // let circleX = e.clientX
+        // if (e.clientX < rect.x) {
+        //   circleX = rect.x
+        // }
+        // if (e.clientX > rect.x + rect.width) {
+        //   circleX = rect.x + rect.width
+        // }
+        let circleY = e.clientY
+        if (e.clientY < rect.y) {
+          circleY = rect.y
         }
-        if (e.clientX > rect.x + rect.width) {
-          circleX = rect.x + rect.width
+        if (e.clientY > rect.y + rect.height) {
+          circleY = rect.y + rect.height
         }
         // 更新颜色位置
-        const position = (circleX - rect.x) / rect.width
+        const position = (circleY - rect.y) / rect.height
         const copyList = JSON.parse(JSON.stringify(gradientListInit))
         copyList.find((item) => item.key === key).position = position
         const colors = {gradientList: copyList}
@@ -125,17 +124,28 @@ const GradientField = ({
     if (canShowPicker) {
       // 展示的时候，修改colorPicker的位置，下面如果超出innerHeight， 那就展示在上边
       const colorPickerBoxDom = colorPickerBoxRef.current
-      const {top, left} = rectRef.current.getBoundingClientRect()
+      const rectContainerDom = rectContainerRef.current
+      const {top, left} = colorRef.current.getBoundingClientRect()
       const {height} = colorPickerBoxDom.getBoundingClientRect()
-
       const {innerHeight} = window
       if (top + height + 24 > innerHeight) {
+        rectContainerDom.style.top = `${top - height}px`
+        rectContainerDom.style.left = `${left + 154}px`
         colorPickerBoxDom.style.top = `${top - height - 8}px`
-        colorPickerBoxDom.style.left = `${left - 24}px`
+        colorPickerBoxDom.style.left = `${left - 60}px`
       } else {
+        rectContainerDom.style.top = `${top + 30}px`
+        rectContainerDom.style.left = `${left + 154}px`
         colorPickerBoxDom.style.top = `${top + 24}px`
-        colorPickerBoxDom.style.left = `${left - 24}px`
+        colorPickerBoxDom.style.left = `${left - 60}px`
       }
+      const boundingClientRect = {
+        x: rectRef.current.getBoundingClientRect().x,
+        y: rectRef.current.getBoundingClientRect().y,
+        width: rectRef.current.getBoundingClientRect().width,
+      }
+
+      setRect(boundingClientRect)
     }
   }, [canShowPicker])
 
@@ -181,142 +191,141 @@ const GradientField = ({
       label={label}
       visible={visible}
     >
-      <div className="pr w100p cfw10 h24">
-        {/* 用一个fixed的div放在下面，点击这个div时，触发关闭退出编辑状态 */}
-        {isEdit && !canShowPicker && (
-          <div
-            className={s.cover}
-            onClick={() => {
-              setActiveKey(null)
-              setIsEdit(false)
-            }}
-          />
-        )}
-        <div
-          ref={rectRef}
-          className={c('fbh fbac fbjc pa', s.rect)}
-          style={{background: rectBackgroundColor}}
-          onDoubleClick={(e) => {
-            // 阻止事件冒泡
-            e.stopPropagation()
-            e.preventDefault()
-
-            const position = (e.clientX - rect.x) / rect.width
-            const copyList = JSON.parse(JSON.stringify(gradientListInit))
-            if (copyList.findIndex((o) => o.position === position) === -1) {
-              copyList.push({
-                key: `g${uuid()}`,
-                position,
-                color: 'rgb(0, 119, 255)',
-                stop: 50,
-                gradientType: 'linear',
-              })
-              const colors = {gradientList: copyList}
-              onChange(colorArrayForm(colors))
-            }
-            // log.info('doubleClick')
-          }}
-          onClick={(e) => {
-            // 阻止事件冒泡
-            e.stopPropagation()
-            setActiveKey(null)
-            setCanShowPicker(false)
-          }}
-          tabIndex="-1"
-          onFocus={(e) => {
-            // 阻止事件冒泡
-            e.stopPropagation()
-            setIsEdit(true)
-          }}
-          onBlur={(e) => {
-            // 阻止事件冒泡
-            e.stopPropagation()
-            if (!canShowPicker && e.relatedTarget && e.relatedTarget.className.indexOf('nodeFocus') === -1) {
-              setIsEdit(false)
-            }
-          }}
-        >
-          <div className={c('pr w100p', s.baseLine, {hide: !isEdit})}>
-            {gradientListInit.map((item) => {
-              const {key, position, color} = item
-              // TODO 解决onClick与onMouseDown, onMouseUp的冲突
-              return (
-                <div
-                  key={key}
-                  className={c('pa nodeFocus', key, s.circle, {
-                    [s.activeCircle]: activeKey === key,
-                  })}
-                  tabIndex={-1}
-                  style={{
-                    background: color,
-                    left: rect.width ? Math.min(rect.width * position - 4, rect.width - 4) : 0,
-                  }}
-                  draggable={false}
-                  onClick={(e) => {
-                    // 阻止事件冒泡
-                    e.stopPropagation()
-                    if (isClick || item.position === 0 || item.position === 1) {
-                      // 聚焦
-                      e.target.focus()
-                      setActiveKey(key)
-                      setCanShowPicker(true)
-                    }
-                    // log.info('click')
-                    // 取消鼠标移动事件
-                    document.onmousemove = null
-                  }}
-                  onKeyDown={(e) => {
-                    if (item.position === 0 || item.position === 1) {
-                      return
-                    }
-                    // 删除按键
-                    if (e.key === 'Backspace' && gradientListInit.length > 2) {
-                      const colors = {
-                        gradientList: gradientListInit.filter((o) => o.key !== key),
-                      }
-                      onChange(colorArrayForm(colors))
-                      setCanShowPicker(false)
-                    }
-                  }}
-                  onMouseDown={(e) => {
-                    if (item.position === 0 || item.position === 1) {
-                      return
-                    }
-                    // 阻止事件冒泡
-                    e.stopPropagation()
-                    setCircle({key, x: e.clientX, y: e.clientY})
-                    setIsClick(true)
-                  }}
-                />
-              )
-            })}
-          </div>
-        </div>
+      <div
+        ref={colorRef}
+        onClick={(e) => {
+          // 阻止事件冒泡
+          e.stopPropagation()
+          setCanShowPicker(true)
+          // 取消鼠标移动事件
+          document.onmousemove = null
+        }}
+      >
+        颜色选择器
       </div>
       {canShowPicker && (
-        <div ref={colorPickerBoxRef} className={s.pickerBox}>
-          {/* 用一个fixed的div 展示在colorPicker下面，点击这个div时，触发关闭 */}
-          <div
-            className={s.cover}
-            onClick={() => {
-              setActiveKey(null)
-              setCanShowPicker(false)
-              // 关闭picker后重新设置rect为焦点
-              rectRef.current.focus()
-            }}
-          />
-          <SketchPicker
-            color={rgba2objMap(activeKey)}
-            // disableAlpha
-            onChange={(color) => {
-              const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
-              onChange(colorArrayForm(changeColorMap(activeKey, rgba)))
-            }}
-          />
+        <div className="pr colorList">
+          <div ref={rectContainerRef} className={`${s.rectBox} cfw10`}>
+            <div
+              ref={rectRef}
+              className={c('fbh fbac fbjc pa', s.rect)}
+              style={{background: rectBackgroundColor}}
+              onDoubleClick={(e) => {
+                // 阻止事件冒泡
+                e.stopPropagation()
+                e.preventDefault()
+
+                const position = (e.clientX - rect.x) / rect.width
+                const copyList = JSON.parse(JSON.stringify(gradientListInit))
+                if (copyList.findIndex((o) => o.position === position) === -1) {
+                  copyList.push({
+                    key: `g${uuid()}`,
+                    position,
+                    color: 'rgb(0, 119, 255)',
+                    stop: 50,
+                    gradientType: 'linear',
+                  })
+                  const colors = {gradientList: copyList}
+                  onChange(colorArrayForm(colors))
+                }
+                // log.info('doubleClick')
+              }}
+              onClick={(e) => {
+                // 阻止事件冒泡
+                e.stopPropagation()
+                setActiveKey(null)
+                // setCanShowPicker(false)
+              }}
+              tabIndex="-1"
+              onFocus={(e) => {
+                // 阻止事件冒泡
+                e.stopPropagation()
+                setIsEdit(true)
+              }}
+              onBlur={(e) => {
+                // 阻止事件冒泡
+                e.stopPropagation()
+                if (!canShowPicker && e.relatedTarget && e.relatedTarget.className.indexOf('nodeFocus') === -1) {
+                  setIsEdit(false)
+                }
+              }}
+            >
+              {/* 小圆点 */}
+              <div className={c('pr', s.baseLine, {hide: !isEdit})}>
+                {gradientListInit.map((item) => {
+                  const {key, position, color} = item
+                  // TODO 解决onClick与onMouseDown, onMouseUp的冲突
+                  return (
+                    <div
+                      key={key}
+                      className={c('pa nodeFocus', key, s.circle, {
+                        [s.activeCircle]: activeKey === key,
+                      })}
+                      tabIndex={-1}
+                      style={{
+                        background: color,
+                        top: rect.height ? Math.min(rect.height * position - 4, rect.height - 4) : 0,
+                      }}
+                      draggable={false}
+                      onClick={(e) => {
+                        // 阻止事件冒泡
+                        e.stopPropagation()
+                        if (isClick || item.position === 0 || item.position === 1) {
+                          // 聚焦
+                          e.target.focus()
+                          setActiveKey(key)
+                          // setCanShowPicker(true)
+                        }
+                        // 取消鼠标移动事件
+                        document.onmousemove = null
+                      }}
+                      onKeyDown={(e) => {
+                        if (item.position === 0 || item.position === 1) {
+                          return
+                        }
+                        // 删除按键
+                        if (e.key === 'Backspace' && gradientListInit.length > 2) {
+                          const colors = {
+                            gradientList: gradientListInit.filter((o) => o.key !== key),
+                          }
+                          onChange(colorArrayForm(colors))
+                          setCanShowPicker(false)
+                        }
+                      }}
+                      onMouseDown={(e) => {
+                        if (item.position === 0 || item.position === 1) {
+                          return
+                        }
+                        // 阻止事件冒泡
+                        e.stopPropagation()
+                        setCircle({key, x: e.clientX, y: e.clientY})
+                        setIsClick(true)
+                      }}
+                    />
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div ref={colorPickerBoxRef} className={s.pickerBox}>
+            <SketchPicker
+              color={activeKey ? rgba2objMap(activeKey) : colorList[0]}
+              // disableAlpha
+              onChange={(color) => {
+                const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
+                if (activeKey) {
+                  onChange(colorArrayForm(changeColorMap(activeKey, rgba)))
+                } else {
+                  setColorList([rgba])
+                }
+              }}
+            />
+          </div>
         </div>
       )}
     </Field>
   )
 }
 
-export default observer(GradientField)
+export default observer(ColorListField)

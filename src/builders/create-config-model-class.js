@@ -15,6 +15,7 @@ import {
   MSelectField,
   MCodeField,
   MGradientField,
+  MColorListField,
   MColumnSelectField,
   MOffsetField,
   MEchartsField,
@@ -40,6 +41,7 @@ const fieldModel = {
   columnSelect: MColumnSelectField,
   offset: MOffsetField,
   echartsoption: MEchartsField,
+  colorList: MColorListField,
 }
 
 const createFieldsClass = (fields) => {

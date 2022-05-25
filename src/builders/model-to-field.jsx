@@ -18,11 +18,27 @@ const {
   ColumnSelectField,
   OffsetField,
   EchartsOptionField,
+  ColorListField,
 } = fields
 const ModelToField = ({model}) => {
   const {t} = useTranslation()
   let F
+
   switch (model.type) {
+    case 'colorList':
+      F = (
+        <ColorListField
+          className="ml24"
+          label={t(model.label)}
+          visible={model.visible_}
+          value={model.value}
+          defaultValue={model.defaultValue}
+          onChange={(v) => {
+            model.setValue(v)
+          }}
+        />
+      )
+      break
     case 'check':
       F = (
         <CheckField

@@ -3,9 +3,9 @@ import {colorArrayForm, colorObjectForm} from './gradient-util'
 import isDef from '@utils/is-def'
 import MBase from '../base.model'
 
-export const MGradientField = MBase.named('MGradientField')
+export const MColorListField = MBase.named('MColorListField')
   .props({
-    type: types.enumeration(['gradient']),
+    type: types.enumeration(['colorList']),
     option: types.optional(types.string, ''),
     value: types.frozen(),
     defaultValue: types.optional(types.frozen(), [
