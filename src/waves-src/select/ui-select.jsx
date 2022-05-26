@@ -207,7 +207,7 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
       />
       <span
         className={s.textCenter}
-        onFocus={() => setOptionVisible(true)}
+        onClick={() => setOptionVisible(true)}
         onBlur={() => setOptionVisible(false)}
         readOnly={!style.enableSearch}
       >
