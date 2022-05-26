@@ -37,7 +37,7 @@ const MSelect = MUIBase.named('MSelect')
     const drawFallback = () => {
       self.selectKeys = ['default']
       self.selectActiveKeys = ['default']
-      self.selectData = [{default: {key: ' '}}, {default: {key: '  '}}]
+      self.selectData = [{label: '省份', value: 'shengfen'}]
       self.values = []
       self.draw({redraw: false})
     }
@@ -108,22 +108,10 @@ const MSelect = MUIBase.named('MSelect')
       )
     }
 
-    const onChange = (value, index) => {
-      self.values[index] = value
-      for (let i = index + 1; i < self.selectKeys.length; i++) self.values[i] = ''
-      // 数据格式转换
-      const changedValue = {}
-      self.selectKeys?.forEach((key, i) => {
-        changedValue[key] = self.filterOptions[i].find((option) => option.key === self.values[i])
-        !changedValue[key] && (changedValue[key] = {key: '', value: ''})
-      })
-      // 交互事件触发
-      self.event.fire('onSwitchOption', {
-        data: {
-          key: self.selectKeys[index],
-          data: changedValue,
-        },
-      })
+    const onChange = (obj) => {
+      console.log('接收change选项', obj)
+      self.values[obj.value] = obj.key
+
       // 数据更新，进行重新绘制
       setTimeout(() => self.draw({redraw: false}), 0)
     }
@@ -149,22 +137,12 @@ const MSelect = MUIBase.named('MSelect')
   })
 
 const ConfiguredSelect = observer(({style, options, value, onChange, onClear, isActive}) => {
-  const translateOptionArr = []
-  options.map((v, i) => {
-    if (i > 0) {
-      translateOptionArr.push({
-        key: v[0],
-        value: v[0],
-      })
-    }
-  })
   const [inputValue, setInputValue] = useState(value)
   const [isOptionVisible, setOptionVisible] = useState(false)
   const [isClearIconVisiable, setClearIconVisiable] = useState(false)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const onMouseEnter = () => setClearIconVisiable(true)
   const onMouseLeave = () => setClearIconVisiable(false)
-  const availableOptions = translateOptionArr
 
   useEffect(() => setInputValue(value), [value])
   const selectStyle = {
@@ -193,7 +171,7 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
     transform: `translate(-10px, ${
       style.unfoldingDirection === 'down'
         ? 0
-        : -style.height - Math.min(style.optionHeight * availableOptions.length, style.totalHeight)
+        : -style.height - Math.min(style.optionHeight * options.length, style.totalHeight)
     }px)`,
     top: style.height,
     maxHeight: style.totalHeight,
@@ -224,19 +202,36 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
         style={inputValue ? inputContainerStyle : placeholderStyle}
         className={s.textCenter}
         onFocus={() => setOptionVisible(true)}
-        onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => setOptionVisible(false)}
         readOnly={!style.enableSearch}
       />
+      <span
+        className={s.textCenter}
+        onFocus={() => setOptionVisible(true)}
+        onBlur={() => setOptionVisible(false)}
+        readOnly={!style.enableSearch}
+      >
+        <svg
+          viewBox="64 64 896 896"
+          focusable="false"
+          data-icon="down"
+          width={style.fontSize - 5}
+          height={style.fontSize - 5}
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
+        </svg>
+      </span>
       <div style={optionContainerStyle} className={s.optionContainer}>
-        {availableOptions.map(({key}, i) =>
+        {options.map(({key, value}, i) =>
           Children.toArray(
             <a title={key}>
               <div
                 className={c('omit', s.option)}
                 style={hoverIndex === i ? hoverOptionStyle : optionStyle}
                 onMouseDown={() => {
-                  onChange(key)
+                  onChange({key, value})
                   setInputValue(key)
                   setOptionVisible(false)
                 }}
