@@ -47,6 +47,7 @@ export const SelectField = observer(
     isCloseMenuOnScroll = false,
     resetChildrenComponents = {},
     onAction = () => {},
+    noField,
   }) => {
     // const [computeMenuPlacement, setComputeMenuPlacement] = useState(null)
     const selectRef = useRef()
@@ -88,6 +89,7 @@ export const SelectField = observer(
         <components.Option {...props}>
           <div className={c('fbv fbjc w100p', {h24: isMulti, lh24: isMulti})}>
             <div className={c('wsnp', {oh: isMulti, [s.label]: isMulti})}>{children}</div>
+            {/* <div className={c('omit', {oh: isMulti, [s.label]: isMulti})}>{children}</div> */}
             {hasRemark && remark && <div className="mt4 omit">{remark}</div>}
           </div>
         </components.Option>
@@ -143,7 +145,7 @@ export const SelectField = observer(
     }
 
     return (
-      <Field label={label} tip={tip} className={className}>
+      <Field label={label} noField={noField} tip={tip} className={className}>
         <div
           ref={selectRef}
           className={c('w100p h100p fbh fbac fbjc pr', {[s.filter]: isMulti})}

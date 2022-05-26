@@ -53,7 +53,6 @@ i18n.sandbox = (lang, id) => {
   // 添加语言
   Object.entries(lang).forEach((item) => {
     const [key, l] = item
-
     i18n.addResources('zh-CN', ns, {
       [key]: l[0],
     })

@@ -145,8 +145,9 @@ const waves = {
   select,
   input,
   search,
-  switchs,
+
   uiTabButton,
+  switchs,
   DatetimePicker,
 }
 

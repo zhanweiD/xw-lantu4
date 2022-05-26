@@ -22,6 +22,8 @@ const anyParam = {
   description: '任何参数',
 }
 
+export const CONDITIONS = ['=', '!=', '>', '<', '>=', '<=', '包含', '不包含']
+
 export default {
   /**
    * 图表组件向box拖拽 key

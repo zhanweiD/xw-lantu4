@@ -1,29 +1,15 @@
 import {getParent, types} from 'mobx-state-tree'
 import uuid from '@common/uuid'
 import commonAction from '@utils/common-action'
-import {reaction} from 'mobx'
 
-// 定制化处理tab switch事件
-function handleTabEvent(actions = [], dataSource = []) {
-  // 数据无变化, 不做处理
-  if (actions.length === dataSource.length) return actions
-  // 数据变更，响应的在初始化的时候，要同步数据创建对应的动作
-  // tab的动作和tab的数据是按索引对应的
-  return dataSource.map((d, index) => {
-    const actionName = d[0]
-    if (actions[index]) {
-      return {
-        actionName,
-        ...actions[index],
-      }
-    }
-    return {
-      actionName,
-      // actionType: 'show',
-      actionId: uuid(),
-    }
-  })
-}
+// const MActionValue = types.model({})
+//   .volatile(self => ({
+//     state: {}
+//   })).actions(self => ({
+//     setState(v) {
+//       self.state = v
+//     }
+//   }))
 
 const MAction = types
   .model('MAction', {
@@ -33,11 +19,17 @@ const MAction = types
     // listeners: types.optional(types.frozen(), []),
     // 跳转链接
     actionName: types.optional(types.string, ''),
-    actionValue: types.frozen(),
+    actionValue: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
     get _triggerType() {
       return getParent(self, 2).triggerType
+    },
+    get dataFieldList() {
+      return getParent(self, 4).dataFieldList
+    },
+    get exhibitKey() {
+      return getParent(self, 5).exhibitModel.key
     },
   }))
   .actions(commonAction(['set']))
@@ -50,43 +42,16 @@ const MEvent = types
     currentAction: types.optional(types.reference(MAction), ''),
     triggerType: types.optional(types.string, ''),
     normalKeys: types.frozen(['eventId', 'effective', 'actions', 'triggerType']),
-    // 不需要保存到后端
-    isCanAddAndRemove: types.optional(types.boolean, true),
   })
+  .views((self) => ({
+    get isCanAddAndRemove() {
+      return true
+    },
+  }))
   .actions(commonAction(['set']))
   .actions((self) => {
-    const handleTabSwitch = () => {
-      self.isCanAddAndRemove = false
-      const interactionModel = getParent(self, 3)
-      const data = interactionModel.exhibitModel.getData()
-      self.actions = handleTabEvent(self.actions.toJSON(), data.slice(1))
-      if (self.actions.length > 0) {
-        self.currentAction = self.actions[0]['actionId']
-      }
-    }
-    let reactionDisposer
     const afterCreate = () => {
-      const interactionModel = getParent(self, 3)
-      const {triggerKey} = interactionModel
-      if (triggerKey === 'uiTabButton') {
-        // tab 组件，因为要自动同步数据, 定制化处理
-        const interactionModel = getParent(self, 3)
-        reactionDisposer = reaction(
-          () => interactionModel.exhibitModel.data.value.toJSON(),
-          () => {
-            const data = interactionModel.exhibitModel.getData() || []
-            const realData = data.slice(1)
-            if (realData.length !== self.actions.length) {
-              console.log('reactionTabData: ', data)
-              self.handleTabSwitch()
-            }
-          },
-          {
-            fireImmediately: true,
-            delay: 30,
-          }
-        )
-      } else if (self.actions && self.actions.length === 0) {
+      if (!self.actions.length) {
         self.addAction()
       }
     }
@@ -106,12 +71,9 @@ const MEvent = types
       }
     }
 
-    const beforeDestroy = () => {
-      reactionDisposer && reactionDisposer()
-    }
+    const beforeDestroy = () => {}
 
     return {
-      handleTabSwitch,
       afterCreate,
       addAction,
       removeAction,
@@ -120,10 +82,15 @@ const MEvent = types
   })
 
 const MInteraction = types
-  .model('MButtonAction', {
+  .model('MInteraction', {
     // 事件列表
     events: types.optional(types.array(MEvent), []),
   })
+  .views((self) => ({
+    get dataFieldList() {
+      return getParent(self, 1).fieldList
+    },
+  }))
   .actions((self) => {
     const addEvent = () => {
       const id = uuid()
@@ -135,9 +102,7 @@ const MInteraction = types
       self.events = self.events.filter((d) => d.eventId !== eventId)
     }
 
-    const afterCreate = () => {
-      // console.log('afterCreate...', getParent(self, 1))
-    }
+    const afterCreate = () => {}
 
     return {
       addEvent,

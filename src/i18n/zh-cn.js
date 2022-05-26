@@ -483,7 +483,7 @@ export default {
     echartsGauge: 'Echarts 仪表盘',
     InteractivComponents: '交互组件',
     classifyLine: '折线图',
-    basicLine: '基础折线',
+    // basicLine: '基础折线',
     multiLine: '多折线',
     predictedLine: '实时预测',
     area: '面积',

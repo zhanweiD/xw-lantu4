@@ -1,16 +1,16 @@
 import React from 'react'
 // 对象选择
-import TargetSelect from './target-select'
+import {ConditionTargetSelect} from './target-select'
 // 跳转链接
 import Href from './href'
 
 const fields = {
   href: Href,
-  hidden: TargetSelect,
-  toggle_visible: TargetSelect,
-  show: TargetSelect,
-  default: TargetSelect,
-  tabShow: TargetSelect,
+  hidden: ConditionTargetSelect,
+  toggle_visible: ConditionTargetSelect,
+  show: ConditionTargetSelect,
+  default: ConditionTargetSelect,
+  tabShow: ConditionTargetSelect,
 }
 // restProps
 
