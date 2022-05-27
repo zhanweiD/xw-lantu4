@@ -1,12 +1,13 @@
 import {types} from 'mobx-state-tree'
 import MInteraction from './interaction-model'
 
+// 交互模型
 const createInteractionModel = (key, exhibit, parentModel) => {
   // event 包含了art， event，data， event 在root创建传入的env event
   // this event是全局的， 交互的实现通过这个
   const {config} = exhibit
   const {eventTriggerTypes, needConditions} = config.interaction
-  console.log('config...', key, exhibit, parentModel)
+  // console.log('config...', key, exhibit, parentModel)
   const MModel = types
     .model(`M${key}.interaction`, {
       name: 'interaction',

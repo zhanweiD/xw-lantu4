@@ -296,14 +296,13 @@ export const createExhibitModelClass = (exhibit) => {
       /**
        * 事件触发后，调用所有的action
        * @param {object} action 动作配置
-       * @param {number} index 动作的索引
        * @param {object|any} evetData 事件触发传递的数据
        */
-      function handleAction(action, index, evetData) {
+      function handleAction(action, evetData) {
         const {actionType} = action
         // 通过actionMap 对象维护事件处理逻辑策略，以防if else
         // 绑定处理函数的this到当前的exhibitModel，以获得相关的model层信息
-        actionMap[actionType].call(self, action, index, evetData)
+        actionMap[actionType].call(self, action, evetData)
       }
 
       function handleEventOn(triggerType, actions) {

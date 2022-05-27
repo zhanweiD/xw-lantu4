@@ -5,8 +5,8 @@ import isEdit from '@utils/is-edit'
 import createLog from '@utils/create-log'
 import {createExhibitModelClass} from './create-exhibit-model-class'
 import {themeConfigs} from '@common/theme'
+import {setGisLayers} from './utils'
 
-import {gisPoint, gisIcon, geojson, gisHeatmap, odLine, gisTile, gisTerrain, gisPath} from '../waves4/waves/gis/layers'
 // import {Earth, PointLayer} from 'wave-map-test'
 // import {getRealData} from '@utils/index'
 
@@ -16,51 +16,6 @@ const exhibitCollection = onerStorage({
   type: 'variable',
   key: 'waveview-exhibit-adapter',
 })
-
-const setGisLayers = (config, gisLayers = []) => {
-  if (config.key !== 'gis') {
-    return config.layers
-  }
-  const modelLayers = [...config.layers]
-  gisLayers.forEach((item) => {
-    switch (item.type) {
-      case 'gisPoint':
-        modelLayers.push(gisPoint())
-
-        // const option = gisPoint()
-        // const pointLayer = new PointLayer({
-        //   data: getRealData(item.data),
-        // })
-        // option.instanceLayer = pointLayer
-        // modelLayers.push(option)
-        break
-      case 'gisIcon':
-        modelLayers.push(gisIcon())
-        break
-      case 'geojson':
-        modelLayers.push(geojson())
-        break
-      case 'gisHeatmap':
-        modelLayers.push(gisHeatmap())
-        break
-      case 'odLine':
-        modelLayers.push(odLine())
-        break
-      case 'gisTile':
-        modelLayers.push(gisTile())
-        break
-      case 'gisTerrain':
-        modelLayers.push(gisTerrain())
-        break
-      case 'gisPath':
-        modelLayers.push(gisPath())
-        break
-      default:
-        break
-    }
-  })
-  return modelLayers
-}
 
 export const draw = ({exhibit, container, height, width, frame, material}) => {
   if (exhibit) {

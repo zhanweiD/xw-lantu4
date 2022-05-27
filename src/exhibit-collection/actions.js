@@ -32,7 +32,7 @@ const NO_CONDITIONS = ['button']
 // 针对box的 show，hidden，toggle_visible，actionValue是目标对象的列表
 //  eventData 事件接受的数据，统一格式{data: {xxxx}}
 function boxActionHandle({actionType, actionValue = {}}, eventData) {
-  console.log('actionValue...', actionValue, eventData, this.key)
+  // console.log('actionValue...', actionValue, eventData, this.key)
   const {targets, conditions, triggerCondition} = actionValue
   if (!targets) return
   const {boxes = []} = this?.art_?.mainFrame_ || {}
