@@ -1301,6 +1301,25 @@ const backgroundColor = {
   label: 'backgroundColor',
   defaultValue: 'rgb(0, 119, 255)',
 }
+
+// 占位符文字颜色
+const placeholder = {
+  type: 'text',
+  label: 'placeholder',
+}
+
+// 搜索icon颜色
+const searchIconColor = {
+  type: 'color',
+  label: 'searchIconColor',
+}
+
+// icon搜索背景色
+const iconBackgroundColor = {
+  type: 'color',
+  label: 'iconBackgroundColor',
+}
+
 // 圆点颜色
 const pointColor = {
   type: 'color',
@@ -2640,6 +2659,10 @@ export default {
   // 圆角大小
   borderRadius,
   show,
+  // 占位符文字内容
+  placeholder,
+  searchIconColor,
+  iconBackgroundColor,
   backgroundColor,
   //圆点颜色
   pointColor,
