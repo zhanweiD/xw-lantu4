@@ -7,20 +7,40 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'textSize',
-            defaultValue: 24,
-          },
-          {
             name: 'singleColor',
-            defaultValue: 'rgba(255,255,255,1)',
+            defaultValue: 'rgb(0,0,0)',
           },
           {
-            name: 'content',
+            name: 'placeholder',
             defaultValue: '请输入内容',
           },
           {
+            name: 'content',
+            defaultValue: '',
+          },
+          {
             name: 'backgroundColor',
-            defaultValue: 'rgba(255,255,255,0.1)',
+            defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'radius',
+            defaultValue: 10,
+          },
+          {
+            name: 'borderColor',
+            defaultValue: 'rgb(171,171,171)',
+          },
+          {
+            name: 'borderWidth',
+            defaultValue: 1,
+          },
+          {
+            name: 'isDisabled',
+            defaultValue: false,
+          },
+          {
+            name: 'maxLength',
+            defaultValue: 10,
           },
         ],
       },

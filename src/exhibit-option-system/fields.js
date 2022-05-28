@@ -233,6 +233,14 @@ const sceneMode = {
     },
   ],
 }
+
+// 是否禁用
+const isDisabled = {
+  type: 'switch',
+  label: 'isDisabled',
+  defaultValue: false,
+}
+
 const enableMapInteractive = {
   type: 'switch',
   label: 'enableMapInteractive',
@@ -1289,6 +1297,12 @@ const borderWidth = {
   label: 'borderWidth',
   defaultValue: 2,
 }
+//最大长度
+const maxLength = {
+  type: 'number',
+  label: 'maxLength',
+}
+
 // 边框颜色
 const borderColor = {
   type: 'color',
@@ -2670,13 +2684,14 @@ export default {
   pointSizes,
   //选择器类型
   pickerTypecwq,
-
   borderColor,
   borderWidth,
+  maxLength,
   // gis
   origin,
   viewport,
   sceneMode,
+  isDisabled,
   enableMapInteractive,
   viewFixed,
   coordinateAcquisitionResult,

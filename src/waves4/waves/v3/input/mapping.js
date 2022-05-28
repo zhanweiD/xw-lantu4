@@ -4,9 +4,15 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['base.textSize', 'fontSize'],
-        ['base.content', 'placeholder'],
+        ['base.placeholder', 'placeholder'],
+        ['base.content', 'content'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
+        ['base.radius', 'radius'],
+        ['base.borderColor', 'borderColor'],
+        ['base.borderWidth', 'borderWidth'],
+        ['base.isDisabled', 'isDisabled'],
+        ['base.maxLength', 'maxLength'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

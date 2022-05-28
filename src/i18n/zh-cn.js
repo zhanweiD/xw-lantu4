@@ -180,6 +180,8 @@ export default {
   placeholder: '占位符',
   searchIconColor: '搜索图标',
   iconBackgroundColor: '图标背景色',
+  isDisabled: '是否禁用',
+  maxLength: '最大长度',
   labelColor: '文字颜色',
   labelAngle: '文字旋转',
   labelOffsetY: '文字偏移',

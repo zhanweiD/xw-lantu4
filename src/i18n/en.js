@@ -92,6 +92,8 @@ export default {
   backgroundColor: 'Background',
   searchIconColor: 'SearchIcon Color',
   iconBackgroundColor: 'Icon BackgroundColor',
+  isDisabled: 'isDisabled',
+  maxLength: 'Max Length',
   placeholder: 'Placeholder',
   singleColor: 'Color',
   gradientColor: 'Gradient',
