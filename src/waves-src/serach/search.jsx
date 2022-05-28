@@ -41,17 +41,9 @@ const MSearch = MUIBase.named('MSearch')
 
       const iconStyle = {
         width: style.iconWidth,
-        size: style.fontSize,
+        size: style.width / 14,
         color: style.searchIconColor,
         backgroundColor: style.iconBackgroundColor,
-      }
-
-      // 自适应容器
-      if (self.config('adaptContainer')) {
-        Object.assign(style, {
-          width: self.containerWidth,
-          height: self.containerHeight,
-        })
       }
 
       // 渲染组件
@@ -83,11 +75,16 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
     self.event.fire('onClickSearchButton', {data: inputValue})
   }
 
+  const divStyle = {
+    ...style,
+    fontSize: style.width / 14,
+  }
+
   return (
     <div>
       <div
         className={c('w100p', s.container)}
-        style={{...style, borderRadius: style.radius}}
+        style={{...divStyle, borderRadius: style.radius}}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
       >
@@ -95,13 +92,13 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
           value={inputValue}
           onChange={onChange}
           placeholder={self.config('placeholder')}
-          style={{...style, marginLeft: '8px', border: 'none', color: style.fontColor}}
+          style={{...divStyle, marginLeft: '8px', border: 'none', color: style.fontColor, padding: '0 10px'}}
         />
         <span
           className={s.falseIcon}
           style={{
             display: isVisible ? 'block' : 'none',
-            fontSize: iconStyle.size / 2,
+            fontSize: iconStyle.size,
           }}
           onClick={() => setInputValue('')}
         >
