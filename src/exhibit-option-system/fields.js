@@ -1290,6 +1290,12 @@ const optionBackgroundColor = {
   defaultValue: 'rgb(255,255,255)',
 }
 
+// 选项文字悬浮时颜色
+const optionHoverTextColor = {
+  type: 'color',
+  label: 'optionHoverTextColor',
+}
+
 // 选项的背景悬浮时颜色
 const optionHoverBackgroundColor = {
   type: 'color',
@@ -1326,6 +1332,12 @@ const backgroundColor = {
 const placeholder = {
   type: 'text',
   label: 'placeholder',
+}
+
+// 使单选模式可搜索
+const supportSearch = {
+  type: 'switch',
+  label: 'supportSearch',
 }
 
 // 搜索icon颜色
@@ -2552,6 +2564,7 @@ export default {
   // 下拉框选项文字颜色
   optionFontColor,
   optionBackgroundColor,
+  optionHoverTextColor,
   optionHoverBackgroundColor,
   // 颜色渐变
   colorGradient,
@@ -2681,6 +2694,8 @@ export default {
   show,
   // 占位符文字内容
   placeholder,
+  // 使单选模式可搜索
+  supportSearch,
   searchIconColor,
   iconBackgroundColor,
   backgroundColor,
