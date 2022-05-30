@@ -38,6 +38,7 @@ const MInput = MUIBase.named('MInput')
         radius: self.config('radius'),
         maxLength: self.config('maxLength'),
         isDisabled: self.config('isDisabled'),
+        isDisplayTextNum: self.config('isDisplayTextNum'),
         content: self.config('content'),
       }
 
@@ -115,10 +116,12 @@ const ConfiguredInput = observer(({self, style}) => {
           disabled={style.isDisabled}
         />
         {/* 字数提示 */}
-        <span style={{color: 'rgb(117,117,117)'}}>
-          {' '}
-          {curlength}/{style.maxLength}
-        </span>
+        {style.isDisplayTextNum && (
+          <span style={{color: 'rgb(117,117,117)'}}>
+            {' '}
+            {curlength}/{style.maxLength}
+          </span>
+        )}
 
         {/* 删除icon */}
         <span

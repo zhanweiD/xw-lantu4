@@ -236,6 +236,7 @@ export default {
   body: '请求体(Body)',
   queries: '请求参数(Queries)',
   headers: '请求头(Headers)',
+  isDisplayTextNum: '字数提示',
   // backgroundColor: '背景色',
   gis: 'GIS地图',
   origin: '相机位置',

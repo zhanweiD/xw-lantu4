@@ -11,6 +11,7 @@ export const layerOptionMap = new Map([
         ['base.radius', 'radius'],
         ['base.borderColor', 'borderColor'],
         ['base.borderWidth', 'borderWidth'],
+        ['base.isDisplayTextNum', 'isDisplayTextNum'],
         ['base.isDisabled', 'isDisabled'],
         ['base.maxLength', 'maxLength'],
       ]

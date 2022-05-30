@@ -92,6 +92,7 @@ export default {
   backgroundColor: 'Background',
   searchIconColor: 'SearchIcon Color',
   iconBackgroundColor: 'Icon BackgroundColor',
+  isDisplayTextNum: 'Display TextNum',
   isDisabled: 'isDisabled',
   maxLength: 'Max Length',
   placeholder: 'Placeholder',

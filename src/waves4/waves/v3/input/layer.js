@@ -35,6 +35,10 @@ export default () => {
             defaultValue: 1,
           },
           {
+            name: 'isDisplayTextNum',
+            defaultValue: true,
+          },
+          {
             name: 'isDisabled',
             defaultValue: false,
           },

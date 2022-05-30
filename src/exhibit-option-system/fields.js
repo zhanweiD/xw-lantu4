@@ -241,6 +241,12 @@ const isDisabled = {
   defaultValue: false,
 }
 
+// 是否展示输入框的字数提示
+const isDisplayTextNum = {
+  type: 'switch',
+  label: 'isDisplayTextNum',
+}
+
 const enableMapInteractive = {
   type: 'switch',
   label: 'enableMapInteractive',
@@ -2692,6 +2698,7 @@ export default {
   viewport,
   sceneMode,
   isDisabled,
+  isDisplayTextNum,
   enableMapInteractive,
   viewFixed,
   coordinateAcquisitionResult,
