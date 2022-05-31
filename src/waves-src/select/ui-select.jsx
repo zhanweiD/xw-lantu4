@@ -168,16 +168,17 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
 
   useEffect(() => setInputValue(value), [value])
   const selectStyle = {
-    width: style.width,
-    height: style.height,
-    padding: '0 10px',
+    // width: style.width,
+    // height: style.height,
+    // padding: '0 10px',
   }
   !isActive && (selectStyle.pointerEvents = 'none')
   const inputContainerStyle = {
+    width: style.width,
+    height: style.height,
     flex: 1,
     fontSize: style.fontSize,
     color: style.fontColor,
-    height: style.height,
     cursor: style.enableSearch ? 'text' : 'pointer',
     backgroundColor: style.backgroundColor, // 不加的话会受全局样式影响
     border: 'none', // 不加的话会受全局样式影响
@@ -200,14 +201,15 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
     overflow: 'scroll',
     border: `${style.optionBorderWidth}px solid ${style.optionBorderColor}`,
     width: '100%',
-    marginLeft: '-10px',
+    // marginLeft: '-10px',
   }
   const optionStyle = {
     alignItems: 'center',
-    width: `${style.optionWidth + 20}px`,
+    width: `${style.optionWidth}px`,
     height: `${style.optionHeight}px`,
     lineHeight: `${style.optionHeight}px`,
-    fontSize: style.fontSize / 2 + 5,
+    fontSize: style.fontSize,
+    // fontSize: style.fontSize / 2 + 5,
     color: style.optionFontColor,
     backgroundColor: style.optionBackgroundColor,
     cursor: 'pointer',
@@ -223,7 +225,8 @@ const ConfiguredSelect = observer(({style, options, value, onChange, onClear, is
         value={inputValue || (isOptionVisible ? '' : '请输入')}
         style={inputValue ? inputContainerStyle : placeholderStyle}
         className={s.textCenter}
-        onFocus={() => setOptionVisible(true)}
+        // onFocus={() => setOptionVisible(true)}
+        onClick={() => setOptionVisible(true)}
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => setOptionVisible(false)}
         readOnly={!style.enableSearch}

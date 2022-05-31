@@ -39,10 +39,10 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    keys: ['一级分类'],
-    activeKeys: ['一级分类'],
+    keys: [config.data[0][0]],
+    activeKeys: [config.data[0][0]],
     defaultOptions: {
-      一级分类: '浙江省',
+      [config.data[0][0]]: config.data[1][0],
     },
     ...config,
   }

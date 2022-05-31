@@ -1546,7 +1546,7 @@ const inactiveColor = {
 const activeColor = {
   type: 'color',
   label: 'activeColor',
-  defaultValue: 'rgb(0,119,255,1)',
+  defaultValue: 'rgba(0,119,255,1)',
 }
 
 const DIRECTION = {

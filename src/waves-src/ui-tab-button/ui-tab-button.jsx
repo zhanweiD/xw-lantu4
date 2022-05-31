@@ -24,7 +24,7 @@ const MCheck = MUIBase.named('MInput')
 
     // 传入数据
     const data = (options) => {
-      self.options = options
+      self.options = options.map((item) => ({key: Object.values(item)[0]})) // 字段名统一转换为key
     }
 
     // 无数据或数据错误时，采用备用数据渲染
