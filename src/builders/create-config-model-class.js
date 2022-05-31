@@ -15,6 +15,7 @@ import {
   MSelectField,
   MCodeField,
   MGradientField,
+  MColorListField,
   MColumnSelectField,
   MOffsetField,
   MEchartsField,
@@ -40,6 +41,7 @@ const fieldModel = {
   columnSelect: MColumnSelectField,
   offset: MOffsetField,
   echartsoption: MEchartsField,
+  colorList: MColorListField,
 }
 
 const createFieldsClass = (fields) => {
@@ -52,7 +54,7 @@ const createFieldsClass = (fields) => {
           return self.getValue()
         },
         setSchema(schema) {
-          if (schema) self.setEffective(true) // 初始隐藏(effective: false)，后续修改为有效值无法获取到（图表渐变色）
+          if (schema) self.setEffective(true) // 初始隐藏(effective: false)，后续修改为有效值无法获取到（图表渐变色） ??
           return self.setValue(schema)
         },
         afterAttach() {

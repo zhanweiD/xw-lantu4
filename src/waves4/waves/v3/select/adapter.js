@@ -9,13 +9,17 @@ import translate from './translate'
 const Adapter = (k) =>
   createExhibitAdapter({
     // 初始化
-    init({options}) {
+    init({options, event}) {
       const translatedOptions = translate(options)
       const mSelect = MSelect.create()
       mSelect.init(translatedOptions, {})
       mSelect.data(translatedOptions)
       mSelect.draw({
         redraw: true,
+      })
+      mSelect.event.on('onSwitchOption', (info) => {
+        console.log('info...', info)
+        event.fire('switchPanel', info)
       })
       return mSelect
     },

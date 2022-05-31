@@ -35,7 +35,12 @@ export const Field = observer(
     isMulti = false,
     direction = 'horizontal',
     // supportProcessor = false,
+    noField = false,
+    // supportProcessor = false,
   }) => {
+    if (noField) {
+      return children
+    }
     return (
       <div className={c('fbh mb8 noFieldEvent pr ml12', className)}>
         {tip && <IconButton title={tip} icon="tip" buttonSize={24} className="pa" />}

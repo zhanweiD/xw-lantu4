@@ -7,7 +7,7 @@ import Section from '@builders/section'
 import IconButton from '@components/icon-button'
 import TabScroll from '@components/tab-scroll'
 import {useTranslation} from 'react-i18next'
-import actions from '@exhibit-collection/actions'
+import actions, {actionTranslation} from '@exhibit-collection/actions'
 import InteractionField from '../inertaction-field'
 
 import s from './interaction.module.styl'
@@ -20,7 +20,7 @@ const {SelectField} = fields
 
 // format [key] => [{key: key, value: key}] 用于下拉选项
 const formatOptions = (keys = [], t) => {
-  return keys.map((d) => ({key: t(d), value: d}))
+  return keys.map((d) => ({key: t(actionTranslation(d)), value: d}))
 }
 
 const AddEventButton = ({onClick}) => {
@@ -33,9 +33,7 @@ const AddEventButton = ({onClick}) => {
 
 const ActionSetting = observer(({model}) => {
   const {t} = useTranslation()
-  const {actionType, set, _triggerType, actionValue} = model
-  // 缓存value值，因为组件非受控，只用传一次就够了
-  const actionValueMemo = useMemo(() => actionValue, [])
+  const {actionType, set, _triggerType, actionValue, dataFieldList, exhibitKey} = model
   return (
     <div>
       <SelectField
@@ -45,18 +43,25 @@ const ActionSetting = observer(({model}) => {
         value={actionType}
         onChange={(v) => set('actionType', v)}
       />
-      <InteractionField type={actionType} defaultValue={actionValueMemo} onChange={(v) => set('actionValue', v)} />
+      {actionType && (
+        <InteractionField
+          type={actionType}
+          exhibitKey={exhibitKey}
+          defaultValue={actionValue}
+          onChange={(v) => set('actionValue', v)}
+          dataFieldList={dataFieldList}
+        />
+      )}
     </div>
   )
 })
 
 const ActionsTab = observer((props) => {
   const {disabledAddAndRemove, actions, onRemoveAction, onAddAction, onTabChange, activeKey} = props
-  const {t} = useTranslation()
   return (
     <div>
       <div className="fbh fbac fbjsb mr8 ml24 mb8">
-        <span>实现动作</span>
+        <span className="lh24">实现动作</span>
         {disabledAddAndRemove ? (
           <div />
         ) : (
@@ -107,20 +112,22 @@ const EventCard = observer(({eventInfo = {}, onRemoveEvent, index, eventTypes = 
         value={triggerType}
         onChange={(v) => set('triggerType', v)}
       />
-      <ActionsTab
-        onTabChange={(id) => set('currentAction', id)}
-        onRemoveAction={(actionId) => removeAction(actionId)}
-        onAddAction={() => addAction()}
-        actions={actions}
-        activeKey={currentAction.actionId}
-        disabledAddAndRemove={!isCanAddAndRemove}
-      />
+      {triggerType && (
+        <ActionsTab
+          onTabChange={(id) => set('currentAction', id)}
+          onRemoveAction={(actionId) => removeAction(actionId)}
+          onAddAction={() => addAction()}
+          actions={actions}
+          activeKey={currentAction.actionId}
+          disabledAddAndRemove={!isCanAddAndRemove}
+        />
+      )}
     </Section>
   )
 })
 
 const Interaction = ({model}) => {
-  const {triggerTypes, eventModel, exhibitId} = model
+  const {triggerTypes, eventModel} = model
   const {events = [], addEvent, removeEvent} = eventModel
 
   return (

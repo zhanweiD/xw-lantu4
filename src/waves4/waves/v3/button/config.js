@@ -12,22 +12,6 @@ export const config = (k) => ({
   completed: true,
   interaction: {
     eventTriggerTypes: ['click', 'doubleClick'],
-    sources: [
-      {
-        // 事件名称
-        name: '点击',
-        // 事件改变值的 key
-        key: 'clickStamp',
-        // 事件的参数schema，参考 jsonschema https://github.com/tdegrunt/jsonschema#readme，https://www.cnblogs.com/terencezhou/p/10474617.html
-        paramSchema: {
-          type: 'string',
-          description: '按钮点击的时间戳',
-        },
-        // 事件的说明，参数的说明可以写到这里
-        remark: '按钮被点击',
-      },
-    ],
-    targets: [],
   },
   // 标题面板
 })

@@ -7,13 +7,14 @@ import {Interaction} from '@views/public/interaction'
 const {TextField} = fields
 
 const InteractionTab = ({exhibit, containerInfo}) => {
-  const {key} = exhibit
+  // const {key} = exhibit
   const {name} = containerInfo
   const {t} = useTranslation()
   return (
     <div className="interaction-box">
       <TextField className="ml24 mt8" label={t('interactionTarget')} value={name} />
-      {['button', 'uiTabButton'].includes(key) && <Interaction model={exhibit.interaction} />}
+      {/* {['button', 'uiTabButton'].includes(key) && <Interaction model={exhibit.interaction} />} */}
+      <Interaction model={exhibit.interaction} />
     </div>
   )
 }

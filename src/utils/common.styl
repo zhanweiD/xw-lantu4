@@ -88,6 +88,8 @@ svg
   text-overflow ellipsis
   word-break keep-all
   white-space nowrap
+.wsnp
+  white-space nowrap
 .omit2
   overflow hidden
   text-overflow ellipsis
@@ -282,3 +284,7 @@ for $n in 0 1 10
   height 100vh
   background-color rgba(0,0,0,.7)
   z-index 20999
+
+// 覆盖react-color样式
+.colorList .sketch-picker
+  padding-right 34px !important

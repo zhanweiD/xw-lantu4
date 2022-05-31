@@ -17,14 +17,14 @@ const EchartsOptionField = ({value, onChange = () => {}}) => {
       value={json}
       height={200}
       onChange={(value) => {
-        // setJson(value)
-        try {
-          const hjson = hJSON.parse(value)
-          const text = hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true})
-          onChange(text)
-        } catch (error) {
-          tip.error({content: '保存失败,请检查JSON是否合法'})
-        }
+        setJson(value)
+        // try {
+        //   const hjson = hJSON.parse(value)
+        //   const text = hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true})
+        //   onChange(text)
+        // } catch (error) {
+        //   tip.error({content: '保存失败,请检查JSON是否合法'})
+        // }
       }}
       buttons={[
         {
@@ -47,19 +47,19 @@ const EchartsOptionField = ({value, onChange = () => {}}) => {
           },
           position: 'left',
         },
-        // {
-        //   name: '保存',
-        //   action: () => {
-        //     try {
-        //       const hjson = hJSON.parse(json)
-        //       const text = hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true})
-        //       onChange(text)
-        //     } catch (error) {
-        //       tip.error({content: '保存失败,请检查JSON是否合法'})
-        //     }
-        //   },
-        //   position: 'right',
-        // },
+        {
+          name: '更新',
+          action: () => {
+            try {
+              const hjson = hJSON.parse(json)
+              const text = hJSON.stringify(hjson, {space: 2, quotes: 'strings', separator: true})
+              onChange(text)
+            } catch (error) {
+              tip.error({content: '保存失败,请检查JSON是否合法'})
+            }
+          },
+          position: 'right',
+        },
       ]}
     />
   )
