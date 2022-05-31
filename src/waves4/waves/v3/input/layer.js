@@ -8,11 +8,11 @@ export default () => {
         fields: [
           {
             name: 'singleColor',
-            defaultValue: 'rgb(0,0,0)',
+            defaultValue: 'rgb(255,255,255)',
           },
           {
             name: 'placeholder',
-            defaultValue: '请输入内容',
+            defaultValue: '请输入',
           },
           {
             name: 'content',
@@ -20,7 +20,7 @@ export default () => {
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgb(255,255,255)',
+            defaultValue: 'rgb(0,0,0)',
           },
           {
             name: 'radius',
@@ -32,7 +32,7 @@ export default () => {
           },
           {
             name: 'borderWidth',
-            defaultValue: 1,
+            defaultValue: 3,
           },
           {
             name: 'isDisplayTextNum',
@@ -44,7 +44,7 @@ export default () => {
           },
           {
             name: 'maxLength',
-            defaultValue: 10,
+            defaultValue: 30,
           },
         ],
       },

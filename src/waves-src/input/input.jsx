@@ -72,6 +72,7 @@ const ConfiguredInput = observer(({self, style}) => {
   const [isVisible, setIconVisible] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [curlength, setCurLength] = useState(0)
+  const [selectBorders, setSelectBorders] = useState(false)
 
   useEffect(() => {
     setInputValue(self.text)
@@ -95,11 +96,15 @@ const ConfiguredInput = observer(({self, style}) => {
         style={{
           ...style,
           borderRadius: style.radius,
-          border: `${style.borderWidth}px solid ${style.borderColor}`,
+          border: `${style.borderWidth}px solid ${selectBorders ? 'rgb(0,127,212)' : style.borderColor}`,
           backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
         }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
+        onFocus={() => setSelectBorders(true)}
+        onBlur={() => {
+          setSelectBorders(false)
+        }}
       >
         <input
           value={inputValue}
@@ -111,14 +116,14 @@ const ConfiguredInput = observer(({self, style}) => {
             backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
             fontSize: style.fontSize,
             padding: '3px',
+            width: style.isDisplayTextNum ? style.width * 0.65 : style.width * 0.9,
           }}
           maxLength={style.maxLength}
           disabled={style.isDisabled}
         />
         {/* 字数提示 */}
         {style.isDisplayTextNum && (
-          <span style={{color: 'rgb(117,117,117)'}}>
-            {' '}
+          <span style={{color: 'rgb(117,117,117)', position: 'absolute', right: '20px'}}>
             {curlength}/{style.maxLength}
           </span>
         )}
@@ -128,7 +133,8 @@ const ConfiguredInput = observer(({self, style}) => {
           className={s.falseIcon}
           style={{
             display: isVisible ? 'block' : 'none',
-            fontSize: style.fontSize,
+            position: 'absolute',
+            right: '-15px',
           }}
           onClick={() => {
             setInputValue('')
@@ -139,8 +145,8 @@ const ConfiguredInput = observer(({self, style}) => {
             viewBox="64 64 896 896"
             focusable="false"
             data-icon="close"
-            width="1em"
-            height="1em"
+            width="0.5em"
+            height="0.5em"
             fill="currentColor"
             aria-hidden="true"
           >
