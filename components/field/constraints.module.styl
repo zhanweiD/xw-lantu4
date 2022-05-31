@@ -1,0 +1,230 @@
+.box
+  border 1px dashed rgba(255, 255, 255, 0.1)
+
+.leftArrow1
+  display: inline-block
+  left: 0
+  border-left: 1px solid
+  border-bottom: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.leftArrow2
+  display: inline-block
+  right: 2px
+  border-left: 1px solid
+  border-bottom: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(-135deg)
+
+.topArrow1
+  display: inline-block
+  top: 0
+  border-top: 1px solid
+  border-left: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.topArrow2
+  display: inline-block
+  bottom: 2px
+  border-top: 1px solid
+  border-left: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(-135deg)
+
+
+.rightArrow1
+  display: inline-block
+  right: 0
+  border-top: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.rightArrow2
+  display: inline-block
+  left: 2px
+  border-top: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(-135deg)
+
+.bottomArrow1
+  display: inline-block
+  bottom: 0
+  border-bottom: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.bottomArrow2
+  display: inline-block
+  top: 2px
+  border-bottom: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(-135deg)
+
+.widthArrow1
+  display: inline-block
+  left: 1px
+  border-left: 1px solid
+  border-bottom: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.widthArrow2
+  display: inline-block
+  right: 1px
+  border-top: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.heightArrow1
+  display: inline-block
+  top: 1px
+  border-top: 1px solid
+  border-left: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.heightArrow2
+  display: inline-block
+  bottom: 1px
+  border-bottom: 1px solid
+  border-right: 1px solid
+  width: 5px
+  height: 5px
+  border-color: rgba(255, 255, 255, .1)
+  transform: rotate(45deg)
+
+.topLine
+  top 0
+  height 30px
+  width 1px
+  border-left 1px dashed rgba(255, 255, 255, .1)
+
+.rightLine
+  right 0
+  height 1px
+  width 30px
+  border-top 1px dashed rgba(255, 255, 255, .1)
+
+.bottomLine
+  bottom 0
+  height 30px
+  width 1px
+  border-left 1px dashed rgba(255, 255, 255, .1)
+
+.leftLine
+  left 0
+  height 1px
+  width 30px
+  border-top 1px dashed rgba(255, 255, 255, .1)
+
+.widthLine
+  left 1px
+  height 1px
+  right 1px
+  border-top 1px dashed rgba(255, 255, 255, .1)
+
+.heightLine
+  top 1px
+  bottom 1px
+  width 1px
+  border-left 1px dashed rgba(255, 255, 255, .1)
+
+.topDiv
+  top 0
+  height 32px
+  width 10px
+
+.rightDiv
+  right 0
+  height 10px
+  width 32px
+
+.bottomDiv
+  bottom 0
+  height 32px
+  width 10px
+
+.leftDiv
+  left 0
+  height 10px
+  width 32px
+
+.widthDiv
+  left 31px
+  height 10px
+  width calc(100% - 64px)
+
+.heightDiv
+  top 31px
+  height calc(100% - 64px)
+  width 10px
+
+// 上述待优化
+// $layout-arrow-top = {
+//   'top': 1px 0 0 1px,
+//   'right': 1px 1px 0 0,
+//   'bottom': 0 1px 1px 0,
+//   'left': 0 0 1px 1px,
+//   'width': 0 0 1px 1px,
+//   'height': 1px 0 0 1px,
+// }
+// $list = 1px 0 0 1px
+
+
+// for $key, $value in $layout-arrow
+//   .arrow_{$key}1
+//     display: inline-block
+//     //
+//     left: 0
+//     border-top: $list[0] solid
+//     border-right: $list[1] solid
+//     border-bottom: $list[2] solid
+//     border-left: $list[3] solid
+//     width: 5px
+//     height: 5px
+//     border-color: rgba(255, 255, 255, .1)
+//     transform: rotate(45deg)
+
+.middleBox
+  top 32px
+  right 32px
+  bottom 32px
+  left 32px
+  z-index -1
+.check
+  border-color #fff
+.notAllowCheck
+  cursor not-allowed
+.leftSolid
+  border-left-style: solid
+.topSolid
+  border-top-style: solid

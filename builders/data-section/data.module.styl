@@ -1,0 +1,36 @@
+@import '../../utils/theme-vars.styl'
+
+.wrap
+  height 20px
+  border-radius 10px
+  background-color rgba(255,255,255,0.1)
+  overflow hidden
+.checkOption
+  line-height 20px
+  border-radius 10px
+  padding 0 12px
+  cursor pointer
+  color #ddd
+  text-align center
+  &_checked
+    background-color themeColor!important
+    color #fff
+  &:hover
+    color #fff
+  &:active
+    background-color rgba(255,255,255,0.10)
+.row
+  &:nth-of-type(odd)
+    background: rgba(255,255,255,0.04)
+  &:nth-of-type(even)
+    background: rgba(255,255,255,0.04)
+  &:hover
+    background: rgba(255,255,255,0.06)
+
+.fieldPreview
+  border-radius 20px
+  line-height 20px
+  background-color themeColor
+  padding 0px 8px
+.name
+  border-bottom 1px solid rgba(255,255,255,0.2)

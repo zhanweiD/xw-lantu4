@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-209,-5074)">
+        <g transform="matrix(1,0,0,1,962.914,1139.52)">
+            <g transform="matrix(0.521152,0,0,0.521152,-1202.08,3951.99)">
+                <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,1780.63,526.279)">
+                <g transform="matrix(1.04074,0,0,1,100.589,2.27374e-13)">
+                    <path d="M-2505.08,3446.49L-2482.02,3446.49L-2482.02,3442.49L-2505.08,3442.49L-2505.08,3446.49Z" style="fill:rgb(108,221,195);"/>
+                </g>
+                <g transform="matrix(1.04074,0,0,1,100.589,13.9373)">
+                    <path d="M-2505.08,3446.49L-2482.02,3446.49L-2482.02,3442.49L-2505.08,3442.49L-2505.08,3446.49Z" style="fill:rgb(108,221,195);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,-3309.54,-526.279)">
+                    <path d="M800.994,3950.52L800.994,3945.84L804.994,3945.84L804.994,3950.52L824.994,3950.52L824.994,3945.84L828.994,3945.84L828.994,3950.52L844.994,3950.52L844.994,4004.52L784.994,4004.52L784.994,3950.52L800.994,3950.52ZM828.994,3954.52L828.994,3957.84L824.994,3957.84L824.994,3954.52L804.994,3954.52L804.994,3957.84L800.994,3957.84L800.994,3954.52L788.994,3954.52L788.994,4000.52L840.994,4000.52L840.994,3954.52L828.994,3954.52Z" style="fill:url(#_Linear1);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(63.1757,64.8949,-64.8949,63.1757,784.545,3941.67)"><stop offset="0" style="stop-color:rgb(17,155,255);stop-opacity:1"/><stop offset="0.47" style="stop-color:rgb(108,221,195);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,234,146);stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

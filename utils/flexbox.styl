@@ -1,0 +1,47 @@
+.fbh, .fbv
+  display flex
+.fbv
+  flex-direction column
+.fbas
+  align-items flex-start
+.fbac
+  align-items center
+.fbae
+  align-items flex-end
+.fbast
+  // 这个是交叉轴上的默认值
+  align-items stretch
+.fbjs
+  // 这个是主轴上的默认值
+  justify-content flex-start
+.fbjc
+  justify-content center
+.fbje
+  justify-content flex-end
+.fbjsb
+  justify-content space-between
+.fbjse
+  justify-content space-evenly
+.fbjsa
+justify-content space-around
+.fbw
+  flex-wrap wrap
+.fbnw
+  flex-wrap nowrap
+
+$flex-range = {
+  '1': 1
+  "2": 2
+  "3": 3
+  "4": 4
+  "5": 5
+  "6": 6
+  "7": 7
+  "8": 8
+  "9": 9
+  "n": none
+}
+
+for $key, $value in $flex-range 
+  .fb{$key}
+    flex $value
