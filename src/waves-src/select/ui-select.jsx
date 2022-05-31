@@ -299,12 +299,10 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
 
       {/* 下拉选项 */}
       <div style={{...optionContainerStyle}} className={s.optionContainer}>
-        {console.log(optionData)}
         {optionData.length > 0 ? (
           optionData.map(({key, value}, i) =>
             Children.toArray(
               <a title={key}>
-                {console.log(key, value)}
                 <div
                   className={s.optionTextStyle}
                   style={hoverIndex === i ? hoverOptionStyle : optionStyle}
