@@ -81,9 +81,9 @@ const MSelect = MUIBase.named('MSelect')
       // 自适应容器
       // if (self.config('adaptContainer')) {
       Object.assign(style, {
-        width: self.containerWidth / self.selectKeys.length,
+        width: self.containerWidth,
         height: self.containerHeight,
-        optionWidth: self.containerWidth / self.selectKeys.length,
+        optionWidth: self.containerWidth,
         optionHeight: self.containerHeight,
       })
       // }
@@ -183,17 +183,17 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
         : -style.height - Math.min(style.optionHeight * options.length, style.totalHeight)
     }px)`,
     top: style.height,
-    maxHeight: style.totalHeight,
+    width: '100%',
+    height: optionData.length === 5 || optionData.length > 5 ? style.height * 5 : null,
     overflow: 'scroll',
     border: `${style.optionBorderWidth}px solid ${style.optionBorderColor}`,
-    width: '100%',
     margin: '5px 0 0 -10px',
     textAlign: 'left',
   }
 
   // 下拉项默认时
   const optionStyle = {
-    width: `${style.optionWidth + 20}px`,
+    width: `${style.optionWidth - 20}px`,
     height: `${style.optionHeight}px`,
     lineHeight: `${style.optionHeight}px`,
     fontSize: style.width / 16,
