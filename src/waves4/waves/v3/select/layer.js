@@ -7,31 +7,45 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'textSize',
-            defaultValue: 20,
+            name: 'radius',
+            defaultValue: 10,
+          },
+          {
+            name: 'placeholder',
+            defaultValue: '请选择',
           },
           {
             name: 'singleColor',
-            defaultValue: 'rgba(255,255,255,1)',
+            defaultValue: 'rgb(255,255,255)',
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgba(255,255,255,0.1)',
+            defaultValue: '#000',
           },
           // 选项文字颜色
           {
             name: 'optionFontColor',
-            defaultValue: 'rgba(255, 255, 255, 1)',
+            defaultValue: 'rgb(255,255,255)',
           },
           // 选项默认背景色
           {
             name: 'optionBackgroundColor',
-            defaultValue: 'rgba(255, 255, 255, 0.3)',
+            defaultValue: 'rgb(22,34,54)',
           },
           // 选项的背景悬浮时颜色
           {
             name: 'optionHoverBackgroundColor',
-            defaultValue: 'rgba(255, 255, 255, 0.4)',
+            defaultValue: 'rgb(22,34,54)',
+          },
+          // 选项文字悬浮时颜色
+          {
+            name: 'optionHoverTextColor',
+            defaultValue: 'rgb(84,159,248)',
+          },
+          // 支持搜索
+          {
+            name: 'supportSearch',
+            defaultValue: true,
           },
         ],
       },

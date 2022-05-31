@@ -10,17 +10,31 @@ export default () => {
             name: 'textSize',
             defaultValue: 24,
           },
+          // 输入内容颜色
           {
             name: 'singleColor',
-            defaultValue: 'rgba(255,255,255,1)',
+            defaultValue: 'rgba(255,255,255)',
+          },
+          // 搜索Icon颜色
+          {
+            name: 'searchIconColor',
+            defaultValue: 'rgb(255,255,255)',
           },
           {
-            name: 'content',
-            defaultValue: '请输入内容',
+            name: 'placeholder',
+            defaultValue: '请输入关键字搜索',
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgba(255,255,255,0.1)',
+            defaultValue: 'rgb(0,0,0)',
+          },
+          {
+            name: 'iconBackgroundColor',
+            defaultValue: 'rgb(0,0,0)',
+          },
+          {
+            name: 'radius',
+            defaultValue: 10,
           },
         ],
       },

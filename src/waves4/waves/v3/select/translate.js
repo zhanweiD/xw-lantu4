@@ -5,7 +5,17 @@ const getRealData = (dataSource) => {
     if (!dataSource) {
       return {}
     }
-    return dataSource
+
+    const translateOptionArr = []
+    dataSource?.forEach((v, i) => {
+      if (i > 0) {
+        translateOptionArr.push({
+          key: v[0],
+          value: v[1],
+        })
+      }
+    })
+    return translateOptionArr
   } catch (e) {
     console.error('数据解析失败', {dataSource})
     return []
@@ -29,7 +39,7 @@ function translate(schema) {
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
   config.data = getRealData(data)
-
+  console.log(config.data)
   return {
     width,
     height,
@@ -39,10 +49,10 @@ function translate(schema) {
     themeColors,
     tooltip: {position: 'relative'},
     adjust: false,
-    keys: [config.data[0][0]],
-    activeKeys: [config.data[0][0]],
+    keys: ['一级分类'],
+    activeKeys: ['一级分类'],
     defaultOptions: {
-      [config.data[0][0]]: config.data[1][0],
+      一级分类: '浙江省',
     },
     ...config,
   }
