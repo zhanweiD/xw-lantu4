@@ -5,7 +5,17 @@ const getRealData = (dataSource) => {
     if (!dataSource) {
       return {}
     }
-    return dataSource
+
+    const translateOptionArr = []
+    dataSource?.forEach((v, i) => {
+      if (i > 0) {
+        translateOptionArr.push({
+          key: v[0],
+          value: v[1],
+        })
+      }
+    })
+    return translateOptionArr
   } catch (e) {
     console.error('数据解析失败', {dataSource})
     return []

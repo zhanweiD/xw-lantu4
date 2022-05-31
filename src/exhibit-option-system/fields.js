@@ -233,6 +233,20 @@ const sceneMode = {
     },
   ],
 }
+
+// 是否禁用
+const isDisabled = {
+  type: 'switch',
+  label: 'isDisabled',
+  defaultValue: false,
+}
+
+// 是否展示输入框的字数提示
+const isDisplayTextNum = {
+  type: 'switch',
+  label: 'isDisplayTextNum',
+}
+
 const enableMapInteractive = {
   type: 'switch',
   label: 'enableMapInteractive',
@@ -1276,6 +1290,12 @@ const optionBackgroundColor = {
   defaultValue: 'rgb(255,255,255)',
 }
 
+// 选项文字悬浮时颜色
+const optionHoverTextColor = {
+  type: 'color',
+  label: 'optionHoverTextColor',
+}
+
 // 选项的背景悬浮时颜色
 const optionHoverBackgroundColor = {
   type: 'color',
@@ -1289,6 +1309,12 @@ const borderWidth = {
   label: 'borderWidth',
   defaultValue: 2,
 }
+//最大长度
+const maxLength = {
+  type: 'number',
+  label: 'maxLength',
+}
+
 // 边框颜色
 const borderColor = {
   type: 'color',
@@ -1301,6 +1327,31 @@ const backgroundColor = {
   label: 'backgroundColor',
   defaultValue: 'rgb(0, 119, 255)',
 }
+
+// 占位符文字颜色
+const placeholder = {
+  type: 'text',
+  label: 'placeholder',
+}
+
+// 使单选模式可搜索
+const supportSearch = {
+  type: 'switch',
+  label: 'supportSearch',
+}
+
+// 搜索icon颜色
+const searchIconColor = {
+  type: 'color',
+  label: 'searchIconColor',
+}
+
+// icon搜索背景色
+const iconBackgroundColor = {
+  type: 'color',
+  label: 'iconBackgroundColor',
+}
+
 // 圆点颜色
 const pointColor = {
   type: 'color',
@@ -2513,6 +2564,7 @@ export default {
   // 下拉框选项文字颜色
   optionFontColor,
   optionBackgroundColor,
+  optionHoverTextColor,
   optionHoverBackgroundColor,
   // 颜色渐变
   colorGradient,
@@ -2640,6 +2692,12 @@ export default {
   // 圆角大小
   borderRadius,
   show,
+  // 占位符文字内容
+  placeholder,
+  // 使单选模式可搜索
+  supportSearch,
+  searchIconColor,
+  iconBackgroundColor,
   backgroundColor,
   //圆点颜色
   pointColor,
@@ -2647,13 +2705,15 @@ export default {
   pointSizes,
   //选择器类型
   pickerTypecwq,
-
   borderColor,
   borderWidth,
+  maxLength,
   // gis
   origin,
   viewport,
   sceneMode,
+  isDisabled,
+  isDisplayTextNum,
   enableMapInteractive,
   viewFixed,
   coordinateAcquisitionResult,
