@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {types} from 'mobx-state-tree'
+import {observer} from 'mobx-react-lite'
 import {MUIBase} from '../ui-base'
 import Icon from '../../components/icon'
 import s from './search.module.styl'
@@ -25,65 +26,100 @@ const MSearch = MUIBase.named('MSearch')
         self.removeNode(self.container?.parentNode)
       }
 
-      const style = {
-        height: self.config('height'),
-        width: self.config('width'),
-        color: self.config('fontColor'),
-        fontSize: self.config('fontSize'),
-        backgroundColor: self.config('backgroundColor'),
-      }
+      const style = {}
+      ;[
+        'width',
+        'height',
+        'fontColor',
+        'fontSize',
+        'backgroundColor',
+        'radius',
+        'iconWidth',
+        'iconBackgroundColor',
+        'searchIconColor',
+      ]?.forEach((name) => (style[name] = self.config(name)))
 
       const iconStyle = {
-        width: self.config('iconWidth'),
-        size: self.config('iconSize'),
-        backgroundColor: self.config('iconBackgroundColor'),
-      }
-
-      // 自适应容器
-      if (self.config('adaptContainer')) {
-        Object.assign(style, {
-          width: self.containerWidth,
-          height: self.containerHeight,
-        })
+        width: style.iconWidth,
+        size: style.width / 14,
+        color: style.searchIconColor,
+        backgroundColor: style.iconBackgroundColor,
       }
 
       // 渲染组件
-      self.render(
-        <div>
-          <div className={c('w100p', s.container)} style={style}>
-            <input
-              className={s.input}
-              value={self.text}
-              onChange={self.onChange}
-              placeholder={self.config('placeholder')}
-              // style={{...style, backgroundColor: 'none', padding: `0 ${style.fontSize}px`}}
-              style={style}
-            />
-            <div onClick={self.onSearch} className={s.icon} style={{...iconStyle, cursor: 'pointer'}}>
-              <Icon name="search" fill={style.color} size={iconStyle.size} />
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    // 改变 input 内容
-    const onChange = (e) => {
-      self.text = e.target.value
-    }
-
-    // 当搜索按钮被点击
-    const onSearch = () => {
-      self.event.fire('onClickSearchButton', {data: self.text})
+      self.render(<ConfiguredSearch self={self} style={style} iconStyle={iconStyle} />)
     }
 
     return {
       draw,
-      onChange,
-      onSearch,
       drawFallback,
       afterCreate,
     }
   })
+
+const ConfiguredSearch = observer(({self, style, iconStyle}) => {
+  const [isVisible, setIconVisible] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+
+  useEffect(() => {
+    setInputValue(self.text)
+  }, [self.text])
+
+  // 改变 input 内容
+  const onChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
+  // 当搜索按钮被点击
+  const onSearch = () => {
+    self.event.fire('onClickSearchButton', {data: inputValue})
+  }
+
+  const divStyle = {
+    ...style,
+    fontSize: style.width / 14,
+  }
+
+  return (
+    <div>
+      <div
+        className={c('w100p', s.container)}
+        style={{...divStyle, borderRadius: style.radius}}
+        onMouseOver={() => setIconVisible(true)}
+        onMouseLeave={() => setIconVisible(false)}
+      >
+        <input
+          value={inputValue}
+          onChange={onChange}
+          placeholder={self.config('placeholder')}
+          style={{...divStyle, marginLeft: '8px', border: 'none', color: style.fontColor, padding: '0 10px'}}
+        />
+        <span
+          className={s.falseIcon}
+          style={{
+            display: isVisible ? 'block' : 'none',
+            fontSize: iconStyle.size,
+          }}
+          onClick={() => setInputValue('')}
+        >
+          <svg
+            viewBox="64 64 896 896"
+            focusable="false"
+            data-icon="close"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path>
+          </svg>
+        </span>
+        <div onClick={onSearch} className={s.icon} style={{...iconStyle, cursor: 'pointer', padding: '7px'}}>
+          <Icon name="search" fill={iconStyle.color} size={iconStyle.size} />
+        </div>
+      </div>
+    </div>
+  )
+})
 
 export default MSearch

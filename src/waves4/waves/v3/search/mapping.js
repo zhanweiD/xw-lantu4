@@ -4,9 +4,12 @@ export const layerOptionMap = new Map([
     ({mapOption}) => {
       const mapping = [
         ['base.textSize', 'fontSize'],
-        ['base.content', 'placeholder'],
+        ['base.placeholder', 'placeholder'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
+        ['base.searchIconColor', 'searchIconColor'],
+        ['base.iconBackgroundColor', 'iconBackgroundColor'],
+        ['base.radius', 'radius'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
