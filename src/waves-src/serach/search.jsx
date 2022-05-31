@@ -37,11 +37,12 @@ const MSearch = MUIBase.named('MSearch')
         'iconWidth',
         'iconBackgroundColor',
         'searchIconColor',
+        'placeholder',
       ]?.forEach((name) => (style[name] = self.config(name)))
 
       const iconStyle = {
         width: style.iconWidth,
-        size: style.width / 14,
+        size: style.width / 20,
         color: style.searchIconColor,
         backgroundColor: style.iconBackgroundColor,
       }
@@ -60,6 +61,7 @@ const MSearch = MUIBase.named('MSearch')
 const ConfiguredSearch = observer(({self, style, iconStyle}) => {
   const [isVisible, setIconVisible] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const [selectBorders, setSelectBorders] = useState(false)
 
   useEffect(() => {
     setInputValue(self.text)
@@ -77,21 +79,29 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
 
   const divStyle = {
     ...style,
-    fontSize: style.width / 14,
+    fontSize: style.width / style.height > 9 ? style.width / 25 : style.width / 20,
   }
 
   return (
     <div>
       <div
         className={c('w100p', s.container)}
-        style={{...divStyle, borderRadius: style.radius}}
+        style={{
+          ...divStyle,
+          borderRadius: style.radius,
+          border: `2px solid ${selectBorders ? 'rgb(0,127,212)' : '#000'}`,
+        }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
+        onFocus={() => setSelectBorders(true)}
+        onBlur={() => {
+          setSelectBorders(false)
+        }}
       >
         <input
           value={inputValue}
           onChange={onChange}
-          placeholder={self.config('placeholder')}
+          placeholder={style.placeholder}
           style={{...divStyle, marginLeft: '8px', border: 'none', color: style.fontColor, padding: '0 10px'}}
         />
         <span
@@ -106,8 +116,8 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
             viewBox="64 64 896 896"
             focusable="false"
             data-icon="close"
-            width="1em"
-            height="1em"
+            width="0.5em"
+            height="0.5em"
             fill="currentColor"
             aria-hidden="true"
           >

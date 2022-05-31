@@ -13,7 +13,7 @@ export default () => {
           // 输入内容颜色
           {
             name: 'singleColor',
-            defaultValue: 'rgba(0,0,0,100)',
+            defaultValue: 'rgba(255,255,255)',
           },
           // 搜索Icon颜色
           {
@@ -22,15 +22,15 @@ export default () => {
           },
           {
             name: 'placeholder',
-            defaultValue: '请输入',
+            defaultValue: '请输入关键字搜索',
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgb(255,255,255)',
+            defaultValue: 'rgb(0,0,0)',
           },
           {
             name: 'iconBackgroundColor',
-            defaultValue: 'rgb(88,138,238)',
+            defaultValue: 'rgb(0,0,0)',
           },
           {
             name: 'radius',

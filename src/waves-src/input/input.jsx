@@ -29,7 +29,10 @@ const MInput = MUIBase.named('MInput')
         height: self.config('height'),
         width: self.config('width'),
         color: self.config('fontColor'),
-        fontSize: `${self.config('width') / 14}px`,
+        fontSize:
+          self.config('width') / self.config('height') > 9
+            ? `${self.config('width') / 25}px`
+            : `${self.config('width') / 20}px`,
         backgroundColor: self.config('backgroundColor'),
         borderRadius: self.config('radius'),
         borderColor: self.config('borderColor'),
