@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-859,-5074)">
-        <g transform="matrix(1,0,0,1,1612.91,822.579)">
+    <g transform="matrix(1,0,0,1,753.91,-4251.42)">
+        <g>
             <g transform="matrix(0.521152,0,0,0.521152,-1202.08,4268.93)">
                 <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
             </g>
             <g transform="matrix(1.79259,0,0,6.19632,-1892.68,-1405.52)">
                 <g transform="matrix(0.5364,0,0,0.184721,219.8,127.134)">
-                    <path d="M852.54,4267.23L779.741,4267.23L779.741,4302.17L805.741,4302.17L816.141,4310.91L826.541,4302.17L852.54,4302.17L852.54,4267.23ZM848.38,4298.68L848.38,4270.72L783.901,4270.72L783.901,4298.68L807.464,4298.68L816.141,4305.97L824.817,4298.68L848.38,4298.68Z" style="fill:url(#_Linear1);"/>
+                    <clipPath id="_clip1">
+                        <path d="M852.54,4267.23L779.741,4267.23L779.741,4302.17L805.741,4302.17L816.141,4310.91L826.541,4302.17L852.54,4302.17L852.54,4267.23ZM848.38,4298.68L848.38,4270.72L783.901,4270.72L783.901,4298.68L807.464,4298.68L816.141,4305.97L824.817,4298.68L848.38,4298.68Z"/>
+                    </clipPath>
+                    <g clip-path="url(#_clip1)">
+                        <g transform="matrix(1.03999,-0,-0,0.873675,774.544,4254.08)">
+                            <use xlink:href="#_Image2" x="4.998" y="15.054" width="70px" height="49.996px" transform="matrix(0.999993,0,0,0.999914,0,0)"/>
+                        </g>
+                    </g>
                 </g>
                 <g transform="matrix(0.75304,0,0,0.217854,47.897,-13.9963)">
                     <rect x="779.994" y="4254.95" width="59.264" height="59.264" style="fill:none;"/>
@@ -17,6 +24,6 @@
         </g>
     </g>
     <defs>
-        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(62.6006,44.263,-52.6891,52.5894,784.74,4261.71)"><stop offset="0" style="stop-color:rgb(17,155,255);stop-opacity:1"/><stop offset="0.47" style="stop-color:rgb(108,221,195);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,234,146);stop-opacity:1"/></linearGradient>
+        <image id="_Image2" width="70px" height="50px" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAyAEYDAREAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABAMGBwL/xAAbEAADAQEBAQEAAAAAAAAAAAAAAgNhIQERMf/EABoBAQEAAwEBAAAAAAAAAAAAAAQCAQMGBQf/xAAYEQADAQEAAAAAAAAAAAAAAAAAAQIDEf/aAAwDAQACEQMRAD8A8onrH3N0kfBOCZRwPehSQuUcDXoWkLlHAt6FpDJRwNehaQuUcC3oWkLlHA16FJC5RwLehaQucefgatC0jm8o4d7eh5qQuUcDXoWkLlHAt6FJC4xwNehaQyUcC3oWkLlHA16FpC5RwLehaQuUcDVp0tSISfDU2bpzOdSjh3N6HkpC5RwLehaQuUcDXoWkMlHAt6FpC5RwNehaQuUcC3oUkKnLzw0OmzbMdLKhHREZlVThPRM5mDlHDrb0PASFyjga9Ckhko4FvQtIXKIa9C0hUo4Gq+lqRKJ8NTZvnMqiE9ExmWRCWxUZlVThjomczFyjh0N6HKpDJRwLehaQuUcDXoWkJnP4HddNkwXVCeiYzKohPRMZlkQnoqMyyIY6JjMqqE9EzmZSUcPVvQ4tIVKQar6bFPRCJ8NbZvnMsiE9ExmVRCWxUZlkQlsTGZZUMdExmVRCWxUZllThPRM5mWl4Oo4BF0NZvkshgTBVSWKgshLEwVUwKgshLEyWQlioKqYYmT//2Q=="/>
     </defs>
 </svg>
