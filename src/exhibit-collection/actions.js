@@ -3,9 +3,10 @@ import {isMatchCondition} from './utils'
 
 // 事件触发动作，支持的响应动作， key是事件，值是对应的动作
 export default {
-  click: ['show', 'hidden', 'toggle_visible', 'href', 'data_effect'],
-  doubleClick: ['show', 'hidden', 'data_effect'],
-  switchPanel: ['show', 'hidden', 'data_effect'],
+  click: ['show', 'hidden', 'toggle_visible', 'href'],
+  doubleClick: ['show', 'hidden'],
+  tabSwitch: ['tabShow'],
+  onSwitchButton: ['show', 'hidden'],
 }
 /**
  * 动作，以及事件的统一国际化

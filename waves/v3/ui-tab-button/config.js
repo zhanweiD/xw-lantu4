@@ -11,7 +11,7 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   interaction: {
-    eventTriggerTypes: ['switchPanel'],
+    eventTriggerTypes: ['onSwitchButton'],
   },
   layers: [layer(k)],
   data,
