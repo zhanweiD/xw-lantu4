@@ -1,13 +1,19 @@
 .inputGroup
-  display: flex
-  flex-direction: row
-  justify-content: space-between
-  align-items: center
+  display flex
+  flex-direction row
+  justify-content flex-start
+  align-items center
+  border 2px solid rgb(18, 118, 185)
+  padding 10px
+  &:hover
+    border 2px solid #09f
+    cursor pointer
+
+input
+  border none
 
 .timePicker
-  position: relative
-  display: block
-  text-align: center
+  text-align center
   cursor: pointer
 
 .timePicker::-webkit-datetime-edit-year-field
@@ -25,6 +31,10 @@
 .hide
   display: none
 
+.iconShow 
+  flex: 1
+  margin-left 30px
+
 .externalMainPicker
   position: absolute
   transform: translateY(100%)
@@ -34,3 +44,36 @@
   position: absolute
   transform: translate(100%, 100%)
   bottom: 0
+
+// 覆盖内置样式
+:global(.react-calendar) {
+  background: rgba(1,28,69,0.50)
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.40), 0 6px 16px 0 rgba(0,0,0,0.20), 0 9px 28px 8px rgba(0,0,0,0.10)
+  border-radius: 2px
+  opacity 1
+  }
+
+:global(.react-calendar__navigation button)
+  color #fff
+
+:global(.react-calendar__navigation button:enabled:hover)
+  color rgb(68,142,247)
+  background-color rgba(1,28,69,0.50)
+
+:global(.react-calendar__tile:enabled:hover)
+  background-color rgba(11, 67, 152, 0.5)
+
+:global(.react-calendar__tile)
+  color #999
+
+:global(.react-calendar__navigation button:disabled)
+  background-color rgba(1,28,69,0.50)
+
+:global(.react-calendar__tile--now)
+  background-color: #09f
+
+:global(.react-calendar)
+  height inherit
+
+// :global(.react-calendar)
+//   font-size xx-large

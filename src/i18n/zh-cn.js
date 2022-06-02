@@ -16,6 +16,7 @@ export default {
   fontSize: '字号',
   scale: '缩放系数',
   pickerType: '选择器类型',
+  connectLineType: '连接线类型',
   valueMethod: '取值方式',
   remove: '删除',
   description: '描述',
