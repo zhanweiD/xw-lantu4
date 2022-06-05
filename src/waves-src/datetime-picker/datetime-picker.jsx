@@ -78,12 +78,16 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
   })
 
 const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) => {
-  let defaultValue
   const mainPickerRef = useRef(null)
   const secondPickerRef = useRef(null)
+  const [isVisible, setIconVisible] = useState(false)
+  const [flag, setFlag] = useState(false)
   const [calendarVisible, setCalendarVisible] = useState(false)
   const [isMainPickerVisible, setMainPickerVisible] = useState(false)
-  const [dateValue, setDateValue] = useState([`${moment(new Date()).format('YYYY-MM-DD')}`])
+  const [dateValue, setDateValue] = useState([
+    `${moment(new Date()).format('YYYY-MM-DD')}`,
+    `${new Date().getFullYear()}-${new Date().getMonth() + 2}-${new Date().getDate()}`,
+  ])
   const [currentCalendarType, setCurrentCalendarType] = useState('')
   const {width, height, inputHeight, fontSize, connectLineType, isDisabled} = style
 
@@ -113,6 +117,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
   }, [pickerType])
 
   const onChange = (date) => {
+    const parse = (number) => (number >= 10 ? `${number}` : `0${number}`)
     let dateStart = ''
     let dateEnd = ''
     if (valueMethod === 'timePoint') {
@@ -131,64 +136,28 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     })
   }
 
-  // 设定默认值
-  const parse = (number) => (number >= 10 ? `${number}` : `0${number}`)
-  const now = new Date()
-  switch (pickerType) {
-    case 'date':
-      defaultValue = `${now.getFullYear()}-${parse(now.getMonth() + 1)}-${parse(now.getDate())}`
-      break
-    case 'time':
-      defaultValue = `${parse(now.getHours())}:${parse(now.getMinutes())}:${parse(now.getSeconds())}`
-      break
-    case 'datetime':
-      defaultValue = `${now.getFullYear()}-${parse(now.getMonth() + 1)}-${parse(now.getDate())}T${parse(
-        now.getHours()
-      )}:${parse(now.getMinutes())}:${parse(now.getSeconds())}`
-      break
-    case 'year':
-      defaultValue = `${now.getFullYear()}`
-      break
-    case 'month':
-      defaultValue = `${now.getFullYear()}-${parse(now.getMonth() + 1)}`
-      break
-    case 'week':
-      // eslint-disable-next-line no-case-declarations
-      const basicDate = new Date()
-      basicDate.setMonth(0, 1)
-      defaultValue = `${now.getFullYear()}-W${Math.ceil((now - basicDate) / (24 * 60 * 60 * 1000) / 7)}`
-      break
-    default:
-  }
-
-  const onLocalChange = () => {
-    let data
-
-    // 给 data 赋值
-    if (valueMethod === 'timePoint') {
-      // 无效的值则不触发响应事件
-      if (mainPickerRef.current.value === '') return
-      data = [mainPickerRef.current.value]
-    } else if (valueMethod === 'timeRange') {
-      // 无效的值则不触发响应事件
-      if (mainPickerRef.current.value === '' || secondPickerRef.current.value === '') return
-      data = [mainPickerRef.current.value, secondPickerRef.current.value]
-    }
-    modal.selectTime({dates: data})
+  const handleClick = () => {
+    setFlag(true)
+    setDateValue(['', ''])
+    self.event.fire('onChangeTime', {
+      type: self.config('pickerType'),
+      data: undefined,
+    })
   }
 
   return (
-    <div tabIndex="0" onFocus={() => !isDisabled && setCalendarVisible(true)}>
+    <div tabIndex="0" onClick={() => (!isDisabled || flag) && setCalendarVisible(true)}>
       <div
         className={s.inputGroup}
         style={{height: inputHeight, backgroundColor: isDisabled ? '#999' : '', cursor: isDisabled && 'not-allowed'}}
+        onMouseOver={() => setIconVisible(true)}
+        onMouseLeave={() => setIconVisible(false)}
       >
         {/* 起始-结束时间 */}
         <input
           ref={mainPickerRef}
-          value={dateValue ? dateValue[0] : defaultValue}
+          value={dateValue[0]}
           className={s.timePicker}
-          onChange={onLocalChange}
           onMouseDown={() => (pickerType === 'year' ? setMainPickerVisible(!isMainPickerVisible) : null)}
           style={{
             width,
@@ -223,9 +192,8 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
         {/* 结束时间 */}
         <input
           ref={secondPickerRef}
-          value={dateValue ? dateValue[1] : defaultValue}
+          value={dateValue[1]}
           className={valueMethod === 'timePoint' ? s.hide : s.timePicker}
-          onChange={onLocalChange}
           style={{
             width,
             fontSize,
@@ -241,11 +209,12 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
         {/* 日历icon */}
         <svg
           style={{
-            flex: 1,
             width: valueMethod === 'timePoint' ? `${width / 14}px` : `${width / 8}px`,
             height: valueMethod === 'timePoint' ? `${width / 14}px` : `${width / 8}px`,
+            position: 'absolute',
+            right: '20px',
             fill: 'currentColor',
-            overflow: 'hidden',
+            display: !isVisible ? 'block' : 'none',
           }}
           viewBox="0 0 1024 1024"
           version="1.1"
@@ -258,6 +227,29 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             p-id="1518"
           ></path>
         </svg>
+
+        {/* 删除icon */}
+        <span
+          className={s.falseIcon}
+          style={{
+            display: !isDisabled && isVisible ? 'block' : 'none',
+            position: 'absolute',
+            right: '20px',
+          }}
+          onClick={handleClick}
+        >
+          <svg
+            viewBox="64 64 896 896"
+            focusable="false"
+            data-icon="close"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path>
+          </svg>
+        </span>
       </div>
 
       {/* 起始-结束日历 */}
