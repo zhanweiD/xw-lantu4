@@ -7,32 +7,38 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'width',
-            defaultValue: 300,
-          },
-          {
-            name: 'height',
-            defaultValue: 40,
-          },
-          {
-            name: 'fontSize',
-            defaultValue: 20,
-          },
-          {
-            name: 'scale',
-            defaultValue: 1,
-          },
-          {
-            name: 'backgroundColor',
-            defaultValue: 'rgba(255,255,255,0.1)',
-          },
-          {
             name: 'pickerType',
-            defaultValue: 'date',
+            defaultValue: 'month',
+            options: [
+              {
+                key: '月',
+                value: 'month',
+              },
+              {
+                key: '年',
+                value: 'year',
+              },
+              {
+                key: '10年',
+                value: 'decade',
+              },
+              {
+                key: '世纪',
+                value: 'century',
+              },
+            ],
           },
           {
             name: 'valueMethod',
             defaultValue: 'timePoint',
+          },
+          {
+            name: 'connectLineType',
+            defaultValue: 'wavyline',
+          },
+          {
+            name: 'isDisabled',
+            defaultValue: false,
           },
         ],
       },
