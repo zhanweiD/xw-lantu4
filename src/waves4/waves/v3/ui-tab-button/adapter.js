@@ -35,8 +35,8 @@ const Adapter = () =>
       mTabButton.draw({
         redraw: false,
       })
-      mTabButton.event.on('onSwitchButton', () => {
-        event.fire('onSwitchButton')
+      mTabButton.event.on('onSwitchButton', (info) => {
+        event.fire('switchPanel', info)
       })
       return mTabButton
     },

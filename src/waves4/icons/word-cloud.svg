@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-339,-4262)">
-        <g transform="matrix(1,0,0,1,1369.85,778.04)">
+    <g transform="matrix(1,0,0,1,1030.85,-3483.96)">
+        <g>
             <g transform="matrix(0.521152,0,0,0.521152,-1479.01,3501.47)">
                 <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
             </g>
             <g transform="matrix(1,0,0,1,-1102.18,-354.929)">
-                <g transform="matrix(2.95699,0,0,2.95699,-200.441,-7561.47)">
-                    <text x="103.808px" y="3863.64px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:6px;fill:rgb(255,234,146);">TEXT</text>
+                <g transform="matrix(2.95699,0,0,2.95699,106.518,3863.27)">
+                    <text x="0px" y="0px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:6px;fill:rgb(208,222,238);">TEXT</text>
                 </g>
-                <g transform="matrix(2.95699,0,0,2.95699,-235.846,-7517.77)">
-                    <text x="103.808px" y="3863.64px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:6px;fill:rgb(108,221,195);">TEXT</text>
+                <g transform="matrix(2.95699,0,0,2.95699,71.1132,3906.97)">
+                    <text x="0px" y="0px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:6px;fill:rgb(102,225,223);">TEXT</text>
                 </g>
-                <g transform="matrix(5.39059,0,0,5.39059,-488.735,-16937)">
-                    <text x="103.808px" y="3863.64px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:5.936px;fill:rgb(17,155,255);">TEXT</text>
+                <g transform="matrix(5.39059,0,0,5.39059,70.8514,3890.3)">
+                    <text x="0px" y="0px" style="font-family:'PingFangSC-Medium', 'PingFang SC', sans-serif;font-weight:500;font-size:5.936px;fill:rgb(17,155,255);">TEXT</text>
                 </g>
             </g>
         </g>

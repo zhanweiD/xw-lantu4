@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-339,-4402)">
-        <g transform="matrix(1,0,0,1,1506.43,918.04)">
+    <g transform="matrix(1,0,0,1,1167.43,-3483.96)">
+        <g>
             <g transform="matrix(0.521152,0,0,0.521152,-1615.59,3501.47)">
                 <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
             </g>
@@ -13,16 +13,16 @@
                 <g transform="matrix(3.04911,0,0,3.04911,-868.725,-4919.12)">
                     <path d="M356.832,2791.11C359.324,2793.98 362.935,2795.62 366.733,2795.62C373.973,2795.62 379.852,2789.74 379.852,2782.51C379.852,2775.26 373.978,2769.39 366.733,2769.39L366.733,2772.01C372.529,2772.01 377.228,2776.71 377.228,2782.51C377.228,2788.3 372.525,2793 366.733,2793C363.695,2793 360.806,2791.68 358.812,2789.39L356.832,2791.11Z" style="fill:url(#_Linear1);"/>
                 </g>
-                <g transform="matrix(1,0,0,1,0.244757,-6.78164)">
-                    <text x="243.235px" y="3565.85px" style="font-family:'PingFangSC-Light', 'PingFang SC', sans-serif;font-weight:300;font-size:6px;fill:white;fill-opacity:0.6;">指标</text>
+                <g transform="matrix(1,0,0,1,243.48,3559.07)">
+                    <text x="0px" y="0px" style="font-family:'PingFangSC-Light', 'PingFang SC', sans-serif;font-weight:300;font-size:6px;fill:white;fill-opacity:0.6;">指标</text>
                 </g>
-                <g transform="matrix(1,0,0,1,-9.69924,10.7215)">
-                    <text x="243.235px" y="3565.85px" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-size:20px;fill:white;">123</text>
+                <g transform="matrix(1,0,0,1,233.536,3576.57)">
+                    <text x="0px" y="0px" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-size:20px;fill:white;">123</text>
                 </g>
             </g>
         </g>
     </g>
     <defs>
-        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.16524e-15,35.361,-35.361,2.16524e-15,374.002,2762.87)"><stop offset="0" style="stop-color:rgb(17,155,255);stop-opacity:1"/><stop offset="0.47" style="stop-color:rgb(108,221,195);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,234,146);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.16524e-15,35.361,-35.361,2.16524e-15,374.002,2762.87)"><stop offset="0" style="stop-color:rgb(17,155,255);stop-opacity:1"/><stop offset="0.47" style="stop-color:rgb(102,225,223);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(208,222,238);stop-opacity:1"/></linearGradient>
     </defs>
 </svg>

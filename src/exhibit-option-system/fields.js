@@ -1395,14 +1395,11 @@ const gradientColor = {
     ['#007eff', 1],
   ],
 }
-// 渐变
+// 颜色数组
 const colorList = {
   type: 'colorList',
   label: 'colorList',
-  defaultValue: [
-    ['#79b7ff', 0],
-    ['#007eff', 1],
-  ],
+  defaultValue: ['#007EFF'],
 }
 const rangeColors = {
   type: 'gradient',
@@ -1618,7 +1615,7 @@ const inactiveColor = {
 const activeColor = {
   type: 'color',
   label: 'activeColor',
-  defaultValue: 'rgb(0,119,255,1)',
+  defaultValue: 'rgba(0,119,255,1)',
 }
 
 const DIRECTION = {

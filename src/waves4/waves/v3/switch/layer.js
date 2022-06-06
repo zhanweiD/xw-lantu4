@@ -20,7 +20,7 @@ export default () => {
           },
           {
             name: 'activeColor',
-            defaultValue: 'rgb(0,119,255,1)',
+            defaultValue: 'rgba(0,119,255,1)',
           },
           {
             name: 'inactiveColor',

@@ -11,7 +11,7 @@ export default () => {
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgb(0,119,255)',
+            defaultValue: 'rgba(0,119,255,1)',
           },
           {
             name: 'borderWidth',
