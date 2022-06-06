@@ -137,8 +137,10 @@ const CheckField = observer(({modal, active, onChange, options, style}) => {
             style={{
               width: isHorizontal ? assignedWidths[index] : width,
               height: isHorizontal ? height : height / options.length,
-              backgroundColor: active === index ? `${activeColor}` : `${inactiveColor}`,
-              fontSize: `${fontSize}px`,
+              // backgroundColor: active === index ? `${activeColor}` : `${inactiveColor}`,
+              borderBottom: active === index ? `5px solid ${activeColor}` : `1px solid ${activeColor}`,
+              color: active === index ? `${activeColor}` : `${inactiveColor}`,
+              fontSize: `${width / 18}px`,
             }}
           >
             {option.key}

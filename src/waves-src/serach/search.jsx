@@ -89,7 +89,7 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
         style={{
           ...divStyle,
           borderRadius: style.radius,
-          border: `2px solid ${selectBorders ? 'rgb(0,127,212)' : '#000'}`,
+          border: `2px solid ${selectBorders ? 'rgb(0,127,212)' : '#999'}`,
         }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
