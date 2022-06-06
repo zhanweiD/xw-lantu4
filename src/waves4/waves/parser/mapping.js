@@ -103,10 +103,12 @@ export const layerOptionMap = new Map([
         ['xAxis.xAxisLine.lineWidth', 'style.lineAxisX.strokeWidth'],
         ['xAxis.xAxisLine.singleColor', 'style.lineAxisX.stroke'],
         ['xAxis.xAxisLine.opacity', 'style.lineAxisX.strokeOpacity'],
+        ['xAxis.xAxisLine.dasharray', 'style.lineTickX.dasharray'],
         // x刻度线
         ['xAxis.xAxisSplitLine.lineWidth', 'style.lineTickX.strokeWidth'],
         ['xAxis.xAxisSplitLine.singleColor', 'style.lineTickX.stroke'],
         ['xAxis.xAxisSplitLine.opacity', 'style.lineTickX.strokeOpacity'],
+        ['xAxis.xAxisSplitLine.dasharray', 'style.lineTickX.dasharray'],
         // y文本
         ['yAxis.label.offset', 'style.textY.offset'],
         ['yAxis.label.thousandDiv', 'style.textY.format.thousandth'],
@@ -135,10 +137,12 @@ export const layerOptionMap = new Map([
         ['yAxis.axisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
         ['yAxis.axisLine.singleColor', 'style.lineAxisY.stroke'],
         ['yAxis.axisLine.opacity', 'style.lineAxisY.strokeOpacity'],
+        ['yAxis.axisLine.dasharray', 'style.lineAxisY.dasharray'],
         // y刻度线
         ['yAxis.axisSplitLine.lineWidth', 'style.lineTickY.strokeWidth'],
         ['yAxis.axisSplitLine.singleColor', 'style.lineTickY.stroke'],
         ['yAxis.axisSplitLine.opacity', 'style.lineTickY.strokeOpacity'],
+        ['yAxis.axisSplitLine.dasharray', 'style.lineTickY.dasharray'],
       ]
       const storage = mapOption(mapping)
       // x显隐

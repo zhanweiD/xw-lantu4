@@ -38,6 +38,12 @@ const duration = {
   label: 'duration',
   defaultValue: 2000,
 }
+
+const dasharray = {
+  type: 'text',
+  label: 'dasharray',
+  defaultValue: ' ',
+}
 const delay = {
   type: 'number',
   label: 'delay',
@@ -2484,6 +2490,7 @@ const adaptContainer = {
 }
 
 export default {
+  dasharray,
   adaptContainer,
   theme,
   valueOffsetY,

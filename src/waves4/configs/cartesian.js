@@ -122,6 +122,10 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY', p
                 name: 'opacity',
                 defaultValue: 0.3,
               },
+              {
+                name: 'dasharray',
+                defaultValue: '',
+              },
             ],
           },
         ].filter(Boolean),
@@ -212,6 +216,10 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY', p
                 name: 'opacity',
                 defaultValue: 0.5,
               },
+              {
+                name: 'dasharray',
+                defaultValue: ' ',
+              },
             ],
           },
           type === 'bandX-linearY' && {
@@ -229,6 +237,10 @@ export default ({tickZero = false, percentage = false, type = 'bandX-linearY', p
               {
                 name: 'opacity',
                 defaultValue: 0.3,
+              },
+              {
+                name: 'dasharray',
+                defaultValue: ' ',
               },
             ],
           },
