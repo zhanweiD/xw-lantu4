@@ -7,22 +7,10 @@ export default () => {
         name: 'basic',
         fields: [
           {
-            name: 'width',
-            defaultValue: 450,
-          },
-          {
-            name: 'height',
-            defaultValue: 40,
-          },
-          {
-            name: 'textSize',
-            defaultValue: 20,
-          },
-          {
             name: 'alignmentDirection',
           },
-          {name: 'inactiveColor'},
-          {name: 'activeColor'},
+          {name: 'inactiveColor', defaultValue: 'rgb(141,141,141)'},
+          {name: 'activeColor', defaultValue: 'rgb(71,134,209)'},
         ],
       },
     ],

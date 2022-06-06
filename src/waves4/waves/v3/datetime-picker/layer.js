@@ -20,11 +20,37 @@ export default () => {
           },
           {
             name: 'pickerType',
-            defaultValue: 'date',
+            defaultValue: 'month',
+            options: [
+              {
+                key: '月',
+                value: 'month',
+              },
+              {
+                key: '年',
+                value: 'year',
+              },
+              {
+                key: '10年',
+                value: 'decade',
+              },
+              {
+                key: '世纪',
+                value: 'century',
+              },
+            ],
           },
           {
             name: 'valueMethod',
             defaultValue: 'timePoint',
+          },
+          {
+            name: 'connectLineType',
+            defaultValue: 'wavyline',
+          },
+          {
+            name: 'isDisabled',
+            defaultValue: false,
           },
         ],
       },
