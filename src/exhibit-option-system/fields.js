@@ -1380,14 +1380,11 @@ const gradientColor = {
     ['#007eff', 1],
   ],
 }
-// 渐变
+// 颜色数组
 const colorList = {
   type: 'colorList',
   label: 'colorList',
-  defaultValue: [
-    ['#79b7ff', 0],
-    ['#007eff', 1],
-  ],
+  defaultValue: ['#007EFF'],
 }
 const rangeColors = {
   type: 'gradient',

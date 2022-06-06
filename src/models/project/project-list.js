@@ -11,7 +11,7 @@ const log = createLog('@models/project/project-list.js')
 export const MProjectList = types
   .model({
     name: types.string,
-    description: types.string,
+    description: types.maybe(types.string),
     projectId: types.union(types.string, types.number),
     arts: types.optional(types.array(MArtThumbnail), []),
     // 数据屏排序数据
