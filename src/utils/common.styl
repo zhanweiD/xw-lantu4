@@ -148,8 +148,12 @@ svg
   height 0
 .w0
   width 0
+.w24
+  width 24px
 .w40
   width 40px
+.h16
+  height 16px
 .h24
   height 24px
 .h28
@@ -158,6 +162,10 @@ svg
   height 32px
 .w32
   width 32px
+.whl16
+  width 16px
+  height 16px
+  line-height 16px
 .lh0
   line-height 0
 .lh40
@@ -286,5 +294,9 @@ for $n in 0 1 10
   z-index 20999
 
 // 覆盖react-color样式
-.colorList .sketch-picker
-  padding-right 34px !important
+.colorList 
+  .sketch-picker
+    padding-right 34px !important
+    padding-bottom 28px !important
+    .flexbox-fix:not(:nth-child(2))
+      width 117% !important
