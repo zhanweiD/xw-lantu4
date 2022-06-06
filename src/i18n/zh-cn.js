@@ -236,7 +236,6 @@ export default {
   interactionTarget: '交互对象',
   click: '鼠标单击',
   doubleClick: '鼠标双击',
-  onSwitchButton: '切换选项',
   echartsoption: '配置项',
   body: '请求体(Body)',
   queries: '请求参数(Queries)',

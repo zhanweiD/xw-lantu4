@@ -21,6 +21,7 @@ export const actionTranslation = i18n.sandbox(
     href: ['跳转链接', 'Jump link'],
     switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
+    onSwitchButton: ['切换tab选项', 'Change TabButton'],
   },
   'interactionLang'
 )

@@ -7,11 +7,11 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'uiTabButton',
   name: k('uiTabButton'),
-  layout: () => [10, 1],
+  layout: () => [10, 3],
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   interaction: {
-    eventTriggerTypes: ['switchPanel'],
+    eventTriggerTypes: ['onSwitchButton'],
   },
   layers: [layer(k)],
   data,
