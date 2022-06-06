@@ -37,9 +37,9 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
             ? (self.containerWidth - 0.2 * self.containerWidth) / 2
             : self.containerWidth - 0.2 * self.containerWidth,
         height: self.containerHeight,
-        inputHeight: self.containerHeight * 0.1,
+        inputHeight: self.containerHeight,
         borderColor: self.config('borderColor'),
-        fontSize: self.containerWidth / 30,
+        fontSize: self.containerWidth / 24,
         connectLineType: self.config('connectLineType'),
         isDisabled: self.config('isDisabled'),
       }
@@ -149,7 +149,12 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     <div tabIndex="0" onClick={() => (!isDisabled || flag) && setCalendarVisible(true)}>
       <div
         className={s.inputGroup}
-        style={{height: inputHeight, backgroundColor: isDisabled ? '#999' : '', cursor: isDisabled && 'not-allowed'}}
+        style={{
+          height: inputHeight,
+          backgroundColor: isDisabled ? '#999' : '',
+          cursor: isDisabled && 'not-allowed',
+          boxSizing: 'border-box',
+        }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
       >
