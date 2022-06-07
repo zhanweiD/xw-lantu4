@@ -7,7 +7,7 @@ const pictureGroupScroll = {
   version: '1.0.0',
   completed: true,
   description: '',
-  icon: 'picture',
+  icon: 'pictureGroupScroll',
   i18n,
   config,
   makeAdapter,

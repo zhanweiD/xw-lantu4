@@ -71,6 +71,7 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  backgroundColor: 'rgba(0,0,0,0.7)',
                 }}
               >
                 <div className={s.iconDiv}>
