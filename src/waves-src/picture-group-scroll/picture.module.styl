@@ -25,4 +25,44 @@
     border-radius 40px
 }
 
+.modalDiv 
+    background-color rgba(223, 225, 229, 0.325) 
+    
+    position fixed
+	left 0
+	top 0
+    right 0
+    bottom 0
+	z-index 900
 
+.iconDiv
+    display flex
+    justify-content: space-between
+    width: 400px
+    font-size: 30px
+    position: absolute
+    top 0
+    right 0
+    margin-top 16px
+    margin-right 16px
+    z-index 901
+
+.modalIcon
+    cursor pointer
+    &:hover
+        color #09f
+
+.iconLeftRotateDeg
+    transform: rotate(-90deg)
+
+.iconRightRotateDeg
+    transform: rotate(90deg)
+
+.zoomLarge
+    transform: ''
+
+.zoomSmall
+    transform: rotateX(45deg)
+
+.closePreview
+    display: none

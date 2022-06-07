@@ -4,8 +4,8 @@ import data from './data'
 export const config = (k) => ({
   // 这个key只是橱窗组件的key，不是图标库组件的key
   // 因为橱窗组件和图表库组件是N对N的关系
-  key: 'picture-group-scroll',
-  name: k('picture-group-scroll'),
+  key: 'pictureGroupScroll',
+  name: k('pictureGroupScroll'),
   layout: () => [4, 2],
   padding: [60, 0, 60, 60],
   layers: [layer()],

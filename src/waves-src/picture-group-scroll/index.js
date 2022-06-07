@@ -1,2 +1,3 @@
-import MPicture from './picture'
-export default MPicture
+import MPictureGroupScroll from './picture-multi-scroll'
+
+export default MPictureGroupScroll
