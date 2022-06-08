@@ -44,6 +44,35 @@ const dasharray = {
   label: 'dasharray',
   defaultValue: ' ',
 }
+// 虚线设置
+const dasharrayLength = {
+  type: 'number',
+  label: 'dasharrayLength',
+  defaultValue: 0,
+  min: 0,
+  max: Infinity,
+}
+
+const calibrationTitle = {
+  type: 'text',
+  label: 'calibrationTitle',
+  defaultValue: '刻度线',
+}
+
+const calibrationValue = {
+  type: 'number',
+  label: 'calibrationValue',
+  defaultValue: 0,
+}
+
+const dasharraySpacing = {
+  type: 'number',
+  label: 'dasharraySpacing',
+  defaultValue: 0,
+  min: 0,
+  max: Infinity,
+}
+
 const delay = {
   type: 'number',
   label: 'delay',
@@ -2509,6 +2538,10 @@ const adaptContainer = {
 
 export default {
   dasharray,
+  dasharrayLength,
+  dasharraySpacing,
+  calibrationTitle,
+  calibrationValue,
   adaptContainer,
   theme,
   valueOffsetY,

@@ -69,6 +69,9 @@ const updateStyle = ({
     if (type === 'polar') {
       // polar 的实例 type 还是 axis
       layer = instance.layers.find((item) => item.type === 'axis').instance
+    } else if (type === 'auxiliary') {
+      reinitializeWave(instance, options)
+      return
     } else {
       layer = instance.layers.find((item) => item.type === type).instance
     }
