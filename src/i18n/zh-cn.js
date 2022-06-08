@@ -862,4 +862,5 @@ export default {
   tileType: '数据类型',
   tooltip: 'Tooltip',
   unit: '单位',
+  colorList: '颜色',
 }

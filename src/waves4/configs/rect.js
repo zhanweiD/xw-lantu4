@@ -67,6 +67,7 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           },
           {name: 'width'},
           {name: 'gap'},
+          {name: 'colorList'},
         ],
         sections: [
           {
@@ -122,7 +123,6 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
         name: 'background',
         effective: false,
         fields: [
-          {name: 'colorList'},
           {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',

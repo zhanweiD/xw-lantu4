@@ -293,6 +293,7 @@ export const layerOptionMap = new Map([
         ['base.mode', 'options.mode'],
         ['base.width', 'style.rectWidth'],
         ['base.gap', 'style.rectInterval'],
+        ['base.colorList', 'style.rect.colorList'],
         ['base.color.colorType', 'style.rect.colorType'],
         ['base.color.singleColor', 'style.rect.fill'],
         ['base.color.gradientColor', 'style.rect.gradientColor'],
