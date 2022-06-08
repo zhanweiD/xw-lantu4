@@ -7,6 +7,18 @@ export default () => {
         name: 'base',
         fields: [
           {
+            name: 'fontSize',
+            defaultValue: 20,
+          },
+          // {
+          //   name: 'scale',
+          //   defaultValue: 1,
+          // },
+          {
+            name: 'backgroundColor',
+            defaultValue: 'rgba(255,255,255,0.1)',
+          },
+          {
             name: 'pickerType',
             defaultValue: 'month',
             options: [

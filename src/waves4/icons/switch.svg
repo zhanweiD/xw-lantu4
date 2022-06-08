@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-729,-5074)">
-        <g transform="matrix(1,0,0,1,1482.91,1374.35)">
+    <g transform="matrix(1,0,0,1,753.91,-3699.65)">
+        <g>
             <g transform="matrix(0.521152,0,0,0.521152,-1202.08,3717.16)">
                 <rect x="859.943" y="-33.506" width="153.506" height="153.506" style="fill:none;"/>
             </g>
@@ -11,15 +11,22 @@
                     <rect x="774.994" y="3700.52" width="80" height="80" style="fill:none;"/>
                 </g>
                 <g transform="matrix(0.564075,0,0,0.230159,197.872,-30.4348)">
-                    <path d="M849.587,3740.04C849.587,3732.3 840.724,3726.01 829.807,3726.01L800.138,3726.01C789.222,3726.01 780.359,3732.3 780.359,3740.04C780.359,3747.78 789.222,3754.06 800.138,3754.06L829.807,3754.06C840.724,3754.06 849.587,3747.78 849.587,3740.04ZM845.631,3740.04C845.631,3746.23 838.54,3751.26 829.807,3751.26C829.807,3751.26 800.138,3751.26 800.138,3751.26C791.405,3751.26 784.315,3746.23 784.315,3740.04C784.315,3733.84 791.405,3728.82 800.138,3728.82C800.138,3728.82 829.807,3728.82 829.807,3728.82C838.54,3728.82 845.631,3733.84 845.631,3740.04Z" style="fill:url(#_Linear1);"/>
+                    <clipPath id="_clip1">
+                        <path d="M849.587,3740.04C849.587,3732.3 840.724,3726.01 829.807,3726.01L800.138,3726.01C789.222,3726.01 780.359,3732.3 780.359,3740.04C780.359,3747.78 789.222,3754.06 800.138,3754.06L829.807,3754.06C840.724,3754.06 849.587,3747.78 849.587,3740.04ZM845.631,3740.04C845.631,3746.23 838.54,3751.26 829.807,3751.26L800.138,3751.26C791.405,3751.26 784.315,3746.23 784.315,3740.04C784.315,3733.84 791.405,3728.82 800.138,3728.82L829.807,3728.82C838.54,3728.82 845.631,3733.84 845.631,3740.04Z"/>
+                    </clipPath>
+                    <g clip-path="url(#_clip1)">
+                        <g transform="matrix(0.988968,-0,-0,0.701194,775.417,3711.95)">
+                            <use xlink:href="#_Image2" x="4.997" y="20.553" width="70px" height="40.003px" transform="matrix(1,0,0,0.975688,0,0)"/>
+                        </g>
+                    </g>
                 </g>
                 <g transform="matrix(0.509515,0,0,0.147402,225.2,279.055)">
-                    <circle cx="832.185" cy="3740.2" r="13.138" style="fill:rgb(108,221,195);"/>
+                    <circle cx="832.185" cy="3740.2" r="13.138" style="fill:rgb(102,225,223);"/>
                 </g>
             </g>
         </g>
     </g>
     <defs>
-        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(75.0953,0,0,53.2438,775.414,3737.78)"><stop offset="0" style="stop-color:rgb(17,155,255);stop-opacity:1"/><stop offset="0.47" style="stop-color:rgb(108,221,195);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,234,146);stop-opacity:1"/></linearGradient>
+        <image id="_Image2" width="70px" height="41px" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAApAEYDAREAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABAMGAQf/xAAdEAADAQACAwEAAAAAAAAAAAAAAgNhAREEIUEx/8QAGgEBAQADAQEAAAAAAAAAAAAABAIBAwYFB//EABgRAAMBAQAAAAAAAAAAAAAAAAABAgMR/9oADAMBAAIRAxEAPwDiS5b9PuVWkfBeCpQwPepSQuUMC3qWkLlDA16lKRcoYFvUtSLlANepaQyUMC3qWpFyhga9S1IucPX4GrUtSedyhh3N6nmpC5ePga9S1IuUMC3qWpFygGvUtIXHx8DXqWpFyhgW9SlIyUMDXqWpEzjxx8D1bZtmOl1TCOm+cjAShh2V6nkKRkoBb1KSFx8fA16lqRcoYFvUtSLlDA16lqRU48cB6ts2THS6Tw19ERkWWZjomMiqz9fhPRM5GLjDDo71ObUjJQwLepakXKGBr1LUipx6D1o2bJjohJ9fDU2b4yKrMx0TGRZJktioyLJMnomMiqzMdEzkZWUMPUvU45SLnDoPWjZsU9EJPr4amzfORZEJ6JjIqkyWxMZFkmT0VGRVJ4Y6JjIskyWxUZFln6J6JnIy0vg6z5+hCGtiJKoYEwVQlioLoSxMFFMCpLoSxMlUJYqCqmGJk//Z"/>
     </defs>
 </svg>

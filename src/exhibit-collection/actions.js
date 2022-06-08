@@ -3,10 +3,9 @@ import {isMatchCondition} from './utils'
 
 // 事件触发动作，支持的响应动作， key是事件，值是对应的动作
 export default {
-  click: ['show', 'hidden', 'toggle_visible', 'href'],
-  doubleClick: ['show', 'hidden'],
-  tabSwitch: ['tabShow'],
-  onSwitchButton: ['show', 'hidden'],
+  click: ['show', 'hidden', 'toggle_visible', 'href', 'data_effect'],
+  doubleClick: ['show', 'hidden', 'data_effect'],
+  switchPanel: ['show', 'hidden', 'data_effect'],
 }
 /**
  * 动作，以及事件的统一国际化
@@ -21,7 +20,6 @@ export const actionTranslation = i18n.sandbox(
     href: ['跳转链接', 'Jump link'],
     switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
-    onSwitchButton: ['切换tab选项', 'Change TabButton'],
   },
   'interactionLang'
 )

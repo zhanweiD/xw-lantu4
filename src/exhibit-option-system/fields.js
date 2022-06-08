@@ -1395,14 +1395,11 @@ const gradientColor = {
     ['#007eff', 1],
   ],
 }
-// 渐变
+// 颜色数组
 const colorList = {
   type: 'colorList',
   label: 'colorList',
-  defaultValue: [
-    ['#79b7ff', 0],
-    ['#007eff', 1],
-  ],
+  defaultValue: ['#007EFF'],
 }
 const rangeColors = {
   type: 'gradient',
@@ -1428,6 +1425,12 @@ const listColor = {
   type: 'colorList',
   label: 'listColor',
   defaultValue: ['#007EFF'],
+}
+
+const columnNumber = {
+  type: 'number',
+  label: 'columnNumber',
+  defaultValue: 3,
 }
 
 /**
@@ -1618,7 +1621,7 @@ const inactiveColor = {
 const activeColor = {
   type: 'color',
   label: 'activeColor',
-  defaultValue: 'rgb(0,119,255,1)',
+  defaultValue: 'rgba(0,119,255,1)',
 }
 
 const DIRECTION = {
@@ -2602,6 +2605,7 @@ export default {
   rangeColors,
   // 颜色列表
   listColor,
+  columnNumber,
   // 普通字段
   column,
   // 经度

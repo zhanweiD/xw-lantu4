@@ -37,9 +37,9 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
             ? (self.containerWidth - 0.2 * self.containerWidth) / 2
             : self.containerWidth - 0.2 * self.containerWidth,
         height: self.containerHeight,
-        inputHeight: self.containerHeight * 0.1,
+        inputHeight: self.containerHeight,
         borderColor: self.config('borderColor'),
-        fontSize: self.containerWidth / 30,
+        fontSize: self.containerWidth / 20,
         connectLineType: self.config('connectLineType'),
         isDisabled: self.config('isDisabled'),
       }
@@ -149,7 +149,12 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     <div tabIndex="0" onClick={() => (!isDisabled || flag) && setCalendarVisible(true)}>
       <div
         className={s.inputGroup}
-        style={{height: inputHeight, backgroundColor: isDisabled ? '#999' : '', cursor: isDisabled && 'not-allowed'}}
+        style={{
+          height: inputHeight,
+          backgroundColor: isDisabled ? '#999' : '',
+          cursor: isDisabled && 'not-allowed',
+          boxSizing: 'border-box',
+        }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
       >
@@ -212,7 +217,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             width: valueMethod === 'timePoint' ? `${width / 14}px` : `${width / 8}px`,
             height: valueMethod === 'timePoint' ? `${width / 14}px` : `${width / 8}px`,
             position: 'absolute',
-            right: '20px',
+            right: '15px',
             fill: 'currentColor',
             display: !isVisible ? 'block' : 'none',
           }}
@@ -232,21 +237,15 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
         <span
           className={s.falseIcon}
           style={{
+            width: valueMethod === 'timePoint' ? `${width / 18}px` : `${width / 12}px`,
+            height: valueMethod === 'timePoint' ? `${width / 18}px` : `${width / 12}px`,
             display: !isDisabled && isVisible ? 'block' : 'none',
             position: 'absolute',
-            right: '20px',
+            right: '15px',
           }}
           onClick={handleClick}
         >
-          <svg
-            viewBox="64 64 896 896"
-            focusable="false"
-            data-icon="close"
-            width="1em"
-            height="1em"
-            fill="currentColor"
-            aria-hidden="true"
-          >
+          <svg viewBox="64 64 896 896" focusable="false" data-icon="close" fill="currentColor" aria-hidden="true">
             <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path>
           </svg>
         </span>

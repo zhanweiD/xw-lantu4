@@ -1,0 +1,71 @@
+.swiper
+    overflow hidden /*超出部分隐藏*/
+
+.img_container{
+    display flex
+    transition transform 0.3s /*设置过渡效果*/
+}
+
+// 轮播点-位置
+.num_container{
+    position absolute
+    bottom 10px
+    left 40%
+}
+//轮播点-大小
+.num_container button{
+    margin-right 10px
+    cursor pointer 
+}
+.num_container button:hover{
+    background-color: rgb(123,135,161) 
+    border none   
+}
+.btn {
+    border-radius 40px
+}
+
+.modalDiv 
+    background-color rgba(223, 225, 229, 0.325) 
+    
+    position fixed
+	left 0
+	top 0
+    right 0
+    bottom 0
+	z-index 900
+
+.iconDiv
+    display flex
+    justify-content: space-between
+    width: 400px
+    font-size: 30px
+    position: absolute
+    top 0
+    right 0
+    margin-top 16px
+    margin-right 16px
+    z-index 901
+
+.modalIcon
+    cursor pointer
+    &:hover
+        color #09f
+
+.iconLeftRotateDeg
+    transform: rotate(-90deg)
+
+.iconRightRotateDeg
+    transform: rotate(90deg)
+
+.zoomLarge
+    transform: ''
+
+.zoomSmall
+    transform: rotateX(45deg)
+
+.closePreview
+    display: none
+
+::-webkit-scrollbar
+    display none
