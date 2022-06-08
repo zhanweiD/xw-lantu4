@@ -103,10 +103,12 @@ export const layerOptionMap = new Map([
         ['xAxis.xAxisLine.lineWidth', 'style.lineAxisX.strokeWidth'],
         ['xAxis.xAxisLine.singleColor', 'style.lineAxisX.stroke'],
         ['xAxis.xAxisLine.opacity', 'style.lineAxisX.strokeOpacity'],
+        ['xAxis.xAxisLine.dasharray', 'style.lineTickX.dasharray'],
         // x刻度线
         ['xAxis.xAxisSplitLine.lineWidth', 'style.lineTickX.strokeWidth'],
         ['xAxis.xAxisSplitLine.singleColor', 'style.lineTickX.stroke'],
         ['xAxis.xAxisSplitLine.opacity', 'style.lineTickX.strokeOpacity'],
+        ['xAxis.xAxisSplitLine.dasharray', 'style.lineTickX.dasharray'],
         // y文本
         ['yAxis.label.offset', 'style.textY.offset'],
         ['yAxis.label.thousandDiv', 'style.textY.format.thousandth'],
@@ -135,12 +137,37 @@ export const layerOptionMap = new Map([
         ['yAxis.axisLine.lineWidth', 'style.lineAxisY.strokeWidth'],
         ['yAxis.axisLine.singleColor', 'style.lineAxisY.stroke'],
         ['yAxis.axisLine.opacity', 'style.lineAxisY.strokeOpacity'],
+        ['yAxis.axisLine.dasharray', 'style.lineAxisY.dasharray'],
         // y刻度线
         ['yAxis.axisSplitLine.lineWidth', 'style.lineTickY.strokeWidth'],
         ['yAxis.axisSplitLine.singleColor', 'style.lineTickY.stroke'],
         ['yAxis.axisSplitLine.opacity', 'style.lineTickY.strokeOpacity'],
+        ['yAxis.axisSplitLine.dasharray', 'style.lineTickY.dasharray'],
       ]
       const storage = mapOption(mapping)
+
+      // if (getOption('yAxis.axisSplitLine.dasharrayLength')){
+      //   const Length = getOption('yAxis.axisSplitLine.dasharrayLength').toString()
+      //   const Spacing = getOption('yAxis.axisSplitLine.dasharraySpacing').toString()
+      //   storage.set('style.lineTickY.dasharray', `${Length} ${Spacing}`)
+      // }
+      // if (getOption('yAxis.axisLine.dasharrayLength')){
+      //   const Length = getOption('yAxis.axisLine.dasharrayLength').toString()
+      //   const Spacing = getOption('yAxis.axisLine.dasharraySpacing').toString()
+      //   storage.set('style.lineAxisY.dasharray', `${Length} ${Spacing}`)
+      // }
+
+      // if (getOption('xAxis.xAxisSplitLine.dasharrayLength')){
+      //   const Length = getOption('xAxis.xAxisSplitLine.dasharrayLength').toString()
+      //   const Spacing = getOption('xAxis.xAxisSplitLine.dasharraySpacing').toString()
+      //   storage.set('style.lineTickX.dasharray', `${Length} ${Spacing}`)
+      // }
+
+      // if (getOption('xAxis.xAxisLine.dasharrayLength')){
+      //   const Length = getOption('xAxis.xAxisLine.dasharrayLength').toString()
+      //   const Spacing = getOption('xAxis.xAxisLine.dasharraySpacing').toString()
+      //   storage.set('style.lineAxisX.dasharray', `${Length} ${Spacing}`)
+      // }
       // x显隐
       if (getOption('xAxis.label.effective') !== undefined) {
         storage.set('style.textX.hide', !getOption('xAxis.label.effective'))
@@ -169,6 +196,7 @@ export const layerOptionMap = new Map([
       if (getOption('yAxis.axisSplitLine.effective') !== undefined) {
         storage.set('style.lineTickY.hide', !getOption('yAxis.axisSplitLine.effective'))
       }
+
       // x禁用格式化
       if (!storage.get('style.textX.format.thousandth') && !storage.get('style.textX.format.percentage')) {
         storage.set('style.textX.format', false)
@@ -293,6 +321,7 @@ export const layerOptionMap = new Map([
         ['base.mode', 'options.mode'],
         ['base.width', 'style.rectWidth'],
         ['base.gap', 'style.rectInterval'],
+        ['base.colorList', 'style.rect.colorList'],
         ['base.color.colorType', 'style.rect.colorType'],
         ['base.color.singleColor', 'style.rect.fill'],
         ['base.color.gradientColor', 'style.rect.gradientColor'],
@@ -690,6 +719,45 @@ export const layerOptionMap = new Map([
         ['tooltip.show', 'options.tooltipOption.visible'],
       ]
       const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+  [
+    'auxiliary',
+    ({mapOption, getOption}) => {
+      const mapping = [
+        ['calibration.calibrationTitle', 'data.titleOne'],
+        ['calibration.calibrationTitle', 'data.valueOne'],
+        ['calibration.calibrationValue', 'data.valueOne'],
+
+        ['text.relativePosition', 'style.labelPosition'],
+        ['line.lineWidth', 'style.line.strokeWidth'],
+        ['line.singleColor', 'style.line.stroke'],
+        ['line.opacity', 'style.line.strokeOpacity'],
+        ['text.textSize', 'style.text.fontSize'],
+        ['text.textWeight', 'style.text.fontWeight'],
+        ['text.singleColor', 'style.text.fill'],
+      ]
+      const storage = mapOption(mapping)
+      if (getOption('calibration.calibrationTitle')) {
+        storage.set('data', [
+          ['标签', '数值'],
+          [getOption('calibration.calibrationTitle'), getOption('calibration.calibrationValue')],
+        ])
+      }
+      if (getOption('line.dasharrayLength')) {
+        const Length = getOption('line.dasharrayLength').toString()
+        const Spacing = getOption('line.dasharraySpacing').toString()
+        storage.set('style.line.dasharray', `${Length}  ${Spacing}`)
+      }
+      if (getOption('line.dasharraySpacing')) {
+        const Length = getOption('line.dasharrayLength').toString()
+        const Spacing = getOption('line.dasharraySpacing').toString()
+        storage.set('style.line.dasharray', `${Length} ${Spacing}`)
+      }
+      if (getOption('calibration.direction')) {
+        storage.set('options.type', getOption('calibration.direction'))
+      }
       return storage.get()
     },
   ],

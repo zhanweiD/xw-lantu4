@@ -19,7 +19,7 @@ import matrix from './matrix'
 import baseMap from './baseMap'
 import odLine from './odLine'
 import timeline from './timeline'
-
+import auxiliary from './auxiliary'
 export {
   title,
   cartesian,
@@ -29,7 +29,7 @@ export {
   dashboard,
   pack,
   edgeBundle,
-  // auxiliary,
+  auxiliary,
   radar,
   scatter,
   arc,
