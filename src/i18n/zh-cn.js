@@ -217,6 +217,7 @@ export default {
   direction: '方向',
   horizontal: '水平',
   vertical: '垂直',
+  columnNumber: '列数',
   gap: '间隙',
   in: '内',
   out: '外',

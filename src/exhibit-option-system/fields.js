@@ -1462,6 +1462,12 @@ const listColor = {
   defaultValue: ['#007EFF'],
 }
 
+const columnNumber = {
+  type: 'number',
+  label: 'columnNumber',
+  defaultValue: 3,
+}
+
 /**
  * =====================================
  * column
@@ -2639,6 +2645,7 @@ export default {
   rangeColors,
   // 颜色列表
   listColor,
+  columnNumber,
   // 普通字段
   column,
   // 经度

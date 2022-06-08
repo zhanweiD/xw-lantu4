@@ -101,6 +101,7 @@ const ConfiguredInput = observer(({self, style}) => {
           borderRadius: style.radius,
           border: `${style.borderWidth}px solid ${selectBorders ? 'rgb(0,127,212)' : style.borderColor}`,
           backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
+          boxSizing: 'border-box',
         }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
