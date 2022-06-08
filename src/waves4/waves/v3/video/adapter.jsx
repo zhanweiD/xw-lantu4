@@ -1,36 +1,32 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import MSelect from '@wavesSrc/select'
+import MyVideo from '@wavesSrc/video'
 import translate from './translate'
 
-/**
- * react hook 组件适配器
- */
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化
-    init({options, event}) {
+    init({options}) {
+      const mVideo = MyVideo.create()
       const translatedOptions = translate(options)
-      const mSelect = MSelect.create()
-      mSelect.init(translatedOptions, {})
-      mSelect.data(translatedOptions)
-      mSelect.draw({
+      // 初始化模型
+      mVideo.init(translatedOptions, {})
+      mVideo.data(translatedOptions, {})
+      mVideo.draw({
         redraw: true,
       })
-      mSelect.event.on('onSwitchOption', (info) => {
-        event.fire('switchPanel', info)
-      })
-      return mSelect
+
+      return mVideo
     },
 
     // 处理包括数据、样式等变更
     update({options}) {
       try {
-        const mSelect = MSelect.create()
+        const mVideo = MyVideo.create()
         const translatedOptions = translate(options)
         // 初始化模型
-        mSelect.init(translatedOptions, {})
-        mSelect.data(translatedOptions)
-        mSelect.draw({
+        mVideo.init(translatedOptions, {})
+        mVideo.data(translatedOptions, {})
+        mVideo.draw({
           redraw: true,
         })
       } catch (error) {
