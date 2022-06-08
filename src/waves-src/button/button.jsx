@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {types} from 'mobx-state-tree'
 import {MUIBase} from '../ui-base'
+import {observer} from 'mobx-react-lite'
 import s from './button.module.styl'
 
 const MButton = MUIBase.named('MInput')
@@ -24,37 +25,6 @@ const MButton = MUIBase.named('MInput')
       self.draw({redraw: false})
     }
 
-    // 和图表的方法保持一致
-    const draw = ({redraw}) => {
-      if (redraw === true) {
-        self.removeNode(self.container?.parentNode)
-      }
-      self.name = self.config('buttonName')
-      const style = {
-        height: self.config('height'),
-        width: self.config('width'),
-        color: self.config('fontColor'),
-        fontSize: self.config('fontSize'),
-        backgroundColor: self.config('backgroundColor'),
-        borderRadius: self.config('borderRadius'),
-        border: `${self.config('borderWidth')}px solid ${self.config('borderColor')}`,
-      }
-      // 自适应容器
-      // if (self.config('adaptContainer')) {
-      // Object.assign(style, {
-      //   width: self.containerWidth,
-      //   height: self.containerHeight,
-      // })
-      // }
-
-      // 渲染组件
-      self.render(
-        <div className={s.button} onClick={self.onClick} style={style}>
-          {self.name}
-        </div>
-      )
-    }
-
     let count = 0,
       timer = null
 
@@ -75,6 +45,34 @@ const MButton = MUIBase.named('MInput')
       }, 200)
     }
 
+    // 和图表的方法保持一致
+    const draw = ({redraw}) => {
+      if (redraw === true) {
+        self.removeNode(self.container?.parentNode)
+      }
+      self.name = self.config('buttonName')
+      const style = {
+        height: self.config('height'),
+        width: self.config('width'),
+        color: self.config('fontColor'),
+        fontSize: self.config('height') > self.config('width') ? self.config('height') / 6 : self.config('width') / 6,
+        backgroundColor: self.config('backgroundColor'),
+        borderRadius: self.config('borderRadius'),
+        borderWidth: self.config('borderWidth'),
+        borderColor: self.config('borderColor'),
+      }
+      // 自适应容器
+      // if (self.config('adaptContainer')) {
+      // Object.assign(style, {
+      //   width: self.containerWidth,
+      //   height: self.containerHeight,
+      // })
+      // }
+
+      // 渲染组件
+      self.render(<MyButton self={self} style={style} />)
+    }
+
     return {
       data,
       draw,
@@ -83,5 +81,23 @@ const MButton = MUIBase.named('MInput')
       afterCreate,
     }
   })
+
+const MyButton = observer(({self, style}) => {
+  const [keyDown, setKeyDown] = useState(false)
+
+  const {borderWidth, borderColor, ...others} = style
+
+  return (
+    <div
+      className={keyDown ? s.btn2 : s.button}
+      onClick={self.onClick}
+      onMouseDown={() => setKeyDown(true)}
+      onMouseUp={() => setKeyDown(false)}
+      style={{...others, border: `${borderWidth}px solid ${borderColor}`}}
+    >
+      {self.name}
+    </div>
+  )
+})
 
 export default MButton

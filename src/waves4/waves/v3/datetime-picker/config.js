@@ -5,10 +5,11 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'DatetimePicker',
   name: k('DatetimePicker'),
-  layout: () => [4, 2],
+  layout: () => [12, 8],
   padding: [60, 0, 60, 60],
   layers: [layer()],
   interaction: {
+    eventTriggerTypes: ['onChangeTime', 'onChangeTime2'],
     sources: [
       {
         // 事件名称

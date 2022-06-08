@@ -7,10 +7,6 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'textSize',
-            defaultValue: 24,
-          },
-          {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',
           },
@@ -19,11 +15,11 @@ export default () => {
           },
           {
             name: 'content',
-            defaultValue: '按钮1',
+            defaultValue: '按钮',
           },
           {
             name: 'backgroundColor',
-            defaultValue: 'rgba(0,119,255,1)',
+            defaultValue: 'rgb(0,0,0)',
           },
           {
             name: 'borderWidth',

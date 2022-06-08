@@ -6,7 +6,7 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'select',
   name: k('select'),
-  layout: () => [4, 1],
+  layout: () => [12, 2],
   padding: [60, 0, 60, 60],
   layers: [layer()],
   interaction: {

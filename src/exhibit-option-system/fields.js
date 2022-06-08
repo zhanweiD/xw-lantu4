@@ -247,6 +247,27 @@ const isDisplayTextNum = {
   label: 'isDisplayTextNum',
 }
 
+// 更改连接线类型
+const connectLineType = {
+  type: 'select',
+  label: 'connectLineType',
+  defaultValue: 'wavyline',
+  options: [
+    {
+      key: '波浪线',
+      value: 'wavyline',
+    },
+    {
+      key: '箭头线',
+      value: 'arrow',
+    },
+    {
+      key: '短横线',
+      value: 'shortline',
+    },
+  ],
+}
+
 const enableMapInteractive = {
   type: 'switch',
   label: 'enableMapInteractive',
@@ -2721,6 +2742,7 @@ export default {
   isDisabled,
   isDisplayTextNum,
   enableMapInteractive,
+  connectLineType,
   viewFixed,
   coordinateAcquisitionResult,
   snow,
