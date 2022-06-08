@@ -31,6 +31,7 @@ export const createExhibitModelClass = (exhibit) => {
         'other',
         'echartsoption',
         'interaction',
+        'auxiliary',
       ]), // 配置面板顶部tab
       normalKeys: types.frozen(['id', 'lib', 'key', 'initSize']),
       deepKeys: types.frozen([
@@ -45,6 +46,7 @@ export const createExhibitModelClass = (exhibit) => {
         'echartsoption',
         'gisBase',
         'interaction',
+        'auxiliary',
       ]), // 配置面板配置项
     })
     .views((self) => ({
@@ -86,6 +88,9 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.axis) {
           self.setAxis(config.axis)
         }
+        if (config.auxiliary) {
+          self.setAuxiliary(config.auxiliary)
+        }
         if (config.other) {
           self.setOther(config.other)
         }
@@ -95,6 +100,7 @@ export const createExhibitModelClass = (exhibit) => {
         if (config.polar) {
           self.setPolar(config.polar)
         }
+
         // 交互
         if (config.interaction) {
           self.setInteraction()
@@ -249,6 +255,16 @@ export const createExhibitModelClass = (exhibit) => {
           return self.axis.getData()
         }
       }
+
+      const setAuxiliary = (auxiliary) => {
+        self.auxiliary = createPropertyClass(config.key, auxiliary, 'auxiliary')
+      }
+      const getAuxiliary = (auxiliary) => {
+        if (self.auxiliary) {
+          return self.auxiliary.getData()
+        }
+      }
+
       const setOther = (other) => {
         self.other = createPropertyClass(config.key, other, 'other')
       }
@@ -348,6 +364,8 @@ export const createExhibitModelClass = (exhibit) => {
         getLegend,
         setAxis,
         getAxis,
+        setAuxiliary,
+        getAuxiliary,
         setOther,
         getOther,
         getEchartsoption,

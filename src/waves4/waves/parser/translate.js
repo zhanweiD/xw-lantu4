@@ -84,12 +84,12 @@ function translate(schema) {
     axis, // 坐标轴配置
     polar, // 极坐标
     other, // 其他配置
+    auxiliary, // 辅助线
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
   let layerConfig = []
   let isBaseMap = false
   let padding = [60, 40, 40, 40] // 内边距
-
   // 如果 config 中有配置 other 属性，那么 padding 的取值就会不一样
   if (other && isObject(other) && Object.keys(other).length) {
     padding = other.getOption('layout.areaOffset')
@@ -182,6 +182,22 @@ function translate(schema) {
                 id: uuid(),
                 layout: 'main',
               },
+        },
+        config
+      )
+    )
+  }
+  if (auxiliary && isObject(auxiliary) && Object.keys(auxiliary).length && auxiliary.effective) {
+    const {getOption, mapOption} = auxiliary
+    const config = layerOptionMap.get('auxiliary')({getOption, mapOption})
+    layerConfig.push(
+      merge(
+        {
+          type: 'auxiliary',
+          options: {
+            id: uuid(),
+            layout: 'main',
+          },
         },
         config
       )

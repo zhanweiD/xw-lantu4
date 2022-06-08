@@ -122,7 +122,7 @@ const createExhibitAdapter = (hooks) =>
         isPreview: !this.isEdit,
       }
       // 定义才添加的数据
-      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar']
+      const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar', 'auxiliary']
       liveProps.forEach((prop) => {
         const propConfig = this.model[`get${capitalize(prop)}`]()
         if (isDef(propConfig)) {
@@ -184,7 +184,7 @@ const createExhibitAdapter = (hooks) =>
 
     observerModel() {
       const {model} = this
-      const {data, layers, dimension, title, legend, axis, polar, other, gisBase} = model
+      const {data, layers, dimension, title, legend, axis, polar, other, gisBase, auxiliary} = model
       if (gisBase) {
         this.observerDisposers.push(
           this.createObserverObject({actionType: 'gisBase', isGlobal: true}),
@@ -212,6 +212,13 @@ const createExhibitAdapter = (hooks) =>
           this.createObserverObject({actionType: 'axis'})
         )
       }
+      if (auxiliary) {
+        this.observerDisposers.push(
+          this.createObserverObject({actionType: 'auxiliary', isGlobal: true}),
+          this.createObserverObject({actionType: 'auxiliary'})
+        )
+      }
+
       if (other) {
         this.observerDisposers.push(
           this.createObserverObject({actionType: 'other', isGlobal: true}),
