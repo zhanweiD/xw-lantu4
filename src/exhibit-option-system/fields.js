@@ -1434,7 +1434,7 @@ const gradientColor = {
 const colorList = {
   type: 'colorList',
   label: 'colorList',
-  defaultValue: ['#007EFF'],
+  defaultValue: [[['rgba(52,200,254,1)', 0]]],
 }
 const rangeColors = {
   type: 'gradient',

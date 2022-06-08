@@ -13,7 +13,7 @@ const ColorListField = ({
   label,
   visible,
   value,
-  defaultValue = ['#007EFF', null],
+  defaultValue = [[['rgba(52,200,254,1)', 0]]],
   onChange = () => {},
   labelClassName,
   childrenClassName,
@@ -21,23 +21,17 @@ const ColorListField = ({
 }) => {
   const [rect, setRect] = useState({})
   const [circle, setCircle] = useState({})
-  const [activeKey, setActiveKey] = useState(null)
   const [canShowPicker, setCanShowPicker] = useState(false)
   const [isClick, setIsClick] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
-  const [rectBackgroundColor, setRectBackgroundColor] = useState()
-  const [colorList, setColorList] = useState([value || defaultValue])
+  const [backgroundColor, setBackgroundColor] = useState() // 渐变条背景色
+  const [colorList, setColorList] = useState(value || defaultValue)
+  const [nowIndex, setNowIndex] = useState(0)
   // 当前选择的色块颜色值是否是渐变
-  const [gradientList, setGradientList] = useState(
-    colorObjectForm([
-      ['#50E3C2', 0],
-      ['#007eff', 1],
-    ]).gradientList || []
-  )
-
+  const [gradientList, setGradientList] = useState()
+  const [activeColor, setActiveColor] = useState(colorList[0]) // 当前编辑色块
+  const [activeKey, setActiveKey] = useState(activeColor[0][2] || 'g0') // 渐变圆点key // 当前色块选中的颜色key
   const rectRef = useRef()
   const colorRef = useRef()
-  // const rectContainerRef = useRef()
   const colorPickerBoxRef = useRef()
 
   /**
@@ -46,8 +40,8 @@ const ColorListField = ({
    * position: 圆点位置
    * stop: 中间线位置，待做
    */
-  const getgradientListInit = () => {
-    const listCopy = JSON.parse(JSON.stringify(gradientList))
+  const getgradientListInit = (colorObj) => {
+    const listCopy = JSON.parse(JSON.stringify(colorObj))
     listCopy.forEach((item, index) => {
       if (index === 0 && !item.key) {
         item.key = 'g0'
@@ -62,64 +56,32 @@ const ColorListField = ({
     return listCopy
   }
 
-  const gradientListInit = getgradientListInit()
-
   // 鼠标拖动圆点
   useEffect(() => {
     const {key, x, y} = circle
     const circleNode = document.querySelector(`.${key}`)
     if (circleNode && key) {
       // 用于保存小的div拖拽前的坐标
-      circleNode.startX = x - circleNode.offsetLeft
-      circleNode.startY = y
-
+      circleNode.startY = y - circleNode.offsetTop
+      circleNode.startX = x
       // 鼠标的移动事件
       document.onmousemove = (e) => {
-        // circleNode.style.left = `${e.clientX - circleNode.startX}px`
-        circleNode.style.top = `${e.clientY - circleNode.startY}px`
-        // 对于大的DIV四个边界的判断
-        if (e.clientX - circleNode.startX <= -4) {
-          circleNode.style.left = `${-4}px`
-        }
-        if (e.clientY - circleNode.startY <= 0) {
-          circleNode.style.top = `${-4}px`
-        }
-        if (e.clientX - circleNode.startX >= rect.width - 7) {
-          circleNode.style.left = `${rect.width - 4}px`
-        }
-        if (e.clientY - circleNode.startY >= 0) {
-          circleNode.style.top = `${-4}px`
-        }
-        // let circleX = e.clientX
-        // if (e.clientX < rect.x) {
-        //   circleX = rect.x
-        // }
-        // if (e.clientX > rect.x + rect.width) {
-        //   circleX = rect.x + rect.width
-        // }
         let circleY = e.clientY
-        if (e.clientY < rect.y) {
-          circleY = rect.y
-        }
-        if (e.clientY > rect.y + rect.height) {
-          circleY = rect.y + rect.height
-        }
+        if (e.clientY < rect.y) circleY = rect.y
+        if (e.clientY > rect.y + rect.height) circleY = rect.y + rect.height
         // 更新颜色位置
         const position = (circleY - rect.y) / rect.height
-        const copyList = JSON.parse(JSON.stringify(gradientListInit))
+        const copyList = JSON.parse(JSON.stringify(gradientList))
         copyList.find((item) => item.key === key).position = position
         const colors = {gradientList: copyList}
-        onChange(colorArrayForm(colors))
+        setActiveColor(colorArrayForm(colors))
       }
       // 鼠标的抬起事件,终止拖动
       document.onmouseup = (e) => {
         // 位置移动后点击事件取消
-        if (e.clientX !== x) {
-          setIsClick(false)
-        }
+        if (e.clientY !== y) setIsClick(false)
         document.onmousemove = null
         document.onmouseup = null
-        // log.info('mouseup')
       }
     }
   }, [circle])
@@ -129,43 +91,39 @@ const ColorListField = ({
     if (canShowPicker) {
       // 展示的时候，修改colorPicker的位置，下面如果超出innerHeight， 那就展示在上边
       const colorPickerBoxDom = colorPickerBoxRef.current
-      // const rectContainerDom = rectContainerRef.current
       const {top, left} = colorRef.current.getBoundingClientRect()
       const {height} = colorPickerBoxDom.getBoundingClientRect()
       const {innerHeight} = window
       if (top + height + 24 > innerHeight) {
-        // rectContainerDom.style.top = `${top - height}px`
-        // rectContainerDom.style.left = `${left + 154}px`
         colorPickerBoxDom.style.top = `${top - height - 8}px`
         colorPickerBoxDom.style.left = `${left - 60}px`
       } else {
-        // rectContainerDom.style.top = `${top + 30}px`
-        // rectContainerDom.style.left = `${left + 154}px`
         colorPickerBoxDom.style.top = `${top + 24}px`
         colorPickerBoxDom.style.left = `${left - 60}px`
       }
       const boundingClientRect = {
         x: rectRef.current.getBoundingClientRect().x,
         y: rectRef.current.getBoundingClientRect().y,
-        width: rectRef.current.getBoundingClientRect().width,
+        height: rectRef.current.getBoundingClientRect().height,
       }
-
       setRect(boundingClientRect)
     }
   }, [canShowPicker])
 
   // 获取渐变色背景
   useEffect(() => {
-    const background = getGradientColor(gradientList)
-    setRectBackgroundColor(background)
-  }, [gradientList])
-  useEffect(() => {
-    onChange(colorList)
-  }, [colorList])
+    const colorObj = colorObjectForm(activeColor).gradientList
+    setGradientList(getgradientListInit(colorObj))
+    setBackgroundColor(getGradientColor(colorObj))
+
+    const copyColorList = [...colorList]
+    copyColorList.splice(nowIndex, 1, activeColor)
+    setColorList(copyColorList)
+  }, [activeColor])
 
   const rgba2objMap = (key) => {
-    const rgb = gradientListInit.find((o) => o.key === key)
-      ? gradientListInit.find((o) => o.key === key).color
+    const rgb = gradientList.find((o) => o.key === key)
+      ? gradientList.find((o) => o.key === key).color
       : 'rgba(0, 119, 255, 1)'
     const color = rgb
       .replace(/rgba\(/i, '')
@@ -184,11 +142,18 @@ const ColorListField = ({
     }
   }
 
+  // 根据key更新对应color（copy并非真实）
   const changeColorMap = (key, rgba) => {
-    const copyList = JSON.parse(JSON.stringify(gradientListInit))
+    const copyList = JSON.parse(JSON.stringify(gradientList))
     copyList.find((o) => o.key === key).color = rgba
     const colors = {gradientList: copyList}
     return colors
+  }
+
+  // 更新activeKey对应的color
+  const updateActiveColor = (color) => {
+    const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
+    setActiveColor(colorArrayForm(changeColorMap(activeKey, rgba)))
   }
   return (
     <Field
@@ -208,25 +173,19 @@ const ColorListField = ({
           document.onmousemove = null
         }}
       >
+        {/* colorList */}
         {colorList.map((item, index) => {
           return (
             <div
               key={uuid()}
               className={`${s.colorBox} p4 pr hand`}
               onClick={() => {
-                if (item.length > 1) setGradientList(item) // 渐变色值赋给gradientList
                 setCanShowPicker(true)
+                setNowIndex(index)
+                setActiveColor(item)
               }}
             >
-              <div
-                className="w24 h16"
-                style={{
-                  background:
-                    item.length > 1
-                      ? `linearGradient(${item.map((v) => v[0]).toString()})`
-                      : item.map((v) => v[0]).toString(),
-                }}
-              />
+              <div className="w24 h16" style={{background: getGradientColor(colorObjectForm(item).gradientList)}} />
               <IconButton
                 icon="close"
                 className={s.iconDel}
@@ -238,6 +197,7 @@ const ColorListField = ({
                   list.splice(index, 1)
                   setColorList(list)
                   setCanShowPicker(false)
+                  onChange(list)
                 }}
               />
             </div>
@@ -247,70 +207,47 @@ const ColorListField = ({
           icon="add"
           iconSize={14}
           buttonSize={24}
-          onClick={() => setColorList([...colorList, [['#007EFF', null]]])}
+          onClick={() => {
+            setColorList([...colorList, [['rgba(52,200,254,1)', 0]]])
+            onChange([...colorList, [['rgba(52,200,254,1)', 0]]])
+          }}
         />
       </div>
+
+      {/* colorList 激活item的配置 */}
       {canShowPicker && (
         <div className="pr colorList">
           <div ref={colorPickerBoxRef} className={s.pickerBox}>
-            <SketchPicker
-              color={activeKey ? rgba2objMap(activeKey) : colorList[0]}
-              onChange={(color) => {
-                const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b}, ${color.rgb.a})`
-                if (activeKey) {
-                  onChange(colorArrayForm(changeColorMap(activeKey, rgba)))
-                } else {
-                  setColorList([rgba])
-                }
-              }}
-            />
+            <SketchPicker color={rgba2objMap(activeKey)} onChange={updateActiveColor} />
             <div className={`${s.rectBox} cfw10`}>
               <div
                 ref={rectRef}
                 className={c('fbh fbac fbjc pa', s.rect)}
-                style={{background: rectBackgroundColor}}
+                style={{background: backgroundColor}}
                 onDoubleClick={(e) => {
-                  // 阻止事件冒泡
                   e.stopPropagation()
                   e.preventDefault()
-
-                  const position = (e.clientX - rect.x) / rect.width
-                  const copyList = JSON.parse(JSON.stringify(gradientListInit))
+                  const position = (e.clientY - rect.y) / rect.height
+                  const copyList = JSON.parse(JSON.stringify(gradientList))
                   if (copyList.findIndex((o) => o.position === position) === -1) {
-                    copyList.push({
+                    const item = {
                       key: `g${uuid()}`,
                       position,
-                      color: 'rgb(0, 119, 255)',
+                      color: 'rgba(0, 119, 255, 1)',
                       stop: 50,
                       gradientType: 'linear',
-                    })
+                    }
+                    copyList.push(item)
                     const colors = {gradientList: copyList}
-                    onChange(colorArrayForm(colors))
+                    setActiveColor(colorArrayForm(colors))
+                    setActiveKey(item.key)
                   }
-                }}
-                onClick={(e) => {
-                  // 阻止事件冒泡
-                  e.stopPropagation()
-                  setActiveKey(null)
                 }}
                 tabIndex="-1"
-                onFocus={(e) => {
-                  // 阻止事件冒泡
-                  e.stopPropagation()
-                  setIsEdit(true)
-                }}
-                onBlur={(e) => {
-                  // 阻止事件冒泡
-                  e.stopPropagation()
-                  if (!canShowPicker && e.relatedTarget && e.relatedTarget.className.indexOf('nodeFocus') === -1) {
-                    setIsEdit(false)
-                  }
-                }}
               >
-                <div className={c('pr', s.baseLine, {hide: !isEdit})}>
-                  {gradientListInit.map((item) => {
+                <div className={c('pr', s.baseLine)}>
+                  {gradientList.map((item) => {
                     const {key, position, color} = item
-                    // TODO 解决onClick与onMouseDown, onMouseUp的冲突
                     return (
                       <div
                         key={key}
@@ -320,40 +257,34 @@ const ColorListField = ({
                         tabIndex={-1}
                         style={{
                           background: color,
-                          top: rect.height ? Math.min(rect.height * position - 4, rect.height - 4) : 0,
+                          top: rect.height ? rect.height * position : 0,
                         }}
                         draggable={false}
                         onClick={(e) => {
-                          // 阻止事件冒泡
                           e.stopPropagation()
-                          if (isClick || item.position === 0 || item.position === 1) {
+                          if (isClick) {
                             // 聚焦
                             e.target.focus()
                             setActiveKey(key)
-                            // setCanShowPicker(true)
                           }
-                          // 取消鼠标移动事件
                           document.onmousemove = null
                         }}
                         onKeyDown={(e) => {
-                          if (item.position === 0 || item.position === 1) {
-                            return
-                          }
                           // 删除按键
-                          if (e.key === 'Backspace' && gradientListInit.length > 2) {
+                          if (e.key === 'Backspace' && gradientList.length > 1) {
                             const colors = {
-                              gradientList: gradientListInit.filter((o) => o.key !== key),
+                              gradientList: gradientList.filter((o) => o.key !== key),
                             }
-                            onChange(colorArrayForm(colors))
+                            const newColor = colorArrayForm(colors)
+                            setActiveColor(newColor)
+                            setActiveKey(newColor[0][2])
                           }
                         }}
                         onMouseDown={(e) => {
-                          if (item.position === 0 || item.position === 1) {
-                            return
-                          }
-                          // 阻止事件冒泡
                           e.stopPropagation()
+                          setActiveKey(key)
                           setCircle({key, x: e.clientX, y: e.clientY})
+                          // TODO 解决onClick与onMouseDown, onMouseUp的冲突
                           setIsClick(true)
                         }}
                       />
@@ -362,11 +293,25 @@ const ColorListField = ({
                 </div>
               </div>
             </div>
+
             <div className={`${s.btmButton}`}>
-              <div onClick={() => setCanShowPicker(false)} className={`${s.btnLeft} hand`}>
+              <div
+                className={`${s.btnLeft} hand`}
+                onClick={() => {
+                  setCanShowPicker(false)
+                  setColorList(value)
+                }}
+              >
                 取消
               </div>
-              <div onClick={() => setCanShowPicker(false)} className={`${s.btnRight} hand`}>
+              {/* 只在确定时调用onChange更新colorList */}
+              <div
+                className={`${s.btnRight} hand`}
+                onClick={() => {
+                  onChange(colorList)
+                  setCanShowPicker(false)
+                }}
+              >
                 确认
               </div>
             </div>

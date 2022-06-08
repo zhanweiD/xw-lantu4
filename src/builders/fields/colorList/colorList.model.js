@@ -8,17 +8,14 @@ export const MColorListField = MBase.named('MColorListField')
     type: types.enumeration(['colorList']),
     option: types.optional(types.string, ''),
     value: types.frozen(),
-    defaultValue: types.optional(types.frozen(), [
-      ['rgb(74,144,226)', 0],
-      ['rgb(80,227,194)', 1],
-    ]),
+    defaultValue: types.optional(types.frozen(), [[['rgba(74,144,226,1)', 0]]]),
   })
   .actions((self) => {
     const afterCreate = () => {
       if (!isDef(self.value)) {
-        self.value = colorArrayForm(colorObjectForm(self.defaultValue))
+        self.value = self.defaultValue.map((item) => colorArrayForm(colorObjectForm(item)))
       } else {
-        self.value = colorArrayForm(colorObjectForm(self.value))
+        self.value = self.value.map((item) => colorArrayForm(colorObjectForm(item)))
       }
     }
 
