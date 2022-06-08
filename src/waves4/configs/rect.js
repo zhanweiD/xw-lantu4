@@ -122,7 +122,7 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
         name: 'background',
         effective: false,
         fields: [
-          // {name: 'colorList'},
+          {name: 'colorList'},
           {
             name: 'singleColor',
             defaultValue: 'rgb(255,255,255)',

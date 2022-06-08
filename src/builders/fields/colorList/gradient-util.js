@@ -10,7 +10,7 @@ const colorArrayForm = (value) => {
   const {gradientList = []} = value
   const copyList = JSON.parse(JSON.stringify(gradientList))
   copyList.sort((a, b) => a.position - b.position)
-  return [...copyList.map(({color, position}) => [color, position])]
+  return [...copyList.map(({color, position, key}, index) => [color, position, key || `g${index}`])]
 }
 
 // 渐变颜色对象格式转换
@@ -19,9 +19,9 @@ const colorObjectForm = (value) => {
     const gradientValue = {gradientList: []}
     if (Array.isArray(value[0])) {
       value.forEach((item, index) => {
-        const [color, scale] = item
+        const [color, scale, key] = item
         gradientValue.gradientList.push({
-          key: `g${index}`,
+          key: key || `g${index}`,
           color,
           position: scale,
         })
@@ -46,7 +46,9 @@ const colorObjectForm = (value) => {
 const getGradientColor = (gradientList) => {
   const copyList = JSON.parse(JSON.stringify(gradientList))
   let colorList = ''
-
+  if (gradientList.length === 1) {
+    return gradientList[0].color
+  }
   if (gradientList.length === 2 && !gradientList[0].key) {
     return `linear-gradient(180deg, ${gradientList[0].color} 0%, ${gradientList[1].color} 100%)`
   }
