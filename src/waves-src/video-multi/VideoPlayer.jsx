@@ -4,7 +4,7 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 
 export default class Video extends React.Component {
-  static key = 'video'
+  static key = 'videoMulti'
 
   constructor(props) {
     super(props)

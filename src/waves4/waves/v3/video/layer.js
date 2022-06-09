@@ -1,7 +1,7 @@
 export default () => {
   return {
-    name: '图片组',
-    type: 'picture',
+    name: '视频层',
+    type: 'video',
     sections: [],
   }
 }

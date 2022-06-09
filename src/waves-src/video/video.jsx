@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react'
 import {observer} from 'mobx-react-lite'
 import {MUIBase} from '../ui-base'
 import Video from './VideoPlayer'
-import c from 'classnames'
-// import s from './video.module.styl'
 
 const MVideo = MUIBase.named('MVideo')
   .props({})
@@ -82,11 +80,9 @@ const VideoComponent = observer(({modal, videoUrl}) => {
     if (type !== '') {
       return (
         <div>
-          <div className={c('fbh fbac fbjc wh100p')}>
+          <div style={{height: modal.containerHeight}}>
             <Video
               srcUrl={url}
-              width="216"
-              height="115"
               type={type}
               boxId={createRandomId()}
               readyEvent={() => {
