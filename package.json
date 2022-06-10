@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@babel/standalone": "^7.14.8",
-    "@videojs/vhs-utils": "2.2.1",
+    "@videojs/vhs-utils": "^3.0.5",
     "animejs": "^3.2.1",
     "autosize": "^5.0.1",
     "babel-eslint": "^10.1.0",
