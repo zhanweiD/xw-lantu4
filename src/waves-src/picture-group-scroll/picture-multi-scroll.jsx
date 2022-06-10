@@ -41,7 +41,7 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
       }
 
       const RenderCom = (props) => {
-        const {data, width, height} = props
+        const {data, width, height, isMarkVisible} = props
         const [visible, setVisible] = useState(false) // 预览弹层
         const [currentClickIcon, setCurrentClickIcon] = useState(0)
         const [imageIndex, setDeliverImageIndex] = useState(0)
@@ -223,7 +223,7 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
                     background: `url(${v}) no-repeat`,
                     backgroundSize: 'contain',
                   }}
-                  onClick={() => handlPreview(i)}
+                  onClick={() => isMarkVisible && handlPreview(i)}
                 />
               ))}
             </div>
@@ -237,7 +237,12 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
           <Scroll className="h100p">
             <div style={{position: 'relative'}}>
               <div style={{display: 'flex', flexDirection: 'column', paddingTop: '10px'}}>
-                <RenderCom data={self.pictureData} width={self.containerWidth} height={self.containerHeight} />
+                <RenderCom
+                  data={self.pictureData}
+                  width={self.containerWidth}
+                  height={self.containerHeight}
+                  isMarkVisible={self.config('isMarkVisible')}
+                />
               </div>
             </div>
           </Scroll>

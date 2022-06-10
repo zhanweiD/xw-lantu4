@@ -8,7 +8,7 @@ export default () => {
         fields: [
           {
             name: 'isMarkVisible',
-            defaultValue: false,
+            defaultValue: true,
           },
         ],
       },
