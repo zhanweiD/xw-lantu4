@@ -1,36 +1,31 @@
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import MSelect from '@wavesSrc/select'
+import MiFrame from '@wavesSrc/iframe'
 import translate from './translate'
 
-/**
- * react hook 组件适配器
- */
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化
-    init({options, event}) {
+    init({options}) {
+      const miFrame = MiFrame.create({})
       const translatedOptions = translate(options)
-      const mSelect = MSelect.create()
-      mSelect.init(translatedOptions, {})
-      mSelect.data(translatedOptions)
-      mSelect.draw({
+      // 初始化模型
+      miFrame.init(translatedOptions, {})
+      miFrame.data(translatedOptions, {})
+      miFrame.draw({
         redraw: true,
       })
-      mSelect.event.on('onSwitchOption', (info) => {
-        event.fire('switchPanel', info)
-      })
-      return mSelect
+      return miFrame
     },
 
     // 处理包括数据、样式等变更
     update({options}) {
       try {
-        const mSelect = MSelect.create()
+        const miFrame = MiFrame.create()
         const translatedOptions = translate(options)
         // 初始化模型
-        mSelect.init(translatedOptions, {})
-        mSelect.data(translatedOptions)
-        mSelect.draw({
+        miFrame.init(translatedOptions, {})
+        miFrame.data(translatedOptions, {})
+        miFrame.draw({
           redraw: true,
         })
       } catch (error) {

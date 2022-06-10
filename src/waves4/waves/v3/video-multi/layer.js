@@ -1,7 +1,7 @@
 export default () => {
   return {
-    name: '图片组滚动条',
-    type: 'picture-group-scroll',
+    name: '滚动视频组',
+    type: 'video Group SCroll',
     sections: [
       {
         name: 'base',
