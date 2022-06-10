@@ -68,6 +68,7 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           {name: 'width'},
           {name: 'gap'},
           {name: 'colorList'},
+          {name: 'legendType'},
         ],
         sections: [
           {

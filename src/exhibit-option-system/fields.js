@@ -10,6 +10,35 @@ const enterAnimation = {
   label: 'enterAnimation',
   defaultValue: true,
 }
+
+const legendType = {
+  type: 'select',
+  label: 'legendType',
+  defaultValue: 'rect',
+  options: [
+    {
+      key: '矩形',
+      value: 'rect',
+    },
+    {
+      key: '圆形',
+      value: 'circle',
+    },
+    {
+      key: 'line',
+      value: 'broken-line',
+    },
+    {
+      key: '虚线',
+      value: 'dotted-line',
+    },
+    {
+      key: '五星状',
+      value: 'star',
+    },
+  ],
+}
+
 const animationType = {
   type: 'select',
   label: 'animationType',
@@ -2544,6 +2573,7 @@ const adaptContainer = {
 
 export default {
   dasharray,
+  legendType,
   dasharrayLength,
   dasharraySpacing,
   calibrationTitle,

@@ -123,6 +123,7 @@ export default {
   calibration: 'Calibration',
   auxiliary: 'Auxiliary',
   dasharrayLength: 'Dasharray Length',
+  legendType: 'Legend Type',
   dasharraySpacing: 'Dasharray Spacing',
   calibrationTitle: 'Calibration Title',
   calibrationValue: 'calibration Value',
