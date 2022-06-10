@@ -100,7 +100,11 @@ function translate(schema) {
       const layerType = layerTypeMap.get(type) || type
       const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
       const config = layerOptionMap.get(layerType)({getOption, mapOption})
-      if (config.style.rangeColorList) {
+      // 后续更换colorList去除
+      const {
+        style: {rangeColorList},
+      } = config
+      if (rangeColorList) {
         if (type === 'arc' || type === 'dashboard' || type === 'scatter') {
           config.style.rangeColorList = chromaScale(config.style.rangeColorList, data.length - 1)
         } else if (type === 'chord' || type === 'edgeBundle' || type === 'edgeBundle') {
