@@ -225,6 +225,7 @@ export default {
   in: '内',
   out: '外',
   shape: '图形',
+  legendType: '图例类型',
   tickSize: '刻度线',
   // TODO 待优化
   tickZero: '刻度零',
