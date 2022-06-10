@@ -5,8 +5,7 @@ import translate from './translate'
 /**
  * react hook 组件适配器
  */
-// eslint-disable-next-line no-unused-vars
-const Adapter = (k) =>
+const Adapter = () =>
   createExhibitAdapter({
     // 初始化
     init({options, event}) {
@@ -18,7 +17,6 @@ const Adapter = (k) =>
         redraw: true,
       })
       mSelect.event.on('onSwitchOption', (info) => {
-        console.log('info...', info)
         event.fire('switchPanel', info)
       })
       return mSelect

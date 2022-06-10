@@ -5,6 +5,7 @@ export const layerOptionMap = new Map([
       const mapping = [
         ['base.textSize', 'fontSize'],
         ['base.placeholder', 'placeholder'],
+        ['base.content', 'content'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
         ['base.searchIconColor', 'searchIconColor'],

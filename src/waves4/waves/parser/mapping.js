@@ -327,6 +327,7 @@ export const layerOptionMap = new Map([
         // ['base.color.singleColor', 'style.rect.fill'],
         // ['base.color.gradientColor', 'style.rect.gradientColor'],
         // ['base.color.rangeColors', 'style.rangeColorList'],
+        ['base.legendType', 'style.shape'],
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],

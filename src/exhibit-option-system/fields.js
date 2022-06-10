@@ -10,6 +10,35 @@ const enterAnimation = {
   label: 'enterAnimation',
   defaultValue: true,
 }
+
+const legendType = {
+  type: 'select',
+  label: 'legendType',
+  defaultValue: 'rect',
+  options: [
+    {
+      key: '矩形',
+      value: 'rect',
+    },
+    {
+      key: '圆形',
+      value: 'circle',
+    },
+    {
+      key: 'line',
+      value: 'broken-line',
+    },
+    {
+      key: '虚线',
+      value: 'dotted-line',
+    },
+    {
+      key: '五星状',
+      value: 'star',
+    },
+  ],
+}
+
 const animationType = {
   type: 'select',
   label: 'animationType',
@@ -1364,6 +1393,29 @@ const borderWidth = {
   type: 'number',
   label: 'borderWidth',
   defaultValue: 2,
+  max: 100,
+  min: 0,
+}
+
+// 自定义大小
+const isCustomSize = {
+  type: 'switch',
+  label: 'isCustomSize',
+  defaultValue: false,
+}
+
+// 是否开启交互
+const isMarkVisible = {
+  type: 'switch',
+  label: 'isMarkVisible',
+  defaultValue: false,
+}
+
+// 支持自定义滚动
+const scrolling = {
+  type: 'switch',
+  label: 'scrolling',
+  defaultValue: false,
 }
 //最大长度
 const maxLength = {
@@ -1460,6 +1512,12 @@ const listColor = {
   type: 'colorList',
   label: 'listColor',
   defaultValue: ['#007EFF'],
+}
+
+const columnNumber = {
+  type: 'number',
+  label: 'columnNumber',
+  defaultValue: 3,
 }
 
 /**
@@ -2538,6 +2596,7 @@ const adaptContainer = {
 
 export default {
   dasharray,
+  legendType,
   dasharrayLength,
   dasharraySpacing,
   calibrationTitle,
@@ -2639,6 +2698,7 @@ export default {
   rangeColors,
   // 颜色列表
   listColor,
+  columnNumber,
   // 普通字段
   column,
   // 经度
@@ -2698,6 +2758,9 @@ export default {
   shapeType,
   // 填充模式
   fillMode,
+  scrolling,
+  isMarkVisible,
+  isCustomSize,
   // 宽度自适应
   widthAdaption,
   // 高度自适应

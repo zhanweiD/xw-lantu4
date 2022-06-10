@@ -7,8 +7,12 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'textSize',
-            defaultValue: 24,
+            name: 'placeholder',
+            defaultValue: '请输入关键字搜索',
+          },
+          {
+            name: 'content',
+            defaultValue: '',
           },
           // 输入内容颜色
           {
@@ -19,10 +23,6 @@ export default () => {
           {
             name: 'searchIconColor',
             defaultValue: 'rgb(255,255,255)',
-          },
-          {
-            name: 'placeholder',
-            defaultValue: '请输入关键字搜索',
           },
           {
             name: 'backgroundColor',

@@ -55,6 +55,11 @@ import progress from './waves/v3/progress'
 import bullet from './waves/v3/bullet'
 import gis from './waves/gis'
 import picture from './waves/v3/picture'
+import pictureGroupScroll from './waves/v3/picture-group-scroll'
+import pictureGroup from './waves/v3/picture-group'
+import video from './waves/v3/video'
+import videoMulti from './waves/v3/video-multi'
+import iframe from './waves/v3/iframe'
 import button from './waves/v3/button'
 
 import select from './waves/v3/select'
@@ -140,6 +145,12 @@ const waves = {
   textarea,
   // 图片组件
   picture,
+  pictureGroup,
+  // 图片滚动组件
+  pictureGroupScroll,
+  video,
+  videoMulti,
+  iframe,
   // 交互
   button,
   select,
@@ -264,7 +275,7 @@ const categories = [
     // 多媒体
     name: 'classifyMedia',
     icon: 'exhibit-classifyMedia',
-    exhibits: [picture],
+    exhibits: [picture, pictureGroup, pictureGroupScroll, video, videoMulti, iframe],
   },
   {
     // 交互组件
