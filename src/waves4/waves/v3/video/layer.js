@@ -1,7 +1,17 @@
 export default () => {
   return {
-    name: '视频层',
+    name: '单视频层',
     type: 'video',
-    sections: [],
+    sections: [
+      {
+        name: 'base',
+        fields: [
+          {
+            name: 'isMarkVisible',
+            defaultValue: false,
+          },
+        ],
+      },
+    ],
   }
 }

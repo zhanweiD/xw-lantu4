@@ -28,7 +28,7 @@ const MVideoMulti = MUIBase.named('MVideoMulti')
       }
 
       const style = {}
-      ;['']?.forEach((name) => {
+      ;[]?.forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -63,7 +63,7 @@ const MVideoMulti = MUIBase.named('MVideoMulti')
       }
 
       // 渲染组件
-      self.render(<VideoComponent modal={self} videoUrl={arrTemp} />)
+      self.render(<VideoComponent modal={self} videoUrl={arrTemp} style={style} />)
     }
 
     return {
@@ -93,6 +93,7 @@ const VideoComponent = observer(({modal, videoUrl}) => {
                   srcUrl={v.url}
                   type={v.type}
                   boxId={createRandomId()}
+                  isInteractive={modal.config('isMarkVisible')}
                   readyEvent={() => {
                     modal.event.fire('ready', {})
                   }}

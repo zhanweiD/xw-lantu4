@@ -88,6 +88,7 @@ const VideoComponent = observer(({modal, videoUrl}) => {
               readyEvent={() => {
                 modal.event.fire('ready', {})
               }}
+              isInteractive={modal.config('isMarkVisible')}
             />
           </div>
           {/* <div className={c('fbh fbac fbjc wh100p', isInteraction ? null : s.mark)} /> */}

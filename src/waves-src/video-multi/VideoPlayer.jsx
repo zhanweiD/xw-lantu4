@@ -38,7 +38,7 @@ export default class Video extends React.Component {
     videoBox.innerHTML = `<video id='videoinfo${id}' class='video-js vjs-default-skin' controls><source src=${url} type='${videoType}'></source></video>`
     const player = videojs(`videoinfo${id}`, {
       muted: true,
-      controls: true,
+      controls: this.props.isInteractive,
       loop: true,
       hls: {
         withCredentials: true,
