@@ -1361,6 +1361,20 @@ const singleColor = {
   defaultValue: 'transparent',
 }
 
+// 左label
+const leftLabelColor = {
+  type: 'color',
+  label: 'leftLabelColor',
+  defaultValue: '#fff',
+}
+
+// 右描述label
+const rightLabelColor = {
+  type: 'color',
+  label: 'rightLabelColor',
+  defaultValue: '#fff',
+}
+
 // 选项文字颜色
 const optionFontColor = {
   type: 'color',
@@ -2686,6 +2700,8 @@ export default {
   colorType2,
   // 颜色单色
   singleColor,
+  leftLabelColor,
+  rightLabelColor,
   colorSingle,
   // 下拉框选项文字颜色
   optionFontColor,

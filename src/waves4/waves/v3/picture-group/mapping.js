@@ -6,7 +6,9 @@ export const layerOptionMap = new Map([
         ['base.fontSize', 'fontSize'],
         ['base.columnNumber', 'columnNumber'],
         ['base.gap', 'gap'],
-        ['base.labelColor', 'fontColor'],
+        ['base.leftLabelColor', 'leftLabelColor'],
+        ['base.rightLabelColor', 'rightLabelColor'],
+        ['base.backgroundColor', 'backgroundColor'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

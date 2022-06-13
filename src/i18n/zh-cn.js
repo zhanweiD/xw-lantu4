@@ -127,6 +127,8 @@ export default {
   optionBackgroundColor: '选项默认背景色',
   optionHoverBackgroundColor: '选项背景悬浮色',
   singleColor: '颜色',
+  leftLabelColor: '左标签颜色',
+  rightLabelColor: '右标签颜色',
   gradientColor: '渐变',
   opacity: '透明度',
   offset: '偏移',

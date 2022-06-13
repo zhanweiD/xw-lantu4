@@ -21,8 +21,16 @@ export default () => {
             step: 1,
           },
           {
-            name: 'labelColor',
-            defaultValue: 'rgb(0,0,0)',
+            name: 'leftLabelColor',
+            defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'rightLabelColor',
+            defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'backgroundColor',
+            defaultValue: 'rgb(38,38,38)',
           },
         ],
       },

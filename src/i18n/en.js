@@ -106,6 +106,8 @@ export default {
   maxLength: 'Max Length',
   placeholder: 'Placeholder',
   singleColor: 'Color',
+  leftLabelColor: 'Left Label Color',
+  rightLabelColor: 'Right Label Color',
   gradientColor: 'Gradient',
   opacity: 'Opacity',
   offset: 'Offset',

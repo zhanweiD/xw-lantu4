@@ -44,7 +44,7 @@ const MInput = MUIBase.named('MInput')
       }
 
       const style = {}
-      ;['columnNumber', 'fontSize', 'gap', 'leftLabelColor', 'rightLabelColor'].forEach((name) => {
+      ;['columnNumber', 'fontSize', 'gap', 'leftLabelColor', 'rightLabelColor', 'backgroundColor'].forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -84,27 +84,29 @@ const MInput = MUIBase.named('MInput')
   })
 
 const PictureGroup = observer(({modal, visiableData, style, currentPage, totalPage}) => {
-  const {columnNumber, gap, width, height, fontSize, leftLabelColor, rightLabelColor} = style
+  const {columnNumber, gap, width, height, fontSize, leftLabelColor, rightLabelColor, backgroundColor} = style
   const containerStyle = {
     width,
     height: height - fontSize * 1.5,
     lineHeight: `${fontSize * 1.5}px`,
     alignContent: 'baseline',
+    backgroundColor,
   }
   const cardStyle = {
     width: (containerStyle.width - gap * (columnNumber - 1)) / columnNumber,
     height: containerStyle.height / 3,
   }
   const imageStyle = {
-    width: cardStyle.width / 10,
-    height: (cardStyle.height - fontSize * 3) / 10,
+    width: cardStyle.width,
+    height: cardStyle.height - fontSize * 3,
   }
   const leftLabelStyle = {
-    fontSize,
+    fontSize: fontSize / 8,
     color: leftLabelColor,
+    backgroundColor,
   }
   const rightLabelStyle = {
-    fontSize,
+    fontSize: fontSize / 8,
     color: rightLabelColor,
   }
   const iconStyle = {
