@@ -47,6 +47,7 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
         const [imageIndex, setDeliverImageIndex] = useState(0)
         const [clickNum, setClickNum] = useState(0) // 左右旋转方向
         const [scaleClickNum, setScaleClickNum] = useState(1) // 放大缩小
+        const [eyePreviewIconTip, setEyePreviewIconTip] = useState(false)
 
         // 预览
         const handlPreview = (i) => {
@@ -223,8 +224,39 @@ const myScrollPicture = MUIBase.named('myScrollPicture')
                     background: `url(${v}) no-repeat`,
                     backgroundSize: 'contain',
                   }}
+                  onMouseEnter={() => setEyePreviewIconTip(true)}
+                  onMouseLeave={() => setEyePreviewIconTip(false)}
                   onClick={() => isMarkVisible && handlPreview(i)}
-                />
+                >
+                  {/* 眼睛悬浮icon */}
+                  {eyePreviewIconTip && (
+                    <svg
+                      t="1655110249346"
+                      style={{
+                        width: '2em',
+                        height: '2em',
+                        verticalAlign: 'middle',
+                        fill: 'currentColor',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        top: 16,
+                        left: width - 40,
+                      }}
+                      className={s.eyeIcon}
+                      viewBox="0 0 1024 1024"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      p-id="2321"
+                      data-spm-anchor-id="a313x.7781069.0.i5"
+                    >
+                      <path
+                        d="M512 298.666667c-162.133333 0-285.866667 68.266667-375.466667 213.333333 89.6 145.066667 213.333333 213.333333 375.466667 213.333333s285.866667-68.266667 375.466667-213.333333c-89.6-145.066667-213.333333-213.333333-375.466667-213.333333z m0 469.333333c-183.466667 0-328.533333-85.333333-426.666667-256 98.133333-170.666667 243.2-256 426.666667-256s328.533333 85.333333 426.666667 256c-98.133333 170.666667-243.2 256-426.666667 256z m0-170.666667c46.933333 0 85.333333-38.4 85.333333-85.333333s-38.4-85.333333-85.333333-85.333333-85.333333 38.4-85.333333 85.333333 38.4 85.333333 85.333333 85.333333z m0 42.666667c-72.533333 0-128-55.466667-128-128s55.466667-128 128-128 128 55.466667 128 128-55.466667 128-128 128z"
+                        fill="#ffffff"
+                        p-id="2322"
+                      ></path>
+                    </svg>
+                  )}
+                </div>
               ))}
             </div>
           </div>
