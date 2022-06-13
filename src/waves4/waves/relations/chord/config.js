@@ -1,4 +1,4 @@
-import {chord, title} from '@waves4/configs'
+import {chord, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -18,4 +18,5 @@ export const config = (k) => ({
   data,
   // 交互
   // interaction: {},
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

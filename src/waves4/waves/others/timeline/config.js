@@ -1,4 +1,4 @@
-import {timeline} from '@waves4/configs'
+import {timeline, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -11,4 +11,6 @@ export const config = (k) => ({
   padding: [0, 0, 0, 0],
   // 矩形图层
   layers: [timeline()],
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })
