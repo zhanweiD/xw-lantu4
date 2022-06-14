@@ -298,6 +298,206 @@ const sceneMode = {
   ],
 }
 
+// 自适应
+const adapterContainer = {
+  type: 'switch',
+  label: 'adapterContainer',
+  defaultValue: false,
+}
+
+// 行数
+const rowNumber = {
+  type: 'number',
+  label: 'rowNumber',
+  defaultValue: 100,
+}
+
+// 行间距
+const lineSpacing = {
+  type: 'number',
+  label: 'lineSpacing',
+  defaultValue: 5,
+}
+
+// 列间距
+const columnSpacing = {
+  type: 'number',
+  label: 'columnSpacing',
+  defaultValue: 5,
+}
+
+// 标题显隐
+const titleVisible = {
+  type: 'switch',
+  label: 'titleVisible',
+  defaultValue: false,
+}
+
+// 标题颜色
+const titleColor = {
+  type: 'color',
+  label: 'titleColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+// 标题背景色
+const titleBackground = {
+  type: 'color',
+  label: 'titleBackground',
+  defaultValue: 'rgba(255, 255, 255, 0)',
+}
+
+// 标题文本
+const titleText = {
+  type: 'text',
+  label: 'titleText',
+  defaultValue: '2019年分学科硕士招生数',
+}
+
+// 标题对齐
+const titlePosition = {
+  type: 'select',
+  label: 'titlePosition',
+  defaultValue: 'left',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
+// 标题下间距
+const titleLowerSpacing = {
+  type: 'number',
+  label: 'titleLowerSpacing',
+  defaultValue: 20,
+  min: 0,
+  max: 200,
+}
+
+// 表头显隐
+const headVisible = {
+  type: 'switch',
+  label: 'headVisible',
+  defaultValue: false,
+}
+
+// 表头文字大小
+const headFontSize = {
+  type: 'number',
+  label: 'headFontSize',
+  defaultValue: 20,
+}
+
+// 表头文字颜色
+const headFontColor = {
+  type: 'color',
+  label: 'headFontColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 表头背景色
+const headBackground = {
+  type: 'color',
+  label: 'headBackground',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 表头位置
+const headPosition = {
+  type: 'select',
+  label: 'titlePosition',
+  defaultValue: 'left',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
+// 单元格-自适应宽度
+const isAutoWidth = {
+  type: 'switch',
+  label: 'isAutoWidth',
+  defaultValue: false,
+}
+
+// 单元格-宽度
+const cellWidth = {
+  type: 'number',
+  label: 'cellWidth',
+  defaultValue: 200,
+}
+
+// 单元格-高度
+const cellHeight = {
+  type: 'number',
+  label: 'cellHeight',
+  defaultValue: 30,
+}
+
+// 单元格-文字大小
+const cellFontSize = {
+  type: 'number',
+  label: 'cellFontSize',
+  defaultValue: 20,
+}
+
+// 单元格-文字颜色
+const cellFontColor = {
+  type: 'color',
+  label: 'cellFontColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 单元格-背景色
+const cellBackground = {
+  type: 'color',
+  label: 'cellBackground',
+  defaultValue: 'rgb(255,255,25, 0.1)',
+}
+
+// 轮播滚动动画效果-是否开启
+const enableLoopAnimation = {
+  type: 'switch',
+  label: 'enableLoopAnimation',
+  defaultValue: false,
+}
+
+// 单次动画时长
+const loopAnimationDuration = {
+  type: 'number',
+  label: 'loopAnimationDuration',
+  defaultValue: 2000,
+  step: 200,
+}
+
+// 单词动画延时
+const loopAnimationDelay = {
+  type: 'number',
+  label: 'loopAnimationDelay',
+  defaultValue: 2000,
+  step: 200,
+}
+
 // 是否禁用
 const isDisabled = {
   type: 'switch',
@@ -2858,6 +3058,30 @@ export default {
   origin,
   viewport,
   sceneMode,
+  adapterContainer,
+  rowNumber,
+  lineSpacing,
+  columnSpacing,
+  titleVisible,
+  titleLowerSpacing,
+  titleColor,
+  headVisible,
+  headFontSize,
+  titleBackground,
+  titleText,
+  titlePosition,
+  headFontColor,
+  headBackground,
+  headPosition,
+  isAutoWidth,
+  cellWidth,
+  cellFontSize,
+  cellHeight,
+  cellFontColor,
+  cellBackground,
+  enableLoopAnimation,
+  loopAnimationDuration,
+  loopAnimationDelay,
   isDisabled,
   isDisplayTextNum,
   enableMapInteractive,
