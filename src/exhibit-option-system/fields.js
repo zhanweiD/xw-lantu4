@@ -475,6 +475,34 @@ const cellBackground = {
   defaultValue: 'rgb(255,255,25, 0.1)',
 }
 
+// 单元格-数值条背景色
+const valueBarBackground = {
+  type: 'color',
+  label: 'valueBarBackground',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
+// 单元格-对齐
+const cellPosition = {
+  type: 'select',
+  label: 'cellPosition',
+  defaultValue: 'left',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
 // 轮播滚动动画效果-是否开启
 const enableLoopAnimation = {
   type: 'switch',
@@ -3079,6 +3107,8 @@ export default {
   cellHeight,
   cellFontColor,
   cellBackground,
+  valueBarBackground,
+  cellPosition,
   enableLoopAnimation,
   loopAnimationDuration,
   loopAnimationDelay,

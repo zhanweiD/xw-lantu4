@@ -135,6 +135,8 @@ export default {
   cellFontSize: 'Cell FontSize',
   cellFontColor: 'Cell FontColor',
   cellBackground: 'Cell Background',
+  valueBarBackground: 'Value Bar Background',
+  cellPosition: 'Cell Position',
   loopAnimationDuration: 'Loop Animation Duration',
   loopAnimationDelay: 'Loop Animation Delay',
   decimalPlaces: 'Decimals',

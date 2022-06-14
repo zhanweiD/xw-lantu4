@@ -25,6 +25,8 @@ export const layerOptionMap = new Map([
         ['tableCell.cellFontSize', 'cellFontSize'],
         ['tableCell.cellFontColor', 'cellFontColor'],
         ['tableCell.cellBackground', 'cellBackground'],
+        ['tableCell.valueBarBackground', 'valueBarBackground'],
+        ['tableCell.cellPosition', 'cellPosition'],
         ['animation.enableLoopAnimation', 'enableLoopAnimation'],
         ['animation.loopAnimationDuration', 'loopAnimationDuration'],
         ['animation.loopAnimationDelay', 'loopAnimationDelay'],

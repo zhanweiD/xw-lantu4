@@ -117,6 +117,14 @@ export default () => {
             name: 'cellBackground',
             defaultValue: 'rgba(255,255,255,0.1)',
           },
+          {
+            name: 'valueBarBackground',
+            defaultValue: 'rgba(0,119,255,1)',
+          },
+          {
+            name: 'cellPosition',
+            defaultValue: 'left',
+          },
         ],
       },
       // 动画

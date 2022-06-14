@@ -37,6 +37,8 @@ export default {
   cellFontSize: '字号',
   cellFontColor: '颜色',
   cellBackground: '背景色',
+  valueBarBackground: '数值条背景色',
+  cellPosition: '对齐',
   enableLoopAnimation: '轮播动画',
   loopAnimationDuration: '单次动画时间',
   loopAnimationDelay: '单次动画延时',
