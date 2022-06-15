@@ -34,8 +34,8 @@ export default () => {
             defaultValue: true,
           },
           {
-            name: 'titleSize',
-            defaultValue: 25,
+            name: 'titleFontSize',
+            defaultValue: 30,
             max: 50,
             min: 8,
           },
@@ -73,7 +73,14 @@ export default () => {
           },
           {
             name: 'headFontSize',
-            defaultValue: 20,
+            defaultValue: 24,
+          },
+          {
+            name: 'headFontWeight',
+            defaultValue: 700,
+            max: 900,
+            min: 100,
+            step: 100,
           },
           {
             name: 'headFontColor',
@@ -81,11 +88,41 @@ export default () => {
           },
           {
             name: 'headBackground',
-            defaultValue: 'rgba(255,255,255,0)',
+            defaultValue: 'rgba(255,255,255,0.1)',
           },
           {
             name: 'headPosition',
-            defaultValue: 'left',
+            defaultValue: 'center',
+          },
+        ],
+      },
+      // 单位
+      {
+        name: 'unit',
+        fields: [
+          {
+            name: 'unitVisible',
+            defaultValue: true,
+          },
+          {
+            name: 'unitFontSize',
+            defaultValue: 15,
+            max: 50,
+            min: 8,
+          },
+          {
+            name: 'unitFontColor',
+            defaultValue: 'rgba(255,255,255,0.65)',
+          },
+          {
+            name: 'unitText',
+            defaultValue: '单位：人',
+          },
+          {
+            name: 'unitLowerSpacing',
+            defaultValue: 16,
+            min: 0,
+            max: 200,
           },
         ],
       },
@@ -165,7 +202,7 @@ export default () => {
           },
           {
             name: 'cellPosition',
-            defaultValue: 'left',
+            defaultValue: 'center',
           },
         ],
       },
@@ -175,7 +212,7 @@ export default () => {
         fields: [
           {
             name: 'enableLoopAnimation',
-            defaultValue: false,
+            defaultValue: true,
           },
           {
             name: 'loopAnimationDuration',

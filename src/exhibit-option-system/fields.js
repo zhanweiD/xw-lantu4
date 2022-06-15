@@ -333,6 +333,13 @@ const titleVisible = {
   defaultValue: false,
 }
 
+// 标题-字号
+const titleFontSize = {
+  type: 'number',
+  label: 'titleFontSize',
+  defaultValue: 30,
+}
+
 // 标题颜色
 const titleColor = {
   type: 'color',
@@ -380,8 +387,6 @@ const titleLowerSpacing = {
   type: 'number',
   label: 'titleLowerSpacing',
   defaultValue: 20,
-  min: 0,
-  max: 200,
 }
 
 // 表头显隐
@@ -395,7 +400,14 @@ const headVisible = {
 const headFontSize = {
   type: 'number',
   label: 'headFontSize',
-  defaultValue: 20,
+  defaultValue: 24,
+}
+
+// 表头-文字加粗
+const headFontWeight = {
+  type: 'number',
+  label: 'headFontWeight',
+  defaultValue: 700,
 }
 
 // 表头文字颜色
@@ -409,14 +421,14 @@ const headFontColor = {
 const headBackground = {
   type: 'color',
   label: 'headBackground',
-  defaultValue: 'rgb(255,255,255)',
+  defaultValue: 'rgba(255,255,255,0.1)',
 }
 
 // 表头位置
 const headPosition = {
   type: 'select',
   label: 'titlePosition',
-  defaultValue: 'left',
+  defaultValue: 'center',
   options: [
     {
       key: '首端',
@@ -431,6 +443,41 @@ const headPosition = {
       value: 'right',
     },
   ],
+}
+
+// 单位显/隐
+const unitVisible = {
+  type: 'switch',
+  label: 'unitVisible',
+  defaultValue: true,
+}
+
+// 文字大小
+const unitFontSize = {
+  type: 'number',
+  label: 'unitFontSize',
+  defaultValue: 15,
+}
+
+// 文字颜色
+const unitFontColor = {
+  type: 'color',
+  label: 'unitFontColor',
+  defaultValue: 'rgba(255,255,255,0.65)',
+}
+
+// 单位文本
+const unitText = {
+  type: 'text',
+  label: 'unitText',
+  defaultValue: '单位：人',
+}
+
+// 单位-下间距
+const unitLowerSpacing = {
+  type: 'number',
+  label: 'unitLowerSpacing',
+  defaultValue: 16,
 }
 
 // 标记-显/隐
@@ -539,7 +586,7 @@ const valueBarBackground = {
 const cellPosition = {
   type: 'select',
   label: 'cellPosition',
-  defaultValue: 'left',
+  defaultValue: 'center',
   options: [
     {
       key: '首端',
@@ -3144,16 +3191,23 @@ export default {
   lineSpacing,
   columnSpacing,
   titleVisible,
+  titleFontSize,
   titleLowerSpacing,
   titleColor,
   headVisible,
   headFontSize,
+  headFontWeight,
   titleBackground,
   titleText,
   titlePosition,
   headFontColor,
   headBackground,
   headPosition,
+  unitVisible,
+  unitFontSize,
+  unitFontColor,
+  unitText,
+  unitLowerSpacing,
   isAutoWidth,
   signVisible,
   signFontColor,

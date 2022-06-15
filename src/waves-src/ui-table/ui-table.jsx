@@ -33,7 +33,7 @@ const MTable = MUIBase.named('MTable')
         adapterContainer,
         columnSpacing,
         lineSpacing,
-        titleSize,
+        titleFontSize,
         titleLowerSpacing,
         cellWidth,
         cellHeight,
@@ -46,7 +46,7 @@ const MTable = MUIBase.named('MTable')
         'adapterContainer',
         'columnSpacing',
         'lineSpacing',
-        'titleSize',
+        'titleFontSize',
         'titleLowerSpacing',
         'cellWidth',
         'cellHeight',
@@ -81,7 +81,7 @@ const MTable = MUIBase.named('MTable')
       self.assignedWidths = assignedWidths
       // 行单元格的宽度总和以及行单元格的高度
       if (adapterContainer) {
-        const totalHeightWithoutTitle = self.containerHeight - (titleSize + titleLowerSpacing || 0)
+        const totalHeightWithoutTitle = self.containerHeight - (titleFontSize + titleLowerSpacing || 0)
         const rows = Math.min(rowNumber, self.values.length) + (headVisible ? 1 : 0)
         self.adaptTableBodyWidth = self.containerWidth
         self.adaptTableCellHeight = (totalHeightWithoutTitle - lineSpacing * rows) / rows
@@ -111,13 +111,14 @@ const MTable = MUIBase.named('MTable')
 
       const style = {
         titleVisible: self.config('titleVisible'),
-        titleSize: self.config('titleSize'),
+        titleFontSize: self.config('titleFontSize'),
         titleColor: self.config('titleColor'),
         titleBackground: self.config('titleBackground'),
         titlePosition: self.config('titlePosition'),
         titleLowerSpacing: self.config('titleLowerSpacing'),
         headVisible: self.config('headVisible'),
         headFontSize: self.config('headFontSize'),
+        headFontWeight: self.config('headFontWeight'),
         headFontColor: self.config('headFontColor'),
         headBackground: self.config('headBackground'),
         headPosition: self.config('headPosition'),
@@ -131,6 +132,11 @@ const MTable = MUIBase.named('MTable')
         valueBarBackground: self.config('valueBarBackground'),
         adapterContainer: self.config('adapterContainer'),
         isAutoWidth: self.config('isAutoWidth'),
+        unitVisible: self.config('unitVisible'),
+        unitFontSize: self.config('unitFontSize'),
+        unitFontColor: self.config('unitFontColor'),
+        unitLowerSpacing: self.config('unitLowerSpacing'),
+        unitText: self.config('unitText'),
         signVisible: self.config('signVisible'),
         signWidth: self.config('signWidth'),
         signFontColor: self.config('signFontColor'),
@@ -204,8 +210,8 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
 
   const titleStyle = {
     width: modal.adaptTableBodyWidth,
-    height: style.titleSize,
-    fontSize: style.titleSize,
+    height: style.titleFontSize,
+    fontSize: style.titleFontSize,
     color: style.titleColor,
     marginBottom: style.titleLowerSpacing,
     display: style.titleVisible ? 'flex' : 'none',
@@ -219,6 +225,14 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
     fontSize: style.cellFontSize,
     color: style.cellFontColor,
     backgroundColor: style.cellBackground,
+    justifyContent: style.cellPosition,
+  }
+
+  const unitStyle = {
+    display: style.unitVisible ? 'inline-block' : 'none',
+    fontSize: style.unitFontSize,
+    color: style.unitFontColor,
+    marginBottom: style.unitLowerSpacing,
   }
 
   const signStyle = {
@@ -240,13 +254,11 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
     color: style.headFontColor,
     backgroundColor: style.headBackground,
     justifyContent: judgePosition(style.headPosition),
+    fontWeight: style.headFontWeight,
   }
   const bodyStyle = {
     maxHeight: (cellStyle.height + style.lineSpacing) * values.length,
     overflow: 'hidden',
-  }
-  const textStyle = {
-    justifyContent: judgePosition(style.cellPosition),
   }
 
   return (
@@ -255,9 +267,12 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
         {title}
       </div>
       <div className={s.table}>
+        {/* 单位 */}
+        <div style={unitStyle}>{style.unitText}</div>
+
         {/* 表头 */}
         {style.headVisible && (
-          <div className={s.row}>
+          <div className={s.row} style={{marginLeft: style.signVisible && style.signWidth + 4}}>
             {labels.map(({id, name}) =>
               Children.toArray(
                 <div style={{...headStyle, width: getCellWidth(id)}} className={s.text}>
@@ -276,9 +291,7 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
                 {labels.map(({id}) =>
                   Children.toArray(
                     <div className={s.cell} style={{...cellStyle, width: getCellWidth(id)}}>
-                      <div className={s.text} style={textStyle}>
-                        {item[id]?.length < 30 && item[id]}
-                      </div>
+                      <div className={s.text}>{item[id]?.length < 30 && item[id]}</div>
                       {/* 当列为数字时，显示数值大小的 bar */}
                       {typeof item[id] === 'number' && (
                         <div style={{...rectStyle, width: item[id] ? item[id] / 50 : style.rectWidth}} />
