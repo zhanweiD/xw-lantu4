@@ -4,6 +4,7 @@ import {types} from 'mobx-state-tree'
 import {MUIBase} from '../ui-base'
 import {ScrollAnimation} from '../base/animation'
 import s from './ui-table.module.styl'
+import Scroll from '../../components/scroll'
 
 const MTable = MUIBase.named('MTable')
   .props({
@@ -196,6 +197,11 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
   }
   // 根据自适应与否选取单元格宽度
   const getCellWidth = (id) => modal.assignedWidths[id]
+
+  const createMarkup = (context) => {
+    return {__html: context}
+  }
+
   const titleStyle = {
     width: modal.adaptTableBodyWidth,
     height: style.titleSize,
@@ -271,11 +277,17 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
                   Children.toArray(
                     <div className={s.cell} style={{...cellStyle, width: getCellWidth(id)}}>
                       <div className={s.text} style={textStyle}>
-                        {item[id]}
+                        {item[id]?.length < 30 && item[id]}
                       </div>
                       {/* 当列为数字时，显示数值大小的 bar */}
                       {typeof item[id] === 'number' && (
                         <div style={{...rectStyle, width: item[id] ? item[id] / 50 : style.rectWidth}} />
+                      )}
+                      {/* 富文本展示 */}
+                      {typeof item[id] === 'string' && item[id]?.length > 30 && (
+                        <Scroll className="h100p">
+                          <div dangerouslySetInnerHTML={createMarkup(item[id])} />
+                        </Scroll>
                       )}
                     </div>
                   )

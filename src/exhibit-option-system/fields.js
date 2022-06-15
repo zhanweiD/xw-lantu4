@@ -302,7 +302,7 @@ const sceneMode = {
 const adapterContainer = {
   type: 'switch',
   label: 'adapterContainer',
-  defaultValue: false,
+  defaultValue: true,
 }
 
 // 行数

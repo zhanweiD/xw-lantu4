@@ -9,7 +9,7 @@ export default () => {
         fields: [
           {
             name: 'adapterContainer',
-            defaultValue: false,
+            defaultValue: true,
           },
           {
             name: 'rowNumber',

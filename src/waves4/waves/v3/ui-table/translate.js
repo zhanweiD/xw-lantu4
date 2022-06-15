@@ -15,11 +15,34 @@ const getRealData = (dataSource) => {
       })
     })
 
+    const l = 'label'
+    // const columnLength = dataSource[1][1][0].length
+
     dataSource[1][1]?.map((m, ind) => {
       ind !== 0 &&
-        obj.value.push({
-          label0: m[0],
-          label1: m[1],
+        dataSource[1][1][0]?.map((v, i) => {
+          i / 3 === 0 &&
+            obj.value.push({
+              [l + i]: m[i],
+              [l + (i + 1)]: m[i + 1],
+              [l + (i + 2)]: m[i + 2],
+              [l + (i + 3)]: m[i + 3],
+              [l + (i + 4)]: m[i + 4],
+              [l + (i + 5)]: m[i + 5],
+              [l + (i + 6)]: m[i + 6],
+              [l + (i + 7)]: m[i + 7],
+              [l + (i + 8)]: m[i + 8],
+              [l + (i + 9)]: m[i + 9],
+              [l + (i + 10)]: m[i + 10],
+              [l + (i + 11)]: m[i + 11],
+              [l + (i + 12)]: m[i + 12],
+              [l + (i + 13)]: m[i + 13],
+              [l + (i + 14)]: m[i + 14],
+              [l + (i + 15)]: m[i + 15],
+              [l + (i + 16)]: m[i + 16],
+              [l + (i + 17)]: m[i + 17],
+              [l + (i + 18)]: m[i + 18],
+            })
         })
     })
 
