@@ -433,6 +433,59 @@ const headPosition = {
   ],
 }
 
+// 标记-显/隐
+const signVisible = {
+  type: 'switch',
+  label: 'signVisible',
+  defaultValue: true,
+}
+
+// 标记-颜色
+const signFontColor = {
+  type: 'color',
+  label: 'signFontColor',
+  defaultValue: 'rgba(255,200,100,0.9)',
+}
+
+// 标记-宽度
+const signWidth = {
+  type: 'number',
+  label: 'signWidth',
+  defaultValue: 6,
+  max: 20,
+  min: 0,
+}
+
+// 矩形-显/隐
+const rectVisible = {
+  type: 'switch',
+  label: 'rectVisible',
+  defaultValue: true,
+}
+
+// 矩形-颜色
+const rectFontColor = {
+  type: 'color',
+  label: 'rectFontColor',
+  defaultValue: '#09f',
+}
+
+// 矩形-宽度
+// const rectWidth = {
+//   type: 'number',
+//   label: 'rectWidth',
+//   defaultValue: 50,
+// }
+
+// 矩形-高度
+const rectHeight = {
+  type: 'number',
+  label: 'rectHeight',
+  defaultValue: 6,
+  max: 30,
+  min: 1,
+}
+
 // 单元格-自适应宽度
 const isAutoWidth = {
   type: 'switch',
@@ -3102,6 +3155,13 @@ export default {
   headBackground,
   headPosition,
   isAutoWidth,
+  signVisible,
+  signFontColor,
+  signWidth,
+  rectVisible,
+  rectFontColor,
+  // rectWidth,
+  rectHeight,
   cellWidth,
   cellFontSize,
   cellHeight,

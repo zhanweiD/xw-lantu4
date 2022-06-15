@@ -130,6 +130,13 @@ const MTable = MUIBase.named('MTable')
         valueBarBackground: self.config('valueBarBackground'),
         adapterContainer: self.config('adapterContainer'),
         isAutoWidth: self.config('isAutoWidth'),
+        signVisible: self.config('signVisible'),
+        signWidth: self.config('signWidth'),
+        signFontColor: self.config('signFontColor'),
+        rectVisible: self.config('rectVisible'),
+        rectFontColor: self.config('rectFontColor'),
+        rectWidth: self.config('rectWidth'),
+        rectHeight: self.config('rectHeight'),
       }
 
       // 渲染组件
@@ -207,6 +214,20 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
     color: style.cellFontColor,
     backgroundColor: style.cellBackground,
   }
+
+  const signStyle = {
+    ...cellStyle,
+    display: style.signVisible ? 'inline-block' : 'none',
+    width: style.signWidth,
+    backgroundColor: style.signFontColor,
+  }
+
+  const rectStyle = {
+    display: style.rectVisible ? 'inline-block' : 'none',
+    height: style.rectHeight,
+    backgroundColor: style.rectFontColor,
+  }
+
   const headStyle = {
     ...cellStyle,
     fontSize: style.headFontSize,
@@ -245,26 +266,17 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
           {values.map((item) =>
             Children.toArray(
               <div className={s.row}>
-                {labels.map(({id, domain}) =>
+                <div style={signStyle}></div>
+                {labels.map(({id}) =>
                   Children.toArray(
                     <div className={s.cell} style={{...cellStyle, width: getCellWidth(id)}}>
-                      {/* 当列为数字时，显示数值大小的 bar */}
-                      <div
-                        className={s.bar}
-                        style={
-                          domain && typeof item[id] === 'number'
-                            ? {
-                                height: style.cellHeight,
-                                width: getCellWidth(id) * ((item[id] - domain[0]) / (domain[1] - domain[0])),
-                                maxWidth: getCellWidth(id),
-                                background: style.valueBarBackground,
-                              }
-                            : null
-                        }
-                      />
                       <div className={s.text} style={textStyle}>
                         {item[id]}
                       </div>
+                      {/* 当列为数字时，显示数值大小的 bar */}
+                      {typeof item[id] === 'number' && (
+                        <div style={{...rectStyle, width: item[id] ? item[id] / 50 : style.rectWidth}} />
+                      )}
                     </div>
                   )
                 )}

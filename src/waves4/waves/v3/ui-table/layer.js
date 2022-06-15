@@ -89,6 +89,48 @@ export default () => {
           },
         ],
       },
+      // 标记
+      {
+        name: 'sign',
+        fields: [
+          {
+            name: 'signVisible',
+            defaultValue: true,
+          },
+          {
+            name: 'signFontColor',
+            defaultValue: 'rgba(255,200,100,0.9)',
+          },
+          {
+            name: 'signWidth',
+            defaultValue: 6,
+            max: 20,
+            min: 1,
+          },
+        ],
+      },
+      // 矩形
+      {
+        name: 'rect',
+        fields: [
+          {
+            name: 'rectVisible',
+            defaultValue: true,
+          },
+          {
+            name: 'rectFontColor',
+            defaultValue: '#09f',
+          },
+          {
+            name: 'rectWidth',
+            defaultValue: 50,
+          },
+          {
+            name: 'rectHeight',
+            defaultValue: 8,
+          },
+        ],
+      },
       // 单元格
       {
         name: 'tableCell',
