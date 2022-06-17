@@ -25,16 +25,19 @@ export default ({type, name}) => {
               effective: false,
               fields: [
                 {
-                  name: 'colorType2',
+                  name: 'colorList',
                 },
-                {
-                  name: 'singleColor',
-                  defaultValue: 'rgba(52,200,254,1)',
-                },
-                {
-                  name: 'rangeColors',
-                  effective: false,
-                },
+                // {
+                //   name: 'colorType2',
+                // },
+                // {
+                //   name: 'singleColor',
+                //   defaultValue: 'rgba(52,200,254,1)',
+                // },
+                // {
+                //   name: 'rangeColors',
+                //   effective: false,
+                // },
               ],
             },
             {
@@ -135,16 +138,19 @@ export default ({type, name}) => {
               effective: false,
               fields: [
                 {
-                  name: 'colorType2',
+                  name: 'colorList',
                 },
-                {
-                  name: 'singleColor',
-                  defaultValue: 'rgba(52,200,254,1)',
-                },
-                {
-                  name: 'rangeColors',
-                  effective: false,
-                },
+                // {
+                //   name: 'colorType2',
+                // },
+                // {
+                //   name: 'singleColor',
+                //   defaultValue: 'rgba(52,200,254,1)',
+                // },
+                // {
+                //   name: 'rangeColors',
+                //   effective: false,
+                // },
               ],
             },
             {
