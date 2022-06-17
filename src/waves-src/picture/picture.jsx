@@ -58,7 +58,8 @@ const MPicture = MUIBase.named('MPicture')
 
         interval = setInterval(() => {
           if (i < total) {
-            document.getElementById('div0').style.transform = `translate(${-style.width * i}px)`
+            document.getElementsByTagName('section')[0].style.transform = `translate(${-style.width * i}px)` // 每次往左拽一个容器的宽度
+            document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[i][0]})` // 只展示当前图片
             i++
           } else {
             clearInterval(interval)
@@ -70,9 +71,20 @@ const MPicture = MUIBase.named('MPicture')
       self.pictureData.length > 1 ? handleIntervalImage() : null
 
       self.render(
-        <div style={{border: `${borderWidth}px solid ${borderColor}`, ...others}} className={s.swiper}>
-          <div
-            id="div0"
+        <div
+          id="box1"
+          style={{
+            border: `${borderWidth}px solid ${borderColor}`,
+            width: style.width,
+            height: style.height,
+            backgroundImage: `url(${self.pictureData[0][0]})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%',
+            ...others,
+          }}
+          className={s.swiper}
+        >
+          <section
             className={s.img_container}
             style={{
               paddingTop: style.padding[0],
@@ -80,17 +92,9 @@ const MPicture = MUIBase.named('MPicture')
               paddingBottom: style.padding[2],
               paddingLeft: style.padding[3],
             }}
-          >
-            {self.pictureData?.map((v, ind) => (
-              <img
-                key={ind}
-                width={style.width - style.padding[1] - style.padding[3]}
-                height={style.height - style.padding[0] - style.padding[2]}
-                src={v[0]}
-                alt="图片加载失败"
-              />
-            ))}
-          </div>
+          ></section>
+
+          {/* 轮播圆点 */}
           {self.pictureData.length > 1 && (
             <div className={s.num_container}>
               {self.pictureData.map((t, ind) => (
