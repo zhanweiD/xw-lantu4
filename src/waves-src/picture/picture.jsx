@@ -62,8 +62,8 @@ const MPicture = MUIBase.named('MPicture')
             document.getElementsByTagName('section')[0].style.transform = `translate(${-style.width * i}px)` // 每次往左拽一个容器的宽度
             document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[i][0]})` // 只展示当前背景图片
             i == getImageSelfIndex && (document.getElementsByTagName('button')[i].style.backgroundColor = '#09f') // 高亮：当前图的小圆点
-            i > 0 && (document.getElementsByTagName('button')[i - 1].style.backgroundColor = '#fff') // 高亮：当前图的小圆点
-            i == 0 && (document.getElementsByTagName('button')[total - 1].style.backgroundColor = '#fff') // 高亮：当前图的小圆点
+            i > 0 && (document.getElementsByTagName('button')[i - 1].style.backgroundColor = '#fff') // 恢复上一个小圆点的默认色
+            i == 0 && (document.getElementsByTagName('button')[total - 1].style.backgroundColor = '#fff') // 恢复最后一个小圆点的默认色
             i++
           } else {
             clearInterval(interval)
