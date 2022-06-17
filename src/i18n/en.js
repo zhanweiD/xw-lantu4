@@ -216,6 +216,7 @@ export default {
   content: 'Content',
   dotSize: 'Dot Size',
   dotColor: 'Dot Color',
+  currentShowDotColor: 'Current Show DotColor',
   keywordColor: 'KeywordColor',
   keywordFontWeight: 'KeywordFontWeight',
   hasKeywordFontSize: 'HasKeywordFontSize',

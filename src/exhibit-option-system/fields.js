@@ -916,6 +916,10 @@ const dotColor = {
   type: 'color',
   label: 'dotColor',
 }
+const currentShowDotColor = {
+  type: 'color',
+  label: 'currentShowDotColor',
+}
 const flyPointColor = {
   type: 'color',
   label: 'flyPointColor',
@@ -3281,6 +3285,7 @@ export default {
   flyPoint,
   flyPointWidth,
   dotColor,
+  currentShowDotColor,
   dotSize,
   flyPointColor,
   flyPointSize,

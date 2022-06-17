@@ -38,6 +38,7 @@ const MPicture = MUIBase.named('MPicture')
         'borderWidth',
         'borderColor',
         'dotColor',
+        'currentShowDotColor',
         'dotSize',
         'borderRadius',
         'padding',
@@ -48,7 +49,7 @@ const MPicture = MUIBase.named('MPicture')
         'updateDuration',
         'animationType',
       ]?.forEach((name) => (style[name] = self.config(name)))
-      const {borderWidth, borderColor, dotColor, dotSize, ...others} = style
+      const {borderWidth, borderColor, dotColor, currentShowDotColor, dotSize, ...others} = style
 
       // 轮播
       const handleIntervalImage = () => {
@@ -61,9 +62,10 @@ const MPicture = MUIBase.named('MPicture')
             const getImageSelfIndex = document.getElementsByTagName('span')[i].innerText
             document.getElementsByTagName('section')[0].style.transform = `translate(${-style.width * i}px)` // 每次往左拽一个容器的宽度
             document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[i][0]})` // 只展示当前背景图片
-            i == getImageSelfIndex && (document.getElementsByTagName('button')[i].style.backgroundColor = '#09f') // 高亮：当前图的小圆点
-            i > 0 && (document.getElementsByTagName('button')[i - 1].style.backgroundColor = '#fff') // 恢复上一个小圆点的默认色
-            i == 0 && (document.getElementsByTagName('button')[total - 1].style.backgroundColor = '#fff') // 恢复最后一个小圆点的默认色
+            i == getImageSelfIndex &&
+              (document.getElementsByTagName('button')[i].style.backgroundColor = currentShowDotColor) // 高亮：当前图的小圆点
+            i > 0 && (document.getElementsByTagName('button')[i - 1].style.backgroundColor = dotColor) // 恢复上一个小圆点的默认色
+            i == 0 && (document.getElementsByTagName('button')[total - 1].style.backgroundColor = dotColor) // 恢复最后一个小圆点的默认色
             i++
           } else {
             clearInterval(interval)

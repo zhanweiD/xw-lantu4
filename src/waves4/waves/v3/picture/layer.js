@@ -22,13 +22,17 @@ export default () => {
           {
             name: 'opacity',
           },
-          {
-            name: 'padding',
-            defaultValue: [0, 0, 0, 0],
-          },
+          // {
+          //   name: 'padding',
+          //   defaultValue: [0, 0, 0, 0],
+          // },
           {
             name: 'dotColor',
             defaultValue: '#fff',
+          },
+          {
+            name: 'currentShowDotColor',
+            defaultValue: '#09f',
           },
           {
             name: 'dotSize',
