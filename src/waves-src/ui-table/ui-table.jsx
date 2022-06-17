@@ -291,7 +291,10 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
                 {labels.map(({id}) =>
                   Children.toArray(
                     <div className={s.cell} style={{...cellStyle, width: getCellWidth(id)}}>
-                      <div className={s.text}>{item[id]?.length < 30 && item[id]}</div>
+                      <div className={s.text}>
+                        {(typeof item[id] === 'string' && item[id]?.length < 30 && item[id]) ||
+                          (typeof item[id] === 'number' && item[id])}
+                      </div>
                       {/* 当列为数字时，显示数值大小的 bar */}
                       {typeof item[id] === 'number' && (
                         <div style={{...rectStyle, width: item[id] ? item[id] / 50 : style.rectWidth}} />
