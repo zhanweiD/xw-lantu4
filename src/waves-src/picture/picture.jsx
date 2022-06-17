@@ -58,8 +58,12 @@ const MPicture = MUIBase.named('MPicture')
 
         interval = setInterval(() => {
           if (i < total) {
+            const getImageSelfIndex = document.getElementsByTagName('span')[i].innerText
             document.getElementsByTagName('section')[0].style.transform = `translate(${-style.width * i}px)` // 每次往左拽一个容器的宽度
-            document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[i][0]})` // 只展示当前图片
+            document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[i][0]})` // 只展示当前背景图片
+            i == getImageSelfIndex && (document.getElementsByTagName('button')[i].style.backgroundColor = '#09f') // 高亮：当前图的小圆点
+            i > 0 && (document.getElementsByTagName('button')[i - 1].style.backgroundColor = '#fff') // 高亮：当前图的小圆点
+            i == 0 && (document.getElementsByTagName('button')[total - 1].style.backgroundColor = '#fff') // 高亮：当前图的小圆点
             i++
           } else {
             clearInterval(interval)
@@ -103,9 +107,12 @@ const MPicture = MUIBase.named('MPicture')
                   style={{background: dotColor, width: dotSize, height: dotSize}}
                   className={s.btn}
                   onClick={() => {
-                    document.getElementById('div0').style.transform = `translate(${-style.width * ind}px)`
+                    document.getElementsByTagName('section')[0].style.transform = `translate(${-style.width * ind}px)`
+                    document.getElementById('box1').style.backgroundImage = `url(${self.config('data')[ind][0]})`
                   }}
-                ></button>
+                >
+                  <span style={{display: 'none'}}>{ind}</span>
+                </button>
               ))}
             </div>
           )}
