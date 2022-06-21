@@ -60,14 +60,11 @@ const MButton = MUIBase.named('MInput')
         borderRadius: self.config('borderRadius'),
         borderWidth: self.config('borderWidth'),
         borderColor: self.config('borderColor'),
+        focusColor: self.config('focusColor'),
+        shadowColor: self.config('shadowColor'),
+        shadowWidth: self.config('shadowWidth'),
+        shadowFuzziness: self.config('shadowFuzziness'),
       }
-      // 自适应容器
-      // if (self.config('adaptContainer')) {
-      // Object.assign(style, {
-      //   width: self.containerWidth,
-      //   height: self.containerHeight,
-      // })
-      // }
 
       // 渲染组件
       self.render(<MyButton self={self} style={style} />)
@@ -85,7 +82,7 @@ const MButton = MUIBase.named('MInput')
 const MyButton = observer(({self, style}) => {
   const [keyDown, setKeyDown] = useState(false)
 
-  const {borderWidth, borderColor, ...others} = style
+  const {borderWidth, borderColor, focusColor, shadowColor, shadowFuzziness, shadowWidth, ...others} = style
 
   return (
     <div
@@ -93,7 +90,11 @@ const MyButton = observer(({self, style}) => {
       onClick={self.onClick}
       onMouseDown={() => setKeyDown(true)}
       onMouseUp={() => setKeyDown(false)}
-      style={{...others, border: `${borderWidth}px solid ${borderColor}`}}
+      style={{
+        ...others,
+        border: `${borderWidth}px solid ${keyDown ? focusColor : borderColor}`,
+        boxShadow: `${shadowColor} 0px 0px ${shadowFuzziness}px ${shadowWidth}px`,
+      }}
     >
       {self.name}
     </div>
