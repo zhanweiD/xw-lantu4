@@ -179,9 +179,11 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
         className={s.inputGroup}
         style={{
           height: inputHeight,
-          backgroundColor: isDisabled ? '#999' : '',
+          backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
           cursor: isDisabled && 'not-allowed',
           boxSizing: 'border-box',
+          border: '3px solid hsl(204, 100%, 50%)',
+          borderRadius: '8px',
         }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
@@ -197,7 +199,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             fontSize,
             transform: `scale(${modal.config('scale')})`,
             flex: 5,
-            backgroundColor: isDisabled ? '#999' : 'rgb(27,27,27)',
+            backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
             cursor: isDisabled && 'not-allowed',
           }}
           readOnly
@@ -232,7 +234,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             fontSize,
             transform: `scale(${modal.config('scale')})`,
             flex: 5,
-            backgroundColor: isDisabled ? '#999' : 'rgb(27,27,27)',
+            backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
             cursor: isDisabled && 'not-allowed',
           }}
           readOnly
