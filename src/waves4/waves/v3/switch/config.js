@@ -8,22 +8,7 @@ export const config = (k) => ({
   layout: () => [2, 1],
   padding: [60, 0, 60, 60],
   layers: [layer()],
-  interction: {
-    sources: [
-      {
-        // 事件名称
-        name: '输入',
-        // 事件改变值的 key
-        key: 'changeStamp',
-        // 事件的参数schema，参考 jsonschema https://github.com/tdegrunt/jsonschema#readme，https://www.cnblogs.com/terencezhou/p/10474617.html
-        paramSchema: {
-          type: 'string',
-          description: '输入框点击的时间戳',
-        },
-        // 事件的说明，参数的说明可以写到这里
-        remark: '输入值发生变化',
-      },
-    ],
-    targets: [],
+  interaction: {
+    eventTriggerTypes: ['toggleSwitch'],
   },
 })

@@ -8,13 +8,17 @@ import translate from './translate'
 const Adapter = () =>
   createExhibitAdapter({
     //初始化
-    init({options}) {
+    init({options, event}) {
       const mSwitch = MSwitch.create()
       const translatedOptions = translate(options)
       // 初始化模型
       mSwitch.init(translatedOptions, {})
       mSwitch.draw({
         redraw: true,
+      })
+      mSwitch.event.on('onToggleSwitch', (data) => {
+        console.log(data)
+        event.fire('toggleSwitch')
       })
       return mSwitch
     },
@@ -23,7 +27,6 @@ const Adapter = () =>
       try {
         const mSwitch = MSwitch.create()
         const translatedOptions = translate(options)
-
         // 初始化模型
         mSwitch.init(translatedOptions, {})
         mSwitch.draw({

@@ -3,6 +3,7 @@ import {isMatchCondition} from './utils'
 
 // 事件触发动作，支持的响应动作， key是事件，值是对应的动作
 export default {
+  toggleSwitch: ['toggle_visible'],
   click: ['show', 'hidden', 'toggle_visible', 'href', 'data_effect'],
   doubleClick: ['show', 'hidden', 'data_effect'],
   switchPanel: ['show', 'hidden', 'data_effect'],
@@ -12,6 +13,7 @@ export default {
  */
 export const actionTranslation = i18n.sandbox(
   {
+    toggleSwitch: ['切换', 'Toggle Switch'],
     click: ['单击', 'Click'],
     doubleClick: ['双击', 'Double click'],
     show: ['显示', 'Show'],
