@@ -1785,7 +1785,28 @@ const maxLength = {
 const borderColor = {
   type: 'color',
   label: 'borderColor',
-  defaultValue: 'rgb(255, 255, 255)',
+}
+// 边框阴影色
+const shadowColor = {
+  type: 'color',
+  label: 'shadowColor',
+}
+
+// 边框阴影宽度
+const shadowWidth = {
+  type: 'number',
+  label: 'shadowWidth',
+}
+
+// 边框阴影模糊度
+const shadowFuzziness = {
+  type: 'number',
+  label: 'shadowFuzziness',
+}
+// 进入焦点边框色
+const focusColor = {
+  type: 'color',
+  label: 'focusColor',
 }
 // 背景色
 const backgroundColor = {
@@ -3198,6 +3219,10 @@ export default {
   //选择器类型
   pickerTypecwq,
   borderColor,
+  shadowColor,
+  shadowWidth,
+  shadowFuzziness,
+  focusColor,
   borderWidth,
   maxLength,
   // gis
