@@ -1786,6 +1786,11 @@ const borderColor = {
   type: 'color',
   label: 'borderColor',
 }
+// 激活边框宽度
+const activeBorderWidth = {
+  type: 'number',
+  label: 'activeBorderWidth',
+}
 // 边框阴影色
 const shadowColor = {
   type: 'color',
@@ -3218,6 +3223,7 @@ export default {
   pointSizes,
   //选择器类型
   pickerTypecwq,
+  activeBorderWidth,
   borderColor,
   shadowColor,
   shadowWidth,

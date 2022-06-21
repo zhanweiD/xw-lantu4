@@ -40,7 +40,17 @@ const MCheck = MUIBase.named('MInput')
       }
 
       const style = {}
-      ;['width', 'height', 'fontSize', 'activeColor', 'inactiveColor', 'alignmentDirection'].forEach((name) => {
+      ;[
+        'width',
+        'height',
+        'fontSize',
+        'activeColor',
+        'inactiveColor',
+        'alignmentDirection',
+        'borderWidth',
+        'activeBorderWidth',
+        'backgroundColor',
+      ].forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -118,7 +128,8 @@ const MCheck = MUIBase.named('MInput')
   })
 
 const CheckField = observer(({modal, active, onChange, options, style}) => {
-  const {width, height, fontSize, activeColor, inactiveColor, alignmentDirection} = style
+  const {width, height, fontSize, activeColor, inactiveColor, alignmentDirection, borderWidth, activeBorderWidth} =
+    style
   const isHorizontal = alignmentDirection === 'HORIZONTAL'
   const textWidths = options.map((item) => modal.util.getTextWidth(item.key, fontSize))
   const totalWidth = sum(textWidths)
@@ -137,10 +148,13 @@ const CheckField = observer(({modal, active, onChange, options, style}) => {
             style={{
               width: isHorizontal ? assignedWidths[index] : width,
               height: isHorizontal ? height : height / options.length,
-              // backgroundColor: active === index ? `${activeColor}` : `${inactiveColor}`,
-              borderBottom: active === index ? `5px solid ${activeColor}` : `1px solid ${activeColor}`,
               color: active === index ? `${activeColor}` : `${inactiveColor}`,
               fontSize: `${width / 18}px`,
+              borderBottom:
+                active === index
+                  ? `${activeBorderWidth}px solid ${activeColor}`
+                  : `${borderWidth}px solid ${activeColor}`,
+              backgroundColor: style.backgroundColor,
             }}
           >
             {option.key}

@@ -18,6 +18,7 @@ export default {
   themeLabel: 'Theme',
   borderRadius: 'Radius',
   borderWidth: 'Border Width',
+  activeBorderWidth: 'Active Border Width',
   borderColor: 'Border Color',
   shadowColor: 'Shadow Color',
   shadowWidth: 'Shadow Width',

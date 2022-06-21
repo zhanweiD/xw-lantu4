@@ -907,6 +907,7 @@ export default {
   vertexSize: '节点大小',
   inactiveColor: '未激活背景色',
   activeColor: '激活背景色',
+  activeBorderWidth: '激活边框宽度',
   alignmentDirection: '排列顺序',
 
   tabSwitch: '显隐切换',
