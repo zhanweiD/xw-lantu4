@@ -97,6 +97,7 @@ const MTable = MUIBase.named('MTable')
       }
 
       const style = {
+        backgroundColor: self.config('backgroundColor'),
         titleVisible: self.config('titleVisible'),
         titleFontSize: self.config('titleFontSize'),
         titleColor: self.config('titleColor'),
@@ -247,8 +248,12 @@ const Table = observer(({modal, style, title, labels, values, bodyID}) => {
     overflow: 'hidden',
   }
 
+  const containerDivStyle = {
+    backgroundColor: style.backgroundColor,
+  }
+
   return (
-    <div className={s.container}>
+    <div className={s.container} style={containerDivStyle}>
       <div style={titleStyle} className={s.title}>
         {title}
       </div>

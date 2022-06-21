@@ -8,8 +8,6 @@ export const layerOptionMap = new Map([
         ['base.content', 'buttonName'],
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
-        ['base.borderWidth', 'borderWidth'],
-        ['base.borderColor', 'borderColor'],
         ['border.borderWidth', 'borderWidth'],
         ['border.borderColor', 'borderColor'],
         ['border.focusColor', 'focusColor'],

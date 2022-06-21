@@ -19,6 +19,10 @@ export default () => {
             name: 'columnSpacing',
             defaultValue: 5,
           },
+          {
+            name: 'backgroundColor',
+            defaultValue: 'rgb(0,0,0)',
+          },
         ],
       },
       // 标题

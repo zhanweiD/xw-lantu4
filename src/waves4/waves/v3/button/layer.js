@@ -21,12 +21,6 @@ export default () => {
             name: 'backgroundColor',
             defaultValue: 'rgb(0,0,0)',
           },
-          {
-            name: 'borderWidth',
-          },
-          {
-            name: 'borderColor',
-          },
         ],
       },
       {

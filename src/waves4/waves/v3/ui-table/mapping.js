@@ -6,6 +6,7 @@ export const layerOptionMap = new Map([
         ['base.rowNumber', 'rowNumber'],
         ['base.lineSpacing', 'lineSpacing'],
         ['base.columnSpacing', 'columnSpacing'],
+        ['base.backgroundColor', 'backgroundColor'],
         ['title.titleVisible', 'titleVisible'],
         ['title.titleFontSize', 'titleFontSize'],
         ['title.titleColor', 'titleColor'],
