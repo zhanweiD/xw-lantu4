@@ -196,7 +196,7 @@ export default {
   shadowColor: '阴影色',
   shadowWidth: '阴影宽度',
   shadowFuzziness: '阴影模糊度',
-  focusColor: '焦点色',
+  focusColor: '进入焦点色',
   labelOffset: '偏移',
   circleSize: '大小',
   textSize: '字号',
