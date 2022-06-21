@@ -445,6 +445,18 @@ const headPosition = {
   ],
 }
 
+const leftLableFontSize = {
+  type: 'number',
+  label: 'leftLableFontSize',
+  defaultValue: 20,
+}
+
+const rightLableFontSize = {
+  type: 'number',
+  label: 'rightLableFontSize',
+  defaultValue: 20,
+}
+
 // 单位显/隐
 const unitVisible = {
   type: 'switch',
@@ -3021,6 +3033,8 @@ export default {
   scale,
   // 字体大小
   fontSize,
+  leftLableFontSize,
+  rightLableFontSize,
   // 选择器类型
   pickerType,
   //尺寸-特殊单设-适配：点装饰组件

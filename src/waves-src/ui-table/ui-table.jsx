@@ -30,26 +30,20 @@ const MTable = MUIBase.named('MTable')
       self.receiveEnableLoopAnimation = tableData.enableLoopAnimation
       // 部分样式
       const [
-        adapterContainer,
         columnSpacing,
         lineSpacing,
         titleFontSize,
         titleLowerSpacing,
-        cellWidth,
-        cellHeight,
         headVisible,
         headFontSize,
         cellFontSize,
         isAutoWidth,
         rowNumber,
       ] = [
-        'adapterContainer',
         'columnSpacing',
         'lineSpacing',
         'titleFontSize',
         'titleLowerSpacing',
-        'cellWidth',
-        'cellHeight',
         'headVisible',
         'headFontSize',
         'cellFontSize',
@@ -67,12 +61,11 @@ const MTable = MUIBase.named('MTable')
       })
       // 按比例分配的宽度
       const assignedWidths = {}
-      const totalTextWidth = Object.values(maxWidths)?.reduce((previous, current) => previous + current)
-      const availableWidth = adapterContainer
-        ? self.containerWidth - columnSpacing * (self.labels.length - 1)
-        : isAutoWidth
-        ? totalTextWidth * 1.5
-        : cellWidth * self.labels.length
+      const totalTextWidth =
+        Object.keys(maxWidths).length !== 0 &&
+        Object.values(maxWidths)?.reduce((previous, current) => previous + current)
+      const availableWidth = self.containerWidth - columnSpacing * (self.labels.length - 1)
+
       Object.keys(maxWidths).forEach((id) => {
         assignedWidths[id] = isAutoWidth
           ? maxWidths[id] + (availableWidth - totalTextWidth) / self.labels.length
@@ -80,16 +73,10 @@ const MTable = MUIBase.named('MTable')
       })
       self.assignedWidths = assignedWidths
       // 行单元格的宽度总和以及行单元格的高度
-      if (adapterContainer) {
-        const totalHeightWithoutTitle = self.containerHeight - (titleFontSize + titleLowerSpacing || 0)
-        const rows = Math.min(rowNumber, self.values.length) + (headVisible ? 1 : 0)
-        self.adaptTableBodyWidth = self.containerWidth
-        self.adaptTableCellHeight = (totalHeightWithoutTitle - lineSpacing * rows) / rows
-      } else {
-        const totalCellWidth = Object.values(assignedWidths)?.reduce((previous, current) => previous + current)
-        self.adaptTableBodyWidth = totalCellWidth + columnSpacing * (self.labels.length - 1)
-        self.adaptTableCellHeight = cellHeight
-      }
+      const totalHeightWithoutTitle = self.containerHeight - (titleFontSize + titleLowerSpacing || 0)
+      const rows = Math.min(rowNumber, self.values.length) + (headVisible ? 1 : 0)
+      self.adaptTableBodyWidth = self.containerWidth
+      self.adaptTableCellHeight = (totalHeightWithoutTitle - lineSpacing * rows) / rows
     }
 
     // 无数据或数据错误时，采用备用数据渲染
@@ -122,7 +109,7 @@ const MTable = MUIBase.named('MTable')
         headFontColor: self.config('headFontColor'),
         headBackground: self.config('headBackground'),
         headPosition: self.config('headPosition'),
-        cellWidth: self.config('cellWidth'),
+        // cellWidth: self.config('cellWidth'),
         cellFontSize: self.config('cellFontSize'),
         cellFontColor: self.config('cellFontColor'),
         cellBackground: self.config('cellBackground'),
@@ -130,7 +117,6 @@ const MTable = MUIBase.named('MTable')
         lineSpacing: self.config('lineSpacing'),
         columnSpacing: self.config('columnSpacing'),
         valueBarBackground: self.config('valueBarBackground'),
-        adapterContainer: self.config('adapterContainer'),
         isAutoWidth: self.config('isAutoWidth'),
         unitVisible: self.config('unitVisible'),
         unitFontSize: self.config('unitFontSize'),
@@ -158,7 +144,7 @@ const MTable = MUIBase.named('MTable')
             values={self.values}
             bodyID={self.bodyID}
           />,
-          style.adapterContainer && {overflow: 'hidden'}
+          {overflow: 'hidden'}
         )
         .then(() => {
           // 轮播动画

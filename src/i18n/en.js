@@ -194,6 +194,8 @@ export default {
   scrolling: 'Support Scroll',
   updateDuration: 'Rotation interval',
   fontSize: 'FontSize',
+  leftLableFontSize: 'Left Lable FontSize',
+  rightLableFontSize: 'Right Lable FontSize',
   columnNumber: 'Column Number',
   isCustomSize: 'Custom Size',
   themeColor: 'Theme',

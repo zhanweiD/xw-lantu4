@@ -14,6 +14,8 @@ export default {
   width: '宽度',
   height: '高度',
   fontSize: '字号',
+  leftLableFontSize: '左标签字号',
+  rightLableFontSize: '右标签字号',
   tableHead: '表头',
   tableCell: '单元格',
   adapterContainer: '自适应容器',

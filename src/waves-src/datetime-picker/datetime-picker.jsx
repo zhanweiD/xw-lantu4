@@ -95,6 +95,34 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     setCalendarVisible(false)
   }, [dateValue])
 
+  useEffect(() => {
+    const getPickerType = self.config('pickerType')
+
+    switch (getPickerType) {
+      case 'month':
+        setDateValue([
+          `${moment(new Date()).format('YYYY-MM-DD')}`,
+          `${new Date().getFullYear()}-${new Date().getMonth() + 2}-${new Date().getDate()}`,
+        ])
+        break
+      case 'year':
+        setDateValue([
+          `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+          `${new Date().getFullYear() + 1}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+        ])
+        break
+      case 'decade':
+        setDateValue([
+          `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+          `${new Date().getFullYear() + 10}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+        ])
+        break
+      case 'century':
+        setDateValue([`${new Date().getFullYear()}-01-01`, `${new Date().getFullYear() + 100}-12-31`])
+        break
+    }
+  }, [self.config('pickerType')])
+
   // 监听：日期类型
   useEffect(() => {
     switch (pickerType) {
@@ -158,7 +186,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
       >
-        {/* 起始-结束时间 */}
+        {/* 起始时间 */}
         <input
           ref={mainPickerRef}
           value={dateValue[0]}
@@ -174,7 +202,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
           }}
           readOnly
         />
-        <span style={{fontSize: fontSize}} className={valueMethod === 'timePoint' ? s.hide : s.iconShow}>
+        <span style={{fontSize}} className={valueMethod === 'timePoint' ? s.hide : s.iconShow}>
           {connectLineType === 'wavyline' ? (
             '～'
           ) : connectLineType === 'shortline' ? (

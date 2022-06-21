@@ -3,7 +3,8 @@ export const layerOptionMap = new Map([
     'layer',
     ({mapOption}) => {
       const mapping = [
-        ['base.fontSize', 'fontSize'],
+        ['base.leftLableFontSize', 'leftLableFontSize'],
+        ['base.rightLableFontSize', 'fontSize'],
         ['base.columnNumber', 'columnNumber'],
         ['base.gap', 'gap'],
         ['base.leftLabelColor', 'leftLabelColor'],

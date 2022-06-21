@@ -3,7 +3,6 @@ export const layerOptionMap = new Map([
     'layer',
     ({mapOption}) => {
       const mapping = [
-        ['base.adapterContainer', 'adapterContainer'],
         ['base.rowNumber', 'rowNumber'],
         ['base.lineSpacing', 'lineSpacing'],
         ['base.columnSpacing', 'columnSpacing'],

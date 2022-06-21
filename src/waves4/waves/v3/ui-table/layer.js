@@ -8,10 +8,6 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'adapterContainer',
-            defaultValue: true,
-          },
-          {
             name: 'rowNumber',
             defaultValue: 100,
           },

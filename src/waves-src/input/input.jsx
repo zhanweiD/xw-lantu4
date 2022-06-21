@@ -59,7 +59,7 @@ const MInput = MUIBase.named('MInput')
 
     // 改变 input 内容
     const onChange = (e) => {
-      self.event.fire('onChangeInputValue', {data: e.target.value})
+      self.event.fire('change', {data: e.target.value})
       self.text = e.target.value
     }
 
@@ -121,7 +121,7 @@ const ConfiguredInput = observer(({self, style}) => {
             backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
             fontSize: style.fontSize,
             padding: '3px',
-            width: style.isDisplayTextNum ? style.width * 0.65 : style.width * 0.9,
+            width: style.isDisplayTextNum ? style.width * 0.75 : style.width * 0.85,
             pointerEvents: style.isDisabled && 'none',
           }}
           maxLength={style.maxLength}

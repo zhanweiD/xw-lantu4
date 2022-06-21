@@ -8,7 +8,7 @@ const getRealData = (dataSource) => {
     obj.label = []
     obj.value = []
 
-    dataSource[1][1][0]?.map((v, i) => {
+    dataSource[0]?.map((v, i) => {
       obj.label.push({
         id: `label${i}`,
         name: v,
@@ -16,11 +16,10 @@ const getRealData = (dataSource) => {
     })
 
     const l = 'label'
-    // const columnLength = dataSource[1][1][0].length
 
-    dataSource[1][1]?.map((m, ind) => {
+    dataSource?.map((m, ind) => {
       ind !== 0 &&
-        dataSource[1][1][0]?.map((v, i) => {
+        dataSource[0]?.map((v, i) => {
           i / 3 === 0 &&
             obj.value.push({
               [l + i]: m[i],
@@ -45,8 +44,6 @@ const getRealData = (dataSource) => {
             })
         })
     })
-
-    console.log('处理后-obj', obj)
 
     return obj
   } catch (e) {

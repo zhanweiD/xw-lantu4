@@ -6,6 +6,7 @@ export default {
   click: ['show', 'hidden', 'toggle_visible', 'href', 'data_effect'],
   doubleClick: ['show', 'hidden', 'data_effect'],
   switchPanel: ['show', 'hidden', 'data_effect'],
+  change: [''],
 }
 /**
  * 动作，以及事件的统一国际化
@@ -20,6 +21,7 @@ export const actionTranslation = i18n.sandbox(
     href: ['跳转链接', 'Jump link'],
     switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
+    change: ['文本输入改变', 'Text Change'],
   },
   'interactionLang'
 )

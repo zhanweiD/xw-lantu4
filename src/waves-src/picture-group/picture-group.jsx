@@ -44,7 +44,15 @@ const MInput = MUIBase.named('MInput')
       }
 
       const style = {}
-      ;['columnNumber', 'fontSize', 'gap', 'leftLabelColor', 'rightLabelColor', 'backgroundColor'].forEach((name) => {
+      ;[
+        'columnNumber',
+        'fontSize',
+        'gap',
+        'leftLabelColor',
+        'rightLabelColor',
+        'backgroundColor',
+        'leftLableFontSize',
+      ].forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -84,7 +92,17 @@ const MInput = MUIBase.named('MInput')
   })
 
 const PictureGroup = observer(({modal, visiableData, style, currentPage, totalPage}) => {
-  const {columnNumber, gap, width, height, fontSize, leftLabelColor, rightLabelColor, backgroundColor} = style
+  const {
+    columnNumber,
+    gap,
+    width,
+    height,
+    fontSize,
+    leftLabelColor,
+    rightLabelColor,
+    backgroundColor,
+    leftLableFontSize,
+  } = style
   const containerStyle = {
     width,
     height: height - fontSize * 1.5,
@@ -101,12 +119,12 @@ const PictureGroup = observer(({modal, visiableData, style, currentPage, totalPa
     height: cardStyle.height - fontSize * 3,
   }
   const leftLabelStyle = {
-    fontSize: fontSize / 8,
+    fontSize: leftLableFontSize,
     color: leftLabelColor,
     backgroundColor,
   }
   const rightLabelStyle = {
-    fontSize: fontSize / 8,
+    fontSize,
     color: rightLabelColor,
   }
   const iconStyle = {
