@@ -1791,6 +1791,12 @@ const activeBorderWidth = {
   type: 'number',
   label: 'activeBorderWidth',
 }
+// 文字动画时长
+const animationDuration = {
+  type: 'number',
+  label: 'animationDuration',
+}
+
 // 边框阴影色
 const shadowColor = {
   type: 'color',
@@ -3224,6 +3230,7 @@ export default {
   //选择器类型
   pickerTypecwq,
   activeBorderWidth,
+  animationDuration,
   borderColor,
   shadowColor,
   shadowWidth,

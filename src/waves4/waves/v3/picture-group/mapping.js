@@ -10,6 +10,8 @@ export const layerOptionMap = new Map([
         ['base.leftLabelColor', 'leftLabelColor'],
         ['base.rightLabelColor', 'rightLabelColor'],
         ['base.backgroundColor', 'backgroundColor'],
+        ['base.isMarkVisible', 'isMarkVisible'],
+        ['base.animationDuration', 'animationDuration'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

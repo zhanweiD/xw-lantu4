@@ -908,6 +908,7 @@ export default {
   inactiveColor: '未激活背景色',
   activeColor: '激活背景色',
   activeBorderWidth: '激活边框宽度',
+  animationDuration: '信息动画时长',
   alignmentDirection: '排列顺序',
 
   tabSwitch: '显隐切换',

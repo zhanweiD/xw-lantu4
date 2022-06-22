@@ -19,6 +19,7 @@ export default {
   borderRadius: 'Radius',
   borderWidth: 'Border Width',
   activeBorderWidth: 'Active Border Width',
+  animationDuration: 'Descption Animation Duration',
   borderColor: 'Border Color',
   shadowColor: 'Shadow Color',
   shadowWidth: 'Shadow Width',

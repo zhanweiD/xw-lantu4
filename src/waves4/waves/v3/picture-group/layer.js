@@ -41,6 +41,16 @@ export default () => {
             name: 'backgroundColor',
             defaultValue: 'rgb(38,38,38)',
           },
+          {
+            name: 'isMarkVisible',
+            defaultValue: true,
+          },
+          {
+            name: 'animationDuration',
+            defaultValue: 10,
+            max: 100,
+            min: 1,
+          },
         ],
       },
     ],
