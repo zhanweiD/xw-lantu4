@@ -107,6 +107,7 @@ const ColorListField = ({
         height: rectRef.current.getBoundingClientRect().height,
       }
       setRect(boundingClientRect)
+      setActiveKey(activeColor[0][2] || 'g0')
     }
   }, [canShowPicker])
 

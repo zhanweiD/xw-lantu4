@@ -39,15 +39,7 @@ export default ({mode = 'stack', hasArea = true, column = [], labelPosition = 'c
             effective: false,
             fields: [
               {
-                name: 'colorType2',
-              },
-              {
-                name: 'singleColor',
-                defaultValue: 'rgba(52,200,254,1)',
-              },
-              {
-                name: 'rangeColors',
-                effective: false,
+                name: 'colorList',
               },
             ],
           },
