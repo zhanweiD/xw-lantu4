@@ -1,4 +1,4 @@
-import {title, sankey} from '@waves4/configs'
+import {title, sankey, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -22,4 +22,6 @@ export const config = (k) => ({
   title: title({k, content: '桑基图'}),
   // 交互
   // interaction: {},
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

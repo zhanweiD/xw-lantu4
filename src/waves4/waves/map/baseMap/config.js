@@ -1,4 +1,4 @@
-import {baseMap, scatter, odLine, cartesian, title} from '@waves4/configs'
+import {baseMap, scatter, odLine, cartesian, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -16,6 +16,8 @@ export const config = (k) => ({
   title: title({k, content: '某APP活跃用户年龄分布'}),
   // 直角坐标系坐标轴
   axis: cartesian({k}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
   // 数据
   data,
   // 交互

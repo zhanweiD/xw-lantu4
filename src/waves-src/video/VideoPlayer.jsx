@@ -35,7 +35,7 @@ export default class Video extends React.Component {
     const id = this.props.boxId
     const videoBox = document.getElementById(`MapVideoDiv${id}`)
     const videoType = this.props.type === 'mp4' ? 'video/mp4' : 'application/x-mpegURL'
-    videoBox.innerHTML = `<video id='videoinfo${id}' class='video-js vjs-default-skin' controls><source src=${url} type='${videoType}'></source></video>`
+    videoBox.innerHTML = `<video id='videoinfo${id}' class='video-js vjs-default-skin' style="background:${this.props.style.backgroundColor}" controls><source src=${url} type='${videoType}'></source></video>`
     const player = videojs(`videoinfo${id}`, {
       muted: true,
       controls: this.props.isInteractive,

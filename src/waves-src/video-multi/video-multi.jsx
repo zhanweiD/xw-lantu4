@@ -28,7 +28,7 @@ const MVideoMulti = MUIBase.named('MVideoMulti')
       }
 
       const style = {}
-      ;[]?.forEach((name) => {
+      ;['backgroundColor']?.forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -74,7 +74,7 @@ const MVideoMulti = MUIBase.named('MVideoMulti')
     }
   })
 
-const VideoComponent = observer(({modal, videoUrl}) => {
+const VideoComponent = observer(({modal, videoUrl, style}) => {
   const fontSize = 24
   const createRandomId = () => {
     return `${(Math.random() * 10000000).toString(16).substr(0, 4)}-${new Date().getTime()}-${Math.random()
@@ -92,6 +92,7 @@ const VideoComponent = observer(({modal, videoUrl}) => {
                 <Video
                   srcUrl={v.url}
                   type={v.type}
+                  style={style}
                   boxId={createRandomId()}
                   isInteractive={modal.config('isMarkVisible')}
                   readyEvent={() => {

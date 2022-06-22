@@ -1,4 +1,4 @@
-import {matrix, title, cartesian} from '@waves4/configs'
+import {matrix, title, cartesian, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -17,6 +17,8 @@ export const config = (k) => ({
   // 数据
   data,
   axis: cartesian({k, paddingInner: 0}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
   // 交互
   // interaction: {},
 })
