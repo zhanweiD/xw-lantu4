@@ -6,7 +6,7 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'pictureGroup',
   name: k('pictureGroup'),
-  layout: () => [12, 5],
+  layout: () => [9, 8],
   padding: [60, 0, 60, 60],
   layers: [layer()],
   completed: true,

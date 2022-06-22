@@ -1,4 +1,5 @@
 import data from './data'
+import {auxiliary} from '@waves4/configs'
 
 const lineLayer = () => ({
   name: '线层',
@@ -275,6 +276,8 @@ export const config = (k) => ({
       },
     ],
   },
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
   // // 极坐标系坐标轴
   // polarAxis: false,
 

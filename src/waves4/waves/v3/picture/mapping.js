@@ -9,8 +9,9 @@ export const layerOptionMap = new Map([
         ['base.borderWidth', 'borderWidth'],
         ['base.borderColor', 'borderColor'],
         ['base.opacity', 'opacity'],
-        ['base.padding', 'padding'],
+        // ['base.padding', 'padding'],
         ['base.dotColor', 'dotColor'],
+        ['base.currentShowDotColor', 'currentShowDotColor'],
         ['base.dotSize', 'dotSize'],
         ['animation.updateDuration', 'updateDuration'], // 轮播间隔
         ['animation.animationType', 'animationType'], // 轮播类型

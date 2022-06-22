@@ -37,12 +37,16 @@ const MInput = MUIBase.named('MInput')
         borderRadius: self.config('radius'),
         borderColor: self.config('borderColor'),
         borderWidth: self.config('borderWidth'),
-        padding: '0 10px',
+        padding: '5px 10px 5px 20px',
         radius: self.config('radius'),
         maxLength: self.config('maxLength'),
         isDisabled: self.config('isDisabled'),
         isDisplayTextNum: self.config('isDisplayTextNum'),
         content: self.config('content'),
+        focusColor: self.config('focusColor'),
+        shadowColor: self.config('shadowColor'),
+        shadowWidth: self.config('shadowWidth'),
+        shadowFuzziness: self.config('shadowFuzziness'),
       }
 
       // 自适应容器
@@ -59,7 +63,7 @@ const MInput = MUIBase.named('MInput')
 
     // 改变 input 内容
     const onChange = (e) => {
-      self.event.fire('onChangeInputValue', {data: e.target.value})
+      self.event.fire('change', {data: e.target.value})
       self.text = e.target.value
     }
 
@@ -93,74 +97,72 @@ const ConfiguredInput = observer(({self, style}) => {
   }
 
   return (
-    <div>
-      <div
-        className={c('w100p', s.container)}
+    <div
+      className={c('w100p', s.container)}
+      style={{
+        ...style,
+        borderRadius: style.radius,
+        border: `${style.borderWidth}px solid ${selectBorders ? style.focusColor : style.borderColor}`,
+        backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
+        boxSizing: 'border-box',
+        cursor: style.isDisabled && 'not-allowed',
+        boxShadow: `${style.shadowColor} 0px 0px ${style.shadowFuzziness}px ${style.shadowWidth}px`,
+      }}
+      onMouseOver={() => setIconVisible(true)}
+      onMouseLeave={() => setIconVisible(false)}
+      onFocus={() => setSelectBorders(true)}
+      onBlur={() => {
+        setSelectBorders(false)
+      }}
+    >
+      <input
+        value={inputValue}
+        onChange={onChange}
+        placeholder={self.config('placeholder')}
         style={{
-          ...style,
-          borderRadius: style.radius,
-          border: `${style.borderWidth}px solid ${selectBorders ? 'rgb(0,127,212)' : style.borderColor}`,
+          border: 'none',
+          color: style.color,
           backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
-          boxSizing: 'border-box',
-          cursor: style.isDisabled && 'not-allowed',
+          fontSize: style.fontSize,
+          width: style.isDisplayTextNum ? style.width * 0.75 : style.width * 0.85,
+          pointerEvents: style.isDisabled && 'none',
         }}
-        onMouseOver={() => setIconVisible(true)}
-        onMouseLeave={() => setIconVisible(false)}
-        onFocus={() => setSelectBorders(true)}
-        onBlur={() => {
-          setSelectBorders(false)
-        }}
-      >
-        <input
-          value={inputValue}
-          onChange={onChange}
-          placeholder={self.config('placeholder')}
-          style={{
-            border: 'none',
-            color: style.color,
-            backgroundColor: style.isDisabled ? 'rgb(181,181,181)' : style.backgroundColor,
-            fontSize: style.fontSize,
-            padding: '3px',
-            width: style.isDisplayTextNum ? style.width * 0.65 : style.width * 0.9,
-            pointerEvents: style.isDisabled && 'none',
-          }}
-          maxLength={style.maxLength}
-        />
-        {/* 字数提示 */}
-        {style.isDisplayTextNum && (
-          <span style={{color: 'rgb(117,117,117)', position: 'absolute', right: '20px'}}>
-            {curlength}/{style.maxLength}
-          </span>
-        )}
+        maxLength={style.maxLength}
+      />
+      {/* 字数提示 */}
+      {style.isDisplayTextNum && (
+        <span style={{color: 'rgb(117,117,117)', position: 'absolute', right: '20px'}}>
+          {curlength}/{style.maxLength}
+        </span>
+      )}
 
-        {/* 删除icon */}
-        {!style.isDisabled && (
-          <span
-            className={s.falseIcon}
-            style={{
-              display: isVisible ? 'block' : 'none',
-              position: 'absolute',
-              right: 15,
-            }}
-            onClick={() => {
-              setInputValue('')
-              setCurLength(0)
-            }}
+      {/* 删除icon */}
+      {!style.isDisabled && (
+        <span
+          className={s.falseIcon}
+          style={{
+            display: isVisible ? 'block' : 'none',
+            position: 'absolute',
+            right: 15,
+          }}
+          onClick={() => {
+            setInputValue('')
+            setCurLength(0)
+          }}
+        >
+          <svg
+            viewBox="64 64 896 896"
+            focusable="false"
+            data-icon="close"
+            width="0.5em"
+            height="0.5em"
+            fill="currentColor"
+            aria-hidden="true"
           >
-            <svg
-              viewBox="64 64 896 896"
-              focusable="false"
-              data-icon="close"
-              width="0.5em"
-              height="0.5em"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path>
-            </svg>
-          </span>
-        )}
-      </div>
+            <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path>
+          </svg>
+        </span>
+      )}
     </div>
   )
 })

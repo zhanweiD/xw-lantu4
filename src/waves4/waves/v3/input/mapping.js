@@ -9,11 +9,15 @@ export const layerOptionMap = new Map([
         ['base.singleColor', 'fontColor'],
         ['base.backgroundColor', 'backgroundColor'],
         ['base.radius', 'radius'],
-        ['base.borderColor', 'borderColor'],
-        ['base.borderWidth', 'borderWidth'],
         ['base.isDisplayTextNum', 'isDisplayTextNum'],
         ['base.isDisabled', 'isDisabled'],
         ['base.maxLength', 'maxLength'],
+        ['border.borderWidth', 'borderWidth'],
+        ['border.borderColor', 'borderColor'],
+        ['border.focusColor', 'focusColor'],
+        ['border.shadowColor', 'shadowColor'],
+        ['border.shadowWidth', 'shadowWidth'],
+        ['border.shadowFuzziness', 'shadowFuzziness'],
       ]
       const storage = mapOption(mapping)
       return storage.get()
