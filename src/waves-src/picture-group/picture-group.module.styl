@@ -1,0 +1,30 @@
+.box 
+  width 100%
+  margin 0 auto
+  overflow hidden
+
+.animate 
+  display inline-block
+  white-space nowrap
+  animation wordsLoop linear 0s infinite normal
+
+@keyframes wordsLoop 
+  0% 
+    transform translateX(100%)
+    -webkit-transform translateX(100%)    
+
+  100%
+    transform translateX(-100%)
+    -webkit-transform translateX(-100%)
+
+@-webkit-keyframes wordsLoop 
+  0% 
+    transform translateX(100%)
+    -webkit-transform translateX(100%)
+
+  100% 
+    transform translateX(-100%)
+    -webkit-transform translateX(-100%)
+
+    
+
