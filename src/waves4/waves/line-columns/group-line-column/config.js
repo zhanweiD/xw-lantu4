@@ -1,4 +1,4 @@
-import {cartesian, legend, rect, line, title} from '@waves4/configs'
+import {cartesian, legend, rect, line, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -34,4 +34,6 @@ export const config = (k) => ({
   legend: legend({k, position: 'bottomCenter'}),
   // 直角坐标系坐标轴
   axis: cartesian({k, tickZero: true}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

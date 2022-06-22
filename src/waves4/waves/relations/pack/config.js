@@ -1,4 +1,4 @@
-import {pack, title} from '@waves4/configs'
+import {pack, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -13,4 +13,6 @@ export const config = (k) => ({
   layers: [pack({k})],
   // 标题面板
   title: title({k, content: '打包图'}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

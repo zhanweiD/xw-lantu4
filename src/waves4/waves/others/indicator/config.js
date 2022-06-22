@@ -1,4 +1,4 @@
-import {dashboard, title} from '@waves4/configs'
+import {dashboard, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -14,4 +14,7 @@ export const config = (k) => ({
 
   // 标题面板
   title: title({k, content: '环形指标卡'}),
+
+  // 直角坐标系坐标轴
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })
