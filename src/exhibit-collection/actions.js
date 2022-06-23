@@ -43,8 +43,9 @@ function boxActionHandle({actionType, actionValue = {}}, eventData) {
     if (targets.includes(boxModel.boxId)) {
       if (isMatchCondition(conditions, triggerCondition, eventData) || NO_CONDITIONS.includes(this.key)) {
         // 符合条件，触发动作
-        boxModel['dipatchAction'] && boxModel['dipatchAction'](actionType)
+        setTimeout(() => boxModel['dipatchAction'] && boxModel['dipatchAction'](actionType), 0)
       } else {
+        // 如果动作较多，会频繁触发reset，感觉去掉比较合适
         // 不符合条件，恢复到默认状态
         reset(boxModel)
       }
