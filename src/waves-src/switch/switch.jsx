@@ -51,9 +51,8 @@ const MSwitch = MUIBase.named('MSwitch')
     const onChange = (value) => {
       self.value = value
       self.draw({redraw: false})
-      console.log(value)
       self.event.fire('onToggleSwitch', {
-        data: value,
+        data: value ? 'true' : 'false',
       })
     }
 

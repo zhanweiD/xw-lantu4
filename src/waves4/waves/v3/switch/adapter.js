@@ -17,8 +17,7 @@ const Adapter = () =>
         redraw: true,
       })
       mSwitch.event.on('onToggleSwitch', (data) => {
-        console.log(data)
-        event.fire('toggleSwitch')
+        event.fire('toggleSwitch', data)
       })
       return mSwitch
     },
