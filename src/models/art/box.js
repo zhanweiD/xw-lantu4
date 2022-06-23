@@ -131,7 +131,6 @@ export const MBox = types
   .actions(commonAction(['set', 'getSchema', 'dumpSchema']))
   .actions((self) => {
     const afterCreate = () => {
-      console.log('env_......', self.env_)
       reaction(
         () => {
           return {

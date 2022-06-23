@@ -48,7 +48,6 @@ function translate(schema) {
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
   config.data = getRealData(data)
-  console.log(config.data)
   // config.data = []
 
   return {
