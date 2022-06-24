@@ -20,7 +20,6 @@ const Overlay = ({
   const titleRef = useRef(null)
   const buttonList = model.buttons || buttons
   const [isMaskVisible, setIsMaskVisible] = useState(false)
-  // console.log(model)
   useLayoutEffect(() => {
     if (model.isVisible) {
       model.set('autoHeight', boxRef.current.clientHeight)
@@ -31,7 +30,6 @@ const Overlay = ({
       setIsMaskVisible(false)
     }
   }, [model.isVisible])
-
   useLayoutEffect(() => {
     if (model.canDrag) {
       model.initDrag({
@@ -40,9 +38,10 @@ const Overlay = ({
       })
     }
   }, [model.id])
-
+  console.log(isMaskVisible)
   return ReactDOM.createPortal(
-    <div id={model.id} className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})} style={{zIndex}}>
+    // <div id={model.id} className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})} style={{zIndex}}>
+    <div id={model.id} className={c(s.root, {[s.cover]: model.isVisible})} style={{zIndex}}>
       <div ref={boxRef} className={c('layerBox', 'stopPropagation', s.layerBox, className)} style={model.style}>
         <div className={c('h100p fbv', s.content, contentClassName)} style={model.contentStyle}>
           {/* title */}
