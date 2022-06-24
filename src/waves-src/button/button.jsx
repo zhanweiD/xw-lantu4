@@ -25,26 +25,6 @@ const MButton = MUIBase.named('MInput')
       self.draw({redraw: false})
     }
 
-    let count = 0,
-      timer = null
-
-    // 通过单击，记录模拟双击
-    const onClick = (e) => {
-      count++
-      if (timer) {
-        return
-      }
-      timer = setTimeout(() => {
-        if (count === 1) {
-          self.event.fire('click', {data: self.buttonData, e})
-        } else {
-          self.event.fire('doubleClick', {data: self.buttonData, e})
-        }
-        count = 0
-        timer = null
-      }, 200)
-    }
-
     // 和图表的方法保持一致
     const draw = ({redraw}) => {
       if (redraw === true) {
@@ -73,27 +53,51 @@ const MButton = MUIBase.named('MInput')
     return {
       data,
       draw,
-      onClick,
       drawFallback,
       afterCreate,
     }
   })
 
 const MyButton = observer(({self, style}) => {
-  const [keyDown, setKeyDown] = useState(false)
-
   const {borderWidth, borderColor, focusColor, shadowColor, shadowFuzziness, shadowWidth, ...others} = style
+  const [keyDown, setKeyDown] = useState(false)
+  const [curShadowFuzziness, setCurShadowFuzziness] = useState(shadowFuzziness)
+
+  let count = 0,
+    timer = null
+
+  // 通过单击，记录模拟双击
+  const onClick = (e) => {
+    setCurShadowFuzziness(8)
+    setKeyDown(true)
+    count++
+    if (timer) {
+      return
+    }
+    timer = setTimeout(() => {
+      if (count === 1) {
+        self.event.fire('click', {data: self.buttonData, e})
+      } else {
+        self.event.fire('doubleClick', {data: self.buttonData, e})
+      }
+      count = 0
+      timer = null
+      setCurShadowFuzziness(2)
+    }, 200)
+  }
+
+  document.getElementsByTagName('body')[0].onclick = function () {
+    setKeyDown(false)
+  }
 
   return (
     <div
       className={keyDown ? s.btn2 : s.button}
-      onClick={self.onClick}
-      onMouseDown={() => setKeyDown(true)}
-      onMouseUp={() => setKeyDown(false)}
+      onClick={onClick}
       style={{
         ...others,
         border: `${borderWidth}px solid ${keyDown ? focusColor : borderColor}`,
-        boxShadow: `${shadowColor} 0px 0px ${shadowFuzziness}px ${shadowWidth}px`,
+        boxShadow: `${shadowColor} 0px 0px ${curShadowFuzziness}px ${shadowWidth}px`,
       }}
     >
       {self.name}

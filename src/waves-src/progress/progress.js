@@ -119,7 +119,7 @@ export default class Progress extends Base {
 
       // 为所有g设置样式 （style相当于 all: {style: {...}} 这里直接省略 all）
       style: {
-        transform: () => `translate(${this.mainWidth / 2}px, ${this.mainHeight / 2}px)`,
+        transform: () => `translate(-40px, ${this.mainHeight / 2}px)`,
         transition: `transform ${enterAnimationDuration / 1000}s`,
       },
     })
@@ -146,7 +146,6 @@ export default class Progress extends Base {
       labelShadowColor = 'RGBA(255, 255, 255, 0.4)',
 
       valueVisible = true,
-      valueOffsetY = 0,
     } = this._option
 
     let {backgroudHeight = 20} = this._option
@@ -156,10 +155,12 @@ export default class Progress extends Base {
       data: (d) => [d.label],
       attr: {
         width: this.mainWidth,
-        height: barHeight,
+        height: barHeight - backgroudHeight,
         fill: backgroundColor,
-        x: -this.mainWidth / 2,
+        x: 0,
         y: -barHeight / 2,
+        rx: 20,
+        ry: 20,
       },
     })
 
@@ -178,8 +179,10 @@ export default class Progress extends Base {
       attr: {
         height: barHeight - backgroudHeight,
         fill: this._colors[0],
-        x: -this.mainWidth / 2,
-        y: -barHeight / 2 + backgroudHeight / 2,
+        x: 0,
+        y: -barHeight / 2,
+        rx: 20,
+        ry: 20,
       },
       enter: {
         style: {
@@ -210,9 +213,8 @@ export default class Progress extends Base {
           'font-size': this.fontSize(labelSize),
           'alignment-baseline': 'text-after-edge',
           'dominant-baseline': 'middle',
-          // y: barHeight / 2 - backgroudHeight / 2,
-          y: 20 - valueOffsetY,
-          x: labelX,
+          y: -barHeight / 2 + 35,
+          x: this.mainWidth + 15,
         },
         style: {
           'text-shadow': labelShadowVisible
