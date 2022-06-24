@@ -296,6 +296,8 @@ const DataField = ({
             onClose={() => {
               setIsVisible(false)
             }}
+            hideWhenOutsideClick={true}
+            hasMask={true}
           >
             <Tab>
               <Tab.Item name="项目数据">

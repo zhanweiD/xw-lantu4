@@ -38,10 +38,8 @@ const Overlay = ({
       })
     }
   }, [model.id])
-  console.log(isMaskVisible)
   return ReactDOM.createPortal(
-    // <div id={model.id} className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})} style={{zIndex}}>
-    <div id={model.id} className={c(s.root, {[s.cover]: model.isVisible})} style={{zIndex}}>
+    <div id={model.id} className={c(s.root, {[s.cover]: model.hasMask && isMaskVisible})} style={{zIndex}}>
       <div ref={boxRef} className={c('layerBox', 'stopPropagation', s.layerBox, className)} style={model.style}>
         <div className={c('h100p fbv', s.content, contentClassName)} style={model.contentStyle}>
           {/* title */}
