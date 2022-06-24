@@ -1,4 +1,4 @@
-import {title, legend, radar, polar} from '@waves4/configs'
+import {title, legend, radar, polar, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -25,4 +25,6 @@ export const config = (k) => ({
   legend: legend({k}),
   // 极坐标系坐标轴
   polar: polar({k}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

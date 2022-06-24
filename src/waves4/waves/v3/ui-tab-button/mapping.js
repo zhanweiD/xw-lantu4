@@ -9,6 +9,9 @@ export const layerOptionMap = new Map([
         ['basic.alignmentDirection', 'alignmentDirection'],
         ['basic.inactiveColor', 'inactiveColor'],
         ['basic.activeColor', 'activeColor'],
+        ['basic.backgroundColor', 'backgroundColor'],
+        ['basic.borderWidth', 'borderWidth'],
+        ['basic.activeBorderWidth', 'activeBorderWidth'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

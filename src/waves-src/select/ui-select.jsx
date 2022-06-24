@@ -76,6 +76,12 @@ const MSelect = MUIBase.named('MSelect')
         'supportSearch',
         'allowClear',
         'radius',
+        'borderColor',
+        'borderWidth',
+        'focusColor',
+        'shadowColor',
+        'shadowWidth',
+        'shadowFuzziness',
       ]?.forEach((name) => (style[name] = self.config(name)))
 
       // 自适应容器
@@ -139,6 +145,7 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
   const [optionData, setOptionData] = useState([])
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [selectBorders, setSelectBorders] = useState(false)
+  const {borderWidth, borderColor, focusColor, shadowColor, shadowFuzziness, shadowWidth} = style
 
   useEffect(() => {
     setOptionData(options)
@@ -210,7 +217,11 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
   }
   return (
     <div
-      style={{...selectStyle, border: `2px solid ${selectBorders ? 'rgb(83,158,248)' : '#999'}`}}
+      style={{
+        ...selectStyle,
+        border: `${borderWidth}px solid ${selectBorders ? focusColor : borderColor}`,
+        boxShadow: `${shadowColor} 0px 0px ${shadowFuzziness}px ${shadowWidth}px`,
+      }}
       className={s.selectContainer}
       onClick={() => setOptionVisible(true)}
       onFocus={() => setSelectBorders(true)}

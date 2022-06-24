@@ -11,6 +11,12 @@ export const layerOptionMap = new Map([
         ['base.searchIconColor', 'searchIconColor'],
         ['base.iconBackgroundColor', 'iconBackgroundColor'],
         ['base.radius', 'radius'],
+        ['border.borderWidth', 'borderWidth'],
+        ['border.borderColor', 'borderColor'],
+        ['border.focusColor', 'focusColor'],
+        ['border.shadowColor', 'shadowColor'],
+        ['border.shadowWidth', 'shadowWidth'],
+        ['border.shadowFuzziness', 'shadowFuzziness'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

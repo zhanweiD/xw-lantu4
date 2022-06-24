@@ -1,4 +1,4 @@
-import {title} from '@waves4/configs'
+import {title, auxiliary} from '@waves4/configs'
 
 export const config = (k) => ({
   key: 'text',
@@ -17,4 +17,7 @@ export const config = (k) => ({
   layers: [title({k, content: '文本内容'})],
   // 交互
   // interaction: {},
+
+  // 直角坐标系坐标轴
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

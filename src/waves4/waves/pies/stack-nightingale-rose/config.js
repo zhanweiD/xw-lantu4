@@ -1,4 +1,4 @@
-import {title, legend, arc, polar} from '@waves4/configs'
+import {title, legend, arc, polar, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -18,11 +18,15 @@ export const config = (k) => ({
   // 图表主绘图区域的内边距
   padding: [0, 0, 0, 0],
   // 圆弧图层
-  layers: [arc({k, mode: 'stack', type: 'nightingaleRose', innerRadius: 30, column: ['铁路旅客', '公路旅客', '民用航空旅客']})],
+  layers: [
+    arc({k, mode: 'stack', type: 'nightingaleRose', innerRadius: 30, column: ['铁路旅客', '公路旅客', '民用航空旅客']}),
+  ],
   // 标题面板
   title: title({k, content: '2018年月度国家旅客周转量对比'}),
   // 图例面板
   legend: legend({k}),
   // 极坐标系坐标轴
   polar: polar({k}),
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

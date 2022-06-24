@@ -298,6 +298,346 @@ const sceneMode = {
   ],
 }
 
+// 自适应
+const adapterContainer = {
+  type: 'switch',
+  label: 'adapterContainer',
+  defaultValue: true,
+}
+
+// 行数
+const rowNumber = {
+  type: 'number',
+  label: 'rowNumber',
+  defaultValue: 100,
+}
+
+// 行间距
+const lineSpacing = {
+  type: 'number',
+  label: 'lineSpacing',
+  defaultValue: 5,
+}
+
+// 列间距
+const columnSpacing = {
+  type: 'number',
+  label: 'columnSpacing',
+  defaultValue: 5,
+}
+
+// 标题显隐
+const titleVisible = {
+  type: 'switch',
+  label: 'titleVisible',
+  defaultValue: false,
+}
+
+// 标题-字号
+const titleFontSize = {
+  type: 'number',
+  label: 'titleFontSize',
+  defaultValue: 30,
+}
+
+// 标题颜色
+const titleColor = {
+  type: 'color',
+  label: 'titleColor',
+  defaultValue: 'rgba(255, 255, 255, 1)',
+}
+
+// 标题背景色
+const titleBackground = {
+  type: 'color',
+  label: 'titleBackground',
+  defaultValue: 'rgba(255, 255, 255, 0)',
+}
+
+// 标题文本
+const titleText = {
+  type: 'text',
+  label: 'titleText',
+  defaultValue: '2019年分学科硕士招生数',
+}
+
+// 标题对齐
+const titlePosition = {
+  type: 'select',
+  label: 'titlePosition',
+  defaultValue: 'left',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
+// 标题下间距
+const titleLowerSpacing = {
+  type: 'number',
+  label: 'titleLowerSpacing',
+  defaultValue: 20,
+}
+
+// 表头显隐
+const headVisible = {
+  type: 'switch',
+  label: 'headVisible',
+  defaultValue: false,
+}
+
+// 表头文字大小
+const headFontSize = {
+  type: 'number',
+  label: 'headFontSize',
+  defaultValue: 24,
+}
+
+// 表头-文字加粗
+const headFontWeight = {
+  type: 'number',
+  label: 'headFontWeight',
+  defaultValue: 700,
+}
+
+// 表头文字颜色
+const headFontColor = {
+  type: 'color',
+  label: 'headFontColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 表头背景色
+const headBackground = {
+  type: 'color',
+  label: 'headBackground',
+  defaultValue: 'rgba(255,255,255,0.1)',
+}
+
+// 表头位置
+const headPosition = {
+  type: 'select',
+  label: 'titlePosition',
+  defaultValue: 'center',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
+const leftLableFontSize = {
+  type: 'number',
+  label: 'leftLableFontSize',
+  defaultValue: 20,
+}
+
+const rightLableFontSize = {
+  type: 'number',
+  label: 'rightLableFontSize',
+  defaultValue: 20,
+}
+
+// 单位显/隐
+const unitVisible = {
+  type: 'switch',
+  label: 'unitVisible',
+  defaultValue: true,
+}
+
+// 文字大小
+const unitFontSize = {
+  type: 'number',
+  label: 'unitFontSize',
+  defaultValue: 15,
+}
+
+// 文字颜色
+const unitFontColor = {
+  type: 'color',
+  label: 'unitFontColor',
+  defaultValue: 'rgba(255,255,255,0.65)',
+}
+
+// 单位文本
+const unitText = {
+  type: 'text',
+  label: 'unitText',
+  defaultValue: '单位：人',
+}
+
+// 单位-下间距
+const unitLowerSpacing = {
+  type: 'number',
+  label: 'unitLowerSpacing',
+  defaultValue: 16,
+}
+
+// 标记-显/隐
+const signVisible = {
+  type: 'switch',
+  label: 'signVisible',
+  defaultValue: true,
+}
+
+// 标记-颜色
+const signFontColor = {
+  type: 'color',
+  label: 'signFontColor',
+  defaultValue: 'rgba(255,200,100,0.9)',
+}
+
+// 标记-宽度
+const signWidth = {
+  type: 'number',
+  label: 'signWidth',
+  defaultValue: 6,
+  max: 20,
+  min: 0,
+}
+
+// 矩形-显/隐
+const rectVisible = {
+  type: 'switch',
+  label: 'rectVisible',
+  defaultValue: true,
+}
+
+// 矩形-颜色
+const rectFontColor = {
+  type: 'color',
+  label: 'rectFontColor',
+  defaultValue: '#09f',
+}
+
+// 矩形-宽度
+// const rectWidth = {
+//   type: 'number',
+//   label: 'rectWidth',
+//   defaultValue: 50,
+// }
+
+// 矩形-高度
+const rectHeight = {
+  type: 'number',
+  label: 'rectHeight',
+  defaultValue: 6,
+  max: 30,
+  min: 1,
+}
+
+// 单元格-自适应宽度
+const isAutoWidth = {
+  type: 'switch',
+  label: 'isAutoWidth',
+  defaultValue: false,
+}
+
+// 单元格-宽度
+const cellWidth = {
+  type: 'number',
+  label: 'cellWidth',
+  defaultValue: 200,
+}
+
+// 单元格-高度
+const cellHeight = {
+  type: 'number',
+  label: 'cellHeight',
+  defaultValue: 30,
+}
+
+// 单元格-文字大小
+const cellFontSize = {
+  type: 'number',
+  label: 'cellFontSize',
+  defaultValue: 20,
+}
+
+// 单元格-文字颜色
+const cellFontColor = {
+  type: 'color',
+  label: 'cellFontColor',
+  defaultValue: 'rgb(255,255,255)',
+}
+
+// 单元格-背景色
+const cellBackground = {
+  type: 'color',
+  label: 'cellBackground',
+  defaultValue: 'rgb(255,255,25, 0.1)',
+}
+
+// 单元格-数值条背景色
+const valueBarBackground = {
+  type: 'color',
+  label: 'valueBarBackground',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
+// 单元格-对齐
+const cellPosition = {
+  type: 'select',
+  label: 'cellPosition',
+  defaultValue: 'center',
+  options: [
+    {
+      key: '首端',
+      value: 'left',
+    },
+    {
+      key: '居中',
+      value: 'center',
+    },
+    {
+      key: '末端',
+      value: 'right',
+    },
+  ],
+}
+
+// 轮播滚动动画效果-是否开启
+const enableLoopAnimation = {
+  type: 'switch',
+  label: 'enableLoopAnimation',
+  defaultValue: false,
+}
+
+// 单次动画时长
+const loopAnimationDuration = {
+  type: 'number',
+  label: 'loopAnimationDuration',
+  defaultValue: 2000,
+  step: 200,
+}
+
+// 单词动画延时
+const loopAnimationDelay = {
+  type: 'number',
+  label: 'loopAnimationDelay',
+  defaultValue: 2000,
+  step: 200,
+}
+
 // 是否禁用
 const isDisabled = {
   type: 'switch',
@@ -587,6 +927,10 @@ const dotSize = {
 const dotColor = {
   type: 'color',
   label: 'dotColor',
+}
+const currentShowDotColor = {
+  type: 'color',
+  label: 'currentShowDotColor',
 }
 const flyPointColor = {
   type: 'color',
@@ -1361,6 +1705,20 @@ const singleColor = {
   defaultValue: 'transparent',
 }
 
+// 左label
+const leftLabelColor = {
+  type: 'color',
+  label: 'leftLabelColor',
+  defaultValue: '#fff',
+}
+
+// 右描述label
+const rightLabelColor = {
+  type: 'color',
+  label: 'rightLabelColor',
+  defaultValue: '#fff',
+}
+
 // 选项文字颜色
 const optionFontColor = {
   type: 'color',
@@ -1427,7 +1785,39 @@ const maxLength = {
 const borderColor = {
   type: 'color',
   label: 'borderColor',
-  defaultValue: 'rgb(255, 255, 255)',
+}
+// 激活边框宽度
+const activeBorderWidth = {
+  type: 'number',
+  label: 'activeBorderWidth',
+}
+// 文字动画时长
+const animationDuration = {
+  type: 'number',
+  label: 'animationDuration',
+}
+
+// 边框阴影色
+const shadowColor = {
+  type: 'color',
+  label: 'shadowColor',
+}
+
+// 边框阴影宽度
+const shadowWidth = {
+  type: 'number',
+  label: 'shadowWidth',
+}
+
+// 边框阴影模糊度
+const shadowFuzziness = {
+  type: 'number',
+  label: 'shadowFuzziness',
+}
+// 进入焦点边框色
+const focusColor = {
+  type: 'color',
+  label: 'focusColor',
 }
 // 背景色
 const backgroundColor = {
@@ -2675,6 +3065,8 @@ export default {
   scale,
   // 字体大小
   fontSize,
+  leftLableFontSize,
+  rightLableFontSize,
   // 选择器类型
   pickerType,
   //尺寸-特殊单设-适配：点装饰组件
@@ -2686,6 +3078,8 @@ export default {
   colorType2,
   // 颜色单色
   singleColor,
+  leftLabelColor,
+  rightLabelColor,
   colorSingle,
   // 下拉框选项文字颜色
   optionFontColor,
@@ -2835,13 +3229,59 @@ export default {
   pointSizes,
   //选择器类型
   pickerTypecwq,
+  activeBorderWidth,
+  animationDuration,
   borderColor,
+  shadowColor,
+  shadowWidth,
+  shadowFuzziness,
+  focusColor,
   borderWidth,
   maxLength,
   // gis
   origin,
   viewport,
   sceneMode,
+  adapterContainer,
+  rowNumber,
+  lineSpacing,
+  columnSpacing,
+  titleVisible,
+  titleFontSize,
+  titleLowerSpacing,
+  titleColor,
+  headVisible,
+  headFontSize,
+  headFontWeight,
+  titleBackground,
+  titleText,
+  titlePosition,
+  headFontColor,
+  headBackground,
+  headPosition,
+  unitVisible,
+  unitFontSize,
+  unitFontColor,
+  unitText,
+  unitLowerSpacing,
+  isAutoWidth,
+  signVisible,
+  signFontColor,
+  signWidth,
+  rectVisible,
+  rectFontColor,
+  // rectWidth,
+  rectHeight,
+  cellWidth,
+  cellFontSize,
+  cellHeight,
+  cellFontColor,
+  cellBackground,
+  valueBarBackground,
+  cellPosition,
+  enableLoopAnimation,
+  loopAnimationDuration,
+  loopAnimationDelay,
   isDisabled,
   isDisplayTextNum,
   enableMapInteractive,
@@ -2897,6 +3337,7 @@ export default {
   flyPoint,
   flyPointWidth,
   dotColor,
+  currentShowDotColor,
   dotSize,
   flyPointColor,
   flyPointSize,

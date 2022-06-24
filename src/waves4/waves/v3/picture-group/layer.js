@@ -7,10 +7,6 @@ export default () => {
         name: 'base',
         fields: [
           {
-            name: 'fontSize',
-            defaultValue: 20,
-          },
-          {
             name: 'columnNumber',
             defaultValue: 3,
             step: 1,
@@ -19,10 +15,41 @@ export default () => {
             name: 'gap',
             defaultValue: 20,
             step: 1,
+            min: 0,
           },
           {
-            name: 'labelColor',
-            defaultValue: 'rgb(0,0,0)',
+            name: 'leftLableFontSize',
+            defaultValue: 10,
+            max: 100,
+            min: 0,
+          },
+          {
+            name: 'rightLableFontSize',
+            defaultValue: 10,
+            max: 100,
+            min: 0,
+          },
+          {
+            name: 'leftLabelColor',
+            defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'rightLabelColor',
+            defaultValue: 'rgb(255,255,255)',
+          },
+          {
+            name: 'backgroundColor',
+            defaultValue: 'rgb(38,38,38)',
+          },
+          {
+            name: 'isMarkVisible',
+            defaultValue: true,
+          },
+          {
+            name: 'animationDuration',
+            defaultValue: 10,
+            max: 100,
+            min: 1,
           },
         ],
       },

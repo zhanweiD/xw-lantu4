@@ -10,6 +10,10 @@ export default () => {
             name: 'isMarkVisible',
             defaultValue: true,
           },
+          {
+            name: 'backgroundColor',
+            defaultValue: '#000',
+          },
         ],
       },
     ],

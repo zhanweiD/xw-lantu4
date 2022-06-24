@@ -1,4 +1,4 @@
-import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer} from '@waves4/configs'
+import {getLayersConfig, textLayer, legendLayer, axisLayer, radarLayer, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => ({
@@ -91,4 +91,6 @@ export const config = (k) => ({
   },
   // 交互
   interaction: {},
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

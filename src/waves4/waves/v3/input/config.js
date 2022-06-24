@@ -9,6 +9,7 @@ export const config = (k) => ({
   padding: [60, 0, 60, 60],
   layers: [layer()],
   interaction: {
+    eventTriggerTypes: ['change'],
     sources: [
       {
         // 事件名称

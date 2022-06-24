@@ -60,6 +60,7 @@ import pictureGroup from './waves/v3/picture-group'
 import video from './waves/v3/video'
 import videoMulti from './waves/v3/video-multi'
 import iframe from './waves/v3/iframe'
+import uiTable from './waves/v3/ui-table'
 import button from './waves/v3/button'
 
 import select from './waves/v3/select'
@@ -156,10 +157,10 @@ const waves = {
   select,
   input,
   search,
-
   uiTabButton,
   switchs,
   DatetimePicker,
+  uiTable,
 }
 
 Object.values(waves).forEach((wave) => {
@@ -281,7 +282,7 @@ const categories = [
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker],
+    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker, uiTable],
   },
 ]
 

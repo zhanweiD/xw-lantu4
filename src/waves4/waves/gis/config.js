@@ -1,4 +1,6 @@
 // 根据这个配置生成组件的模型
+import {auxiliary} from '@waves4/configs'
+
 export const config = (k) => ({
   key: 'gis',
   name: k('gis'),
@@ -32,4 +34,7 @@ export const config = (k) => ({
       // },
     ],
   },
+  // 直角坐标系坐标轴
+
+  auxiliary: auxiliary({k, type: 'horizontal'}),
 })

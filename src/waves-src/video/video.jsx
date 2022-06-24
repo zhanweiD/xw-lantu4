@@ -25,7 +25,7 @@ const MVideo = MUIBase.named('MVideo')
       }
 
       const style = {}
-      ;['']?.forEach((name) => {
+      ;['backgroundColor']?.forEach((name) => {
         style[name] = self.config(name)
       })
 
@@ -36,7 +36,7 @@ const MVideo = MUIBase.named('MVideo')
       })
 
       // 渲染组件
-      self.render(<VideoComponent modal={self} videoUrl={self.config('data')} />)
+      self.render(<VideoComponent modal={self} videoUrl={self.config('data')} style={style} />)
     }
 
     return {
@@ -47,7 +47,7 @@ const MVideo = MUIBase.named('MVideo')
     }
   })
 
-const VideoComponent = observer(({modal, videoUrl}) => {
+const VideoComponent = observer(({modal, videoUrl, style}) => {
   let url = videoUrl.flat()[0]
   const [type, setType] = useState('')
   const fontSize = 24
@@ -84,6 +84,7 @@ const VideoComponent = observer(({modal, videoUrl}) => {
             <Video
               srcUrl={url}
               type={type}
+              style={style}
               boxId={createRandomId()}
               readyEvent={() => {
                 modal.event.fire('ready', {})
