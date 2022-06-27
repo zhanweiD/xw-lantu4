@@ -75,6 +75,21 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
             effective: false,
             fields: [{name: 'colorList'}],
           },
+          {
+            name: 'rect',
+            fields: [{name: 'rectStepPercentage'}, {name: 'rectStepGap'}, {name: 'rectRadius'}],
+          },
+          {
+            name: 'stroke',
+            fields: [
+              {name: 'width'},
+              {
+                name: 'singleColor',
+                defaultValue: 'rgb(255,255,255)',
+              },
+              {name: 'opacity'},
+            ],
+          },
         ],
         // {
         //   name: 'colorType',
