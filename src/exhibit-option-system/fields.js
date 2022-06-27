@@ -102,6 +102,33 @@ const dasharraySpacing = {
   max: Infinity,
 }
 
+const rectStepPercentage = {
+  type: 'number',
+  label: 'rectStepPercentage',
+  defaultValue: 0,
+  min: 0,
+  max: 20,
+  step: 0.1,
+}
+
+const rectStepGap = {
+  type: 'number',
+  label: 'rectStepGap',
+  defaultValue: 0,
+  min: 0,
+  max: 2,
+  step: 0.1,
+}
+
+const rectRadius = {
+  type: 'number',
+  label: 'rectRadius',
+  defaultValue: 0,
+  min: 0,
+  max: 50,
+  step: 1,
+}
+
 const delay = {
   type: 'number',
   label: 'delay',
@@ -2985,6 +3012,9 @@ const adaptContainer = {
 }
 
 export default {
+  rectRadius,
+  rectStepGap,
+  rectStepPercentage,
   dasharray,
   legendType,
   dasharrayLength,

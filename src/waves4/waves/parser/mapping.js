@@ -328,6 +328,11 @@ export const layerOptionMap = new Map([
         // ['base.color.gradientColor', 'style.rect.gradientColor'],
         // ['base.color.rangeColors', 'style.rangeColorList'],
         ['base.legendType', 'style.shape'],
+        ['base.rect.rectRadius', 'style.rectRadius'],
+        ['base.stroke.singleColor', 'style.rect.stroke'],
+        ['base.stroke.width', 'style.rect.strokeWidth'],
+        ['base.stroke.opacity', 'style.rect.strokeOpacity'],
+
         // 背景
         ['background.singleColor', 'style.background.fill'],
         ['background.opacity', 'style.background.fillOpacity'],
@@ -376,6 +381,18 @@ export const layerOptionMap = new Map([
       if (getOption('label.shadow.effective') !== undefined) {
         storage.set('style.text.shadow.hide', !getOption('label.shadow.effective'))
       }
+      if (getOption('base.rect.rectStepPercentage') !== 0 && getOption('base.rect.rectStepPercentage') !== null) {
+        storage.set('style.rectStep', {
+          show:
+            getOption('base.rect.rectStepPercentage') === 0 && getOption('base.rect.rectStepPercentage') === null
+              ? false
+              : true,
+          percentage: getOption('base.rect.rectStepPercentage'),
+          gap: getOption('base.rect.rectStepGap'),
+        })
+        storage.set('animation', {})
+      }
+
       return storage.get()
     },
   ],
