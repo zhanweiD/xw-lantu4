@@ -5,7 +5,7 @@ export const config = (k) => ({
   key: 'histogram',
   name: k('histogram'),
   layout: () => [10, 6],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   dimension: {
     fields: [

@@ -7,7 +7,7 @@ export const config = (k) => ({
   key: 'pictureGroupScroll',
   name: k('pictureGroupScroll'),
   layout: () => [9, 6],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   completed: true,
   data,

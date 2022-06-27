@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-19 15:24:22
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-27 18:38:49
+ * @Description:
+ */
 import data from './data'
 import layer from './layer'
 import {title} from '@waves4/configs'
@@ -5,7 +12,7 @@ export const config = (k) => ({
   key: 'renju',
   name: k('renju'),
   layout: () => [10, 6],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   dimension: {
     fields: [

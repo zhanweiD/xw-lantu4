@@ -6,7 +6,7 @@ export const config = (k) => ({
   key: 'switchs',
   name: k('switch'),
   layout: () => [2, 1],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   interaction: {
     eventTriggerTypes: ['toggleSwitch'],

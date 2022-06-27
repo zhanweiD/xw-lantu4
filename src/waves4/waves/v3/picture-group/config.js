@@ -7,7 +7,7 @@ export const config = (k) => ({
   key: 'pictureGroup',
   name: k('pictureGroup'),
   layout: () => [9, 8],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   completed: true,
   data,

@@ -7,7 +7,7 @@ export const config = (k) => ({
   key: 'videoMulti',
   name: k('videoMulti'),
   layout: () => [12, 5],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   completed: true,
   data,

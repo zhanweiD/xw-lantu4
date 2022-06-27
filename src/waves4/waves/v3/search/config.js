@@ -6,7 +6,7 @@ export const config = (k) => ({
   key: 'search',
   name: k('search'),
   layout: () => [12, 2],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   interaction: {
     sources: [
