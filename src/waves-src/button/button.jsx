@@ -62,6 +62,7 @@ const MyButton = observer(({self, style}) => {
   const {borderWidth, borderColor, focusColor, shadowColor, shadowFuzziness, shadowWidth, ...others} = style
   const [keyDown, setKeyDown] = useState(false)
   const [curShadowFuzziness, setCurShadowFuzziness] = useState(shadowFuzziness)
+  const [btnShadowColor, setBtnShadowColor] = useState(false)
 
   let count = 0,
     timer = null
@@ -69,6 +70,7 @@ const MyButton = observer(({self, style}) => {
   // 通过单击，记录模拟双击
   const onClick = (e) => {
     setCurShadowFuzziness(8)
+    setBtnShadowColor('rgb(3, 68, 112)')
     setKeyDown(true)
     count++
     if (timer) {
@@ -83,6 +85,7 @@ const MyButton = observer(({self, style}) => {
       count = 0
       timer = null
       setCurShadowFuzziness(2)
+      setBtnShadowColor(shadowColor)
     }, 200)
   }
 
@@ -97,7 +100,7 @@ const MyButton = observer(({self, style}) => {
       style={{
         ...others,
         border: `${borderWidth}px solid ${keyDown ? focusColor : borderColor}`,
-        boxShadow: `${shadowColor} 0px 0px ${curShadowFuzziness}px ${shadowWidth}px`,
+        boxShadow: `${btnShadowColor} 0px 0px ${curShadowFuzziness}px ${shadowWidth}px`,
       }}
     >
       {self.name}
