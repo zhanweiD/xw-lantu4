@@ -4,6 +4,15 @@ export default () => {
     type: 'radialBar', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['数值'],
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {

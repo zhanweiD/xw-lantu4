@@ -4,6 +4,15 @@ export default () => {
     type: 'semicircle', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['女生人数', '总人数'],
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {

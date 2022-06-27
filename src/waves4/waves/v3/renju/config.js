@@ -6,12 +6,15 @@ export const config = (k) => ({
   name: k('renju'),
   layout: () => [10, 6],
   padding: [60, 0, 60, 60],
-  layers: [
-    layer({
-      k,
-      column: ['地区'],
-    }),
-  ],
+  layers: [layer()],
+  dimension: {
+    fields: [
+      {
+        name: 'xColumn',
+        defaultValue: ['地区'],
+      },
+    ],
+  },
   data,
   axis: false,
   title: title({k, content: '手机厂商市场份额'}),

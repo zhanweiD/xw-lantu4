@@ -1,4 +1,5 @@
 import {layerOptionMap} from './mapping'
+import {getRealData} from '../unit'
 
 const setData = (data) => {
   const newData = [...data]
@@ -20,22 +21,6 @@ const setData = (data) => {
   return dataObj
 }
 
-const getRealData = (dataSource, keys) => {
-  try {
-    if (!dataSource) {
-      return {}
-    }
-    if (!keys) return setData(dataSource)
-    const headers = dataSource[0]
-    const indexs = keys.map((key) => headers.findIndex((value) => value === key))
-    const filterData = dataSource.map((row) => indexs.map((index) => row[index]))
-    return setData(filterData)
-  } catch (e) {
-    console.error('数据解析失败', {dataSource})
-    return []
-  }
-}
-
 function translate(schema) {
   const {
     width, // 容器宽
@@ -53,7 +38,7 @@ function translate(schema) {
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
   const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
-  config.data = getRealData(data, keys)
+  config.data = getRealData(setData, data, keys)
 
   return {
     width,

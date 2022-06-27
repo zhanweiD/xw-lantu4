@@ -6,12 +6,15 @@ export const config = (k) => ({
   name: k('histogram'),
   layout: () => [10, 6],
   padding: [60, 0, 60, 60],
-  layers: [
-    layer({
-      k,
-      column: ['地区'],
-    }),
-  ],
+  layers: [layer()],
+  dimension: {
+    fields: [
+      {
+        name: 'xColumn',
+        defaultValue: ['省份'],
+      },
+    ],
+  },
   data,
   axis: false,
   legend: false,
