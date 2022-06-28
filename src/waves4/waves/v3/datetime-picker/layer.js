@@ -10,14 +10,10 @@ export default () => {
             name: 'fontSize',
             defaultValue: 20,
           },
-          // {
-          //   name: 'scale',
-          //   defaultValue: 1,
-          // },
-          // {
-          //   name: 'backgroundColor',
-          //   defaultValue: 'rgba(255,255,255,0.1)',
-          // },
+          {
+            name: 'calanderThemeColor',
+            defaultValue: 'rgba(1,28,69,0.50)',
+          },
           {
             name: 'pickerType',
             defaultValue: 'month',

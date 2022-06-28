@@ -11,10 +11,10 @@ export default () => {
           },
           {name: 'inactiveColor', defaultValue: 'rgb(141,141,141)'},
           {name: 'activeColor', defaultValue: 'rgb(90,153,243)'},
-          {
-            name: 'backgroundColor',
-            defaultValue: 'rgb(0,0,0)',
-          },
+          // {
+          //   name: 'backgroundColor',
+          //   defaultValue: 'rgb(0,0,0)',
+          // },
           {
             name: 'borderWidth',
             defaultValue: 2,

@@ -42,6 +42,7 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
         fontSize: self.containerWidth / 20,
         connectLineType: self.config('connectLineType'),
         isDisabled: self.config('isDisabled'),
+        calanderThemeColor: self.config('calanderThemeColor'),
       }
 
       // 渲染组件
@@ -78,8 +79,10 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
   })
 
 const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) => {
+  const {calanderThemeColor} = style
   const mainPickerRef = useRef(null)
   const secondPickerRef = useRef(null)
+  const boxRef = useRef(null)
   const [isVisible, setIconVisible] = useState(false)
   const [flag, setFlag] = useState(false)
   const [calendarVisible, setCalendarVisible] = useState(false)
@@ -173,17 +176,27 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     })
   }
 
+  useEffect(() => {
+    if (calendarVisible) return (boxRef.current.children[0].style['backgroundColor'] = calanderThemeColor)
+  }, [calendarVisible])
+
   return (
     <div tabIndex="0" onClick={() => (!isDisabled || flag) && setCalendarVisible(true)}>
       <div
         className={s.inputGroup}
         style={{
           height: inputHeight,
-          backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
           cursor: isDisabled && 'not-allowed',
           boxSizing: 'border-box',
-          border: '3px solid hsl(204, 100%, 50%)',
+          border: `3px solid ${
+            calanderThemeColor === 'rgba(1,28,69,0.50)' ? 'hsl(204, 100%, 50%)' : calanderThemeColor
+          }`,
           borderRadius: '8px',
+          backgroundColor: isDisabled
+            ? '#999'
+            : calanderThemeColor === 'rgba(1,28,69,0.50)'
+            ? 'rgb(4,8,9)'
+            : calanderThemeColor,
         }}
         onMouseOver={() => setIconVisible(true)}
         onMouseLeave={() => setIconVisible(false)}
@@ -199,7 +212,11 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             fontSize,
             transform: `scale(${modal.config('scale')})`,
             flex: 5,
-            backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
+            backgroundColor: isDisabled
+              ? '#999'
+              : calanderThemeColor === 'rgba(1,28,69,0.50)'
+              ? 'rgb(4,8,9)'
+              : calanderThemeColor,
             cursor: isDisabled && 'not-allowed',
           }}
           readOnly
@@ -234,7 +251,11 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
             fontSize,
             transform: `scale(${modal.config('scale')})`,
             flex: 5,
-            backgroundColor: isDisabled ? '#999' : 'rgb(4,8,9)',
+            backgroundColor: isDisabled
+              ? '#999'
+              : calanderThemeColor === 'rgba(1,28,69,0.50)'
+              ? 'rgb(4,8,9)'
+              : calanderThemeColor,
             cursor: isDisabled && 'not-allowed',
           }}
           readOnly
@@ -283,7 +304,13 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
 
       {/* 起始-结束日历 */}
       {calendarVisible && (
-        <div style={{width: self.containerWidth, height: `${height - inputHeight}px`}}>
+        <div
+          style={{
+            width: self.containerWidth,
+            height: `${height - inputHeight}px`,
+          }}
+          ref={boxRef}
+        >
           <Calendar selectRange={valueMethod === 'timeRange'} onChange={onChange} maxDetail={currentCalendarType} />
         </div>
       )}
