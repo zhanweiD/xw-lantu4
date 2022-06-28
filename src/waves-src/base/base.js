@@ -520,7 +520,6 @@ export default class Base {
         result.push(interpolateColors)
       }
     })
-    console.log(result)
     return isArray(colorAmount) ? result : result[0]
   }
 

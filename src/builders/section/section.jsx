@@ -94,7 +94,7 @@ const Section = ({
         titleClick={onClick}
       />
       <div
-        className={c('pt8', childrenClassName, {
+        className={c('pt8 mr8 scrollbar', childrenClassName, {
           hide: fold,
         })}
       >

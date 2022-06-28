@@ -7,7 +7,7 @@ export const config = (k) => ({
   key: 'button',
   name: k('button'),
   layout: () => [4, 2],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   completed: true,
   interaction: {

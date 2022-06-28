@@ -1,33 +1,34 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-19 15:24:22
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-27 17:36:49
+ * @Description:
+ */
 import {layerOptionMap} from './mapping'
+import {getRealData} from '../unit'
 
-const getRealData = (dataSource) => {
-  try {
-    if (!dataSource) {
-      return []
-    }
-    const [labels, ...values] = dataSource
-    const dataArray = []
-    values.forEach((i) => {
-      const [label, value] = i
-      dataArray.push({
-        label,
-        value,
-      })
+const setData = (data) => {
+  const newData = [...data]
+  const [labels, ...values] = newData
+  const dataArray = []
+  values.forEach((i) => {
+    const [label, value] = i
+    dataArray.push({
+      label,
+      value,
     })
-    return {
-      labelKey: {
-        tag: 'label',
-        name: labels[0],
-      },
-      valueKey: {
-        tag: 'value',
-        name: labels[1],
-      },
-      data: dataArray,
-    }
-  } catch (e) {
-    console.error('数据解析失败', {dataSource})
-    return []
+  })
+  return {
+    labelKey: {
+      tag: 'label',
+      name: labels[0],
+    },
+    valueKey: {
+      tag: 'value',
+      name: labels[1],
+    },
+    data: dataArray,
   }
 }
 
@@ -39,17 +40,17 @@ function translate(schema) {
     container, // 容器必传
     padding, // 内边距
     layers, // 图层配置
+    dimension,
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const {getOption, mapOption} = layers[0]
+  const {getOption, mapOption, options} = layers[0]
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
-  config.data = getRealData(data)
-  console.log(config.data)
-  // config.data = []
+  const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
+  config.data = getRealData(setData, data, keys)
 
   return {
     width,

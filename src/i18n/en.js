@@ -27,7 +27,11 @@ export default {
   focusColor: 'Focus Color',
   padding: 'Padding',
   orderType: 'Sort',
+  stroke: 'Border',
   arc: 'Arc',
+  rectStepPercentage: 'Rect Percentage',
+  rectStepGap: 'Step Gap',
+  rectRadius: 'Rect Radius',
   decimalNumber: 'Decimal Number',
   loading: {
     error: 'Failed to load',

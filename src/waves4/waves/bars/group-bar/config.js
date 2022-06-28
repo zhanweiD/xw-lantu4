@@ -2,7 +2,6 @@ import {cartesian, legend, rect, title, auxiliary} from '@waves4/configs'
 import data from './data'
 
 export const config = (k) => {
-  console.log(cartesian({k, tickZero: true, type: 'linearX-bandY'}))
   return {
     key: 'groupBar',
     name: k('groupBar'),

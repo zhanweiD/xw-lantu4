@@ -67,58 +67,50 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           },
           {name: 'width'},
           {name: 'gap'},
-          {name: 'colorList'},
           {name: 'legendType'},
         ],
         sections: [
           {
             name: 'color',
             effective: false,
+            fields: [{name: 'colorList'}],
+          },
+          {
+            name: 'rect',
+            fields: [{name: 'rectStepPercentage'}, {name: 'rectStepGap'}, {name: 'rectRadius'}],
+          },
+          {
+            name: 'stroke',
             fields: [
-              {
-                name: 'colorType',
-                defaultValue: 'singleColor',
-              },
+              {name: 'width'},
               {
                 name: 'singleColor',
-                defaultValue: 'rgba(52,200,254,1)',
+                defaultValue: 'rgb(255,255,255)',
               },
-              {
-                name: 'gradientColor',
-                defaultValue: [
-                  ['rgba(52,200,254,0)', 0],
-                  ['rgba(52,200,254,1)', 1],
-                ],
-                effective: false,
-              },
-              {
-                name: 'rangeColors',
-                effective: false,
-              },
+              {name: 'opacity'},
             ],
           },
         ],
-        // sections: [
-        //   {
-        //     name: 'color',
-        //     effective: false,
-        //     fields: [
-        //       {
-        //         name: 'colorType',
-        //         defaultValue: 'single',
-        //       },
-        //       {
-        //         name: 'singleColor',
-        //       },
-        //       {
-        //         name: 'colorGradient',
-        //       },
-        //       {
-        //         name: 'opacity',
-        //       },
-        //     ],
-        //   },
-        // ],
+        // {
+        //   name: 'colorType',
+        //   defaultValue: 'singleColor',
+        // },
+        // {
+        //   name: 'singleColor',
+        //   defaultValue: 'rgba(52,200,254,1)',
+        // },
+        // {
+        //   name: 'gradientColor',
+        //   defaultValue: [
+        //     ['rgba(52,200,254,0)', 0],
+        //     ['rgba(52,200,254,1)', 1],
+        //   ],
+        //   effective: false,
+        // },
+        // {
+        //   name: 'rangeColors',
+        //   effective: false,
+        // },
       },
       {
         name: 'background',

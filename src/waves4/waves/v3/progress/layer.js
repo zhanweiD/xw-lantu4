@@ -4,6 +4,15 @@ export default () => {
     type: 'progress', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['数量', '总数'],
+          },
+        ],
+      },
+      {
         name: 'basic',
         fields: [
           {

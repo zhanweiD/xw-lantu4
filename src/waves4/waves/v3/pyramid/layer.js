@@ -4,6 +4,15 @@ export default () => {
     type: 'pyramid', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['数值', '对比数值'],
+          },
+        ],
+      },
+      {
         name: 'basic',
         fields: [
           {

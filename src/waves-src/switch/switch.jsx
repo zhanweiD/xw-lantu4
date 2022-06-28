@@ -52,7 +52,7 @@ const MSwitch = MUIBase.named('MSwitch')
       self.value = value
       self.draw({redraw: false})
       self.event.fire('onToggleSwitch', {
-        data: value,
+        data: value ? 'true' : 'false',
       })
     }
 

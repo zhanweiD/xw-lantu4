@@ -85,7 +85,6 @@ export default class RadialBar extends Base {
     // 图表的大小
     // 应该是宽高最小值
     this._size = Math.min(this.mainWidth, this.mainHeight)
-    console.log(this.config('labelKey'), this.config('valueKey'), this._size)
 
     // 弧的宽度？
     // 默认图表大小 / 30
@@ -152,7 +151,6 @@ export default class RadialBar extends Base {
     const labelSize = this.fontSize(this.config('labelSize'))
     const labelColor = this.config('labelColor')
     const valueVisible = this.config('valueVisible')
-    console.log(valueVisible)
     const labelOffset = this.config('labelOffsetY')
     const arcBackgroundColor = this.config('arcBackgroundColor')
     const {_minRadius, maxValue, data, color, arcWidth} = this._data

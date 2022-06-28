@@ -5,7 +5,7 @@ export const config = (k) => ({
   key: 'gis',
   name: k('gis'),
   layout: () => [24, 20],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [],
   gisBase: {
     name: 'gis',

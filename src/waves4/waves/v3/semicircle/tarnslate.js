@@ -1,39 +1,39 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-19 15:24:22
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-27 18:35:01
+ * @Description:
+ */
 import {layerOptionMap} from './mapping'
+import {getRealData} from '../unit'
 
-const getRealData = (dataSource) => {
-  try {
-    if (!dataSource) {
-      return {}
-    }
-    // 数据结构赋值
-    const [[tag1, tag2, tag3], [label1, label2, label3], ...datas] = dataSource
-    const dataArray = []
-    datas.forEach((i) => {
-      const [label, compare, value] = i
-      dataArray.push({
-        [tag1]: label,
-        [tag2]: compare,
-        [tag3]: value,
-      })
+const setData = (data) => {
+  const newData = [...data]
+  const [[tag1, tag2, tag3], ...datas] = newData
+  const dataArray = []
+  datas.forEach((i) => {
+    const [label, compare, value] = i
+    dataArray.push({
+      [tag1]: label,
+      [tag2]: compare,
+      [tag3]: value,
     })
-    return {
-      labelKey: {
-        tag: tag1,
-        name: label1,
-      },
-      compareKey: {
-        tag: tag2,
-        name: label2,
-      },
-      valueKey: {
-        tag: tag3,
-        name: label3,
-      },
-      data: dataArray,
-    }
-  } catch (e) {
-    console.error('数据解析失败', {dataSource})
-    return {}
+  })
+  return {
+    labelKey: {
+      tag: tag1,
+      name: tag1,
+    },
+    compareKey: {
+      tag: tag2,
+      name: tag2,
+    },
+    valueKey: {
+      tag: tag3,
+      name: tag3,
+    },
+    data: dataArray,
   }
 }
 
@@ -45,16 +45,17 @@ function translate(schema) {
     container, // 容器必传
     padding, // 内边距
     layers, // 图层配置
+    dimension,
     themeColors = ['#2A43FF', '#0B78FF', '#119BFF', '#3EBFDA', '#6CDDC3', '#B5E4AA', '#FFEA92', '#FFBD6D', '#FD926D'], // 主题颜色
   } = schema
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const {getOption, mapOption} = layers[0]
+  const {getOption, mapOption, options} = layers[0]
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
-  //   config.data = getRealData(data)
-  config.data = getRealData(data)
+  const keys = dimension && options.dataMap ? [...dimension.xColumn, ...options.dataMap.column] : ''
+  config.data = getRealData(setData, data, keys)
 
   return {
     width,

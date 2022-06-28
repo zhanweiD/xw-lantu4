@@ -4,6 +4,15 @@ export default () => {
     type: 'bulletColumn', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['毕业生数', '招生数'],
+          },
+        ],
+      },
+      {
         name: 'base',
         fields: [
           {

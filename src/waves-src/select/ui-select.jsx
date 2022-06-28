@@ -332,7 +332,6 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
           )
         ) : (
           <div className={s.noData} style={{fontSize: style.width / 22, color: '#999', textAlign: 'center'}}>
-            {console.log('style.width / 15', style.width / 15)}
             <svg
               width={style.width / 3}
               height={style.width / 3}

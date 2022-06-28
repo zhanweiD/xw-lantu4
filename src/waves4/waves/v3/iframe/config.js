@@ -7,7 +7,7 @@ export const config = (k) => ({
   key: 'iframe',
   name: k('iframe'),
   layout: () => [14, 9],
-  padding: [60, 0, 60, 60],
+  padding: [24, 24, 24, 24],
   layers: [layer()],
   completed: true,
   data,

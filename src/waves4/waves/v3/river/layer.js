@@ -4,6 +4,15 @@ export default () => {
     type: 'river', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['食品', '交通', '教育', '住房', '购物'],
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {

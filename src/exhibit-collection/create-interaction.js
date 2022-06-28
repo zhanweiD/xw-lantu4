@@ -29,6 +29,8 @@ const createInteractionModel = (key, exhibit, parentModel) => {
     })
     .views((self) => ({
       get fieldList() {
+        // switch时字段内置
+        if (self.exhibitModel.key === 'switchs') return [{column: 'value', alias: 'value', type: 'boolean'}]
         return self.exhibitModel?.data?.value?.columns.toJSON()
       },
     }))

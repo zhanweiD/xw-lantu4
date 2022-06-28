@@ -6,12 +6,15 @@ export const config = (k) => ({
   name: k('radialBar'),
   layout: () => [10, 10],
   padding: [10, 10, 10, 10],
-  layers: [
-    layer({
-      k,
-      column: ['地区'],
-    }),
-  ],
+  layers: [layer()],
+  dimension: {
+    fields: [
+      {
+        name: 'xColumn',
+        defaultValue: ['地区'],
+      },
+    ],
+  },
   data,
   axis: false,
   legend: false,

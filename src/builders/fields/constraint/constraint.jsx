@@ -45,7 +45,6 @@ const ConstraintField = ({
   const {constraints, layout} = value
   const {ctString, top, right, bottom, left, height, width} = constraints
   // const {x, y, height, width} = value.layout
-  console.log(container, value)
   return (
     <Field
       className={className}

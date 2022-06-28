@@ -72,19 +72,7 @@ export default ({mode = 'default', type = 'pie', innerRadius = 0, labelPosition 
           {
             name: 'color',
             effective: false,
-            fields: [
-              {
-                name: 'colorType2',
-              },
-              {
-                name: 'singleColor',
-                defaultValue: 'rgba(52,200,254,1)',
-              },
-              {
-                name: 'rangeColors',
-                effective: false,
-              },
-            ],
+            fields: [{name: 'colorList'}],
           },
         ],
       },

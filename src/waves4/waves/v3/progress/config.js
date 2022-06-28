@@ -6,12 +6,15 @@ export const config = (k) => ({
   name: k('progress'),
   layout: () => [10, 6],
   padding: [10, 10, 10, 10],
-  layers: [
-    layer({
-      k,
-      column: ['地区'],
-    }),
-  ],
+  layers: [layer()],
+  dimension: {
+    fields: [
+      {
+        name: 'xColumn',
+        defaultValue: ['名称'],
+      },
+    ],
+  },
   data,
   axis: false,
   legend: false,

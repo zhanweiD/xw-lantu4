@@ -1,5 +1,12 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-19 15:24:22
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-27 17:57:06
+ * @Description:
+ */
 export default [
-  ['label', 'value'],
+  ['年份', '数量'],
   ['2019年', 4002],
   ['2018年', 3833],
   ['2017年', 3779],

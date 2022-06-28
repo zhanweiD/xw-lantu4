@@ -13,7 +13,7 @@ export const isMatchCondition = (conditions, triggerCondition, eventData) => {
   const {data} = eventData
   const result = conditions.map((cd) => {
     const {fieldName, fieldValue, operator} = cd
-    return match(operator, data[fieldName], fieldValue)
+    return match(operator, data[fieldName] || data, fieldValue)
   })
   if (triggerCondition === 'some') {
     return result.some((res) => res)

@@ -4,6 +4,15 @@ export default () => {
     type: 'orderedList', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['数量'],
+          },
+        ],
+      },
+      {
         name: 'color',
         effective: false,
         fields: [

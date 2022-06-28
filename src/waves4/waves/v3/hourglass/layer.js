@@ -4,6 +4,15 @@ export default () => {
     type: 'horizontalHourglass', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['专科人数', '本科人数'],
+          },
+        ],
+      },
+      {
         name: 'title',
         fields: [
           {
