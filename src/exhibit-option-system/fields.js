@@ -477,7 +477,7 @@ const layoutType = {
 const fontSizeRange = {
   type: 'multiNumber',
   label: 'fontSizeRange',
-  defaultValue: [0, 0],
+  defaultValue: [12, 23],
   items: [
     {
       key: '最小',
