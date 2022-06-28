@@ -532,9 +532,7 @@ export default class Base {
     // 校验数据是否是v1.0 [{label:XX,value:XX,value1:XX},{...}]
     // 数据映射的数据结构和v1.0相同，故version也为1
     if (Array.isArray(data)) {
-      console.log(2222)
       if (Object.prototype.hasOwnProperty.call(data[0], 'label')) {
-        console.log(1111)
         return 1
       }
     }
