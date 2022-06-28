@@ -7,6 +7,7 @@ export const layerOptionMap = new Map([
         ['base.valueMethod', 'valueMethod'],
         ['base.connectLineType', 'connectLineType'],
         ['base.isDisabled', 'isDisabled'],
+        ['base.calanderThemeColor', 'calanderThemeColor'],
       ]
       const storage = mapOption(mapping)
       return storage.get()

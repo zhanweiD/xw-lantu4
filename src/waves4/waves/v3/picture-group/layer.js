@@ -43,7 +43,7 @@ export default () => {
           },
           {
             name: 'isMarkVisible',
-            defaultValue: true,
+            defaultValue: false,
           },
           {
             name: 'animationDuration',

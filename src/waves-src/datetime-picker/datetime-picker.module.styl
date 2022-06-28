@@ -6,7 +6,7 @@
   border 2px solid rgb(18, 118, 185)
   padding 10px
   &:hover
-    border 2px solid #09f
+    border 2px solid hsl(204, 100%, 50%)
     cursor pointer
 
 input
@@ -33,7 +33,6 @@ input
 
 .iconShow 
   flex: 1
-  margin-left 30px
 
 .externalMainPicker
   position: absolute
@@ -53,7 +52,6 @@ input
 
 // 覆盖内置样式
 :global(.react-calendar) {
-  background: rgba(1,28,69,0.50)
   box-shadow: 0 3px 6px 0 rgba(0,0,0,0.40), 0 6px 16px 0 rgba(0,0,0,0.20), 0 9px 28px 8px rgba(0,0,0,0.10)
   border-radius: 2px
   opacity 1
@@ -67,7 +65,7 @@ input
   background-color rgba(1,28,69,0.50)
 
 :global(.react-calendar__tile:enabled:hover)
-  background-color rgba(11, 67, 152, 0.5)
+  background-color #09f
 
 :global(.react-calendar__tile)
   color #999
@@ -76,7 +74,7 @@ input
   background-color rgba(1,28,69,0.50)
 
 :global(.react-calendar__tile--now)
-  background-color: #09f
+  background-color: rgba(11, 67, 152, 0.5)
 
 :global(.react-calendar)
   height inherit
