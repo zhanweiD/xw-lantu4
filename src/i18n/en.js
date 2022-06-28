@@ -127,6 +127,7 @@ export default {
   titleVisible: 'Title Visible',
   titleFontSize: 'Title FontSize',
   titleLowerSpacing: 'Title Lower Spacing',
+  calanderThemeColor: 'Background Color',
   titleColor: 'Title Color',
   titleBackground: 'Title Background',
   titleText: 'Title Text',
