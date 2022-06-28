@@ -77,7 +77,7 @@ export default ({column = [], axis = 'main', type = 'column', mode = 'group', la
           },
           {
             name: 'rect',
-            fields: [{name: 'rectStepPercentage'}, {name: 'rectStepGap'}, {name: 'rectRadius'}],
+            fields: [{name: 'rectStepPercentage'}, {name: 'rectRadius'}],
           },
           {
             name: 'stroke',
