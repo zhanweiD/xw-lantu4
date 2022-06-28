@@ -52,7 +52,7 @@ export default () => {
           },
           {
             name: 'textSize',
-            defaultValue: 12,
+            defaultValue: 30,
           },
           {
             name: 'singleColor',

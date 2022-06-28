@@ -25,6 +25,7 @@ export default {
   titleVisible: '显示',
   titleFontSize: '字号',
   titleLowerSpacing: '下间距',
+  calanderThemeColor: '背景色',
   titleColor: '颜色',
   titleBackground: '背景色',
   titleText: '文本',

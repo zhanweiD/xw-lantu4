@@ -2660,6 +2660,11 @@ const textAlign = {
     },
   ],
 }
+// 日历背景色
+const calanderThemeColor = {
+  type: 'color',
+  label: 'calanderThemeColor',
+}
 
 // 段间距
 const paragraphMargin = {
@@ -3207,6 +3212,7 @@ export default {
   pointSize,
   // 段落
   textarea,
+  calanderThemeColor,
   // 关键词颜色
   keywordColor,
   // 关键词字重

@@ -388,7 +388,7 @@ export const layerOptionMap = new Map([
               ? false
               : true,
           percentage: getOption('base.rect.rectStepPercentage'),
-          gap: getOption('base.rect.rectStepGap'),
+          gap: getOption('base.rect.rectStepPercentage') / 2,
         })
         storage.set('animation', {})
       }
