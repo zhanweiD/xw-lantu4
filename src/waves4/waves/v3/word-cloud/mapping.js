@@ -18,7 +18,7 @@ export const layerOptionMap = new Map([
         ['legend.legendVisible', 'legendVisible'],
         ['legend.dataFilter', 'dataFilter'],
         ['legend.legendSize', 'legendSize'],
-        ['legend.signFontColor', 'signFontColor'],
+        ['legend.legendColor', 'legendColor'],
         ['legend.legendPosition', 'legendPosition'],
         ['legend.legendAlign', 'legendAlign'],
         ['legend.legendOffset', 'legendOffset'],

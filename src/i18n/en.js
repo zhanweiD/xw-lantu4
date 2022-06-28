@@ -13,6 +13,7 @@ export default {
   untitledArt: 'Untitled Art',
   width: 'Width',
   height: 'Height',
+  legendColor: 'Legend Color',
   legendOffset: 'Legend Offset',
   legendPosition: 'Legend Position',
   legendAlign: 'Legend Align',

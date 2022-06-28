@@ -940,7 +940,7 @@ export default {
   activeBorderWidth: '激活边框宽度',
   animationDuration: '信息动画时长',
   alignmentDirection: '排列顺序',
-
+  legendColor: '颜色',
   tabSwitch: '显隐切换',
   tabShow: '显示',
   iconSize: '大小',

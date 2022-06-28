@@ -51,7 +51,7 @@ export default () => {
           },
           {
             name: 'unitColor',
-            defaultValue: 'rgba(255,255,255,0.65)',
+            defaultValue: 'rgba(255,255,255,0.95)',
           },
           {
             name: 'unitContent',
@@ -88,7 +88,7 @@ export default () => {
             min: 12,
           },
           {
-            name: 'signFontColor',
+            name: 'legendColor',
             defaultValue: 'rgba(255,200,100,0.9)',
           },
           // 水品方向：左-中-右
@@ -103,7 +103,7 @@ export default () => {
           },
           {
             name: 'legendOffset',
-            defaultValue: [0, 0],
+            defaultValue: [-20, -24],
           },
         ],
       },

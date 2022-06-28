@@ -59,7 +59,7 @@ export function drawLegends(legendOption) {
     legendSize,
     legendColor,
     legendPosition,
-    // legendOffset, // TODO
+    legendOffset,
     titleSize,
     // artboardHeight,
     titleY,
@@ -143,20 +143,20 @@ export function drawLegends(legendOption) {
     legendsContainer
       .attr('width', legendWidth)
       .attr('height', this.mainHeight)
-      .attr('x', this.containerWidth - legendWidth - legendY)
-      .attr('y', positionY)
+      .attr('x', this.containerWidth - legendWidth - legendY + legendOffset[0])
+      .attr('y', positionY + legendOffset[1])
   } else if (legendPosition === LEGEND_POSITION[4].key) {
     legendsContainer
       .attr('width', 0)
       .attr('height', this.mainHeight)
-      .attr('x', 0 + legendY)
-      .attr('y', positionY)
+      .attr('x', 0 + legendY + legendOffset[0])
+      .attr('y', positionY + legendOffset[1])
   } else {
     legendsContainer
       .attr('width', this.containerWidth)
       .attr('height', this.getTextHeight(size))
-      .attr('x', 0)
-      .attr('y', positionY)
+      .attr('x', 0 + legendOffset[0])
+      .attr('y', positionY + legendOffset[1])
   }
 
   // 绘制图例

@@ -24,7 +24,7 @@ const STATIC = {
 // 默认配置
 const defaultOption = {
   fontSizeRange: [null, 20],
-  opacityRange: [0.8, 1],
+  // opacityRange: [0.8, 1],
   layoutType: STATIC.LAYOUT_TYPE[0].key,
   cloudPadding: 7,
   cloudRotate: 0,

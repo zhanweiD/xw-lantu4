@@ -481,11 +481,15 @@ const fontSizeRange = {
   items: [
     {
       key: '最小',
-      step: 0,
+      step: 1,
+      max: 200,
+      min: 0,
     },
     {
       key: '最大',
-      step: 200,
+      step: 1,
+      max: 200,
+      min: 0,
     },
   ],
 }
@@ -498,15 +502,23 @@ const opacityRange = {
   items: [
     {
       key: '最小',
-      step: 0.8,
+      step: 0.1,
+      min: 0,
+      max: 1,
     },
     {
       key: '最大',
-      step: 1,
+      step: 0.1,
+      min: 0,
+      max: 1,
     },
   ],
 }
 
+const legendColor = {
+  type: 'color',
+  label: 'legendColor',
+}
 // 单位文字偏移范围
 const unitOffset = {
   type: 'multiNumber',
@@ -3522,6 +3534,7 @@ export default {
   headFontColor,
   headBackground,
   headPosition,
+  legendColor,
   legendPosition,
   unitVisible,
   unitFontSize,
