@@ -1,0 +1,45 @@
+export const layerOptionMap = new Map([
+  [
+    'layer',
+    ({mapOption}) => {
+      const mapping = [
+        ['title.titleVisible', 'titleVisible'],
+        ['title.titleSize', 'titleSize'],
+        ['title.titleColor', 'titleColor'],
+        ['title.titleText', 'titleText'],
+        ['title.titlePosition', 'titlePosition'],
+        ['title.titleOffset', 'titleOffset'],
+        ['unit.unitVisible', 'unitVisible'],
+        ['unit.unitSize', 'unitSize'],
+        ['unit.unitColor', 'unitColor'],
+        ['unit.unitContent', 'unitContent'],
+        ['unit.unitOffset', 'unitOffset'],
+        ['unit.unitLowerSpacing', 'unitLowerSpacing'],
+        ['legend.legendVisible', 'legendVisible'],
+        ['legend.dataFilter', 'dataFilter'],
+        ['legend.legendSize', 'legendSize'],
+        ['legend.signFontColor', 'signFontColor'],
+        ['legend.legendPosition', 'legendPosition'],
+        ['legend.legendAlign', 'legendAlign'],
+        ['legend.legendOffset', 'legendOffset'],
+        ['legend.legendY', 'legendY'],
+        ['base.layoutType', 'layoutType'],
+        ['wordGroup.color.effective', 'useColors'],
+        ['wordGroup.color.colorType2', 'checkColorModel'],
+        ['wordGroup.color.singleColor', 'customColors'],
+        ['wordGroup.color.rangeColors', 'rangeColors'],
+        ['wordGroup.fontSizeRange', 'fontSizeRange'],
+        ['wordGroup.opacityRange', 'opacityRange'],
+        ['wordGroup.cloudPadding', 'cloudPadding'],
+        ['wordGroup.cloudRotate', 'cloudRotate'],
+        ['animation.enableEnterAnimation', 'enableEnterAnimation'],
+        ['animation.enterAnimationDuration', 'enterAnimationDuration'],
+        ['animation.enableLoopAnimation', 'enableLoopAnimation'],
+        ['animation.loopAnimationDuration', 'loopAnimationDuration'],
+        ['animation.maxOffset', 'maxOffset'],
+      ]
+      const storage = mapOption(mapping)
+      return storage.get()
+    },
+  ],
+])

@@ -367,6 +367,11 @@ const titleFontSize = {
   defaultValue: 30,
 }
 
+const titleSize = {
+  type: 'number',
+  label: 'titleSize',
+}
+
 // 标题颜色
 const titleColor = {
   type: 'color',
@@ -390,7 +395,7 @@ const titleText = {
 
 // 标题对齐
 const titlePosition = {
-  type: 'select',
+  type: 'check',
   label: 'titlePosition',
   defaultValue: 'left',
   options: [
@@ -414,6 +419,175 @@ const titleLowerSpacing = {
   type: 'number',
   label: 'titleLowerSpacing',
   defaultValue: 20,
+}
+
+// 偏移范围
+const titleOffset = {
+  type: 'multiNumber',
+  label: 'titleOffset',
+  defaultValue: [3, 5],
+  items: [
+    {
+      key: 'x轴',
+      step: 1,
+      min: 0,
+    },
+    {
+      key: 'y轴',
+      step: 1,
+    },
+  ],
+}
+
+// 最大偏移量
+const maxOffset = {
+  type: 'number',
+  label: 'maxOffset',
+}
+
+// 入场动画开启？
+const enableEnterAnimation = {
+  type: 'switch',
+  label: 'enableEnterAnimation',
+}
+
+// 入场动画时长
+const enterAnimationDuration = {
+  type: 'number',
+  label: 'enterAnimationDuration',
+}
+
+// 类型
+const layoutType = {
+  type: 'check',
+  label: 'layoutType',
+  defaultValue: 'ARCHIMEDEAN',
+  options: [
+    {
+      key: '阿基米德',
+      value: 'ARCHIMEDEAN',
+    },
+    {
+      key: '长方形',
+      value: 'RECTANGULAR',
+    },
+  ],
+}
+// 字号范围
+const fontSizeRange = {
+  type: 'multiNumber',
+  label: 'fontSizeRange',
+  defaultValue: [0, 0],
+  items: [
+    {
+      key: '最小',
+      step: 0,
+    },
+    {
+      key: '最大',
+      step: 200,
+    },
+  ],
+}
+
+// 透明范围
+const opacityRange = {
+  type: 'multiNumber',
+  label: 'opacityRange',
+  defaultValue: [0.8, 1],
+  items: [
+    {
+      key: '最小',
+      step: 0.8,
+    },
+    {
+      key: '最大',
+      step: 1,
+    },
+  ],
+}
+
+// 单位文字偏移范围
+const unitOffset = {
+  type: 'multiNumber',
+  label: 'unitOffset',
+  defaultValue: [10, 35],
+  items: [
+    {
+      key: 'x轴',
+      step: 1,
+    },
+    {
+      key: 'y轴',
+      step: 1,
+    },
+  ],
+}
+
+// 间距
+const cloudPadding = {
+  type: 'number',
+  label: 'cloudPadding',
+}
+
+// 旋转
+const cloudRotate = {
+  type: 'number',
+  label: 'cloudRotate',
+}
+// 图例：位置
+const alignment = {
+  type: 'check',
+  label: 'alignment',
+  defaultValue: '',
+  options: [
+    {
+      key: '上',
+      value: 'top',
+    },
+    {
+      key: '右',
+      value: 'right',
+    },
+    {
+      key: '下',
+      value: 'bottom',
+    },
+    {
+      key: '左',
+      value: 'left',
+    },
+  ],
+}
+
+const legendVisible = {
+  type: 'switch',
+  label: 'legendVisible',
+}
+
+const legendSize = {
+  type: 'number',
+  label: 'legendSize',
+}
+
+const unitContent = {
+  type: 'text',
+  label: 'unitContent',
+  defaultValue: '单位：人',
+}
+
+// 下间距
+const legendY = {
+  type: 'number',
+  label: 'legendY',
+  defaultValue: 16,
+}
+
+// 是否开启：数据过滤
+const dataFilter = {
+  type: 'switch',
+  label: 'dataFilter',
+  defaultValue: true,
 }
 
 // 表头显隐
@@ -454,7 +628,7 @@ const headBackground = {
 // 表头位置
 const headPosition = {
   type: 'select',
-  label: 'titlePosition',
+  label: 'headPosition',
   defaultValue: 'center',
   options: [
     {
@@ -498,10 +672,22 @@ const unitFontSize = {
   defaultValue: 15,
 }
 
+const unitSize = {
+  type: 'number',
+  label: 'unitSize',
+  defaultValue: 15,
+}
+
 // 文字颜色
 const unitFontColor = {
   type: 'color',
   label: 'unitFontColor',
+  defaultValue: 'rgba(255,255,255,0.65)',
+}
+
+const unitColor = {
+  type: 'color',
+  label: 'unitColor',
   defaultValue: 'rgba(255,255,255,0.65)',
 }
 
@@ -1196,16 +1382,56 @@ const getTextAnchor = {
     {key: '右', value: 'start'},
   ],
 }
+
 const getAlignmentBaseline = {
   type: 'check',
   label: 'getAlignmentBaseline',
   defaultValue: 'bottom',
   options: [
-    {key: '上', value: 'bottom'},
+    {key: '上', value: 'top'},
     {key: '中', value: 'center'},
-    {key: '下', value: 'top'},
+    {key: '下', value: 'bottom'},
   ],
 }
+
+const legendPosition = {
+  type: 'check',
+  label: 'legendPosition',
+  defaultValue: 'TOP',
+  options: [
+    {key: '上', value: 'TOP'},
+    {key: '中', value: 'RIGHT'},
+    {key: '下', value: 'BOTTOM'},
+  ],
+}
+
+const legendAlign = {
+  type: 'check',
+  label: 'legendAlign',
+  defaultValue: 'RIGHT',
+  options: [
+    {key: '左', value: 'LEFT'},
+    {key: '中', value: 'CENTER'},
+    {key: '右', value: 'RIGHT'},
+  ],
+}
+
+const legendOffset = {
+  type: 'multiNumber',
+  label: 'legendOffset',
+  defaultValue: [0, 0],
+  items: [
+    {
+      key: 'X轴',
+      step: 1,
+    },
+    {
+      key: 'Y轴',
+      step: 1,
+    },
+  ],
+}
+
 const tileUrl = {
   type: 'text',
   label: 'tileUrl',
@@ -3283,6 +3509,7 @@ export default {
   lineSpacing,
   columnSpacing,
   titleVisible,
+  titleSize,
   titleFontSize,
   titleLowerSpacing,
   titleColor,
@@ -3295,10 +3522,29 @@ export default {
   headFontColor,
   headBackground,
   headPosition,
+  legendPosition,
   unitVisible,
   unitFontSize,
   unitFontColor,
+  unitColor,
+  unitSize,
   unitText,
+  maxOffset,
+  enableEnterAnimation,
+  enterAnimationDuration,
+  titleOffset,
+  layoutType,
+  unitContent,
+  legendVisible,
+  legendSize,
+  legendY,
+  alignment,
+  fontSizeRange,
+  opacityRange,
+  unitOffset,
+  cloudPadding,
+  cloudRotate,
+  dataFilter,
   unitLowerSpacing,
   isAutoWidth,
   signVisible,
@@ -3399,6 +3645,8 @@ export default {
   showLabel,
   getAngle,
   getTextAnchor,
+  legendAlign,
+  legendOffset,
   getAlignmentBaseline,
   filled,
   getFillColor,

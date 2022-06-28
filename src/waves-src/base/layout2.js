@@ -40,7 +40,6 @@ const titleDefaultOption = {
   titleSize: 20,
   titleColor: 'white',
   titleText: ' ',
-  titleY: 0,
   titleVisible: true,
   zoomInSize: 0,
   zoomOutSize: 0,
@@ -129,7 +128,7 @@ export function drawLayout() {
  * @memberof Layout
  */
 export function drawTitle(option) {
-  const {titleSize, titleColor, titleText, titleY, titlePosition, titleGap} = option
+  const {titleSize, titleColor, titleText, titleOffset, titlePosition, titleGap} = option
   // 标题文本大小
   const size = getTextWidth(titleText, this.fontSize(titleSize))
   // const size = this.fontSize(titleSize)
@@ -140,21 +139,22 @@ export function drawTitle(option) {
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(titleSize))
     .attr('fill', titleColor)
-    .attr('x', 0)
+    .attr('x', titleOffset[0])
+    .attr('y', titleOffset[1])
     .text(titleText)
     .textHack()
 
   const title = this.container.select('.wave-title')
   const padding = this.padding[1] + this.padding[3]
-  if (titlePosition === TITLE_ALIGN[2].key) {
+  if (titlePosition?.toUpperCase() === TITLE_ALIGN[2].key) {
     title._groups[0][0].setAttribute('x', `${this.mainWidth + padding - size + titleGap}`)
   }
 
-  if (titlePosition === TITLE_ALIGN[1].key) {
+  if (titlePosition?.toUpperCase() === TITLE_ALIGN[1].key) {
     title._groups[0][0].setAttribute('x', `${(this.mainWidth + padding - size) / 2 + titleGap}`)
   }
   // 计算标题的高度
-  option.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleY
+  option.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleOffset[1]
 
   // 解决window系统上单位和title紧挨问题
   if (isWindows()) {

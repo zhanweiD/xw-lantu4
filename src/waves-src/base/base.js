@@ -99,11 +99,11 @@ export default class Base {
     if (!this._option.isPreview) {
       // 开发时可以先把这句话去掉
       // svg.style('pointer-events', 'none')
-      this._option.enableEnterAnimation = false
+      // this._option.enableEnterAnimation = false
       this._option.loopAnimation = false
 
       // 新的动画属性
-      this._option.enableLoopAnimation = false
+      // this._option.enableLoopAnimation = false
     }
 
     // 为了布局将svg挂到实例上

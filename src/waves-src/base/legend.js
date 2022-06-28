@@ -45,9 +45,7 @@ const LEGEND_ALIGN = [
 const defaultOption = {
   legendSize: 30,
   legendColor: 'RGBA(255, 255, 255, 0.65)',
-  legendPosition: LEGEND_POSITION[3].key,
   legendWidth: 120,
-  legendAlign: LEGEND_ALIGN[2].key,
   legendY: 0,
 }
 
@@ -61,6 +59,7 @@ export function drawLegends(legendOption) {
     legendSize,
     legendColor,
     legendPosition,
+    // legendOffset, // TODO
     titleSize,
     // artboardHeight,
     titleY,
