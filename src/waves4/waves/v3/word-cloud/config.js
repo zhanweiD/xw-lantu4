@@ -6,7 +6,7 @@ export const config = (k) => ({
   // 因为橱窗组件和图表库组件是N对N的关系
   key: 'wordCloud',
   name: k('wordCloud'),
-  layout: () => [11, 6],
+  layout: () => [17, 10],
   padding: [60, 0, 60, 60],
   layers: [layer()],
   completed: true,
