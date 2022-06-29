@@ -25,16 +25,28 @@ const legendType = {
       value: 'circle',
     },
     {
-      key: 'line',
+      key: '圆点',
       value: 'broken-line',
     },
     {
-      key: '虚线',
-      value: 'dotted-line',
+      key: '星状',
+      value: 'star',
     },
     {
-      key: '五星状',
-      value: 'star',
+      key: '正方形',
+      value: 'parallelogram',
+    },
+    {
+      key: '六棱形',
+      value: 'hexagon',
+    },
+    {
+      key: '箭头',
+      value: 'arrow',
+    },
+    {
+      key: '斜三角',
+      value: 'knuckle',
     },
   ],
 }
