@@ -8,6 +8,7 @@ import isDef from '@utils/is-def'
 import createEvent from '@utils/create-event'
 import onerStorage from 'oner-storage'
 import addOptionMethod from '@utils/add-option-method'
+import {themeConfigs} from '@common/theme'
 
 const log = createLog('@exhibit-adapter-creater')
 
@@ -120,6 +121,7 @@ const createExhibitAdapter = (hooks) =>
         padding: this.model.padding,
         ...this.size,
         isPreview: !this.isEdit,
+        themeColors: themeConfigs[this.model.themeType_].colors,
       }
       // 定义才添加的数据
       const liveProps = ['title', 'legend', 'axis', 'other', 'echartsoption', 'polar', 'auxiliary']
@@ -170,7 +172,6 @@ const createExhibitAdapter = (hooks) =>
               updatedPath: isGlobal ? 'effective' : this.model[actionType].options.updatedPath,
               flag: `actionType: ${actionType}, global: ${isGlobal}`,
             })
-          console.log('this.model[actionType].options.updatedOptions,', this.model[actionType].options.updatedOptions)
           if (!isGlobal) {
             if (!isDef(this.model[actionType].effective) || this.model[actionType].effective) {
               action()
@@ -248,6 +249,20 @@ const createExhibitAdapter = (hooks) =>
           )
         )
       }
+      this.observerDisposers.push(
+        reaction(
+          () => model.themeType_,
+          () => {
+            const updated = {themeColors: themeConfigs[model.themeType_].colors}
+            this.update({
+              action: 'theme',
+              options: this.getAllOptions(),
+              updated,
+              flag: 'theme',
+            })
+          }
+        )
+      )
 
       layers.map((layer) => {
         this.observerDisposers.push(
