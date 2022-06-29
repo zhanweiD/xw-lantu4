@@ -60,6 +60,10 @@ export const createExhibitModelClass = (exhibit) => {
       get data_() {
         return getEnv(self).data
       },
+      get themeType_() {
+        const theme = getEnv(self).art.global.options.sections.themeColor.fields.theme
+        return theme.value || theme
+      },
     }))
     .actions(commonAction(['set', 'getSchema', 'setSchema', 'dumpSchema']))
     .actions((self) => {

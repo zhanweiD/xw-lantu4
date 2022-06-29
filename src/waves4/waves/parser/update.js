@@ -73,7 +73,7 @@ const updateStyle = ({
       reinitializeWave(instance, options)
       return
     } else {
-      layer = instance.layers.find((item) => item.type === type).instance
+      layer = instance.layers.find((item) => item.type === type)?.instance
     }
   }
   const {mapOption, getOption} = target
@@ -106,6 +106,11 @@ const updateWave = (schema) => {
       reinitializeWave(instance, options)
     } else if (action === 'layer' && updatedPath === 'effective') {
       instance.layers.find(({id}) => id === updated.id).instance.setVisible(updated.effective)
+    } else if (action === 'theme') {
+      options.themeColors = updated.themeColors
+      options.theme = updated.themeColors
+      instance.theme = updated.themeColors
+      reinitializeWave(instance, options)
     } else {
       updateStyle(schema)
     }

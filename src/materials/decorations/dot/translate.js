@@ -25,7 +25,6 @@ const getRealData = (dataSource) => {
 }
 
 function translate(schema) {
-  console.log('dot-translate-schema', schema)
   const {
     width, // 容器宽
     height, // 容器高
