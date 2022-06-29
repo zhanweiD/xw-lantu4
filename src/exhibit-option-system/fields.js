@@ -2128,6 +2128,20 @@ const activeColor = {
   defaultValue: 'rgba(0,119,255,1)',
 }
 
+// 激活字体
+const activeTextColor = {
+  type: 'color',
+  label: 'activeTextColor',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
+// 未激活字体
+const inactiveTextColor = {
+  type: 'color',
+  label: 'inactiveTextColor',
+  defaultValue: 'rgba(255,255,255,1)',
+}
+
 const DIRECTION = {
   type: 'check',
   label: 'direction',
@@ -3249,6 +3263,8 @@ export default {
   alignmentDirection,
   inactiveColor,
   activeColor,
+  activeTextColor,
+  inactiveTextColor,
   // 圆角大小
   borderRadius,
   show,

@@ -51,6 +51,8 @@ const MCheck = MUIBase.named('MInput')
         'borderWidth',
         'activeBorderWidth',
         'backgroundColor',
+        'activeTextColor',
+        'inactiveTextColor',
       ].forEach((name) => {
         style[name] = self.config(name)
       })
@@ -129,8 +131,17 @@ const MCheck = MUIBase.named('MInput')
   })
 
 const CheckField = observer(({modal, active, onChange, options, style}) => {
-  const {width, height, fontSize, activeColor, inactiveColor, alignmentDirection, borderWidth, activeBorderWidth} =
-    style
+  const {
+    width,
+    height,
+    fontSize,
+    activeColor,
+    activeTextColor,
+    inactiveTextColor,
+    inactiveColor,
+    alignmentDirection,
+    activeBorderWidth,
+  } = style
   const isHorizontal = alignmentDirection === 'HORIZONTAL'
   const textWidths = options.map((item) => modal.util.getTextWidth(item.key, fontSize))
   const totalWidth = sum(textWidths)
@@ -149,13 +160,14 @@ const CheckField = observer(({modal, active, onChange, options, style}) => {
             style={{
               width: isHorizontal ? assignedWidths[index] : width,
               height: isHorizontal ? height : height / options.length,
-              color: active === index ? `${activeColor}` : `${inactiveColor}`,
-              fontSize: `${width / 18}px`,
-              borderBottom:
-                active === index
-                  ? `${activeBorderWidth}px solid ${activeColor}`
-                  : `${borderWidth}px solid ${activeColor}`,
-              // backgroundColor: style.backgroundColor,
+              color: active === index ? `${activeTextColor}` : `${inactiveTextColor}`,
+              backgroundColor: active === index ? `${activeColor}` : `${inactiveColor}`,
+              fontSize,
+              // borderBottom:
+              //   active === index
+              //     ? `${activeBorderWidth}px solid ${activeColor}`
+              //     : `${borderWidth}px solid ${activeColor}`,
+              borderBottom: `${activeBorderWidth}px solid ${active === index ? activeTextColor : 'rgba(0,0,0,0)'}`,
             }}
           >
             {option[Object.keys(option)[0]]}

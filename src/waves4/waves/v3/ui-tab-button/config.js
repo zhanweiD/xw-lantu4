@@ -14,5 +14,13 @@ export const config = (k) => ({
     eventTriggerTypes: ['switchPanel'],
   },
   layers: [layer(k)],
+  // dimension: {
+  //   fields: [
+  //     {
+  //       name: 'xColumn',
+  //       defaultValue: ['性别'],
+  //     },
+  //   ],
+  // },
   data,
 })
