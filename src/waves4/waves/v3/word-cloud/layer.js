@@ -129,7 +129,7 @@ export default () => {
           },
           {
             name: 'cloudPadding',
-            defaultValue: 7,
+            defaultValue: 2,
             min: 0,
             max: 200,
           },
