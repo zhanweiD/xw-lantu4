@@ -168,6 +168,7 @@ export const createExhibitModelClass = (exhibit) => {
         }
       }
 
+      // gis图层增删
       const addLayer = (layers) => {
         self.set({
           layers: [

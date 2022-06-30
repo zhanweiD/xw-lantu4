@@ -4,6 +4,15 @@ export default () => {
     type: 'select', // 必要
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['平均分', '一班'],
+          },
+        ],
+      },
+      {
         name: 'base',
         fields: [
           {

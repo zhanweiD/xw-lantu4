@@ -167,7 +167,9 @@ const CheckField = observer(({modal, active, onChange, options, style}) => {
               //   active === index
               //     ? `${activeBorderWidth}px solid ${activeColor}`
               //     : `${borderWidth}px solid ${activeColor}`,
-              borderBottom: `${activeBorderWidth}px solid ${active === index ? activeTextColor : 'rgba(0,0,0,0)'}`,
+              borderBottom: `${activeBorderWidth}px solid ${
+                active === index && !activeColor ? activeTextColor : 'rgba(0,0,0,0)'
+              }`,
             }}
           >
             {option[Object.keys(option)[0]]}
