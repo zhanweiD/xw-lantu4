@@ -24,7 +24,7 @@ class Image {
       this.setStyle()
       this.container.appendChild(this.div)
     } else {
-      this.div && this.container.removeChild(this.div)
+      setTimeout(() => this.div && this.container.removeChild(this.div), 1)
     }
   }
 
@@ -55,7 +55,7 @@ class Image {
   }
 
   destroy() {
-    this.div && this.container.removeChild(this.div)
+    setTimeout(() => this.div && this.container.removeChild(this.div), 1)
     this.div = undefined
   }
 }

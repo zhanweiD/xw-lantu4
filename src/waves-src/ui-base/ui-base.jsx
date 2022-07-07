@@ -93,7 +93,7 @@ const MUIBase = types
       span.style.cssText = `visibility:hidden;white-space:nowrap;font-size:${fontSize}`
       document.body.appendChild(span)
       span.innerText = text
-      setTimeout(() => document.body.removeChild(span), 0)
+      setTimeout(() => document.body.removeChild(span), 1)
 
       return span.offsetWidth
     },

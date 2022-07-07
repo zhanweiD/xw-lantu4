@@ -363,7 +363,7 @@ const createExhibitAdapter = (hooks) =>
     update({options, action, updated, updatedPath, flag}) {
       if (this.getNecessary()) {
         if (this.container.contains(this.div)) {
-          this.container.removeChild(this.div)
+          setTimeout(() => this.div && this.container.removeChild(this.div), 1)
         }
         hooks.update.call(null, {
           instance: this.instance,
