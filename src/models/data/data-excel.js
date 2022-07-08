@@ -102,8 +102,10 @@ export const MExcel = types
               self.data_.set({state: 'loadError'})
               return
             }
+            // 后续考虑多sheet怎么处理,现在暂取content[0]
+
             // 文件夹为空时不通过
-            if (response.content.data.length === 0) {
+            if (response.content[0].data.length === 0) {
               tip.error({content: 'excel为空或格式有误，请检查文件'})
               self.data_.set({state: 'loadError'})
               return
@@ -112,8 +114,8 @@ export const MExcel = types
             console.log('dataName', dataName)
             // 赋值给excel
             self.set({
-              data: response.content.data,
-              columns: response.content.columns.map((x) => ({
+              data: response.content[0].data,
+              columns: response.content[0].columns.map((x) => ({
                 ...x,
                 name: x.name.toString(),
               })),
@@ -121,9 +123,9 @@ export const MExcel = types
             })
             self.data_.basic.setSchema({dataName})
             self.options.setSchema({
-              row: response.content.data.length || 0,
+              row: response.content[0].data.length || 0,
             })
-            self.data_.updateDataField(response.content.columns)
+            self.data_.updateDataField(response.content[0].columns)
             tip.success({content: 'Excel解析成功'})
             self.data_.set({state: 'loadSuccess'})
           } catch (error) {
