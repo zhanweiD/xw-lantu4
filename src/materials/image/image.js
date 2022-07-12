@@ -19,7 +19,7 @@ class Image {
 
   draw() {
     if (!isDef(this.effective) || this.effective) {
-      if (!this.div) {
+      if (!this.div && this.container.children.length < 1) {
         this.div = document.createElement('div')
         this.div.style.height = '100%'
         this.div.style.width = '100%'
@@ -27,11 +27,10 @@ class Image {
         this.div.style.backgroundRepeat = 'no-repeat'
         this.div.style.backgroundPosition = 'center'
         this.div.style.isolation = 'isolate'
+        this.setStyle()
+        this.container.appendChild(this.div)
       }
-      this.setStyle()
-      this.container.appendChild(this.div)
     } else {
-      // this.div && this.container.removeChild(this.div)
       setTimeout(() => this.div && this.container.removeChild(this.div), 1)
     }
   }
