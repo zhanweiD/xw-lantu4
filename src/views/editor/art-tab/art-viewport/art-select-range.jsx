@@ -101,6 +101,9 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY, getMenuList}) => 
           const list = getMenuList(menu)
           menu.show({list})
         }}
+        onKeyDown={(e) => {
+          e.stopPropagation()
+        }}
       />
       {Object.entries(direction).map(([key, value]) => (
         <div
@@ -110,7 +113,11 @@ const SelectRange = ({range, scaler, baseOffsetX, baseOffsetY, getMenuList}) => 
           onMouseDown={(e) => {
             e.stopPropagation()
             e.preventDefault()
+
             range.onScale(e, key)
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation()
           }}
         />
       ))}
