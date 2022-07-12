@@ -28,6 +28,9 @@ const ArtViewport = ({art}) => {
         onMouseDown={(e) => {
           viewport.onMouseDown(e)
         }}
+        onKeyDown={(e) => {
+          viewport.onBoxKeyDown(e)
+        }}
       >
         <div
           id={`art-viewport-${artId}`}
