@@ -505,6 +505,12 @@ export const MArtFrame = types
     }
 
     const copyBox = flow(function* copyBox(box, isGroup) {
+      const exhibitModel = self.art_.exhibitManager.get(box.exhibit.id)
+      const schema = exhibitModel.getSchema() // 最新的exhibit，不能直接取box上的
+      const exhibit = {
+        ...schema,
+        id: uuid(),
+      }
       const copiedMaterials = box?.materials?.map((item) => {
         return {
           ...item,
@@ -515,10 +521,7 @@ export const MArtFrame = types
       const event = createEvent()
       const {artId, projectId} = self.art_
       const uid = uuid()
-      const exhibit = {
-        ...box.exhibit,
-        id: uuid(),
-      }
+
       const model = registerExhibit(box.exhibit.key)
       if (model) {
         const art = self.art_
@@ -558,7 +561,6 @@ export const MArtFrame = types
           ':artId': params.artId,
           ':frameId': params.frameId,
           ':projectId': projectId,
-          // isEffect: true,
         })
         realBox.set({
           boxId: currentBox.boxId,

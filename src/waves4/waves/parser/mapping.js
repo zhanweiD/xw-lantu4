@@ -249,6 +249,7 @@ export const layerOptionMap = new Map([
       const mapping = [
         // 基础
         ['base.axisBinding', 'options.axis'],
+        ['base.legendType', 'style.shape'],
         // ['base.mode', 'options.mode'],
         // 点
         ['point.size', 'style.pointSize'],
@@ -388,7 +389,7 @@ export const layerOptionMap = new Map([
               ? false
               : true,
           percentage: getOption('base.rect.rectStepPercentage'),
-          gap: getOption('base.rect.rectStepGap'),
+          gap: getOption('base.rect.rectStepPercentage') / 2,
         })
         storage.set('animation', {})
       }

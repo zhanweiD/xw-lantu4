@@ -1,17 +1,25 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-30 17:18:18
+ * @Description:
+ */
 import {layerOptionMap} from './mapping'
+import {getRealData} from '../unit'
 
-const getRealData = (dataSource) => {
+const setData = (dataSource) => {
+  const newData = [...dataSource]
   try {
     if (!dataSource) {
       return {}
     }
-
     const translateOptionArr = []
-    dataSource?.forEach((v, i) => {
+    newData?.forEach((v, i) => {
       if (i > 0) {
         translateOptionArr.push({
           key: v[0],
-          value: v[1],
+          value: v[1] || v[0],
         })
       }
     })
@@ -35,10 +43,11 @@ function translate(schema) {
 
   // 适用于 V3 组件直接迁移过来的
   // 每个组件需要的参数要自己处理，和 V4 组件的适配不同
-  const {getOption, mapOption} = layers[0]
+  const {getOption, mapOption, options} = layers[0]
   // 属性的转换
   const config = layerOptionMap.get('layer')({getOption, mapOption})
-  config.data = getRealData(data)
+  const keys = options.dataMap ? [...options.dataMap.column] : ''
+  config.data = getRealData(setData, data, keys)
   return {
     width,
     height,
@@ -50,9 +59,9 @@ function translate(schema) {
     adjust: false,
     keys: ['一级分类'],
     activeKeys: ['一级分类'],
-    defaultOptions: {
-      一级分类: '浙江省',
-    },
+    // defaultOptions: {
+    //   一级分类: '浙江省',
+    // },
     ...config,
   }
 }

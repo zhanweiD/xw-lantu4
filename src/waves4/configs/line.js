@@ -19,6 +19,10 @@ export default ({lineCurve = 'curveLinear', hasArea = false, axis = 'main', colu
             name: 'axisBinding',
             defaultValue: axis,
           },
+          {
+            name: 'legendType',
+            defaultValue: 'broken-line',
+          },
           // {
           //   name: 'custom',
           //   option: 'mode',

@@ -1,8 +1,13 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-30 16:55:20
+ * @Description:
+ */
 export default [
-  ['key', 'value'],
-  ['选项一', 'option1'],
-  ['选项二', 'option2'],
-  ['选项三', 'option3'],
-  ['选项四', 'option4'],
-  ['选项五', 'option5'],
+  ['平均分', '一班', '二班'],
+  ['数学', '100', '110'],
+  ['语文', '99', '90'],
+  ['英语', '88', '80'],
 ]
