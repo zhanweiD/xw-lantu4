@@ -174,8 +174,10 @@ export const MEditor = types
       self.updateActiveNote(id)
     }
 
-    const closeTab = (id) => {
+    const closeTab = (id, modalFlag) => {
       // const tab = self.tabs.filter(item => item.id === id)[0]
+      const tab = self.tabs.filter((item) => item.id === id)[0]
+      modalFlag === 'confirm' && tab.art.save()
       self.tabs = self.tabs.filter((item) => item.id !== id)
       self.activeNote.remove(id)
       if (!self.tabs.length) {

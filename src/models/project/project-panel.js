@@ -25,6 +25,8 @@ export const MProjectPanel = types
     isThumbnailVisible: types.optional(types.boolean, true),
     // 创建项目的浮窗是否可见
     isCreateModalVisible: types.optional(types.boolean, false),
+    // 关闭大屏时，弹出提示框
+    isCloseModalVisible: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get env_() {
