@@ -1,21 +1,21 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-29 16:27:23
+ * @Description:
+ */
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import MTabButton from '@wavesSrc/ui-tab-button'
 import {layerOptionMap} from './mapping'
-// import translate from './translate'
 
-/**
- * 标准二维表数据额格式转换为非标准数据格式
- * @param {object} data
- */
-function tableListToBadData(data) {
-  const labels = data[0]
-  return data.slice(1).map((item) => {
-    const valueObject = {}
-    labels.forEach((name, i) => {
-      valueObject[name] = item[i]
-    })
-    return valueObject
-  })
+const translate = (config) => {
+  const newData = [...config.data]
+  const {options} = config.layers[0]
+  const keys = options.dataMap ? [...options.dataMap.column] : ''
+  const index = newData[0].findIndex((item) => item === keys[0])
+
+  return newData.slice(1).map((item) => ({[keys[0]]: item[index]}))
 }
 
 /**
@@ -25,8 +25,7 @@ const Adapter = () =>
   createExhibitAdapter({
     // 初始化
     init({options, event}) {
-      const mTabButton = MTabButton.create({options: tableListToBadData(options.data)})
-
+      const mTabButton = MTabButton.create({options: translate(options)})
       const {getOption, mapOption} = options.layers[0]
       const config = layerOptionMap.get('layer')({getOption, mapOption})
 
@@ -43,34 +42,16 @@ const Adapter = () =>
 
     // 配置组件数据
     update({instance, options}) {
-      // const mTabButton = MTabButton.create({options: tableListToBadData(options.data)})
       const {getOption, mapOption} = options.layers[0]
       const config = layerOptionMap.get('layer')({getOption, mapOption})
+      console.log(config)
       // 初始化模型
-      instance.data(tableListToBadData(options.data))
+      instance.data(translate(options))
       instance.init({...options, ...config}, {})
       instance.draw({
         redraw: true,
       })
     },
-    // update({instance, options}) {
-    //   console.log(instance, options)
-    //   instance.draw({
-    //     redraw: true,
-    //   })
-    // },
-
-    // /**
-    //  * 非标准数据格式转换为标准二维表数据额格式
-    //  * @param {object} data
-    //  */
-    // badDataToTableList(data) {
-    //   const labels = Object.keys(data[0])
-    //   const values = data.map(item => {
-    //     return labels.map(name => item[name])
-    //   })
-    //   return [labels, values]
-    // },
 
     // 如果组件有销毁函数，就调用
     destroy({instance}) {

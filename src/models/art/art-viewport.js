@@ -351,6 +351,58 @@ export const MArtViewport = types
       document.body.addEventListener('mouseup', mouseUp)
     }
 
+    //keyDown事件
+
+    const onBoxKeyDown = (downEvent) => {
+      const transformSize = {
+        x1: 0,
+        y1: 0,
+      }
+      switch (downEvent.keyCode) {
+        // 左
+        case 37:
+          transformSize.x1 = -1
+          transformByBox(transformSize)
+          break
+        //上
+        case 38:
+          transformSize.y1 = -1
+          transformByBox(transformSize)
+          break
+        //右
+        case 39:
+          transformSize.x1 = 1
+          transformByBox(transformSize)
+          break
+        // 下
+        case 40:
+          transformSize.y1 = 1
+          transformByBox(transformSize)
+          break
+        default:
+          break
+      }
+    }
+
+    const transformByBox = ({x1 = 0, y1 = 0}) => {
+      self.selectRange.range.forEach((value) => {
+        const frame = self.frames.find((v) => v.frameId === value.frameId)
+        // 将boxes里的隐藏及锁定图层过滤掉
+        const boxes = frame.boxes.filter((v) => value.boxIds.includes(v.boxId || v.uid) && v.isEffect && !v.isLocked)
+        if (!boxes.length) return
+        boxes.forEach((b) => {
+          const {x, y, width, height} = b.layout.getSchema()
+          const transform = {
+            x: x + x1,
+            y: y + y1,
+            width,
+            height,
+          }
+          b.setLayout(transform)
+          b.resize()
+        })
+      })
+    }
     // 删除框选状态
     const removeSelectRange = (isSelectBox = false) => {
       // const {session} = self.env_
@@ -435,7 +487,7 @@ export const MArtViewport = types
     const toggleSelectRange = ({target, selectRange}) => {
       if (target === 'frame') {
         self.removeSelectRange()
-
+        self.zoom.openZoom()
         const frame = self.frames.find((f) => f.frameId === selectRange[0].frameId)
         self.selectRange = {
           target,
@@ -467,11 +519,13 @@ export const MArtViewport = types
         if (!layouts.length) return
         const {x1, y1, x2, y2} = getCoordinate(layouts)
         self.selectRange = {target, range: selectRange, x1, y1, x2, y2}
+        self.zoom.closeZoom()
       }
     }
 
     // 选中图层
     const toggleSelectBox = (box, shiftKey) => {
+      self.zoom.closeZoom()
       const {boxId, frameId} = box
       let boxIds = []
       if (shiftKey) {
@@ -725,6 +779,8 @@ export const MArtViewport = types
       removeSelectRange,
       // 改变选中box
       toggleSelectBox,
+      // box按钮事件
+      onBoxKeyDown,
       // 创建画布 & 删除画布
       createFrame,
       removeFrame,

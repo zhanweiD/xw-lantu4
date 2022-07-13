@@ -7,5 +7,5 @@ export default {
   pointSizes: ['圆点大小', 'Point Sizes'],
   radius: ['圆角', 'Radius'],
   activeColor: ['激活背景颜色', 'Active Color'],
-  inactiveColor: ['未激活背景颜色', 'Inactive Color'],
+  inactiveColor: ['未激活背景颜', 'Inactive Color'],
 }

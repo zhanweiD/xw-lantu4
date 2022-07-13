@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-07-08 17:47:09
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-11 16:59:29
+ * @Description:
+ */
 import isDef from '@utils/is-def'
 
 class Image {
@@ -12,7 +19,7 @@ class Image {
 
   draw() {
     if (!isDef(this.effective) || this.effective) {
-      if (!this.div) {
+      if (!this.div && this.container.children.length < 1) {
         this.div = document.createElement('div')
         this.div.style.height = '100%'
         this.div.style.width = '100%'
@@ -20,11 +27,11 @@ class Image {
         this.div.style.backgroundRepeat = 'no-repeat'
         this.div.style.backgroundPosition = 'center'
         this.div.style.isolation = 'isolate'
+        this.setStyle()
+        this.container.appendChild(this.div)
       }
-      this.setStyle()
-      this.container.appendChild(this.div)
     } else {
-      this.div && this.container.removeChild(this.div)
+      setTimeout(() => this.div && this.container.removeChild(this.div), 1)
     }
   }
 
@@ -55,8 +62,12 @@ class Image {
   }
 
   destroy() {
-    this.div && this.container.removeChild(this.div)
-    this.div = undefined
+    // this.div && this.container.removeChild(this.div)
+    // this.div = undefined
+    setTimeout(() => {
+      this.div && this.container.removeChild(this.div)
+      this.div = undefined
+    }, 1)
   }
 }
 

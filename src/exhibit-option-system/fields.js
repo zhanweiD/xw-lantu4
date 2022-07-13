@@ -25,16 +25,28 @@ const legendType = {
       value: 'circle',
     },
     {
-      key: 'line',
+      key: '圆点',
       value: 'broken-line',
     },
     {
-      key: '虚线',
-      value: 'dotted-line',
+      key: '星状',
+      value: 'star',
     },
     {
-      key: '五星状',
-      value: 'star',
+      key: '正方形',
+      value: 'parallelogram',
+    },
+    {
+      key: '六棱形',
+      value: 'hexagon',
+    },
+    {
+      key: '箭头',
+      value: 'arrow',
+    },
+    {
+      key: '斜三角',
+      value: 'knuckle',
     },
   ],
 }
@@ -2366,6 +2378,20 @@ const activeColor = {
   defaultValue: 'rgba(0,119,255,1)',
 }
 
+// 激活字体
+const activeTextColor = {
+  type: 'color',
+  label: 'activeTextColor',
+  defaultValue: 'rgba(0,119,255,1)',
+}
+
+// 未激活字体
+const inactiveTextColor = {
+  type: 'color',
+  label: 'inactiveTextColor',
+  defaultValue: 'rgba(255,255,255,1)',
+}
+
 const DIRECTION = {
   type: 'check',
   label: 'direction',
@@ -3487,6 +3513,8 @@ export default {
   alignmentDirection,
   inactiveColor,
   activeColor,
+  activeTextColor,
+  inactiveTextColor,
   // 圆角大小
   borderRadius,
   show,

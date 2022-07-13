@@ -115,7 +115,6 @@ export const MZoom = types
       self.originWidth = originWidth
       self.originHeight = originHeight
       self.originRatio = originWidth / originHeight
-
       Object.entries(events).forEach(([name, fn]) => {
         zoomEvent.on(name, fn)
       })
@@ -150,11 +149,9 @@ export const MZoom = types
         offsetY: round(initY, 3),
       })
 
-      zoomEvent.fire('transform')
-
       // 下面是基于panzoom缺陷而做的临时方案，panzoom自身的zoomend有bug，按照官方文档，并不触发
       // let zoomEndTimer
-
+      zoomEvent.fire('transform')
       self.zoom.on('zoom', () => {
         const {scale, x, y} = self.zoom.getTransform()
 
@@ -206,6 +203,21 @@ export const MZoom = types
       }
     }
 
+    const closeZoom = () => {
+      zoomEvent.off('zoomstart')
+      zoomEvent.off('zoom')
+      zoomEvent.off('zoomend')
+      zoomEvent.off('panstart')
+      zoomEvent.off('pan')
+      zoomEvent.off('panend')
+      if (self.zoom && self.zoom.pause) {
+        self.zoom.pause()
+      }
+    }
+
+    const openZoom = () => {
+      self.zoom.resume()
+    }
     const set = (key, value) => {
       if (isString(key)) {
         self[key] = value
@@ -234,5 +246,7 @@ export const MZoom = types
       on,
       off,
       update,
+      closeZoom,
+      openZoom,
     }
   })

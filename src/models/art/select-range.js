@@ -1,8 +1,8 @@
 /*
  * @Author: 柿子
  * @Date: 2021-08-02 17:01:56
- * @LastEditTime: 2021-08-09 15:37:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-29 10:37:58
+ * @LastEditors: zhanwei
  * @Description: In User Settings Edit
  * @FilePath: /waveview-front4/src/models/new-art/select-range.js
  */

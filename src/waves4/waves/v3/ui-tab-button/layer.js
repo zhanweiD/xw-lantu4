@@ -1,25 +1,37 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-28 16:15:04
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-06-29 18:02:47
+ * @Description:
+ */
 export default () => {
   return {
     name: '标签组',
     type: 'tab',
     sections: [
       {
+        name: 'dataMap',
+        fields: [
+          {
+            name: 'column',
+            defaultValue: ['性别'],
+          },
+        ],
+      },
+      {
         name: 'basic',
         fields: [
           {
             name: 'alignmentDirection',
           },
-          {name: 'inactiveColor', defaultValue: 'rgb(141,141,141)'},
-          {name: 'activeColor', defaultValue: 'rgb(90,153,243)'},
-          // {
-          //   name: 'backgroundColor',
-          //   defaultValue: 'rgb(0,0,0)',
-          // },
           {
-            name: 'borderWidth',
-            defaultValue: 2,
-            max: 30,
-            min: 1,
+            name: 'fontSize',
+            defaultValue: 20,
+          },
+          {
+            name: 'activeTextColor',
+            defaultValue: 'rgb(90,153,243)',
           },
           {
             name: 'activeBorderWidth',
@@ -27,111 +39,41 @@ export default () => {
             max: 50,
             min: 1,
           },
+          {
+            name: 'inactiveTextColor',
+          },
+
+          // {
+          //   name: 'backgroundColor',
+          //   defaultValue: 'rgb(0,0,0)',
+          // },
+          // {
+          //   name: 'borderWidth',
+          //   defaultValue: 2,
+          //   max: 30,
+          //   min: 1,
+          // },
+          // {
+          //   name: 'activeBorderWidth',
+          //   defaultValue: 5,
+          //   max: 50,
+          //   min: 1,
+          // },
+        ],
+      },
+      {
+        name: 'background',
+        effective: false,
+        fields: [
+          {
+            name: 'activeColor',
+            defaultValue: 'rgb(90,153,243)',
+          },
+          {
+            name: 'inactiveColor',
+          },
         ],
       },
     ],
-    // v: [
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'adaptContainer',
-    //     field: {
-    //       type: 'switch',
-    //       label: 'style.adaptContainer',
-    //       defaultValue: false,
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'width',
-    //     when: {
-    //       key: 'adaptContainer',
-    //       value: false,
-    //     },
-    //     field: {
-    //       type: 'number',
-    //       label: 'width',
-    //       defaultValue: 450,
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'height',
-    //     when: {
-    //       key: 'adaptContainer',
-    //       value: false,
-    //     },
-    //     field: {
-    //       type: 'number',
-    //       label: 'height',
-    //       defaultValue: 40,
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'fontSize',
-    //     field: {
-    //       type: 'number',
-    //       label: 'style.fontSize',
-    //       defaultValue: 20,
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'activeColor',
-    //     field: {
-    //       type: 'color',
-    //       label: k('activeColor'),
-    //       defaultValue: 'rgba(0,119,255,1)',
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'inactiveColor',
-    //     field: {
-    //       type: 'color',
-    //       label: k('inactiveColor'),
-    //       defaultValue: 'rgba(255,255,255,0.1)',
-    //     },
-    //   },
-    //   {
-    //     section: 'optionPanel.basic',
-    //     option: 'alignmentDirection',
-    //     field: {
-    //       type: 'check',
-    //       label: k('alignmentDirection'),
-    //       defaultValue: 'HORIZONTAL',
-    //       options: [{
-    //         key: 'style.horizontal',
-    //         value: 'HORIZONTAL',
-    //       }, {
-    //         key: 'style.vertical',
-    //         value: 'VERTICAL',
-    //       }],
-    //     },
-    //   },
-    //   {
-    //     section: 'style.animation',
-    //     option: 'enableLoopAnimation',
-    //     field: {
-    //       type: 'switch',
-    //       label: 'animation.enableLoopAnimation',
-    //       defaultValue: false,
-    //     },
-    //   },
-    //   {
-    //     section: 'style.animation',
-    //     option: 'loopAnimationDuration',
-    //     when: {
-    //       key: 'enableLoopAnimation',
-    //       value: true,
-    //     },
-    //     field: {
-    //       type: 'number',
-    //       label: 'animation.loopAnimationDuration',
-    //       defaultValue: 2000,
-    //       step: 200,
-    //     },
-    //   },
-    // ]
   }
 }

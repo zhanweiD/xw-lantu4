@@ -322,7 +322,7 @@ export const MMaterialPanel = types
       elink.style.display = 'none'
       document.body.appendChild(elink)
       elink.click()
-      document.body.removeChild(elink)
+      setTimeout(() => document.body.removeChild(elink), 1)
     }
 
     return {

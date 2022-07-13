@@ -90,9 +90,9 @@ export const exhibitRegister = (exhibit) => {
         const model = Model.create(
           {
             context: {
-              theme: themeConfigs[themeType].colors,
+              // theme: themeConfigs[themeType].colors, // 重复暂时没看到有什么用
               baseFontSize: (1080 / 1050).toFixed(2) - 0,
-              themeColors: themeConfigs[themeType].colors,
+              // themeColors: themeConfigs[themeType].colors, // 主题色移到exhibit-model身上作为计算属性实时更新
             },
           },
           {
