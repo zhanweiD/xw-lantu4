@@ -178,7 +178,7 @@ export const MMaterialPanel = types
             childFolder: materials?.map((item) => ({
               cateType: item.cateType,
             })),
-            childMaterials: materials.map((item) => ({
+            materials: materials.map((item) => ({
               folderId: -2,
               isOfficial: true,
               ...item,

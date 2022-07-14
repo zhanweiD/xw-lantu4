@@ -14,7 +14,15 @@ import {uniqBy} from 'lodash'
 import s from './material-panel.module.styl'
 
 const MaterialFolder = ({folder, showType, icon}) => {
-  const {materials_, isOfficial, files, childFolder, childMaterials} = folder
+  const {materials_, isOfficial, files, childFolder, materials} = folder
+
+  const arr = []
+  materials?.map((v, i) => {
+    arr.push({
+      ...v,
+      cateType: childFolder[i],
+    })
+  })
 
   // 图片素材：子文件夹名去重
   const transferChildFolder = uniqBy(childFolder, 'cateType')
@@ -47,7 +55,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
     <Section
       extra={icon}
       childrenClassName="pt8 pb8"
-      name={`${folder.folderName}(${folder.materials.length || folder.childMaterials.length})`}
+      name={`${folder.folderName}(${folder.materials.length})`}
       sessionId={`material-folder-${folder.folderId}`}
       updateKey={showType}
     >
@@ -64,26 +72,28 @@ const MaterialFolder = ({folder, showType, icon}) => {
           )}
         </div>
       )}
-      {showType === 'grid-layout' ? (
-        <Grid column={4} className="mr8 ml8">
-          {materials_.map((material) => (
-            <Grid.Item key={material.materialId}>
-              <Material key={material.materialId} material={material} showType={showType} />
-            </Grid.Item>
-          ))}
-        </Grid>
-      ) : (
-        materials_.map((material) => <Material key={material.materialId} material={material} showType={showType} />)
-      )}
+      {folder.folderName === '装饰素材' ? (
+        showType === 'grid-layout' ? (
+          <Grid column={4} className="mr8 ml8">
+            {materials_.map((material) => (
+              <Grid.Item key={material.materialId}>
+                <Material key={material.materialId} material={material} showType={showType} />
+              </Grid.Item>
+            ))}
+          </Grid>
+        ) : (
+          materials_.map((material) => <Material key={material.materialId} material={material} showType={showType} />)
+        )
+      ) : null}
 
       {/* 图片素材：子文件夹 */}
       {transferChildFolder?.map((v, ind) => (
         <Section
           key={ind}
-          name={`${v.cateType}素材(${childMaterials.filter((m) => v.cateType === m.cateType).length})`}
+          name={`${v.cateType}素材(${arr.filter((m) => v.cateType === m.cateType.cateType).length})`}
           className={s.pictureChildFolder}
         >
-          {childMaterials.length === 0 && (
+          {arr.length === 0 && (
             <div className={c('mb16 emptyNote ml8')} style={{marginLeft: '20px'}}>
               <span>{v.cateType}素材列表还是空空的</span>
               {!isOfficial && (
@@ -98,18 +108,19 @@ const MaterialFolder = ({folder, showType, icon}) => {
           )}
           {showType === 'grid-layout' ? (
             <Grid column={4} className="mr8 ml8">
-              {childMaterials.map((material) => {
-                v.cateType === material.cateType && (
-                  <Grid.Item key={material.materialId}>
-                    <Material key={material.materialId} material={material} showType={showType} />
-                  </Grid.Item>
-                )
-              })}
+              {arr.map(
+                (material) =>
+                  v.cateType === material.cateType.cateType && (
+                    <Grid.Item key={material.materialId}>
+                      <Material key={material.materialId} material={material} showType={showType} />
+                    </Grid.Item>
+                  )
+              )}
             </Grid>
           ) : (
-            childMaterials.map(
+            arr.map(
               (material) =>
-                v.cateType === material.cateType && (
+                v.cateType === material.cateType.cateType && (
                   <Material key={material.materialId} material={material} showType={showType} />
                 )
             )
