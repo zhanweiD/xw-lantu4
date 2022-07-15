@@ -98,7 +98,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
               <span>{v.cateType}素材列表还是空空的</span>
               {!isOfficial && (
                 <span>
-                  ，点击
+                  点击
                   <span className="ctSecend hand" onClick={() => folder.set({isVisible: true})}>
                     上传
                   </span>
@@ -108,14 +108,16 @@ const MaterialFolder = ({folder, showType, icon}) => {
           )}
           {showType === 'grid-layout' ? (
             <Grid column={4} className="mr8 ml8">
-              {arr.map(
-                (material) =>
-                  v.cateType === material.cateType.cateType && (
-                    <Grid.Item key={material.materialId}>
-                      <Material key={material.materialId} material={material} showType={showType} />
-                    </Grid.Item>
-                  )
-              )}
+              {arr
+                .filter((m) => v.cateType === m.cateType.cateType)
+                ?.map(
+                  (material, index) =>
+                    v.cateType === material.cateType.cateType && (
+                      <Grid.Item key={index}>
+                        <Material key={material.materialId} material={material} showType={showType} />
+                      </Grid.Item>
+                    )
+                )}
             </Grid>
           ) : (
             arr.map(
