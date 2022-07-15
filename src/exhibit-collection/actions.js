@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-07-01 17:31:14
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-14 11:42:37
+ * @Description:
+ */
 import i18n from '@i18n'
 import {isMatchCondition} from './utils'
 
@@ -7,7 +14,7 @@ export default {
   click: ['show', 'hidden', 'toggle_visible', 'href', 'data_effect'],
   doubleClick: ['show', 'hidden', 'data_effect'],
   switchPanel: ['show', 'hidden', 'data_effect'],
-  change: [''],
+  search: ['data_effect'],
 }
 /**
  * 动作，以及事件的统一国际化
@@ -23,7 +30,7 @@ export const actionTranslation = i18n.sandbox(
     href: ['跳转链接', 'Jump link'],
     switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
-    change: ['文本输入改变', 'Text Change'],
+    search: ['搜索', 'Search'],
   },
   'interactionLang'
 )
@@ -32,20 +39,20 @@ export const actionTranslation = i18n.sandbox(
 function reset(boxModel) {
   boxModel['dipatchAction'] && boxModel['dipatchAction']('reset')
 }
-const NO_CONDITIONS = ['button']
+const NO_CONDITIONS = ['button', 'search']
 // 针对box的 show，hidden，toggle_visible，actionValue是目标对象的列表
 //  eventData 事件接受的数据，统一格式{data: {xxxx}}
 function boxActionHandle({actionType, actionValue = {}}, eventData) {
   // console.log('actionValue...', actionValue, eventData, this.key)
   const {targets, conditions, triggerCondition} = actionValue
   if (!targets) return
-  const {boxes = []} = this?.art_?.mainFrame_ || {}
+  const {boxes = []} = this?.art_?.mainFrame_ || {} // 子画布也需要兼容
   if (!boxes || !boxes.length) return
   boxes.forEach((boxModel) => {
     if (targets.includes(boxModel.boxId)) {
       if (isMatchCondition(conditions, triggerCondition, eventData) || NO_CONDITIONS.includes(this.key)) {
         // 符合条件，触发动作
-        setTimeout(() => boxModel['dipatchAction'] && boxModel['dipatchAction'](actionType), 0)
+        setTimeout(() => boxModel['dipatchAction'] && boxModel['dipatchAction'](actionType, eventData), 0)
       } else {
         // 如果动作较多，会频繁触发reset，感觉去掉比较合适
         // 不符合条件，恢复到默认状态
@@ -65,4 +72,5 @@ export const actionMap = {
   show: boxActionHandle,
   hidden: boxActionHandle,
   toggle_visible: boxActionHandle,
+  data_effect: boxActionHandle,
 }

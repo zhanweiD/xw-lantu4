@@ -4,6 +4,7 @@ import hJSON from 'hjson'
 import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import isDdit from '@utils/is-edit'
 import makeFunction from '@utils/make-function'
 import createLog from '@utils/create-log'
 
@@ -14,6 +15,7 @@ const MValue = types
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
     private: types.optional(types.string, ''),
     source: types.maybe(types.number),
+    boxId: types.maybe(types.number),
 
     sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'database'])),
     apiConfig: types.frozen(),
@@ -22,7 +24,7 @@ const MValue = types
     useApiHeader: types.optional(types.boolean, false),
     apiHeader: types.optional(
       types.string,
-      `return function ({context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -31,7 +33,7 @@ const MValue = types
     useApiQueries: types.optional(types.boolean, false),
     apiQueries: types.optional(
       types.string,
-      `return function ({rule, context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -40,7 +42,7 @@ const MValue = types
     useApiBody: types.optional(types.boolean, false),
     apiBody: types.optional(
       types.string,
-      `return function ({rule, context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -50,7 +52,7 @@ const MValue = types
     useProcessor: types.optional(types.boolean, false),
     processor: types.optional(
       types.string,
-      `return function ({dataFrame, rule, context, instance, queries}) {
+      `return function ({dataFrame, actionParams, context, instance, queries}) {
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
 }`
     ),
@@ -66,6 +68,17 @@ const MValue = types
     },
     get exhibit_() {
       return getEnv(self).exhibit
+    },
+    get box_() {
+      let box, frames
+      const {art, boxId} = getEnv(self)
+      if (isDdit) frames = art.viewport.frames
+      else frames = art.frames
+      for (let i = 0; i < frames.length; i++) {
+        box = frames[i].boxes.find((box) => box.boxId === boxId)
+        if (box) break
+      }
+      return box
     },
   }))
   .actions(commonAction(['set']))
@@ -118,6 +131,22 @@ const MValue = types
           delay: 300,
         }
       )
+      !isDdit &&
+        reaction(
+          () => {
+            return {
+              // 当轮询配置发生变化时重新设置定时器
+              data: self.box_.actionParams,
+            }
+          },
+          ({data}) => {
+            console.log(data)
+            self.formatData()
+          },
+          {
+            delay: 300,
+          }
+        )
     }
 
     const formatData = flow(function* format() {
@@ -137,16 +166,18 @@ const MValue = types
             self.apiConfig = sourceData.config
             const params = {}
             if (self.useApiHeader) {
-              params.headers = makeFunction(self.apiHeader)({})
+              params.headers = makeFunction(self.apiHeader)({actionParams: self.box_?.actionParams})
             }
             if (self.useApiQueries) {
-              params.queries = makeFunction(self.apiQueries)({})
+              params.queries = makeFunction(self.apiQueries)({actionParams: self.box_?.actionParams})
             }
             if (self.useApiBody) {
-              params.body = makeFunction(self.apiBody)({})
+              params.body = makeFunction(self.apiBody)({actionParams: self.box_?.actionParams})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
-            self.useProcessor ? makeFunction(self.processor)({dataFrame: dataFrame}) || dataFrame : dataFrame
+            self.useProcessor
+              ? makeFunction(self.processor)({dataFrame: dataFrame, actionParams: self.box_?.actionParams}) || dataFrame
+              : dataFrame
             self.columns = dataFrame.columns
             self.data = dataFrame.getData()
           } else {
@@ -383,26 +414,26 @@ export const MDataField = types
       self.value.set({
         // api系列
         useApiHeader: false,
-        apiHeader: `return function ({context}) {
+        apiHeader: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         useApiQueries: false,
-        apiQueries: `return function ({rule, context}) {
+        apiQueries: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         useApiBody: false,
-        apiBody: `return function ({rule, context}) {
+        apiBody: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         // common系列
         useProcessor: false,
-        processor: `return function ({dataFrame, rule, context, instance, queries}) {
+        processor: `return function ({dataFrame, actionParams, context, instance, queries}) {
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
 }`,
       })
