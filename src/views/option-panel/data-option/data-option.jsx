@@ -131,7 +131,7 @@ const DataOption = ({data}) => {
           {data.dataField && <SectionFields model={data.dataField} contentClassName={s.overlay_content} />}
           <Button
             className={s.saveButton}
-            lineHeight={18}
+            lineHeight={20}
             type="primary"
             size="middle"
             name="保存"
