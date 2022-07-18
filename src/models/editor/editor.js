@@ -11,6 +11,7 @@ export const MEditor = types
     activeTabId: types.maybe(types.union(types.number, types.string)),
     activeNote: types.optional(types.array(types.union(types.number, types.string)), []),
     isPointerEventsNone: types.optional(types.boolean, false),
+    copyParams: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get env_() {
@@ -259,6 +260,14 @@ export const MEditor = types
       return tab || {}
     }
 
+    const setCopyParams = (params) => {
+      if (params === null) {
+        self.copyParams = []
+      } else {
+        self.copyParams.push(params)
+      }
+    }
+
     return {
       afterCreate,
       applySession,
@@ -275,5 +284,6 @@ export const MEditor = types
       updateTabname,
       fanoutData,
       getCurrentTab,
+      setCopyParams,
     }
   })

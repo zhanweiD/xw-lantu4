@@ -91,6 +91,8 @@ export const MArtViewport = types
     }
 
     let removeShortcutDelete
+    let shortcutCopy
+    let shortcutPaste
     const afterCreate = () => {
       removeShortcutDelete = shortcut.add({
         keyName: 'commandDelete',
@@ -100,6 +102,42 @@ export const MArtViewport = types
             self.selectRange.remove()
           }
         },
+      })
+      shortcutCopy = shortcut.add({
+        keyName: 'commandC',
+        keyDown: () => {
+          const {selectRange} = self
+          const frame = selectRange?.viewport_.frames.find((item) => item.frameId === selectRange?.range?.[0].frameId)
+          const boxes = selectRange?.boxes_
+          // 只对当前操作屏进行复制
+          if (self.activeTabId_ === selectRange.art_.artId) {
+            // 将上一次复制参数清空
+            self.root_.editor.setCopyParams(null)
+            boxes.map((box) => {
+              self.root_.editor.setCopyParams(frame?.copyBoxesParams(box))
+            })
+          }
+        },
+        remark: 'copy',
+      })
+      shortcutPaste = shortcut.add({
+        keyName: 'commandV',
+        keyDown: () => {
+          const {selectRange} = self
+          const frame = selectRange?.viewport_.frames.find(
+            (item) => item.frameId === self.art_.viewport.frames[0].frameId
+          )
+          if (self.activeTabId_ === selectRange.art_.artId) {
+            if (self.root_.editor.copyParams.length === 1) {
+              self.root_.editor.copyParams.map((params) => {
+                frame?.pasteBoxes(params)
+              })
+            } else if (self.root_.editor.copyParams.length > 1) {
+              frame?.pasteGroups(self.root_.editor.copyParams)
+            }
+          }
+        },
+        remark: 'paste',
       })
     }
 
@@ -603,6 +641,8 @@ export const MArtViewport = types
 
     const beforeDestroy = () => {
       removeShortcutDelete()
+      shortcutCopy()
+      shortcutPaste()
     }
 
     // 统一选中menu
