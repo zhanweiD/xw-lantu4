@@ -129,6 +129,15 @@ const DataOption = ({data}) => {
           />
           <Overlay model={dataSourceMenu} className={s.overlay} />
           {data.dataField && <SectionFields model={data.dataField} contentClassName={s.overlay_content} />}
+          <Button
+            className={s.saveButton}
+            lineHeight={18}
+            type="primary"
+            size="middle"
+            name="保存"
+            circle={3}
+            onClick={() => data.saveData()}
+          />
         </Scroll>
       </Tab.Item>
     </Tab>

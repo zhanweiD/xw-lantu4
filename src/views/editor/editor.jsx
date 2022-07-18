@@ -10,7 +10,8 @@ import EditorTab from './editor-tab'
 import s from './editor.module.styl'
 
 const Editor = () => {
-  const {editor, overlayManager, sidebar} = w
+  const {editor, overlayManager, sidebar, head} = w
+  const {activePanelButton} = head
   const {tabs, activeTabId, updateActiveNote, closeTab, closeAllTabs, closeOtherTabs} = editor
   const {projectPanel} = sidebar
   const {set, isCloseModalVisible} = projectPanel
@@ -96,7 +97,7 @@ const Editor = () => {
                 iconSize={12}
                 className={s.tabCloseIcon}
                 onClick={() => {
-                  set('isCloseModalVisible', true)
+                  activePanelButton === 'projects' ? set('isCloseModalVisible', true) : closeTab(tab.id)
                 }}
               />
               <Modal
