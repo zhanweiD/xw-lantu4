@@ -2,7 +2,7 @@
  * @Author: zhanwei
  * @Date: 2022-07-01 17:31:14
  * @LastEditors: zhanwei
- * @LastEditTime: 2022-07-14 11:42:37
+ * @LastEditTime: 2022-07-15 16:57:46
  * @Description:
  */
 import i18n from '@i18n'
@@ -39,7 +39,7 @@ export const actionTranslation = i18n.sandbox(
 function reset(boxModel) {
   boxModel['dipatchAction'] && boxModel['dipatchAction']('reset')
 }
-const NO_CONDITIONS = ['button', 'search']
+const NO_CONDITIONS = ['button', 'search', 'select']
 // 针对box的 show，hidden，toggle_visible，actionValue是目标对象的列表
 //  eventData 事件接受的数据，统一格式{data: {xxxx}}
 function boxActionHandle({actionType, actionValue = {}}, eventData) {

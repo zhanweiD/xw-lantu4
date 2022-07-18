@@ -133,19 +133,12 @@ const MValue = types
       )
       !isDdit &&
         reaction(
-          () => {
-            return {
-              // 当轮询配置发生变化时重新设置定时器
-              data: self.box_.actionParams,
-            }
-          },
-          ({data}) => {
+          () => self.box_.actionParams,
+          (data) => {
             console.log(data)
             self.formatData()
           },
-          {
-            delay: 300,
-          }
+          {delay: 300}
         )
     }
 

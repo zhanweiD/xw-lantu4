@@ -105,7 +105,7 @@ const MSelect = MUIBase.named('MSelect')
           {self.selectKeys.map((key, index) => {
             return Children.toArray(
               <ConfiguredSelect
-                modal={self}
+                self={self}
                 style={style}
                 options={self.selectData.map((item) => item)}
                 value={self.selectData[0]?.key}
@@ -138,7 +138,7 @@ const MSelect = MUIBase.named('MSelect')
     }
   })
 
-const ConfiguredSelect = observer(({style, options, isActive}) => {
+const ConfiguredSelect = observer(({self, style, options, isActive}) => {
   const [inputValue, setInputValue] = useState('')
   const [isOptionVisible, setOptionVisible] = useState(false)
   const [isFalseIconVisible, setIsFalseIconVisible] = useState(false)
@@ -153,6 +153,7 @@ const ConfiguredSelect = observer(({style, options, isActive}) => {
 
   const onChange = (obj) => {
     setInputValue(obj.key)
+    self.event.fire('selectChange', obj)
   }
 
   const handleChange = (e) => {

@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-15 16:54:14
+ * @Description:
+ */
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import MSelect from '@wavesSrc/select'
 import translate from './translate'
@@ -16,7 +23,7 @@ const Adapter = () =>
       mSelect.draw({
         redraw: true,
       })
-      mSelect.event.on('onSwitchOption', (info) => {
+      mSelect.event.on('selectChange', (info) => {
         event.fire('switchPanel', info)
       })
       return mSelect
