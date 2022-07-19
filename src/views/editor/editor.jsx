@@ -12,6 +12,7 @@ import s from './editor.module.styl'
 const Editor = () => {
   const {editor, overlayManager, sidebar} = w
   const {tabs, activeTabId, updateActiveNote, closeTab, closeAllTabs, closeOtherTabs} = editor
+  const activeTab = tabs.find((tab) => tab.id === activeTabId)
   const [name, setName] = useState('')
   const [frameId, setFrameId] = useState(0)
   const {projectPanel} = sidebar
@@ -98,7 +99,7 @@ const Editor = () => {
                 iconSize={12}
                 className={s.tabCloseIcon}
                 onClick={() => {
-                  tab.id.toString().length > 30 ? closeTab(tab.id) : set('isCloseModalVisible', true)
+                  activeTab.type === 'data' ? closeTab(tab.id) : set('isCloseModalVisible', true)
                   setName(tab.name)
                   setFrameId(tab.id)
                 }}
