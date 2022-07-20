@@ -1,35 +1,46 @@
 import './wave-base.styl'
 
-const LEGEND_POSITION = [{
-  key: 'TOP',
-  value: '上',
-}, {
-  key: 'RIGHT',
-  value: '右',
-}, {
-  key: 'BOTTOM',
-  value: '下',
-}, {
-  key: 'LEFT',
-  value: '左',
-}, {
-  key: 'TITLE',
-  value: '标题栏',
-}]
+const LEGEND_POSITION = [
+  {
+    key: 'TOP',
+    value: '上',
+  },
+  {
+    key: 'RIGHT',
+    value: '右',
+  },
+  {
+    key: 'BOTTOM',
+    value: '下',
+  },
+  {
+    key: 'LEFT',
+    value: '左',
+  },
+  {
+    key: 'TITLE',
+    value: '标题栏',
+  },
+]
 
-const LEGEND_ALIGN = [{
-  key: 'LEFT',
-  value: '首端',
-}, {
-  key: 'CENTER',
-  value: '居中',
-}, {
-  key: 'RIGHT',
-  value: '末端',
-}, {
-  key: 'AVERAGE',
-  value: '均分',
-}]
+const LEGEND_ALIGN = [
+  {
+    key: 'LEFT',
+    value: '首端',
+  },
+  {
+    key: 'CENTER',
+    value: '居中',
+  },
+  {
+    key: 'RIGHT',
+    value: '末端',
+  },
+  {
+    key: 'AVERAGE',
+    value: '均分',
+  },
+]
 
 const defaultOption = {
   legendSize: 30,
@@ -83,7 +94,7 @@ export function drawLegends(legendOption) {
   //   if (!redraw) return
   // }
   // this.__cache__.legends = legends
-  
+
   this.container.select('.wave-legends').remove()
 
   // 图例是否在左右位置，由于使用太频繁所以提取
@@ -99,7 +110,7 @@ export function drawLegends(legendOption) {
   const padding = this._extendPadding()
   // 图例Y轴位置
   let positionY = 0
-  
+
   // 影响布局的图例宽高，顺便计算出主绘图区域的宽高和位置
   let rootWidth = 0
   let rootHeight = 0
@@ -109,12 +120,15 @@ export function drawLegends(legendOption) {
     this._option.legendWidth = this.containerWidth - titleUnitWidth
     this._option.legendHeight = this.getTextHeight(size)
     rootWidth = this.containerWidth
-    rootHeight = this.containerHeight - (titleUnitHeight > this.config('legendHeight') + legendY
-      ? titleUnitHeight : this.config('legendHeight') + legendY)
+    rootHeight =
+      this.containerHeight -
+      (titleUnitHeight > this.config('legendHeight') + legendY
+        ? titleUnitHeight
+        : this.config('legendHeight') + legendY)
     rootOffsetX = 0
     rootOffsetY = this.containerHeight - rootHeight
   } else if (isLeftOrRight) {
-    this._option.legendWidth = Math.max(...legendOption.legends.map(l => this.getTextWidth(l.label, size))) + 1.5 * r
+    this._option.legendWidth = Math.max(...legendOption.legends.map((l) => this.getTextWidth(l.label, size))) + 1.5 * r
     this._option.legendHeight = this.containerHeight - titleUnitHeight
     rootWidth = this.containerWidth - this.config('legendWidth')
     rootHeight = this.config('legendHeight')
@@ -126,17 +140,19 @@ export function drawLegends(legendOption) {
     rootWidth = this.containerWidth
     rootHeight = this.containerHeight - titleUnitHeight - this.config('legendHeight') - legendY
     rootOffsetX = 0
-    rootOffsetY = legendPosition === LEGEND_POSITION[0].key 
-      ? this.containerHeight - rootHeight : titleUnitHeight
+    rootOffsetY = legendPosition === LEGEND_POSITION[0].key ? this.containerHeight - rootHeight : titleUnitHeight
   }
 
   // 重新定义主绘图位置和大小
   this.mainWidth = rootWidth - padding[1] - padding[3]
   this.mainHeight = rootHeight - padding[0] - padding[2]
-  this.root.attr('transform', `translate(${padding[3] + rootOffsetX}, ${padding[0] + rootOffsetY})`)
-    .attr('width', rootWidth).attr('height', rootHeight)
-  
-  const legendsContainer = this.container.select('svg')
+  this.root
+    .attr('transform', `translate(${padding[3] + rootOffsetX}, ${padding[0] + rootOffsetY})`)
+    .attr('width', rootWidth)
+    .attr('height', rootHeight)
+
+  const legendsContainer = this.container
+    .select('svg')
     .append('foreignObject')
     .attr('class', 'wave-legends')
     .attr('width', this.config('legendWidth'))
@@ -168,19 +184,27 @@ export function drawLegends(legendOption) {
   }
 
   // 绘制图例
+  console.log('绘制图例') // 没打印
   let liWidth = 0
-  let className = legendAlign === LEGEND_ALIGN[0].key ? 'wave-legend-left'
-    : legendAlign === LEGEND_ALIGN[1].key ? 'wave-legend-center'
-      : legendAlign === LEGEND_ALIGN[2].key ? 'wave-legend-right'
-        : legendAlign === LEGEND_ALIGN[3].key ? 'wave-legend-all' : ''
+  let className =
+    legendAlign === LEGEND_ALIGN[0].key
+      ? 'wave-legend-left'
+      : legendAlign === LEGEND_ALIGN[1].key
+      ? 'wave-legend-center'
+      : legendAlign === LEGEND_ALIGN[2].key
+      ? 'wave-legend-right'
+      : legendAlign === LEGEND_ALIGN[3].key
+      ? 'wave-legend-all'
+      : ''
 
   if (isLeftOrRight) {
-    liWidth = Math.max(...legendOption.legends.map(l => this.getTextWidth(l.label, size)))
+    liWidth = Math.max(...legendOption.legends.map((l) => this.getTextWidth(l.label, size)))
     liWidth = liWidth + r + r / 2
     className = `${className} wave-legend-vertical`
   }
 
-  const ul = legendsContainer.append('xhtml:ul')
+  const ul = legendsContainer
+    .append('xhtml:ul')
     .style('height', '100%')
     .style('flex-direction', isLeftOrRight ? 'column' : 'row')
     .attr('class', className)
@@ -188,21 +212,24 @@ export function drawLegends(legendOption) {
   // 参考线
   if (this.config('showReferenceLineY')) {
     const referenceContainer = ul.append('xhtml:li')
-    referenceContainer.append('xhtml:b')
+    referenceContainer
+      .append('xhtml:b')
       .attr('class', 'wave-legend-reference')
       .style('width', `${this.getTextWidth('阈值', size)}px`)
       .style('height', '0px')
       .style('margin', '0px 5px')
       .style('border-bottom', `${this.config('referenceLineColorY')} 2px dashed`)
       .style('border-radius', 0)
-    referenceContainer.append('xhtml:span')
+    referenceContainer
+      .append('xhtml:span')
       .text(this.config('referenceLineNameY'))
       .style('font-size', `${size}px`)
       .style('color', legendColor)
       .style('cursor', 'pointer')
   }
-  
-  const li = ul.selectAll('.wave-legend')
+
+  const li = ul
+    .selectAll('.wave-legend')
     .data(legendOption.legends)
     .enter()
     .append('xhtml:li')
@@ -226,18 +253,18 @@ export function drawLegends(legendOption) {
     li.style('text-align', 'right')
     li.style('margin', `${legendGap}px 0px`)
   }
-  
+
   // 圆点
   li.append('xhtml:b')
     .style('width', `${r}px`)
     .style('height', `${r}px`)
-    .style('background-color', d => d.color)
+    .style('background-color', (d) => d.color)
     .style('margin-right', `${r / 2}px`)
     .style('cursor', 'pointer')
 
   // label
   li.append('xhtml:span')
-    .text(d => d.label)
+    .text((d) => d.label)
     .style('font-size', `${size}px`)
     .style('color', legendColor)
     .style('cursor', 'pointer')
@@ -247,7 +274,7 @@ export function drawLegends(legendOption) {
   // 初次渲染图例，将 backupSource 准备好，用于保存图表原始数据以便恢复
   that.backupSource = {}
   // 设定 legend 激活状态
-  li._groups[0].forEach(legend => {
+  li._groups[0].forEach((legend) => {
     let isActive = true
     const dot = legend.firstElementChild
     const label = legend.lastElementChild
@@ -260,11 +287,20 @@ export function drawLegends(legendOption) {
       textDecoration: 'line-through',
     }
 
-    legend.onclick = e => {
+    legend.onclick = (e) => {
       // 筛除暂未处理的图表
       const classType = this.key
-      const configuredType = ['line', 'column', 'stackedColumn', 'waterfall', 'pie', 'donut', 'nightingaleRose', 'radar']
-      if (configuredType.findIndex(type => classType === type) === -1) return
+      const configuredType = [
+        'line',
+        'column',
+        'stackedColumn',
+        'waterfall',
+        'pie',
+        'donut',
+        'nightingaleRose',
+        'radar',
+      ]
+      if (configuredType.findIndex((type) => classType === type) === -1) return
       if (!canFilteringData) return
 
       // 开始筛选
@@ -276,12 +312,13 @@ export function drawLegends(legendOption) {
         // 图例数为数组长度，为饼图的数据类型
         if (that._data.source.length === legends.length) {
           // 初始化键值对数据
-          Object.keys(that.backupSource).length === 0 && that._data.source.forEach(item => {
-            const name = Object.keys(item).filter(key => key !== 'label')[0]
-            that.backupSource[item.label] = Number(item[name])
-          })
+          Object.keys(that.backupSource).length === 0 &&
+            that._data.source.forEach((item) => {
+              const name = Object.keys(item).filter((key) => key !== 'label')[0]
+              that.backupSource[item.label] = Number(item[name])
+            })
           // 找到图例对应对数据元素
-          const data = that._data.source.find(item => item.label === label.innerText)
+          const data = that._data.source.find((item) => item.label === label.innerText)
           if (!isActive) {
             data.value = 0
           } else {
@@ -290,21 +327,22 @@ export function drawLegends(legendOption) {
         } else if (Object.keys(that._data.source[0]).length === legends.length + 1) {
           // 图例数为记录内容数，判定为雷达图类型
           // 初始化键值对数据
-          Object.keys(that.backupSource).length === 0 && that._data.source.forEach(item => {
-            const names = Object.keys(item).filter(key => key !== 'label')
-            that.backupSource[item.label] = {}
-            names.forEach(name => {
-              that.backupSource[item.label][name] = Number(item[name])
+          Object.keys(that.backupSource).length === 0 &&
+            that._data.source.forEach((item) => {
+              const names = Object.keys(item).filter((key) => key !== 'label')
+              that.backupSource[item.label] = {}
+              names.forEach((name) => {
+                that.backupSource[item.label][name] = Number(item[name])
+              })
             })
-          })
           // 找到图例对应对数据元素
-          that._data.source.forEach(item => {
+          that._data.source.forEach((item) => {
             item[label.innerText] = isActive ? that.backupSource[item.label][label.innerText] : 0
           })
         }
       } else if (typeof that._data.source === 'object' && that._data.source.label && that._data.source.value) {
         // source 是对象，且有 label 和 value 类型，判定为柱状图和折线图采用的数据格式
-        that._data.source.value.forEach(item => {
+        that._data.source.value.forEach((item) => {
           if (item.name === label.innerText) {
             if (!isActive) {
               that.backupSource[label.innerText] = item.data
