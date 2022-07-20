@@ -38,8 +38,7 @@ const Dot = MUIBase.named('Dot')
     }
   })
 
-const DotComponent = observer(({value, onChange, style}) => {
-  console.log('value', value, 'observer', onChange, '监听变化style', style)
+const DotComponent = observer(({style}) => {
   const {rectFillColor, rectSize, rectOpacity} = style
   const dotStyle = {
     rectFillColor,

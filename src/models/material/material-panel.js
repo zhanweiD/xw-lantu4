@@ -157,6 +157,7 @@ export const MMaterialPanel = types
             folderId: -1,
             folderName: '装饰素材',
             isOfficial: true,
+            childFolder: [],
             materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
               folderId: -1,
               isOfficial: true,
@@ -174,6 +175,9 @@ export const MMaterialPanel = types
             folderId: -2,
             folderName: '图片素材',
             isOfficial: true,
+            childFolder: materials?.map((item) => ({
+              cateType: item.cateType,
+            })),
             materials: materials.map((item) => ({
               folderId: -2,
               isOfficial: true,
