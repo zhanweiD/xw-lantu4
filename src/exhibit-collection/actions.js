@@ -2,7 +2,7 @@
  * @Author: zhanwei
  * @Date: 2022-07-01 17:31:14
  * @LastEditors: zhanwei
- * @LastEditTime: 2022-07-15 16:57:46
+ * @LastEditTime: 2022-07-19 14:30:50
  * @Description:
  */
 import i18n from '@i18n'
@@ -15,6 +15,7 @@ export default {
   doubleClick: ['show', 'hidden', 'data_effect'],
   switchPanel: ['show', 'hidden', 'data_effect'],
   search: ['data_effect'],
+  onChangeTime: ['data_filter', 'data_effect'],
 }
 /**
  * 动作，以及事件的统一国际化
@@ -31,6 +32,8 @@ export const actionTranslation = i18n.sandbox(
     switchPanel: ['选项切换', 'Switch Tab'],
     data_effect: ['数据联动', 'Data Effect'],
     search: ['搜索', 'Search'],
+    onChangeTime: ['切换时间', 'onChangeTime'],
+    data_filter: ['数据筛选', 'DataFilter'],
   },
   'interactionLang'
 )
@@ -39,11 +42,10 @@ export const actionTranslation = i18n.sandbox(
 function reset(boxModel) {
   boxModel['dipatchAction'] && boxModel['dipatchAction']('reset')
 }
-const NO_CONDITIONS = ['button', 'search', 'select']
+const NO_CONDITIONS = ['button', 'search', 'select', 'DatetimePicker']
 // 针对box的 show，hidden，toggle_visible，actionValue是目标对象的列表
 //  eventData 事件接受的数据，统一格式{data: {xxxx}}
 function boxActionHandle({actionType, actionValue = {}}, eventData) {
-  // console.log('actionValue...', actionValue, eventData, this.key)
   const {targets, conditions, triggerCondition} = actionValue
   if (!targets) return
   const {boxes = []} = this?.art_?.mainFrame_ || {} // 子画布也需要兼容
@@ -73,4 +75,5 @@ export const actionMap = {
   hidden: boxActionHandle,
   toggle_visible: boxActionHandle,
   data_effect: boxActionHandle,
+  data_filter: boxActionHandle,
 }

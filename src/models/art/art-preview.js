@@ -28,6 +28,7 @@ const MBox = types
     constraintValue: types.frozen(),
     visible: types.boolean,
     actionParams: types.frozen(),
+    isDataFilter: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get art_() {
@@ -213,7 +214,12 @@ const MBox = types
         self.visible = !self.visible
       },
       data_effect: (v) => {
-        self.actionParams = v
+        self.isDataFilter = false
+        self.actionParams = v.data
+      },
+      data_filter: (v) => {
+        self.isDataFilter = true
+        self.actionParams = v.data
       },
       reset: () => {
         // 目前reset只针对显示隐藏属性

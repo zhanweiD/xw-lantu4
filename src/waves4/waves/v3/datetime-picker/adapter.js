@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-19 14:36:59
+ * @Description:
+ */
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import MDatetimePicker from '@wavesSrc/datetime-picker'
 import translate from './translate'
@@ -8,13 +15,16 @@ import translate from './translate'
 const Adapter = () =>
   createExhibitAdapter({
     //初始化
-    init({options}) {
+    init({options, event}) {
       const mDatetimePicker = MDatetimePicker.create()
       const translatedOptions = translate(options)
       // 初始化模型
       mDatetimePicker.init(translatedOptions, {})
       mDatetimePicker.draw({
         redraw: true,
+      })
+      mDatetimePicker.event.on('onChangeTime', (date) => {
+        event.fire('onChangeTime', date)
       })
       return mDatetimePicker
     },

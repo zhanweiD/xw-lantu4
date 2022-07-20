@@ -135,14 +135,28 @@ const MValue = types
         reaction(
           () => self.box_.actionParams,
           (data) => {
-            console.log(data)
-            self.formatData()
+            if (self.box_.isDataFilter) self.dataFilter(data)
+            self.formatData(data)
           },
-          {delay: 300}
+          {delay: 100}
         )
     }
 
-    const formatData = flow(function* format() {
+    /**
+     * @Author: zhanwei
+     * @description: 数据筛选处理函数
+     * @param {*} data 交互组件透出参数
+     */
+    const dataFilter = (data) => {
+      console.log(data)
+      self.useProcessor = true
+      self.processor = `return function ({dataFrame, actionParams, context, instance, queries}) {
+        // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+        console.log(actionParams)
+      }`
+    }
+
+    const formatData = flow(function* format(actionParams) {
       try {
         if (self.type === 'private') {
           self.columns = hJSON.parse(self.private)[0].map((column) => ({
@@ -159,17 +173,17 @@ const MValue = types
             self.apiConfig = sourceData.config
             const params = {}
             if (self.useApiHeader) {
-              params.headers = makeFunction(self.apiHeader)({actionParams: self.box_?.actionParams})
+              params.headers = makeFunction(self.apiHeader)({actionParams})
             }
             if (self.useApiQueries) {
-              params.queries = makeFunction(self.apiQueries)({actionParams: self.box_?.actionParams})
+              params.queries = makeFunction(self.apiQueries)({actionParams})
             }
             if (self.useApiBody) {
-              params.body = makeFunction(self.apiBody)({actionParams: self.box_?.actionParams})
+              params.body = makeFunction(self.apiBody)({actionParams})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
             self.useProcessor
-              ? makeFunction(self.processor)({dataFrame: dataFrame, actionParams: self.box_?.actionParams}) || dataFrame
+              ? makeFunction(self.processor)({dataFrame: dataFrame, actionParams}) || dataFrame
               : dataFrame
             self.columns = dataFrame.columns
             self.data = dataFrame.getData()
@@ -262,6 +276,7 @@ const MValue = types
       formatData,
       setValue,
       getValue,
+      dataFilter,
     }
   })
 

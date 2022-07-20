@@ -2,7 +2,7 @@
  * @Author: zhanwei
  * @Date: 2022-06-21 15:51:01
  * @LastEditors: zhanwei
- * @LastEditTime: 2022-07-13 14:46:02
+ * @LastEditTime: 2022-07-19 14:32:09
  * @Description:
  */
 import React from 'react'
@@ -19,6 +19,7 @@ const fields = {
   default: ConditionTargetSelect,
   tabShow: ConditionTargetSelect,
   data_effect: ConditionTargetSelect,
+  data_filter: ConditionTargetSelect,
 }
 // restProps
 

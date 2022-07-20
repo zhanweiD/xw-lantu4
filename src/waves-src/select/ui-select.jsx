@@ -153,7 +153,7 @@ const ConfiguredSelect = observer(({self, style, options, isActive}) => {
 
   const onChange = (obj) => {
     setInputValue(obj.key)
-    self.event.fire('selectChange', obj)
+    self.event.fire('selectChange', {data: obj})
   }
 
   const handleChange = (e) => {
