@@ -505,6 +505,107 @@ export const MArtFrame = types
       self.groups.push(group)
     }
 
+    // Ctrl C
+    const copyBoxParams = (box, isGroup) => {
+      const exhibitModel = self.art_.exhibitManager.get(box.exhibit.id)
+      const schema = exhibitModel.getSchema() // 最新的exhibit，不能直接取box上的
+      const exhibit = {
+        ...schema,
+        id: uuid(),
+      }
+      const copiedMaterials = box?.materials?.map((item) => {
+        return {
+          ...item,
+          id: `${item.id.slice(0, item.id.indexOf('.') + 1)}${uuid()}`,
+        }
+      })
+      const event = createEvent()
+      const {artId} = self.art_
+      const uid = uuid()
+
+      const model = registerExhibit(box.exhibit.key)
+      if (model) {
+        const art = self.art_
+        art.exhibitManager.set(
+          exhibit.id,
+          model.initModel({
+            art,
+            schema: exhibit,
+            event,
+          })
+        )
+      }
+      const layout = {...box.layout, x: box.layout.x + 50, y: box.layout.y + 50}
+      const params = {
+        materials: copiedMaterials,
+        artId: artId,
+        frameId: box.frameId,
+        exhibit: exhibit,
+        uid,
+        name: `${box.name}-copy`,
+        layout,
+        groupIds: isGroup ? [] : box.groupIds,
+        insertIndex: box.zIndex_,
+      }
+      const boxParams = {
+        groupIds: box.groupIds,
+        isEffect: box.isEffect, // 初始化状态
+        isLocked: box.isLocked, // 初始化状态
+      }
+      return {
+        params,
+        boxParams,
+      }
+    }
+
+    // Ctrl V
+    const pasteBox = flow(function* pasteBox(res, isGroup) {
+      const {io} = self.env_
+      const {artId, projectId} = self.art_
+      const {frameId} = self
+      const params = {...res.params, artId: artId, frameId: frameId}
+      self.initBox(params)
+      const realBox = self.boxes.find((o) => o.uid === params.uid)
+      try {
+        const currentBox = yield io.art.createBox({
+          uid: params.uid,
+          materials: params.copiedMaterials,
+          exhibit: params.exhibit,
+          layout: params.layout,
+          name: params.name,
+          groupIds: isGroup ? [] : res.boxParams.groupIds,
+          isEffect: res.boxParams.isEffect, // 初始化状态
+          isLocked: res.boxParams.isLocked, // 初始化状态
+          ':artId': artId,
+          ':frameId': frameId,
+          ':projectId': projectId,
+        })
+        realBox.set({
+          boxId: currentBox.boxId,
+        })
+
+        // isGroup组复制
+        if (res.boxParams.groupIds?.length && !isGroup) {
+          self.groups = self.groups.map((item) => {
+            if (res.boxParams.groupIds?.includes(item.id)) {
+              return {...item, boxIds: item.boxIds.concat([currentBox.boxId])}
+            }
+            return item
+          })
+          updatePartFrame({groups: self.groups})
+        }
+        // 选中复制出组件状态
+        const selectedBoxIds = self.viewport_.selectRange?.range[0]?.boxIds || []
+        changeBoxSelectRange(selectedBoxIds.concat([currentBox.boxId]))
+        return realBox
+      } catch (error) {
+        realBox.set({
+          isCreateFail: true,
+        })
+        log.error('createBox Error: ', error)
+      }
+    })
+
     const copyBox = flow(function* copyBox(box, isGroup) {
       const exhibitModel = self.art_.exhibitManager.get(box.exhibit.id)
       const schema = exhibitModel.getSchema() // 最新的exhibit，不能直接取box上的
@@ -521,8 +622,10 @@ export const MArtFrame = types
       const {io} = self.env_
       const event = createEvent()
       const {artId, projectId} = self.art_
+      // const {frameId} = self
       const uid = uuid()
 
+      // console.log(artId, box.frameId, frameId);
       const model = registerExhibit(box.exhibit.key)
       if (model) {
         const art = self.art_
@@ -608,6 +711,33 @@ export const MArtFrame = types
         copyBox(box)
       })
     }
+
+    // 拷贝图层
+    const copyBoxesParams = (box) => {
+      const params = copyBoxParams(box)
+      return params
+    }
+
+    // 粘贴图层
+    const pasteBoxes = (parmas, isGroup) => {
+      // 取消复制图层时选中的id
+      changeBoxSelectRange([])
+      pasteBox(parmas, isGroup)
+    }
+
+    // 粘贴组图层
+    const pasteGroups = flow(function* pasteGroups(params) {
+      changeBoxSelectRange([])
+      const pasteBoxes = yield Promise.all(
+        params.map(
+          flow(function* boxes(item) {
+            const box = yield pasteBox(item, true)
+            return box
+          })
+        )
+      )
+      createGroup(pasteBoxes)
+    })
 
     // 组复制
     const copyGroup = flow(function* copyGroup(boxes) {
@@ -855,6 +985,9 @@ export const MArtFrame = types
       sortBackground,
       recreateFrame,
       initGroup,
+      copyBoxesParams,
+      pasteBoxes,
+      pasteGroups,
       copyBoxes,
       copyGroup,
       createGroup,
