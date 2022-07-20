@@ -4,6 +4,7 @@ import hJSON from 'hjson'
 import {reaction} from 'mobx'
 import commonAction from '@utils/common-action'
 import isDef from '@utils/is-def'
+import isDdit from '@utils/is-edit'
 import makeFunction from '@utils/make-function'
 import createLog from '@utils/create-log'
 
@@ -22,7 +23,7 @@ const MValue = types
     useApiHeader: types.optional(types.boolean, false),
     apiHeader: types.optional(
       types.string,
-      `return function ({context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -31,7 +32,7 @@ const MValue = types
     useApiQueries: types.optional(types.boolean, false),
     apiQueries: types.optional(
       types.string,
-      `return function ({rule, context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -40,7 +41,7 @@ const MValue = types
     useApiBody: types.optional(types.boolean, false),
     apiBody: types.optional(
       types.string,
-      `return function ({rule, context}) {
+      `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
@@ -50,7 +51,7 @@ const MValue = types
     useProcessor: types.optional(types.boolean, false),
     processor: types.optional(
       types.string,
-      `return function ({dataFrame, rule, context, instance, queries}) {
+      `return function ({dataFrame, actionParams, context, instance, queries}) {
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
 }`
     ),
@@ -66,6 +67,9 @@ const MValue = types
     },
     get exhibit_() {
       return getEnv(self).exhibit
+    },
+    get box_() {
+      return getEnv(self).box
     },
   }))
   .actions(commonAction(['set']))
@@ -118,9 +122,32 @@ const MValue = types
           delay: 300,
         }
       )
+      !isDdit &&
+        reaction(
+          () => self.box_.actionParams,
+          (data) => {
+            if (self.box_.isDataFilter) self.dataFilter(data)
+            self.formatData(data)
+          },
+          {delay: 100}
+        )
     }
 
-    const formatData = flow(function* format() {
+    /**
+     * @Author: zhanwei
+     * @description: 数据筛选处理函数
+     * @param {*} data 交互组件透出参数
+     */
+    const dataFilter = (data) => {
+      console.log(data)
+      self.useProcessor = true
+      self.processor = `return function ({dataFrame, actionParams, context, instance, queries}) {
+        // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
+        console.log(actionParams, '数据筛选')
+      }`
+    }
+
+    const formatData = flow(function* format(actionParams) {
       try {
         if (self.type === 'private') {
           self.columns = hJSON.parse(self.private)[0].map((column) => ({
@@ -137,16 +164,18 @@ const MValue = types
             self.apiConfig = sourceData.config
             const params = {}
             if (self.useApiHeader) {
-              params.headers = makeFunction(self.apiHeader)({})
+              params.headers = makeFunction(self.apiHeader)({actionParams})
             }
             if (self.useApiQueries) {
-              params.queries = makeFunction(self.apiQueries)({})
+              params.queries = makeFunction(self.apiQueries)({actionParams})
             }
             if (self.useApiBody) {
-              params.body = makeFunction(self.apiBody)({})
+              params.body = makeFunction(self.apiBody)({actionParams})
             }
             const dataFrame = yield sourceData.getDataFrame(params)
-            self.useProcessor ? makeFunction(self.processor)({dataFrame: dataFrame}) || dataFrame : dataFrame
+            self.useProcessor
+              ? makeFunction(self.processor)({dataFrame: dataFrame, actionParams}) || dataFrame
+              : dataFrame
             self.columns = dataFrame.columns
             self.data = dataFrame.getData()
           } else {
@@ -238,6 +267,7 @@ const MValue = types
       formatData,
       setValue,
       getValue,
+      dataFilter,
     }
   })
 
@@ -383,26 +413,26 @@ export const MDataField = types
       self.value.set({
         // api系列
         useApiHeader: false,
-        apiHeader: `return function ({context}) {
+        apiHeader: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         useApiQueries: false,
-        apiQueries: `return function ({rule, context}) {
+        apiQueries: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         useApiBody: false,
-        apiBody: `return function ({rule, context}) {
+        apiBody: `return function ({actionParams, context}) {
   return {
     // key1: value1
   }
 }`,
         // common系列
         useProcessor: false,
-        processor: `return function ({dataFrame, rule, context, instance, queries}) {
+        processor: `return function ({dataFrame, actionParams, context, instance, queries}) {
   // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
 }`,
       })

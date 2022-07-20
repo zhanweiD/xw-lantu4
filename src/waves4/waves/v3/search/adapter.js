@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-13 14:53:44
+ * @Description:
+ */
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
 import MSearch from '../../../../waves-src/serach'
 
@@ -9,13 +16,16 @@ import translate from './translate'
 const Adapter = () =>
   createExhibitAdapter({
     //初始化
-    init({options}) {
+    init({options, event}) {
       const mSearch = MSearch.create()
       const translatedOptions = translate(options)
       // 初始化模型
       mSearch.init(translatedOptions, {})
       mSearch.draw({
         redraw: true,
+      })
+      mSearch.event.on('search', (data) => {
+        event.fire('search', data)
       })
       return mSearch
     },

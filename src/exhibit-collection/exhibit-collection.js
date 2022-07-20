@@ -78,7 +78,7 @@ export const exhibitRegister = (exhibit) => {
     exhibitCollection.set(`${lib}.${config.key}`, {
       config,
       Model,
-      initModel({art, schema, event, data}) {
+      initModel({art, box, schema, event, data}) {
         // 创建组件的模型实例
         let themeType = ''
         // 创建组件的模型实例
@@ -97,6 +97,7 @@ export const exhibitRegister = (exhibit) => {
           },
           {
             art,
+            box,
             event,
             data,
           }

@@ -27,6 +27,8 @@ const MBox = types
     constraints: types.frozen(),
     constraintValue: types.frozen(),
     visible: types.boolean,
+    actionParams: types.frozen(),
+    isDataFilter: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get art_() {
@@ -210,6 +212,14 @@ const MBox = types
       },
       toggle_visible: () => {
         self.visible = !self.visible
+      },
+      data_effect: (v) => {
+        self.isDataFilter = false
+        self.actionParams = v.data
+      },
+      data_filter: (v) => {
+        self.isDataFilter = true
+        self.actionParams = v.data
       },
       reset: () => {
         // 目前reset只针对显示隐藏属性
@@ -471,6 +481,7 @@ const MFrame = types
             exhibit.id,
             model.initModel({
               art,
+              box,
               schema: exhibit,
               event,
             })
@@ -812,7 +823,7 @@ const MArtPreview = types
         background,
         materials,
       })
-      console.log(frame, 'previewModel')
+
       self.frames.push(frame)
       boxes.forEach((box) => {
         frame.initBox(box)

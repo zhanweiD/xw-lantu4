@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-07-01 17:31:14
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-13 14:38:48
+ * @Description:
+ */
 import layer from './layer'
 // 根据这个配置生成组件的模型
 export const config = (k) => ({
@@ -9,21 +16,6 @@ export const config = (k) => ({
   padding: [24, 24, 24, 24],
   layers: [layer()],
   interaction: {
-    sources: [
-      {
-        // 事件名称
-        name: '输入',
-        // 事件改变值的 key
-        key: 'changeStamp',
-        // 事件的参数schema，参考 jsonschema https://github.com/tdegrunt/jsonschema#readme，https://www.cnblogs.com/terencezhou/p/10474617.html
-        paramSchema: {
-          type: 'string',
-          description: '输入框点击的时间戳',
-        },
-        // 事件的说明，参数的说明可以写到这里
-        remark: '输入值发生变化',
-      },
-    ],
-    targets: [],
+    eventTriggerTypes: ['search'],
   },
 })

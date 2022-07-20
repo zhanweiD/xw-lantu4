@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-06-21 15:51:01
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-19 14:32:09
+ * @Description:
+ */
 import React from 'react'
 // 对象选择
 import {ConditionTargetSelect} from './target-select'
@@ -11,6 +18,8 @@ const fields = {
   show: ConditionTargetSelect,
   default: ConditionTargetSelect,
   tabShow: ConditionTargetSelect,
+  data_effect: ConditionTargetSelect,
+  data_filter: ConditionTargetSelect,
 }
 // restProps
 

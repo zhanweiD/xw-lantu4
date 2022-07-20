@@ -279,13 +279,14 @@ const categories = [
     // 多媒体
     name: 'classifyMedia',
     icon: 'exhibit-classifyMedia',
-    exhibits: [picture, pictureGroup, pictureGroupScroll, video, videoMulti, iframe],
+    exhibits: [picture, pictureGroup, pictureGroupScroll, video, videoMulti, iframe, uiTable],
   },
   {
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker, uiTable],
+    // input
+    exhibits: [button, search, uiTabButton, select, switchs, DatetimePicker],
   },
 ]
 

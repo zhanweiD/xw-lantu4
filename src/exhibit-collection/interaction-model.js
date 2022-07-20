@@ -2,15 +2,6 @@ import {getParent, types} from 'mobx-state-tree'
 import uuid from '@common/uuid'
 import commonAction from '@utils/common-action'
 
-// const MActionValue = types.model({})
-//   .volatile(self => ({
-//     state: {}
-//   })).actions(self => ({
-//     setState(v) {
-//       self.state = v
-//     }
-//   }))
-
 const MAction = types
   .model('MAction', {
     actionId: types.identifier,
