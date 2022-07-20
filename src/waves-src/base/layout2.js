@@ -128,7 +128,7 @@ export function drawLayout() {
  * @memberof Layout
  */
 export function drawTitle(option) {
-  const {titleSize, titleColor, titleText, titleOffset, titlePosition, titleGap} = option
+  const {titleSize, titleColor, titleText, titleOffset = [0, 0], titlePosition, titleGap} = option
   // 标题文本大小
   const size = getTextWidth(titleText, this.fontSize(titleSize))
   // const size = this.fontSize(titleSize)

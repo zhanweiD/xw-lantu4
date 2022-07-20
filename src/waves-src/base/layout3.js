@@ -95,7 +95,7 @@ export function drawLayout() {
 
 // 绘制title
 export function drawTitle(option) {
-  const {titleSize, titleColor, titleText, titleOffset, titlePosition} = option
+  const {titleSize, titleColor, titleText, titleOffset = [0, 0], titlePosition} = option
 
   // 影响顶层布局的 title 宽高属性
   this._option.titleWidth = getTextWidth(titleText, this.fontSize(titleSize))
