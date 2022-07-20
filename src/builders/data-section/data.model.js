@@ -15,7 +15,6 @@ const MValue = types
     type: types.optional(types.enumeration(['private', 'source']), 'private'),
     private: types.optional(types.string, ''),
     source: types.maybe(types.number),
-    boxId: types.maybe(types.number),
 
     sourceType: types.maybe(types.enumeration(['json', 'api', 'excel', 'database'])),
     apiConfig: types.frozen(),
@@ -70,15 +69,7 @@ const MValue = types
       return getEnv(self).exhibit
     },
     get box_() {
-      let box, frames
-      const {art, boxId} = getEnv(self)
-      if (isDdit) frames = art.viewport.frames
-      else frames = art.frames
-      for (let i = 0; i < frames.length; i++) {
-        box = frames[i].boxes.find((box) => box.boxId === boxId)
-        if (box) break
-      }
-      return box
+      return getEnv(self).box
     },
   }))
   .actions(commonAction(['set']))
@@ -152,7 +143,7 @@ const MValue = types
       self.useProcessor = true
       self.processor = `return function ({dataFrame, actionParams, context, instance, queries}) {
         // data的进出结构：{columns: [], rows: [[], []], error: 'message'}
-        console.log(actionParams)
+        console.log(actionParams, '数据筛选')
       }`
     }
 

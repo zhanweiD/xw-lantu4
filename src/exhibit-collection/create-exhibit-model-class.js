@@ -53,8 +53,8 @@ export const createExhibitModelClass = (exhibit) => {
       get art_() {
         return getEnv(self).art
       },
-      get boxId_() {
-        return getEnv(self).boxId
+      get box_() {
+        return getEnv(self).box
       },
       get event_() {
         return getEnv(self).event
@@ -151,7 +151,7 @@ export const createExhibitModelClass = (exhibit) => {
       const setLayers = (layers) => {
         self.layers = createExhibitLayersClass(config.category, config.key, layers, {
           exhibitId: self.id,
-          boxId: self.boxId_,
+          box: self.box_,
           art: self.art_,
           event: self.event_,
           data: self.data_,
@@ -208,7 +208,7 @@ export const createExhibitModelClass = (exhibit) => {
             exhibitId: self.id,
             exhibit: self,
             art: self.art_,
-            boxId: self.boxId_,
+            box: self.box_,
             event: self.event_,
             data: self.data_,
           }
