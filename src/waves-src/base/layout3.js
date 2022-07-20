@@ -95,11 +95,11 @@ export function drawLayout() {
 
 // 绘制title
 export function drawTitle(option) {
-  const {titleSize, titleColor, titleText, titleY, titlePosition} = option
+  const {titleSize, titleColor, titleText, titleOffset = [0, 0], titlePosition} = option
 
   // 影响顶层布局的 title 宽高属性
   this._option.titleWidth = getTextWidth(titleText, this.fontSize(titleSize))
-  this._option.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleY
+  this._option.titleHeight = getTextHeight(this.fontSize(titleSize)) + titleOffset[1]
 
   this.container.select('.wave-title').remove()
   this.svg
@@ -108,7 +108,8 @@ export function drawTitle(option) {
     .attr('dominant-baseline', 'hanging')
     .attr('font-size', this.fontSize(titleSize))
     .attr('fill', titleColor)
-    .attr('x', 0)
+    .attr('x', titleOffset[0])
+    .attr('y', titleOffset[1])
     .text(titleText)
     .textHack()
 

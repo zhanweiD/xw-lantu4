@@ -1,3 +1,10 @@
+/*
+ * @Author: zhanwei
+ * @Date: 2022-07-01 17:31:14
+ * @LastEditors: zhanwei
+ * @LastEditTime: 2022-07-19 16:31:20
+ * @Description:
+ */
 export default () => {
   return {
     name: '日期选择层',
@@ -19,20 +26,20 @@ export default () => {
             defaultValue: 'month',
             options: [
               {
+                key: '日',
+                value: 'date',
+              },
+              {
+                key: '周',
+                value: 'week',
+              },
+              {
                 key: '月',
                 value: 'month',
               },
               {
                 key: '年',
                 value: 'year',
-              },
-              {
-                key: '10年',
-                value: 'decade',
-              },
-              {
-                key: '世纪',
-                value: 'century',
               },
             ],
           },

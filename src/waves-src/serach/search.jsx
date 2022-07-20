@@ -84,7 +84,7 @@ const ConfiguredSearch = observer(({self, style, iconStyle}) => {
 
   // 当搜索按钮被点击
   const onSearch = () => {
-    self.event.fire('onClickSearchButton', {data: inputValue})
+    self.event.fire('search', {data: inputValue})
   }
 
   const divStyle = {

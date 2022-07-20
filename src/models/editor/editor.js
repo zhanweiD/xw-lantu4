@@ -11,6 +11,7 @@ export const MEditor = types
     activeTabId: types.maybe(types.union(types.number, types.string)),
     activeNote: types.optional(types.array(types.union(types.number, types.string)), []),
     isPointerEventsNone: types.optional(types.boolean, false),
+    copyParams: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get env_() {
@@ -174,8 +175,10 @@ export const MEditor = types
       self.updateActiveNote(id)
     }
 
-    const closeTab = (id) => {
+    const closeTab = (id, modalFlag) => {
       // const tab = self.tabs.filter(item => item.id === id)[0]
+      const tab = self.tabs.filter((item) => item.id === id)[0]
+      modalFlag === 'confirm' && tab.art.save()
       self.tabs = self.tabs.filter((item) => item.id !== id)
       self.activeNote.remove(id)
       if (!self.tabs.length) {
@@ -259,6 +262,14 @@ export const MEditor = types
       return tab || {}
     }
 
+    const setCopyParams = (params) => {
+      if (params === null) {
+        self.copyParams = []
+      } else {
+        self.copyParams.push(params)
+      }
+    }
+
     return {
       afterCreate,
       applySession,
@@ -275,5 +286,6 @@ export const MEditor = types
       updateTabname,
       fanoutData,
       getCurrentTab,
+      setCopyParams,
     }
   })

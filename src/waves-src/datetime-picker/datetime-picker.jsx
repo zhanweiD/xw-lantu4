@@ -79,6 +79,7 @@ const MDatetimePicker = MUIBase.named('MDatetimePicker')
   })
 
 const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) => {
+  const now = new Date()
   const {calanderThemeColor} = style
   const mainPickerRef = useRef(null)
   const secondPickerRef = useRef(null)
@@ -88,82 +89,146 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
   const [calendarVisible, setCalendarVisible] = useState(false)
   const [isMainPickerVisible, setMainPickerVisible] = useState(false)
   const [dateValue, setDateValue] = useState([
-    `${moment(new Date()).format('YYYY-MM-DD')}`,
-    `${new Date().getFullYear()}-${new Date().getMonth() + 2}-${new Date().getDate()}`,
+    `${moment(now).subtract(7, 'days').format('YYYY-MM-DD')}`,
+    `${moment(now).format('YYYY-MM-DD')}`,
   ])
-  const [currentCalendarType, setCurrentCalendarType] = useState('')
+  const [currentCalendarType, setCurrentCalendarType] = useState('date')
   const {width, height, inputHeight, fontSize, connectLineType, isDisabled} = style
 
   useEffect(() => {
     setCalendarVisible(false)
   }, [dateValue])
 
-  useEffect(() => {
-    const getPickerType = self.config('pickerType')
+  // useEffect(() => {
+  //   const getPickerType = self.config('pickerType')
 
-    switch (getPickerType) {
-      case 'month':
-        setDateValue([
-          `${moment(new Date()).format('YYYY-MM-DD')}`,
-          `${new Date().getFullYear()}-${new Date().getMonth() + 2}-${new Date().getDate()}`,
-        ])
-        break
-      case 'year':
-        setDateValue([
-          `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-          `${new Date().getFullYear() + 1}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-        ])
-        break
-      case 'decade':
-        setDateValue([
-          `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-          `${new Date().getFullYear() + 10}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-        ])
-        break
-      case 'century':
-        setDateValue([`${new Date().getFullYear()}-01-01`, `${new Date().getFullYear() + 100}-12-31`])
-        break
-    }
-  }, [self.config('pickerType')])
+  //   switch (getPickerType) {
+  //     case 'date':
+  //       setDateValue([
+  //         `${moment(now).format('YYYY-MM-DD')}`,
+  //         `${now.getFullYear()}-${now.getMonth()}-${now.getDate() + 1}`,
+  //       ])
+  //       break
+  //     case 'week':
+  //       setDateValue([
+  //         `${moment(now).format('YYYY-MM-DD')}`,
+  //         `${now.getFullYear()}-W${Math.ceil((now - new Date().setMonth(0, 1)) / (24 * 60 * 60 * 1000) / 7)}`,
+  //       ])
+  //       break
+  //     case 'month':
+  //       setDateValue([
+  //         `${now.getFullYear()}-${now.getMonth()}`,
+  //         `${now.getFullYear()}-${now.getMonth() + 1}}`,
+  //       ])
+  //       break
+  //     case 'year':
+  //       setDateValue([
+  //         `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+  //         `${now.getFullYear() + 1}-${now.getMonth() + 1}-${now.getDate()}`,
+  //       ])
+  //       break
+  //     // case 'decade':
+  //     //   setDateValue([
+  //     //     `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+  //     //     `${now.getFullYear() + 10}-${now.getMonth() + 1}-${now.getDate()}`,
+  //     //   ])
+  //     //   break
+  //     // case 'century':
+  //     //   setDateValue([`${now.getFullYear()}-01-01`, `${now.getFullYear() + 100}-12-31`])
+  //     //   break
+  //   }
+  //   // switch (getPickerType) {
+  //   //   case 'month':
+  //   //     setDateValue([
+  //   //       `${moment(now).format('YYYY-MM-DD')}`,
+  //   //       `${now.getFullYear()}-${now.getMonth() + 2}-${now.getDate()}`,
+  //   //     ])
+  //   //     break
+  //   //   case 'year':
+  //   //     setDateValue([
+  //   //       `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+  //   //       `${now.getFullYear() + 1}-${now.getMonth() + 1}-${now.getDate()}`,
+  //   //     ])
+  //   //     break
+  //   //   case 'decade':
+  //   //     setDateValue([
+  //   //       `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+  //   //       `${now.getFullYear() + 10}-${now.getMonth() + 1}-${now.getDate()}`,
+  //   //     ])
+  //   //     break
+  //   //   case 'century':
+  //   //     setDateValue([`${now.getFullYear()}-01-01`, `${now.getFullYear() + 100}-12-31`])
+  //   //     break
+  //   // }
+  // }, [self.config('pickerType')])
 
   // 监听：日期类型
+
   useEffect(() => {
     switch (pickerType) {
-      case 'month':
+      case 'date':
+        setDateValue([`${moment(now).subtract(1, 'days').format('YYYY-MM-DD')}`, `${moment(now).format('YYYY-MM-DD')}`])
         setCurrentCalendarType('month')
         break
-      case 'year':
+      case 'week':
+        setDateValue([`${moment(now).subtract(7, 'days').format('YYYY-MM-DD')}`, `${moment(now).format('YYYY-MM-DD')}`])
+        setCurrentCalendarType('month')
+        break
+      case 'month':
+        setDateValue([`${moment(now).subtract(1, 'months').format('YYYY-MM')}`, `${moment(now).format('YYYY-MM')}`])
         setCurrentCalendarType('year')
         break
-      case 'decade':
+      case 'year':
+        setDateValue([`${moment(now).subtract(1, 'years').format('YYYY')}`, `${moment(now).format('YYYY')}`])
         setCurrentCalendarType('decade')
         break
-      case 'century':
-        setCurrentCalendarType('century')
-        break
       default:
-        'month'
+        setDateValue([`${moment(now).subtract(1, 'days').format('YYYY-MM-DD')}`, `${moment(now).format('YYYY-MM-DD')}`])
         setCurrentCalendarType('month')
     }
   }, [pickerType])
 
-  const onChange = (date) => {
-    const parse = (number) => (number >= 10 ? `${number}` : `0${number}`)
-    let dateStart = ''
-    let dateEnd = ''
-    if (valueMethod === 'timePoint') {
-      dateStart = `${date.getFullYear()}-${parse(date.getMonth() + 1)}-${parse(date.getDate())}`
-    } else if (valueMethod === 'timeRange') {
-      dateStart = `${date[0].getFullYear()}-${parse(date[0].getMonth() + 1)}-${parse(date[0].getDate())}`
-      dateEnd = `${date[1].getFullYear()}-${parse(date[1].getMonth() + 1)}-${parse(date[1].getDate())}`
-    } else {
-      return
+  const changeTime = (date) => {
+    const start = date[0] || date
+    const end = date[1] || date
+    let startTime = '',
+      endTime = ''
+    switch (pickerType) {
+      case 'date':
+        startTime = `${moment(start).format('YYYY-MM-DD')}`
+        endTime = `${moment(end).format('YYYY-MM-DD')}`
+        break
+      case 'week':
+        startTime = `${moment(start).format('YYYY-MM-DD')}`
+        endTime = `${moment(end).format('YYYY-MM-DD')}`
+        break
+      case 'month':
+        startTime = `${moment(start).format('YYYY-MM')}`
+        endTime = `${moment(end).format('YYYY-MM')}`
+        break
+      case 'year':
+        startTime = `${moment(start).format('YYYY')}`
+        endTime = `${moment(end).format('YYYY')}`
+        break
+      default:
+        startTime = `${moment(start).format('YYYY-MM-DD')}`
+        endTime = `${moment(end).format('YYYY-MM-DD')}`
     }
-    setDateValue([dateStart, dateEnd])
+    setDateValue([startTime, endTime])
+    return [startTime, endTime]
+  }
 
+  const onChange = (date) => {
+    const time = changeTime(date)
     self.event.fire('onChangeTime', {
-      type: self.config('pickerType'),
-      data: date,
+      data: date[0]
+        ? {
+            startTime: time[0],
+            endTime: time[1],
+          }
+        : {
+            startTime: time[0],
+          },
     })
   }
 
@@ -171,8 +236,7 @@ const DateTimePciker = observer(({self, modal, pickerType, valueMethod, style}) 
     setFlag(true)
     setDateValue(['', ''])
     self.event.fire('onChangeTime', {
-      type: self.config('pickerType'),
-      data: undefined,
+      data: {},
     })
   }
 

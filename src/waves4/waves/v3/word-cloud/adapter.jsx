@@ -1,43 +1,28 @@
-/*
- * @Author: zhanwei
- * @Date: 2022-06-21 15:51:01
- * @LastEditors: zhanwei
- * @LastEditTime: 2022-07-15 16:54:14
- * @Description:
- */
 import createExhibitAdapter from '@exhibit-collection/exhibit-adapter-creater'
-import MSelect from '@wavesSrc/select'
+import MyWordCloud from '@wavesSrc/word-cloud'
 import translate from './translate'
 
-/**
- * react hook 组件适配器
- */
 const Adapter = () =>
   createExhibitAdapter({
     // 初始化
-    init({options, event}) {
+    init({options}) {
       const translatedOptions = translate(options)
-      const mSelect = MSelect.create()
-      mSelect.init(translatedOptions, {})
-      mSelect.data(translatedOptions)
-      mSelect.draw({
+      const instance = new MyWordCloud(translatedOptions)
+      instance.data(translatedOptions.data)
+      instance.draw({
         redraw: true,
       })
-      mSelect.event.on('selectChange', (info) => {
-        event.fire('switchPanel', info)
-      })
-      return mSelect
+      return instance
     },
 
     // 处理包括数据、样式等变更
     update({options}) {
       try {
-        const mSelect = MSelect.create()
         const translatedOptions = translate(options)
-        // 初始化模型
-        mSelect.init(translatedOptions, {})
-        mSelect.data(translatedOptions)
-        mSelect.draw({
+        const instance = new MyWordCloud(translatedOptions)
+        instance._option = translatedOptions
+        instance.data(translatedOptions.data)
+        instance.draw({
           redraw: true,
         })
       } catch (error) {

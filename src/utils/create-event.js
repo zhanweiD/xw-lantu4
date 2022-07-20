@@ -149,7 +149,12 @@ export const shortcut = {
           shortcut.space = true
           shortcutEvent.fireSingleKey(keyDownPrefix('space'))
           break
-
+        // Command+C / Ctrl C
+        case 67:
+          if (e.metaKey || e.ctrlKey) {
+            shortcutEvent.fire(keyDownPrefix('commandC'))
+          }
+          break
         // K
         case 75:
           if (e.metaKey || e.ctrlKey) {
@@ -164,6 +169,13 @@ export const shortcut = {
           if (e.metaKey || e.ctrlKey) {
             e.preventDefault()
             shortcutEvent.fire(keyDownPrefix('commandS'))
+          }
+          break
+        // Command+S / Ctrl S
+        case 86:
+          if (e.metaKey || e.ctrlKey) {
+            e.preventDefault()
+            shortcutEvent.fire(keyDownPrefix('commandV'))
           }
           break
         // commandZ / commandShiftZ

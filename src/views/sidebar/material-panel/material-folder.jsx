@@ -10,10 +10,22 @@ import Geo from '@components/geo-preview'
 import Icon from '@components/icon'
 import IconButton from '@components/icon-button'
 import Material from './material-thumbnail'
+import {uniqBy} from 'lodash'
 import s from './material-panel.module.styl'
 
 const MaterialFolder = ({folder, showType, icon}) => {
-  const {materials_, isOfficial, files} = folder
+  const {materials_, isOfficial, files, childFolder, materials} = folder
+
+  const arr = []
+  materials?.map((v, i) => {
+    arr.push({
+      ...v,
+      cateType: childFolder[i],
+    })
+  })
+
+  // 图片素材：子文件夹名去重
+  const transferChildFolder = uniqBy(childFolder, 'cateType')
   const thumbs = files.map((file, index) => {
     let F
     switch (file.fileType) {
@@ -47,7 +59,7 @@ const MaterialFolder = ({folder, showType, icon}) => {
       sessionId={`material-folder-${folder.folderId}`}
       updateKey={showType}
     >
-      {materials_.length === 0 && (
+      {folder.folderName === '装饰素材' && materials_.length === 0 && (
         <div className={c('mb16 emptyNote mr8 ml8')}>
           <span>素材列表还是空空的</span>
           {!isOfficial && (
@@ -60,17 +72,63 @@ const MaterialFolder = ({folder, showType, icon}) => {
           )}
         </div>
       )}
-      {showType === 'grid-layout' ? (
-        <Grid column={4} className="mr8 ml8">
-          {materials_.map((material) => (
-            <Grid.Item key={material.materialId}>
-              <Material key={material.materialId} material={material} showType={showType} />
-            </Grid.Item>
-          ))}
-        </Grid>
-      ) : (
-        materials_.map((material) => <Material key={material.materialId} material={material} showType={showType} />)
-      )}
+      {folder.folderName === '装饰素材' ? (
+        showType === 'grid-layout' ? (
+          <Grid column={4} className="mr8 ml8">
+            {materials_.map((material) => (
+              <Grid.Item key={material.materialId}>
+                <Material key={material.materialId} material={material} showType={showType} />
+              </Grid.Item>
+            ))}
+          </Grid>
+        ) : (
+          materials_.map((material) => <Material key={material.materialId} material={material} showType={showType} />)
+        )
+      ) : null}
+
+      {/* 图片素材：子文件夹 */}
+      {transferChildFolder?.map((v, ind) => (
+        <Section
+          key={ind}
+          name={`${v.cateType}素材(${arr.filter((m) => v.cateType === m.cateType.cateType).length})`}
+          className={s.pictureChildFolder}
+        >
+          {arr.length === 0 && (
+            <div className={c('mb16 emptyNote ml8')} style={{marginLeft: '20px'}}>
+              <span>{v.cateType}素材列表还是空空的</span>
+              {!isOfficial && (
+                <span>
+                  点击
+                  <span className="ctSecend hand" onClick={() => folder.set({isVisible: true})}>
+                    上传
+                  </span>
+                </span>
+              )}
+            </div>
+          )}
+          {showType === 'grid-layout' ? (
+            <Grid column={4} className="mr8 ml8">
+              {arr
+                .filter((m) => v.cateType === m.cateType.cateType)
+                ?.map(
+                  (material, index) =>
+                    v.cateType === material.cateType.cateType && (
+                      <Grid.Item key={index}>
+                        <Material key={material.materialId} material={material} showType={showType} />
+                      </Grid.Item>
+                    )
+                )}
+            </Grid>
+          ) : (
+            arr.map(
+              (material) =>
+                v.cateType === material.cateType.cateType && (
+                  <Material key={material.materialId} material={material} showType={showType} />
+                )
+            )
+          )}
+        </Section>
+      ))}
       <Modal
         title="上传素材"
         height={500}

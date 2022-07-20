@@ -30,6 +30,7 @@ export const MBox = types
   .model({
     uid: types.optional(types.string, ''),
     boxId: types.maybe(types.number),
+    // actionParams: types.maybe(types.frozen() || {}),
     name: types.string,
     frameId: types.number,
     artId: types.number,

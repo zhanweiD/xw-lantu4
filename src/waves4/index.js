@@ -28,6 +28,7 @@ import stackNightingaleRose from './waves/pies/stack-nightingale-rose'
 import scatter from './waves/scatters/scatter'
 import bubble from './waves/scatters/bubble'
 import textarea from './waves/v3/textarea'
+import wordCloud from './waves/v3/word-cloud'
 import demoLine from './waves/demo-line'
 import text from './waves/others/text'
 import dashboard from './waves/others/dashboard'
@@ -144,6 +145,8 @@ const waves = {
   ...echartsWaves,
   // 段落
   textarea,
+  // 词云
+  wordCloud,
   // 图片组件
   picture,
   pictureGroup,
@@ -264,7 +267,7 @@ const categories = [
     // 文字
     name: 'classifyText',
     icon: 'exhibit-text',
-    exhibits: [text, textarea],
+    exhibits: [text, textarea, wordCloud],
   },
   {
     // 指标
@@ -276,13 +279,14 @@ const categories = [
     // 多媒体
     name: 'classifyMedia',
     icon: 'exhibit-classifyMedia',
-    exhibits: [picture, pictureGroup, pictureGroupScroll, video, videoMulti, iframe],
+    exhibits: [picture, pictureGroup, pictureGroupScroll, video, videoMulti, iframe, uiTable],
   },
   {
     // 交互组件
     name: 'classifyInteractiv',
     icon: 'demo-line',
-    exhibits: [button, input, search, uiTabButton, select, switchs, DatetimePicker, uiTable],
+    // input
+    exhibits: [button, search, uiTabButton, select, switchs, DatetimePicker],
   },
 ]
 
