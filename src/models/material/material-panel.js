@@ -19,8 +19,6 @@ export const MMaterialPanel = types
     projectFolderSort: types.optional(types.array(types.number), []),
     // 官方素材
     officialFolders: types.optional(types.array(MFolder), []),
-    // 装饰
-    decorationFolders: types.optional(types.array(MFolder), []),
     // 前端使用的属性：创建文件夹弹窗是否展示
     isVisible: types.optional(types.boolean, false),
     // 搜索关键字
@@ -74,15 +72,6 @@ export const MMaterialPanel = types
       }
       return officialFolders
     },
-    get decorationFolders_() {
-      let decorationFolders = self.decorationFolders
-      if (self.keyword) {
-        decorationFolders = decorationFolders.filter(
-          (folder) => folder.materials_.length || folder.folderName.match(self.keyword)
-        )
-      }
-      return decorationFolders
-    },
   }))
   .actions(commonAction(['set']))
   .actions((self) => {
@@ -93,7 +82,6 @@ export const MMaterialPanel = types
       event.on('materialPanel.setProjectId', self.setProjectId)
       self.getFolders()
       self.getOfficialFolders()
-      self.getDecorationFolders()
     }
 
     // 切换展示方式
@@ -152,12 +140,42 @@ export const MMaterialPanel = types
     const getOfficialFolders = flow(function* getFolders() {
       try {
         const materials = yield io.material.getOfficialMaterials()
+        const materialCate = [
+          {cateName: '背景素材', child: []},
+          {cateName: '标题素材', child: []},
+          {cateName: '边框素材', child: []},
+          {cateName: '指标卡素材', child: []},
+          {cateName: '标记点素材', child: []},
+          {cateName: '动效素材', child: []},
+        ]
+        materials.forEach((item) => {
+          switch (item.cateType) {
+            case '背景':
+              materialCate[0].child.push(item)
+              break
+            case '标题':
+              materialCate[1].child.push(item)
+              break
+            case '边框':
+              materialCate[2].child.push(item)
+              break
+            case '指标卡':
+              materialCate[3].child.push(item)
+              break
+            case '标记点':
+              materialCate[4].child.push(item)
+              break
+            default:
+              materialCate[5].child.push(item)
+              break
+          }
+        })
+
         self.officialFolders = [
           {
             folderId: -1,
             folderName: '装饰素材',
             isOfficial: true,
-            childFolder: [],
             materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
               folderId: -1,
               isOfficial: true,
@@ -171,51 +189,31 @@ export const MMaterialPanel = types
               height: 10,
             })),
           },
-          {
-            folderId: -2,
-            folderName: '图片素材',
+          ...materialCate.map((item, i) => ({
+            folderId: -2 - i,
+            folderName: item.cateName,
             isOfficial: true,
-            childFolder: materials?.map((item) => ({
-              cateType: item.cateType,
-            })),
-            materials: materials.map((item) => ({
-              folderId: -2,
+            materials: item.child.map((item) => ({
+              folderId: -2 - i,
               isOfficial: true,
               ...item,
             })),
-          },
+          })),
+          // {
+          //   folderId: -2,
+          //   folderName: '背景素材',
+          //   isOfficial: true,
+          //   materials: materials.map((item) => ({
+          //     folderId: -2,
+          //     isOfficial: true,
+          //     ...item,
+          //   })),
+          // },
         ]
       } catch (error) {
         log.error('getOfficialFolders Error: ', error)
       }
     })
-
-    // 装饰（点装饰）
-    const getDecorationFolders = () => {
-      try {
-        self.decorationFolders = [
-          {
-            folderId: -1,
-            folderName: '装饰素材',
-            isOfficial: true,
-            materials: Object.values(decorations).map(({id, name, icon, lib, key}) => ({
-              folderId: -2,
-              isOfficial: true,
-              materialId: id,
-              name,
-              icon,
-              lib,
-              key,
-              type: 'decoration',
-              width: 10,
-              height: 10,
-            })),
-          },
-        ]
-      } catch (error) {
-        log.error('getDecorationFolders Error: ', error)
-      }
-    }
 
     // 项目ID变化时更新项目素材
     const setProjectId = ({projectId}) => {
@@ -334,7 +332,6 @@ export const MMaterialPanel = types
       getFolders,
       getProjectFolders,
       getOfficialFolders,
-      getDecorationFolders,
       setProjectId,
       createFolder,
       removeFolder,

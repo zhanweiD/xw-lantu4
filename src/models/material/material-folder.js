@@ -32,8 +32,6 @@ export const MFolder = types
     files: types.optional(types.array(types.frozen()), []),
     // 区分是否为官方素材文件夹
     isOfficial: types.optional(types.boolean, false),
-    childFolder: types.optional(types.array(types.frozen()), []),
-    childMaterials: types.optional(types.array(types.frozen()), []),
   })
   .views((self) => ({
     get env_() {
