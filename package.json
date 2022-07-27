@@ -1,6 +1,6 @@
 {
   "name": "waveview-front4",
-  "version": "v4.2.0-alpha1",
+  "version": "v4.5.0",
   "description": "澜图v4版本",
   "private": true,
   "repository": "ssh://git@gitlab.dtwave-inc.com:30001/waveview/waveview-front4.git",

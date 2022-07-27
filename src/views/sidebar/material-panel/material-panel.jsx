@@ -75,20 +75,6 @@ const OfficialMaterialFallback = ({keyword}) =>
       </div>
     </div>
   )
-// 无装饰素材的提示
-const DecoratioFallback = ({keyword}) =>
-  keyword ? (
-    <div className={c('m8 emptyNote')}>
-      <div className="fbh fbjc">{`抱歉，没有找到与"${keyword}"相关的素材`}</div>
-    </div>
-  ) : (
-    <div className="fbv fbac fbjc mt30 pt30">
-      <div className="p10 fbv fbac fs10 lh32">
-        <Icon name="logo" fill="#fff5" size={42} />
-        <div className="ctw52">暂无装饰素材</div>
-      </div>
-    </div>
-  )
 
 const MaterialPanel = () => {
   const {t} = useTranslation()
@@ -101,7 +87,6 @@ const MaterialPanel = () => {
     folders_,
     projectFolders_,
     officialFolders_,
-    decorationFolders_,
     projectId,
     showType,
     keyword,
@@ -167,16 +152,6 @@ const MaterialPanel = () => {
               <MaterialFolder key={folder.folderId} folder={folder} showType={showType} />
             ))}
             {!officialFolders_.length && <OfficialMaterialFallback keyword={keyword} />}
-          </Scroll>
-        </Tab.Item>
-        {/* 顶部装饰素材按钮 */}
-        <Tab.Item name={t('materialPanel.decoration')}>
-          <MaterialToolbar />
-          <Scroll className="h100p">
-            {decorationFolders_.map((folder) => (
-              <MaterialFolder key={folder.folderId} folder={folder} showType={showType} />
-            ))}
-            {!decorationFolders_.length && <DecoratioFallback keyword={keyword} />}
           </Scroll>
         </Tab.Item>
       </Tab>
